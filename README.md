@@ -99,3 +99,16 @@ Common flags: `--concurrency` (default 8), `--interval-ms` (default 60),
 ## License
 
 MIT
+
+## Hosting
+
+```sh
+ethshowcase build --site site/dist
+scripts/deploy-site.sh          # → GitHub Pages (gh-pages branch)
+# or: wrangler pages deploy site/dist   (Cloudflare Pages)
+scripts/release-dataset.sh v2026.11   # dataset snapshot as a GH release
+```
+
+The API (`ethshowcase serve`) is a single static binary — deploy it anywhere
+(Fly.io, a VPS, or Tailscale-only during the event) with the `ethshowcase.db`
+file.
