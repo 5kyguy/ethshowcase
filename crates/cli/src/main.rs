@@ -24,10 +24,10 @@ enum Command {
         #[arg(long, default_value = "data/events.json")]
         events_out: PathBuf,
         /// Max concurrent requests.
-        #[arg(long, default_value_t = 8)]
+        #[arg(long, default_value_t = 2)]
         concurrency: usize,
         /// Minimum ms between request starts (global pacing).
-        #[arg(long, default_value_t = 60)]
+        #[arg(long, default_value_t = 350)]
         interval_ms: u64,
         /// Stop after this many listing pages (for testing).
         #[arg(long)]
@@ -48,9 +48,9 @@ enum Command {
         /// Output JSONL path.
         #[arg(long, default_value = "data/projects.jsonl")]
         out: PathBuf,
-        #[arg(long, default_value_t = 8)]
+        #[arg(long, default_value_t = 2)]
         concurrency: usize,
-        #[arg(long, default_value_t = 60)]
+        #[arg(long, default_value_t = 350)]
         interval_ms: u64,
         /// Refetch detail pages even if cached/marked scraped.
         #[arg(long)]

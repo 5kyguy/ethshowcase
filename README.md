@@ -22,8 +22,11 @@ page adds the long-form `description` / `how it's made` texts. So:
 4. `serve` — queryable HTTP API over the database.
 
 Every raw HTML response is cached gzipped on disk, so re-parses and interrupted
-runs never re-hit ETHGlobal. Requests are paced, concurrency-capped, and
-retried with exponential backoff — be a good citizen.
+runs never re-hit ETHGlobal. Requests are paced (default ~3 req/s ceiling,
+2 concurrent), retried with exponential backoff, and the client adapts
+automatically to rate limiting: each 429 doubles the global request spacing
+and starts a shared quiet period (15 s doubling up to 5 min); sustained
+success slowly recovers pace. Identifying User-Agent — be a good citizen.
 
 ## Install / build
 
@@ -82,9 +85,9 @@ ethshowcase inspect --json saved-page.html   # full resolved records
 | `stats` | Dataset statistics |
 | `inspect` | Parse a saved HTML file (fixture debugging) |
 
-Common flags: `--concurrency` (default 8), `--interval-ms` (default 60),
-`--force` (refetch details), `--fresh` (bypass raw-HTML cache),
-`--max-pages` (test runs).
+Common flags: `--concurrency` (default 2), `--interval-ms` (default 350,
+adaptive slowdown applies on top), `--force` (refetch details), `--fresh`
+(bypass raw-HTML cache), `--max-pages` (test runs).
 
 ## Ethics & legality notes
 
