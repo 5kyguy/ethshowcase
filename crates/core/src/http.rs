@@ -174,7 +174,13 @@ impl HttpClient {
                         return Err(Error::Http(e));
                     }
                     let wait = backoff(attempt);
-                    tracing::warn!(error = %e, url, wait_ms = wait.as_millis() as u64, "retrying");
+                    tracing::warn!(
+                        kind = error_kind(&e),
+                        attempt = attempt + 1,
+                        url,
+                        wait_ms = wait.as_millis() as u64,
+                        "transient network error, retrying"
+                    );
                     tokio::time::sleep(wait).await;
                 }
             }
@@ -204,6 +210,21 @@ impl HttpClient {
 
 fn is_retryable(status: u16) -> bool {
     status == 429 || status >= 500
+}
+
+/// Classify a reqwest error for log readability.
+fn error_kind(e: &reqwest::Error) -> &'static str {
+    if e.is_timeout() {
+        "timeout"
+    } else if e.is_connect() {
+        "connect"
+    } else if e.is_decode() {
+        "decode"
+    } else if e.is_body() {
+        "body"
+    } else {
+        "request"
+    }
 }
 
 fn backoff(attempt: u32) -> Duration {
