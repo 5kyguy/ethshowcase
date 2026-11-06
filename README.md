@@ -142,11 +142,12 @@ MIT
 
 ```sh
 ethshowcase build --site site/dist
-scripts/deploy-site.sh          # → GitHub Pages (gh-pages branch)
+scripts/deploy-site.sh          # pushes gh-pages + dispatches the Actions deploy
 # or: wrangler pages deploy site/dist   (Cloudflare Pages)
-scripts/release-dataset.sh v2026.11   # dataset snapshot as a GH release
+scripts/release-dataset.sh v2026.12   # dataset snapshot as a GH release
 ```
 
-The API (`ethshowcase serve`) is a single static binary — deploy it anywhere
-(Fly.io, a VPS, or Tailscale-only during the event) with the `ethshowcase.db`
-file.
+Pages deploys via the `deploy-site` GitHub Actions workflow (artifact-based);
+the legacy branch builder proved unreliable for the ~19k-file tree. The API
+(`ethshowcase serve`) is a single static binary — deploy it anywhere (Fly.io,
+a VPS, or Tailscale-only during the event) with the `ethshowcase.db` file.
