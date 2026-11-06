@@ -51,6 +51,11 @@ ethshowcase build --site site/dist
 ethshowcase serve
 ```
 
+> **Note on `finalist`:** ETHGlobal's showcase has no finalist badge; the flag
+> marks ranked placement winners (1st/2nd/3rd place in any track, or
+> finalist/winner placements). 1,941 of 19,119 projects qualify. Use the
+> `prize=` filter for sponsor-specific and pool-prize queries.
+
 ### API
 
 ```

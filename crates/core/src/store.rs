@@ -314,7 +314,7 @@ impl Db {
             where_clauses.push("p.event_slug = :event".into());
         }
         if query.year.is_some() {
-            where_clauses.push("strftime('%Y', p.event_start) = :year".into());
+            where_clauses.push("CAST(strftime('%Y', p.event_start) AS INTEGER) = :year".into());
         }
         if let Some(f) = query.finalist {
             where_clauses.push(format!("p.finalist = {}", f as i64));
@@ -549,6 +549,25 @@ mod tests {
             .unwrap();
         assert_eq!(total, 2);
         assert_eq!(hits.len(), 2);
+
+        let (hits, total) = db
+            .query_projects(&ProjectQuery {
+                year: Some(2025),
+                limit: 10,
+                ..Default::default()
+            })
+            .unwrap();
+        assert_eq!(total, 2, "year filter should match all 2025 projects");
+        assert_eq!(hits.len(), 2);
+
+        let (hits, total) = db
+            .query_projects(&ProjectQuery {
+                year: Some(2024),
+                limit: 10,
+                ..Default::default()
+            })
+            .unwrap();
+        assert_eq!(total, 0, "no 2024 projects in the sample data");
 
         let got = db.get_project("alpha-net-aa1").unwrap().unwrap();
         assert_eq!(got.id, "aa1");

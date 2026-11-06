@@ -160,10 +160,20 @@ fn normalize_project(v: &Value, doc: &FlightDoc, now: &str) -> Option<Project> {
         .map(|arr| arr.iter().filter_map(normalize_prize).collect::<Vec<_>>())
         .unwrap_or_default();
 
+    // ETHGlobal's showcase markup has no explicit finalist badge; the closest
+    // public signal is a ranked placement (1st/2nd/3rd place) in the prizes
+    // list. Pool prizes are participation awards and don't count.
     let finalist = prizes.iter().any(|p| {
         p.placement
             .as_deref()
-            .is_some_and(|s| s.eq_ignore_ascii_case("finalist"))
+            .is_some_and(|s| {
+                let s = s.to_lowercase();
+                s.contains("finalist")
+                    || s.contains("winner")
+                    || s.contains("1st place")
+                    || s.contains("2nd place")
+                    || s.contains("3rd place")
+            })
     }) || obj
         .get("isFinalist")
         .or_else(|| obj.get("finalist"))
