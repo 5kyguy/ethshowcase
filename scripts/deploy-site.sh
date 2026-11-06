@@ -21,7 +21,7 @@ trap 'rm -rf "$work"' EXIT
 git worktree add --detach "$work" >/dev/null
 (
   cd "$work"
-  git checkout --orphan gh-pages
+  git checkout --orphan gh-pages 2>/dev/null || git checkout -B gh-pages
   git rm -rf --quiet . 2>/dev/null || true
   git clean -fdq
   cp -r "$OLDPWD"/site/dist/. .
@@ -32,5 +32,7 @@ git worktree add --detach "$work" >/dev/null
 )
 git push -f origin gh-pages
 git worktree remove --force "$work"
+# Drop the local ref so reruns start clean.
+git branch -D gh-pages >/dev/null 2>&1 || true
 
 echo "pushed gh-pages — enable Pages: Settings → Pages → Source: gh-pages branch"
