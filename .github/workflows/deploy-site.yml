@@ -94,9 +94,12 @@ jobs:
           sub=$(curl -s "${auth[@]}" "$api/accounts/$acct/pages/projects/forklore" \
             | python3 -c 'import json,sys; print(json.load(sys.stdin)["result"]["subdomain"])')
           echo "project subdomain: $sub"
-          # 3. Find the skyguy.dev zone (needs zone read; DNS:Edit usually grants it).
-          zone=$(curl -s "${auth[@]}" "$api/zones?name=skyguy.dev" \
-            | python3 -c 'import json,sys; r=json.load(sys.stdin).get("result") or []; print(r[0]["id"] if r else "")')
+          # 3. Zone id: prefer the zone_id on the attached domain object (no
+          #    zone-read permission needed), fall back to a zones lookup.
+          zone=$(curl -s "${auth[@]}" "$api/accounts/$acct/pages/projects/forklore/domains" | python3 -c "import json,sys; ds=json.load(sys.stdin)['result']; d=next((x for x in ds if x['name']=='forklore.skyguy.dev'), None); print((d or {}).get('zone_id') or '')")
+          if [ -z "$zone" ]; then
+            zone=$(curl -s "${auth[@]}" "$api/zones?name=skyguy.dev" | python3 -c "import json,sys; r=json.load(sys.stdin).get('result') or []; print(r[0]['id'] if r else '')")
+          fi
           if [ -z "$zone" ]; then
             echo "::warning::could not look up the skyguy.dev zone — click 'Activate Domain' for forklore.skyguy.dev in the Pages dashboard once."
             exit 0
