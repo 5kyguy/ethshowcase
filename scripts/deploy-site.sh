@@ -35,4 +35,11 @@ git worktree remove --force "$work"
 # Drop the local ref so reruns start clean.
 git branch -D gh-pages >/dev/null 2>&1 || true
 
-echo "pushed gh-pages — Actions workflow deploys it (Pages → Build via GitHub Actions)"
+# gh-pages is an orphan branch without the workflow file, so the push itself
+# can't trigger it — dispatch the deploy workflow (runs on main's copy).
+if gh workflow run deploy-site.yml --ref main 2>/dev/null; then
+  echo "pushed gh-pages — deploy workflow dispatched (Pages builds via GitHub Actions)"
+else
+  echo "pushed gh-pages — could not dispatch workflow (gh auth?); run it manually:" >&2
+  echo "  gh workflow run deploy-site.yml --ref main" >&2
+fi
