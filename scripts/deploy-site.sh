@@ -35,4 +35,4 @@ git worktree remove --force "$work"
 # Drop the local ref so reruns start clean.
 git branch -D gh-pages >/dev/null 2>&1 || true
 
-echo "pushed gh-pages — enable Pages: Settings → Pages → Source: gh-pages branch"
+echo "pushed gh-pages — Actions workflow deploys it (Pages → Build via GitHub Actions)"
