@@ -74,6 +74,10 @@ enum Command {
         /// Also generate the static site into this directory.
         #[arg(long)]
         site: Option<PathBuf>,
+        /// Include events that have not finished yet (default: past
+        /// hackathons only — cancelled and still-running events are dropped).
+        #[arg(long)]
+        include_live: bool,
     },
     /// Serve the queryable HTTP API over a built database.
     Serve {
@@ -161,13 +165,79 @@ async fn main() -> Result<()> {
             events,
             db,
             site,
+            include_live,
         } => {
             let mut all = ethshowcase_core::store::read_jsonl(&projects)?;
             all.sort_by(|a, b| a.id.cmp(&b.id));
             let event_list = ethshowcase_core::store::read_events(&events).unwrap_or_default();
+            let now = chrono::Utc::now();
+            let (all, event_list, cutoff) = if include_live {
+                (all, event_list, None)
+            } else {
+                let cutoff = now.to_rfc3339();
+                let known: std::collections::HashSet<&str> =
+                    event_list.iter().map(|e| e.slug.as_str()).collect();
+                let kept_events: Vec<_> = event_list
+                    .iter()
+                    .filter(|e| e.is_past(now))
+                    .cloned()
+                    .collect();
+                let excluded: Vec<&str> = event_list
+                    .iter()
+                    .filter(|e| !e.is_past(now))
+                    .map(|e| e.slug.as_str())
+                    .collect();
+                let allowed: std::collections::HashSet<&str> =
+                    kept_events.iter().map(|e| e.slug.as_str()).collect();
+                let mut unknown_events: Vec<String> = Vec::new();
+                let mut dropped_live = 0usize;
+                let mut dropped_unknown = 0usize;
+                all.retain(|p| match p.event.as_ref() {
+                    Some(ev) if allowed.contains(ev.slug.as_str()) => true,
+                    Some(ev) => {
+                        if known.contains(ev.slug.as_str()) {
+                            dropped_live += 1;
+                        } else {
+                            if !unknown_events.iter().any(|s| s == &ev.slug) {
+                                unknown_events.push(ev.slug.clone());
+                            }
+                            dropped_unknown += 1;
+                        }
+                        false
+                    }
+                    None => false,
+                });
+                println!("past-only cutoff {cutoff}");
+                if !excluded.is_empty() {
+                    println!("  excluded non-finished event(s): {}", excluded.join(", "));
+                }
+                if !unknown_events.is_empty() {
+                    // Slugs that only exist on project pages (never in the
+                    // events index) — the currently-running hackathon's tracks.
+                    println!(
+                        "  excluded live track event(s): {} ({} projects)",
+                        unknown_events.join(", "),
+                        dropped_unknown
+                    );
+                }
+                if dropped_live > 0 {
+                    println!("  dropped {dropped_live} project(s) in non-finished events");
+                }
+                (all, kept_events, Some(cutoff))
+            };
             let database = Db::open(&db)?;
+            let allowed_slugs: Vec<String> = event_list.iter().map(|e| e.slug.clone()).collect();
+            let pruned = database.prune_projects_to_events(&allowed_slugs)?;
+            if pruned > 0 {
+                println!("pruned {pruned} stale project rows outside the event set");
+            }
+            let pruned_events = database.prune_events_to_slugs(&allowed_slugs)?;
+            if pruned_events > 0 {
+                println!("pruned {pruned_events} stale event rows");
+            }
             database.upsert_projects(&all)?;
             database.upsert_events(&event_list)?;
+            database.set_meta("cutoff", cutoff.as_deref())?;
             println!(
                 "built {} ({}) with {} projects, {} events",
                 db.display(),
@@ -176,7 +246,8 @@ async fn main() -> Result<()> {
                 event_list.len()
             );
             if let Some(site_dir) = site {
-                let stats = ethshowcase_core::site::generate_from(&site_dir, &all, &event_list)?;
+                let stats =
+                    ethshowcase_core::site::generate_from(&site_dir, &all, &event_list, cutoff)?;
                 println!(
                     "site generated at {} ({} projects, {} finalists)",
                     site_dir.display(),
@@ -205,6 +276,13 @@ async fn main() -> Result<()> {
                 stats.with_description,
                 stats.generated_at
             );
+            if let Some(as_of) = stats.as_of {
+                println!("data as of: {as_of}");
+            }
+            match stats.cutoff {
+                Some(c) => println!("past-only cutoff: {c}"),
+                None => println!("past-only cutoff: none (live events included)"),
+            }
         }
         Command::Inspect { path, json } => {
             let html = std::fs::read_to_string(&path)

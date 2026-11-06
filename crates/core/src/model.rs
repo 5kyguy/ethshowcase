@@ -117,4 +117,82 @@ pub struct Stats {
     pub finalists: u64,
     pub with_description: u64,
     pub generated_at: String,
+    /// Freshness of the underlying data: the latest `scraped_at` across all
+    /// projects. Distinct from `generated_at` (build time) — re-deriving from
+    /// cache updates the latter but not the former.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub as_of: Option<String>,
+    /// Past-only cutoff applied at build time: events that had not finished
+    /// before this timestamp are excluded from the dataset. `None` when the
+    /// build kept live events (`--include-live`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cutoff: Option<String>,
+}
+
+impl Event {
+    /// Past-only rule: an event belongs in the dataset when it is not
+    /// cancelled/suspended and it ended at or before `now`. A missing status
+    /// is tolerated (decide on `end_time` alone); a missing `end_time` keeps
+    /// the event only if its status says it finished.
+    pub fn is_past(&self, now: chrono::DateTime<chrono::Utc>) -> bool {
+        let status_ok = match self.status.as_deref() {
+            Some(s) => !matches!(
+                s.to_ascii_lowercase().as_str(),
+                "cancelled" | "canceled" | "suspended" | "postponed"
+            ),
+            None => true,
+        };
+        if !status_ok {
+            return false;
+        }
+        match self
+            .end_time
+            .as_deref()
+            .and_then(|t| chrono::DateTime::parse_from_rfc3339(t).ok())
+        {
+            Some(end) => end <= now,
+            None => self
+                .status
+                .as_deref()
+                .is_some_and(|s| s.eq_ignore_ascii_case("finished")),
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn event(status: Option<&str>, end: Option<&str>) -> Event {
+        Event {
+            id: "1".into(),
+            name: "Test".into(),
+            slug: "test".into(),
+            kind: Some("hackathon".into()),
+            start_time: Some("2024-01-01T00:00:00Z".into()),
+            end_time: end.map(String::from),
+            status: status.map(String::from),
+        }
+    }
+
+    #[test]
+    fn past_event_rule() {
+        let now = chrono::DateTime::parse_from_rfc3339("2026-11-06T00:00:00Z")
+            .unwrap()
+            .with_timezone(&chrono::Utc);
+        // Finished long ago.
+        assert!(event(Some("finished"), Some("2024-09-13T00:00:00Z")).is_past(now));
+        // Cancelled — never included, even though it "ended".
+        assert!(!event(Some("cancelled"), Some("2020-05-17T04:00:00Z")).is_past(now));
+        // Still running.
+        assert!(!event(Some("finished"), Some("2026-12-01T00:00:00Z")).is_past(now));
+        // Live event that already claims finished status but ends in future.
+        assert!(!event(Some("finished"), Some("2026-12-01T00:00:00Z")).is_past(now));
+        // Missing end_time but finished status.
+        assert!(event(Some("finished"), None).is_past(now));
+        // Missing both — cannot prove it ended.
+        assert!(!event(None, None).is_past(now));
+        // Missing status, ended long ago.
+        assert!(event(None, Some("2024-09-13T00:00:00Z")).is_past(now));
+    }
 }

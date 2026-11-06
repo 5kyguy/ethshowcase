@@ -95,10 +95,12 @@ pub fn generate(db: &Db, out_dir: impl AsRef<Path>) -> Result<()> {
 }
 
 /// Render the site dataset without a database (from plain vectors).
+/// `cutoff` records the past-only build rule applied by the caller, if any.
 pub fn generate_from(
     out_dir: impl AsRef<Path>,
     projects: &[Project],
     events: &[Event],
+    cutoff: Option<String>,
 ) -> Result<Stats> {
     let out = out_dir.as_ref();
     std::fs::create_dir_all(out.join("data/p"))?;
@@ -108,12 +110,19 @@ pub fn generate_from(
 
     let finalists = projects.iter().filter(|p| p.finalist).count();
     let with_description = projects.iter().filter(|p| p.description.is_some()).count();
+    let as_of = projects
+        .iter()
+        .map(|p| p.scraped_at.as_str())
+        .max()
+        .map(str::to_string);
     let stats = Stats {
         projects: projects.len() as u64,
         events: events.len() as u64,
         finalists: finalists as u64,
         with_description: with_description as u64,
         generated_at: chrono::Utc::now().to_rfc3339(),
+        as_of,
+        cutoff,
     };
 
     let mut records = Vec::with_capacity(projects.len());

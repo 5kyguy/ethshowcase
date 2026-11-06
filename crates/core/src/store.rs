@@ -178,6 +178,11 @@ impl Db {
                 status     TEXT
             );
 
+            CREATE TABLE IF NOT EXISTS meta (
+                key   TEXT PRIMARY KEY,
+                value TEXT NOT NULL
+            );
+
             CREATE VIRTUAL TABLE IF NOT EXISTS projects_fts USING fts5(
                 title, tagline, description, how_its_made, auto_summary,
                 content='projects', content_rowid='rowid'
@@ -439,13 +444,74 @@ impl Db {
         let conn = self.lock();
         let one =
             |sql: &str| -> Result<u64> { Ok(conn.prepare(sql)?.query_row([], |r| r.get(0))?) };
+        let as_of: Option<String> = conn
+            .prepare("SELECT MAX(scraped_at) FROM projects")?
+            .query_row([], |r| r.get(0))?;
+        let cutoff: Option<String> = conn
+            .prepare("SELECT value FROM meta WHERE key = 'cutoff'")?
+            .query_row([], |r| r.get(0))
+            .ok();
         Ok(Stats {
             projects: one("SELECT COUNT(*) FROM projects")?,
             events: one("SELECT COUNT(*) FROM events")?,
             finalists: one("SELECT COUNT(*) FROM projects WHERE finalist = 1")?,
             with_description: one("SELECT COUNT(*) FROM projects WHERE description IS NOT NULL")?,
             generated_at: chrono::Utc::now().to_rfc3339(),
+            as_of,
+            cutoff,
         })
+    }
+
+    /// Record a build-time metadata value (e.g. the past-only cutoff).
+    pub fn set_meta(&self, key: &str, value: Option<&str>) -> Result<()> {
+        let conn = self.lock();
+        match value {
+            Some(v) => {
+                conn.execute(
+                    "INSERT INTO meta(key, value) VALUES(?1, ?2)
+                     ON CONFLICT(key) DO UPDATE SET value = excluded.value",
+                    [key, v],
+                )?;
+            }
+            None => {
+                conn.execute("DELETE FROM meta WHERE key = ?1", [key])?;
+            }
+        }
+        Ok(())
+    }
+
+    /// Delete events whose slug is not in `keep` (stale rows from earlier
+    /// builds). Returns rows removed.
+    pub fn prune_events_to_slugs(&self, keep: &[String]) -> Result<u64> {
+        if keep.is_empty() {
+            return Ok(0);
+        }
+        let conn = self.lock();
+        let slugs: Vec<String> = keep.iter().map(|s| format!("'{s}'")).collect();
+        let n = conn.execute(
+            &format!("DELETE FROM events WHERE slug NOT IN ({})", slugs.join(",")),
+            [],
+        )?;
+        Ok(n as u64)
+    }
+
+    /// Delete projects whose event slug is not in `allowed` (stale rows from
+    /// builds that once included now-excluded events). Returns rows removed.
+    pub fn prune_projects_to_events(&self, allowed: &[String]) -> Result<u64> {
+        if allowed.is_empty() {
+            // Never wipe the table on an empty allowlist (bad events file).
+            return Ok(0);
+        }
+        let conn = self.lock();
+        let slugs: Vec<String> = allowed.iter().map(|s| format!("'{s}'")).collect();
+        let n = conn.execute(
+            &format!(
+                "DELETE FROM projects WHERE event_slug NOT IN ({})",
+                slugs.join(",")
+            ),
+            [],
+        )?;
+        Ok(n as u64)
     }
 
     /// Every project (used by the static site generator).

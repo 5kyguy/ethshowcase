@@ -1,8 +1,9 @@
 # ethshowcase
 
-Scrape, store, and serve the **complete ETHGlobal Showcase project database** —
-every project ever submitted, across all events — as a fast, queryable dataset
-for hackathon participants.
+Scrape, store, and serve the **ETHGlobal Showcase project database** — every
+project from completed hackathons (19,002 projects across 79 events,
+2019–2026) — as a fast, queryable dataset for hackathon participants, plus an
+installable agent skill for researching past hackathons.
 
 Built in Rust on top of the site's server-rendered flight payload: no browser
 automation, no fragile CSS scraping of the data itself.
@@ -44,17 +45,27 @@ ethshowcase index
 # 2. Detail pages for description/how-it's-made (~10-20 min, resumable)
 ethshowcase details
 
-# 3. Build SQLite (FTS5) + static site
+# 3. Build SQLite (FTS5) + static site (past hackathons only by default)
 ethshowcase build --site site/dist
+
+# 3b. Keep live/current-event data instead (not recommended for the
+# published dataset — the current hackathon's tracks and prizes churn)
+ethshowcase build --site site/dist --include-live
 
 # 4. Query API on :8080
 ethshowcase serve
 ```
 
+> **Past-only builds.** `build` keeps only events that finished before the
+> build time: cancelled events and the currently-running hackathon's tracks
+> (whose slugs appear only on project pages) are excluded and stale rows are
+> pruned. The applied rule is recorded in `stats.json` → `cutoff`, and
+> `as_of` carries the data snapshot date.
+
 > **Note on `finalist`:** ETHGlobal's showcase has no finalist badge; the flag
 > marks ranked placement winners (1st/2nd/3rd place in any track, or
-> finalist/winner placements). 1,941 of 19,119 projects qualify. Use the
-> `prize=` filter for sponsor-specific and pool-prize queries.
+> finalist/winner placements). 1,910 of 19,002 past-only projects qualify. Use
+> the `prize=` filter for sponsor-specific and pool-prize queries.
 
 ### API
 
@@ -72,6 +83,25 @@ GET /healthz
 over titles/taglines/summaries, event/year/finalist filters, per-project detail
 views). Drop it on GitHub Pages, Cloudflare Pages, or any static host.
 
+### Agent skill
+
+`skills/ethshowcase/` packages the dataset as an agent skill (SKILL.md +
+query recipes): any OpenCode / Claude Code / Codex session can then answer
+"what won at HackFS 2023?", "has X been built before?", or trend questions
+from this dataset — past hackathons only. Install for your user:
+
+```sh
+git clone git@github.com:5kyguy/ethshowcase.git
+mkdir -p ~/.config/opencode/skills
+ln -s "$(pwd)/ethshowcase/skills/ethshowcase" ~/.config/opencode/skills/ethshowcase
+```
+
+The skill works with zero local setup (GitHub Pages JSON + `jq`), the
+[SQLite release](https://github.com/5kyguy/ethshowcase/releases) (FTS5), or a
+local `ethshowcase serve` instance — see `skills/ethshowcase/references/`.
+The repo's `.agents/skills/ethshowcase` symlink covers agents that discover
+skills via that convention.
+
 ### Debugging the parser
 
 ```sh
@@ -85,7 +115,7 @@ ethshowcase inspect --json saved-page.html   # full resolved records
 | --- | --- |
 | `index` | Walk listing pages → `data/projects.index.jsonl` + `data/events.json` |
 | `details` | Fetch project pages, merge descriptions → `data/projects.jsonl` |
-| `build` | JSONL → SQLite (FTS5), optionally `--site <dir>` |
+| `build` | JSONL → SQLite (FTS5), optionally `--site <dir>`; past-only by default, `--include-live` keeps current-event data |
 | `serve` | HTTP API over the built DB |
 | `stats` | Dataset statistics |
 | `inspect` | Parse a saved HTML file (fixture debugging) |

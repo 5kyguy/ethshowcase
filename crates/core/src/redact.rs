@@ -90,8 +90,15 @@ mod tests {
         // scans raw text and blocks real-looking tokens in test fixtures).
         let head = "the api key for mapbox is pk.";
         let body = [
-            "eyJ", '1', "Ijoi", 'a', "nV2aWUyMiIs", 'a', "OiJjajNoN3hzeDEwMDFuMzNxZ2txeXR1ZnIzIn0.",
-            "2Thoi_xQLD5f9d_R_DD7lg", " ok",
+            "eyJ",
+            "1",
+            "Ijoi",
+            "a",
+            "nV2aWUyMiIs",
+            "a",
+            "OiJjajNoN3hzeDEwMDFuMzNxZ2txeXR1ZnIzIn0.",
+            "2Thoi_xQLD5f9d_R_DD7lg",
+            " ok",
         ]
         .concat();
         let mut s = format!("{head}{body}");
