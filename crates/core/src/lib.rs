@@ -14,6 +14,7 @@ pub mod flight;
 pub mod http;
 pub mod model;
 pub mod parse;
+pub mod redact;
 pub mod scrape;
 pub mod serve;
 pub mod site;

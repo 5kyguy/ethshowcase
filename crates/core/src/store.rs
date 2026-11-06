@@ -560,7 +560,7 @@ mod tests {
         assert_eq!(total, 2, "year filter should match all 2025 projects");
         assert_eq!(hits.len(), 2);
 
-        let (hits, total) = db
+        let (_, total) = db
             .query_projects(&ProjectQuery {
                 year: Some(2024),
                 limit: 10,

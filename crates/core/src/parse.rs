@@ -141,15 +141,18 @@ fn normalize_project(v: &Value, doc: &FlightDoc, now: &str) -> Option<Project> {
     let demo_url = robj
         .as_ref()
         .and_then(|o| map_field(o, &["url", "demoUrl", "demoLink", "liveUrl"]))
-        .map(str::to_string);
+        .map(str::to_string)
+        .filter(|s| crate::redact::is_http_url(s));
     let source_url = robj
         .as_ref()
         .and_then(|o| map_field(o, &["sourceCodeUrl", "repoUrl", "repositoryUrl"]))
         .map(str::to_string)
+        .filter(|s| crate::redact::is_http_url(s))
         .or_else(|| {
             obj.get("primaryRepository")
                 .and_then(|r| r.get("url"))
                 .and_then(Value::as_str)
+                .filter(|s| crate::redact::is_http_url(s))
                 .map(str::to_string)
         });
 
@@ -164,16 +167,14 @@ fn normalize_project(v: &Value, doc: &FlightDoc, now: &str) -> Option<Project> {
     // public signal is a ranked placement (1st/2nd/3rd place) in the prizes
     // list. Pool prizes are participation awards and don't count.
     let finalist = prizes.iter().any(|p| {
-        p.placement
-            .as_deref()
-            .is_some_and(|s| {
-                let s = s.to_lowercase();
-                s.contains("finalist")
-                    || s.contains("winner")
-                    || s.contains("1st place")
-                    || s.contains("2nd place")
-                    || s.contains("3rd place")
-            })
+        p.placement.as_deref().is_some_and(|s| {
+            let s = s.to_lowercase();
+            s.contains("finalist")
+                || s.contains("winner")
+                || s.contains("1st place")
+                || s.contains("2nd place")
+                || s.contains("3rd place")
+        })
     }) || obj
         .get("isFinalist")
         .or_else(|| obj.get("finalist"))
@@ -230,7 +231,7 @@ fn normalize_project(v: &Value, doc: &FlightDoc, now: &str) -> Option<Project> {
             .map(str::to_string)
     });
 
-    Some(Project {
+    let mut project = Project {
         id,
         slug: slug.clone(),
         title,
@@ -256,7 +257,9 @@ fn normalize_project(v: &Value, doc: &FlightDoc, now: &str) -> Option<Project> {
         showcase_url,
         scraped_at: now.to_string(),
         detail_scraped: false,
-    })
+    };
+    crate::redact::redact_project(&mut project);
+    Some(project)
 }
 
 fn normalize_prize(v: &Value) -> Option<Prize> {
