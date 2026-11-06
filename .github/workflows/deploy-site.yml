@@ -34,6 +34,23 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
 
+jobs:
+  # secrets aren't available in job-level if — resolve presence via an output.
+  cf-guard:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+      - id: check
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
   cloudflare:
     # Mirror the same tree to Cloudflare Pages (forklore.skyguy.dev) so the
     # dataset is reachable where github.io is blocked or slow. Requires repo
@@ -42,7 +59,8 @@ jobs:
     # domains). The project itself is created on first run below. Skips
     # silently while the secrets are absent. Note: Pages caps sites at 20k
     # files; this tree is ~19.1k — clean data/p/ in site.rs keeps us under.
-    if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+    needs: cf-guard
+    if: needs.cf-guard.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
