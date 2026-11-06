@@ -13,6 +13,10 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
+      - name: Token identity and accessible accounts
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx -y wrangler@latest whoami 2>&1 | sed 's/\x1b\[[0-9;]*m//g'
       - name: List R2 buckets
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
