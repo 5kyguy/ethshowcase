@@ -1,0 +1,25 @@
+name: CF diagnose
+
+# Temporary diagnostic: prints R2 bucket names and Pages project names using
+# the repo's Cloudflare secrets, to reconcile names/permissions after setup.
+# Safe to delete once the deploys are green.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List R2 buckets
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx -y wrangler@latest r2 bucket list || true
+      - name: List Pages projects
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx -y wrangler@latest pages project list || true
