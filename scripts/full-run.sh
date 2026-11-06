@@ -21,7 +21,7 @@ echo "=== details $(date -u '+%FT%TZ')"
 echo "=== details retry pass $(date -u '+%FT%TZ')"
 "$BIN" details
 echo "=== build $(date -u '+%FT%TZ')"
-"$BIN" build --site site/dist
+"$BIN" build --site site/dist --emit-projects data/projects.built.jsonl
 echo "=== stats $(date -u '+%FT%TZ')"
 "$BIN" stats
 echo "=== done $(date -u '+%FT%TZ')"

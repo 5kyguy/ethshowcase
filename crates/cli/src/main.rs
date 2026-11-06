@@ -74,6 +74,10 @@ enum Command {
         /// Also generate the static site into this directory.
         #[arg(long)]
         site: Option<PathBuf>,
+        /// Also write the built (past-only filtered) project snapshot to this
+        /// path. Dataset releases ship this file, not the raw scrape.
+        #[arg(long)]
+        emit_projects: Option<PathBuf>,
         /// Include events that have not finished yet (default: past
         /// hackathons only — cancelled and still-running events are dropped).
         #[arg(long)]
@@ -165,6 +169,7 @@ async fn main() -> Result<()> {
             events,
             db,
             site,
+            emit_projects,
             include_live,
         } => {
             let mut all = ethshowcase_core::store::read_jsonl(&projects)?;
@@ -238,6 +243,10 @@ async fn main() -> Result<()> {
             database.upsert_projects(&all)?;
             database.upsert_events(&event_list)?;
             database.set_meta("cutoff", cutoff.as_deref())?;
+            if let Some(out) = emit_projects {
+                ethshowcase_core::store::write_jsonl(&out, &all)?;
+                println!("wrote built snapshot → {}", out.display());
+            }
             println!(
                 "built {} ({}) with {} projects, {} events",
                 db.display(),
