@@ -85,22 +85,29 @@ views). Drop it on GitHub Pages, Cloudflare Pages, or any static host.
 
 ### Agent skill
 
-`skills/ethshowcase/` packages the dataset as an agent skill (SKILL.md +
-query recipes): any OpenCode / Claude Code / Codex session can then answer
-"what won at HackFS 2023?", "has X been built before?", or trend questions
-from this dataset — past hackathons only. Install for your user:
+`.agents/skills/ethshowcase/` packages the dataset as an agent skill (SKILL.md
++ tested query recipes): any OpenCode / Claude Code / Codex session can then
+answer "what won at HackFS 2023?", "has X been built before?", or trend
+questions from this dataset — past hackathons only.
+
+Install (cross-platform, via the [skills CLI](https://github.com/vercel-labs/skills);
+adds it to every agent runtime it finds):
 
 ```sh
-git clone git@github.com:5kyguy/ethshowcase.git
+npx skills add 5kyguy/ethshowcase
+```
+
+No Node? Plain git works everywhere:
+
+```sh
+git clone --depth 1 https://github.com/5kyguy/ethshowcase /tmp/ethshowcase
 mkdir -p ~/.config/opencode/skills
-ln -s "$(pwd)/ethshowcase/skills/ethshowcase" ~/.config/opencode/skills/ethshowcase
+cp -r /tmp/ethshowcase/.agents/skills/ethshowcase ~/.config/opencode/skills/
 ```
 
 The skill works with zero local setup (GitHub Pages JSON + `jq`), the
 [SQLite release](https://github.com/5kyguy/ethshowcase/releases) (FTS5), or a
-local `ethshowcase serve` instance — see `skills/ethshowcase/references/`.
-The repo's `.agents/skills/ethshowcase` symlink covers agents that discover
-skills via that convention.
+local `ethshowcase serve` instance — see `.agents/skills/ethshowcase/references/`.
 
 ### Debugging the parser
 
