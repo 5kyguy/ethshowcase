@@ -1,0 +1,60 @@
+name: Sync dataset to Cloudflare R2
+
+# Mirrors release assets to R2, served at https://forklore-data.skyguy.dev:
+#   latest/…        overwritten on every release (like releases/latest/download)
+#   releases/vX.Y/… immutable per-release copies
+#
+# Requires repo secrets CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID and an
+# R2 bucket "forklore" with its public custom domain connected. The job skips
+# silently while the secrets are absent — GitHub stays the only host until then.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to sync (e.g. v2026.12)"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  r2:
+    if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Resolve tag
+        id: tag
+        run: echo "tag=${{ inputs.tag || github.event.release.tag_name }}" >> "$GITHUB_OUTPUT"
+      - name: Download release assets
+        run: |
+          mkdir -p dist && cd dist
+          base="https://github.com/${{ github.repository }}/releases/download/${{ steps.tag.outputs.tag }}"
+          curl -fsSL -o forklore.db       "$base/forklore.db"
+          curl -fsSL -o projects.jsonl.gz "$base/projects.jsonl.gz"
+          curl -fsSL -o events.json       "$base/events.json"
+      - name: Upload to R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          tag="${{ steps.tag.outputs.tag }}"
+          upload() { # key file content-type cache-control
+            echo "→ r2://forklore/$1"
+            npx -y wrangler@latest r2 object put "forklore/$1" \
+              --file "dist/$2" --remote --content-type "$3" --cache-control "$4" >/dev/null
+          }
+          for prefix in "latest" "releases/$tag"; do
+            if [ "$prefix" = "latest" ]; then
+              cc="public, max-age=300"
+            else
+              cc="public, max-age=31536000, immutable"
+            fi
+            upload "$prefix/forklore.db"       forklore.db       application/octet-stream "$cc"
+            upload "$prefix/projects.jsonl.gz" projects.jsonl.gz application/gzip         "$cc"
+            upload "$prefix/events.json"       events.json       application/json         "$cc"
+          done
+          echo "synced → https://forklore-data.skyguy.dev/latest/ and /releases/$tag/"

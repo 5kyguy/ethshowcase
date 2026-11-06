@@ -5,8 +5,10 @@ project from completed hackathons (19,002 projects across 79 events,
 2019–2026) — as a fast, queryable dataset for hackathon participants, plus an
 installable agent skill for researching past hackathons.
 
-Formerly `ethshowcase` — GitHub redirects the old repo, Pages, and release
-URLs, and the dataset ships under both asset names.
+Formerly `ethshowcase` — GitHub redirects the old repo and release-asset URLs
+(clone, browse, `latest/download/*` all keep working). The old Pages URL
+(`5kyguy.github.io/ethshowcase/`) does **not** redirect — everything published
+(skill, README, releases) points at the new URL.
 
 Built in Rust on top of the site's server-rendered flight payload: no browser
 automation, no fragile CSS scraping of the data itself.
@@ -155,11 +157,23 @@ MIT
 ```sh
 forklore build --site site/dist
 scripts/deploy-site.sh          # pushes gh-pages + dispatches the Actions deploy
-# or: wrangler pages deploy site/dist   (Cloudflare Pages)
-scripts/release-dataset.sh v2026.12   # dataset snapshot as a GH release
+scripts/release-dataset.sh v2026.13   # dataset snapshot as a GH release
+# Cloudflare mirror (once CLOUDFLARE_* secrets are set — see below):
+scripts/deploy-data.sh v2026.13  # → R2, served at forklore-data.skyguy.dev
 ```
 
-Pages deploys via the `deploy-site` GitHub Actions workflow (artifact-based);
-the legacy branch builder proved unreliable for the ~19k-file tree. The API
+GitHub Pages deploys via the `deploy-site` workflow (artifact-based; the
+legacy branch builder proved unreliable for the ~19k-file tree). The API
 (`forklore serve`) is a single static binary — deploy it anywhere (Fly.io,
 a VPS, or Tailscale-only during the event) with the `forklore.db` file.
+
+### Cloudflare mirror (forklore.skyguy.dev + forklore-data.skyguy.dev)
+
+For reach where github.io is blocked or slow. Site → Cloudflare Pages, dataset
+→ R2 (the 162 MB db exceeds Pages' 25 MB per-file cap; R2 egress is free).
+Both are wired and dormant until the repo has `CLOUDFLARE_API_TOKEN` +
+`CLOUDFLARE_ACCOUNT_ID` secrets: every site deploy then also pushes to CF
+Pages, every release mirrors to R2 (`latest/` overwritten, `releases/vX.Y/`
+immutable). One-time dashboard setup: R2 bucket `forklore` + connect domain
+`forklore-data.skyguy.dev`; Pages project `forklore` + connect
+`forklore.skyguy.dev` (the project is auto-created on first deploy).

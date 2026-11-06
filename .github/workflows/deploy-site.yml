@@ -33,3 +33,29 @@ jobs:
           path: .
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  cloudflare:
+    # Mirror the same tree to Cloudflare Pages (forklore.skyguy.dev) so the
+    # dataset is reachable where github.io is blocked or slow. Requires repo
+    # secrets CLOUDFLARE_API_TOKEN + CLOUDFLARE_ACCOUNT_ID and the custom
+    # domain attached once in the dashboard (Pages → forklore → Custom
+    # domains). The project itself is created on first run below. Skips
+    # silently while the secrets are absent. Note: Pages caps sites at 20k
+    # files; this tree is ~19.1k — clean data/p/ in site.rs keeps us under.
+    if: ${{ secrets.CLOUDFLARE_API_TOKEN != '' && secrets.CLOUDFLARE_ACCOUNT_ID != '' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+      - name: Ensure Pages project exists
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx -y wrangler@latest pages project create forklore --production-branch main || echo "project already exists"
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx -y wrangler@latest pages deploy . --project-name forklore --branch main --commit-dirty=true

@@ -10,7 +10,7 @@ hackathons (2019 → Sep 2026), with winners, prize placements, descriptions,
 how-it's-made writeups, and links. Built for hackathon mentoring: prior-art
 checks, winner deep-dives, and trend questions.
 
-Skill version 1.1.0 (renamed from ethshowcase; GitHub redirects old URLs). Dataset freshness is in `stats.json` → `as_of` (data
+Skill version 1.1.0 (renamed from ethshowcase). Dataset freshness is in `stats.json` → `as_of` (data
 snapshot) — check it before making claims.
 
 ## Hard rule — past hackathons only
