@@ -1,7 +1,7 @@
 # Query recipes — mentoring greatest hits
 
 Tested one-liners. Tier 1 uses the downloaded `search.json`/`events.json`
-(see data-tiers.md); Tier 3 assumes `ethshowcase serve` on :8080.
+(see data-tiers.md); Tier 3 assumes `forklore serve` on :8080.
 Replace the example terms with the user's topic.
 
 ## 1. Prior art: "has X been built?"
@@ -50,7 +50,7 @@ jq -r 'group_by(.d) | .[] | "\(.[0].d)  \(length)"' /tmp/search.json
 jq -r 'group_by(.d) | .[] | "\(.[0].d)  \([.[] | select(.h | test("zk|zero knowledge"))] | length)"' /tmp/search.json
 
 # SQL, faster for many cuts:
-sqlite3 ethshowcase.db "SELECT strftime('%Y', event_start) y, COUNT(*) n,
+sqlite3 forklore.db "SELECT strftime('%Y', event_start) y, COUNT(*) n,
   SUM(CASE WHEN description LIKE '%zero knowledge%' OR description LIKE '%zk%' THEN 1 ELSE 0 END) zk
   FROM projects GROUP BY y ORDER BY y;"
 ```

@@ -1,5 +1,5 @@
 ---
-name: ethshowcase
+name: forklore
 description: "Research past ETHGlobal hackathons: every project ever submitted (19,000+ across 79 finished events, 2019–2026), winners and prize placements, descriptions, tech writeups, demo/repo links. Use when mentoring at or preparing for a hackathon, checking prior art ('has X been built at an ETHGlobal?'), listing what won at a specific event, analyzing trends by year or sponsor track, or finding reference projects to learn from. Covers completed hackathons only — never the currently-running event."
 ---
 
@@ -10,7 +10,7 @@ hackathons (2019 → Sep 2026), with winners, prize placements, descriptions,
 how-it's-made writeups, and links. Built for hackathon mentoring: prior-art
 checks, winner deep-dives, and trend questions.
 
-Skill version 1.0.0. Dataset freshness is in `stats.json` → `as_of` (data
+Skill version 1.1.0 (renamed from ethshowcase; GitHub redirects old URLs). Dataset freshness is in `stats.json` → `as_of` (data
 snapshot) — check it before making claims.
 
 ## Hard rule — past hackathons only
@@ -45,8 +45,8 @@ the repo is checked out locally. Full copy-paste recipes with output shapes:
 | Tier | Setup | Best for |
 | --- | --- | --- |
 | 1. GitHub Pages JSON + `jq` | none | quick lookups, winners lists, prior-art checks |
-| 2. SQLite release (FTS5) | download `ethshowcase.db` | ranked full-text search, aggregations |
-| 3. Local API (`ethshowcase serve`) | repo checkout | everything, fastest iteration |
+| 2. SQLite release (FTS5) | download `forklore.db` | ranked full-text search, aggregations |
+| 3. Local API (`forklore serve`) | repo checkout | everything, fastest iteration |
 
 Key facts: `search.json` is one array of 19k compact records with letter keys
 (`h` = pre-lowercased search haystack; legend in data-tiers.md). Detail files

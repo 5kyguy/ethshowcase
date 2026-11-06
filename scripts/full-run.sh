@@ -11,7 +11,7 @@
 set -euo pipefail
 cd "$(git rev-parse --show-toplevel)"
 
-BIN=target/release/ethshowcase
+BIN=target/release/forklore
 [ -x "$BIN" ] || cargo build --release
 
 echo "=== index $(date -u '+%FT%TZ')"

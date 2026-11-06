@@ -76,8 +76,7 @@ mod tests {
 
     #[test]
     fn roundtrip() {
-        let dir =
-            std::env::temp_dir().join(format!("ethshowcase-cache-test-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("forklore-cache-test-{}", std::process::id()));
         let cache = HtmlCache::new(&dir);
         cache.put("abc123", "<html>hi</html>").unwrap();
         assert_eq!(cache.get("abc123").as_deref(), Some("<html>hi</html>"));

@@ -641,7 +641,7 @@ mod tests {
 
     #[test]
     fn jsonl_roundtrip() {
-        let dir = std::env::temp_dir().join(format!("ethshowcase-store-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("forklore-store-{}", std::process::id()));
         let path = dir.join("p.jsonl");
         let projects = vec![sample("aa1", "Alpha Net", None)];
         write_jsonl(&path, &projects).unwrap();

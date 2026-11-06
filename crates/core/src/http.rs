@@ -11,9 +11,9 @@ use crate::error::{Error, Result};
 
 /// Identifying user agent (be a good citizen).
 pub const USER_AGENT: &str = concat!(
-    "ethshowcase/",
+    "forklore/",
     env!("CARGO_PKG_VERSION"),
-    " (+https://github.com/5kyguy/ethshowcase)"
+    " (+https://github.com/5kyguy/forklore)"
 );
 
 const MAX_RETRIES: u32 = 8;

@@ -1,9 +1,12 @@
-# ethshowcase
+# forklore
 
 Scrape, store, and serve the **ETHGlobal Showcase project database** — every
 project from completed hackathons (19,002 projects across 79 events,
 2019–2026) — as a fast, queryable dataset for hackathon participants, plus an
 installable agent skill for researching past hackathons.
+
+Formerly `ethshowcase` — GitHub redirects the old repo, Pages, and release
+URLs, and the dataset ships under both asset names.
 
 Built in Rust on top of the site's server-rendered flight payload: no browser
 automation, no fragile CSS scraping of the data itself.
@@ -33,27 +36,27 @@ success slowly recovers pace. Identifying User-Agent — be a good citizen.
 
 ```sh
 cargo build --release
-# binary: target/release/ethshowcase
+# binary: target/release/forklore
 ```
 
 ## Usage
 
 ```sh
 # 1. Full index (cached; ~440 requests)
-ethshowcase index
+forklore index
 
 # 2. Detail pages for description/how-it's-made (~10-20 min, resumable)
-ethshowcase details
+forklore details
 
 # 3. Build SQLite (FTS5) + static site (past hackathons only by default)
-ethshowcase build --site site/dist
+forklore build --site site/dist
 
 # 3b. Keep live/current-event data instead (not recommended for the
 # published dataset — the current hackathon's tracks and prizes churn)
-ethshowcase build --site site/dist --include-live
+forklore build --site site/dist --include-live
 
 # 4. Query API on :8080
-ethshowcase serve
+forklore serve
 ```
 
 > **Past-only builds.** `build` keeps only events that finished before the
@@ -85,7 +88,7 @@ views). Drop it on GitHub Pages, Cloudflare Pages, or any static host.
 
 ### Agent skill
 
-`.agents/skills/ethshowcase/` packages the dataset as an agent skill (SKILL.md
+`.agents/skills/forklore/` packages the dataset as an agent skill (SKILL.md
 + tested query recipes): any OpenCode / Claude Code / Codex session can then
 answer "what won at HackFS 2023?", "has X been built before?", or trend
 questions from this dataset — past hackathons only.
@@ -95,27 +98,27 @@ run it **inside your hackathon project** so your agent picks it up there — it
 propagates to every agent runtime it finds):
 
 ```sh
-npx skills add 5kyguy/ethshowcase
-# later: npx skills update ethshowcase
+npx skills add 5kyguy/forklore
+# later: npx skills update forklore
 ```
 
 No Node? Plain git works everywhere:
 
 ```sh
-git clone --depth 1 https://github.com/5kyguy/ethshowcase /tmp/ethshowcase
+git clone --depth 1 https://github.com/5kyguy/forklore /tmp/forklore
 mkdir -p ~/.config/opencode/skills
-cp -r /tmp/ethshowcase/.agents/skills/ethshowcase ~/.config/opencode/skills/
+cp -r /tmp/forklore/.agents/skills/forklore ~/.config/opencode/skills/
 ```
 
 The skill works with zero local setup (GitHub Pages JSON + `jq`), the
-[SQLite release](https://github.com/5kyguy/ethshowcase/releases) (FTS5), or a
-local `ethshowcase serve` instance — see `.agents/skills/ethshowcase/references/`.
+[SQLite release](https://github.com/5kyguy/forklore/releases) (FTS5), or a
+local `forklore serve` instance — see `.agents/skills/forklore/references/`.
 
 ### Debugging the parser
 
 ```sh
-ethshowcase inspect saved-page.html          # table of extracted projects
-ethshowcase inspect --json saved-page.html   # full resolved records
+forklore inspect saved-page.html          # table of extracted projects
+forklore inspect --json saved-page.html   # full resolved records
 ```
 
 ## CLI reference
@@ -150,7 +153,7 @@ MIT
 ## Hosting
 
 ```sh
-ethshowcase build --site site/dist
+forklore build --site site/dist
 scripts/deploy-site.sh          # pushes gh-pages + dispatches the Actions deploy
 # or: wrangler pages deploy site/dist   (Cloudflare Pages)
 scripts/release-dataset.sh v2026.12   # dataset snapshot as a GH release
@@ -158,5 +161,5 @@ scripts/release-dataset.sh v2026.12   # dataset snapshot as a GH release
 
 Pages deploys via the `deploy-site` GitHub Actions workflow (artifact-based);
 the legacy branch builder proved unreliable for the ~19k-file tree. The API
-(`ethshowcase serve`) is a single static binary — deploy it anywhere (Fly.io,
-a VPS, or Tailscale-only during the event) with the `ethshowcase.db` file.
+(`forklore serve`) is a single static binary — deploy it anywhere (Fly.io,
+a VPS, or Tailscale-only during the event) with the `forklore.db` file.

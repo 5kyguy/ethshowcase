@@ -1,6 +1,6 @@
 use thiserror::Error;
 
-/// Errors produced by the ethshowcase pipeline.
+/// Errors produced by the forklore pipeline.
 #[derive(Error, Debug)]
 pub enum Error {
     #[error("http error: {0}")]

@@ -3,11 +3,11 @@ use std::path::PathBuf;
 
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
-use ethshowcase_core::{Db, IndexOptions, default_scraper};
+use forklore_core::{Db, IndexOptions, default_scraper};
 
 /// Scrape, store, and serve the ETHGlobal Showcase project database.
 #[derive(Parser, Debug)]
-#[command(name = "ethshowcase", version, about)]
+#[command(name = "forklore", version, about)]
 struct Cli {
     #[command(subcommand)]
     command: Command,
@@ -69,7 +69,7 @@ enum Command {
         #[arg(long, default_value = "data/events.json")]
         events: PathBuf,
         /// Output SQLite database path.
-        #[arg(long, default_value = "data/ethshowcase.db")]
+        #[arg(long, default_value = "data/forklore.db")]
         db: PathBuf,
         /// Also generate the static site into this directory.
         #[arg(long)]
@@ -87,7 +87,7 @@ enum Command {
     },
     /// Serve the queryable HTTP API over a built database.
     Serve {
-        #[arg(long, default_value = "data/ethshowcase.db")]
+        #[arg(long, default_value = "data/forklore.db")]
         db: PathBuf,
         #[arg(long, default_value = "127.0.0.1")]
         host: String,
@@ -96,7 +96,7 @@ enum Command {
     },
     /// Dump dataset statistics from a built database.
     Stats {
-        #[arg(long, default_value = "data/ethshowcase.db")]
+        #[arg(long, default_value = "data/forklore.db")]
         db: PathBuf,
     },
     /// Debug: parse a saved showcase HTML file and print extracted records.
@@ -135,8 +135,8 @@ async fn main() -> Result<()> {
             let result = scraper.scrape_index(&opts).await?;
             let dir = out.parent().map(PathBuf::from).unwrap_or_default();
             std::fs::create_dir_all(&dir).ok();
-            ethshowcase_core::store::write_jsonl(&out, &result.projects)?;
-            ethshowcase_core::store::write_events(&events_out, &result.events)?;
+            forklore_core::store::write_jsonl(&out, &result.projects)?;
+            forklore_core::store::write_events(&events_out, &result.events)?;
             println!(
                 "indexed {} projects across {} listing pages; {} events → {}",
                 result.projects.len(),
@@ -154,7 +154,7 @@ async fn main() -> Result<()> {
             fresh,
             cache,
         } => {
-            let mut projects = ethshowcase_core::store::read_jsonl(&input)
+            let mut projects = forklore_core::store::read_jsonl(&input)
                 .with_context(|| format!("reading {}", input.display()))?;
             println!(
                 "loaded {} projects from {}",
@@ -163,7 +163,7 @@ async fn main() -> Result<()> {
             );
             let scraper = default_scraper(concurrency, interval_ms, &cache)?;
             let fetched = scraper.scrape_details(&mut projects, force, fresh).await?;
-            ethshowcase_core::store::write_jsonl(&out, &projects)?;
+            forklore_core::store::write_jsonl(&out, &projects)?;
             println!("fetched {} detail pages → {}", fetched, out.display());
         }
         Command::Build {
@@ -174,9 +174,9 @@ async fn main() -> Result<()> {
             emit_projects,
             include_live,
         } => {
-            let mut all = ethshowcase_core::store::read_jsonl(&projects)?;
+            let mut all = forklore_core::store::read_jsonl(&projects)?;
             all.sort_by(|a, b| a.id.cmp(&b.id));
-            let event_list = ethshowcase_core::store::read_events(&events).unwrap_or_default();
+            let event_list = forklore_core::store::read_events(&events).unwrap_or_default();
             let now = chrono::Utc::now();
             let (all, event_list, cutoff) = if include_live {
                 (all, event_list, None)
@@ -246,12 +246,12 @@ async fn main() -> Result<()> {
             database.upsert_events(&event_list)?;
             database.set_meta("cutoff", cutoff.as_deref())?;
             if let Some(out) = emit_projects {
-                ethshowcase_core::store::write_jsonl(&out, &all)?;
+                forklore_core::store::write_jsonl(&out, &all)?;
                 let events_out = out
                     .parent()
                     .map(|d| d.join("events.built.json"))
                     .unwrap_or_else(|| PathBuf::from("events.built.json"));
-                ethshowcase_core::store::write_events(&events_out, &event_list)?;
+                forklore_core::store::write_events(&events_out, &event_list)?;
                 println!(
                     "wrote built snapshot → {} (+ {})",
                     out.display(),
@@ -267,7 +267,7 @@ async fn main() -> Result<()> {
             );
             if let Some(site_dir) = site {
                 let stats =
-                    ethshowcase_core::site::generate_from(&site_dir, &all, &event_list, cutoff)?;
+                    forklore_core::site::generate_from(&site_dir, &all, &event_list, cutoff)?;
                 println!(
                     "site generated at {} ({} projects, {} finalists)",
                     site_dir.display(),
@@ -283,7 +283,7 @@ async fn main() -> Result<()> {
                     .context("invalid host (expected an IP address)")?,
                 port,
             );
-            ethshowcase_core::serve::serve(database, addr).await?;
+            forklore_core::serve::serve(database, addr).await?;
         }
         Command::Stats { db } => {
             let database = Db::open(&db)?;
@@ -307,10 +307,10 @@ async fn main() -> Result<()> {
         Command::Inspect { path, json } => {
             let html = std::fs::read_to_string(&path)
                 .with_context(|| format!("reading {}", path.display()))?;
-            let doc = ethshowcase_core::flight::parse_html(&html)?;
-            let projects = ethshowcase_core::parse::extract_projects(&doc, "inspect");
-            let events = ethshowcase_core::parse::extract_events(&doc);
-            let texts = ethshowcase_core::parse::text_rows(&doc);
+            let doc = forklore_core::flight::parse_html(&html)?;
+            let projects = forklore_core::parse::extract_projects(&doc, "inspect");
+            let events = forklore_core::parse::extract_events(&doc);
+            let texts = forklore_core::parse::text_rows(&doc);
             eprintln!(
                 "{} flight rows, {} projects, {} events, {} text rows",
                 doc.rows().len(),

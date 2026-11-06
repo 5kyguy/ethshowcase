@@ -2,15 +2,15 @@
 
 Base URLs:
 
-- Pages: `https://5kyguy.github.io/ethshowcase`
-- Releases: `https://github.com/5kyguy/ethshowcase/releases` (stable latest
+- Pages: `https://5kyguy.github.io/forklore`
+- Releases: `https://github.com/5kyguy/forklore/releases` (stable latest
   asset links below never need a version number)
-- Repo: `github.com/5kyguy/ethshowcase` (clone for Tier 3)
+- Repo: `github.com/5kyguy/forklore` (clone for Tier 3)
 
 Always start a session by checking freshness:
 
 ```sh
-curl -s https://5kyguy.github.io/ethshowcase/data/stats.json | jq
+curl -s https://5kyguy.github.io/forklore/data/stats.json | jq
 # → projects, events, finalists, with_description,
 #   as_of (data snapshot date), cutoff (past-only build rule)
 ```
@@ -42,7 +42,7 @@ Files: `data/search.json` (~8 MB, compact array), `data/events.json`,
 ### Recipes
 
 ```sh
-BASE=https://5kyguy.github.io/ethshowcase
+BASE=https://5kyguy.github.io/forklore
 
 # Download once per session, then query locally.
 curl -s "$BASE/data/search.json" -o /tmp/search.json
@@ -80,12 +80,12 @@ descriptions + how-it's-made, use Tier 2.
 
 ```sh
 # ~250 MB, one download; always the latest release:
-curl -L -o ethshowcase.db https://github.com/5kyguy/ethshowcase/releases/latest/download/ethshowcase.db
+curl -L -o forklore.db https://github.com/5kyguy/forklore/releases/latest/download/forklore.db
 # or with gh:
-gh release download -R 5kyguy/ethshowcase -p ethshowcase.db -O ethshowcase.db
+gh release download -R 5kyguy/forklore -p forklore.db -O forklore.db
 
 # Lighter alternative (~25 MB): one JSON object per line.
-curl -L -o projects.jsonl.gz https://github.com/5kyguy/ethshowcase/releases/latest/download/projects.jsonl.gz
+curl -L -o projects.jsonl.gz https://github.com/5kyguy/forklore/releases/latest/download/projects.jsonl.gz
 ```
 
 ### Schema essentials
@@ -131,9 +131,9 @@ SELECT start_time, slug, name, status FROM events ORDER BY start_time;
 ## Tier 3 — local API (repo checkout)
 
 ```sh
-git clone git@github.com:5kyguy/ethshowcase.git && cd ethshowcase
+git clone git@github.com:5kyguy/forklore.git && cd forklore
 cargo build --release
-target/release/ethshowcase serve --port 8080   # serves on 127.0.0.1:8080
+target/release/forklore serve --port 8080   # serves on 127.0.0.1:8080
 ```
 
 | Endpoint | Purpose |

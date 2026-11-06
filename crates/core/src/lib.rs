@@ -1,4 +1,4 @@
-//! ethshowcase-core: scrape, store, and serve the ETHGlobal Showcase dataset.
+//! forklore-core: scrape, store, and serve the ETHGlobal Showcase dataset.
 //!
 //! Pipeline:
 //! 1. [`Scraper::scrape_index`] walks showcase listing pages (~440 requests)
