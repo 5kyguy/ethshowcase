@@ -38,6 +38,9 @@ struct SearchRecord {
 /// Generate the static site into `out_dir` from the dataset in `db`.
 pub fn generate(db: &Db, out_dir: impl AsRef<Path>) -> Result<()> {
     let out = out_dir.as_ref();
+    // Start clean so projects removed from the snapshot (e.g. by past-only
+    // filtering) don't linger as stale detail files on the deployed site.
+    let _ = std::fs::remove_dir_all(out.join("data/p"));
     std::fs::create_dir_all(out.join("data/p"))?;
 
     let projects = db.all_projects()?;
@@ -103,6 +106,9 @@ pub fn generate_from(
     cutoff: Option<String>,
 ) -> Result<Stats> {
     let out = out_dir.as_ref();
+    // Start clean so projects removed from the snapshot (e.g. by past-only
+    // filtering) don't linger as stale detail files on the deployed site.
+    let _ = std::fs::remove_dir_all(out.join("data/p"));
     std::fs::create_dir_all(out.join("data/p"))?;
     std::fs::write(out.join("index.html"), INDEX_HTML)?;
     std::fs::write(out.join("app.js"), APP_JS)?;
