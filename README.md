@@ -91,10 +91,12 @@ answer "what won at HackFS 2023?", "has X been built before?", or trend
 questions from this dataset — past hackathons only.
 
 Install (cross-platform, via the [skills CLI](https://github.com/vercel-labs/skills);
-adds it to every agent runtime it finds):
+run it **inside your hackathon project** so your agent picks it up there — it
+propagates to every agent runtime it finds):
 
 ```sh
 npx skills add 5kyguy/ethshowcase
+# later: npx skills update ethshowcase
 ```
 
 No Node? Plain git works everywhere:
