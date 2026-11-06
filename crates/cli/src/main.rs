@@ -75,7 +75,9 @@ enum Command {
         #[arg(long)]
         site: Option<PathBuf>,
         /// Also write the built (past-only filtered) project snapshot to this
-        /// path. Dataset releases ship this file, not the raw scrape.
+        /// path, and the built event list next to it (events.built.json in the
+        /// same directory). Dataset releases ship these files, not the raw
+        /// scrape.
         #[arg(long)]
         emit_projects: Option<PathBuf>,
         /// Include events that have not finished yet (default: past
@@ -245,7 +247,16 @@ async fn main() -> Result<()> {
             database.set_meta("cutoff", cutoff.as_deref())?;
             if let Some(out) = emit_projects {
                 ethshowcase_core::store::write_jsonl(&out, &all)?;
-                println!("wrote built snapshot → {}", out.display());
+                let events_out = out
+                    .parent()
+                    .map(|d| d.join("events.built.json"))
+                    .unwrap_or_else(|| PathBuf::from("events.built.json"));
+                ethshowcase_core::store::write_events(&events_out, &event_list)?;
+                println!(
+                    "wrote built snapshot → {} (+ {})",
+                    out.display(),
+                    events_out.display()
+                );
             }
             println!(
                 "built {} ({}) with {} projects, {} events",
