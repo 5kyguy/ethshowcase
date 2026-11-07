@@ -11,6 +11,11 @@ use crate::store::Db;
 const INDEX_HTML: &str = include_str!("../assets/index.html");
 const APP_JS: &str = include_str!("../assets/app.js");
 const STYLE_CSS: &str = include_str!("../assets/style.css");
+// Without this, Cloudflare Pages' SPA fallback serves index.html with HTTP 200
+// for any missing path (e.g. removed projects' data/p/*.json) — GitHub Pages
+// 404s correctly, so the mirrors would disagree. A 404.html disables the
+// fallback and doubles as GitHub Pages' custom error page.
+const NOT_FOUND_HTML: &str = include_str!("../assets/404.html");
 
 /// Compact per-project record for client-side search.
 #[derive(Debug, Serialize)]
@@ -50,6 +55,7 @@ pub fn generate(db: &Db, out_dir: impl AsRef<Path>) -> Result<()> {
     std::fs::write(out.join("index.html"), INDEX_HTML)?;
     std::fs::write(out.join("app.js"), APP_JS)?;
     std::fs::write(out.join("style.css"), STYLE_CSS)?;
+    std::fs::write(out.join("404.html"), NOT_FOUND_HTML)?;
 
     let mut records = Vec::with_capacity(projects.len());
     for p in &projects {
@@ -113,6 +119,7 @@ pub fn generate_from(
     std::fs::write(out.join("index.html"), INDEX_HTML)?;
     std::fs::write(out.join("app.js"), APP_JS)?;
     std::fs::write(out.join("style.css"), STYLE_CSS)?;
+    std::fs::write(out.join("404.html"), NOT_FOUND_HTML)?;
 
     let finalists = projects.iter().filter(|p| p.finalist).count();
     let with_description = projects.iter().filter(|p| p.description.is_some()).count();

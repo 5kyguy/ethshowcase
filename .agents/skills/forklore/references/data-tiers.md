@@ -1,16 +1,18 @@
 # Data access tiers
 
-Base URLs:
+Base URLs (canonical → fallback; the fallbacks stay in sync automatically):
 
-- Pages: `https://5kyguy.github.io/forklore`
-- Releases: `https://github.com/5kyguy/forklore/releases` (stable latest
-  asset links below never need a version number)
+- Site — search/events/stats/detail JSON: `https://forklore.skyguy.dev`
+  (fallback: `https://5kyguy.github.io/forklore`)
+- Dataset files — db / jsonl.gz / events.json:
+  `https://forklore-data.skyguy.dev/latest/…`
+  (fallback: `https://github.com/5kyguy/forklore/releases/latest/download/…`)
 - Repo: `github.com/5kyguy/forklore` (clone for Tier 3)
 
 Always start a session by checking freshness:
 
 ```sh
-curl -s https://5kyguy.github.io/forklore/data/stats.json | jq
+curl -s https://forklore.skyguy.dev/data/stats.json | jq
 # → projects, events, finalists, with_description,
 #   as_of (data snapshot date), cutoff (past-only build rule)
 ```
@@ -42,7 +44,7 @@ Files: `data/search.json` (~8 MB, compact array), `data/events.json`,
 ### Recipes
 
 ```sh
-BASE=https://5kyguy.github.io/forklore
+BASE=https://forklore.skyguy.dev
 
 # Download once per session, then query locally.
 curl -s "$BASE/data/search.json" -o /tmp/search.json
@@ -79,13 +81,15 @@ descriptions + how-it's-made, use Tier 2.
 ## Tier 2 — SQLite release (FTS5, local)
 
 ```sh
-# ~250 MB, one download; always the latest release:
-curl -L -o forklore.db https://github.com/5kyguy/forklore/releases/latest/download/forklore.db
+# ~190 MB, one download; always the latest release:
+curl -L -o forklore.db https://forklore-data.skyguy.dev/latest/forklore.db
+# GitHub fallback (same bytes):
+# curl -L -o forklore.db https://github.com/5kyguy/forklore/releases/latest/download/forklore.db
 # or with gh:
 gh release download -R 5kyguy/forklore -p forklore.db -O forklore.db
 
 # Lighter alternative (~25 MB): one JSON object per line.
-curl -L -o projects.jsonl.gz https://github.com/5kyguy/forklore/releases/latest/download/projects.jsonl.gz
+curl -L -o projects.jsonl.gz https://forklore-data.skyguy.dev/latest/projects.jsonl.gz
 ```
 
 ### Schema essentials

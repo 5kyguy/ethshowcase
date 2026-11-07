@@ -5,6 +5,10 @@ project from completed hackathons (19,002 projects across 79 events,
 2019–2026) — as a fast, queryable dataset for hackathon participants, plus an
 installable agent skill for researching past hackathons.
 
+**Live:** [forklore.skyguy.dev](https://forklore.skyguy.dev) · dataset at
+[forklore-data.skyguy.dev/latest](https://forklore-data.skyguy.dev/latest/)
+(GitHub mirror: [5kyguy.github.io/forklore](https://5kyguy.github.io/forklore/))
+
 Formerly `ethshowcase` — GitHub redirects the old repo and release-asset URLs
 (clone, browse, `latest/download/*` all keep working). The old Pages URL
 (`5kyguy.github.io/ethshowcase/`) does **not** redirect — everything published
@@ -112,8 +116,8 @@ mkdir -p ~/.config/opencode/skills
 cp -r /tmp/forklore/.agents/skills/forklore ~/.config/opencode/skills/
 ```
 
-The skill works with zero local setup (GitHub Pages JSON + `jq`), the
-[SQLite release](https://github.com/5kyguy/forklore/releases) (FTS5), or a
+The skill works with zero local setup (hosted JSON + `jq`), the
+[SQLite dataset](https://forklore-data.skyguy.dev/latest/) (FTS5), or a
 local `forklore serve` instance — see `.agents/skills/forklore/references/`.
 
 ### Debugging the parser
@@ -167,13 +171,15 @@ legacy branch builder proved unreliable for the ~19k-file tree). The API
 (`forklore serve`) is a single static binary — deploy it anywhere (Fly.io,
 a VPS, or Tailscale-only during the event) with the `forklore.db` file.
 
-### Cloudflare mirror (forklore.skyguy.dev + forklore-data.skyguy.dev)
+### Hosting: canonical Cloudflare, GitHub mirror
 
-For reach where github.io is blocked or slow. Site → Cloudflare Pages, dataset
-→ R2 (the 162 MB db exceeds Pages' 25 MB per-file cap; R2 egress is free).
-Both are wired and dormant until the repo has `CLOUDFLARE_API_TOKEN` +
-`CLOUDFLARE_ACCOUNT_ID` secrets: every site deploy then also pushes to CF
-Pages, every release mirrors to R2 (`latest/` overwritten, `releases/vX.Y/`
-immutable). One-time dashboard setup: R2 bucket `forklore` + connect domain
-`forklore-data.skyguy.dev`; Pages project `forklore` + connect
-`forklore.skyguy.dev` (the project is auto-created on first deploy).
+- **`forklore.skyguy.dev`** (Cloudflare Pages) — canonical site + Tier-1 JSON
+- **`forklore-data.skyguy.dev`** (R2) — canonical dataset downloads
+  (`latest/forklore.db` overwritten per release, `releases/vX.Y/` immutable)
+- `5kyguy.github.io/forklore` + GitHub Releases — automatic mirror/fallback
+  (site deploys and releases push to both)
+
+Both are wired through secret-gated jobs: every site deploy also pushes to CF
+Pages (custom domain + DNS provisioned by the workflow), every release mirrors
+to R2. One-time setup already done: R2 bucket `forklore` with the public
+domain, Pages project `forklore` with `forklore.skyguy.dev` attached.

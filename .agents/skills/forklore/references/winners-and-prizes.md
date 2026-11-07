@@ -48,7 +48,7 @@ placement strings. Rule of thumb:
   memory — pull the distribution:
 
 ```sh
-curl -s https://5kyguy.github.io/forklore/data/search.json \
+curl -s https://forklore.skyguy.dev/data/search.json \
   | jq -r '[.[] | .z[]?] | map(ascii_downcase) | group_by(.) | map({p: .[0], n: length})
            | sort_by(-.n) | .[:12][] | "\(.n)  \(.p)"'
 ```
