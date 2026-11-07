@@ -1,0 +1,27 @@
+{
+  "id": "ii48t",
+  "slug": "fly402",
+  "title": "fly402",
+  "tagline": " An autonomous travel agent that watches flight fares and holds your seat while you sleep",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ii48t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cfbXBk2oVC00NXAXS02xar1V02XYMBSVCqfr8y1PqHfSNA/high.mp4",
+  "demo_url": "https://fly402-three.vercel.app/",
+  "source_url": "https://github.com/abcd5251/fly402",
+  "finalist": false,
+  "description": "**Web3 doesn't meet in one place.** ETHGlobal, Devconnect, Token2049, EthCC — a different country every time, and if you build here you're on a plane six times a year. Every trip goes the same way: you know weeks ahead, you book days ahead. Not because you forgot — watching a fare is a job, and you already have one. By the time you open that tab the good flights are gone: the direct one, the sane hour, the price you saw first. **You book when you're free, which is never when it's best.**\n\n## What Fly402 does\n\nDescribe the trip once — where, when, your budget, and how much the agent may commit for you. Then close the tab.\n\nThe agent watches real fares. When one fits, it doesn't just tell you the good option exists —\n**it takes the seat off the market, then emails you.** You open the link whenever you get to it.\nThe price is still there. The seat is still there. Confirm, or walk away.\n\n## What we actually built\n\nA price hold today is free and therefore worthless, or it doesn't exist at all. Fly402 makes it a\nreal product: **an option on a seat**, with a price and a lifecycle.\n\nOne payment, two kinds of money. A small fee buys the time and is gone — that's what the seller\nearns for pulling inventory. The ticket money goes into an escrow contract instead of the seller's\npocket, and leaves by exactly one of three doors: you book and it pays for the seat, you pass and\nit comes back, you forget and it comes back anyway.\n\n\"We'll refund you\" is a promise; a contract isn't. Once the hold expires, anyone can trigger the refund — the seller doesn't have to cooperate, or even be online. No owner, no pause button, nobody who can change the rules once your money is in. That's why a traveller will pay for a hold, and why a seller can finally charge for one.\n\nFly402 is **an agent with its own wallet and a spending limit you set once.** It pays for each search as it goes, and your money sits in a contract — the seller can't take it, and neither can the agent. The same pattern fits anything that sells out before you're ready to decide: hotels, conference tickets, limited drops.",
+  "how_its_made": "Fly402 is a React frontend, an Express 5 TypeScript seller, and a Solidity escrow on Hedera\ntestnet. Two endpoints are x402-gated: `POST /holds` and `POST /booking`, priced in HBAR and quoted in tinybars under the `exact` scheme on `hedera:testnet`. The seller registers `ExactHederaScheme`on an `x402ResourceServer` pointed at the Blocky402 facilitator, so calling either endpoint without paying gets you a real `402` back.\n\nThe buyer is an agent running in the browser. It holds an ECDSA Hedera key, and\n`wrapFetchWithPayment` does the rest — 402 → sign → retry, all inside one ordinary `fetch`. Booking a flight is a single function call. The payment is the transport.\n\nThe fun part is what a seat hold actually is. It's an option on a seat, so one atomic x402 payment\nhas to become two different kinds of money: a fee the seller keeps, and a deposit it is only\nholding. The seller splits them on arrival and forwards the deposit into `HoldEscrow.sol` with a\n`ContractExecuteTransaction`, keyed by a SHA-256 of the hold id so off-chain ids stay opaque\non-chain.\n\n- **The escrow has no owner.** No pause, no upgrade, no admin key. `settle()` works only for the payer, and only before expiry. After expiry, `refund()` is open to anyone — a seller that\ndisappears can't strand a traveller's deposit.\n- **TVL is a chain read.** The dashboard calls the contract's `stats()` instead of counting\nlocally, and every settlement and escrow call resolves to a real HashScan link.\n- **The agent can't overspend.** Auto-hold, max fee and max deposit are checked before a 402 is ever answered, so it runs unattended inside limits the traveller set once.\n- **Real fares, not fixtures.** Live Google Flights data via server-side SerpApi, cached 12h and\nserved stale if the upstream dies. Match emails go out through Resend and deep-link straight back into the booking page.",
+  "auto_summary": "A travel booking app uses x402-paid Hedera endpoints and a Solidity escrow contract to create refundable flight seat holds.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/fly402-ii48t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

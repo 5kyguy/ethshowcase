@@ -1,0 +1,36 @@
+{
+  "id": "otqvo",
+  "slug": "dmail",
+  "title": "dmail",
+  "tagline": "Decentralized end-to-end encrypted email using ENS identities and Filecoin storage.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/otqvo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YDL6Kg22yvKtmLWvaupEUcHJW51VxNeRfnZodEcwNY8/high.mp4",
+  "demo_url": "https://dmailapp.vercel.app/",
+  "source_url": "https://github.com/rohitshukla11/dmail",
+  "prizes": [
+    {
+      "sponsor": "Filecoin",
+      "sponsor_id": "bnkyu",
+      "placement": "1st place",
+      "title": "Best dApps powered by Filecoin Onchain Cloud"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "3rd place",
+      "title": "Most creative use of ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "dMail is a fully decentralized, end-to-end encrypted email system that replaces traditional email servers with Web3 infrastructure. Instead of relying on Gmail-style centralized storage and identity, dMail uses ENS names as email addresses, Filecoin (via the Synapse SDK) for storing encrypted messages and attachments, and a deterministic wallet-derived cryptographic identity for encryption and signing meaning users never create passwords or manage keys manually.\nEvery message is encrypted client-side using ephemeral X25519 keys and AES-GCM, ensuring only the intended recipient can ever read it. Mailboxes are stored as append-only indexes on Filecoin and referenced through ENS or an optional off-chain resolver, allowing anyone to discover and retrieve their mail in a trustless way.\nThe app includes a background outbox queue that provides instant “Send” UX while pushing content to Filecoin in the background, surviving tab reloads, offline usage, and multi-device access. No central server ever sees message content, keys, or metadata, giving users full control and censorship resistance.\ndMail brings familiar email workflows to a decentralized, wallet-based environment while maintaining privacy, security, and true data ownership.",
+  "how_its_made": "dMail is built as a fully client-side decentralized application using React + Vite, with no backend servers. Wallets authenticate users, and identities are deterministically derived from a single MetaMask signature using HKDF to generate X25519 encryption keys and Ed25519 signing keys removing the need for key management while still enabling strong end-to-end encryption.\nWe use ENS both for identity and as an on-chain mailbox pointer system. Recipient discovery happens via ENS text records or an off-chain resolver API that we built, which reduces on-chain writes and avoids repeated MetaMask signature prompts. File storage is powered by Filecoin through the Synapse SDK, which handles uploads, CDN-backed retrieval, dataset creation, and provider routing. Each email is encrypted client-side using ephemeral X25519 ECDH + AES-GCM and stored as envelopes on Filecoin, while lightweight mailbox indexes reference those CIDs.\nOne of the most challenging parts was performance: Filecoin writes take ~30 seconds each. Initially sending a single email could take several minutes. We engineered several hacky but effective optimizations:\n1. mailbox snapshotting to avoid re-downloading inboxes\n2. append-only mailbox updates\n3. batching multiple outbox items into a single mailbox write\n4. parallel uploads\n5. an offline-resilient outbox queue stored in localStorage\n6. a multi-tab locking system using a distributed localStorage mutex\nThese allow users to click “Send” and immediately see the message in their Sent folder while uploads continue in the background, even across refreshes or offline periods.\nThe result is a decentralized email system that feels fast and familiar, while being built entirely on ENS + Filecoin + wallet-based cryptography without any centralized server.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dmail-otqvo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

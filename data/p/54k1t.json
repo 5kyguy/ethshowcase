@@ -1,0 +1,22 @@
+{
+  "id": "54k1t",
+  "slug": "meva",
+  "title": "meva",
+  "tagline": "uniswap v4 hook that taxes mev bots and redistributes profits as dividends to lps & victims",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/54k1t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rB01z5f4oEI2a02pZ2rjdbsth647QJTLmPi7JggFcw3hk/high.mp4",
+  "demo_url": "https://meva-iota.vercel.app",
+  "source_url": "https://github.com/harshedabdulla/meva",
+  "finalist": false,
+  "description": "meva flips the mev game. instead of fighting sandwich bots (which always fails), we tax them and share the profits.\n\nour uniswap v4 hook detects bots using on-chain signals: high gas prices, contract callers, known addresses, and rapid-fire swaps. detected bots pay 10-50% tax on their trades. normal users pay standard 0.3% fees.\n\ncaptured mev flows to a dividend vault and splits: 50% to liquidity providers as extra yield, 30% as rebates to sandwich victims, 20% to protocol stakers.\n\nbots can self-register as \"licensed\" (0.1 eth fee) for lower 10% tax—civilizing mev instead of eliminating it.\n\nresult: bots still profit (less), users get compensated, lps earn more, everyone wins.",
+  "how_its_made": "core is a uniswap v4 hook (MevaHook.sol) using beforeSwap to analyze transactions and override fees dynamically. bot detection scores addresses based on: known registry match (+100), gas price vs rolling average (+35 if 3x), extcodesize check for contracts (+25), swap size (+15), same-block swaps (+20). score ≥60 triggers bot tax.\n\nbuilt with foundry + solidity 0.8.26. extends BaseHook from v4-periphery, uses LPFeeLibrary.OVERRIDE_FEE_FLAG for dynamic fees. MevaVault handles dividend distribution with masterchef-style accounting (accDividendPerShare pattern) for gas-efficient claims.\n\nBotRegistry allows self-licensing via payable function—bots register to pay lower taxes, creating protocol revenue. 61 unit tests covering detection logic, vault accounting, and edge cases.\n\nhacky bit: test harness overrides validateHookAddress() to bypass v4's address-based permission system during testing.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/meva-54k1t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

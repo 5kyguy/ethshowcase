@@ -1,0 +1,29 @@
+{
+  "id": "e444m",
+  "slug": "cryptosage-ai",
+  "title": "CryptoSage AI",
+  "tagline": "Crypto Sage: an AI that turns your \"I bet\" tweets into on-chain betting markets. Just tag @CryptoSageAI, and if possible, it'll deploy a market—time to put your money where your mouth is! Improve market validation through feedback and earn ERC20 tokens for your contributions.",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e444m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AZ02AX2hmitPwZGbSJOUsGOvIxuWt557w00ZwibbZK6nw/high.mp4",
+  "source_url": "https://github.com/Gary-666/CryptoSage",
+  "prizes": [
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "CDP SDK Pool Prize",
+      "title": "CDP SDK Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "The team was highly inspired by Clankers' AI agent, which created the $LUM token. We believe that AgentFi—or agents transacting with each other—is going to produce new business models and user experiences.\n\nThe MVP of the hack was initially to have the AI Agent create on-chain markets when it is mentioned on Twitter by human or another AI Agent. To do this, we gave the CryptoSage a wallet. We wrote a very simple betting smart contract to create bets and a simple UI for users to make or claim bets.\n\nLastly, we created an Agentic workflow to validate the proposed markets. If validated, the workflow uses tool-calling functionality to deploy the betting market and then repost it on Twitter.\n\nWe quickly realized that validating a betting market is actually quite tough, so we decided to double down on this problem (it was a trade-off as the problem stack is quite large). We thought the best way for the AI Agent to improve at creating markets was to collect feedback from users on markets already created. The AI Agent uses this feedback when validating new markets by performing a semantic search on the title of a proposed new market to find similar existing markets. It then pulls in a summary of the feedback and takes it into account when deciding whether to validate a proposed market.\n\nTo incentivize feedback, we reward the user with an ERC-20 token. The amount is decided by CryptoSage AI using an Agentic flow.",
+  "how_its_made": "AI Agent:\nThe AI Agent is built on top of Langchain. \nIt responses to tweets where it is mentioned and uses the content of the tweet as the base of a prompt. Its purpose is to figure out if the content in the tweet can be used to make a betting market. \n\nCreating Markets\nIt validates markets by running a search query on the proposed market to learn more and establish context. It then runs simple validations to check the proposed market fits in with the functionality of the smart contract (only 2 outcomes, a end time etc).Finally the AI poses the question, is this market realistic. The outcome determines if it should proceed to deploy the market. \n\nDeploying the market is done with a wallet, controlled by the Agent via Coinbase's Agent Kit via Langchain tool calling. \n\nRewarding Data Contributions\nFor the AI Agent to be successful it needs data on how markets are perceived by users. The Agent will incentive users to contribute feedback on a market by offering its ERC 20 as a reward. To do this the user must create feedback and sign it with their wallet to prove ownership over it. \nThe Agent will then assess the quality of the feedback via an agentic workflow. The percieved quality of the feedback is used to determine how much the contributor should be rewarded. If the value is positive the AI agent will transfer its ERC 20 to the user.\n\nThe data itself is stored on IPFS and it is signed with Sign protocol. The AI Agent uses this data when validating existing markets by running a semantic search on proposed market to find similar existing markets. It then references the feedback on those similar markets to determine if the proposed market is suitable. \n\nSmart Contract: \nSmart contract is a very simple betting contract which:\n- address of a judge (market resolver) \n- has only two outcomes\n- has an erc20 in which bets are made\n- has a bet value \n\nThe betting contract issues rewards by simply taking the losing funds and divides that by the winners. There is a fee component which takes a % of funds used to make a bet and sends it to the AI Agents wallet. \n\nUX:\nThere is a simple front end used to bet on a market, claim winnings and submit feedback. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cryptosage-ai-e444m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

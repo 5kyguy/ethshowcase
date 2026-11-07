@@ -1,0 +1,20 @@
+{
+  "id": "1nrct",
+  "slug": "emailbasedvoting",
+  "title": "emailBasedVoting",
+  "tagline": "Web3 DAO enabling domain-restricted, anonymous voting via ZK email proofs on Base Goerli.",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1nrct/banner/default.jpg",
+  "source_url": "https://github.com/Zirael-leariZ/decentralised-voting-app",
+  "finalist": false,
+  "description": "DAO Based on Email Proofs is a privacy-focused, Web3 voting system that lets organizations restrict participation to members of a specific email domain without ever exposing voters’ full addresses on chain. Users prove domain ownership via VLayer’s zero-knowledge email proofs, then connect a crypto-wallet (e.g., MetaMask) to cast a single vote per round. All ballots are recorded on Base Goerli, and organizers verify their own domain using VLayer Web2 proofs before launching any poll. Optionally, newcomers can claim sponsored gas from an on-chain faucet, and results can be automatically summarized with an AI helper.",
+  "how_its_made": "Disclaimer: This app was not completed in time for the hackathon and does not currently support email verification.\n\nThe core of the application was developed using a React + Vite frontend, leveraging Wagmi and Viem for Web3 wallet integration. On the backend, a Node.js (Express) server handles API routes and business logic. Due to time constraints, the VLayer email-proof flow was scaffolded but not fully implemented—users cannot yet verify their email domains.\n\nSmart contracts were written in Solidity and deployed to Base Goerli. The main contracts include:\n\nVotingFactory.sol – Allows organizers to create new voting rounds.\n\nVotingRound.sol – Manages a single poll’s lifecycle: proposal setup, vote casting, and result tallying.\n\nGasFaucet.sol – Enables sponsored-gas claims by sending a small ETH allowance to new wallets.\n\nEmailAccessProver.sol / EmailAccessVerifier.sol – Intended to handle zero-knowledge email proofs; these contracts are present but not yet wired into the frontend/backend.\n\nOn the frontend, the App.tsx and Dashboard.tsx components provide:\n\nA wallet-connect button (MetaMask via Wagmi).\n\nListing of active voting rounds fetched from the backend.\n\n“Create Poll” and “Vote” interfaces that interact with the deployed contracts via Viem.\n\n“Claim Gas” functionality that calls the GasFaucet contract; this is fully operational.\n\nBackend routes in userRouter.js and voteRouter.js use controllers (usersController.js, votesController.js) to:\n\nRegister new organizers (placeholder for domain-verification steps).\n\nFetch all polls, create new polls, and record off-chain metadata.\n\nTrigger smart contract deployments (factory pattern) and return contract addresses to the frontend.\n\nMongoDB models (userModel.js, voteModel.js) store organizer profiles and poll metadata. Although the schema reserves fields for email-proof artifacts (e.g., ZK proof data), the actual verification flow is not hooked up, so domain checks are skipped.\n\nIn summary, the application’s architecture is in place—React+Wagmi/HTTP↔Node.js/Express↔MongoDB↔Hardhat/Solidity↔Base Goerli—but the email-proof integration remains incomplete.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/emailbasedvoting-1nrct",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "xdnv9",
+  "slug": "shelfsign",
+  "title": "ShelfSign",
+  "tagline": "Camera-attested stock marketplace with Hedera x402 pay-per-query and HCS receipts",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xdnv9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3R801Tv2QYahLGZPE6nLDIcu202EgGlrWE17dnmW004zwE/high.mp4",
+  "demo_url": "https://shelfsign.vercel.app/login",
+  "source_url": "https://github.com/NirajBhattarai/ShelfSign",
+  "finalist": false,
+  "description": "ShelfSign lets buyers see real, camera-attested warehouse stock instead of trusting a spreadsheet or a chat message. A warehouse camera is enrolled once by extracting its CMOS sensor's manufacturing-defect noise pattern (a PRNU-based physical fingerprint), which becomes that camera's account identity. To attest stock, our backend issues a fresh nonce; the Hikvision camera burns that nonce into its on-screen display, we OCR it back out of the captured frame, and we re-derive the camera's fingerprint from the live image to confirm it matches the enrolled sensor - not a phone photo, not a swapped camera, not a replayed video. A YOLO/PyTorch vision service then counts SKUs in the frame, and we publish a signed attestation (image hash, camera account, nonce, item counts, model hash) to Hedera Consensus Service so it is independently verifiable. Suppliers must lock a 10 HBAR bond via x402 before they can attest, and that bond is slashed if a previously Verified camera later fails an authenticity check. Buyers browse attested stock for free and pay a small Hedera x402 fee (about 0.01 HBAR) to trigger a live re-attestation on demand, then place orders against verified inventory. The result is a trust layer for supplier stock claims that is bound to physical hardware and to the current moment, not just a signature anyone holding a key could produce from an old photo.",
+  "how_its_made": "Frontend is a Next.js (App Router) + TypeScript app with Supabase Auth, split into supplier and buyer dashboards - warehouse/camera management and an attest wizard on the supplier side, a stock catalog and order flow on the buyer side. Backend is Node/Express + TypeScript, exposing nonce issuance, camera enroll/attest endpoints, warehouse/order APIs, Hedera HCS publishing, and an x402 payment gateway on the buyer live-attest endpoint. Vision is a Python FastAPI service running Ultralytics YOLOv8 for stock detection alongside a custom CMOS/PUF pipeline: calibration frames go through wavelet-domain PRNU extraction, a BCH fuzzy extractor turns the noisy sensor fingerprint into a stable secp256k1 keypair (the camera account), and a challenge-response flow re-derives that same key from a live frame to prove it is the same physical sensor. The camera is a Hikvision unit accessed over ISAPI; we use its OSD overlay to burn a server-issued nonce into the JPEG and OCR it back out, which stops replay of old full-shelf footage. All state lives in Supabase/Postgres with RLS. On the Hedera side we publish every attestation (type shelfsign.attestation.v1) to HCS so buyers can check image hash, camera account, nonce and counts on HashScan, and we use Hedera x402 (Blocky402) for payments - suppliers stake 10 HBAR into an escrow vault before they can enroll or attest, and buyers pay about 0.01 HBAR per live re-attest. The hacky part: since we cannot ask hackathon judges' or random suppliers' own Hedera accounts to hold real funds mid-demo, the escrow vault and slashing today run from a platform-controlled funder key rather than each supplier's own account - a limitation we call out directly rather than hide. We also built a fake-cam ISAPI stub so we can demo the CMOS-fingerprint rejection path (phone photo or wrong camera) live without a second real sensor.",
+  "auto_summary": "ShelfSign verifies warehouse stock claims using camera fingerprinting, computer vision, and Hedera-backed payment and attestation flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/shelfsign-xdnv9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

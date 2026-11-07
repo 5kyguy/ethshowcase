@@ -1,0 +1,26 @@
+{
+  "id": "qk7ee",
+  "slug": "sentinelai",
+  "title": "SentinelAI",
+  "tagline": "AI security layer that monitors and blocks suspicious autonomous blockchain agent transactions.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qk7ee/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lwQUGDao01JI1J00cRbLm57rd1k0116qjIlCuPBM5nQm2U/high.mp4",
+  "source_url": "https://github.com/SmitJadav07/sentinelai",
+  "finalist": false,
+  "description": "SentinelAI provides real-time security layers for autonomous AI agents making financial transactions on blockchain. As AI agents gain the ability to move money independently, there's no system watching them for malicious behavior or compromise.\n\nSentinelAI solves this by intercepting every transaction an AI agent makes before it settles. Each transaction is scored using vector embeddings to detect behavioral anomalies. A council of 3 specialized AI agents — a Behavioral Analyst, a Threat Intelligence Director, and a Compliance Officer — then debate and vote on whether to block or approve the transaction.\n\nWhen 2 out of 3 agents vote suspicious, the transaction is blocked instantly on Arc testnet before any funds move. Every single decision — blocked or approved — is permanently logged to Hedera's Consensus Service, creating an immutable audit trail that anyone can verify on hashscan.io in real time.\n\nThe live dashboard shows every transaction flowing in, the AI council debating, the threat score chart spiking on attacks, and clickable Hedera blockchain links proving every decision is on-chain.",
+  "how_its_made": "SentinelAI is built across three services that work together:\n\nBACKEND (Python/FastAPI): The core engine. An AI agent runs autonomously making USDC transfers on Arc testnet using Circle's Programmable Wallets API. Every transaction triggers our two-layer analysis system — first, sentence-transformers convert the transaction into a vector embedding and compare it against historical normal behavior to generate an anomaly score (0.0 = normal, 1.0 = suspicious). That score is passed to our AI council.\n\nAI COUNCIL (Gemini 2.0 Flash): Three specialized agents powered by Gemini analyze each transaction from their domain of expertise. Dr. Aria Chen looks at statistical behavioral patterns, Marcus Reid checks wallet reputation and threat intelligence, and Sarah Okonkwo reviews regulatory compliance. Each votes independently. 2/3 suspicious votes triggers an automatic block via Circle's API before the transaction settles.\n\nHEDERA SERVICE (Node.js/@hashgraph/sdk): A separate microservice on port 8001 that receives every council decision and writes it permanently to Hedera Consensus Service topic 0.0.9228035. We used a Node.js microservice specifically to avoid the protobuf version conflict between the Hedera Python SDK and Gemini Python SDK — a notable technical challenge we solved with clean service separation. Every logged event returns a real Hedera transaction ID that judges can verify live on hashscan.io.\n\nFRONTEND (Next.js/Recharts): A real-time security dashboard that polls the backend every 3 seconds, showing live transactions, the AI council debate panel, a threat score timeline chart with sharp spikes on anomalies, and a Hedera audit trail table with clickable blockchain verification links.\n\nPartner technologies used: Arc/Circle for agent payments and transaction blocking, Hedera HCS for immutable audit logging, Gemini 2.0 Flash for AI council analysis, and Sentence Transformers for behavioral anomaly detection.",
+  "auto_summary": "A multi-service app monitors AI-driven blockchain payments, scores transactions for anomalies, and records approval decisions to Hedera Consensus Service.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sentinelai-qk7ee",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

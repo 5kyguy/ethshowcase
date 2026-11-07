@@ -1,0 +1,35 @@
+{
+  "id": "8dmy9",
+  "slug": "latch",
+  "title": "LATCH",
+  "tagline": "Authorization and access control for AI workers inside organizations.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8dmy9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01yHsIaA01x3Bj01WCvSgnZoCyv4p5JWHqk9suy1LZntnI/high.mp4",
+  "demo_url": "https://latch-sec.vercel.app/",
+  "source_url": "https://github.com/samscript18/latch",
+  "prizes": [
+    {
+      "sponsor": "Bazantic",
+      "sponsor_id": "qf93t",
+      "placement": "2nd place",
+      "title": "Agentify a new API"
+    }
+  ],
+  "finalist": true,
+  "description": "LATCH is an authorization and access control system for AI workers inside organizations. It helps companies give AI agents specific jobs without giving them unlimited access to company tools and services.\n\nEach AI worker gets its own verifiable identity and specific capabilities through ENSv2. For example, a Procurement Agent can handle purchase requests, while a Research Agent can search for information. One agent cannot simply use another agent’s permissions.\n\nBefore an AI worker can perform an action, LATCH checks who the agent is, whether it has the right capability, and whether the exact action follows the organization’s policy. Companies can use normal server side policies or Chainlink Confidential Workflows when sensitive rules, such as spending limits or approved vendors, need to remain private.\n\nLATCH can also be used by other AI workflows. Through Bazantic, I created a reusable procurement Recipe that combines Exa for product sourcing with LATCH for authorization. LATCH also uses Tavily for authorized research tasks.\n\nThe main idea is simple: AI agents should be able to work for organizations, but only within the authority they have been given. Give AI workers a job, not the keys to everything.",
+  "how_its_made": "LATCH is built as an authorization layer that sits between an AI worker and the tools it wants to use. When a user gives an agent a task, Gemini first turns the request into one structured action. It can only choose from capabilities that LATCH supports, such as procurement.purchase or research.search. Gemini only understands and proposes the action; it never decides whether the action is allowed.\n\nEach worker has an ENSv2 identity under its organization’s namespace. LATCH reads fresh ENS records to verify the worker’s wallet, role, status and capabilities before every protected action. This means permissions are tied to an onchain identity instead of only being stored in a normal application database, and an organization can revoke a worker’s authority.\n\nAfter ENS verification, LATCH checks the exact proposed action against the organization’s policy. Organizations can use normal server side policies or Chainlink Confidential Workflows. With Chainlink, sensitive rules can be loaded and evaluated inside a TEE, while the agent only receives a simple approved or denied result instead of learning the private policy itself.\n\nFor execution, the Procurement Agent handles authorized product sourcing, while the Research Agent uses Tavily only after receiving the research.search authorization. I also exposed LATCH through a Bazantic Gateway and built a reusable procurement Recipe that combines Exa for real product sourcing with LATCH for authorization.\n\nA key security detail is that LATCH binds authorization to the exact proposal. An agent cannot get one product, quantity or capability approved and then execute a different action with that approval.\n\nThe application is built with Next.js and TypeScript on the frontend, with a NestJS API and MongoDB for application data and audit records. Overall, ENSv2 handles worker identity and capabilities, Chainlink handles private policy evaluation, and LATCH connects those checks to external tools so an AI worker only gets the authority needed for its specific job.",
+  "auto_summary": "A monorepo for AI-agent authorization that verifies ENS-based identities, evaluates policies, and records audit events for controlled task execution.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/latch-8dmy9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

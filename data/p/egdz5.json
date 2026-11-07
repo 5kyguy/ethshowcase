@@ -1,0 +1,35 @@
+{
+  "id": "egdz5",
+  "slug": "creance",
+  "title": "Creance",
+  "tagline": "Your occupation gets automated, you get paid.  Investors earn yield from betting it won't be.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/egdz5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Dnk7nXhuhKK4901QCxdRMPHhYeRf1QBSVACWMvRf7iVA/high.mp4",
+  "demo_url": "https://www.creance.co",
+  "source_url": "https://github.com/resistingdestiny/creance",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "Selfie Check",
+      "title": "Selfie Check"
+    }
+  ],
+  "finalist": false,
+  "description": "Creance is cover in case your job is automated.\n\nA worker picks their occupation, chooses how much cover they want and pays a small amount each month. Should unemployment in that occupation get bad enough relative to the rest of the workforce, the cover pays out. If it never does, they have paid a few dollars a month for protection they did not need, which is how insurance is supposed to work. There is no adjuster and no claim form, and nobody has to argue over whether a particular layoff was really down to AI. A single published number decides, and anyone can recompute it from public data.\n\nThat number is the Occupation Displacement Index. It measures how much worse unemployment is in one occupation than across the workforce as a whole, and how that gap has moved over a year. Start with the excess, which is unemployment in the occupation minus unemployment across all occupations. Smooth it over three months so one bad print cannot move it on its own. Then compare it with the same smoothed figure twelve months earlier. A claim window opens when the index crosses one of two thresholds. The shock threshold is crossed when the index jumps far enough above trend. The level threshold is crossed when the smoothed excess itself passes a line drawn from that occupation's own history. Both are fixed when a series is issued, published in the series terms, written into every on-chain message, and never re-fitted afterwards.\n\nThe other half is who pays. Capacity comes from investors who subscribe to a Displacement Bond Note for a specific occupation. They earn a monthly coupon out of the premiums, and if that occupation's index triggers, part of their principal goes to the workers holding cover. A worker buying cover is buying it from people who have taken the other side of the same bet and think the occupation will hold up. The price a worker sees is a binding quote against whatever capacity is live at that moment.\n\nIdentity is one person, one cover. Eligibility comes from a World ID check, and the nullifier it returns is what stops one person holding several covers on the same series. A claim requires a second check by the same person, so the payout cannot be redirected to somebody else.\n\nFifteen US occupation groups are live, each with its own note series, capacity and frozen thresholds. Everything runs on Hedera testnet with no real funds, and every quote, bind, payment, index observation and claim leaves a receipt anyone can open on HashScan.",
+  "how_its_made": "The project uses one pnpm monorepo with a Next.js 16 web app, a Fastify API, Solidity contracts on Hedera testnet, an oracle worker and a separate package for the index model. There are about 1,600 tests across Vitest and Hardhat. Everything else depends on the index, so we built that first. It comes from US Bureau of Labor Statistics CPS unemployment series, one per occupation group plus the all-occupation rate that every excess is measured against. \n\nOn Hedera we use a CollateralVault and a CoverPool in Solidity, deployed over the Hashio JSON-RPC relay. An HTS token for settlement. A policy NFT that gets minted to the holder and then frozen against the collection, which makes the cover non-transferable on purpose, because cover you can sell to a stranger breaks the one person one cover rule. HCS topics carry the payment, index and claim receipts. Monthly coupons are Hedera Scheduled Transactions. The notes are Asset Tokenization Studio bonds, which turned out to be ERC-3643 contracts rather than HTS tokens, with a KYC list controlling who can hold one.\n\nWorld ID 4.0 handles eligibility through IDKit, with the relying party context signed secp256k1 by our backend. The nullifier is what ties a cover to a single person. When someone claims, we ask for a fresh check with liveness and compare that nullifier against the one we captured at purchase, so a payout cannot be pointed at anyone else.\n\nThe API is metered with x402 and settled on Hedera through [the x402 facilitator]. As a result the web app is a paying client of its own API. No key sits in a browser bundle and every paid read happens server side. Once that worked we published the API as a Bazantic gateway with a generated MCP server, so an agent can find it, call it and buy cover with no human, no API key and no billing relationship.\n\nWe sent one fix upstream, an open pull request to [hedera repo name] that adds a mirror node reader and classifies mirror outages as infrastructure failures rather than test failures.",
+  "auto_summary": "A monorepo implementing unemployment-triggered insurance on Hedera with on-chain contracts, x402-metered APIs, World ID checks, and ATS-based note issuance.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/creance-egdz5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "q1eok",
+  "slug": "credbook",
+  "title": "CredBook",
+  "tagline": "On-chain orderbook for DeFi lending - competiting liquidity pools give best rates to borrowers",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q1eok/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vjywjQ8faWIW4N6KKcqFxHTG3p2p3UQuYqy9AbbxlBA/high.mp4",
+  "demo_url": "https://vimeo.com/1130667615?share=copy&fl=sv&fe=ci",
+  "source_url": "https://github.com/parzival1821/CredBook",
+  "finalist": false,
+  "description": "What is this project?\nThis project introduces an on-chain orderbook-based lending platform that revolutionizes how borrowers access liquidity in DeFi. Instead of borrowing from a single pool at a fixed rate, borrowers interact with a unified orderbook that aggregates quotes from multiple competing lending pools, each with different interest rate models and risk parameters.\nThe Problem\nCurrent DeFi lending platforms (Aave, Compound) force users to borrow from monolithic pools with single interest rate curves. This creates inefficiencies:\n\nBorrowers can't easily compare rates across different pools\nNo competition between different capital providers\nLenders can't differentiate strategies to earn higher yields\nRate discovery is poor\n\nOur Solution\nWe've built a two-layer architecture:\nLayer 1: Competing Lending Pools\n\nMultiple isolated lending pools (inspired by Morpho Blue's minimal design)\nEach pool has its own Interest Rate Model (IRM) - linear curves, kinked curves, or custom models\nPools compete to fill borrower orders by offering competitive rates\nEach pool quotes 5 orders on the orderbook representing tranches of liquidity at different rates (based on utilization)\n\nLayer 2: On-Chain Orderbook & Matching Engine\n\nA sophisticated orderbook aggregates all pool quotes (20 orders from 4 pools in our demo)\nUses an efficient sorting algorithm to maintain orders sorted by interest rate.\nBorrowers submit market or limit orders\nMatching engine automatically fills orders from the cheapest available liquidity\nWhen orders are filled, affected pools requote their 5 orders based on new utilization\nOrderbook re-sorts all orders to maintain best-execution\n\nKey Innovations\n\nDynamic Rate Discovery: Pools continuously requote based on utilization, creating real-time market rates\nBest Execution: Borrowers automatically get the lowest available rate across all pools\nLender Choice: Lenders can analyze historical pool performance and choose which pools to supply based on yield/risk\nScalability: Permissionless pool creation means anyone can deploy pools with custom IRMs\nCapital Efficiency: Each pool only needs $1000 minimum per order tick (configurable)\n\nUse Cases\n\nBorrowers: Get best rates without manually checking multiple protocols\nLenders: Choose aggressive vs conservative pools based on historical fill rates\nMarket Makers: Create specialized pools targeting specific utilization ranges\nInstitutions: Deploy private pools with custom risk parameters",
+  "how_its_made": "Technology Stack\nSmart Contracts\n\nCore lending pools with supply, borrow, repay, and collateral management\nMultiple interest rate models: linear curves and kinked models (Aave-style) that compete for borrower orders\nOrderbook matching engine using Red-Black Tree for efficient O(log n) sorting of pool quotes by interest rate\nShares-based accounting for lenders (similar to aTokens) with compound interest accrual\n\nPyth Network\n\nReal-time price feeds for collateral valuation with sub-second updates\nPull-based oracle model ensures orderbook always has fresh prices for accurate LTV calculations\n400ms updates vs traditional oracles' minutes enables safer lending at higher LTVs\n\nFrontend (Next.js)\n\nReal-time orderbook visualization showing aggregated rates across all pools\nHistorical pool performance analytics for lenders to compare yields\nOne-click borrowing at best available rates\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/credbook-q1eok",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

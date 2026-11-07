@@ -1,0 +1,35 @@
+{
+  "id": "4us8v",
+  "slug": "proof-of-alpha",
+  "title": "Proof of Alpha",
+  "tagline": "Social paper trading game on Celo powered by Pyth price feeds and cross-chain Hyperlane entropy",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4us8v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DNGh5007liH6iYJYxMb5kSVlukXdJIGVDnd1U7Jd6FjA/high.mp4",
+  "source_url": "https://github.com/raretomato377/trading-post",
+  "prizes": [
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "Best Infrastructure",
+      "title": "Best Infrastructure"
+    },
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "4th place",
+      "title": " Most Innovative use of Pyth pull price Feeds"
+    }
+  ],
+  "finalist": false,
+  "description": "Trading Post is a gamified social paper trading application that brings real-world market dynamics to a competitive prediction game on Celo. Players join lobbies, select prediction cards for various assets (BTC, ETH, SOL, etc.), and earn points based on actual price movements sourced from Pyth Network's price oracles.\n\nThe game implements difficulty-based scoring where players choose prediction types: simple price up/down (10 points), threshold-based predictions like >5% movement (25 points), or precise price target predictions (50 points). Built as a Farcaster miniapp, it leverages social features for lobby creation and competitive leaderboards.\n\nWe chose Celo for its mobile-first architecture, lower transaction costs, and fast block times—critical for real-time gaming experiences. The integration with Pyth Network ensures tamper-proof, low-latency price data, while Hyperlane's message passing protocol enables secure cross-chain entropy generation from Base to Celo, ensuring provably fair randomization for card distributions and game outcomes.",
+  "how_its_made": "We built this full-stack app with Next.js 14 Farcaster Frame frontend and Hardhat-based Solidity contracts. Wagmi handles wallet connections, Celo via Forno RPC. Farcaster manages social features (lobbies, leaderboards).\n\nBuilt a custom entropy oracle bridging Pyth's TEE-based randomness from Base to Celo via Hyperlane. HyperlaneBase.sol requests entropy from Pyth, receives cryptographic randomness via callback, then dispatches through Hyperlane's mailbox. Our Celo Hyperlane smart contract validates message origin, extracts random bytes, and forwards to game contracts. This provides verifiable randomness without single-chain RNG dependencies.\n\nWe implement staleness detection using getPriceNoOlderThan() and batch updates via updatePriceFeeds(). We query getUpdateFee() from Pyth's proxy, fetch signed price data from Hermes API, then submit atomic updates. This minimizes gas costs while maintaining data freshness.\n\nCelo provides predictable gas (EIP-1559) and sufficient throughput for real-time gaming. Implemented dynamic gas estimation for Hyperlane cross-chain quotes, time-based state machine transitions (Lobby → Choice → Resolution), and sender allowlists on bridge endpoints for security.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/proof-of-alpha-4us8v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,42 @@
+{
+  "id": "7jnt9",
+  "slug": "paypunk",
+  "title": "PayPunk",
+  "tagline": "PayPunk: Buy real goods with crypto. No Visa. ZK proofs verify delivery. Cross-chain magic. 💳🤘",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7jnt9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lThwbC6NyNw8di9r3gml75iZk01bYjlSSj7XVZtKYnO8/high.mp4",
+  "demo_url": "https://paypunk.vercel.app/",
+  "source_url": "https://github.com/Buenos-Aires-Hackers/contracts",
+  "prizes": [
+    {
+      "sponsor": "EVVM",
+      "sponsor_id": "gatm1",
+      "placement": "2nd place",
+      "title": "Your custom Service or EVVM Chain"
+    },
+    {
+      "sponsor": "EVVM",
+      "sponsor_id": "gatm1",
+      "placement": "Use the MATE Metaprotocol",
+      "title": "Use the MATE Metaprotocol"
+    },
+    {
+      "sponsor": "EVVM",
+      "sponsor_id": "gatm1",
+      "placement": "Feedback on EVVM or MATE Metaprotocol",
+      "title": "Feedback on EVVM or MATE Metaprotocol"
+    }
+  ],
+  "finalist": true,
+  "description": "PayPunk is a decentralized marketplace that enables crypto-to-physical-goods transactions without routing through Visa or traditional banking.\n\nThe Problem: Current crypto-to-physical-goods payments still rely on Visa cards, reintroducing the centralized systems crypto was meant to replace.\n\nThe Solution: PayPunk uses a trustless escrow system with zero-knowledge proofs and cross-chain interoperability.\n\nHow It Works: Users create listings specifying what they want to buy from Shopify, how much they'll pay in USDC (with a premium), and encrypted delivery credentials. Funds are locked in a custom EVVM escrow contract until delivery is verified. Buyers browse listings and purchase items using their own payment method (cards, crypto, etc.), then have items delivered to the requester. Buyers generate zero-knowledge proofs via vlayer's Web Prover Server that cryptographically verify both purchase and delivery without revealing sensitive information. Once ZK proofs are verified on-chain using RISC Zero verifiers, funds unlock and become withdrawable only by the buyer who fulfilled the purchase. A background bot automatically pays out tokens to the buyer using x402 when funds are unlocked.\n\nCross-Chain Support: Users can create listings from any chain using any token. The Ethereum Interoperability Layer (EIL) automatically swaps tokens to USDC and bridges assets across chains, providing true chain abstraction.\n\nKey Technologies: Custom EVVM service for secure escrow with async nonce support, vlayer for privacy-preserving ZK proof generation, RISC Zero for on-chain proof verification, EIL SDK for seamless cross-chain token movement, and x402 for automated payouts.\n\nFeatures: Trustless escrow, privacy-preserving credentials, ZK-proof verification, multi-chain support, automated payouts, and payment flexibility. No banks, no cards—just decentralized infrastructure.",
+  "how_its_made": "PayPunk uses a custom EIP-3009-compatible transferWithAuthorization for x402 automated payouts. It follows EIP-3009's signature format but implements custom escrow release logic.\n\nWhen a buyer submits a ZK proof verifying purchase and delivery, funds unlock in their EVVM balance. A background bot detects this and calls transferWithAuthorization with a backend-signed authorization. The function validates the EIP-712 signature, checks time validity and nonce replay protection, then withdraws from the buyer's EVVM balance to their wallet.\n\nThis uses EIP-3009's signature structure while customizing behavior: instead of standard transfers, it withdraws from EVVM balances to wallet addresses. The backend signs the authorization, and x402's bot infrastructure automatically submits it, enabling automated payouts without manual steps.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/paypunk-7jnt9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

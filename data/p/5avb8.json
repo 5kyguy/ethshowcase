@@ -1,0 +1,40 @@
+{
+  "id": "5avb8",
+  "slug": "apeful",
+  "title": "Apeful",
+  "tagline": "Creating user incentives on Uniswap V4 pools by automatically generating AI-based NFTs when the user does specific action with ApeCoins, everything completely onchain.",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5avb8/banner/default.jpg",
+  "source_url": "https://github.com/joergkiesewetter/2024-ethglobal-london",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "Hooks & External Integrations",
+      "title": "Hooks & External Integrations"
+    },
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "Most Creative use of Hyperlane",
+      "title": "Most Creative use of Hyperlane"
+    },
+    {
+      "sponsor": "Galadriel",
+      "sponsor_id": "i90pd",
+      "placement": "3rd place",
+      "title": "Most unique on-chain AI application built on Galadriel"
+    }
+  ],
+  "finalist": true,
+  "description": "Apeful gives Token Communities like ApeCoin the possibility to create complete new token incentive mechanics, to drive their trading volume and have fun with the owners. With a combination of different technologies, we are able to let different chains work together, to create AI-generated NFTs completely automatic and onchain.\n\nHow it works\n---\nAn user wants to buy ApeCoin on Uniswap V4. To do this, he is able to use our v4 pool. When he is executing the swap, our v4 hook evaluations different details of the swap. With a predefined ruleset, the hook decides if the user is getting a special rewards NFT distributed to his wallet.\n\nWhen this happens, the whole onchain-toolchain works completely autonomous and automatically. Through Hyperlane, the hook is sending a message to the Galadriel AI-Blockchain to use their build-in image generation to generate the next NFT. When the new NFT is minted, and automated hook on this side sends the NFT instantly back to the origin chain.\n\nFor the Hackathon, I added the following rules:\n- user buys exactly 1 ApeCoin -> generate an image with a poor ape king\n- user buys exactly 1337 ApeCoin -> generate an image with a cyberpunk ape king\n- user buys more than 500 ApeCoin -> generate an image with a ape king in a wooden house\n- user buys more than 5.000 ApeCoin -> generate an image with a ape king in a silver house\n- user buys more than 50.000 ApeCoin -> generate an image with a ape king in a golden house\n\nOf course, this is only a tiny set of possibilites you could add as rules to hand out new NFTs. Aggregated trading volume, amount of swap of a given size or targeting swaps of more community-related amounts is just one possibility.\n\nIn further iterations it is also possible to add completely new features, the communities could use to target more specific user. I.e. Holders of Bored Apes get a special golden NFT, when they do a swap worth >100k ApeCoin. The possibilities are endless, we can facilitate the whole blockchain world for cool and funny incentive programs.",
+  "how_its_made": "Technical flow:\n- The user buys ApeCoin on Uniswap V4\n- The Hook is fetching the user and some additional swap specific data\n- The hook dispatches a message through the hyperlane mailbox, to the galadriel chain\n- On the galadriel chain, a special NFT contract is receiving the message\n- The NFT Contract is calling the oracle to generate an image with a given prompt\n- When the image is generated, the oracle is calling a callback in the NFT\n- The callback initializes the transfer of the NFT from the Galadriel chain back to the original chain\n\nHyperlane was not available on the galadriel chain. Now it is.\n\nThe most hacky part is the question of the ownership/allowance of the created NFT. To make everything as automatic as possible, the owner of the newly generated NFT is the NFT contract itself. To let the hyperlane contract send the NFT to the target chain, I needed to let the contract instatiate himself, to be able to set the correct allowance for the contracts.\n\nDeployments:\n\nSepolia Uniswap V4 Hook: https://sepolia.etherscan.io/address/0x1643ebA8D98Ca7408a755795E9bba09649762133\nSepolia Hyperlane Mailbox: https://sepolia.etherscan.io/address/0xfFAEF09B3cd11D9b20d1a19bECca54EEC2884766\n\nGaladriel Hyperlane token router: https://explorer.galadriel.com/contract/0x7a94a4a7e618c8389a159401B514737aa2DdED2A\nGaladriel Apeful NFT: https://explorer.galadriel.com/contract/0x5002670D02ed7740F9a307124fc5c39191cFe7c7\n\nthe script at ` erc721/scripts/testrun.ts`  is starting the whole chain of transactions and is standing by, fetch the actual state of processing.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/apeful-5avb8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

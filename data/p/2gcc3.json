@@ -1,0 +1,41 @@
+{
+  "id": "2gcc3",
+  "slug": "dry",
+  "title": "Dry",
+  "tagline": "The world's first private seedless smart account, powered by Zero-Knowledge cryptography, SAFE, and biometrics ( Face ID )",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2gcc3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/do8RS01su8qVBU5o2K4OcCzeqSAuPwJlfZLssQvCG4TE/high.mp4",
+  "source_url": "https://github.com/dry-ethglobal-brussels",
+  "prizes": [
+    {
+      "sponsor": "Safe",
+      "sponsor_id": "weaax",
+      "placement": "2nd place",
+      "title": "Best app integrating ERC-7579 Safe Smart Accounts"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "1st place",
+      "title": "Best ZK dApp"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "Winner",
+      "title": "Best Project on Scroll"
+    }
+  ],
+  "finalist": true,
+  "description": "This project is a deep-dive on account abstraction. The Safe's interface for ERC7579 and Noir's secp256r1 signature verification allow for some very interesting combination that has the potential to dramatically improve user experience, privacy, and security.\n\nMultisigs are a problem. Not only people are doxxed in voting situations, but they can also be in physical danger or be subject to theft that can endanger a whole DAO or even an L2. This is not unprecedented: the biggest theft in HISTORY was caused by a 5-out-of-9 multisig breach.\n\nDRY leverages the Secure Enclave to sign messages with FaceID or similar biometrics, and Noir provides with three key proofs: preimage, signature verification, and merkle tree membership. This makes the user completely private: no one sees the actual owners of the Safe. DRY is fully compatible with SAFE and will support all major features such as social recovery or arbitrary transaction signing.",
+  "how_its_made": "There are three major components to the whole project: Noir, React Native, and Safe.\n\n## Noir\nNoir is a Zero-Knowledge domain specific language that provides an easy Rust-like abstraction layer, interfaces natively with Aztec's Barretenberg backend, and provides a handy Solidity contract for proof verification. The Noir standard library contains a secp256r1 signature verification method, which happens to be a supported curve for a lot of elliptic curve cryptography around us. With it, we could not only make a succint proof that a provided public key can be recovered from a signature, but also keep all that information completely private!\n\nThis means that a Safe can essentially be owned by the hash of a public key. To make it even more interesting, we made the contract store only the root of a merkle tree: all data is stored off-chain (ex. via DA layer integrations).\n\n## React Native\nReact Native is a bit of a pain to work with, but contrary to web pages, it can run code natively.\n\nOn webpages, the WASM workers eat memory like crazy and the scheduler frequently closes them. With React Native, we are able to use the full power of Barretenberg, generating these proofs in just a few seconds. We also experimented with the new Honk prover, but the absence of a solidity verifier made us go back to UltraPlonk.\n\n## Safe\nSafe is one of the biggest projects in crypto. It provides a great smart account interface, a lot of integrations, and a ERC7579 that allowed for all of this to be possible. We hacked a bit on an Executor module, and made it store a merkle tree root and our Noir Solidity verifier contract address.\n\nWe also built a relayer, so the user doesn't doxx himself with the msg.sender. Since msg.sender is not an identity anymore, anyone can submit a proof of ownership of the contract. These interact with the existing Safe and allow the execution once a threshold is hit.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dry-2gcc3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

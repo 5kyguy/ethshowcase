@@ -1,0 +1,35 @@
+{
+  "id": "0emjn",
+  "slug": "playce",
+  "title": "Playce",
+  "tagline": "Turn venues into play arenas: geofenced check-ins, AI/AR mini-games, p2p stakes, onchain rewards.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0emjn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eR8GOYBN5dDtYrS14KvmBnHmzyLf6VDIgFqYRQWCfuE/high.mp4",
+  "demo_url": "https://playce-nyc.up.railway.app/",
+  "source_url": "https://github.com/Vib-UX/playce",
+  "prizes": [
+    {
+      "sponsor": "Blink",
+      "sponsor_id": "8tv2m",
+      "placement": "Best consumer app with Blink - Scratch track",
+      "title": "Best consumer app with Blink - Scratch track"
+    }
+  ],
+  "finalist": false,
+  "description": "Playce turns real-world venues into interactive social arenas. Attendees check in inside a geofenced zone, onboard with email via Privy embedded wallets, and instantly claim a personal ENS subname ticket (e.g. you-ethglobal-nyc.playce.eth) their portable onchain identity and pass for the venue. From there they jump into sponsor-skinned mini-games: head-to-head chess on Lichess with staked USDC, or \"The 67,\" a camera-based AR battle where players rep Chainlink, Pyth, or Blink and compete for the pot.\n\nWinners collect soulbound proof-of-presence NFTs and chain-battle badges minted on Base, with cross-chain wins routed over Chainlink CCIP. Rewards reveal as 3D collectibles you can share and gallery-browse. The loop is simple: show up, get your name, play, earn your moment. Fun on the surface, verifiable onchain underneath.",
+  "how_its_made": "Built with Next.js 16 (App Router) + TypeScript, Tailwind v4, and Framer Motion for a mobile-first arcade UX. Privy provisions embedded wallets on signup; viem/wagmi handle Base mainnet staking and mints.\n\nENS gives every attendee an identity. On check-in we issue an event-scoped subname off the parent playce.eth (e.g. alice-ethglobal-nyc.playce.eth) through a Durin-style L2 subname registry on Sepolia. The backend minter (which owns the parent name) registers the subname to the user's wallet and writes resolver records: addr points to the attendee, plus tier (GA/VIP) and event text records, entirely gasless for the user. Names resolve live via viem's ENSv2 Universal Resolver, and the app re-resolves each ticket to confirm it points back onchain. A mock fallback keeps the flow working before ENS is configured.\n\nSmart contracts (Foundry): PlaycePass (soulbound venue proofs), StakeEscrow (Blink USDC pots), ChessArbiter + Chainlink CRE workflow polling Lichess results for trust-minimized settlement, and Chainlink CCIP (ProofSender to ProofReceiverPass) for cross-chain win badges when players rep Ethereum vs Arbitrum.\n\n\"The 67\" uses the device camera + MediaPipe for scoring, with sponsor 3D AR skins via React Three Fiber. Reward reveals are Three.js collectibles. A custom Node/WebSocket server + Redis powers realtime lobbies. Off-chain geofence/game verification feeds a gasless backend minter so users never pay gas, for ENS subnames, proofs, and reward badges alike.\n\nNotable hacks: full demo with mainnet fork to simulate CRE settlement locally (impersonate the DON forwarder, deliver onReport, pay the pot); and a broadcast-settle script for chess payouts before CRE is live on a DON, using custom feeds.",
+  "auto_summary": "A Next.js app for venue check-ins, mini-games, wallet onboarding, staking, and onchain reward minting with supporting Solidity contracts and backend services.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/playce-0emjn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

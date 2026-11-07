@@ -1,0 +1,22 @@
+{
+  "id": "v50ju",
+  "slug": "whisper",
+  "title": "whisper",
+  "tagline": "Send secret messages/files to any public address/ENS, twist? the receiver won't know who sent it.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v50ju/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bpERuXSeyMI3aY5BoD8aEioWEysLn00G9HJlvLoVvMVQ/high.mp4",
+  "demo_url": "https://whisper-ten-delta.vercel.app/",
+  "source_url": "https://github.com/capGoblin/whisper",
+  "finalist": false,
+  "description": "Send secret messages, files, or payments to any public address or ENS — and the receiver won’t know who sent it.\n\nHow it works:\n\nRecipients register a stealth meta-address (spendPub + viewPub) for their ENS name, using ERC‑6538 standards.\n\nA sender generates a one-time ephemeral key, derives a shared secret with the recipient’s view key (ECDH), computes a stealth address, and encrypts the payload. This follows ERC‑5564 stealth address standards.\n\nEncrypted files are uploaded to Hedera File Service (HFS), and a delivery announcement is posted via Hedera Consensus Service (HCS). Each announcement contains the ephemeral public key, a one-byte viewTag for quick filtering, and a pointer to the HFS file.\n\nThe recipient’s wallet or Mirror-node indexer scans HCS messages, filters by viewTag, reconstructs the shared secret, decrypts the payload, and derives the stealth private key to access funds or files.\n\nWhy it’s useful:\n\nAnonymous, standards-aligned stealth delivery with Hedera’s fast, low-fee HCS + HFS infrastructure.\n\nKeeps the sender’s canonical address unlinkable, while recipients remain discoverable via ENS.",
+  "how_its_made": "The project uses Ethereum’s stealth address standard (ERC-5564 / 6538) for private delivery and Hedera only for encrypted file uploads.\n\nStealth Crypto:\nSender generates an ephemeral key, derives a shared secret (ECDH), and encrypts the payload (AES-GCM).\n\nFile Upload (Hedera File Service):\nThe encrypted file is uploaded to Hedera File Service (HFS) using FileCreate and FileAppend (for large chunks).\nHFS returns a fileId, which acts as a pointer to the stored file.\n\nAnnouncement (Stealth Address Logic):\nThe sender posts an announcement (ephemeralPub, viewTag, pointer:fileId) — similar to ERC-5564 — to notify the recipient.\n\nRecipient Flow:\nRecipient scans announcements, checks matching viewTag, reconstructs shared secret, decrypts file from Hedera using the pointer, and optionally imports stealth key if payment attached.\n\nWhy Stealth Addresses:\nStealth addresses let a sender create a one-time destination for each transfer or message, so the recipient can receive privately — but no one (not even the recipient) can link it back to the sender’s main wallet.\n\nWhy Hedera:\nHFS offers cheap, decentralized file storage and eliminates gas-heavy upload costs on Ethereum while keeping full stealth compatibility.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/whisper-v50ju",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

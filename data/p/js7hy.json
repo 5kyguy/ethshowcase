@@ -1,0 +1,35 @@
+{
+  "id": "js7hy",
+  "slug": "mnemo-agents",
+  "title": "Mnemo Agents",
+  "tagline": "AI agents as iNFTs on 0G. Breed two, get a child. Royalties flow up the lineage forever.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/js7hy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZH6qgIzPtsVRMrGFGKwAx4aevz009flb6vcv726As6Fk/high.mp4",
+  "demo_url": "https://mnemosyne-app-five.vercel.app/",
+  "source_url": "https://github.com/KennieHarold/mnemosyne",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "Best Autonomous Agents, Swarms & iNFT Innovations",
+      "title": "Best Autonomous Agents, Swarms & iNFT Innovations"
+    }
+  ],
+  "finalist": false,
+  "description": "Mnemosyne is a protocol for AI agents that live on-chain as ERC-7857 intelligent NFTs (iNFTs) on the 0G Galileo testnet. Each agent is a fully-formed character: a name, tagline, system prompt, traits, skills, and memory, whose \"intelligence\" is encrypted client-side with AES-256-GCM, uploaded to 0G Storage, and addressed by its Merkle root hash on the NFT itself. The agent is never stored in plaintext anywhere; it is decrypted only inside the server at the moment of inference.\n\nUsers can do four things:\n\n* Mint a Genesis (Gen-0) agent. Define a persona, get an ENS subname under mnemo.eth, and receive an iNFT that owns the encrypted intelligence blob.\n\n* Chat with any agent. Inference runs through the 0G Compute Network broker, streaming tokens back over NDJSON. Every paid invocation triggers MnemoLineageSplitter.payInvocation(tokenId), which fans the fee out: 50% to the invoked agent's owner, 30% split across its parents, 15% across its four grandparents, and 5% to the protocol treasury. Recipients pull funds via claim().\n\n* Breed two agents into a child. The server decrypts both parents, runs three LLM passes (merge personalities, pick a name from history, myth, or literature, then rewrite the system prompt in the child's voice), encrypts the result, uploads it to 0G Storage, and the user submits breed(parent1, parent2, ...) on-chain. The contract records the lineage, increments the generation, and auto-populates ENS text records (parents, children, generation).\n\n* Look up any agent by ENS name. The Mnemo ENS lookup tool (https://mnemosyne-agent-profile-sepolia.vercel.app/) resolves any <label>.mnemo.eth subname and surfaces the agent's text records — generation, tagline, traits, parents, children pulled directly from ENS. Try augustus.mnemo.eth, socrates.mnemo.eth, or marcus.mnemo.eth.\n\nEvery agent is resolvable as <label>.mnemo.eth from any standard ENS client. A Sepolia OffchainResolver defers reads to a Cloudflare Workers CCIP-Read gateway (EIP-3668), which reads the actual records off the 0G NFT and returns a signed response, so the Ethereum mainnet ENS UX works against state stored on a different chain entirely.",
+  "how_its_made": "The stack. Mnemosyne is a pnpm monorepo with four packages: a Next.js 16 / React 19 frontend (@mnemosyne/app), a Hardhat 3 + Ignition Solidity package (@mnemosyne/contracts), a Cloudflare Workers CCIP-Read gateway (@mnemosyne/gateway), and a separate Next.js ENS profile viewer (agent-profile-sepolia). The frontend is styled-components + wagmi + viem, with @xyflow/react powering the interactive lineage tree.\n\nThe contracts. MnemoAgentNFT extends a clean-room ERC-7857 implementation (still a draft EIP) and is deployed behind an OpenZeppelin UpgradeableBeacon + BeaconProxy so the iNFT logic can evolve without breaking token IDs. We use ERC-7201 namespaced storage (agent.storage.MnemoAgentNFT) to stay upgrade-safe across inheritance. MnemoLineageSplitter is a pull-payment royalty fan-out that walks two generations of the family tree per invocation; it try/catches every ownerOf so a burned ancestor cannot brick the split, and any dust gets swept to the treasury.\n\n0G Storage + 0G Compute (partner tech). This is the core of the project. Each agent's intelligence (system prompt, traits, skills, memory) is JSON, encrypted with AES-256-GCM (iv | authTag | ciphertext), passed through ZgFile.merkleTree(), and uploaded with @0gfoundation/0g-ts-sdk's Indexer.upload. The Merkle root hash becomes the NFT's dataHashes[0], so the on-chain reference is the storage address. At inference time we resolve the encrypted URI from the NFT, pull the blob back from 0G Storage, decrypt it server-side, and stream tokens out of @0glabs/0g-serving-broker (the 0G Compute Network broker, OpenAI-compatible). The frontend gets it as NDJSON status events: resolving agent → connecting broker → acknowledging provider → downloading intelligence → signing request → thinking.\n\nCross-chain ENS via CCIP-Read. ENS lives on Ethereum, but our NFT lives on 0G. We bridged them with EIP-3668: a Sepolia OffchainResolver reverts with OffchainLookup pointing at our Cloudflare Worker, which DNS-decodes the name, reads addressForLabel/textForLabel off the 0G contract via viem, signs the (sender, request, result, expires) tuple, and the L1 resolver verifies the signature against an allow-listed signer set. So augustus.mnemo.eth resolves in any standard ENS client, but the actual state lives on a different chain.\n\nThe breeding pipeline. Server decrypts both parents, then runs three sequential LLM passes through the 0G broker: merge personalities into strict JSON, pick a real or fictional character name (history/myth/literature) whose archetype matches, then rewrite the system prompt in the child's voice. We fetch every currently-taken ENS label from chain and feed them to the namer as a do-not-reuse list, plus a fallback if the model goes off-script.\n\nHacky bits worth mentioning. ethers and viem cohabit because the 0G SDK requires an ethers Wallet, while the rest of the app is viem-native, so a few signer as unknown as Parameters<...>[0] casts are load-bearing. payInvocation is fire-and-forget from an escrow wallet so chat latency does not block on a tx confirmation. The Verifier scaffolds TEE and ZKP modes but currently short-circuits to isValid = true (TODOs are explicit) so we could ship the lineage and royalty story for the demo.",
+  "auto_summary": "A monorepo for minting, breeding, chatting with, and resolving on-chain AI agent NFTs using 0G services and ENS-based identity.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mnemo-agents-js7hy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

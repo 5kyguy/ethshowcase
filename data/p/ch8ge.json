@@ -1,0 +1,27 @@
+{
+  "id": "ch8ge",
+  "slug": "brick-finance",
+  "title": "Brick Finance",
+  "tagline": "Tokenised real-world asset series with a Uniswap V4 hook market that keeps a standing floor bid",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ch8ge/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hW01jyv5iRmqTYHohJwgxcotlEFgBH3oNhw9Dmg9WKJ4/high.mp4",
+  "demo_url": "https://brick.finance.willian.asia",
+  "source_url": "https://github.com/azkawm/BrickFinance",
+  "finalist": false,
+  "description": "BrickFinance is a launchpad for verified real-world asset participation markets, running as a hackathon demo on Base Sepolia. Each asset series is one system deployed by a factory: a capped, permissioned ERC-20 (ERC-3643-style identity registry and compliance modules), a stablecoin vault with separate accounting buckets, a primary offering, a revenue distributor, a reserve-limited redemption controller, and a Uniswap V4 pool whose hook is the market maker.\n\nThe demo carries two live series, Solar Indonesia 01 (SOLAR01, renewable energy) and Palm Oil Indonesia 01 (PALM01, agriculture). A primary purchase splits 65/30/5 into issuer proceeds, the redemption reserve and a market-making allocation. The hook holds exactly two positions in the pool: an anchor band around the live price and a one-spacing \"market floor bid\" below it, funded only from that 5% allocation and a 2% skim on every upward re-centre. Every trade runs the crank inside the same transaction: when the price leaves the band, the hook re-centres the anchor, steps the floor up one spacing, and credits realised stablecoin fees to the reserve. The floor never comes down and never borrows from the reserve.\n\nFour prices are always kept distinct on the desk: the pool spot, the verifier-published NAV, the market floor bid with whether the reserve covers it, and the redemption price, which is min(NAV, backing per token) and is what a redeem actually pays. Revenue deposits split 60/25/10/5 between holders, reserve, operator and protocol (40/45/10/5 while the reserve is behind its backing schedule), and only yield-eligible circulating tokens earn.",
+  "how_its_made": "Contracts are Solidity 0.8.26 with Foundry, 306 tests including stateful invariants, run against the real Uniswap V4 PoolManager in-process under both token orderings. The market manager is the V4 hook (beforeSwap/afterSwap plus liquidity guards) and the only liquidity provider. Three V4 facts shaped the design: the PoolManager skips a hook's callbacks when the hook itself is the swap caller, so trades enter through a separate MarketRouter and the crank runs in afterSwap; the hook address is mined with a salt so its flag bits match; and the manager's initcode is stored in SSTORE2 blobs by a small deployer so the factory stays under EIP-170. The crank runs inside a gas-capped try so an out-of-gas rebalance can never revert a trade, and we measured live that trades need an explicit 1,400,000 gas limit or the gate skips.\n\nThe backend is Fastify, viem and PostgreSQL with plain SQL migrations. The indexer discovers a series from factory events, ingests logs idempotently keyed by transaction and log index, checkpoints block hashes, detects reorgs by walking stored blocks, rolls back and rebuilds projections to a fixed point, and aggregates the pool's Swap events into candles at read time. Every response carries provenance and the indexed block. The swap quote is the trick we are proudest of: an eth_call with a state override places a probe contract at the quote wallet's address and runs the real MarketRouter.swapExactInput, returning amount out, amount actually spent, whether the fill is partial, and whether the trade will re-centre the market, with no signing key anywhere in the backend.\n\nThe frontend is React 19 and Vite with wagmi and viem, TanStack Query, Tailwind v4 and TradingView Lightweight Charts. The floor bid on the chart is rebuilt as a step series from the manager's own events, snapped to the candle interval so it never adds phantom columns. Wallet writes approve the router once, send the quote's gas limit, decode the receipt into plain-language notes and toasts, and refetch until the indexer has passed the receipt's block.\n\nDeployment: Base Sepolia only, two series deployed from Foundry scripts that mine the hook salt against the bytecode the on-chain deployer stores. Hosting is a 480 MB VPS behind nginx and Let's Encrypt, so the Docker images are built on the developer machine and streamed over SSH rather than built on the box.\n\nTwo notes. The description says \"hackathon demo\" and \"no audit\" on purpose; the form's readers should see the same honesty as the portal. If the form has a separate \"tech stack\" tag list, the tags are Solidity, Foundry, Uniswap V4, Base, TypeScript, Fastify, PostgreSQL, React, Vite, wagmi, Docker, nginx.",
+  "auto_summary": "BrickFinance is a Base Sepolia RWA demo combining permissioned asset issuance, reserve-backed redemption, revenue distribution, and a Uniswap v4 hook market.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/brick-finance-ch8ge",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

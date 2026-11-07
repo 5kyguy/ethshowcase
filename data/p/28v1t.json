@@ -1,0 +1,22 @@
+{
+  "id": "28v1t",
+  "slug": "swati",
+  "title": "Swati",
+  "tagline": "choreographic runtime for agents <> write the protocol once, run each agent anywhere",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/28v1t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HTM01US9p94hACNqQccsbWMqaISwK8ElOAMehyZGCgT00/high.mp4",
+  "demo_url": "https://github.com/cinaxriver/swati",
+  "source_url": "https://github.com/cinaxriver/swati",
+  "finalist": false,
+  "description": "every multi-agent framework I've seen makes the same assumption: coordination is an llm problem. good prompts, good memory, good routing - eventually they'll coordinate. that assumption is wrong.\n\ncoordination between independent processes is a distributed systems problem. when A sends to B, who guarantees B receives it? when three agents need to branch on the same decision, who guarantees they all take the same branch? no prompt answers these questions.\n\nSwati answers them structurally. you write one TypeScript file describing the full protocol, who speaks, to whom, when, with what conditions. each role runs as a separate process. runtime projects that file down to each participant: every agent sees only its own steps, `send`  always has a matching receive, branching decisions are broadcast so all roles take the same path.\n\ntbh: it's deadlock-free by construction under normal execution. it doesn't handle adversarial agents or network partitions. if a role crashes, the others time out and fail cleanly. guarantee is structural, not adversarial.\n\nyou don't orchestrate agents. you describe the protocol once. protocol runs itself.\n",
+  "how_its_made": "core is a conductor interpreter that walks a typescript choreography function and, per step, asks: does this belong to my role? if yes, execute it and append a signed entry to the log. if no, wait or skip. this is endpoint projection - a formal result from choreographic programming theory\n\nbefore any run starts, all participants exchange a signed attestation containing the choreography's sha256. If any machine is running a different version, run aborts before any work is done - no silent mid-run mismatches. every action is logged as an ed25519-signed, hash-chained entry. `swati verify`  replays the chain and checks every signature.\n\nagents communicate over gensyn axl <> three separate nodes, genuinely distributed. choreography source and execution logs are stored on 0g. roles are discovered via ens(optional). `SwatiRegistry.sol`  lets any participant verify onchain that they're running correct choreography with the correct peers.\n\nevery integration < transport, storage, llm, gate provider > is a swappable adapter. choreography file never changes; only the config does. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/swati-28v1t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

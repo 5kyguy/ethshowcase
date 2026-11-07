@@ -1,0 +1,22 @@
+{
+  "id": "o6w8i",
+  "slug": "builder-reputation",
+  "title": "Builder reputation",
+  "tagline": "Trustless builder reputation: scored in your browser from public data, attested & verified on Base.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o6w8i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yOg8Jr02IUAQ3rDcH7hYYj2hSZE8XlDgKyiMe00EFoDoI/high.mp4",
+  "demo_url": "https://the-final-app-wine.vercel.app/",
+  "source_url": "https://github.com/0xleal/open-builder-score",
+  "finalist": false,
+  "description": "Open Builder Score is a builder score you don't have to trust. Enter any wallet or ENS name (plus an optional GitHub handle) and your browser computes a Builder Score entirely client-side from public data — badges and token holdings across 6 chains, GitHub activity, SpeedRun Ethereum challenges, and existing EAS attestations. No backend, no database of people, no accounts: nothing leaves your machine except the public queries themselves.\nEvery point is explainable — each credential card shows the raw value and the exact formula that produced it. When you like your score, one click attests it on Base via EAS. And here's the part we care about most: anyone can open that attestation in the app and it recomputes the score from scratch, then tells you honestly whether it matches, has diverged as public data moved, or can't be compared (revoked / older spec version). Trust comes from recomputation, not from us.\nOn top of that loop: aggregate up to 5 wallets into one score (badges on one wallet, tokens on another, all counted), verify GitHub handle ownership so you can't attest someone else's reputation, see your percentile among everyone who has attested, and browse any wallet's attestation history. The scoring spec is Talent Protocol's production Builder Score math, opened up as a versioned JSON spec so the same inputs always produce the same score — for anyone.",
+  "how_its_made": "Next.js 16 + viem/wagmi/RainbowKit, the EAS SDK, Motion for the \"signal scan\" UI, and 163 Vitest tests. The scoring engine is a pure function over a versioned spec JSON extracted from Talent Protocol's production scorer (conversions like sqrt/log/timestamp-to-year, sum-all vs max-value across accounts), golden-vector tested against production outputs. Chain reads are one Multicall3 round-trip per chain across 6 chains with public-RPC fallback lists and per-chain failure isolation — \"couldn't check\" is never displayed as \"not earned\".\nAttestations embed spec_version, score, computed_at, and an as-of Base block, so the verifier can recompute honestly and classify the result (match / diverged / incomplete / not comparable). The percentile feature had a fun constraint: scores live ABI-encoded inside attestation data, so no indexer can group by them — we page the schema-wide corpus from easscan GraphQL, decode client-side, dedup to each wallet's latest attestation, and rank strictly-below (with easscan's aggregate count keeping the \"top N%\" honest when we truncate).\nHackiest bit: GitHub sign-in with zero scopes and zero secrets via the OAuth device flow. GitHub's device-flow endpoints send no CORS headers, so the app's ONLY server code is two stateless same-origin passthrough routes that pin the client_id and grant_type server-side (so they can't be abused as an open proxy). Handle verification then gates attestation — you can't attest a score wearing someone else's GitHub handle. Multi-wallet aggregation fell out of the engine design almost for free: credentials already model per-account value lists, so aggregating is just concatenating accounts — while attestation stays single-wallet so the verify loop can't be gamed.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/builder-reputation-o6w8i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

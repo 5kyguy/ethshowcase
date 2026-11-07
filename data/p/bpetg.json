@@ -1,0 +1,25 @@
+{
+  "id": "bpetg",
+  "slug": "veilpay",
+  "title": "VeilPay",
+  "tagline": "Invisible payments. Send ETH on Base, receive shielded USDC on Arc. Zero on-chain trace.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bpetg/banner/default.jpg",
+  "source_url": "https://github.com/bearlusconi-bera/ETHGlobalCannes",
+  "finalist": false,
+  "description": "VeilPay is a confidential treasury payment system that lets you send ETH on Base Sepolia and have it arrive as private USDC in the recipient's shielded wallet on Arc Testnet — with zero public on-chain visibility of who received what amount.\n\nThe sender connects their wallet, enters a recipient address and ETH amount, and clicks \"Send Privately.\" Behind the scenes, VeilPay swaps ETH to USDC via Uniswap's Trading API, bridges it cross-chain through Circle's CCTP, deposits it into Unlink's shielded pool, and transfers it privately to the recipient. The recipient connects their wallet, sees their private balance, and can withdraw as USDC or exit-swap to ETH/WBTC via Uniswap — all without revealing the payment amount on-chain.\n \nVeilPay also supports batch payments: upload a CSV with multiple recipients and trigger a single confidential payroll run. Every transaction hash is clickable and verifiable on block explorers across both chains. An on-chain audit module on Arc provides cryptographic proof that total deposits match total distributions — trustless transparency without compromising privacy.",
+  "how_its_made": "VeilPay is built as a monorepo with three packages: a Next.js 15 frontend (React 19, Tailwind v4, wagmi), an Express/TypeScript backend orchestrator, and Foundry smart contracts deployed on Base Sepolia and Arc Testnet.\n \nThe payment pipeline is a 7-stage orchestrator that chains four partner technologies in sequence. First, Uniswap's Trading API (with Permit2 approvals) swaps the sender's ETH to USDC on Base Sepolia. Then Circle's CCTP bridges that USDC cross-chain from Base Sepolia to Ethereum Sepolia using burn-and-mint attestations. Next, the Unlink SDK deposits the USDC into a shielded pool and executes a private transfer to the recipient's Unlink identity — this is where the privacy happens, as the transfer is invisible on-chain. Finally, the recipient can withdraw as USDC or exit-swap to ETH/WBTC through Uniswap on the way out.\n \nThe hackiest part: we auto-generate an Unlink mnemonic on first visit and stash it in localStorage keyed by EVM address — zero-friction onboarding with no backup prompts. The recipient just connects MetaMask and instantly has a shielded identity.\n \nA custom AuditModule smart contract on Arc Testnet uses OpenZeppelin's MerkleProof library to verify that the sum of all private distributions matches total deposits — cryptographic transparency without breaking privacy. The frontend polls the backend's pipeline status endpoint every 3 seconds, rendering a real-time 7-stage progress tracker with clickable block explorer links for every on-chain transaction across both chains.",
+  "auto_summary": "A monorepo app that orchestrates ETH-to-USDC swaps, cross-chain transfers, private payments, and audit commitments across Base Sepolia and Arc Testnet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/veilpay-bpetg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

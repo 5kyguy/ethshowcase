@@ -1,0 +1,26 @@
+{
+  "id": "ffu2y",
+  "slug": "silicon-markets",
+  "title": "Silicon Markets",
+  "tagline": "Prediction markets on GPU rentals. Hedge compute costs with USDC, settle on Arc.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ffu2y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZW3VhlPOuQ01K01BynB15ZzxvTQp8wgNePqzTHHuRQ01gE/high.mp4",
+  "source_url": "https://github.com/Robertiscoding/Silicon_Markets",
+  "finalist": false,
+  "description": "Silicon Markets lets you forecast what it'll cost to rent an NVIDIA GPU tomorrow. Each market covers one card (RTX 5090, H100 SXM, H200, B200, A100 SXM4, or the RTX PRO 6000 WS) and asks where its rental price lands at 4 PM ET the next day. You pick a price range, stake USDC, and when Ornn publishes the official 4 PM print on-chain, everyone who got it right splits the pool.\n\nMost prediction markets are pure speculation. Ours sit on top of a real index that GPU traders already watch, so a provider or a buyer can use them to hedge actual compute costs instead of just gambling. You can take a position two ways. The pari-mutuel pool is the simple one: pick a center and a band, stake, and winners share the pot. There's also an order book if you'd rather post or fill asks directly, with 1 USDC escrowed per share on both sides. USDC is the stake, the payout, and the gas, so there's no second token to hold and nothing to bridge before you can play.",
+  "how_its_made": "Everything runs on Circle's Arc. There are three Solidity contracts, written with Foundry and OpenZeppelin: OrnnOracle, where a permissioned key publishes the daily price prints; SiliconMarket, the pari-mutuel pool; and BucketMarket, an order book that escrows 1 USDC per share between maker and taker. Stakes, payouts, and gas are all native USDC at 0x3600.\n\nAn off-chain agent does the real-world part. It's Node and TypeScript with viem, and it scrapes the Ornn Compute Price Index with Puppeteer, keeps a JSON archive of every print, and pushes the 4 PM number on-chain to resolve markets. The frontend is Next.js 16, React 19, and wagmi/viem. It talks to Arc over a QuickNode endpoint, using HTTPS for the reads and writes and a WSS subscription for live order-book updates. Circle's Multicall3 folds 24 bestAsk reads into one eth_call, which is what keeps the book snappy.\n\nWe lean on the Circle App Kit SDK in two places. Send (kit.send) backs a \"get $1 test USDC\" button and the CLI funder. Bridge (kit.bridge, on CCTP V2) backs a Deposit button that moves USDC from any CCTP testnet into Arc, all in the browser and signed through the viem adapter. The one thing that genuinely tripped us up: Arc's native USDC routes ERC-20 calls through a compliance precompile that Foundry can't simulate locally. So a forge script that touches USDC reverts in simulation even though the same call goes through fine on-chain. We got around it by deploying the contracts with forge (no USDC calls in that step) and seeding the markets afterward with plain cast send transactions, all scripted so it's reproducible.",
+  "auto_summary": "A prediction market on Arc lets users stake native USDC on next-day GPU rental price ranges using oracle-settled pool and order-book contracts.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/silicon-markets-ffu2y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

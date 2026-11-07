@@ -1,0 +1,27 @@
+{
+  "id": "q5ypt",
+  "slug": "rerun",
+  "title": "Rerun",
+  "tagline": "Money on an AI guard's verdict: stake it, re-run the check, slash it if wrong. On 0G.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q5ypt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lVS1pkwMBlkKdfUxgLpKQZN1kliKC2sx3fgHrtzOKu00/high.mp4",
+  "demo_url": "https://www.youtube.com/watch?v=zVIRo14czQw",
+  "source_url": "https://github.com/Aui76/rerun-0g",
+  "finalist": false,
+  "description": "Rerun is an accountability layer for AI agent actions, built on 0G.\n\nThe problem: AI \"guard\" agents already decide whether an on-chain action is safe, but nobody makes them pay when they are wrong. A guard can wave through a bad action and face no consequence. Rerun turns that verdict into something with money behind it.\n\nHow it works, in three beats:\n1. Attest — a guard posts \"this action is safe\" and puts down a stake, binding the exact check it ran.\n2. Challenge — within a challenge window, anyone re-runs that deterministic check. If the guard's claim disagrees with the re-run, the challenger takes the stake.\n3. Settle — if the window closes unchallenged, the honest guard reclaims its stake.\n\nThe key idea: the stake is bound to a deterministic, re-runnable check, not to the model's opinion. The agent proposes; the check decides. You never re-run the LLM — you re-run the check — so \"anyone can verify\" works even though AI is nondeterministic. A wrong \"safe\" verdict costs real money, and the payout to the challenger IS the enforcement.\n\nBuilt on 0G:\n• 0G Chain — the Rerun contract (Solidity/Foundry) settles the stake, challenge, and payout. Deployed live on 0G Galileo testnet (chain 16602) at 0x8f22025fCa35de84Ff302aCa8bB9Da3B210f5334.\n• 0G Storage — the guard publishes the exact check to 0G Storage and binds its root on-chain. A challenger fetches it back across multiple nodes, bytes verified, without trusting the guard. A database is a promise; a storage commitment is verifiable.\n• 0G Compute — when the check is an AI judgment, the guard's verdict comes from a sealed inference on 0G Compute (qwen2.5-omni-7b), paid per call on-chain.\n\nRemove 0G and there is nothing to enforce a wrong verdict. Built solo at ETHGlobal Lisbon.",
+  "how_its_made": "Stack: Solidity + Foundry for the contract, Node.js + ethers.js for the example guard/challenger agents, and three 0G primitives wired together.\n\nContract (0G Chain): Rerun.sol implements attest → challenge → settle. An Attestation stores the target, value, the guard's claimed verdict, the stake, a challenge deadline, and a checkRoot (the 0G Storage root of the exact check). Settlement follows checks-effects-interactions — stake is zeroed before any payout — so there's no reentrancy on the seized funds. Tests in Foundry cover both paths: an honest attestation that holds and settles, and a bad action that slips through and pays the challenger. Both green.\n\n0G Storage: the guard serializes the check (a JSON policy) and uploads it via the 0G Storage TS SDK (Indexer + MemData). The returned root is bound on-chain as checkRoot. The challenger downloads the check straight back from Storage across multiple node locations, verifies the Merkle proof, and re-runs it — so it never trusts the guard's copy.\n\n0G Compute: for AI-judgment checks, the guard's verdict is a sealed inference. I create a broker with createZGComputeNetworkBroker, fund a ledger, and call a TEE provider (qwen2.5-omni-7b) via the OpenAI-style chat endpoint with per-request signed headers; the fee settles on-chain. The model reads the policy and returns SAFE/UNSAFE.\n\nHacky bits worth flagging: (1) 0G Galileo's real chain ID is 16602, not what some docs say — and its gas mechanism rejects the default EIP-1559 tip, so i deploy with--legacy and a fixed gas_price in foundry.toml. (2) The Storage SDK's upload() returns an object, not a string, so the root must be unwrapped from .rootHash. (3) The Storage download refuses to overwrite an existing file, so the agent deletes any stale copy first — which also makes the whole demo idempotent and re-runnable for graders. (4) ethers is pinned to 6.13.1 to satisfy the Storage SDK's peer requirement.\n\nThe TEE attestation verification (processResponse) doesn't return a valid signature on the current testnet providers, so i made that step best-effort rather than faking it — the inference itself runs and settles.",
+  "auto_summary": "A Solidity contract and Node scripts implement stake-backed attest, challenge, and settlement flows for re-runnable AI safety checks on 0G.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/rerun-q5ypt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

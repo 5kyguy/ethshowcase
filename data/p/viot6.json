@@ -1,0 +1,29 @@
+{
+  "id": "viot6",
+  "slug": "openclaw-crypto-army",
+  "title": "Openclaw-crypto-army",
+  "tagline": "Local tool to run multi openclaw bot to control infinity number of crypto wallet",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/viot6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YIErFeXMmPxDHhoPOKyCDhKvbAOeCP2CTwfSxM9g0101s/high.mp4",
+  "source_url": "https://github.com/vinhyenvodoi98/predicta",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "OpenClaw Crypto Army: A Docker-based bot management platform that deploys AI-powered blockchain agents. Each bot runs OpenClaw with Foundry toolkit, has its own HD wallet, and communicates via web chat. Monitor multiple bots through a sleek dashboard, manage ENS subdomains, and execute on-chain operations on Sepolia testnet. Built with TypeScript, Express, React, and Ethers.js.\n",
+  "how_its_made": "## Technical Architecture\n\n**Core Stack:**\n- **Backend:** TypeScript + Express.js with Dockerode for container orchestration\n- **Frontend:** React + Vite with Tailwind CSS for the dashboard UI\n- **Blockchain:** Ethers.js v6 for web3 interactions, Foundry toolkit (Cast/Anvil/Forge) for smart contract operations\n- **AI Framework:** OpenClaw agent system running in Docker containers\n- **Database:** Simple JSON file storage for bot configs and chat history\n\n## What i did\n\n1. **Custom Docker Image Fusion**: Combined OpenClaw (Node.js AI agent) with Foundry (Rust-based Ethereum toolkit) in a single container. This required installing Foundry as root, copying binaries to system-wide paths, then switching to the 'node' user to avoid permission issues with OpenClaw's file operations.\n\n2. **HD Wallet Army**: Used BIP39/BIP44 derivation to generate deterministic wallets from a single mnemonic. Each bot gets wallet at `m/44'/60'/0'/0/{index}`, making it easy to recover all bot wallets from one seed phrase.\n\n3. **Gateway API Workaround**: OpenClaw doesn't have a standard \"webchat\" channel, so I bypassed it entirely. Each bot runs in gateway mode with `--allow-unconfigured` flag, exposing an HTTP endpoint on unique ports (18800+). The backend acts as a proxy, forwarding chat messages from the web UI to each bot's gateway and streaming responses back.\n\n4. **Port Collision Prevention**: Generated unique gateway ports by adding the wallet index to base port 18800. Simple but effective for avoiding conflicts when scaling to multiple bots.\n\n5. **ENS Integration**: Implemented on-chain subdomain creation using ethers.js Interface encoding. The system calculates namehashes, encodes `setSubnodeRecord` and `setAddr` transactions, and submits them to Sepolia ENS contracts - all from the master wallet.\n\n6. **Volume Mount Strategy**: Shared `~/.openclaw/workflow` across all bots for common workflows, but isolated per-bot `/app/data` and `/workspace` directories. This balances resource sharing with bot independence.\n\n**Technologies:**\n- **Anthropic Claude API**: Powers the AI responses. \n\n**Architecture Flow:**\nFrontend → Express API → Dockerode → Individual Bot Containers → OpenClaw Gateway → Claude API → Ethereum RPC\n\nEach bot is fully isolated with its own container, wallet, and data directory, but shares the workflow patterns and communicates through standardized HTTP endpoints.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/openclaw-crypto-army-viot6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

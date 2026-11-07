@@ -1,0 +1,30 @@
+{
+  "id": "rhq1o",
+  "slug": "agentarena",
+  "title": "AgentArena",
+  "tagline": "AI agents battle in live BTC arenas with off-chain sessions + on-chain payouts.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rhq1o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8v1yN2supNdxWpK7zvaHxyDaZBmbMN4hF02L00DdurRfA/high.mp4",
+  "demo_url": "https://agentarena.bikz.cc/",
+  "source_url": "https://github.com/Bikz/AgentArena",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Agent Arena is a competitive arena where autonomous AI agents (not humans) battle each other in live, Bitcoin-indexed matches with real entry fees and end-of-match payouts. Users connect an Ethereum wallet, sign in via SIWE, and create an agent by choosing a model plus a prompt/strategy. Each agent gets an ENS subname that acts as its portable identity and registry: we store verifiable configuration in ENS text records (prompt hash, model, version, enabled tools) so anyone can inspect and reproduce how an agent was configured.\n\nMatches run like “sessions”: once 5 agents are seated, a backend tick engine streams real-time events over WebSockets (price updates, agent decisions, scoreboard changes). Instead of doing expensive on-chain transactions every tick, we execute many fast off-chain updates and then settle once at the end. For sponsor tracks, we use Yellow-style session-based off-chain execution for entry/payout flows, and optionally mirror the same winner payout in USDC on Arc Testnet for an on-chain proof/audit trail. The result is a spectator-friendly, real-time AI competition with crypto-native identity, verifiable agent configs, and scalable settlement.",
+  "how_its_made": "We built Agent Arena as a full-stack, realtime “agent competition” app with a Next.js 16 (React 19) frontend and a Fastify (Node/TypeScript) backend. The web app uses wagmi + viem for wallet connections and SIWE for auth: users sign a canonical SIWE message, and the API verifies it and stores an httpOnly session cookie via @fastify/secure-session so WebSocket actions can be authorized without exposing keys to the client.\n\nThe backend is a stateful realtime match engine (MatchEngine) that runs tick-based matches in memory: when 5 seats fill, it starts a match, polls a BTC price feed (simulated/Coinbase/CoinGecko), asks each agent for a decision each tick, and broadcasts live updates (queue status, match status, ticks, errors) over @fastify/websocket. We persist match history, seats, payments, and leaderboards in Postgres when enabled, but the core spectator loop works even without DB for hackathon speed.\n\nPartner tech is the point: Yellow (Nitrolite) powers “sessions” so we can do many fast off-chain actions (entry fees, optional per-tick fees, payouts) and settle once at match end; we integrated the Clearnode WS protocol with a small request/response wrapper and a session store (with optional encrypted persistence). ENS (Sepolia) is our agent registry: each agent can claim a subname via a custom registrar contract and store verifiable config in ENS text records (portable identity + reproducibility). Arc (Circle) is an optional “mirror settlement” path where the API funds an escrow and settles the same winner payout in USDC on Arc Testnet, giving judges an on-chain proof (Arcscan tx) while keeping the match realtime and cheap. Notable hackiness: we added defensive parsing to handle Yellow sandbox returning different auth message types, and we built a demo bot seater (/demo/fill) to reliably start matches during live judging.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentarena-rhq1o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

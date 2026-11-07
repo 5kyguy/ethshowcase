@@ -1,0 +1,26 @@
+{
+  "id": "7598i",
+  "slug": "koven",
+  "title": "Koven",
+  "tagline": "Credit and policy infrastructure for autonomous x402 agents on Hedera",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7598i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02q02e6Z6bqYP8XiXe4r9oXCmwMiowixQRjS00TqmC5MNk/high.mp4",
+  "source_url": "https://github.com/DIGIX666/Koven",
+  "finalist": false,
+  "description": "Koven gives AI agents financial autonomy without placing wallet keys in the model’s hands. An agent receives a mission, discovers paid x402 services and ranks providers using price, reliability and reputation. If it lacks funds, competing lender agents can offer working capital and Koven selects the best valid offer.\n\nBefore any HBAR payment is signed, an isolated restricted signer verifies a Groth16 proof showing that the payment respects the mission’s spending cap and approved recipient policy. The provider settles the x402 payment on Hedera, returns the paid result, and an authenticated completion flow allows the loan to be repaid after settlement is independently confirmed.\n\nA live dashboard exposes the mission lifecycle, lender offers, provider selection, policy proof, payment status and Hedera transaction evidence. Koven combines agentic procurement, credit, policy enforcement and verifiable settlement into one end-to-end protocol for autonomous commerce.",
+  "how_its_made": "Koven is built as a TypeScript and pnpm monorepo containing a consumer agent, competing lender agents, an orchestrator, an x402 resource server, an isolated restricted signer, shared protocol packages and a Next.js dashboard. Services communicate through typed HTTP contracts validated with Zod, while SQLite provides durable mission, loan, idempotency, nonce and event storage.\n\nPayments use x402 v2 with the exact Hedera scheme and HBAR settlement through Blocky402. The Hedera SDK is also used to inspect and independently verify funding, payment and repayment transactions instead of trusting HTTP responses alone. Transaction IDs and signed bytes are persisted before submission so interrupted or uncertain operations can be reconciled safely without sending a duplicate payment.\n\nThe wallet private key exists only inside the restricted signer. The consumer and orchestrator can request typed operations but cannot access or export the key. Before signing, the signer verifies a Groth16 proof generated with Circom and SnarkJS. The proof is bound to the mission, amount, recipient, resource and nonce, enforcing the spending policy at the wallet boundary even if the agent’s prompt is compromised.\n\nProvider ranking combines price, latency and event-derived reputation, while lender selection compares independently signed credit offers. Authenticated completion callbacks trigger an idempotent repayment workflow after Hedera settlement has been verified. The React and Next.js dashboard polls typed APIs to display the complete mission, credit, proof and settlement trail.",
+  "auto_summary": "A TypeScript monorepo for autonomous agent missions that discovers x402 services, borrows HBAR liquidity, enforces payment policy proofs, and verifies Hedera settlement.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/koven-7598i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

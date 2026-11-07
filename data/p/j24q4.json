@@ -1,0 +1,30 @@
+{
+  "id": "j24q4",
+  "slug": "unitedefi-icp",
+  "title": "UniteDeFi ICP",
+  "tagline": "Unite Escrow – fully on-chain 1inch Fusion+ swaps between Ethereum/Bitcoin and ICP",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/j24q4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Ta4bnyDXDwyVahfbtyAIePgCLQ8XiwhbJY006Nb9gQUw/high.mp4",
+  "demo_url": "https://github.com/reymom/Unite-DeFi-ICP/blob/develop/README.md",
+  "source_url": "https://github.com/reymom/Unite-DeFi-ICP",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "2nd place",
+      "title": "Extend Fusion+ to ICP"
+    }
+  ],
+  "finalist": true,
+  "description": "Unite Escrow brings the entire **1inch Fusion+** stack on-chain by rewriting it as Internet-Computer canisters.\n\nInstead of off-chain relayers & scripts, every role now lives on ICP:\n\n- **Orderbook canister** – Dutch-auction engine that stores all intents.\n- **Relayer canister** – imports orders, ticks the price curve, elects a winner, and guards the secret.\n- **Factory canister** – deploys hash-time-lock escrows in ICP (CREATE2-like via canister WASM).\n- **Universal Escrow canister** – holds ICP/ICRC assets, auto-pulls via ICRC-2, supports lock/withdraw/cancel windows and safety-deposit logic identical to 1inch Solidity.\n- **Resolver canisters (bots)** – permission-less actors that race to accept the best price, deploy both escrows, verify them, reveal the secret, and withdraw on both chains.\n- **Chain-Fusion HTTPS out-calls** let the relayer & resolvers read EVM events and even broadcast Bitcoin HTLC spends – no off-chain servers.\n\nFocus this weekend: **Ethereum ↔ ICP** MVP with a mocked EVM leg so judges watch the entire happy path live; Bitcoin code scaffolded.\n\nOnce merged, the infra lets anyone spin up a resolver with custom risk parameters (slippage, profit floor, asset allow/deny lists) and earn yield by arbitraging Dutch auctions.",
+  "how_its_made": "- **Rust + Candid** for all canisters.\n- **ic-cdk** and **icrc-ledger-types** for ICRC-1/2 transfers.\n- **StableBTreeMap** for on-chain order & escrow registries (upgrade-safe).\n- **Chain-fusion** HTTPS out-calls for EVM JSON-RPC; CREATE2 address verification coded in Rust (`encode_src|dst_immutables`).\n- **Timers**: relayer ticks every 5 s; resolver polling configurable via `automatic_tick` flag.\n- **Secret flow**: maker includes 32-byte secret with order → relayer holds it → after both escrows verify, secret revealed on-chain → withdraw functions unlocked.\n- **Hacky but fun**:\n    - Factory transfers ICP to the brand-new escrow *before* installing WASM, side-stepping allowance-routing.\n    - Resolver demo mode mocks the EVM escrow and logs a realistic withdraw line with token `T1INCH` and calculated amount.\n    - Sed-one-liner grabs the escaped secret blob from `verify_and_reveal_secret` and pipes it straight into `withdraw` – no manual hex edits on video.\n\nTechnologies glued together:\n\n| Piece | Tech |\n| --- | --- |\n| Canisters | Rust, ic-cdk |\n| Dutch curve | piece-wise linear interpolation in stable map |\n| ICP ledger | local ICRC-1/2 canister for tests |\n| EVM side | 1inch Fusion Solidity ABI re-encoded in Rust, verified via eth_call |\n| Front-end | Vite + React (UI not shown in demo to save time) |\n\nWith everything on ICP, wallets need only one call (submit_order); validators & withdrawals are self-custodied, censorship-resistant, and composable with the broader IC DeFi ecosystem.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/unitedefi-icp-j24q4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

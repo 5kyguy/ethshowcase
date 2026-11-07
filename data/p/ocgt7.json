@@ -1,0 +1,22 @@
+{
+  "id": "ocgt7",
+  "slug": "sui-1inch",
+  "title": "Sui 1inch",
+  "tagline": "Cross-chain-swaps style escrow contracts built on the sui framework",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ocgt7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fRxH02WQrdopd2riTeVndlu1kk92iEmB9Yo8BNwGfPYY/high.mp4",
+  "demo_url": "https://github.com/jveer634/sui-1inch/",
+  "source_url": "https://github.com/jveer634/sui-1inch",
+  "finalist": false,
+  "description": "The novice implementation of the Cross chain swap escrow framework to the sui blockchain network.\n\nRight now, the contracts are only able to support the Sui chain swaps only and that is because the EVM doesn't support sui address and sui contracts can't hold EVM address. Even though I declare the EVM addresses as bytes on the Sui and somehow manage to fit the Sui address on solidity. the problem rises when\nScenario 1 - maker Sui address\nOn solidity - deploy Escrow\n1. Can't verify signature\n2. During cancel, transfer ERC20 to maker fails\nScenario 2 - Maker EVM address - on success DSTASSEtT to maker - withdraw\n1. Can't withdraw funds since transferring funds to maker (modified sui) address is not possible.\n\nThe cross - chain is only possible when \nImmutables contains\n1. maker src  address\n 2. maker dst address\n3. taker src address\n4. taker src address\n\nWith that, we will have 2 address on both the ends to transfer assets seamlessly .",
+  "how_its_made": "The project uses Sui move framework for the contract development. \n\nI have tried to mimic the entire architecture followed by the Cross-chain-swap contracts on the EVM as much as possible apart from the datatypes which I implemented according to the sui standard such as timelock is a wrapper around u256 rather than a direct u256 (as in solidiy) and also the timestamp on sui works on milliseconds with I divided with 1000 right when we are comparing so to keep the timelocks functionality same as Solidity contracts.\n\nThe major architectural change would be when the relayer is trying to deploy the Src Escrow because by nature Sui network doesn't allow pull architecture like ERC20 (approve and transferFrom). So, The change I had to do is make the user and resolver both sign the deployEscrow transaction and make the resolver pay for the transaction (Multisig are by default supported by the Sui network)",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sui-1inch-ocgt7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

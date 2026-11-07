@@ -1,0 +1,41 @@
+{
+  "id": "q8iiy",
+  "slug": "thurman-protocol",
+  "title": "Thurman Protocol",
+  "tagline": "Automated secondary loan sales with onchain USDC settlement and trustless execution",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q8iiy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TTA58dUEQEtCGfa5W9YMZbciaYJTBjOIAqUOScpHiS00/high.mp4",
+  "demo_url": "https://app-staging.thurman.io/",
+  "source_url": "https://github.com/thurmanlabs/thurman-monorepo",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "1st place",
+      "title": "Arc Continuity Track: Extend the Arc Ecosystem"
+    },
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Best Chainlink-Powered Upgrade",
+      "title": "Best Chainlink-Powered Upgrade"
+    }
+  ],
+  "finalist": true,
+  "description": "This project extends an existing POC for secondary loan sales onchain. Initially, we allowed users to create loan packages and list them onchain via an atomic escrow mechanism, where buyers can deposit USDC to purchase loans. Now, using Chainlink CRE and Docusign API webhooks the settlement happens trustlessly and automatically once both parties completely sign the agreement. The mechanism is designed around delivery-vs-payment, meaning in a single transaction the packages/loans and USDC swap hands between Sellers and Buyers. Sellers can also opt-in to have their funds forwarded to an external account and chain via Circle Forwarder, all configured via the smart contract. Onchain details are fully abstracted away from the user.",
+  "how_its_made": "**IMPORTANT REPO NOTES**\n- This project is a continuation of an existing product, that could not be forked, due to the existing CI/CD pipeline on Google Cloud Platform. The first commit from the hackathon was done on Friday, June 12th @ 8:54pm after Kartik's announcement speech.\n- All work was done on STAGING branch exclusively, https://github.com/thurmanlabs/thurman-monorepo/commits/staging\n\nBackground: The stack is a Turborepo monorepo with a Next.js web app, Hono API, background worker, and CRE workflow package. Infra is Google Cloud Run with Neon Postgres. Smart contracts are written in Solidity with Foundry and deployed on Arc testnet. User accounts are created via Circle developer-controlled wallets (smart contract accounts).\n\nThe core settlement contract is DvPEscrow.sol, a delivery-versus-payment escrow that holds package (ERC-721) and loan (ERC-1155) tokens from the seller and USDC (ERC-20) from buyers. When settlement fires it atomically deducts a platform fee, pays the seller, and distributes loan tokens to buyers pro-rata. The seller payout has two paths: (1) if the seller configured a CCTP destination inside of the PackageNFT.sol, settlement calls ITokenMessengerV2.depositForBurnWithHook() which routes proceeds through Circle's Forwarding Service to the destination chain. Otherwise it transfers USDC directly on Arc to the sellers SCA wallet. Same contract, same settlement function, conditional on whether a destination address is set.\n\nThe real-world settlement trigger is Docusign. When an escrowed package is fully funded, a document is generated and sent to Seller and all Buyers (there can be N buyers but always 1 seller). Then when all parties sign a purchase agreement, a Docusign webhook posts to our API, which verifies the payload with HMAC-SHA256 timing-safe comparison, commits the envelope status as COMPLETED to Postgres, then fires an HTTP trigger to the Chainlink CRE workflow.\n\nThe CRE workflow is TypeScript simulated on my staging environment, see bottom notes for the exact hacky solution to get this running on a deployed staging environment. It runs five steps: (1) verify the Docusign envelope status via our internal API, (2) call canSettlePackage() on-chain to confirm escrow conditions are met, (3) build a report payload of the package ID, and chain ID where the chain ID is checked in our ThurmanReceiver.sol (based on Chainlink's ReceiverTemplate.sol) to prevent cross-chain replay, (4) write the report through the Chainlink CRE simulation mode to DvPEscrow.onReport() which triggers the atomic settlement, and (5) finally POST back to our API to mark the package settled in Postgres and send Mailgun confirmation emails to the seller and all buyers resolved from on-chain addresses. All in a single CRE workflow.\n\nNotably hacky, CRE runtime and workflow aren't super friendly for programatic usage. Using the \"/trigger\" endpoint workaround, I still had to hardcode values such as a pure-JS base64 encoder, all ABI-encoding was done manually and pasted into the main CRE workflow file.\n\nAnother hacky achievement was deploying the CRE workflow as a \"listener\" port-forwarded via ngrok, this permanent ngrok URL is served to our API as an environment variable, enabling us to use the experimental CRE workflow programatically in a staging environment!\n\n**HOW TO TEST**\n1. Sign up for a seller account, complete step 1 of onboarding (step 2 is technically disabled and reserved for prod, not staging)\n2. Sign up for a buyer account, complete step 1 of onboarding\n3. Use the arc faucet to fund the buyer account (bypassing step 2 of onboarding since Bridge onramp is only available on mainnets)\n4. Login as seller again\n5. Create a package selling for $1, and a loan under that package\n6. Publish both onchain from the package detail screen\n7. Escrow the package (loans get automatically escrowed)\n8. Login as buyer\n9. Deposit the $1 into the escrow contract\n10. Sign the generated docusign agreement as buyer and seller\n11. Settlement automatically happens after this, watch for confirmation emails!\n\nGotchas: Docusign sometimes doesn't send the contract to buyers after seller signs, you can simply login as seller and click \"Resend\" on the package detail screen to void the last document and generate a new one.",
+  "auto_summary": "A monorepo for tokenizing loans and automating delivery-versus-payment settlement using smart contracts, backend services, and a Chainlink CRE workflow.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/thurman-protocol-q8iiy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

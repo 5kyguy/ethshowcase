@@ -1,0 +1,34 @@
+{
+  "id": "1kpg3",
+  "slug": "truetick",
+  "title": "TrueTick",
+  "tagline": "Live fair-price & deviation for tokenized stocks across issuers and chains, sold to agents via x402.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1kpg3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qK7KUgu4JfLqzyGmo026Wjh16tBkN9YhACL8lP6qYkvc/high.mp4",
+  "source_url": "https://github.com/ArgonStark/TrueTick",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "3rd place",
+      "title": "Best AI Tooling or AI Use Case with The Graph (From Scratch)"
+    }
+  ],
+  "finalist": true,
+  "description": "The same real-world stock is now tokenized by several issuers, on several chains, in several DEX pools — and they don't agree. NVDA alone exists as NVDAon (Ondo, Ethereum), NVDAx (Backed, on both Ethereum and Solana), NVDA (Robinhood Chain) and NVDAc (Coinbase B20, Base). A per-chain dashboard shows you one of them and tells you nothing about the other four.\n\nTrueTick puts all of them in one table, priced against the real-world reference, so you can see which price is real.\n\nRight now the reliable venues agree within about 0.5–0.8% of each other — and one NVDA pool prices at $1,153 against a real $218. That pool holds $27k and hasn't traded in 24 hours. TrueTick doesn't hide it: it shows the number and flags it as phantom-liquidity and price-divergence. The agreement between the honest venues is what makes the outlier legible.\n\nTwo rules run through the whole system. Every price field is `number | null`, never 0 — a zero propagates silently through arithmetic and renders as a real price, which is exactly how two silent-$0 bugs in our own subgraph would have shipped unnoticed. And a bad price is always labelled, never dropped: market-closed, thin-volume, phantom-liquidity, subgraph-syncing, source-error. The headline spread is computed across reliable venues only, because including the broken pool would report a spectacular, meaningless \"428% spread\".\n\nThe data is the product, so it's sold rather than given away. The price service sits behind x402: an agent requests it, gets HTTP 402, pays 0.01 HBAR settled through the Blocky402 facilitator on Hedera testnet, and receives the data plus a transaction id it can verify on HashScan. An MCP server lets Claude Desktop be that paying agent — it names a ticker, our server decides to spend, and the wallet key never reaches the model.\n\nEverything is live on-chain data. Nothing is mocked.\n",
+  "how_its_made": "The core is one normalized schema (`TokenizedStockPoint`) with one adapter per venue. Adding a chain or a DEX is a new adapter file plus registry rows — the schema, quality rules, HTTP service and UI are untouched. That isn't a claim, it's the record: adding Solana (non-EVM, base58 addresses, no chain id, a DEX with no swap event) required zero schema changes; the types file gained two optional fields.\n\nFour data sources, across two Graph products:\n\n• Ethereum (Ondo, Backed) — Uniswap v4 subgraph. v4 exposes no USD price, so it's derivedETH × Bundle.ethPriceUSD, cross-checked against the deepest *traded* pool's own ratio. Using the deepest pool by TVL instead flagged a false 4.97% divergence caused by an untraded memecoin pair.\n\n• Robinhood Chain (Uniswap V3) — Substreams. The Graph's networks registry lists \"subgraphs\": [] for eip155:4663, so no subgraph was possible.\n\n• Solana (Raydium CLMM) — Substreams. There's no swap event to decode, so price comes from vault balance deltas: decode the CLMM PoolState for the pool's two vaults, diff pre/post token balances, and skip same-sign pairs (those are liquidity adds, not trades).\n\n• Base (Coinbase B20, Aerodrome Slipstream) — a subgraph we forked, fixed and published ourselves, because none existed for that CL factory. So we're a Graph publisher, not just a consumer.\n\nBoth Substreams adapters compose prebuilt StreamingFast foundational modules driven by query-string params — there's no Rust in the repo. The .spkg files are vendored so the pipeline doesn't depend on registry availability at runtime.\n\nPublishing the subgraph surfaced two bugs that would have produced a healthy-looking subgraph returning $0 everywhere: upstream whitelisted USDC at Avalanche's address (eth_getCode proves no contract exists there on Base), and getEthPriceInUSD loaded a Uniswap pool that an Aerodrome-only subgraph never indexes, so ethPriceUSD was 0 and every USD field with it.\n\nPayments: x402 v2 with the Blocky402 facilitator on Hedera testnet, HBAR (asset 0.0.0), settled as a native HAPI TransferTransaction — so the receipt is a Hedera tx id, not an EVM hash, and the facilitator pays the network fee as co-signer. The client cross-checks the challenge's advertised feePayer against Blocky402's published signers *before* spending, because pointing at a generic x402 facilitator would still settle, still show real transactions, and silently miss the requirement. Settlement happens after the handler returns and is cancelled on a 4xx/5xx, so a failed request costs nothing.\n\nThe MCP server exposes six tools to Claude Desktop. The hacky-but-necessary part: Claude Desktop cancels a tool call at 60s and a cold Substreams venue takes 105–120s. Paying first risked settling after the client gave up — charged, nothing shown. So get_deviation probes warmth with a free request first and refuses to pay while cold, and concurrent requests for a ticker are deduped into one fetch (three \"parallel\" calls were queueing on the 2-session cap and all looking like cold starts).\n\nFavourite bug: byAddress() lowercased its input, correct for EVM hex and silently wrong for base58 — 'Xsc9qvGR…' is not 'xsc9qvgr…', so every Solana lookup would have missed and the venue would simply have been absent.\n",
+  "auto_summary": "A paid data service aggregates tokenized stock prices across chains using Graph-based indexing adapters and an MCP interface for agent access.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/truetick-1kpg3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,36 @@
+{
+  "id": "bmqos",
+  "slug": "knimo",
+  "title": "Knimo",
+  "tagline": "Knimo is a platform built on top of Lens Protocol that enables social clubs to create their own membership ecosystems. ",
+  "event": {
+    "slug": "ethmexico",
+    "name": "ETHMexico",
+    "start_time": "2022-08-19T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bmqos/banner/default.jpg",
+  "video_url": "https://stream.mux.com/t92dSCXig01hSgSFNaDPw0001RrRicFqz6vSg01OQPuAdZM/high.mp4",
+  "demo_url": "https://knimo.vercel.app/",
+  "source_url": "https://github.com/KaiStryker/kmino",
+  "prizes": [
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "🥉 Worldcoin — Best Use",
+      "title": "Worldcoin"
+    },
+    {
+      "sponsor": "Lens Protocol",
+      "sponsor_id": "vxwti",
+      "placement": "🎓  Lens Protocol — 🥈 Honors",
+      "title": "Lens Protocol"
+    }
+  ],
+  "finalist": false,
+  "description": "Knimo gives social clubs a new and improved way of dealing with memberships. Current membership systems are limited, in that users aren't incentivized to contribute more to the ecosystem. In the typical membership, if Bob, Alice and John all have memberships and Bob does more work for the community than Alice and John, he isn't rewarded for this extra effort. His membership stays the same as Alice and John's and there's no real benefit to him continuing to act this way. \n\nKnimo introduces a more incentivized model.  In this same scenario Bob's membership accrues perks and benefits based on his contribution. His membership becomes more valuable and he can leverage this new added value inside and outside of the ecosystem. \n\nHis membership grants him special privileges that make his experience in the club more seamless and memorable. On top of that he can leverage his membership on secondary markets to sell or rent out to someone looking to join the club from his entry point indefinitely or for a short period of time. \n\nThis new system brings value to not only Bob, but the club as well. The club now benefits in three ways during the lifecycle of a member:\n\nWhen a member enters the ecosystem the club benefits from the fee to join. While a member is in the ecosystem the club benefits from the activity of the member since members are incentivized to be active participants for additional perks and benefits. This participation adds tremendous value to the club in a way that feels organic and natural. Lastly.the club benefits from royalties collected when a member sells their membership when they exits the ecosystem. \n\nThis two-way value stream is a massive game changer for memberships and positions Knimo to be a major player in the space.",
+  "how_its_made": "This project utilizes Lens Protocol, IPFS, Worldcoin's World Id and Polygon to create an evolved membership experience. On the frontend users can use WalletConnect to connect their wallet and Sign in with Lens to officially sign in to the Dapp. The Lens API is used to take care of new member onboarding, perk collecting, and data queries.\n\nEach club has its own profile and is linked to a custom follow module that calls the World ID smart contract to make sure that a person hasn't signed up for a membership before when a new member is being onboarded. When members sign up they receive a FollowNFT.\n\nPerks are linked to individual memberships (followIds) but this functionality isn't currently supported by Lens so we had to get creative.\n\nWe used the following algorithm to achieve this: \n\n1. Create PerkStorage contract functions for storing perks and mapping perks to Member Ids\n\n2. Create custom collect module that only allows the PerkStorage contract to claim perks(CollectNFTs)\n\n3. Post perk as Publication( for example: poster that says \"20% of all club merchandise\" - with instructions on how to claim) \n\n4. When a member fulfills the necessary requirements and claims the perk on the frontend, an authorized relayer on the backend calls the CollectPerks() function on the PerkStorage contract, which calls the LensHub contract with details about the perk being claimed and who is claiming it.\n\n5. The LensHub contract then calls the custom collect module which calls the storePerks() function on the PerkStorage contract with the memberId, perkId and collectNFT(Perk) address.\n\n6. The PerkStorage adds the perkId to an array of perks tied to the memberId.\n\nThe viewPerks() function can be calls to return all the perks tied to a particular memberId. To view the details of the perks, you would simply have to take the perkIds and call the tokenURI function on the CollectNFT contract and use the returned URIs to fetch the metadata.\n\nThis process effectively enables individual memberships to have their own identity and store of value. This is something we are incredibly proud to unlock and look forward to expanding on it in the future.\n\n\ndesign figma\nhttps://www.figma.com/file/75eiryM6S5VcocMLOpNmTY/KNIMO-WEBAPP?node-id=118%3A402\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/knimo-bmqos",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

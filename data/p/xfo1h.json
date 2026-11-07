@@ -1,0 +1,36 @@
+{
+  "id": "xfo1h",
+  "slug": "patagonai",
+  "title": "PatagonAI",
+  "tagline": "PatagonAI is a GenZ WallStreet stock analyst powered by AI, built on AgentKit using the CDP SDK. It creates prediction markets to empower users with insights and forecasts to place bets/votes on consensus data. Deployed on Autonome",
+  "event": {
+    "slug": "agents",
+    "name": "Agentic Ethereum",
+    "start_time": "2025-01-31T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xfo1h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vvJC6bQzQUIxlL88QkYToTXWuSUewkvoy7McqUz01ld4/high.mp4",
+  "demo_url": "https://patagonai.vercel.app/",
+  "source_url": "https://github.com/0xtorchieG/patagonai",
+  "prizes": [
+    {
+      "sponsor": "Autonome",
+      "sponsor_id": "rjvrp",
+      "placement": "1st place",
+      "title": " Best DeFAI Agent 💰🤖"
+    },
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "AgentKit Pool Prize",
+      "title": "AgentKit Pool Prize"
+    }
+  ],
+  "finalist": true,
+  "description": "PatagonAI fuses AI and prediction markets to create a smarter stock analyst consensus—one that evolves with real investor insights.\nUnlike traditional prediction markets that simply reflect user sentiment, PatagonAI requires users to provide a thesis before taking a position. This thesis data trains the AI, making it sharper in stock analysis and ultimately delivering superior, crowd-sourced market intelligence—outperforming even Wall Street analysts. Through that mechanism, the users are financially rewarded through the prediction market while at the same time training the AI Agent. \n\n💬 Chat with the AI through a frontend chat interface to:\n✅ Analyze stock sentiment with AI-powered insights\n✅ Create new prediction markets on-chain for additional Stock symbols\n✅ Resolve markets and claim payouts\n✅ Take positions backed by real market reasoning\n\nPatagonAI isn’t just tracking market movements—it’s learning from them to create the next-gen stock analyst. 🚀📈",
+  "how_its_made": "PatagonAI consists of 3 core servies: the agent, the frontend as interface and the the prediction market smart contract. All deployments have been done on Base Sepolia \n\n**Agent**: \n- The Agent is built with the coinbase AgentKit using OpenAI as LLM in the back \n- The Agent's messaging is fine tuned to understand the smart contract's ABI and speak like a GenZ Wall Street banker \n- The Agent has the instructions to let a user never take a position through the Agent unless a thesis is provided\n- The Agent Kit is extended with 2 core tools\n(1) A Finnhub tool that allows the Agent to access a wide array of real world financial data like stock consensus from analysts\n(2) A pyth equity price feed tool to pass into the contract at contract creation, to fetch the prices at market resolving securely - this tool was necessary as the AgentKit standard tools only offer crypto price feed. \n- Coinbase's CDP SDK is used to let the Agent invoke the Prediction Market's functions and get onchain data. The agents wallets address is 0x5eF71b9eb5A9E02bB970F1c338837628f66eBf81 \n- The Agent is deployed as a new framework through Autonome called patagon-ai, which has been published and can be found on Autonome's platform\n\n**Frontend**: \n- The frontend is built with Next.js and deployed with Vercel\n- utilizing thirdweb's React SDK\n- By utilizing embedded wallets with Account Abstraction the user does only have to sign in  via socials and can start taking positions by chatting with the Agent \n- The Agent can usually not act on behalf of the user, but by combining smart accounts with the agent giving key words that invoke the frontend to invoke transactions, it seems for the user as if the UX is completely seamless \n\n**Prediction Market Smart Contract**:\n- The Smart contract address is 0xb0d0C75c588811B436B1379160452fE4a4fE65D2 (verified and published on base sepolia)\n- The token to interact with the prediction market is USDC \n- the most important write logic is to createMarkets, takePositions, resolveMarkets and claimPayouts\n(1) Creating Markets can only be perfomered by the Agent \n(2) For creating markets the Agent fetches the Consensus data of a stock from Finnhub which is passed into the market creation. These stock analyst consensus data acts as the starting weight for prices to take positions. \n(3) for creating markets the Agent fetches the pyth price feed ID for the stock which is passed. At market creation this price feed is called. At resolving it is called again. The change in the price of the stock fetched through pyth decides which outcome of the market is correct (was it actually a Buy, a Sell or a Hold) \n(4) the Agent also passes in the endTime of the market, which is always the next earnings calls. The agent gets the earnings call data from the Finnhub tool. This is in line with new analyst consensus usually being published after an earnings call ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/patagonai-xfo1h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

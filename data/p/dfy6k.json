@@ -1,0 +1,26 @@
+{
+  "id": "dfy6k",
+  "slug": "beast",
+  "title": "Beast",
+  "tagline": "Give AI agents onchain identity and spending limits, backed by a verified human.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dfy6k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00tPOYkUGVrmQW301D4Vti6QH2AYBCTRirBlOVSvnvuZ4/high.mp4",
+  "source_url": "https://github.com/Harpreet-Singh-lks/EthOnline-2026",
+  "finalist": false,
+  "description": "Beast is a human-controlled treasury for AI agents. It gives each agent an ENSv2 identity and a policy-bounded Privy wallet, while World Selfie Check provides a renewable signal that a human controller is still present.\n\n  An agent’s ENS name acts as its expense card. Its addr record identifies the paying wallet, while agent.merchant and agent.cap define the permitted recipient and maximum transaction amount. Before every payment, Beast resolves\n  these values through the real Universal Resolver and verifies both the registrar binding and the wallet’s Enhanced Access Control role. The wallet and merchant are never supplied by the payment request, so a missing, expired or\n  revoked ENS name prevents the transaction from being constructed.\n\n  World proofs are checked for credential type, action, environment, completed user presence, single-use nonce, controller-bound signal and same-human continuity. A successful check creates a ten-minute presence lease; payments\n  above 3 USDC require a check-in from the previous two minutes.\n\n  Privy provides the financial enforcement layer. Each organization agent has a routine signer for autonomous payments, a two-person approval signer for elevated payments and a three-key owner quorum for administrative changes.\n  For example, an agent may spend up to 3 USDC autonomously, require both the owner and an approver between 3 and 25 USDC, and be refused above the ENS-recorded 25 USDC maximum. Privy policies independently constrain the token\n  contract, decoded ERC-20 recipient and amount.\n\n  Beast is live on Sepolia with dedicated Permissioned Resolver instances, ENSIP-25/26 agent-discovery records, real EAC grants and revocations, real USDC payments, browser-held P-256 approval keys, and adversarial Foundry and\n  integration tests.",
+  "how_its_made": "Beast is built with Solidity, Foundry, Node.js/Express, viem and a browser-based JavaScript dashboard. It runs on Sepolia and combines ENSv2, World IDKit, Privy server wallets and OpenAI’s GPT-4o-mini.\n\n  For ENSv2, we deployed a custom AgentSubnameRegistrar over our own PermissionedRegistry. Every agent receives a subname under beast.eth and its own PermissionedResolver proxy, deployed through VerifiableFactory. The resolver\n  stores the agent wallet, permitted merchant, spending cap and ENSIP-25/26 discovery records. Payments use ENSIP-10 resolve(bytes,bytes) through the Universal Resolver to retrieve these values live. The gateway also verifies the\n  registrar’s wallet binding and the agent’s Enhanced Access Control role before proceeding. Foundry tests exercise expiry, role administration, revocation and re-registration against a real PermissionedRegistry, not a mock.\n\n  World Selfie Check supplies renewable human presence. The backend creates signed RP requests and verifies seven properties: selfie credential, expected action, production environment, completed user presence, single-use\n  session-bound nonce, controller-bound signal and same-human nullifier continuity. Successful verification creates a ten-minute lease. A tiered freshness rule requires payments above 3 USDC to use a check-in less than two\n  minutes old.\n\n  Privy provides policy-enforced EIP-7702 wallets. Organization agents use three P-256 key quorums: a 3-of-3 administrative owner quorum containing the backend, owner and approver; a backend-only routine signer; and a 2-of-2\n  human approval signer. The human private keys are generated with WebCrypto and remain in their respective browsers. Two Privy policies inspect decoded ERC-20 calldata to constrain the token contract, recipient and amount. Small\n  payments execute autonomously, larger payments collect signatures over one frozen transaction payload, and over-cap payments are rejected.\n\n  An OpenAI-powered procurement agent can choose between vendor packages, but it receives no wallet authority or trusted payment parameters. It submits only its label and selected amount; the gateway obtains everything security-\n  sensitive from ENS and server-side state.\n\n",
+  "auto_summary": "A Sepolia-based treasury system uses ENS-linked agent identities, World human-presence checks, and Privy-controlled wallets to gate AI agent payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/beast-dfy6k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

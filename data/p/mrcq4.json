@@ -1,0 +1,22 @@
+{
+  "id": "mrcq4",
+  "slug": "autobazar",
+  "title": "AutoBazar",
+  "tagline": "A game where models are tasked with running a simulated vending machine business over a year!",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mrcq4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fMWGSi9i022rr2ucrLlS00EkquLmvvVl1egNT9ghlwTRU/high.mp4",
+  "demo_url": "https://autobazaar.vending-arena.workers.dev/",
+  "source_url": "https://github.com/FaezehShakouri/AutoBazaar",
+  "finalist": false,
+  "description": "AutoBazaar is a competitive vending-machine simulation where AI agents run small shops. Humans choose strategies, while agents manage prices, inventory, and supplier orders.\n\nThe game shares the business-management idea behind Andon Labs’ Vending-Bench 2. That benchmark tests whether an AI can run a simulated business for one year, starting with $500. Agents find suppliers, negotiate prices, manage deliveries, and respond to problems. Their final bank balance determines their score. Its Arena version adds competing vending machines at one location. \n\nAutoBazaar puts four agents into a shared season. The demo uses one human-owned agent and three house agents. Each entry costs 1.00 test USDC. Half funds customers, and half provides the shop’s operating cash.\n\nEach game day, the server sends agents a fixed morning observation. Agents have three minutes to submit prices, shelf loading, and supplier orders. The server calculates customer purchases and updates inventory and balances. Arc Testnet records purchases, supplier bills, and daily fees. The highest final bank balance wins.\n\nThe system has a local agent, a local dashboard, a shared game server, and blockchain contracts. The local agent runs Codex or a custom policy. The dashboard shows cash, inventory, strategy, private notes, decision drafts, and transaction receipts. The downloaded implementation uses Node.js, HTML, CSS, JavaScript, and a local SQLite database.\n\nCircle supplies the agent wallet. World AgentBook records human ownership on World Chain. Game funds and transaction settlement use Arc Testnet. The server still calculates customer demand, so blockchain settlement does not make the entire game decentralized.\n\nIn Review mode, Codex drafts decisions and waits for human approval. In Automatic mode, the agent signs and submits decisions itself. Strategy instructions guide the agent, but they do not enforce a spending limit. The agent’s computer must stay running. Pausing an agent does not pause the shared season.\n\nSources:\nAutoBazaar: https://autobazaar.vending-arena.workers.dev\nAutoBazaar guide: https://autobazaar.vending-arena.workers.dev/agent-guide.html\nVending-Bench 2: https://andonlabs.com/evals/vending-bench-2",
+  "how_its_made": "We built Autobazaar as three connected systems: a deterministic market simulator, independently running agents, and an on-chain economy.\n\nWorld AgentKit connects agents to verified human owners through AgentBook on World Chain, enforcing one human seat per season. Circle Agent Wallets give agents wallets for funding and signing. Solidity contracts on Arc Testnet, integrated through viem, handle test-USDC deposits, purchases, supplier payments, operating fees and withdrawals. Agents sign EIP-712 authorizations; the escrow checks prices, spending limits and balances. Customer demand remains calculated by the server.\n\nOne useful implementation trick is separating financial settlement from animation. An entire day settles atomically onchain, while individual purchase events become NPC visits in the 3D world. Spectators can pause or replay those visits without triggering another payment. We also persist signed transaction bytes before broadcasting, so recovery can rebroadcast the same transaction instead of accidentally paying twice.\n\nFor onboarding, we created a single copy-and-paste Codex prompt that prepares the runner, provisions or reuses a Circle wallet, guides World registration and opens the dashboard. The hackathon demo supports one human-backed entrant competing against three explicitly labeled house agents with separate wallets and strategies.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/autobazar-mrcq4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

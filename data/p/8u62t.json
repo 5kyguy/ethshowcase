@@ -1,0 +1,21 @@
+{
+  "id": "8u62t",
+  "slug": "avenger",
+  "title": "Avenger",
+  "tagline": "Rent your X banner to advertisers. Set prices, approve ads, earn daily USDC automatically.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8u62t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/a2SjaHuIvy028ZXhbFWS00hWbmMr4rOhXUqp31krF2T3o/high.mp4",
+  "source_url": "https://github.com/akashbiswas0/Avenger",
+  "finalist": false,
+  "description": "A marketplace where X (Twitter) users rent their profile banner space to advertisers for passive income. Creators connect their X account, list banner space with custom pricing (e.g., 0.01 USDC/day), and approve rental requests. Advertisers browse listings, upload ads, and pay via x402 (Coinbase CDP). After approval, banners flip automatically via X API. A daily AI cron job verifies ads are still displayed using screenshot comparison and perceptual hashing—if verified, creators receive daily USDC payments automatically; if removed, payments stop and advertisers get refunded. Built with Next.js, Supabase, Coinbase CDP (Embedded Wallets + Server Wallet v2), X OAuth 2.0, Puppeteer, and Sharp. Features secure authentication, automated payments, transparent verification, and full creator control over ad approvals.",
+  "how_its_made": "How it's made:\nBuilt with Next.js 14 (App Router) and TypeScript. The frontend uses React with Coinbase CDP Embedded Wallets for user authentication and wallet management. Supabase stores encrypted OAuth tokens, listings, and rental data with Row Level Security.\nPayment flow:\nx402 protocol: Server returns 402 Payment Required with payment requirements. The client-side x402-fetch library intercepts, processes USDC payment via Coinbase CDP, and retries with the transaction hash in the X-PAYMENT header.\nServer Wallet v2: Automated daily payments use CDP SDK v2. ERC-20 transfers are encoded with ethers.js (transfer(address,uint256)), sent via cdp.evm.sendTransaction() to the USDC contract on Base Sepolia.\nBanner management:\nX OAuth 2.0 for authentication (stored encrypted with AES-256-GCM).\nX API v1.1 for banner updates requires OAuth 1.0a (token_secret). The system handles missing OAuth 1.0a tokens gracefully and returns clear errors.\nBanner images stored as base64 strings in Supabase (can be migrated to Supabase Storage).\nAutomated verification:\nDaily cron job (Vercel Cron) uses Puppeteer to screenshot X profiles, Sharp to extract banner regions, and perceptual hashing (pHash) to compare against stored ad images. If verified, sends daily USDC payment; if not, stops payments and refunds the remainder.\nNotable implementation details:\nDual wallet system: Embedded Wallets for users, Server Wallet for automated operations.\nAsync banner flipping: Payment confirmation triggers a background fetch to /api/banner/flip without blocking the response.\nType-safe ERC-20 encoding: Uses ethers.js Interface for function encoding instead of manual hex concatenation.\nIdempotent database migrations: SQL scripts use IF NOT EXISTS and DROP IF EXISTS for safe re-runs.\nPartner technologies:\nCoinbase CDP: Simplifies wallet management, enables instant USDC payments, and provides secure server-side transaction signing.\nSupabase: Handles auth, real-time data, and encrypted storage with minimal setup.\nVercel: Serverless functions and cron scheduling for the verification system.\nThe architecture is serverless, automated, and trustless—payments and verification run without manual intervention.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/avenger-8u62t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

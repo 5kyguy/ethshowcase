@@ -1,0 +1,27 @@
+{
+  "id": "029st",
+  "slug": "enscribe",
+  "title": "Enscribe",
+  "tagline": "ENS invoices for freelancers. Clients pay USDC; settlement stays private on Solana.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/029st/banner/default.jpg",
+  "video_url": "https://stream.mux.com/I4TvEE22GAq7TEqThlenVL8easV02a9X003WsTpRV02X9o/high.mp4",
+  "demo_url": "https://enscribe-wheat.vercel.app/",
+  "source_url": "https://github.com/armsves/Enscribe",
+  "finalist": false,
+  "description": "Enscribe turns freelancer invoices into ENS names. Each invoice mints a subdomain under commons3nse.eth on Sepolia (for example inv-abc123.commons3nse.eth). That name is the public pay link: who it’s for, what the work was, how much is owed, and where the client should send USDC with MetaMask.\n\nThe important part is what stays off ENS. The freelancer’s Solana receive address never goes on-chain in the name records. Settlement uses Aurora confidential Intents, so the client pays USDC on an EVM chain and funds route privately to Solana. Public metadata stays useful for the client; settlement stays private for the freelancer.\n\nHow it works\n\nFreelancer connects MetaMask, sets a Solana wallet (Phantom or MetaMask Solana), and creates an invoice.\nEnscribe requests an Intents quote, mints the ENS subdomain, and generates a PDF with the pay URL.\nOptionally, the PDF and an encrypted profile/ledger are stored on EthSwarm (Bee). Postage batch IDs and Swarm refs stay server-side.\nThe client opens /pay/[ens], Enscribe resolves the Sepolia name, and they pay USDC from MetaMask.\nStatus moves pending → sent → paid. There’s a simple invoice list plus monthly accounting with CSV export.\nWhat we built\n\nENS subdomain minting for invoices (ENSv2 Sepolia)\nConfidential Intents quotes and deposit addresses\nMetaMask client pay flow\nFreelancer wallet setup (EVM identity + Solana settlement)\nInvoice PDFs and optional encrypted Swarm storage\nPer-wallet encrypted Swarm feed for profile + ledger sync\nPayment status checks and bookkeeping export\nPrivacy model\n\nOn ENS: invoice name, client, description, amount, deposit address\nOff ENS: Solana settlement address, Intents route, Swarm secrets, freelancer ledger",
+  "how_its_made": "Enscribe is a Next.js App Router app (TypeScript on Vercel). Server routes hold the secrets; the browser is mostly MetaMask / Phantom for wallets and the pay UI.\n\nCreate flow: POST /api/invoice asks Aurora Intents for a confidential quote (USDC on an EVM chain → Solana), mints inv-*.commons3nse.eth on ENSv2 Sepolia with our controller key (UserRegistry proxy + text records for amount, client, deposit address), builds a PDF with pdf-lib, optionally encrypt-uploads it to EthSwarm Bee, and returns /pay/[ens]. The Solana receive address never lands on ENS. Clients resolve the Sepolia name in-app and send USDC with MetaMask via viem. Payment status mixes Intents status with on-chain ERC-20 Transfer checks. Freelancer profile + invoice ledger sync as AES-GCM blobs on Swarm feeds, keyed by MetaMask address and gated with personal_sign.\n\nPartner stack: ENS for human-readable invoice identity, Aurora Intents so settlement stays private without putting Solana on the name, EthSwarm so PDFs and ledgers don’t need a normal app database (postage batch stays server-only).\n\nNotable hacks: talking to ENSv2 Sepolia (factory proxy, role bitmaps, PermissionedResolver multicall) instead of classic ENS registrars; dealing with Intents bridge minimums (~0.3 USDC); hard-capping Swarm upload time so a slow Bee gateway can’t take down a 30–60s ENS mint on Vercel.",
+  "auto_summary": "A Next.js app creates invoice-linked ENS subdomains on Sepolia and supports private payment routing plus optional Swarm-backed document storage.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/enscribe-029st",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

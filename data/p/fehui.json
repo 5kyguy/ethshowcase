@@ -1,0 +1,27 @@
+{
+  "id": "fehui",
+  "slug": "payper-card",
+  "title": "PayPer Card",
+  "tagline": "Bridging AI and fiat: Agents autonomously buy virtual Visa cards onchain using x402 and Base.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fehui/banner/default.jpg",
+  "video_url": "https://stream.mux.com/njLlvaY5U1GvIlB14M1kX6XGE67nQ6gRHmFE6AcZVmI/high.mp4",
+  "demo_url": "https://paypercard.rizzmo.site/",
+  "source_url": "https://github.com/rizwanmoulvi/payper-card",
+  "finalist": false,
+  "description": "As AI agents become increasingly autonomous, they constantly hit a massive bottleneck: real-world financial rails. If an agent needs to pay for a server subscription, an API limit increase, or an e-commerce good, traditional credit card billing requires human intervention for KYC, billing details, and manual entry.\n\nThis project solves that by creating a direct bridge between crypto-native agent wallets and the traditional fiat economy. We built a proof-of-concept where an AI agent autonomously provisions a Virtual Visa Card using the x402 (Payment Required) standard and stablecoins on the Base Sepolia network.\n\nThe flow is completely programmatic:\n\nThe AI Agent attempts to request a virtual card from our Express backend but is rejected with a 402 Payment Required challenge.\nThe Agent parses the challenge quote and autonomously constructs an EIP-3009 transfer intent using its own crypto wallet, signing it as a cryptographic Proof-of-Payment.\nUpon validating the proof, the backend server initiates the settlement leg and calls the Lithic API to mint the Virtual Visa Card, returning the card details (like a PAN token) directly back to the agent. The agent can now use this card to checkout anywhere Visa is accepted.\nTo guarantee that this autonomous loop never gets stuck on blockchain execution hurdles (like gas fee spikes, dropped nonces, or RPC ping failures), we integrated KeeperHub. Instead of the server broadcasting the raw EVM transaction directly, the settlement payload is sent to KeeperHub's Direct Execution API. KeeperHub leverages its Turnkey MPC enclave to securely and reliably broadcast the transaction, abstracting away all gas and nonce logic. Our Express server utilizes a smart-polling loop to watch for KeeperHub's final completed status and transactionHash before triggering the Lithic fiat-card provision.\n\nUltimately, this project empowers AI agents to seamlessly jump from holding onchain stablecoins to transacting with fiat-denominated Virtual Visa cards, entirely without human assistance.",
+  "how_its_made": "We built the core infrastructure using a Node.js and Express backend, piecing together multiple decentralized and fintech SDKs to create a unified API pipeline.\n\nTo handle the crypto-native payment challenge, we utilized the @x402/express middleware. When the AI agent requests a virtual card without paying, the Express server intercepts the request and throws a standardized 402 Payment Required challenge. The agent script uses @x402/evm to parse this quote and programmatically generates an EIP-3009 signature against its USDC balance on the Base Sepolia network. Using Base as our foundation was critical—its low fees and fast block times mean the transaction overhead for the AI agent is practically zero.\n\nFor the settlement leg, we integrated KeeperHub as a core partner technology. Instead of building a fragile, custom RPC manager to broadcast the agent's EIP-3009 intent, we offloaded the transaction lifecycle to KeeperHub's Direct Execution API. This provided a massive benefit: KeeperHub utilizes a Turnkey MPC enclave to handle nonce tracking, gas spikes, and retry logic, guaranteeing our transaction wouldn't get stuck in the mempool.\n\nThe most notably \"hacky\" but effective part of the build was bridging KeeperHub's asynchronous backend with our synchronous x402 Express setup. Since the agent expects a single HTTP 200 OK response with the Lithic card provision, we built a smart recursive polling loop in Node. It pushes the payload to KeeperHub's /api/execute/transfer, and then pings /api/execute/{id}/status every 1.5 seconds. We had to dynamically handle varying nested JSON responses (data.data vs data) on the fly. Once this loop catches a terminal completed status and extracts the transactionHash from Base, the server seamlessly halts the poll, calls the Lithic API to mint the Virtual Visa Card, and ships the card token back to the agent in one continuous execution context in one fluid motion.",
+  "auto_summary": "This project lets an agent pay an x402 challenge with USDC on Base Sepolia and receive a virtual card after backend settlement.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/payper-card-fehui",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

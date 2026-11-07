@@ -1,0 +1,27 @@
+{
+  "id": "c0ikf",
+  "slug": "sui-cash",
+  "title": "Sui Cash",
+  "tagline": "The Merge of FeliCa & Sui: tap your Suica, show your face, pay on-chain. Verified with ZK proofs.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c0ikf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DtVxap01WGOijw7WJTv87QaMRibeldlwpbetk5wZRIS8/high.mp4",
+  "demo_url": "https://yuki-js.github.io/suicash/",
+  "source_url": "https://github.com/yuki-js/suicash",
+  "finalist": false,
+  "description": " SuiCash turns the transit IC card already in every Japanese wallet into a key for a Sui wallet: tap your Suica, show your face, and pay on-chain.\n\nTap you Suica card, take your face photo, then you can send money, even on chain.\n\n Japan already runs the electronic cash system based on FeliCa. Over 200 million transit IC cards (Suica and friends) are used every day, yet a few people in Japan have access to cryptocurrency. SuiCash connects them, and promotes the crypto mass adoption in Japan.\n\n The hard part: FeliCa is a proprietary standard built on symmetric-key (DES/3DES) mutual authentication. Blockchains assume public-key signatures and transparency. A Sui contract can't simply \"check a Suica card.\". So we utilized ZKP, and then we could finally fusion them.\n\n How we bridged it:\n 1. FeliCa oracle – A terminal (Sony RC-S634 reader) runs the full FeliCa mutual authentication with the card through our oracle server (challenge → settle → attest).\n 2. Zero-knowledge attestation – The oracle produces a Groth16 proof. The circuit very face the execution trace of authentication work inside the circuit. \n 3. On-chain verification – A Sui Move package (felica_oracle) verifies the proof with Sui's native Groth16 verifier. This proves \"valid FeliCa card was present\"\n 4. IDi-seeded Account Abstraction wallet – Each card's IDi deterministically maps to a Sui AA wallet. Anyone can top up a card by its printed number, with no app or seed phrase.\n 5. Face binding – During registration, the user's face is linked to their IDi. At the payment terminal, card tap + face authentication together unlock the wallet. A stolen card alone isn't enough.\n\n What we built \n What we built during the hackathon: the ZK prover and oracle server, the Move verifier contracts, a registration web app (card number ⇄ IDi, face enrollment, top-up), and a working payment terminal: a face-recognition device with a card reader.",
+  "how_its_made": "SuiCash can't be done without a spirit of reverse engineering.\n\n Hardware: we recently bought a health insurance reception terminal device. It incorporates a my number card reader, front facing camera , touch screen, and Android system with much vulnerabilities. While we research these vulnerabilities, we found the potential of interesting use case of FeliCa. We finally made Android app thanks to these vulnerabilities.\n\n FeliCa: FeliCa is actually a proprietary protocol. But KIRISHIKI Yudai's publication changed the situation. Protocols and cipher have been disclosed and developers can easily make softwares with felica. When we read his publications, we noticed that its authentication mechanism can be expressed with zkp constraints. Then we finally done it.\n\n ZKP Oracle: felica uses symmetric key cryptography, and it is inevitable to hold secrets. Oracle acts the role. It takes responsibilities to the secrets and makes zkp. Using arkworks, we implemented DES and 3DES as an R1CS circuit (~149k constraints) on BN254 Groth16. The circuit re-derives the FeliCa key schedule and checks the whole authentication transcript (3DES, MAC, transaction ID) inside the proof. \n\nSui: Sui is a blockchain featuring high throughput. It matches the felica's characteristics. We implemented a groth16 verifier, and felica card bound wallet. So user can top up targeting to the card, on card can consume the balance on chain.",
+  "auto_summary": "A Sui-based payment system that links FeliCa transit cards to deterministic wallets using zero-knowledge card attestation and face-authenticated terminal flows.",
+  "scores": {
+    "originality": 9,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sui-cash-c0ikf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

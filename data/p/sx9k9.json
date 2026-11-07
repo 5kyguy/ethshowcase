@@ -1,0 +1,27 @@
+{
+  "id": "sx9k9",
+  "slug": "dignity",
+  "title": "Dignity",
+  "tagline": "Finaly a fair arbitration between landlord and tentant. Rent with Dignity.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sx9k9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/f21vtBByFEwioqqMQpHOVd2L02QbrGTzOQQ1yM56eYgg/high.mp4",
+  "demo_url": "https://dignity.technology",
+  "source_url": "https://github.com/AiAlchemist0/rentouts-escrow",
+  "finalist": false,
+  "description": "Dignity is a trust-minimized rental escrow protocol on Ethereum. Instead of a landlord or platform custodying a tenant's security deposit and rent, an on-chain smart contract holds the funds in USDC and releases or refunds them based on agreed conditions — move-in confirmation, lease term completion, or a dispute outcome with Ai-judge. Ai-Judge will resolve disputes as a fallback, and every deposit, release, and refund is transparent and verifiable on-chain.",
+  "how_its_made": "Solidity 0.8.24 contracts, OpenZeppelin v5.1, Foundry tests, deployed from team keystores. RentEscrow on Ethereum Sepolia (0x2357705A8382067d9bE9DadA2EEf70e23fa4cd18) holds Circle test USDC (0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238). Calls are createLease, fundLease, claimRent, closeLease, openDispute, and resolveDispute. Invariant tests check that the contract's USDC balance equals the sum of per-lease escrow and that the platform cannot withdraw user funds. The constructor fixes the token, arbiter, lease-share token, and human gate. There is no proxy.\n\nWorld ID: HumanGate (0xFF6850c48B55d3d4a1e21b8562F15c653a3c3abd) is what fundLease asks. Its verifier is WorldIdV4Gate (0x5Cb885E6292003492932f3fa647A9d6Bf8A4aABa), action fund-lease-wallet. The phone proof is checked at POST https://developer.world.org/api/v4/verify. The RP signer attests chain, gate, action hash, wallet, nullifier, and deadline. register stores the wallet and spends the nullifier. The first gate, for action fund-lease, is superseded and has zero registered wallets. A World ID 3.0 router contract exists in the repo and is not deployed, because it cannot accept the 4.0 phone proof.\n\nENS (ENSv2 on Sepolia): RentoutsSubnames issues soulbound *.rentouts.eth names. CredentialSync.sync(tenant) is permissionless and writes the escrow stats. EnsAgentRelay (0xe56E49cAA4780B71F667bF08a9ADb2C659d9C3eE) is AIArbiter.agent. propose succeeds only if the caller holds judge.rentouts.eth and the registry still lists them as owner. A combined World-and-ENS check on fundLease is written and fork-tested. It is not deployed. Funding today is World ID only.\n\nDisputes: AIArbiter stores a proposal. The off-chain judge calls z.ai GLM 5.3 with a fixed checklist and a versioned Tokyo restoration rules pack. Code turns the answers into basis points. The judge abstains to the human when confidence is low. Either party can appeal for 120 seconds. The human arbiter can override. The AI cannot move funds by itself.\n\nLease shares: LeaseShare1155 checks an allowlist inside OpenZeppelin's _update, so mints and transfers to a non-allowlisted address revert. The integrated token is minted by RentEscrow on Ethereum Sepolia. A second deployment on Base Sepolia (0x5490e5dFcDcA741aC99127f66B4abf6204cd64C5) ran the allowlist demo on chain. No MultiBaas and no yield vault.\n\nThe demo app is Vite, React, TypeScript, and wagmi/viem. It is hosted at https://rentouts-escrow-demo.dofusd.workers.dev and reads addresses from deployments.json. It holds no keys.",
+  "auto_summary": "An Ethereum Sepolia rental escrow system uses USDC-funded leases, optional human-verification gating, AI-assisted dispute proposals, and ENS-based tenant credentials.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/dignity-sx9k9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

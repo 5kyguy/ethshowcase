@@ -1,0 +1,27 @@
+{
+  "id": "7m0fp",
+  "slug": "tenjo",
+  "title": "Tenjō",
+  "tagline": "Lose a ballot, gain a chance: gacha’s pity ceiling for ticket ballots, on World ID and Sui.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7m0fp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XwVUmM4jKZwdCLiBRDszutlcki4jWT8b4RFT9TDNPG4/high.mp4",
+  "demo_url": "https://tenjo-azure.vercel.app",
+  "source_url": "https://github.com/Ducksss/tenjo",
+  "finalist": false,
+  "description": "Concert ballots and scarce drops make fans lose again and again, and every ballot forgets them. About 2.2 million people applied for the first Switch 2 lottery in Japan. By the fifth lottery, Nintendo had added a rule by hand: only people who had entered before and never won. That’s a pity system. Gacha games call it 天井, tenjō, the ceiling: keep trying and your luck builds.\n\nTenjō makes that ceiling a primitive for any ballot. Each real person enters once. Your name goes in the draw once, plus once for every ballot you’ve lost in the same series (a tour, a shop, a product line), up to six chances. A win resets you to one. Yui, our example fan, has lost three ballots on a tour, so her next entry goes in four times. On paid drops you lock a refundable deposit: win and it pays for your seat, lose and it comes straight back.\n\nA pity counter only works if nobody can cheat it, and the two cheats need two networks. World ID stops one fan becoming fifty accounts that farm losses: each entrant proves they’re one unique human, and no name, email or document is stored. Sui stops anyone, us included, from fiddling the draw, the money or the counts: a Move package draws with sui::random, holds deposits in escrow, refunds every loser in the settlement transaction and keeps the loss ledger on-chain. A real World ID starts fresh in every drop, so a passkey on the fan’s phone remembers their losses. It never buys a second entry.\n\nFor organisers (ticketing platforms, fan clubs, shops running lottery sales), Tenjō replaces three hacks: play-hour rules to stop bots, chasing winners who don’t pay, and “it’s rigged” complaints. Winners get a Ticket that can’t be transferred, which matters in Japan, where reselling specified event tickets above face value has been banned since 2019.\n\nIt’s live at tenjo-azure.vercel.app on Sui testnet, with 22 World ID entries verified on production so far.",
+  "how_its_made": "TypeScript end to end: Next.js 16 and React 19 on Vercel, Neon Postgres (PGlite locally) and a Sui Move 2024 package, tenjo::ballot.\n\nWorld ID: IDKit 4.3 in the browser. The server issues an RP-signed request, valid for five minutes and bound to one drop and purpose, then forwards the proof byte for byte to World’s v4 verify API. A 200 is never enough: the configured credential’s own result must succeed with a matching nullifier, action, environment, nonce and signal, and the request is consumed in the same database transaction as the entry. The nullifier is canonicalised and hashed into a 32-hex anonymous code. World ID 4 nullifiers are single-use per action, so real World IDs get one action per drop and a fresh code each time. To carry their losses we added WebAuthn passkeys (SimpleWebAuthn): the passkey signs over that drop’s World ID request and is checked before World is asked, so a refusal never spends the proof. A per-drop identity table stops a second passkey from buying a second entry.\n\nSui: a shared Series keeps the loss ledger (Table<code, u64>) and each Drop<T> is an escrow vault over any coin type. For a paid entry, the server signs an Ed25519 permit over drop, code and sender after the World ID check, and ballot::enter rebuilds it with the real sender, so a copied permit fails. draw is a non-public entry function taking &Random that only stores a 32-byte seed. Its gas never depends on the outcome, so an unlucky draw can’t be aborted and retried. settle is public and deterministic: weighted picks without replacement from blake2b256(seed ‖ i), the winners’ deposits paid to the organiser as one coin, every loser refunded, winners with a wallet given a Ticket with key but no store, and every pity count updated, all in one transaction. The drop page re-runs settle in TypeScript from the seed and checks it matches.\n\nThe server talks to Sui over gRPC with @mysten/sui and serialises organiser transactions with a Postgres advisory lock; fans pay through dApp Kit. Postgres mirrors the chain for fast pages. 31 TypeScript tests (one drives a software authenticator holding a real key), 22 Move tests and Playwright browser tests.",
+  "auto_summary": "A Next.js and Sui application runs fair ballot entries with World ID verification, passkey-linked repeat identities, refundable deposits, and on-chain settlement.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tenjo-7m0fp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

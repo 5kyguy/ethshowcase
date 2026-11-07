@@ -1,0 +1,21 @@
+{
+  "id": "ne03r",
+  "slug": "suifused",
+  "title": "SuiFused",
+  "tagline": "1 inch fusion+ cross chain swap extension for the Sui blockchain",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ne03r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Iq3gABNrPurQIjKTjh4Mi8PPNwze8A1m11HGAbel01fo/high.mp4",
+  "demo_url": "https://github.com/Sahilgill24/Suuuuuuuuuui",
+  "finalist": false,
+  "description": "SuiFused is a 1-inch Fusion+ extension that powers seamless, trustless swaps between Ethereum, Sui), a factory pattern for dynamic escrow deployment, and an on-chain Dutch auction for efficient order filling. A unified resolver API orchestrates contract deployment, secret distribution, and cross-chain settlement—letting developers integrate secure, end-to-end atomic swaps without worrying about network-specific complexity. Using the advanced LOP protocol for creating/filling the orders.",
+  "how_its_made": "SuiFused’s cross-chain swap logic is built on three specialized on-chain modules and a single off-chain “resolver” API that glues everything together. On Sui, we use Mysten’s official Sui SDK to implement a pair of contracts: a time-locked HTLC escrow that securely holds funds until the swap secret is revealed, and a Factory contract that can spin up new HTLC instances on demand with custom parameters such as amount, expiry, and hashlock. Building in Sui provides strong type safety, native performance, and deep integration with the Move-based object model and parallel execution runtime.\n\nFor Ethereum, we adapted the escrow contracts directly from 1inch’s Cross-Chain suite, modifying them to fit SuiFused’s order and auction schema. These Solidity contracts support both single-secret withdrawals and batch settlements, ensuring maximum gas efficiency and compatibility with existing tooling.\n\nOff-chain coordination is handled by the resolver service, which exposes a simple REST API. To initiate or fill an auction order, it calls POST /auction/start or POST /auction/fillOrder on the source chain. Once an order is accepted, the resolver calls POST /deploy/evm or POST /deploy/sui to create the corresponding escrow on the destination chain. It then listens for on-chain secret-reveal events and, when ready, finalizes the swap by invoking POST /withdraw/evm or POST /withdraw/sui.\n\nBy combining Sui’s Move-based contracts with 1inch-inspired Solidity escrows under one orchestrating API, SuiFused delivers a turnkey, end-to-end solution for secure, customizable atomic swaps across Ethereum and Sui.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/suifused-ne03r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

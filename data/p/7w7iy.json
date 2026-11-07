@@ -1,0 +1,27 @@
+{
+  "id": "7w7iy",
+  "slug": "bound",
+  "title": "Bound",
+  "tagline": "On-chain trust policy layer for AI agent spending and delegation.     ",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7w7iy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Eu01HaoTqylXcUzVZqKGhelZA0158jrxwnL013b00tGWsPo/high.mp4",
+  "demo_url": "https://ccp-docs.vercel.app",
+  "source_url": "https://github.com/iamnotdou/ccp",
+  "finalist": false,
+  "description": "Bound is the trust policy layer for AI agent spending and delegation. Instead of asking \"will this agent behave well?\", Bound asks \"does the surrounding system make worst-case loss acceptable?\"\n\nAn AI agent that needs to make autonomous payments gets a certificate attesting to its containment architecture: smart contract spending limits it cannot modify, locked USDC reserves, auditor with staked capital, and Ledger hardware co-signatures for large transactions. Counterparties verify the certificate on-chain and transact with quantifiable risk.\n\nThe protocol has a 12-stage certificate lifecycle — from building containment, through independent auditor attestation with staked capital, to on-chain publication, active verification, and post-expiry settlement with challenge windows. Three certificate classes (C1 self-attested, C2 auditor-verified, C3 composition-analyzed) offer increasing rigor with higher reserve ratios and stake requirements. A game-theoretic challenge mechanism with automated slash distribution (30% challenger, 50% verifier pool, 20% burned) ensures dishonest audits are never profitable. The demo shows the full flow: an agent making payments within limits, Ledger co-signing large transactions, and the protocol blocking an over-limit payment — the cage holds.",
+  "how_its_made": "Six Solidity contracts (CCPRegistry, SpendingLimit, ReserveVault, AuditorStaking, ChallengeManager, FeeEscrow) deployed on Hedera Testnet via Foundry, all verified on Sourcify. The SpendingLimit contract implements a dual-signature model — agent signs alone below $5k, Ledger hardware co-signs above — making constraints truly agent independent. ReserveVault locks exogenous USDC collateral that cannot be withdrawn while a certificate is active. The slash distribution in AuditorStaking is on-chain and automatic.\n\nThe agent layer is TypeScript using Hedera SDK for HCS event logging, viem for EVM contract interaction, and @ensdomains/ensjs for cross-chain discovery — counterparties resolve an ENS name on Sepolia, read CCP text records pointing to Hedera, and verify everything on-chain without needing Hedera RPC directly. The agent also runs as an MCP server (Model Context Protocol) with 30+ tools, so AI models like Claude can natively verify certificates and execute constrained transactions.\n\nThe docs/dashboard are Next.js 16 with Fumadocs, featuring a live protocol explorer that reads contract state via viem. Ledger signing is simulated with a separate private key for demo but the architecture is structured for trivial swap to real @ledgerhq/device-management-kit calls. HCS publishing is non-fatal for testnet resilience. The entire 7-phase demo runs end-to-end: auditor attestation with stake, certificate publication, ENS-based verification, small payment (agent alone), large payment (Ledger co-signed), blocked over-limit payment, and HCS timeline proof.",
+  "auto_summary": "A Hedera-based protocol for publishing and verifying on-chain containment certificates that constrain AI agent spending and delegation.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bound-7w7iy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

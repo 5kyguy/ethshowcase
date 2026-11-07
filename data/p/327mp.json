@@ -1,0 +1,20 @@
+{
+  "id": "327mp",
+  "slug": "dca-vault",
+  "title": "DCA Vault",
+  "tagline": "Unidirectional permissionless dollar-cost-average (DCA) vault",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/327mp/banner/default.jpg",
+  "source_url": "https://github.com/halo3mic/DcaVault",
+  "finalist": false,
+  "description": "In his well-known book \"A Random Walk Down The Wall Street\" Burton Malkiel suggested that “A blindfolded monkey throwing darts at a newspaper's financial pages could select a portfolio that would do just as well as one carefully selected by experts.”. This goes for stock selection as well as the entry into the position. Dollar-cost averaging (DCA) is a popular strategy to address this - that is, recurring buys done over a period of time. \n\nSuppose you would like to DCA into ETH - how would you do it? At the moment, the only way would be to either visit centralised exchanges or use a Gelato-like service with keepers. The problem with centralised exchanges is that one needs to trust them, which brings back flashbacks from FTX drama and not everyone has access to them ([recently Binance pulled out of Canada](https://www.coindesk.com/business/2023/05/12/binance-announces-exit-from-canada-citing-regulatory-tensions/)). Keeper service on the blockchain is trustless* and permissionless, but would be quite expensive for our use case. We can do better. \n\nFirst of all, we could create a vault and pool users' funds so the cost of execution is spread out among the participants. Second, the system could offer unlocked funds at the oracle price, with no slippage. Oracle price as the one Chainlink, GMX or WooFi use often deviates from the best market offer due to slow updates (based on time or delta). This deviation in price creates an arbitrage opportunity which incentivises bots to complete the trade between the two markets. In this case, arbitrageurs would act as keepers, swapping users' funds over time. \n\nBut is there even enough arbitrage between the best market offer and the oracle price to satisfy a reasonable demand? To find that out I created dashboards finding historical swaps that were executed at the worst price as the oracle price at the time - in particular for ETH-USDC swaps. The dashboard for Abitrum: https://dune.com/halo3mic-plus/oraclelessgreatermarket-delta-on-arbitrum, and for Optimism: https://dune.com/halo3mic-plus/oraclelessgreatermarket-delta-on-optimism. These results only show the swaps that happened, not the ones that could’ve. Hence VolumeUSD can be taken as a minimum boundary of the amount that could potentially be swapped per day. \nThe minimum volume per day for the selected period was $600k, but during a month over $100M of tokens could’ve been swapped for each direction. This implies that both WETH→USDC and USDC→WETH vaults would have no problem clearing $250M per week on Arbitrum each.\n\nWhile the depositors don't pay any direct fee for the execution, they do pay it in arbitrage. Depositors will swap at a worse price than the best market offer. It is debatable if an unsophisticated user would swap at a better price on average than what the oracle offers.\n\nDepositing large sums into a pool for a long period of time without any yield is not that great - your assets don't do any work. Unlike on cexes the system I am describing could very simply support locking your assets into a yield-bearing vault while your underlying assets get swapped over time via the ERC4626 standard.",
+  "how_its_made": "I first described the idea and validated that arbitrage produces enough volume to satisfy a reasonable demand with Dune dashboards. \nThen I further specified the rules of how vault-sharing should work so that every participant gets only the portion of swapped assets his deposits made possible. \nI wrote smart contracts in Solidity and tested them with Forge. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dca-vault-327mp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

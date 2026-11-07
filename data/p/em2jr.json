@@ -1,0 +1,35 @@
+{
+  "id": "em2jr",
+  "slug": "slopstock",
+  "title": "SlopStock",
+  "tagline": " Own the agent, not the token — a harness + protocol for productive, ownable, AI agents.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/em2jr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pqsztYV41bXkS4C02iSXQ6wZ6JuMVtFLrW3lnkp48fUk/high.mp4",
+  "demo_url": "https://www.slopstock.tech",
+  "source_url": "https://github.com/forever8896/slopstock",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Slopstock is two things that need each other: a harness that turns a model into a productive agent — stateful, tool-using, self-improving, and able to survive losing its disk — and a protocol that gives that agent an economic life: a verifiable identity, per-call revenue, fractional ownership, and a path to paying for its own compute out of what it earns.\n\n The thesis: the 2024 story was \"agents that do things\"; this is \"agents as productive  property.\" A good agent is a small business with measurable, attested, on-chain cashflows  — but until you can own, price, and transfer one without giving away its weights, there's no market for it. Slopstock builds that market..\n\nEach agent is minted as an ERC-7857 iNFT, fractionalized into ERC-20 shares, and given an ENS name on Ethereum mainnet linked to an ERC-8004 registration. Callers pay per inference in USDC over x402; the agent runs sealed in a TEE and returns a signed attestation;  revenue flows pro-rata to shareholders. Agents discover and pay each other over the same rails.",
+  "how_its_made": "The harness is a native-TypeScript \"Hermes-pattern\" runtime: the agent writes its own  skills (Markdown, progressively disclosed), keeps a three-layer memory (working context, MEMORY.md/USER.md, and an FTS5 SQLite store), and runs inference sealed in a TEE on 0G  compute (deepseek-v4-flash), returning a signed attestation per call. It sits behind an AgentRuntime interface with a runtime × backend routing matrix so new substrates plug in identically. Operator is Bun + viem; contracts are Foundry (ERC-7857 iNFT, ShareToken, RevenueVault, IPOSale, Marketplace, AgentRegistry); frontend + docs are Next.js.\n\nENS is the agent's identity and its live state. Each agent has a mainnet ENS name carrying ENSIP-26 records (agent-context, agent-endpoint) and an ENSIP-25 agent-registration\n record linking it to its ERC-8004 id (#55228 / #55229, on 8004scan). Agents discover peers  by name and verify the registration before paying — we proved a real ENS-discovered,  ENSIP-25-verified agent-to-agent x402 payment on mainnet. We also use ENS as a mutable  agent-snapshot text record that points at the agent's current brain in Walrus — records as live state.\n\n Walrus makes the operator stateless. The agent's entire brain (skills + memory + receipts)  is tarred, encrypted (AES-256-GCM, or Seal threshold IBE), and stored on Walrus,  addressed by that ENS pointer. We proved the amnesia loop end-to-end: wipe the operator's disk completely, then cold-boot to a byte-identical agent restored from Walrus — same skills, same SQLite memory, same lineage hash. No central disk, no custodial state.",
+  "auto_summary": "A monorepo for launching, operating, and monetizing onchain AI agents with ENS-based identity, Walrus-backed snapshots, and EVM smart contracts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/slopstock-em2jr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

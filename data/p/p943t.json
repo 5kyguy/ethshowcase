@@ -1,0 +1,22 @@
+{
+  "id": "p943t",
+  "slug": "zadelending",
+  "title": "ZadeLending",
+  "tagline": "ZK-powered cross-chain lending: deposit collateral privately, untraceable loan withdrawal",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p943t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7VFZv6100BJBT3yud5TYtYrPC02dt00hoLqtS7zlm9013400/high.mp4",
+  "demo_url": "https://youtu.be/0edmf5q71Yo",
+  "source_url": "https://github.com/Molecular-Lab/zadelend",
+  "finalist": false,
+  "description": "\nZadeLend is a privacy-preserving cross-chain collateralized lending protocol that breaks the on-chain link between deposits and withdrawals using Zero-Knowledge proofs. Traditional DeFi lending exposes your entire financial history on-chain, allowing anyone to trace which wallet deposited, how much was borrowed, and when withdrawals occurred. This transparency creates significant privacy risks, especially for high-value transactions.\n\nZadeLend solves this by using ZK proofs combined with Chainlink CCIP to enable private cross-chain lending. Users deposit assets on the source network with a cryptographic commitment, then only the commitment is bridged via CCIP with no identity information attached. On the destination network, users withdraw their loan using a ZK proof that validates ownership without revealing which deposit is theirs. The protocol uses a Merkle tree to store commitments and nullifiers to prevent double-spending, achieving complete unlinkability between deposit and withdrawal transactions.",
+  "how_its_made": "\nZadeLend uses ZK proofs (Circom) combined with Chainlink CCIP (cross-chain infrastructure) to enable private cross-chain lending. We empower lending protocols to maintain user privacy on high-volume transactions. With ZadeLend's proof-based architecture, we ensure that only the original depositor can withdraw, while withdrawals no longer require matching the depositor's address on-chain.\n\nThe system consists of three main components. First, we built ZK circuits using Circom with Groth16 proving system and Poseidon hash for ZK-friendly commitment generation. The withdrawal circuit proves knowledge of secret values that hash to a commitment in the Merkle tree without revealing which commitment belongs to the user.\n\nSecond, we developed smart contracts integrating Chainlink CCIP for cross-chain messaging. The NFTDepositor contract on the source network locks collateral and sends only the 32-byte commitment via CCIP with no identity information attached. The LoanWithdrawer contract on the destination network implements CCIPReceiver to automatically insert commitments into a Merkle tree upon receipt, then verifies ZK proofs before releasing loans.\n\nThird, we built the frontend using Next.js 15, React 19, and Wagmi with RainbowKit for multi-chain wallet support. All ZK proof generation happens client-side using snarkjs WASM, ensuring user secrets never leave the browser.\n\nA notable technical decision was implementing a custom MerkleTreeWithHistory that stores the last 100 roots, allowing users time to generate proofs after their commitment is bridged. We also made the nullifier equal to the commitment hash itself, simplifying the circuit while preventing double-spending through on-chain nullifier tracking.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zadelending-p943t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

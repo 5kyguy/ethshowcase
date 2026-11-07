@@ -1,0 +1,29 @@
+{
+  "id": "9q29k",
+  "slug": "onigiri",
+  "title": "Onigiri!",
+  "tagline": "Onigiri! is a turn-based, fully onchain game written in Cairo using the Dojo game engine, Bevy, and Tokio. Oh, and it's also blazingly fast, because of course it's all written in Rust.",
+  "event": {
+    "slug": "starkhack",
+    "name": "StarkHack",
+    "start_time": "2024-06-13T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9q29k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/h1f5C01x4OmWgIU2YD8fTcs5iMqfSm008m1I2RiCd003eE/high.mp4",
+  "source_url": "https://github.com/elton-cs/cairo-senzubean",
+  "prizes": [
+    {
+      "sponsor": "Cartridge",
+      "sponsor_id": "frkz3",
+      "placement": "Deploy with Slot!",
+      "title": "Deploy with Slot!"
+    }
+  ],
+  "finalist": false,
+  "description": "This project leverages the dojo stack to build a fully onchain turn-based game. The objective of the game is to reach the onigiri while dodging the enemy's attacks. You win if you reach the onigiri and the enemy wins if they hit you 3 times. You are placed in a 7x3 arena and have to choose the correct step on each turn until you reach the onigiri, which is 5 steps away from you. ",
+  "how_its_made": "The project leverages uses the dojo stack, including sozo, torii, katana, and cartridge's slot to deploy the game logic and dojo contracts. It also uses Bevy on the frontend to display the game's visuals. \n\nThe core game logic is written in Cairo using the Dojo game engine. The game logic is split into models and systems and closely follows the ECS framework, which is a well known programming pattern for game development. \n\nNext, all contracts are deployed unto a katana sequencer instance using cartridge's slot framework. Once deployed, a torii instance is also spun up using slot to facilitate indexing and proper data communications between the game server and a game client. \n\nThe game client was built using Bevy, a rust game engine that also follows the ECS programming pattern, which was beneficial to keep the ECS paradigm consistent and manageable between both the contracts side and the client side. Another benefit of using Bevy was being able build a torii client from scratch because both torii and Bevy are written in rust. However, because it had to be written from scratch, a lot of time was spent working out the torii client to faciltate proper Bevy x Dojo integration. \n\nRegardless, this was overall a good thing because I was able to build a pretty fleshed out example of how one could use Bevy with Dojo to build onchain games.\n\nOne hacky thing that was done was using rust's async runtime Tokio in conjunction with Bevy to be able to receive entity updates from the torii server. Because most game engines,  Bevy included, work primarily synchronously, bridging async rust into Bevy's syncfull world was also challenging. However, using tokio's message passing features (mpsc), I was able to create a straightforward bridge between the Bevy sync world and the tokio async world. This was achieved by running the tokio builder in a separate thread with Bevy running on the main thread and message passing all entity updates received from the torii server over to Bevy. \n\nOverall, it was a great project too work on. There were still a lot of features I wasn't able to get too, but I hope to continue building this game and maybe even work on building a Bevy SDK for other gamers to have an easier time integrating Dojo with Bevy! ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/onigiri-9q29k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

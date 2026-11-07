@@ -1,0 +1,27 @@
+{
+  "id": "vz1zn",
+  "slug": "receivables-flow",
+  "title": "Receivables Flow",
+  "tagline": "The capital flywheel for invoice receivables: source, fund, resell, repay, and reprice capital cost",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vz1zn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LEGuCVAnNQmwIbjGFVtXRnz01woTlq2W3SFudo6awepM/high.mp4",
+  "demo_url": "https://business-production-0df2.up.railway.app",
+  "source_url": "https://github.com/cvestrada/receivables-flow",
+  "finalist": false,
+  "description": "Business App:  https://business-production-0df2.up.railway.app\nInvestor App:   https://investor-production-d938.up.railway.app\n\nA business is owed $50,000 on an invoice and has to wait 60 days for it. Payroll does not wait. Invoice factoring/financing exists to bridge that cashflow gap, but it has two problems: the investor's money is locked until the customer pays, and nobody outside one lender can see whether the business pays on time.\n\nReceivables Flow fixes both. Two of three business directors approve the invoice sale through a Privy key quorum, and the invoice is minted on Hedera as a token that only KYC-approved investors can hold. For example:\n- Day 0: an investment fund buys it for $47,990, a 4.02% fee priced off the business's public repayment record.\n- Day 20: the fund sells half of the invoice to another investor for $24,330 on the secondary market, so the fund gets liquidity before the invoice is due.\n- Day 60: the business repays $50,000 on-time and each holder is paid $25,000. The first fund made $1,340, the second $670, and the whole $2,010 of return is the fee the business paid.\n\nThen the loop closes. The on-time repayment is written to the business's ENS name (ironline.business.receivablesflow.eth) and its credit score rises from 83 to 86 — so in the next round of financing, the business gets a lower cost of capital because of its own timely repayment behavior.",
+  "how_its_made": "This project has two Next.js apps: a business portal for Ironline Freight and an investor portal for Woodgrove Capital. They share three workspace libraries: the Privy layer, the Hedera contracts, and the ENS registry code.\n\nHedera settles the full lifecycle of the receivable. The invoice is issued with Asset Tokenization Studio as a whitelist-only security: $50,000 face value, 60-day maturity, one unit per dollar. Payment is in mUSDC, a mock dollar deployed for the demo because Circle's testnet faucet caps at $20. A delivery-versus-payment contract settles each sale by moving the mUSDC and the token in one atomic transaction. The same transaction also books the day-60 repayment on Hedera's schedule service. KYC is enforced by the invoice token itself. Only wallets on its approved list can hold the security. Every step of the lifecycle runs on Hedera: issuing the token, the sale to the fund, the day-20 resale on the secondary market, and the day-60 repayment to each holder.\n\nENS holds a business's creditworthiness in public, under its own name. On the ENSv2 hackathon deployment on Sepolia, receivablesflow.eth issues ironline.business and woodgrove.investor, so both portals show a readable name instead of a wallet address. A Permissioned Resolver lets only the platform key write the fields that matter. The investor's KYC pass is a wallet record plus the name's expiry. The business's repayment history is five counts on its name: financed, paid on time, paid late, defaulted, and outstanding. The fee on every invoice is computed live from those counts by a published formula, so each on-time repayment raises the score and lowers the cost of the next invoice. In the demo the score rises from 83 to 86 and the fee falls from 4.02% to 3.84%.\n\nPrivy provides the controls a B2B financial product needs. Both portals sign in with email OTP, with no extension or seed phrase. On the business side, tokenizing an invoice requires two of the company's three directors to sign, enforced by a Privy key quorum on the company wallet. For the demo, the first signature is made automatically by the app backend, and whoever signs in as demo user is seated as a director so their approval is the second.  On the investor side, the fund's wallet is governed by a Privy policy that enforces its mandate: no payment above $100,000, and no payment to a business that is not on the approved list. Anything outside the mandate is refused by Privy, not by application code. Both wallets transact on Hedera through Privy's EVM RPC.",
+  "auto_summary": "A two-portal app tokenizes invoice receivables on Hedera, manages investor transfers and repayment, and stores business credit records on ENSv2.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/receivables-flow-vz1zn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

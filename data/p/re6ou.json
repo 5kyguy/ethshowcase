@@ -1,0 +1,27 @@
+{
+  "id": "re6ou",
+  "slug": "argus4626",
+  "title": "Argus4626",
+  "tagline": "Real-time ERC-4626 vault monitoring that detects attacks before they become lost funds.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/re6ou/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SInoSp9U9q89VK00hbAqs01Zc02tt2qyudE802AdtKAZ50200/high.mp4",
+  "demo_url": "https://argus4626.alva-p.xyz/",
+  "source_url": "https://github.com/alva-p/Argus4626",
+  "finalist": false,
+  "description": " ERC-4626 vaults can be affected by donation/inflation attacks, liquidity drains, share-price crashes, and unbacked minting. I built Argus4626 as a real-time watchdog that detects these patterns directly from on-chain activity and exposes actionable alerts through a live dashboard and GraphQL API.\n\nArgus currently monitors four attack patterns: abnormal asset growth without matching shares, withdrawals consuming more than 35% of available liquidity in a short window, sharp asset or share-price drops without a matching withdrawal, and supply growth without sufficient backing assets.\n\nI validated the system against a real first-depositor donation attack on a deployed Sepolia vault. The attack used a direct ERC-20 transfer that bypassed the vault’s own events, and Argus still detected it through the underlying asset’s Transfer event and produced a CRITICAL alert end-to-end.",
+  "how_its_made": "I built Argus with Rust, The Graph Substreams, Subgraph Studio, Next.js, TypeScript, and GraphQL.\n\nThe core Rust Substreams module decodes ERC-4626 Deposit and Withdraw events together with ERC-20 Transfer events directly from Firehose blocks. Store modules maintain per-vault asset and supply deltas, while rolling 60-second withdrawal buckets measure sudden liquidity outflows. A separate Rust module evaluates the security invariants and emits alert entities for a standard EVM Subgraph.\n\nThe detection logic avoids floating-point arithmetic and division. Threshold comparisons use a custom U1024 type so uint256-scale multiplication cannot overflow.\n\nTo validate the project, I deployed an ERC-4626 vault and asset on Sepolia, executed a real first-depositor donation attack, and confirmed the resulting CRITICAL alert through the live Subgraph and dashboard.\n",
+  "auto_summary": "A Rust Substreams pipeline and Next.js dashboard monitor ERC-4626 vault activity and surface security alerts through Graph-backed data APIs.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/argus4626-re6ou",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

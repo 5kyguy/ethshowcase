@@ -1,0 +1,21 @@
+{
+  "id": "zrxpn",
+  "slug": "player-2-player",
+  "title": "Player-2-Player",
+  "tagline": "We are building a bartering system on chain where players can trade bundles of ERC20's, ERC721's and amounts of ETH",
+  "event": {
+    "slug": "web3jam",
+    "name": "Web3Jam",
+    "start_time": "2021-11-12T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zrxpn/banner/default.jpg",
+  "demo_url": "https://ipfs.fleek.co/ipfs/Qme1qNbFNhVNwiNgHgVW44TviaQnN6MWcJtvUjd4M6YxGS/",
+  "source_url": "https://github.com/doylio/barter-web3",
+  "finalist": false,
+  "description": "This project is an application to allow 2 users to barter with each other for arbitrary assets.  The inspiration for this came out of MMO RPG games, where players can trade with each other in game, by proposing that they exchange some group of items for some other group.  In our application, a user can type in an address or ENS name, and they will be brought to a screen to propose a trade.  They will select any group of NFTs and ERC20s from their wallet, and any group of NFTs and ERC20s from the other users wallet.  They can then propose a trade, where they will be prompted to approve the barter contract to transfer those assets, before creating the trade in the smart contract.",
+  "how_its_made": "We built this project with a smart contract backend, written in solidity.  It is responsible to keeping track of offers made between users, and for handling the transfer of assets between users if the offer is accepted.  We created the smart contract with Hardhat, and built an extensive test suite.  \n\n\n\nFor the frontend, we used NextJS and Ethers to create the client app.  We originally wanted to use the Covalent API to fetch the list of ERC20 and ERC721s from an account, but we kept getting timeout errors so eventually switched to Moralis.  The app needed to use the server to fetch a list of all NFTs and ERC20 in the 2 users accounts so the trade could be constructed.  This also turned out to be problematic, because Moralis does not catalogue on all assets on Rinkeby, the testate we deployed to.  So at present, the fetching of assets is broken\n\n\n\nWe also needed the frontend to make sure all transfers were approved before the trade was created or accepted.  This meant a lot of complicated ethers code to ensure no gas was wasted in a trade that was not ready.\n\n\n\nFor resolving ENS names, we used the Ethers ens functions.\n\n\n\nWe deployed our client on IPFS.  To do this, we originally used a local IPFS node, but eventually migrated to fleek.co for convenience.  This was much more difficult than anticipated because many of the abilities and properties of a web server are not available on IPFS.  For example, we originally had multiple pages with dynamic routing.  `/offer/brantly.eth` would resolve to the create offer page with the brantley.eth address as the target.  However on IPFS, this could not be achieved, as everything resolved to a simple file system.  \n\n\n\nTo get around this, we reorganized the client to render in a single page.  We feel that it would be possible to have different routes for different pages, but with time constraints, we decided not to attempt that for this project.\n\n\n\nIn general, we felt that our designs and smart contract were very well executed.  We feel that our frontend client needs some more work, and some better IPFS integrations beyond the single HTML page.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/player-2-player-zrxpn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

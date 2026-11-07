@@ -1,0 +1,27 @@
+{
+  "id": "9c2f0",
+  "slug": "crew-ai",
+  "title": "Crew AI",
+  "tagline": "Hire AI agents that pay per call in USDC, each with an ENS name and a budget it can't raise",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9c2f0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/45oA9gyS02YPwzEUP1kPaMdQ1PBUWmtCLt5g6OzsJdAw/high.mp4",
+  "demo_url": "https://www.npmjs.com/package/@harsh132/crew-ai",
+  "source_url": "https://github.com/harsh132/edgerouter",
+  "finalist": false,
+  "description": "Crew AI lets you run a crew of AI agents that spend real money without ever holding a key. Every agent you hire gets its own ENS name under yours (researcher.alex.crewai.eth), a budget it cannot raise, and a workspace on your machine. Every reply shows what it cost.\n\nHow it works:\n1. Install with `npm install -g @harsh132/crew-ai` and run `crew`.\n2. Log in with Privy and sign twice. Your crew's key is derived from that signature, so the same wallet restores the same crew on any computer. There is nothing to back up.\n3. Claim you.crewai.eth, owned by your own wallet.\n4. Send USDC on Arc. It is deposited into Circle Gateway automatically.\n5. Hire agents and give them tasks. Every model call is paid for over x402, and charged only for the tokens it actually used.\n\nBudgets are enforced by the side holding the money. Agents hold capability tokens, not keys, and a local authority refuses to sign once an agent's budget is spent. An agent can ask for more, and a human approves an amount. Revoking an agent clears its ENS address record, and the authority checks that name before every payment, so revocation is on chain, verifiable by anyone, and stops an agent mid-task.\n\nOrganizations get their own .eth name, owned by a Privy key-quorum wallet that only its owners control. Owners and managers invite members by their Crew name, and each member accepts in their own app and gets a name under crew.<org>.eth issued to their own wallet.",
+  "how_its_made": "Four pieces, TypeScript throughout.\n\n1. x402 gate (Cloudflare Worker). An OpenAI-compatible endpoint in front of OpenRouter, limited to three cheap models for testnet use for now. Payments settle through Circle Gateway nanopayments on Arc testnet. x402's exact scheme can only charge a fixed price, so we built prepaid tabs: a Durable Object per payer holds a balance, each call reserves a ceiling with an EIP-712 voucher, and the gate meters OpenRouter's reported cost from the stream and settles only what was used. The receipt rides in an SSE comment, so streaming still works.\n\n2. Budget authority (packages/core + sdk). Macaroon-style capability tokens that can only be narrowed, plus a spend tree held in the one process that has the key. Sub-agents get a capability, never a key; every payment is charged to their node, and an ENS name guard re-checks the agent's name before each signature.\n\n3. Crew runtime and UI (published to npm as @harsh132/crew-ai, plain Node). Agents run on the pi agent loop with tools for their workspace and for requesting more budget. The React, Tailwind and shadcn UI is served by the runtime. The crew key is derived from two EIP-712 signatures, checked for determinism so smart and passkey wallets are refused. Wallet USDC is auto-deposited into Gateway.\n\n4. Crew backend (Cloudflare Worker, D1, Durable Objects). Privy access-token auth and Privy key-quorum wallets for organizations. Names live on ENSv2 on Sepolia: each user and org name gets its own registry and resolver, deployed through ENSv2's VerifiableFactory, with role bitmaps that let the crew signer only register, revoke and write records for its agents.\n\nHacky bits worth mentioning: a user's whole name setup (deploy registry, deploy resolver, register, set address, fund the signer's gas) is one EIP-7702 batch through our own Batch7702 delegate, in one block. The batch needs contract addresses before they exist, so we simulate each factory deployment first to learn them. ENSv2 token ids carry a version in their low 32 bits, so reads have to clear them, and the deployed resolver only accepts DNS-encoded setAddress.",
+  "auto_summary": "A TypeScript monorepo for AI agents with budget-limited payments, ENS-based identities, and Arc USDC settlement through x402 and Circle Gateway.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/crew-ai-9c2f0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

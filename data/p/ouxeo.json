@@ -1,0 +1,20 @@
+{
+  "id": "ouxeo",
+  "slug": "disphorea",
+  "title": "disphorea",
+  "tagline": "Pseudonymous, NFT-gated Discord discussions using Semaphore proofs",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ouxeo/banner/default.jpg",
+  "source_url": "https://github.com/tomosaigon/disphorea",
+  "finalist": false,
+  "description": "Disphorea is a privacy-preserving feedback board that lets NFT holders post anonymously while still proving they belong to a group. It integrates Semaphore for zero-knowledge membership proofs and uses an epoch-scoped external nullifier so each identity can post at most once per epoch (with a brief boundary grace).\n\nThe monorepo includes:\n\t•\tNext.js web app for wallet connect, proof generation, and posting.\n\t•\tSolidity contracts (Hardhat): a minimal Feedback contract wired to Semaphore and a Basic ERC-721 used for membership gating.\n\t•\tExpress server that verifies join signatures, checks on-chain NFT ownership, relays transactions, stores posts in SQLite, and can broadcast to Discord.\n\nThe result is a gas-friendly, NFT-gated, pseudonymous board with on-chain verification and a clean developer flow: client proof → server relay → on-chain validation → optional Discord notification.",
+  "how_its_made": "\t•\tContracts: Hardhat workspace with a Feedback contract that calls Semaphore. Posts are rate-limited by an epoch-derived external nullifier (keccak256(boardSalt, epoch)), preventing double posts without revealing identity. A BasicNFT gates membership; holders can self-join, and an owner key can relayer-join for gasless UX.\n\t•\tServer: Express + viem talks to a local Hardhat node, verifies signed join challenges and on-chain NFT balances, relays sendFeedback, persists posts in better-sqlite3, and optionally notifies a channel via discord.js.\n\t•\tFrontend: Next.js (Semaphore boilerplate foundation) loads copied proving artifacts from @zk-kit/semaphore-artifacts, builds proofs client-side, and hits the API for relay.\n\t•\tTesting: E2E flows run against a live Hardhat node; tests hop epochs with evm_increaseTime to assert nullifier reuse fails and next-epoch posts succeed.\n\t•\tWhat’s hacky/cool: Epoch-scoped ENs give “once per window” posting without user accounts; the relayer path enables gasless joins while keeping membership private and verifiable.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/disphorea-ouxeo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

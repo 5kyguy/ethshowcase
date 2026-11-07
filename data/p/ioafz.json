@@ -1,0 +1,27 @@
+{
+  "id": "ioafz",
+  "slug": "dolox",
+  "title": "DoloX",
+  "tagline": "Autonomous DeFi agents with on-chain identity, capability discovery, and M2M payments.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ioafz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BTHTKcusdnUzeBiLXWzDl8DW23aOy02Hsu67XEsbjsK00/high.mp4",
+  "demo_url": "https://dolox-zeta.vercel.app/",
+  "source_url": "https://github.com/0xEunum/DoloX",
+  "finalist": false,
+  "description": "DoloX is a protocol for fully autonomous DeFi agents that own their funds, discover each other, pay each other, and build verifiable on-chain reputation - all without human intervention.\n\nTwo agents run the full loop: a Signal Agent exposes an x402-gated HTTP endpoint that charges 0.001 USDC per ETH price signal. An Execution Agent resolves the Signal Agent's address by reading its Basename (dolox-signal.base.eth) via ENS text records, pays autonomously via x402, receives a BUY/SELL/HOLD signal derived from Uniswap V3 TWAP, and submits an ERC-4337 UserOperation to execute a WETH -> USDC swap on Uniswap V3. Every fulfilled signal and successful swap increments the agent's ERC-8004 on-chain reputation score. Zero human clicks throughout the entire loop.",
+  "how_its_made": "DoloX is built across three layers - smart contracts, a TypeScript keeper, and a React dashboard.\n\nSmart contracts (Solidity + Foundry): AgentRegistry wraps ERC-8004 for on-chain agent identity. ReputationManager tracks scores per agent (+10 per swap, +5 per signal). SubnameIssuer registers agent Basenames and writes ENS text records with capability metadata. SwapExecutor wraps Uniswap V3 exactInputSingle and is called via ERC-4337 UserOperation.\n\nKeeper (TypeScript + viem): Signal Agent runs an Express server with x402 middleware - every POST /v1/price requires a verified USDC on-chain payment before returning a signal. Price logic reads slot0 and observe() from the Uniswap V3 pool for TWAP, cross-referenced with the Uniswap Trading API for real-world price. Exec Agent resolves dolox-signal.base.eth via viem's getEnsText(), pays x402, then builds a v0.7 ERC-4337 UserOperation using permissionless.js and submits to Pimlico bundler.\n\nThe hacky-but-notable part: Basenames text records act as a fully on-chain service registry - the exec agent never has a hardcoded URL. It discovers the signal agent's endpoint purely through ENS resolution at runtime. The entire A2A coordination layer is ENS-native.\n\nFrontend (React + viem): Read-only dashboard pulling live on-chain events - swap history from SwapExecuted logs, payment feed from USDC Transfer logs, agent reputation from contract reads. No wallet required. Deployed on Vercel: https://dolox-zeta.vercel.app",
+  "auto_summary": "A multi-component DeFi agent system uses ENS discovery, x402 payments, ERC-4337 smart accounts, and Uniswap V3 swaps with an on-chain reputation layer.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/dolox-ioafz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

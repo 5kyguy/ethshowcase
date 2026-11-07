@@ -1,0 +1,27 @@
+{
+  "id": "s492r",
+  "slug": "klaxon",
+  "title": "Klaxon",
+  "tagline": "CI secrets a stolen credential can't use: split in two, released only against an on-chain payment.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s492r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kH00PZaxwyeE8KhNB901TFcIUI5lPycoPBIbR01iSwSFFs/high.mp4",
+  "demo_url": "https://klaxon-ethonline.vercel.app/",
+  "source_url": "https://github.com/KaranSinghBisht/klaxon",
+  "finalist": false,
+  "description": "KLAXON makes CI/CD secrets useless to steal. Today a deploy key sits in plaintext in every step of a workflow, so one compromised dependency can read it and reuse it anywhere, forever, and nothing records that it happened. KLAXON splits each secret into two shares. Share A is encrypted under your Ledger Key Ring and committed to your repository in public — worthless on its own. Share B never leaves a witness service that only releases it when the workflow pays a tiny payment on Hedera whose transaction memo is a commitment naming the exact secret, environment and run, and proves, with GitHub's own OIDC token, that it really is the job you authorized. A job the policy doesn't name gets nothing, even holding every credential. And because the witness publishes every release and every refusal to a Hedera consensus topic before it answers, no secret can be opened quietly: each attempt leaves a permanent, timestamped receipt the owner sees the instant it happens. Stolen, but never quietly.",
+  "how_its_made": "KLAXON is a TypeScript/Node monorepo (pnpm, vitest). A GitHub Action runs on the hosted runner: it builds a signed commitment, then pays the witness through Hedera's x402 flow via the Blocky402 facilitator — the transaction memo IS the commitment hash — and presents GitHub's OIDC token bound to that commitment plus an ephemeral proof-of-possession key. The witness (Fastify) runs a pipeline of checks — JWT signature, commitment binding, policy match, and an atomic budget/replay guard — and only then returns share B. Share A is encrypted under Ledger's Key Ring Protocol (LKRP): the trustchain is enrolled on a physical Nano, and the hosted runner restores it headlessly to decrypt inside that one step. Policy is anchored on a Sepolia registry contract the owner's Ledger controls, with ERC-7730 descriptors so the device can review each call. Every decision is chunked and written to a Hedera consensus topic (HCS); a Next.js audit site re-reads the Hedera mirror node directly in the browser and re-verifies each payment memo against its commitment, so it trusts nobody and would show the gap if the witness ever lied. Alarms go out over ntfy. Partner tech: Ledger (Key Ring), Hedera (x402 payments + HCS via Blocky402), and Bazantic (Track 2 recipe over the Mirror Node).",
+  "auto_summary": "A TypeScript monorepo that gates CI/CD secret release with Ledger-backed decryption, Hedera-paid witness checks, and auditable release logs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/klaxon-s492r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

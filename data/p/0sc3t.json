@@ -1,0 +1,27 @@
+{
+  "id": "0sc3t",
+  "slug": "freelance-trail",
+  "title": "Freelance Trail",
+  "tagline": "Verifiable freelance escrow: milestones, payments, and GitHub-proven contributions",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0sc3t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7j009Te4dwXv3DekiD6cGwslJUDQsVXMiz3Ey9OjJreA/high.mp4",
+  "demo_url": "https://youtu.be/LAUOTf_DKYc",
+  "source_url": "https://github.com/Wilfred007/FreelanceTrail",
+  "finalist": false,
+  "description": "FreelanceTrail is a blockchain-powered freelance platform that replaces trust with verification. Clients scope projects into milestones and fund each one in USDC\nthrough a smart contract escrow on Arc Testnet — funds release only after a milestone is approved. Developers submit proof of work that's checked against their\nreal, merged GitHub pull requests, not a written claim. Every on-chain event is indexed through a Graph Protocol subgraph for fast, reliable syncing. AI agents\nbuilt on NVIDIA's models analyze contributions, generate a portable Developer Payment Passport summarizing verified earnings and reputation, and match clients\nwith developers based on real coding history instead of a resume.",
+  "how_its_made": "The stack: NestJS + Prisma 7 (Postgres) for the backend, Next.js 16 (App Router, Turbopack) + wagmi/viem + TanStack Query + Tailwind v4 for the frontend, and a\nSolidity escrow contract (Foundry) deployed on Arc Testnet handling USDC milestone payments end to end.\nArc was the natural fit for the escrow layer since it's built for stablecoin settlement — USDC moves natively rather than as a bolted-on ERC-20, which matters\nwhen you're locking and releasing funds per milestone instead of per project.\nFor on-chain sync, we started by polling Arc's RPC directly with viem — and hit its rate limits hard mid-hackathon once the escrow had real history to scan. We\nreplaced that with a hand-authored Graph Protocol subgraph indexing all six contract events, with the backend polling its GraphQL endpoint and persisting a sync\ncursor for instant, rate-limit-free restarts. graph init's interactive wizard didn't work in our sandboxed shell, so we hand-wrote the schema/manifest/mappings\ndirectly and verified correctness by getting graph codegen && graph build to actually compile, rather than trusting the docs blind.\nThree AI agents (Mastra + NVIDIA NIM models) power contribution analysis, reputation generation, and freelancer matching. Getting NVIDIA's API reliable was its\nown saga — we hit EOL'd models, unprovisioned models, and one reasoning model that hung for 12 minutes before we settled on nemotron-3.5-lightning. We also\nchased down an intermittent ENOTFOUND that only Node's dns.lookup() (not dns.resolve()) triggered, fixed with a custom undici.Agent doing manual DNS resolution.\nThe most \"hacky-but-real\" design choice: milestone proof isn't free text. A developer must pick from their own verified, merged GitHub pull requests, and the\nchain listener matches the submitted proof URL against that list before marking it verified — turning \"trust me, it's done\" into something actually checkable.",
+  "auto_summary": "A freelance marketplace uses smart-contract escrow, GitHub-verified work proofs, backend indexing, and AI-based developer analysis and matching.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/freelance-trail-0sc3t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

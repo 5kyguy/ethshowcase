@@ -1,0 +1,30 @@
+{
+  "id": "p2xeo",
+  "slug": "globepool",
+  "title": "GlobePool",
+  "tagline": "Tokenize real-world assets and stake $WLD with one click using World ID with HashKey Tokenised RWAs.",
+  "event": {
+    "slug": "taipei",
+    "name": "ETHGlobal Taipei",
+    "start_time": "2025-04-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p2xeo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6Vg00LvCDmL402dh8Xy1GQcuf87zSbBIulevXgjxT8sjg/high.mp4",
+  "demo_url": "https://youtu.be/pHg4k-vBXps",
+  "source_url": "https://github.com/Pranav9931/ethtaipei",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "World Pool Prize",
+      "title": "World Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "This project is a decentralized finance (DeFi) platform that enables users to tokenize real-world assets (RWAs) as NFTs, stake Worldcoin ($WLD) tokens, and interact with smart contracts using World ID for verified identity and Permit2 for gasless token approvals.\n\n🔐 Key Features:\nReal-World Asset Tokenization\nUsers can upload a formal copy or image of an asset (like property deeds, invoices, or certifications). The backend hashes and stores the metadata, then mints an NFT on the HashKey Chain, representing the real-world asset. These NFTs are held in the user's wallet but are governed by smart contracts that limit transfers until loan conditions are fulfilled.\n\nStake $WLD with Permit2\nUsers can stake Worldcoin tokens using a sleek React UI powered by MiniKit. Token approval is handled via Permit2, allowing gasless, secure, and standardized token permissions without needing the standard ERC-20 approve() transaction.\n\nDecentralized Lending & Borrowing\nBuilt on a model similar to Aave or Compound, the platform allows users to borrow WLD against their tokenized assets with:\n\nOvercollateralization (minimum 150% ratio),\n\nDynamic interest rates (3–5% for lenders, 10–12% for borrowers),\n\nTime-bound repayments, and\n\nLiquidation if loans default.\n\nSmart Identity Integration with World ID\nIdentity verification and wallet actions are integrated through Worldcoin's World ID, enabling sybil-resistant user interactions without compromising privacy.\n\nBackend & Frontend Stack\n\nFrontend: React + MiniKit + MUI + styled-components\n\nBackend: Express.js handles uploads, metadata hashing, and MongoDB storage.\n\nBlockchain: HashKey Chain for RWANFT minting, and Worldcoin-compatible chains for staking/borrowing.\n\nThis project aims to bridge the gap between DeFi and real-world asset utility, making decentralized lending more inclusive, identity-aware, and regulation-ready — all while keeping UX clean and transactions efficient.",
+  "how_its_made": "This project combines DeFi, NFTs, and identity-proofing into a unified dApp by weaving together several modern technologies across frontend, backend, and blockchain layers.\n\n🧱 Core Architecture\n🖥 Frontend\nFramework: Built using React with TypeScript.\n\nBundler: Vite for lightning-fast development and optimized builds.\n\nUI: Leveraged Material UI (MUI) and styled-components for a clean, responsive interface.\n\nWallet & Identity: Integrated Worldcoin’s MiniKit for:\n\nWallet abstraction\n\nWorld ID identity verification\n\nTransaction signing (via commandsAsync.sendTransaction)\n\nStaking UX: Implemented a multi-step flow using MUI’s Stepper to walk users through:\n\nPermit2 token approval\n\nStaking execution\n\nCompletion state\n\nPermit2 Support: We bypass the need for a traditional approve() call by injecting Permit2 payloads directly into the MiniKit.sendTransaction API. This avoids gas-wasting double approvals and simplifies UX.\n\n🛠 Backend\nRuntime: Express.js\n\nStorage: MongoDB to persist RWA metadata including asset hash, file reference, and ownership data.\n\nAsset Handling:\n\nAccepts images or document uploads (JPEG, PNG, PDF).\n\nHashes them using crypto or keccak256.\n\nStores the resulting hash + metadata.\n\nTokenization API: After backend verification, a transaction is sent to mint an RWANFT on the HashKey Chain, using a deployed smart contract.\n\n⛓ Smart Contracts & Blockchain Integration\nRWANFT Contract: Deployed on HashKey Chain, representing real-world assets as NFTs.\n\nNFT transfer is restricted unless loan conditions are fulfilled.\n\nIncludes a custom canTransfer logic based on loan status.\n\nWorldFinance Contract: Deployed on a Worldcoin-compatible EVM chain.\n\nLending pool initialized with 20 WLD.\n\nDynamic interest model: APY calculated based on utilization rate.\n\nBorrowing metadata stored: collateralType, tokenId, chain, etc.\n\nTime-bound loans and liquidation logic implemented.\n\n🤝 Partner Tech & APIs\nWorldcoin MiniKit:\nEssential for integrating World ID, wallet connection, and zero-config transaction signing.\n\nMajor UX advantage: no need to manually handle ethers.js or external wallet providers.\n\nPermit2 (Uniswap’s ERC20 approval protocol):\n\nRemoves friction in token approvals.\n\nBoosts UX by replacing approve() with off-chain signature permits.\n\nChainlink (planned): For accurate WLD price feeds and liquidation thresholds.\n\n🧪 Notable Hacks / Engineering Highlights\nPermit2 Injection Hack:\nManually crafted and passed the Permit2 payload into MiniKit.sendTransaction alongside a dummy transaction array to simulate a seamless flow without triggering approval transactions. Great for keeping gas costs minimal and UX snappy.\n\nMinimal Trust NFT Custody:\nAssets are stored in the user’s wallet but smart contracts enforce transfer restrictions until loans are fully repaid — this enables custody with on-chain enforcement, not off-chain trust.\n\nComposable Metadata Layer:\nRWA metadata is decoupled from NFT minting. Metadata hash is stored in MongoDB while the NFT contract only deals with the hash, making it chain-agnostic and easily upgradeable.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/globepool-p2xeo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

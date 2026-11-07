@@ -1,0 +1,21 @@
+{
+  "id": "fx2s4",
+  "slug": "deeplend",
+  "title": "DeepLend",
+  "tagline": "A permissionless lending and borrowing protocol built on top of DeepBook V3's margin pools on Sui.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fx2s4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5ViGp6BREzDvSwPnzXSD7VbHa7gASHfe8EkLmxnWA74/high.mp4",
+  "source_url": "https://github.com/karangoraniya/deeplend",
+  "finalist": false,
+  "description": "DeepLend is a full-stack DeFi lending application that leverages DeepBook V3's native margin pool infrastructure on Sui blockchain. Instead of deploying a custom lending smart contract, DeepLend composes directly on top of DeepBook V3's existing on-chain margin system making it a truly composable DeFi primitive.\n\nUsers can participate as lenders or borrowers. Lenders mint a one-time SupplierCap credential and supply SUI, DBUSDC, or DEEP tokens into DeepBook's margin pools to earn interest generated from borrower demand.\nBorrowers create a MarginManager (a shared on-chain object), deposit collateral, and borrow tokens against their position while monitoring their health ratio in real-time.\n\nThe app features a Dashboard showing live market data (mid prices, pool utilization, interest rates), a Lend page for supplying and withdrawing liquidity, a Borrow page with collateral management and a visual risk gauge, and a Portfolio page displaying unified position summaries with health status indicators. All price data for collateral valuation comes from Pyth Network oracles, with fresh price updates bundled into every margin transaction to satisfy DeepBook's 15-second freshness requirement.\n\nThe key insight is that DeepBook V3 already has a complete margin/lending system built into its DEX DeepLend simply provides an accessible frontend for these powerful but underutilized capabilities, proving that meaningful DeFi products can be built purely through protocol composition without writing a single line of Move.",
+  "how_its_made": "DeepLend is built with Next.js 16. The core integration uses the @mysten/deepbook-v3 SDK with Sui's dapp-kit for wallet connection and transaction signing.\nThe trickiest part was getting the DeepBook SDK to work in the browser. The SDK's query methods internally create Transaction objects with UnresolvedObject inputs that fail BCS serialization during simulation. We solved this with a patchSimulate workaround that intercepts simulateTransaction calls, pre-builds transaction bytes via the RPC (which resolves all object references), then passes the resolved bytes to the original method. This same bug had to be fixed in both the CLI testing tool and the frontend client factory.\n\n Another notable hack is the Pyth oracle integration. DeepBook's margin operations enforce a 15-second price freshness window on-chain. Every deposit, borrow, and withdraw transaction must first fetch the latest price update data from Pyth's Hermes API , then prepend Wormhole verification and Pyth price update Move calls to the same transaction all before the actual margin operation executes. We built a reusable pyth-helper module using SuiPythClient and SuiPriceServiceConnection exported from the DeepBook SDK itself. \nState management uses Zustand with localStorage persistence to remember discovered SupplierCap and MarginManager object IDs across sessions. React Query handles all on-chain data fetching with staggered refresh intervals (10s for prices, 30s for pool stats, 60s for risk parameters). The entire app is zero-backend every operation from reading pool stats to executing multi-step margin transactions happens client-side through direct RPC calls to Sui testnet.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/deeplend-fx2s4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

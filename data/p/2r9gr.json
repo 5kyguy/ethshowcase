@@ -1,0 +1,20 @@
+{
+  "id": "2r9gr",
+  "slug": "subzkrippy",
+  "title": "subzkrippy",
+  "tagline": "Subscribe to content seamlessly with on-chain payments while keeping your identity fully private.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2r9gr/banner/default.jpg",
+  "source_url": "https://github.com/uttkarzsh/ethglobal-newdelhi2025",
+  "finalist": false,
+  "description": "This project is a subscription platform built for the blockchain, but with one big difference: it’s designed to keep users private. Normally, when you pay for something on-chain, your wallet address is forever tied to that payment, and anyone can trace it. This project prevents that. Users can subscribe to different plans set up by merchants—whether that’s for premium content, software, or memberships—but their actual wallet address is never revealed and stored on chain. Instead, whenever a payment is made, the user generates a zero-knowledge proof that simply says, “I’m a valid subscriber.” The merchant’s frontend checks the proof, and if it’s valid, the user gets access to the content. \n\nOn top of that, the system has some clever ways of making subscribers even harder to trace. When a payment is sent, the contract doesn’t immediately update the subscription state; instead, it waits a random amount of time before showing the change. That way, no one can line up payment timestamps with subscription events. Payments also don’t go directly to merchants. Instead, they’re pooled together and only released in bulk, let's say once a month. This makes it practically impossible to figure out which subscriber’s payment went to which payout. And since renewals are automated, users don’t even have to worry about manually keeping track of their plans—they just keep running smoothly in the background.",
+  "how_its_made": " Two smart contracts are deployed on the Flow EVM testnet. SubscriptionManager.sol, handling subscription logic and storing state changes: creating plans, tracking whether they’re active or expired, and updating them after payments. Crucially, it doesn’t keep a list of which addresses are subscribed. It just manages states, and those states are only updated after a short, random delay so that nobody can match them one-to-one with a user’s transaction.\n\nThe second contract, FundManager.sol, takes care of the money. Whenever someone pays, their funds go straight into this contract. Instead of forwarding them instantly, the contract holds everything in a pot and then pays out merchants in larger batches—say, monthly. That way, hundreds of small payments get blurred into one, adding an extra layer of privacy. To tie it all together, the system uses zero-knowledge proofs built with Noir and verified with Barretenberg. After making a payment, the user generates a proof off-chain to show they’re subscribed, and the merchant’s frontend checks that proof before unlocking the content. Because everything happens off-chain, there’s never a need to publicly link an address to a subscription. Renewals are also automated through an off-chain scheduler, so subscriptions stay active without manual effort.\n\nIn short, the build combines Solidity contracts for payments and state, zero-knowledge tools like Noir and Barretenberg for privacy, and a simple frontend for proof verification and content delivery. The end result is a subscription system that feels just like a normal one—automated, reliable, easy to use—but gives users something traditional systems never do: true privacy.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/subzkrippy-2r9gr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

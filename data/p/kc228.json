@@ -1,0 +1,22 @@
+{
+  "id": "kc228",
+  "slug": "dexora-trading-agent",
+  "title": "Dexora Trading Agent",
+  "tagline": "Uniswap trading agent with dashboard for dynamic quotes, swaps, and DCA strategy automation.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kc228/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JreycuUyCPd0133im2LgZkC6KEdQiNXff7xG47D01WNWk/high.mp4",
+  "demo_url": "https://github.com/yashbaing/uniswap-trading-agent",
+  "source_url": "https://github.com/yashbaing/uniswap-trading-agent",
+  "finalist": false,
+  "description": "This project is a full-stack Uniswap trading agent designed for both developers and non-technical users who want to execute token swaps with automation. It provides a Node.js + Express backend connected to the Uniswap Trade API, plus a local dashboard UI to manage trading without manual cURL commands.\n\nThe backend supports dynamic quote generation, live trade execution, and a DCA strategy endpoint for repeated buys at intervals. It handles real execution flow: request quote, build swap transaction, process required approvals, send signed transactions from the configured wallet, and return transaction hashes/receipts. The app also supports human-readable amounts (like 1.5 USDC), auto token decimals lookup, and multi-chain presets (mainnet, Base, Arbitrum).\n\nEnvironment-based configuration keeps deployment flexible (UNISWAP_API_KEY, RPC_URL, WALLET_PRIVATE_KEY, etc.), and the project has been prepared for both local runtime and Vercel deployment. It is built to be extended with risk controls, PnL analytics, alerts, and advanced strategy modules.",
+  "how_its_made": "I built this as a modular Node.js service with Express as the API layer and a lightweight static HTML/CSS/JS dashboard for local interaction. The backend uses Axios to call Uniswap Trade API endpoints (/quote and /swap), Ethers.js for wallet signing and transaction broadcasting, Zod for strict payload validation, and Dotenv for runtime configuration.\n\nThe trade flow is intentionally production-shaped: validate request -> normalize chain and amount -> request quote -> request swap payload -> execute approval tx(s) if required -> execute final swap -> wait for receipts -> return structured response. I added support for both raw token amounts and human-readable amounts (amountHuman) by resolving token decimals on-chain through an ERC-20 contract call when decimals aren’t supplied. That makes the API much easier to use from a UI.\n\nTo make it practical, I added a DCA endpoint (/strategy/dca) that runs multiple swaps with configurable intervals, plus chain presets for Mainnet, Base, and Arbitrum. The dashboard is served from the same Express app and calls backend routes directly, so there’s no separate frontend build system.\n\nA notable “hacky but useful” choice is dual runtime support: the same code works locally with app.listen and on Vercel serverless by exporting the Express app and routing everything through api/index.js + vercel.json. This avoided maintaining two different backend codebases while keeping deployment simple.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dexora-trading-agent-kc228",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

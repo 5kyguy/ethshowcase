@@ -1,0 +1,30 @@
+{
+  "id": "nnsqu",
+  "slug": "ito-protocol",
+  "title": "Itô Protocol",
+  "tagline": "Stochastic AMMs using Geometric Brownian Motion (GBM) for Smarter Liquidity",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nnsqu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HzZmJxbOziuQCPeRrDoO384md9KrQHQIC1Gw01dMlUr00/high.mp4",
+  "demo_url": "https://ito-protocol.vercel.app/",
+  "source_url": "https://github.com/Envoy-VC/ito-protocol",
+  "prizes": [
+    {
+      "sponsor": "Citrea",
+      "sponsor_id": "0wyck",
+      "placement": "1st place",
+      "title": "DeFi Bapps"
+    }
+  ],
+  "finalist": true,
+  "description": "Itô Protocol is a Stochastic AMM which simulates possible future prices via a Geometric Brownian Motion (GBM) model and adjusts its internal mechanics on-the-fly to better handle volatility and market risk.\n\n---\n\n## What are Stochastic AMMs?\n\nA **Stochastic AMM** extends traditional AMM models (like Uniswap) by incorporating **random price evolution** into their core design.  \n- Instead of using deterministic formulas (e.g., constant-product), it uses probabilistic models to simulate future price movement.  \n- By sampling a randomized “effective price” at each trade, it adapts parameters—such as fees, spreads, and liquidity routing based on modeled risk, giving it trading-like adaptability.\n\n---\n\n## Discrete GBM in Ito Protocol\n\nIn practice, Itô Protocol uses a discrete snapshot at swap time:\n\nEffectivePrice = P_Market * exp(–σ²·Δt / 2 + σ√ΔtZ₀)\n\n- **Convexity Adjustment** (–σ²·Δt / 2): Corrects the log-normal skew so the expectation isn’t biased upward  \n- **Volatility Scaling** (σ√Δt): Translates annual σ to the chosen time window Δt  \n- **Random Shock** (Z₀ ~ N(0,1)): Applies random variation in line with GBM\n\n---\n\n## Liquidity\n\nToken B/Token A = (σ * currentRatio + (1 - σ) * oracleRatio)\n\nCurrent Ratio = reserveA / reserveB\n\nOracle Ratio = 1 / Price\n\n---\n\n### Fee Calculation\n\nFee = Base + σ * VolMultiplier + (Trade Size/Reserves) * DepthFactor\n\n- Increases during high volatility\n- Scales with trade size relative to pool depth\n- Compensates LPs for increased risk.",
+  "how_its_made": "### Component Overview\n\n1. **Drift Adjustment Term** (-σ²/2):\n    - Compensates for Jensen's Inequality in lognormal distributions\n    - Ensures E[S_t] = S₀e^{μt} (martingale property)\n    - Without this, prices would artificially drift upward\n2. **Volatility Scaling** (σ√Δt):\n    - Annualized volatility scaled to time period\n    - Square root law comes from variance scaling in Brownian motion\n    - Ensures consistency across timeframes\n3. **Random Shock** (Z):\n    - Standard normal variable (μ=0, σ=1)\n    - Captures unpredictable market movements \n\nHowever, it's not perfect. Alternatives include:\n\n- **Ornstein-Uhlenbeck (OU) Process**: For stablecoins (mean-reverting).\n- **Jump-Diffusion Models**: To account for sudden market crashes.\n\n---\n\n## Volatility Estimation\n\nWe need the volatility σ. We can get this from historical price data. We can use  data feeds to compute the volatility over a recent period (e.g., last 30 days).\n\n#### Why 30-day volatility?\n\n- **Statistical Significance**: 30 days provides a more stable and reliable measure of volatility. 24h volatility can be extremely noisy and may overreact to short-term events (e.g., news, market manipulation).\n- **Industry Standard**: In traditional finance, 30-day (or 1-month) volatility is widely used for options pricing and risk management.\n- **Mean-Reverting Properties**: Volatility itself is mean-reverting. Using a longer time frame helps capture the \"typical\" volatility level rather than transient spikes.\n\nHowever, for highly volatile assets or during market crises, shorter time frames (like 24h) might be more responsive. The choice depends on the asset and risk tolerance.\n\n#### Why not use 24h?\n\n- **Overfitting to Noise**: 24h volatility can be misleading. A single day of high volatility might not represent the asset's true risk profile.\n- **Manipulation Risk**: Short-term volatility is easier to manipulate with large trades.\n- **Inconsistency**: If we update the volatility too frequently (e.g., every block), it might lead to erratic fee changes and pricing.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ito-protocol-nnsqu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

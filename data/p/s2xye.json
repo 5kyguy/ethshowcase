@@ -1,0 +1,27 @@
+{
+  "id": "s2xye",
+  "slug": "synapsevm",
+  "title": "SynapseVM",
+  "tagline": "Build, ship, and verify neural reflexes for robots, software and autonomous systems.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s2xye/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fwMwt5K1AbVYwbSrQNwLCI02026MUAlMBj8Hvhqm2JFOI/high.mp4",
+  "demo_url": "https://synapse-vm-neurolab-web.vercel.app/",
+  "source_url": "https://github.com/undefinedlab/EGO26",
+  "finalist": false,
+  "description": "SynapseVM is a platform for turning biological and synthetic spiking neural networks into portable, composable, and verifiable software modules. Instead of treating SNNs as isolated research files, SynapseVM packages them as reusable NeuroBlocks with typed inputs and outputs, provenance, versioning, runtime requirements, benchmarks, and verification metadata.\n\nDevelopers can discover neural circuits in the Library, combine them visually in a node-based Workbench, connect them to sensors, control logic, and actuators, and then compile the result into a portable NeuroStack. The compiled stack can be exported to environments such as WASM, Rust, Python, or ROS2 and used outside the SynapseVM frontend in robots, simulations, games, edge software, or autonomous systems.\n\nSynapseVM also includes a 3D simulator for testing behaviors before deployment. Our current primitives include modules for looming/collision detection, optic flow, heading, and target tracking. A typical example is an emergency-braking stack where sensor data is converted into neural events, processed by a LoomGuard NeuroBlock, passed through a deterministic safety gate, and converted into a brake command.\n\nA core part of SynapseVM is verification. Critical actions can generate a NeuroReceipt that binds the exact compiled stack, committed input, previous state, neural output, control decision, and final action. Because execution is deterministic, the same event can be replayed independently to verify that the same input and state produce the same result.\n\nThe goal is to make neural software feel like normal software: discover it, compose it, compile it, run it anywhere, and verify what it did.",
+  "how_its_made": "We built SynapseVM as a full pipeline from neural circuit → reusable module → composed behavior → portable runtime → verifiable execution.\n\nThe frontend is built as a modern web application with a node-based Workbench and a live 3D simulator. In the Workbench, users connect typed nodes such as sensors, adapters, NeuroBlocks, control logic, and actuators. \n\nThe important part is that the visual graph is not just UI. It compiles into a deterministic NeuroStack with locked module versions, graph wiring, runtime parameters, and verification metadata. We package this into a portable .synapse artifact that can be executed outside the frontend and exported toward environments such as WASM, Rust, Python, and ROS2.\n\nFor the neural layer, we represent spiking models through a structured intermediate format and deterministic runtime. We intentionally avoid putting blockchain or remote services inside the real-time control loop. Reflexes run locally; verification happens asynchronously. To make replay possible, we use deterministic execution semantics and canonical state/input encoding so the same Stack, state, and input reproduce the same output.\n\nOur 3D simulator feeds world-state data through the exact same adapters and NeuroBlocks used by the compiled Stack. This means the simulator is not a mocked animation: it is a test environment for the portable neural software itself. One particularly hacky part was converting simulated spatial events into event-style neural inputs so the same LoomGuard module can be reused across very different embodiments, such as a vehicle brake or drone avoidance system.\n\nFor verification, critical actions generate a NeuroReceipt containing the Stack identity, NeuroBlock identity, committed input, pre-state, neural result, control decision, final action, and post-state. A separate verifier can replay the execution and confirm that the same inputs produce the same result. We also keep the trust plane separate from execution, so verification never adds latency to the reflex itself.\n\nWe use partner technologies where they naturally fit the architecture: Chainlink CRE for confidential external verification/replay of private execution data, The Graph for indexing published modules, stacks, validation events, and verification history, and Hedera for anchoring or settlement around module usage and licensing without placing payments inside the real-time reflex path.\n\nThe core technical idea is that SynapseVM treats neural models like software packages: versioned, composable, exportable, benchmarkable, and independently verifiable.",
+  "auto_summary": "SynapseVM packages deterministic spiking neural network modules into composable artifacts with simulation, replay, and external verification tooling.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/synapsevm-s2xye",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

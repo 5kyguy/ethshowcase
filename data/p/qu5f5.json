@@ -1,0 +1,34 @@
+{
+  "id": "qu5f5",
+  "slug": "veilfor",
+  "title": "Veilfor",
+  "tagline": "Consent layer for AI: creators license their voice & face; every deepfake is provably authorized.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qu5f5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iQh01iYKckAFtab39600K01rCgKPhmSb1VzDP00ZNjP9Z3Q/high.mp4",
+  "source_url": "https://github.com/KlausMikhaelson/veilfor",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "The problem: AI can now clone anyone's voice and face from seconds of footage. There's no consent layer for synthetic media, creators, actors, and public figures have no way to say \"yes, you can use my likeness, on these terms, for this long,\" and no way to prove they ever did. Victims can't revoke. Buyers can't tell a licensed asset from a stolen one. The result is a deepfake free-for-all with no provenance and no payment to the people whose identity is being used.\n\nVeilfor is the consent layer. It's a marketplace, \"Spotify for Identity\", where creators license their voice and face as verified, revocable, on-chain assets, and every AI generation is provably authorized before it's produced.\n\nWhy World ID was essential: The entire model collapses if someone can list a face that isn't theirs. World ID's proof-of-personhood gates identity minting to a unique, real human, so you can only license your own likeness. It turns \"anyone can deepfake anyone\" into \"only the real you can authorize the real you.\"\n\nWhy Hedera was essential: Consent has to be auditable and cheap to verify at generation time. We use Hedera smart contracts for ownership and time-bound licenses, and an HCS topic as an immutable audit log, every license and every authorized generation is timestamped and tamper-proof, settled in native HBAR at fees that make per-use licensing viable.\n\nWhy ENS was essential: A licensable identity needs a human-readable name, not a hex address. ENS gives each creator a portable, recognizable handle for their identity profile, the storefront name buyers actually trust and search for.\n\nThe AI: Real voice cloning (Qwen3-TTS) and face swap for images and video (Deep-Live-Cam) run live on GPU, but every generation is gated behind an on-chain license check, no valid, unrevoked license, no output.\n",
+  "how_its_made": "The frontend is Next.js with wagmi and viem for wallet flows, talking to a Python FastAPI backend. State lives in Neon Postgres. On-chain we have two Hedera smart contracts, IdentityRegistry for ownership and IdentityLicense for time-bound licenses, both deployed to Hedera Testnet and called from the frontend over the EVM JSON-RPC relay. Every consent event and authorized generation also gets written to a Hedera Consensus Service topic, so there's an immutable, timestamped audit trail separate from our database.\n\nWorld ID is wired into the mint flow. Before a creator can list a voice or face, they verify proof-of-personhood, which is what makes \"you can only license your own likeness\" actually enforceable instead of a promise. ENS gives each creator a human-readable handle for their identity profile so buyers see a name, not a hex address.\n\nThe interesting part was the AI. We wanted real deepfake quality, not robotic system voices, but the machine running the backend has no GPU. So both models run on Modal serverless A10G GPUs: Qwen3-TTS for voice cloning and Deep-Live-Cam for face swap, now working for images and full video. The backend base64-encodes the reference media, posts it to a Modal endpoint, and streams back the generated WAV, PNG, or MP4. Every one of those calls sits behind an on-chain license check, so no valid license means no output.\n\nA few things got genuinely hacky. Modal long-polls any request that runs past its sync window by returning a 303 redirect to a function-call URL, so our HTTP client has to follow redirects or every generation silently breaks. Getting Qwen3-TTS to load was a CUDA version fight: the package leaves torchaudio unpinned, so pip kept pulling a CUDA 13 build against CUDA 12 torch and the container crashed on import with a missing libcudart. We fixed it by pinning torch and torchaudio as a matched cu121 pair before the model package installs. Deep-Live-Cam expects a full desktop GUI stack, so to run it headless in a container we stubbed out its core module down to the one function the swapper actually needs, mounted the model weights and the InsightFace cache as Modal volumes so they download once and stay warm, and added a multi-frame scan so videos that open on a blank or title frame still find a face to swap.\n",
+  "auto_summary": "A marketplace for licensing voice and face likenesses with on-chain identity, license checks, audit logging, and AI media generation.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/veilfor-qu5f5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

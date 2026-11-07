@@ -1,0 +1,48 @@
+{
+  "id": "ywdfm",
+  "slug": "gattaiswap",
+  "title": "GattaiSwap",
+  "tagline": "GattaiSwap is a cross-chain swap app built on 1inch Fusion+, supports Bitcoin, Monad, Etherlink. ",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ywdfm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nBRtMox4rFrfvqQpInmP5bU9uB6hG1UlzejH02W0201rMg/high.mp4",
+  "demo_url": "https://2025-unite.vercel.app/",
+  "source_url": "https://github.com/taijusanagi/2025-unite",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "1st place",
+      "title": "Extend Fusion+ to Bitcoin (Doge/LTC/etc.)"
+    },
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "1st place",
+      "title": "Extend Fusion+ to Monad"
+    },
+    {
+      "sponsor": "Etherlink",
+      "sponsor_id": "ky7kr",
+      "placement": "2nd place",
+      "title": "Hack the Stack: Bring Fusion+ to Etherlink "
+    },
+    {
+      "sponsor": "NEAR",
+      "sponsor_id": "5b69q",
+      "placement": "Decentralized Solver Runners Up",
+      "title": "Decentralized Solver Runners Up"
+    }
+  ],
+  "finalist": true,
+  "description": "**Fusion Unleashed. Chains Abstracted.**\n\nGattaiSwap is driven by two core visions:\n\n**1. A Unified Atomic Swap Interface via 1inch Fusion+ Extension**\n\nGattaiSwap extends the 1inch Fusion+ protocol to support a broader set of blockchains. For this hackathon, we successfully integrated Bitcoin, Monad, and Etherlink, enabling seamless bidirectional cross-chain swaps between BTC and EVM-compatible chains like Monad and Etherlink. This proves that Fusion+ can serve as a universal layer for trustless atomic swaps beyond traditional EVM boundaries.\n\n**2. Seamless Multi-Wallet Management in a Chain-Abstracted Context**\n\nGattaiSwap tackles the complexity of managing multiple wallets across heterogeneous chains by enabling chain-abstracted cross-chain orders. Using NEAR chain signatures and the Shade Agent Framework, we implemented a secure Trusted Execution Environment (TEE) that acts as a solver for 1inch orders. This TEE can sign both BTC and ETH-based cross-chain orders from a single environment—non-custodially—eliminating the friction of fragmented key management across chains.\n\nGattai Swap is a cross-chain swap app built on 1inch Fusion+, enabling seamless swaps across Bitcoin, Monad, and Etherlink. It also integrates NEAR chain signatures via the Shade Agent Framework to execute 1inch cross-chain orders in a fully chain-abstracted manner.",
+  "how_its_made": "**🔁 1. Atomic Swap Mechanism Using Bitcoin HTLC**\n\nGattaiSwap utilizes Hash Time-Locked Contracts (HTLCs) on Bitcoin to achieve atomicity in cross-chain swaps. It leverages the 1inch cross-chain SDK and existing 1inch smart contracts deployed on both EVM chains and Bitcoin (via script-based logic).\n\n**🔹 When the Maker Asset is BTC:**\n\nA hashed lock script is generated on the Bitcoin side using the timelock and hash preimage from the 1inch cross-chain order.\n\nThe user (maker) signs a funding transaction locking BTC into the HTLC — but does not broadcast it.\n\nThe signed transaction and order data are passed to a relayer.\n\nThe relayer signals resolvers, and the resolver broadcasts the signed transaction, officially locking the maker's BTC.\n\nUsing the mined transaction details, the resolver creates an escrow on the destination chain, completing the bidirectional swap setup.\n\n⏱ Note: The Bitcoin HTLC uses relative time checks, since the timelock begins once the btc transaction is confirmed.\n\n**🔹 When the Taker Asset is BTC:**\n\nThe maker creates a 1inch cross-chain swap order.\n\nThe resolver sets up a hashed lock address on Bitcoin to serve as escrow.\n\n⏱ Note: The Bitcoin HTLC uses absolute time checks, since the timelock begins once the eth transaction is confirmed.\n\n**🔐 2. Chain-Abstraction via NEAR Signatures & Shade Agent Framework**\n\nGattaiSwap solves multi-wallet complexity through chain abstraction:\n\nWhen a user initiates a swap via GattaiSwap, it interacts with a chain signature contract on NEAR to derive a usable address and sign messages. The Shade Agent Framework is employed to generate and sign 1inch cross-chain orders from a Trusted Execution Environment (TEE). The shade agent uses the request_signature functionality to securely sign both BTC and ETH-based orders—without compromising custodial control.\n\n**💻 3. Integration of EVM-Compatible Chains**\n\nWe also support Etherlink and Monad, with bidirectional swaps with BTC successfully tested.\n\n## Limitation\n\n- Bitcoin script can set timestamp or block height (relative/absolute) to ensure the transaction occurs after the specified timing. But it cannot enforce an upper time limit.\n\n- Bitcoin script can define who is allowed to spend the transaction but cannot enforce a specific recipient. So relayer cannot withdraw on behalf of the user or perform public withdrawals and cancellations.\n\n- On-chain Dutch Auction or Partial Fill is not feasible. It may require off-chain coordination or would break the current 1inch Fusion + Flow model.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gattaiswap-ywdfm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "hvo5w",
+  "slug": "kinjo",
+  "title": "Kinjo",
+  "tagline": "Neighborhood mesh of cheap ESP32s that keeps people talking and transacting when the Internet fails",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hvo5w/banner/default.jpg",
+  "video_url": "https://stream.mux.com/019GD4NV3I4EFH4g8ZjyxcjW1bSatuiAGDgFzqJ97fVU/high.mp4",
+  "demo_url": "https://kinjo.nodestarq.com/",
+  "source_url": "https://github.com/nodestarQ/Kinjo",
+  "finalist": false,
+  "description": "Kinjo (近所, \"neighborhood\") is a local mesh network built from cheap ESP32 devices. When infrastructure fails, whether from a blackout like Spain and Portugal's in 2025, an earthquake, a typhoon or a deliberate shutdown, people a few meters apart often can't message each other or move money. Kinjo devices talk directly over ESP-NOW or could also do so through LoRa, with no router, cell tower or server and can forward each other's end-to-end encrypted messages, so relays carry traffic they can't read. ENS is the trust layer: every person has a name like alice.kinjo.eth and every device a subname that publishes its keys, so devices know whom to trust offline and owners can revoke a lost device. Devices that still have Internet act as gateways, carrying signed transactions from offline devices to Ethereum and sending receipts back over the mesh.",
+  "how_its_made": "Kinjo has three kinds of devices. A handheld (ESP32 with a 2.8\" touchscreen), a relay (XIAO ESP32-C3) and a bridge (another XIAO) plugged into a laptop, where the web app turns the laptop into a node too. They talk over ESP-NOW, the ESP32's built-in radio, so no Wi-Fi network or internet is needed. For the demo we force a 2-hop route (handheld -> relay -> laptop) so you can see the relay carry messages it can't read.\n\nEvery message is end-to-end encrypted: X25519 key exchange, then ChaCha20-Poly1305. We wrote our own small wire format with a Python reference implementation and shared test vectors. The C++ firmware (Monocypher) and the TypeScript app (noble) both pass the same vectors, which is how three languages agree byte for byte.\n\nENS is the trust layer. Our Solidity contract (Foundry) gives every user alice.kinjo.eth with their own ENSv2 registry and resolver. Each device becomes a subname whose text record holds its encryption key. Nodes resolve these keys to check who sent a message. Revoking a device in ENS makes everyone reject it, even though relays keep forwarding it. Users only sign EIP-712 messages. Our relayer pays the gas, so nobody needs testnet ETH.\n\nWorld ID (IDKit 4, Proof of Human) adds an optional \"verified human\" badge, checked server-side and stored as alice.verified.kinjo.eth. The team owns that name, so users can't fake their own badge.\n\nThe web app is SvelteKit, installable and usable offline. It sets up the handheld over USB, and the handheld gets its name and contacts from ENS.\n\nHacky bits:\nChrome's Web Serial kept dropping our boards on Linux, so we wrote a tiny Python helper that serves the serial ports over a local WebSocket.\nIn ENSv2 a deleted subname still falls back to the parent's resolver, so revoking also has to clear the key record.\nThe contract accepts signatures from normal wallets and from EIP-7702 smart accounts (ERC-1271), because one of our test wallets was a 7702 account.",
+  "auto_summary": "Kinjo combines ESP32 mesh messaging, end-to-end encryption, ENS-based device identity, and a relayer for offline-to-Ethereum transaction flow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kinjo-hvo5w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

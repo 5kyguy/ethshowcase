@@ -1,0 +1,22 @@
+{
+  "id": "rycn3",
+  "slug": "obscura-protocol",
+  "title": "Obscura protocol",
+  "tagline": "Shielded prediction markets with zkVM-proven solvency bet privately, prove you were right.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rycn3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/z5A3R5n6id85IAm02dllBZvPkzntLaRlpNSCnxf4LAj00/high.mp4",
+  "demo_url": "https://obscura-markets.vercel.app/",
+  "source_url": "https://github.com/AshiqAhamed17/obscura-protocol",
+  "finalist": false,
+  "description": "Obscura is a prediction market where your position is shielded end to end, yet every market's payouts are provably correct and solvent no operator is trusted for the numbers. Today's markets (Polymarket, Kalshi) make every bet public, leaking strategy and inviting front-running on correlated markets. In Obscura your side and stake never touch the chain in the clear only a Poseidon commitment does. When a market resolves (via a Chainlink feed, a Graph metric, or a Chainlink CRE workflow), an SP1 zkVM proof establishes the per-outcome totals and the commitments-tree root and proves they reconcile with the escrowed USDC so payouts are correct and solvent by proof, not by trust. Winners then prove in-browser (Noir) that they hold an unspent winning note and withdraw to a fresh address, unlinkable to the deposit. On top of shielded positions it adds Private Parlays, Proof of Foresight (an anonymous, verifiable \"I called it\" track record), a ZK accuracy reputation badge, and a live AI solvency/risk oracle. Most \"private\" markets stop at hiding individual bets; the hard, largely unsolved part is proving the aggregate settlement is correct and solvent while revealing nothing about individuals which is exactly what Obscura demonstrates.",
+  "how_its_made": "Privacy layer: Noir zk circuits for shielded deposit commitments, private claims, Proof of Foresight, parlays, and reputation; claim + foresight proofs are generated in the browser with @noir-lang/noir_js + @aztec/bb.js (UltraHonk) against on-chain verifiers. Solvency proof: an SP1 zkVM program (guest/host/aggregation in Rust) recomputes each market's per-outcome totals + Poseidon commitments root and asserts solvency; PredictionMarket.settleWithProof verifies it via the SP1 gateway before payouts unlock. Poseidon is byte-compatible across Noir / Rust light-poseidon / JS poseidon-lite (pinned test vectors) so every layer agrees on roots. Chainlink CRE: three TypeScript CRE workflows confidential settlement (TEE aggregation reconciled on-chain vs SP1 totals), Graph-metric resolution, and cron auto-resolution (the successor to classic Automation, sunset in 2026) driving an on-chain AutoResolver keeper. Resolution is source-agnostic: Chainlink feeds, The Graph, or CRE. The Graph: a subgraph indexes only public aggregates; an AI risk oracle (MCP server + in-browser port) computes solvency coverage + HHI concentration with a pinned deployment id + freshness gate, benchmarked against a Messari-standardized mainnet subgraph. Circle/Arc: USDC-denominated escrow (ERC-20 + EIP-2612 permit), deployed on Circle Arc testnet (USDC-native gas), with a CCTP entry that bridges USDC Base -> Arc into a shielded position. Client: Next.js 16, Wagmi, Viem, lightweight-charts. Everything is deployed + verified on Ethereum Sepolia and Arc testnet (addresses in the README). Hacky-but-notable: the SP1 EVM/Groth16 settlement proof is memory-heavy, so it runs on prover infrastructure and is verified on-chain by the SP1 gateway the standard production path.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/obscura-protocol-rycn3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

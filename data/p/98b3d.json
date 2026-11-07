@@ -1,0 +1,42 @@
+{
+  "id": "98b3d",
+  "slug": "0xsimple",
+  "title": "0xSimple",
+  "tagline": "A no code tool that allows game developers to create and manage their in-game asset.   Gamer can use social/email login to claim free in-game asset (like Prime Gaming) in a non-custodial way without gas fee/wallet install.",
+  "event": {
+    "slug": "buildquest",
+    "name": "BuildQuest",
+    "start_time": "2022-03-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/98b3d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PBnJBp602tXH02j5DjNoRfYAgHMJZBC6xV1GXplgmhE8I/high.mp4",
+  "demo_url": "https://www.0xsimple.com/claim",
+  "source_url": "https://github.com/thomasmetta/0xsimple",
+  "prizes": [
+    {
+      "sponsor": "NFTPort",
+      "sponsor_id": "i90pd",
+      "placement": "🏊‍♂️ NFTPort - Pool Prize",
+      "title": "NFTPort"
+    },
+    {
+      "sponsor": "Sequence",
+      "sponsor_id": "uyxnw",
+      "placement": "🏊‍♀️ Sequence Pool Prize",
+      "title": "Sequence"
+    },
+    {
+      "sponsor": "Sequence",
+      "sponsor_id": "uyxnw",
+      "placement": "🥈 Best Sequence Integration",
+      "title": "Sequence"
+    }
+  ],
+  "finalist": false,
+  "description": "0xSimple is a simple platform that allows game developers to create and manage their in-game asset.   Gamer can use social/email login to claim free in-game asset (like Prime Gaming) in a non-custodial way without gas fee/wallet install.\n\n\n\nCurrently, there's a lot of barriers in building a web3 based game and this tool takes the complexity out since users don't need to deal with installing a wallet/learning the concept of gas. Any independent or established game studios can use this tool to airdrop free in game asset to attract/educate new gamers. This will allow mainstream users to onboard web3 easily as gamers can sign in with Twitch and start acquiring in game asset right away.\n\n\n\nThe app has an admin page where game developers can create and manage their in-game asset; once the asset is created, there's a claim page that allows gamers to use social email login to claim free in game asset like Amazon Prime Gaming (https://gaming.amazon.com/home).\n\n\n\n\n\nPolygon contract address: https://polygonscan.com/token/0x69965da127e9aca34ced1c94a57856172150dbcd\n\nOpensea collection: https://opensea.io/collection/0xsimple-collection-v2\n\n\n\nThe app is live on https://www.0xsimple.com/claim and is on Polygon mainnet. Feel free to start claiming free asset (No gas needed)",
+  "how_its_made": "- The frontend app is built with ReactJS and TypeScript. Deployed to 0xsimple.com and hosted using Vercel\n\n\n\n- Wallet integration using Sequence\n\n\n\n- Admin page (https://www.0xsimple.com/admin)\n\n    - The frontend is gated to Admin only. We only show the create token section if the connected wallet address matches the admin address,\n\n    - User will first upload the file image using NFTPort file upload endpoint. Once the image is uploaded successfully, we use the NFTPort upload metadata endpoint to upload the metadata with name, description and image url.\n\n    - When clicking create token, it calls createToken() smart contract function which include token id, metadata url, maxSupply)\n\n    - The createToken() transaction fee is free since it’s relaying through Sequence relayer and since the fee is super cheap on Polygon, we are able to subsidized it.\n\n    - Sequence relayer also took care of gas free estimation to ensure fast transaction on Polygon\n\n    - In the current collection section, it uses the Sequence indexer + metadata library. Show most up-to-date collection (1 block time)\n\n    - First it fetches all the token ids by getting the token supplies given the collection smart contract address, then we get the contract info, and finally we get the token metadata in batch using the contract info. We then renders all the token metadata inside the current collection section\n\n\n\n\n\n- Claim page (https://www.0xsimple.com/claim)\n\n    - On the frontend, anyone can connect to the app without wallet install (eg Metamask), they can connect using email or social login like Twitch to the Sequence wallet\n\n    - Once the user is connected, it uses the Sequence indexer + metadata library to fetch the current offering section (1 block time, no delay)\n\n    - Given the gamer’s account address, we fetch the token ids that have balance in the account. We then filter out any assets that users already own so we don’t show “already claimed” offer on the page. There’s also a check in the smart contract to prevent user claiming the asset again. Once we have the unclaimed token ids, we renders those metadata in the current offering collection\n\n    - When clicking claim, it calls claim() in the smart contract by passing in the tokenID. It first check if the gamer account address is within the allowlist if it was set (By default, every address is whitelisted). It checked if the user already claimed the token and if the token still have available supply. If those assertion is passed, we then decrease the available supply, and mint the gamer a token\n\n\n\n\n\n- Smart Contract (https://github.com/thomasmetta/0xsimple/blob/master/contract/GameItems.sol)\n\n    - Deployed to Polygon Mainnet (https://polygonscan.com/token/0x69965da127e9aca34ced1c94a57856172150dbcd)\n\n    - Uses openzeppelin ERC1155 + Ownable\n\n    - contractURI map to an IPFS that store the top level collection metadata (These are shown in the Sequence wallet collection + opensea as well) (https://opensea.io/collection/0xsimple-collection-v2)\n\n    - Override the uri function so it can use dynamic IPFS\n\n    - The URL + token supply can only be set once by the admin\n\n    - Only admin able to call createToken that set the supply and url\n\n    - Only admin able to set allowlist (By default, there’s no allowlist so everyone can claim freely)\n\n    - If there’s an allowlist and the msg sender is not part of the list, they won’t be able to claim\n\n    - The claim function also check the availableSupply and decrease it once minted\n\n\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/0xsimple-98b3d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

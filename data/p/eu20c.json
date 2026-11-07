@@ -1,0 +1,27 @@
+{
+  "id": "eu20c",
+  "slug": "graphitti",
+  "title": "Graphitti",
+  "tagline": " A visual workflow builder for onchain and offchain automation",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/eu20c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/j9f1PsNxXeOWt3riECuYe5Wv7QP1rEisQ2Vc4cDIlfQ/high.mp4",
+  "demo_url": "https://graphitti-five.vercel.app/",
+  "source_url": "https://github.com/Bleyle823/Graphitti",
+  "finalist": false,
+  "description": "Graphitti is an execution layer for AI agents with a visual workflow builder for onchain finance . You connect triggers,  actions and plugin nodes  on a canvas, run the workflow in the browser, then publish that same workflow as  a paid marketplace listing. New users stay on the canvas. Developers and agents  call it over HTTP or MCP. Teams share a Privy org treasury. The app never holds the private key.\n\nWatching the chain, sending USDC, and letting an agent call the flow still happen in three places. Ops checks Uniswap or a vault on a dashboard, signs from another wallet, and pastes an API key into Slack if a bot should run it. Someone either clicks every transfer, or the bot has no spend cap. Graphitti puts that work in one workflow.\n\nKelp's April 2026 rsETH incident is what that looks like in practice. A forged LayerZero message released about 116,500 rsETH from the Ethereum OFT adapter with no matching burn on the source chain. Circulating supply went up. Collateral in the LRT vault did not. Unbacked rsETH was still being used as lending collateral while people compared dashboards.\n\nGraphitti does not patch Kelp. It watches the same invariant. From-scratch Substreams index mainnet backing and Arbitrum OFT supply every block and write the rows to Supabase backing_snapshots. The workflow reads the latest row. If supply is more than 50 bps above backing, it pages ops on Telegram so they can pause rsETH as collateral. If the numbers still match, it sends a backing-OK heartbeat so you know the monitor ran.\n\nShipped examples include Uniswap large-swap Telegram alerts, the Kelp backing monitor, Arc DeFi treasury readiness, FPL top-two USDC payouts on Arc, Stripe invoices into Privy USDC, gasless contractor payroll, an Aave/Uniswap USDC keeper, and payroll that auto-sends at the cap then queues an intent. Eliza OS plugins (plugin-the-graph, plugin-privy) can search subgraphs and call the same listed workflows. Payroll and intents run on Base Sepolia USDC. Arc is Testnet for CCTP preflight and x402 marketplace settlement.",
+  "how_its_made": "The app is a Next.js 16 / React 19 canvas on React Flow, with Postgres and Drizzle for workflows, integrations, and Better Auth sessions.\n\n- A Privy embedded wallet is bound to that user.\n- Teams get a Privy org wallet on top, with a payee book, a 10 USDC auto cap, and transfer intents for anything larger.\n- Graphitti stores wallet ids, not keys.\n- Plugin steps talk to APIs with fetch.\n\nThe same graph then runs from the browser, an HTTP route, MCP (search_workflows / call_workflow), or a Hub listing.\n\nThe Graph is the read path.\n\n- Uniswap large-swap alerts hit Gateway GraphQL against a live Uniswap V3 Ethereum subgraph, so we did not have to index that protocol ourselves.\n- Kelp is the from-scratch piece. We wrote Substreams in Rust that, every Ethereum block, compare mainnet rsETH supply and LRTDepositPool collateral with Arbitrum OFT supply (the same invariant the April 2026 forged LayerZero mint broke).\n- Graph Studio would not take a Substreams-powered subgraph for that package, so we did not ship a fake subgraph. Two SQL sinks write into Supabase. A Postgres trigger merges the rows into backing_snapshots and sets should_alert above 50 bps.\n- The canvas only reads the latest row and Telegram-pages ops.\n\nWrites and settlement are split on purpose.\n\n- Payroll and intents use Privy wallet-actions on Base Sepolia USDC.\n- Bridge preflight and prize-pool sends use Circle CCTP and Arc Testnet (eip155:5042002).\n- Arc has two USDCs, which we had to treat separately: native gas USDC is 18 decimals, marketplace USDC is the 6-decimal ERC-20.\n- Paid listings return HTTP 402 with Circle Gateway nanopayments over x402. The caller signs EIP-3009 TransferWithAuthorization against GatewayWalletBatched and retries with PAYMENT-SIGNATURE. No long-lived API key. Owner wfb_ keys skip the payment gate so we can test our own listings.\n\nEliza OS plugins (plugin-the-graph, plugin-privy) wrap the same catalogs we published as @graphitti/graph-core and @graphitti/privy-core, so an agent can search subgraphs and call a listed workflow without a second integration.\n\n- Stripe, Telegram, and the FPL API sit on that same plugin bus.\n- Docs are Mintlify. The production app is on Vercel.",
+  "auto_summary": "A Next.js workflow builder that connects onchain data, wallet actions, APIs, MCP tools, and paid workflow execution.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/graphitti-eu20c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

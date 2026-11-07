@@ -1,0 +1,47 @@
+{
+  "id": "d3wv7",
+  "slug": "cycrane-wallet",
+  "title": "Cycrane Wallet",
+  "tagline": "Sign and send transactions by sending an email via account abstraction and ZK",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d3wv7/banner/default.jpg",
+  "demo_url": "https://github.com/sigmachirality/cycrane",
+  "source_url": "https://github.com/sigmachirality/cycrane",
+  "prizes": [
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "🏊‍♂️ Mantle — Pool Prize",
+      "title": "Mantle"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊‍♂️ Scroll — Pool Prize",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🤝 Polygon —  Best Public Good",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "🏊‍♂️ Arbitrum — Pool Prize",
+      "title": "Arbitrum"
+    }
+  ],
+  "finalist": false,
+  "description": "This project implements an ZK-AA wallet which allows users to interact with any Smart Contract/sign any transaction request by sending an email. When our relayer receives an email, it uses ZK to trustlessly and veritably prove that a reputable email server like Gmail, Skiff, or Hotmail signed the message by verifying the email server's DKIM signature. Additionally, since the email server uses the same public key to sign the email's body, we can use ZK to parse out the contents of the email. The result is that it is safe for a 3rd party to submit transactions on the behalf of the user and they can generate a ZK proof proving that they received an email requesting that transaction.\n\nBecause the ZKP validates that the relayer received the transaction request email, anyone can run a relayer without needing to be a trusted party, as it is impossible for them to forge a transaction request email without colluding with the email server. If the user takes adequate precautions (such as hosting their own server, or using Skiff or ProtonMail) this becomes near impossible. Additionally, the user can opt into anonymizing their account activity by deterministically hashing and salting their email inside the ZKP. However, the user still must share their email with the relayer - a trust flaw that can be remedied in future builds of this project by moving more of the ZK constraints client side using Halo 2.\n\nThis project builds on top of 0xPARC and EF PSE's ZKEmail and ZKRegex Circom circuits, and is also inspired by their recent SendETH project. However, unlike SendETH, we implement and inject a generalized EIP-1193 Wallet as well as the WalletConnect Wallet SDK interface, allowing almost all Dapps to connect with our Wallet without additional configuration. Additionally, we follow EIP-6963, and also inject our wallet into the providers object as Coinbase Wallet allowing our wallet extension to coexist with other providers in a user's browser. While our contracts closely resemble ERC-4337, they do not follow the interface exactly, as there is no signing involved anywhere in the protocol.\n\nFor this hackathon, we only implemented a subset of the EIP-1193 interface, and don't handle some edge cases in our ZKEmail + ZKRegex circuit. However, we believe this is a compelling proof of concept.\n\nOther trust assumptions: The email server's public key must be injested on chain via an Oracle. Originally, the plan was to injest this data on-chain using the EF's TLSNotary, which is suited for this use case. However, we ran out of time.\n\n",
+  "how_its_made": "Data flow:\n- A user connects Cycrane to a dapp. \n- The user triggers an action which causes an RPC call like send_transaction. Using WalletConnect Wallet SDK or the typical EIP-1193 interface methods like send_transaction, the dapp sends the transaction to the wallet. \n- The wallet encodes the transaction data as a TypedData struct and then generates an email template. The user can either copy this email template or click a mailto button to send this email to our relayer (in practice any relayer, but ofc we deploy our own).\n- The relayer recieves an email and the TypedData struct. It generates a ZKP attesting that it recieved the email from the sender and also that the email contained the struct. It submits this proof, alongside the data, on-chain\n- The proof is submitted to a Router/Factory contract which routes and creates new wallets as necessary.\n- Once the transaction is routed to the corresponding contract, that smart contract wallet executes the transaction.\n- Our wallet waits for this smart contract wallet to emit an event and then returns the respond data from the transaction back to the dapp.\n\nComponents:\n- Example Dapp built using Wagmi + ENS Components + WalletConnect\n- Cycrane Wallet Extension built using Plasmo, Wagmi, ENS Components, and WalletConnect\n- ZKEmail Circuits built in Circom\n- Backend Relayer built in Typescript using Express, Snarkjs, and Viem\n- Solidity Router/Factory with foundry deploy and debugging",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cycrane-wallet-d3wv7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

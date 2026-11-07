@@ -1,0 +1,21 @@
+{
+  "id": "kvvgu",
+  "slug": "notary",
+  "title": "Notary",
+  "tagline": "Verify your wallet once for seamless, instant access across multiple platforms without repeated KYC.",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kvvgu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/b35SlQ002CsAKjtHkJbtt02SdoyVkw9s02MwZ4p00hbQ6U8/high.mp4",
+  "source_url": "https://github.com/ethankonk/eth-global-2025",
+  "finalist": false,
+  "description": "This system simplifies and secures the \"Know Your Customer\" (KYC) process for crypto users. Instead of submitting your personal information to every platform you use, you can verify your wallet's ownership and identity through a single, trusted service. Once completed, your wallet is tagged as \"verified\" by that trustworthy service, creating a unique, non-transferable link between your identity and that specific wallet address.\n\nWhen you connect to a new platform, the service simply checks this verification status. It instantly confirms that the connected wallet has been KYC'd without the user having to re-share their personal data. This streamlined approach offers the benefits of compliance and security while drastically improving the user experience, eliminating redundant and time-consuming verification steps on every new service or application.",
+  "how_its_made": "We built this project on top of Turnkey’s embedded wallet system so that users don’t need to manage their own wallets, while still providing the option to connect external ones. When someone completes KYC in our app, their Turnkey wallet or connected wallet signs and pushes the KYC payload to what we mock as a trusted KYC provider. This provider can then process the request and once verified sign a transaction back to the wallet over the Flare network which can then be accessed on-chain by any other services requiring KYC for that wallet (ex: On-ramping services)\n\nOn the validator side, the process is simple: the validator only needs to query on-chain for transactions to the wallet address provided. If a given wallet has been sent its KYC payload on-chain by the provider deemed trustworthy by the validator, the validator can trust the KYC was verified by that provider.\n\nOur design kept things lightweight and hackathon-friendly:\n- No off-chain database needed for KYC verification.\n- On-chain events are the single source of truth.\n\nTurnkey made it easy for us to embed wallets and handle signing in-browser without friction.\n\nNo shortcuts were taken in terms of transporting sensitive user data.\nUser KYC data is never sent directly in plaintext. Instead, a Turnkey embedded wallet is created to encrypt data into an encryption bundle. The encryption bundle is created at the time of sending, ensuring only the provider can decrypt it in their backend.\nHow this works:\n- When a user requests KYC verification, a dedicated Turnkey wallet is created within the user’s sub-organization.\n- A delegated access user (owned by the KYC provider's Turnkey organization) is granted permissions on this wallet only, enforced through Turnkey’s policy engine.\n- The user’s KYC data is encrypted to the encryption wallet’s public key.\n- This encrypted payload can then be safely transmitted to the KYC provider’s backend.\n- Once received, the provider’s delegated access user can export the encryption wallet.\n- Using the wallet’s private key, the provider decrypts the data and proceeds with the verification process.\n- This guarantees complete end-to-end security of sensitive data.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/notary-kvvgu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

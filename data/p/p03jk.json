@@ -1,0 +1,36 @@
+{
+  "id": "p03jk",
+  "slug": "popupfaucet",
+  "title": "popupfaucet",
+  "tagline": "An ephemeral faucet creator ✨ use the CLI app to create a faucet or claim testnet tokens",
+  "event": {
+    "slug": "superhack2024",
+    "name": "Superhack 2024",
+    "start_time": "2024-08-02T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p03jk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Rm3i91YU01EmX02Ln4FIthuAngnWv8NxueQ3KtbeXyTbM/high.mp4",
+  "demo_url": "https://pypi.org/project/popupfaucet/",
+  "source_url": "https://github.com/wolovim/popupfaucet",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Use Blockscout Block Explorer!",
+      "title": "Use Blockscout Block Explorer!"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "3rd place",
+      "title": "Just [improve] it"
+    }
+  ],
+  "finalist": true,
+  "description": "💧popupfaucet is an attempt at a pain-free way to get workshop participants some testnet ether in order to participate.\n\nCurrent options leave something to be desired:\n\n1) Ask users to navigate to and use a 3rd-party faucet\n    - cons: external point of failure, sales pitches, hoops (account creation/PoW), exhausted daily limits\n\n2) Create and pre-seed wallets then distribute, e.g., print and hand out QR codes\n  - cons: physical/in-person only, manual process, guessing the right amount\n\n3) Collect addresses, then use a script to distribute tokens\n  - cons: if manual, interruptions with latecomers; if automated, one more thing to run and maintain\n\n\n💧 popupfaucet introduces another option: pre-seeded faucets accessible to anyone that can install a Python package and knows your code phrase. 🦄\n\n🛠️ How it works: \n\npopupfaucet can be installed via pip or pipx. Anyone with testnet ether to share can create and fund a faucet from the command line, gated by a custom code phrase. Once funded, users claim faucet funds using that custom code. No 3rd-party faucets or scripting required. If the faucet starts to run low, anyone can top it up from the same CLI app.",
+  "how_its_made": "A Solidity contract (https://github.com/wolovim/popupfaucet-contract) keeps track of event codes and their respective available funds. Event codes are keccak hashed, as not to be readily reverse engineered. A drip function just requires knowledge of a particular event code, then disburses 0.0001 testnet ether. The arbitrarily small amount is proving the concept; a follow-on feature is to enable a faucet creator to configure the drip amount. We used the Ape framework to compile, test, and deploy contracts to Sepolia, OP Sepolia, and Base Sepolia.\n\nThe CLI app (https://github.com/wolovim/popupfaucet) is a Python project using Rye for dependency management and deployment. Dependencies include click, rich, and InquirerPy libraries to provide a dynamic CLI experience. The requests library is used to communicate with our server, eth_account is used to create ephemeral accounts, and eth-utils handles address validation.\n\nThe server (https://github.com/wolovim/popupfaucet-server) is a Flask app deployed to Render and is responsible for coordinating (and hiding away) interactions with the smart contract. It uses the ephemeral accounts sent by the CLI to know which event code to pair with which deposit, and send off the transaction. The server also manages an admin account to sponsor drip transactions. Not yet implemented is a small percentage of each faucet deployment being retained by the admin account for this purpose.\n\nLet's step through an example user experience. A workshop host may \"create\" a new faucet. They choose a network and provide an \"event code\" of their choice. The CLI app then generates a throw-away account and instructs the host to send testnet ether there. The app sends the event code and ephemeral private key to the server, which then creates a transaction to register their event code and ether amount.\n\nThe host can verify the specific event has been funded using the \"status\" function. This sends off the network and event code to the server, which queries the contract. It returns whether the event code exists on that network, and if so, how much ether is available for distribution.\n\nWorkshop attendees can then request funds via the \"drip\" function. The network name, event code, and validated receiving address are passed to the server. Assuming the event exists and is funded, an amount of 0.0001 ether is sent.\n\nThe last function is \"topup\", which allows a host (or anyone else) to add more funds to an existing faucet. The technical details are similar to the create function.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/popupfaucet-p03jk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

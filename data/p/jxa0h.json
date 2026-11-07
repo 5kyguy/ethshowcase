@@ -1,0 +1,36 @@
+{
+  "id": "jxa0h",
+  "slug": "dapp-contract-verifier",
+  "title": "dApp/Contract Verifier",
+  "tagline": "Decentralized entity registry with Metamask snap that verifies dApp & smart contract address",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jxa0h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kEkNFbA8uEKGa66NVGe01oECkzUYdDdokpEE6vrsaVxE/high.mp4",
+  "demo_url": "https://eth-tokyo-fullstack.vercel.app/",
+  "source_url": "https://github.com/joswha/ETHTokyo",
+  "prizes": [
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "📜 Scroll — Just Deploy",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "MetaMask",
+      "sponsor_id": "4pn9u",
+      "placement": "4️⃣ Linea — Best Use",
+      "title": "MetaMask"
+    }
+  ],
+  "finalist": false,
+  "description": "This project implements a missing link of trust in the web3 ecosystem: a decentralized mechanism for users to verify that they are interacting with the correct smart contracts and dApp for the protocol they intend. It is implemented in two components: a dApp/contract registry for protocols, and a MetaMask snap that checks potential transactions against the registry. \n\nThe registry is a smart contract that allows protocols to announce their web2 dApp domains and confirm ownership while also indicating which smart contract addresses belong to the dApp. This public indication on the blockchain where users can interact with their protocol is intended to be part of a larger entity verification mechanism, where protocols can announce their legitimate points of contact for both web2 and web3 (dApp domains, smart contract addresses for each chain, Twitter, discord, etc) and confirm ownership of each, like a decentralized keybase.io for web3 entities.\n\nThe other main component of this project is a Metamask snap that allows users to query the registry for each transaction, verifying that the dApp domain is registered and that the smart contract addresses match the domain. A fully-realized implementation of this scheme would prevent users from interacting with lookalike scam websites (because the registry would confirm ownership of multiple identity references) and could even stop front-end hacks (because the attacker would need to co-opt the domain, demonstrate ownership, and publicly update the trusted contract addresses in the registry). In the future, this mechanism could be implemented as part of every wallet to provide an indication of trust similar to the familiar green checkbox in the URL bar for browsers.\n\nThe ultimate vision of this project is a verification mechanism that can work on any blockchain and gives users the confidence that they're interacting with the actual protocol, much the same way that the certificate authorities provide users confidence for web2, but in a decentralized manner.",
+  "how_its_made": "To get setup, a protocol hosts a signature accessible at [https://theirdomain.com/proof.txt](https://theirdomain.com/proof.txt) and uses our Dapp written in Next.js—which first checks if the proof is present from off-chain—to obtain a management role (which is transferred to the recovered address). This role is then used to submit which contracts are \"trusted\" by the protocol.\n\nWhen MetaMask opens to confirm a transaction, our MetaMask cross-references the contract the transaction interacts with the set of trusted contract addresses (which are keyed by the domain name).\n\nUnder the hood, the smart contract includes a number of safety features and ensures there is no centralization risk.\n\n- The worst case scenario, if our proof-checking bot (which allows protocols to get setup with us) were to go offline, is that no more protocols can get setup. In the future, we intend to use oracles to eliminate this possibility, but it poses no security or centralization risk.\n- We (the owner) cannot revoke or control trusted contract lists after a timelock period.\n- However, upon registration of a protocol, we are given a 72-hour “dispute” period to unregister a protocol. This stops a potential attack where an unregistered protocol’s website is compromised to host an attacker’s proof.\n- This MetaMask snap applies to all transactions and sources; however, if a protocol is not registered with us, we show no warning (i.e., it can only add safety/benefit).\n- Our project allows any project to have a form of pausing (at least, warning users) without having to implement a pausing backdoor in the contract. For example, if a protocol were hacked, the owners could empty the trusted contracts list so that all MetaMask users are prompted with a warning before interacting with the contract.\n\nThe contracts are deployed on multiple blockchains, including Polygon's Mumbai testnet, allowing protocols to register their valid dApp/smart contract address mappings for each chain.\n\nThe MetaMask snap is pure JavaScript that checks the registry for each transaction and presents information or warnings to the user.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dapp-contract-verifier-jxa0h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "ar7dw",
+  "slug": "tratohecho-p2p",
+  "title": "TratoHecho_P2P",
+  "tagline": "Hybrid P2P market for Latam: Sell onchain, buy with fiat offchain with trustless settlement",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ar7dw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JiRO4dCyxilgOeMivZwGsRDCXR4pgNwwu01BWy02ZdZMQ/high.mp4",
+  "source_url": "https://github.com/jozer-rami/trato-hecho",
+  "finalist": false,
+  "description": "Real world problem: Bolivia has no regulated crypto exchanges that let citizens move between bolivianos (BOB) and stablecoins (USDC).\n\nWhat am I building? A trust-minimised P2P ramp that lets two people swap:\nUSDC on-chain (the crypto leg) <-> BOB or any fiat sent by bank transfer (the off-chain leg) with atomic settlement and very low friction UI (thanks 7702)\n\nWhy it matters : Shortage of dollars in Bolivia, giving oportunity to non crypto users (using Privy for a simple sign in without external wallet) to get USDC without using a escrow system or a centralized P2P market\n\nHigh level idea:\nSeller lists an offer: Specifies how much USDC they are willing to sell, the fiat price, and an expiry time.\n\nInstead of locking tokens in escrow, they sign a time-bound EIP-7702 delegation authorising the contract to move their USDC only until the order deadline.\n\nBuyer accepts and pays off-chain : Buyer chooses where they want to receive the USDC (same network or another Circle-supported chain).\n\nThey make the bank transfer and submit the payment reference to the contract.\n\nAutomatic verification: A Chainlink Functions job queries the seller’s banking API and when the API confirms the transfer, the contract is notified on-chain.\n\nUSDC settlement : The contract uses the seller’s temporary delegation to move their USDC: either at the same-chain – direct transfer to the buyer or doing a cross-chain transfer through Circle CCIP-v2, so an equivalent amount is minted to the buyer on the selected destination chain.\n\nAll done without any further signature from the seller.",
+  "how_its_made": "Main building blocks\n\nSmart contracts (Solidity, Sepolia testnet (because it has ERC 7702)\nMarketplace logic, order tracking, delegated settlement, and CCTP calls.\n\nChainlink Functions : Runs a JavaScript snippet that polls the bank’s API, returns the payment status and triggers the transfer from the seller to the buyer. This piece is key for the offchain/onchain approach\n\nCircle CCIP-v2 : Standards-based “burn-and-mint” for native USDC across Ethereum Sepolia, Avalanche Fuji, Arbitrum Sepolia, Base Sepolia, and Polygon Amoy. Give's end user flexibility on which chaiin he wants to receive their USDC.\n\nPrivy with EIP-7702 (temporary delegation for EOAs) :\nLets the seller keep custody, yet empowers the contract to execute exactly one action (transfer/burn) within a fixed time window.\n\nSecurity & trust model\nSeller risk: Limited to the order size and to the expiry time they signed in the delegation. They can revoke early at any time.\nBuyer risk: Protected by Chainlink DON; USDC is only released after the bank confirms the fiat transfer.\nBridge risk: Minimized because CCTP mints canonical USDC rather than wrapped IOUs.\n\nUser experience highlights\nOne transaction per side. Seller signs once; buyer submits two calls (accept + verify) and receives funds automatically.\nChain-agnostic payouts. Buyer can ask to receive USDC on a cheaper or preferred network.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tratohecho-p2p-ar7dw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

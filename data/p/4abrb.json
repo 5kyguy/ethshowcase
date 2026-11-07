@@ -1,0 +1,21 @@
+{
+  "id": "4abrb",
+  "slug": "aave-liquidator",
+  "title": "Aave Liquidator",
+  "tagline": "Create a liquidator bot (or libraries a liquidator bot might use)",
+  "event": {
+    "slug": "marketmake",
+    "name": "MarketMake",
+    "start_time": "2021-01-15T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4abrb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lWPC1BFttzkASaiN1ToBV8y178KGVdSTwMSvK7l4API/high.mp4",
+  "source_url": "https://github.com/dkirsche/aave-liquidator",
+  "finalist": false,
+  "description": "This project creates a liquidation bot that monitors aave loans for unhealthy ones and efficiently liquidates them to keep the aave protocol healthy. Identifying loans that would be profitable to liquidate is a challenging one as the costs involved are volatile including gas costs and swaps between the collateral asset and borrowed asset.",
+  "how_its_made": "This project is composed of two distinct parts, the first is the monitor which watches for unhealthy loans and triggers a liquidation.The second is the liquidator which is responsible for all of the transactions involved with liquidating the loan.\n\n\n\nMonitor:\n\nA node.js app that queries theGraph to get all loan information. It then calculates which are unhealthy and their bonus payment, and then estimates costs & profits. Costs include retrieving current gas prices using gasnow.org, and calculating the optimal swap path & price via uniswap for converting the bonus payout in the collateral back to the token used for the flashloan. If profitable initiate a liquidation by calling the custom built Liquidator solidity contract.\n\n\n\nLiquidator Solidity Contract:\n\nInitiates an aave flash loan for the tokens needed to liquidate the unhealthy loan, liquidates the loan, then uses uniswap to swap collateral tokens back to tokens used for the flash loan (via the path provided by the monitor). Then pays back the flash loan & sends the profit back to the owner's address.\n\n\n\nTakeaways\n\nMy biggest accomplishment was making this bot capable of liquidating any token pair on Aave. This meant dynamically calculating swap paths for uniswap. The algorithm for calculating paths was fairly challenging to create and where I spent most of my time. Also, this was my first time building a solidity contract and it was surprisingly straight forward.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aave-liquidator-4abrb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

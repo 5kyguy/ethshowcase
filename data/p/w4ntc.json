@@ -1,0 +1,27 @@
+{
+  "id": "w4ntc",
+  "slug": "askchain",
+  "title": "AskChain",
+  "tagline": "AskChing turns DeFi questions into cited answers from live The Graph subgraphs.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w4ntc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uK12QPuFR1IEV7w89AOrKWRB005YYNthMDK01pWQZMIqc/high.mp4",
+  "demo_url": "https://ask-ching-agent.vercel.app/",
+  "source_url": "https://github.com/Chonwai/AskChing_Agent",
+  "finalist": false,
+  "description": "AskChing is an evidence-first DeFi research agent that transforms natural-language questions into transparent, cited answers from live Ethereum mainnet subgraphs. It compares lending markets across Aave V3, Compound V3, Spark Lend and Aave V2; analyses market conditions and historical trends; and discovers USDC yield opportunities across lending, Uniswap V3 and Curve.\n\nAskChing provides seven MCP tools for market comparison, research briefs, risk scanning, explainable analysis, 7- or 30-day trend analysis, cross-venue yield discovery and self-description. Every reported figure includes provenance such as its subgraph ID, block, timestamp and query hash. Calculations, confidence levels, caveats and data-quality gaps remain visible instead of being hidden behind an opaque score.\n\nDifferent products are not presented as directly equivalent: current lending supply APY and historical DEX LP fee APR are ranked separately. AskChing fails closed when it cannot obtain enough independent cited evidence, never invents unsupported data, does not execute transactions and does not present its output as financial advice.",
+  "how_its_made": "AskChing was built from scratch as a TypeScript pnpm monorepo. Its shared data layer queries six live Ethereum mainnet subgraphs through The Graph Gateway: Aave V3, Compound V3, Spark Lend, Aave V2, Uniswap V3 and Curve. The results are normalized into strict Zod schemas so rates, assets, units and rate definitions are validated before anything is compared or ranked.\n\nThe MCP server exposes six research tools—compare_markets, research_brief, risk_scan, analyze_markets, analyze_trends and discover_yields—plus a get_info tool that explains the product and provides example prompts. A single tool-registration module powers both local stdio and remote Streamable HTTP transports, preventing their capabilities from drifting apart. The deployed Vercel endpoint can therefore be connected directly to MCP-compatible clients including Claude, Cursor, VS Code, Codex and Gemini CLI.\n\nA Grok tool-calling CLI forms the conversational orchestration layer. It interprets a natural-language request, selects the appropriate AskChing tool, supplies structured arguments and synthesizes the cited result. Deterministic fixture mode allows reliable demos and tests, while live mode uses The Graph API credentials.\n\nThe evidence model is enforced in code: every observation carries its subgraph ID, block, timestamp and query hash, and quantitative comparisons fail closed unless at least two independent cited sources remain. Partial source failures become explicit gaps rather than disappearing silently.\n\nFor DEX yield discovery, AskChing aligns Uniswap V3 and Curve snapshots to a shared completed UTC day and calculates historical fee APR from cited daily fees and TVL. A particularly practical hack was replacing a slow global Uniswap snapshot query with a two-stage process: discover eligible pools first, then fetch each pool’s snapshots in parallel. Lending APY and LP fee APR remain in separate rankings because their definitions and risks are fundamentally different.\n\nThe repository includes Vitest unit and integration tests, behavioural evals, live-source probes, MCP transport smoke tests and deployment checks. Git history contains frequent incremental commits to preserve the ETHOnline Start Fresh development trail.",
+  "auto_summary": "A TypeScript monorepo that uses live The Graph subgraphs to power an MCP-based DeFi research and yield analysis agent.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/askchain-w4ntc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

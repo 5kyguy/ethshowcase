@@ -1,0 +1,35 @@
+{
+  "id": "2mkp6",
+  "slug": "daytrader",
+  "title": "DayTrader",
+  "tagline": "A trading market for hosted assets. Hosts sell early, traders speculate, all settled on 1inch Aqua.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2mkp6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/amfibPwZJBdLgmXLk8gYL5CLluAygIIGp7ezTOnqj88/high.mp4",
+  "demo_url": "https://project-tokyo-rbt7w.ondigitalocean.app",
+  "source_url": "https://github.com/ETHTokyo2026-MODY/project-tokyo",
+  "prizes": [
+    {
+      "sponsor": "Curvegrid",
+      "sponsor_id": "5e2gc",
+      "placement": "Best RWA Tokenization Project",
+      "title": "Best RWA Tokenization Project"
+    }
+  ],
+  "finalist": false,
+  "description": "DayTrader lets hosts of rental rooms and cars sell their future days before anyone books them. Each day of each asset is its own token (an ERC-20 with a supply of exactly one), created only when the host first lists that day. Every asset and every day also has an ENSv2 name, like 2026-10-03.demo-room.daytrader.eth. The name resolves to that day's token, so any wallet or tool can find a specific night by name, and the site discovers assets from the daytrader.eth root.\n\nHosts create an asset, list days on a calendar, set weekday prices, and offer a discount for booking several days in a row. Traders place limit orders for one or more consecutive days, paid in USDC. Orders are posted to 1inch Aqua, so the money and the day tokens stay in each person's wallet until a trade settles. A matcher fills an order once the sellers' prices fit the buyer's limit. Our settlement contract, built on 1inch SwapVM, pays each seller and delivers every day in one transaction, and if any single day fails, the whole purchase is cancelled. Owners can resell days at their own price.\n\nWhen a guest books, the host marks the day as booked at a booking price that follows a price curve toward the date. Past days lock automatically, and every date runs on Tokyo time. Hosts get paid up front, and traders take over pricing future demand.",
+  "how_its_made": "DayTrader is a monorepo with three parts: Solidity contracts, a Node backend, and a Next.js website.\n\nContracts (Foundry, Solidity 0.8.30). A RentalAssetFactory creates one RentalAsset per room or car, with a fixed 365-day calendar. Each day is its own ERC-20 DayToken with a supply of exactly one. Day tokens are created lazily at pre-computed addresses, and only the first time a host lists that day, so creating an asset costs almost nothing. The asset contract tracks who owns each day, the listing price, whether the day is booked, and a price curve that sets the booking price as the date gets closer. Past days lock automatically, and all dates are in Tokyo time.\n\n1inch Aqua and SwapVM. Aqua was the key partner technology. Sellers and buyers publish their orders to Aqua, but their day tokens and USDC never leave their wallets. Aqua only records what each order allows to be taken, and it pulls the funds when a trade settles, so there's no escrow and no locked liquidity. Our DaySwapVM settlement contract reuses 1inch's SwapVM interpreter and its full-amount limit-swap instruction. We added our own pricing opcode, which reads each day's live price and the host's multi-day discount. One settlement fills a whole range of consecutive days in a single transaction, and if any single day fails, every transfer is rolled back. Nobody can end up with half a trip.\n\nENSv2. Every asset is registered as <asset>.daytrader.eth and points to its contract, with its title, type and location stored as text records. Every day is <date>.<asset>.daytrader.eth and points to that day's token, so any wallet can find a specific night by name. The website reads its asset list from the root name.\n\nBackend and website. The website is Next.js 16, React 19, Tailwind 4 and viem. Its API reads the chain through Darryl's backend code, and it rebuilds an in-memory index of contract events from the chain every time it starts, fetching events in batches of 500 blocks. So the whole site runs with no database. A separate worker (the 'taker') watches open orders, test-runs each fill first, and settles every order whose price now fits. The site is hosted on DigitalOcean App Platform and deploys automatically from main. Transactions open in a built-in Blockscout panel.\n\nHacky parts worth mentioning. Our orders use a custom format that 1inch's standard router and resolver network can't read, so we wrote our own matcher. We register day names on ENS in batches of 73 so each transaction stays within gas limits. Our demo recordings are Playwright scripts. We built the project with AI coding agents: Cursor agents for the website and Codex for the contracts and backend, with every change landing as a small pull request.",
+  "auto_summary": "A monorepo for tokenizing future rental days, naming them with ENSv2, and trading them through 1inch Aqua/SwapVM settlement.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/daytrader-2mkp6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

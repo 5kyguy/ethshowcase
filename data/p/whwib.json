@@ -1,0 +1,22 @@
+{
+  "id": "whwib",
+  "slug": "asi-blockagent",
+  "title": "ASI:BlockAgent",
+  "tagline": "A real-time whale detection and trading intelligence system for Hyperliquid",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/whwib/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NzRtcupA8QzyLJZ7uw2OUPYazxB4rfsAQCPwCLsziFk/high.mp4",
+  "demo_url": "https://hyperliquid-whale-agent.vercel.app/",
+  "source_url": "https://github.com/xyd945/hyperliquid-whale-agent",
+  "finalist": false,
+  "description": "A cutting-edge AI-powered system that detects and analyzes large cryptocurrency deposits (\"whale activity\") on Hyperliquid in real-time, providing traders with instant intelligence about market-moving events.\n\n## 🎯 What It Does\n- Real-Time Whale Detection : Monitors Ethereum mainnet for large deposits (>$100k) to the Hyperliquid bridge using Blockscout MCP integration\n- Instant Position Analysis : Automatically fetches whale trading positions, leverage, and liquidation prices from Hyperliquid APIs\n- AI-Powered Chat Interface : Natural language queries like \"Show me recent whales\" or \"What positions do large traders have?\"\n- ASI:ONE Integration : Connects to Agentverse agents for advanced AI capabilities with fallback to local processing",
+  "how_its_made": "## 🔧 Technical Architecture & Implementation\n### Core Technologies Stack\n- Frontend : Next.js 14 with TypeScript, Tailwind CSS, Lucide React icons\n- Backend : Python with uAgents framework for multi-agent orchestration\n- Blockchain Integration : Blockscout MCP (Model Context Protocol) for Ethereum monitoring\n- AI Integration : ASI:ONE protocol connecting to Agentverse agents\n- APIs : Direct integration with Hyperliquid's trading APIs\n### Multi-Agent System Design\n1. Local Mailbox Agent ( whale_agent_mailbox.py )\n\n- Built with uAgents framework running on port 8001\n- Implements two core tools:\n  - get_recent_whales() : Queries Blockscout MCP for large bridge deposits\n  - enrich_wallet() : Fetches position data from Hyperliquid APIs\n- Handles natural language processing for whale detection queries\n2. HTTP Server Agent ( whale_agent_http_server.py )\n\n- FastAPI server on port 8002 providing REST endpoints\n- Bridges between the frontend and the mailbox agent\n- Enables stateless operation without database persistence\n3. ASI:ONE Integration ( asi-one.ts )\n\n- Custom TypeScript client for ASI:ONE protocol\n- Implements agent discovery and message routing\n- Fallback mechanism: tries ASI:ONE first, then local agents\n### Blockchain Monitoring Innovation\nBlockscout MCP Integration :\n\n```\n# Custom MCP client for real-time whale detection\nasync def get_recent_whales(threshold_usd: float = 100000, lookback_minutes: int = 60):\n    # Query Hyperliquid bridge contract: 0x2Df1c51E09aECF9cacB7bc98cB1742757f163dF7\n    # Decode deposit events using verified ABI\n    # Filter transactions above threshold\n```\nParticularly Hacky & Notable :\n\n1. Stateless Architecture : No database! Everything processes live data from APIs\n2. Hybrid Agent Routing : Frontend intelligently routes between local and cloud agents based on preferLocal setting\n3. Real-time Bridge Monitoring : Direct integration with Blockscout's MCP to catch whale deposits as they happen\n### Frontend Architecture\nChat Interface ( chat-interface.tsx ):\n\n- React hooks for real-time message streaming\n- Dual-mode operation: local vs ASI:ONE agents\n- Connection status monitoring with automatic fallbacks\n- Quick action buttons for common queries\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/asi-blockagent-whwib",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

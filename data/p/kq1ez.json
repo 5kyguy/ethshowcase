@@ -1,0 +1,27 @@
+{
+  "id": "kq1ez",
+  "slug": "namesake",
+  "title": "Namesake",
+  "tagline": "Claim an ENS name, watch it become a live AI agent you can talk to. ENSv2 + ERC-8004 + 0G.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kq1ez/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kRp9wpzeHJNUgKlcXagEeYCVzdqT100DwuGOMsyjQONw/high.mp4",
+  "demo_url": "https://namesake-web.vercel.app/",
+  "source_url": "https://github.com/estmcmxci/namesake",
+  "finalist": false,
+  "description": "namesake turns an ENS name into a live AI agent.\n\nclaim <label>.namesake.eth on ENSv2 (Sepolia), and the system provisions a working agent behind it. the free tier is gated by World ID: one verified human, one free agent.\n\nfrom there, the orchestrator does the full setup in 18 steps:\n\n• mints the subname to the operator\n• writes the forward address\n• binds an ERC-8004 agent identity\n• publishes the ENSIP-25 identity link and agent-ids index\n• publishes an ENSIP-26 agent-context record\n• writes a services[message] endpoint\n• then transfers the name’s NFT to the agent’s own wallet\n\nbehind the name is a real container with its own MetaMask wallet, so the agent can sign as itself. it runs on 0G Compute using GLM-5, with TEE attestation.\n\nthe point is discovery:\nresolve the name, read services[message], POST to it, and get a response.\n\nif the agent moves, the record is republished, so the pointer stays current. beyond the free tier, strangers pay per message via x402.",
+  "how_its_made": "Built in TypeScript end to end, with viem handling every chain call.\n\nENSv2 introduced one subtle but important wrinkle: reads for subnames are now two-hop. you go from the root registry via getSubregistry(parent) to the parent’s subregistry, then call getState(labelhash(leaf)). anything that assumed a simple 2LD lookup broke on 3LDs — availability checks, binding verification, even bits of UI copy.\n\nprovisioning is handled by an orchestrator that runs as a step machine, with per-step timings exposed through a JSON API that the React/Vite/wagmi frontend polls. the agents themselves run as OpenClaw containers on Railway, with MetaMask Agent Wallet baked into the image so they can sign as themselves.\n\nthe hackiest part is messaging. OpenClaw’s gateway speaks WebSocket RPC; there’s no plain HTTP /message endpoint. so there’s a relay shim that SSHes from one Railway service into a sibling container and drives the actual turn driver. yes: nested Railway CLI inside Railway. ugly, but effective. importantly, it shares a ContainerTarget seam with local Docker, so the code we prove locally is the same code that ships.\n\n0G was the clean part — basically just a base_url swap, no SDK required. a Vercel function injects the bearer token server-side, so the browser never sees it.",
+  "auto_summary": "This project provisions ENS subnames as discoverable AI agents with onchain records, World-gated signup, and a relay-backed messaging flow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/namesake-kq1ez",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "m010c",
+  "slug": "ghostvault",
+  "title": "GhostVault",
+  "tagline": "Limit orders that earn yield while hiding from MEV. Built on Uniswap v4",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m010c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/j7BBy8o01uGKKLsk02j1IyJhPKAYPh3zIIpNkx3vKXbxc/high.mp4",
+  "source_url": "https://github.com/umershaikh123/hackmoney-2026",
+  "finalist": false,
+  "description": "GhostVault solves two problems with on-chain limit orders: MEV bots see your target price and front-run you, and your capital sits idle earning nothing while waiting.                             \n\nWe built a Uniswap v4 hook with two order types:\n\nYieldOrder — Set a target price. Your funds route to an ERC-4626 vault and earn yield. When price hits target, the agent swaps and you get output plus yield.\n\nGhostOrder — Set a time delay. Only a hash of your intent goes on-chain. After the delay, the agent reveals and executes. MEV bots never knew what you were trading.\n\nBoth use commit-reveal: you commit a hash, keep the plaintext off-chain, and reveal at execution. By the time anyone sees the trade, it's already done.\n\nThe solver agent monitors conditions 24/7 and executes when profitable. It earns fees from the yield your order generated — aligned incentives.\n\nFuture: users will choose their own yield strategy (conservative Aave lending vs aggressive leveraged vaults). Since we use ERC-4626, any compliant vault plugs in. Higher yield means more solver fees, which means faster execution.",
+  "how_its_made": "The core is a Uniswap v4 hook (GhostVaultHookV2.sol, ~665 lines) that implements beforeSwap and afterSwap callbacks. We use Cancun's transient storage (tstore/tload) to distinguish hook-initiated\nswaps from external swaps — this prevents the hook from triggering itself when it calls poolManager.swap().\n\nFor yield, we integrate with any ERC-4626 vault. In production we'd use MetaMorpho (Gauntlet USDC Prime). For the demo, we built SimpleYieldVault that simulates 4% APY with time warping.\n\nThe commit-reveal uses keccak256(targetPrice, zeroForOne, salt). The salt is 32 random bytes generated client-side — this prevents rainbow table attacks against common price targets.\n\nThe agent is TypeScript with viem. It polls Chainlink for price, checks order conditions, calculates if solver fees cover gas, and executes. We integrated x402 protocol for HTTP 402\nagent-to-agent payments — the gateway returns a 402 challenge, the caller signs a USDC payment, and the gateway executes.\n\nBatch execution aggregates multiple orders into one swap. On-chain observers see one large trade instead of individual order sizes — additional privacy layer.\n\nFrontend is Next.js 15 with wagmi v2 and RainbowKit. Zustand stores reveal data in localStorage (never touches the chain). We built on Base mainnet fork with Anvil for the demo.\n\n35 tests total: 22 local mock tests, 13 fork tests against real Base mainnet state.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ghostvault-m010c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "nhbcx",
+  "slug": "hashchain",
+  "title": "Hashchain",
+  "tagline": "A free service for timestamping NFT files on the blockchain to avoid offchain frontrunning.",
+  "event": {
+    "slug": "nfthack",
+    "name": "NFTHack",
+    "start_time": "2021-03-19T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nhbcx/banner/default.jpg",
+  "demo_url": "https://hashchain.app/",
+  "source_url": "https://github.com/skogard/hashchain.app",
+  "finalist": false,
+  "description": "# Timestamp your NFT files BEFORE they're sold in order to avoid offchain NFT frontrunning.\r\n\r\nMost NFT marketplaces are moving towards \"Lazy minting\", which lets you create NFTs for free. Instead of having to pay upfront cost just to list an NFT to a marketplace, now users can post keep their NFTs offchain until someone purchases it. The NFT is minted ONLY when a purchase is made.\r\n\r\nThis is great, but it also means your NFT is NOT registered on the blockchain until someone purchases it. This means someone can copy your NFT files and list them on another marketplace and claim intellectual property. Avoid this situation by timestamping your IPFS hashes on a blockchain, for FREE.",
+  "how_its_made": "# Backend\n\n\n\nThis project makes use of IPFS and Polygon (Matic) to build a virtual blockchain.\n\n\n\n1. A virtual \"block\" is implemented by collecting multiple IPFS hashes for NFT files into a single parent IPFS file.\n\n2. A virtual \"blockchain\" (chain of blocks) is implemented by pegging the block IPFS hash from step1 into a smart contract on Polygon chain. The smart contract is deployed at https://explorer-mumbai.maticvigil.com/address/0x5FE0FB4b25785eF2cdC376B9F7028d5dFb40d511/transactions\n\n\n\nEvery 10 minutes a virtual block is created. This block contains a collection of IPFS hashes submitted during the 10 minute period. This file itself is stored as IPFS and therefore has its own IPFS hash. This hash is posted to the blockchain, creating a two way link between a previous virtual block and the current virtual block.\n\n\n\nTo check whether an IPFS hash for an NFT file has been already timestamped, it constructs and maintains a cache by crawling the contract's global event log.\n\n\n\n# Frontend\n\n\n\nThe frontend uses IPFS Javascript library to create an in browser node and seed. Then when a file is dropped into the dropzone, it seeds the file and gets the IPFS hash. Then this hash is signed with Ethereum wallet.\n\n\n\nThe project takes advantage of Metamask's signature feature to sign a message on the frontend. The following attributes get sent to the backend and inserted into mempool:\n\n\n\n1. IPFS hash\n\n2. Signer pubkey\n\n3. Signature\n\n\n\nThen every 10 minutes (or 1 minute depending on the settings), all the entries in the virtual \"mempool\" are written to an IPFS file in a CSV format. Then this parent file acts as the virtual \"block\" of a Hashchain. Since this itself is an IPFS file, it has its own IPFS hash. This hash is sent to the contract on Polygon blockchain (Note that the service provider--I--am paying for the archival, not the user, this is the important part about this app as users don't even need money to timestamp their files this way) and the contract creates a two way link between the previous block and the new block. This way a \"virtual blockchain\" is constructued and maintained using IPFS and Polygon, with super cheap cost, so cheap that I can afford to provide the service completely for free (but donations appreciated :D)",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hashchain-nhbcx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

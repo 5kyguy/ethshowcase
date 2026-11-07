@@ -1,0 +1,21 @@
+{
+  "id": "8ovfp",
+  "slug": "ezkclaim",
+  "title": "eZKclaim",
+  "tagline": "Leveraging zero knowledge proofs to make on-chain payments using email as identifier for origin and destination",
+  "event": {
+    "slug": "circuitbreaker",
+    "name": "Circuit Breaker",
+    "start_time": "2024-02-02T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8ovfp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ahEAdd9SCkVhIzqeaPte00b17JE4MgdaolTdYoLXQhZo/high.mp4",
+  "source_url": "https://github.com/kingw18/ezklaim",
+  "finalist": false,
+  "description": "This project explores token transfer via on-chain email verification. Depositor specifies the claimant's email, and then locks away an amount of native token that only the owner of the specified email can unlock. ZK is used to hide the sensitive information (claimant's email) so that privacy is preserved in this transaction flow.",
+  "how_its_made": "We integrate with Auth0 for email authentication, Noir to build our ZK circuit, Sindri for proof generation. \n\nThe ZK flow works as follows: Claimant authenticates with Auth0 to obtain JWT on the client-side.  The payload and signature are passed as private inputs to the ZK circuit, which outputs the proof and the matched hashed email. This is then used to authenticate the claimant on our custom contract to unlock the asset. To prevent the claimant from being identified with a unique hash, salt is added in computing the hash, and the depositor is expected to send the hash to the claimant off chain in order to be used in proof generation.\n\nSince Noir circuits take in fixed length parameters, we ran into issue trying to pass the JWT obtained from Auth0 for ZK verification. Our workaround was to set up an additional rule on Auth0 to hash the claimant's email prior to performing RSA signing, and this allowed us to ensure that the JWT payload always has the same size. \n\nWe used the Base64, JSON Parser and RSA libraries on Awesome Noir to put together our circuit. However, due to breaking changes in v0.23.0 of Noir, we had to downgrade compiler version to v0.22.0. This unfortunately caused us to the 'Message:  internal error: entered unreachable code: ICE: Cannot return slices' when trying to compile the circuit hence we have yet to verify the proper functionality of the circuit.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ezkclaim-8ovfp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

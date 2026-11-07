@@ -1,0 +1,21 @@
+{
+  "id": "0c5ea",
+  "slug": "proviso",
+  "title": "Proviso",
+  "tagline": "AI shopping agent that pays from your own wallet, bound by rules on ENSv2 and World ID approvals.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0c5ea/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00af4L01C8ln1qGSG18ke1ZJ78Xf01Gw33FIjFHVrgjOoA/high.mp4",
+  "source_url": "https://github.com/itublockchain/proviso",
+  "finalist": false,
+  "description": "Proviso is an AI shopping agent that you can actually trust with your money.\n\nYou tell it what you want in plain words: \"a Sony 55-inch TV within a month, never above $500, buy it yourself under $400.\" If you only name a kind of product (\"a 4K TV\"), the agent suggests concrete models with live prices and you pick one. It then compares live prices across stores, models the price history and upcoming sale dates, and decides when to buy.\n\nIt pays in USDC straight from your own wallet. No deposit, no agent wallet. You set it up with one signature.\n\nEvery purchase is checked on-chain by a smart contract against rules that live on your ENS name:\n- At or under your \"auto\" limit, the agent buys on its own, and only from a merchant listed in verified.proviso.eth.\n- Between auto and max, it must get you, a verified human, to approve that exact order with a fresh World ID confirmation (World ID for Agents). If you decline, or the approval expires, nothing is bought.\n- Above your max, or over your monthly category budget, the contract reverts, whatever the agent was told. A prompt-injected checkout that swaps the merchant address is rejected too.\n\nYour rules and the agent's live status are public ENS records under [item].[category].[you].proviso.eth, so anyone can see what the agent is allowed to do and what it is doing. The AI agent itself can only write a status line; it can never raise a limit.",
+  "how_its_made": "iOS app in SwiftUI (iOS 26, Liquid Glass). Backend in Node/TypeScript, deployed as a Docker image on a k3s cluster behind a Cloudflare Tunnel. \n\nContracts: PolicySpender (Solidity, Foundry) on Sepolia. It has unit tests and fork tests against the real ENSv2 deployment, USDC and the World ID router. Onboarding is a single EIP-2612 permit. We encode the whole account config (ENS root, resolver, agent, World ID link) as a hash into the permit deadline, so one gasless signature both approves spending and fixes the setup.\n\nENSv2 is the policy layer, not a label:\n- Each user gets <username>.proviso.eth with their own PermissionedResolver, deployed through the VerifiableFactory.\n- Hobby/needs are subregistries, and each purchase is a registered subname that expires at its deadline.\n- Limits are ENSv2 data records (uint256) that the contract reads with resolve() at buy time. A missing record reads as 0, so the check fails closed.\n- Enhanced Access Control scopes who writes what. Only the owner's wallet sets budgets, the operator writes a request's bands, and the AI agent (agent.proviso.eth) may only write the \"status\" record.\n- The merchant allow-list is verified.proviso.eth.\n- Live status and remaining budget are mirrored to text records, so the explorer shows them.\n\nWorld ID for Agents (sandbox) does two jobs:\n- Mandatory sign-in: OIDC with PKCE, Orb acr required. The pairwise sub is committed on-chain as the account's continuity id.\n- Approvals for mid-band buys: an OIDC device grant. The backend validates the ID token (signature, audience, freshness, same sub as the owner), then signs an EIP-712 HumanApproval over the exact order hash. The contract checks it with 5-minute freshness.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/proviso-0c5ea",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

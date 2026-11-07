@@ -1,0 +1,27 @@
+{
+  "id": "mznwa",
+  "slug": "rfc-legends",
+  "title": "RFC Legends",
+  "tagline": "Idle rooster RPG with farm-signed records: onchain health attestations and ENS bloodlines.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mznwa/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1FEXyDhnknc38JYMpmFqUrcOMn93n7VSeF1n1WUoZoU/high.mp4",
+  "demo_url": "https://rfclegends.rfcclub.app/",
+  "source_url": "https://github.com/nolifelover/rfc-legends",
+  "finalist": false,
+  "description": "RFC Legends is an idle RPG with classic job/stat/card progression, live guild chat and a shared guild boss, themed around Thai native rooster breeds. You play as a trainer adventuring with a rooster companion; both level up automatically, even while you are offline.\n\nYour rooster belongs to one of five sire lines, and the rooster explorer shows the farm-registered birds of those lines — currently sample records with placeholder leg-ring IDs — each minted onchain only with two parties: the issuer submits it and the farm's key co-signs the registration (leg-ring ID, bloodline, hatch date). One leg-ring ID can only ever be one token, and the farm signs health and weight attestations anyone can relay onchain. Each bird carries an ENSv2 name; offspring are subnames of their sire, resolved through a permissioned resolver where only the farm key can write health records, so a bloodline is verifiable by anyone.\n\nRare drops are the heart of the economy. Legendary items and monster cards mint from gameplay only — with a server-signed EIP-712 voucher and only to a World ID-verified wallet — and trade in an onchain Rare Market that splits every sale 90% seller / 10% RFC Club treasury inside the contract. One human, one account: a second wallet replaying the same World ID nullifier is rejected onchain, and every sale is indexed by Curvegrid MultiBaas, so the 90/10 split is readable straight from onchain events.\n\nCartoon collectible art; premium items come only from gameplay drops, never a shop.",
+  "how_its_made": "The game is a Next.js 16 + React 19 app with a Phaser 3 canvas for the idle farm scene. A server-authoritative TypeScript engine simulates combat tick by tick and settles offline progress rate-based, so nothing about your progression is trusted to the client. State, guild chat and the guild boss live in PocketBase behind our API; wagmi and viem talk to five Solidity 0.8.28 contracts on Sepolia (a test-USDC, a World ID registry, an ERC-1155 for rare drops, a 90/10 marketplace, and an ERC-721 for the real roosters), all verified on Etherscan and covered by 105 Foundry tests at 100% line coverage.\n\nThree sponsor pieces do the heavy lifting. World ID gates the economy: the IDKit widget proves personhood, our server verifies the proof against World's API with the wallet as the signal (apps/web/src/server/worldid/verify.ts), then records the nullifier onchain in HumanRegistry — a second wallet replaying the same nullifier is rejected by the contract itself. ENSv2 carries the pedigree: each rooster has a name under rfclegends.eth and offspring are subnames of their sire (e.g. chick01.theprawang.rfclegends.eth), with a permissioned resolver where only the farm's key can write weight/health records (ens/src/ensv2.ts, ens/scripts/attest.ts), and the rooster pages resolve those records live. Curvegrid MultiBaas indexes the contracts' events and powers the market's sale history through saved event queries (contracts/scripts/multibaas-setup.mjs, apps/web/src/lib/contracts/multibaas.ts) — the 90/10 split of every sale is readable straight from indexed Sold events.\n\nDemo mode honesty: the live site runs with boosted EXP and drop rates so the full loop — leveling to 30, earning an MVP card, World ID verification, minting, listing, selling with the onchain 90/10 split — can be shown in minutes. The badge is always visible in the UI and the boosted rates are never presented as real. Everything onchain (contracts, verifications, sales, attestations) is real Sepolia activity; the birds shown are sample roosters with placeholder ring IDs until Ninlanee Farm's real records land.",
+  "auto_summary": "A Next.js idle RPG combines server-simulated gameplay with Sepolia smart contracts for human-verified item drops, rooster provenance, ENS-based pedigree, and indexed market sales.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/rfc-legends-mznwa",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

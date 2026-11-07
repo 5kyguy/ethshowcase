@@ -1,0 +1,22 @@
+{
+  "id": "xcyhh",
+  "slug": "stratosfi",
+  "title": "StratosFi",
+  "tagline": "Advanced DeFi strategies for 1inch: TWAP, Options & Concentrated Liquidity with MEV protection",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xcyhh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/z01GN6C9RXXKu9MwQMBKi02ykgdNeZe4aV301biO00mlRIE/high.mp4",
+  "demo_url": "https://stratos-fi.vercel.app/",
+  "source_url": "https://github.com/abhishek-01k/StratosFi",
+  "finalist": false,
+  "description": "StratosFi is a comprehensive suite of advanced trading strategies built on top of the 1inch Limit Order Protocol, transforming simple limit orders into sophisticated financial instruments. Our protocol introduces three groundbreaking features that work seamlessly together and extended to 6+ Non-EVM Chains:\n\nTWAP Engine: Our Time-Weighted Average Price implementation protects large trades from MEV attacks by splitting orders into randomized chunks (±15% variance) executed over customizable time periods. Unlike traditional TWAP solutions, our engine adapts execution intervals based on real-time volatility, pausing during extreme market conditions to protect users.\n\n* Options Protocol: The first-ever options market for limit order execution rights. Users can create call/put options on any limit order, enabling advanced hedging strategies. Options feature a 30-minute exercise window before expiration, real-time Greeks calculation (Delta, Gamma, Theta, Vega), and premium-based pricing. This opens entirely new DeFi primitives - imagine buying the\n  right to execute someone else's limit order at a premium!\n\n* Concentrated Liquidity Hook: Inspired by Uniswap V3, this allows limit orders to earn fees while waiting for execution. Users can specify price ranges (using tick math) and fee tiers (0.05%, 0.3%, 1%), turning idle orders into productive capital. The hook automatically manages liquidity positions and collects fees.\n\n * Volatility Oracle: The brain of our system - continuously monitors price movements, calculates risk scores (0-1000), and adjusts all strategy parameters in real-time. It categorizes market conditions (LOW/NORMAL/HIGH/EXTREME) and recommends position sizes (50-150% of normal).\n\nAll strategies are composable through our AdvancedStrategyRouter, allowing users to combine multiple approaches in a single order. The protocol charges a minimal 0.1% fee on successful executions, with additional revenue from option premiums.\n\nOur modern frontend provides an intuitive interface for configuring strategies, monitoring positions, and analyzing market conditions. We've prioritized user experience without sacrificing the power of these advanced tools.",
+  "how_its_made": "  Smart Contract Architecture:\n  - Built in Solidity 0.8.25 using Foundry framework for development and testing\n  - Implements 1inch's IAmountGetter interface for seamless integration with the Limit Order Protocol\n  - Modular design with separate contracts for each strategy, unified by the AdvancedStrategyRouter\n  - Gas-optimized using assembly for critical paths, achieving ~100k gas for TWAP executions.\n\n  Key Technical Innovations:\n\n  1. Dynamic Hook System: Our contracts act as \"hooks\" that modify order execution amounts in real-time. The TWAPEngine uses\n  block.timestamp and keccak256 hashing for on-chain randomness, preventing MEV bots from predicting execution patterns.\n  2. Tick Math Implementation: For Concentrated Liquidity, we ported Uniswap V3's tick math (Q64.96 format) to work with limit\n  orders. Price ranges are converted to ticks (-887,272 to 887,272) enabling precise liquidity positioning.\n  3. Options Architecture: Novel approach using order hashes as option identifiers. Greeks calculation uses fixed-point math (WAD =\n   10^18) for precision. Exercise mechanism validates the 30-minute window using block.timestamp.\n  4. Volatility Calculation: Custom implementation tracking 24-hour price history in a circular buffer. Uses standard deviation\n  calculation with gas-efficient approximations. Risk scores normalized to 0-1000 range.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/stratosfi-xcyhh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

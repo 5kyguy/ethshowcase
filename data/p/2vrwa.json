@@ -1,0 +1,22 @@
+{
+  "id": "2vrwa",
+  "slug": "signaturi",
+  "title": "Signaturi",
+  "tagline": "Signaturi is an open-source protocol and library to create public immutable announcements that can be independently verified. The goal is to protect Web3 participants from malicious actors.",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2vrwa/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qFYaoDHoZm1kNEnRWKoglbEIa4rYXj5uFFS7gYn3NjQ/high.mp4",
+  "demo_url": "https://signaturi.vercel.app",
+  "source_url": "https://github.com/0xLighthouse/eth-lisbon",
+  "finalist": false,
+  "description": "The Signaturi project was born after seeing Web3 and crypto projects getting their social accounts hacked to post malicious links. One such example was BAYC getting their Instagram account hacked, leading to some users getting their wallets drained off to an estimated $2.8M: https://twitter.com/BoredApeYC/status/1518637579633053701\n\nThere must be a better way to do public announcements that can be verified and trusted by their communities. We propose the Signaturi protocol to reduce the chances of an attacker to impersonate legitimate accounts.\n\nThe Signaturi protocol follows these steps:\n1. The publisher chooses a closed list of possible signers (EVM accounts) and sends them the message to be signed.\n2. Each signer reviews and signs the message, which includes the list of all possible signers. The Signaturi platform automatically collects the signatures. \n3. The publisher reviews the content and signatures, and publishes the message.\n4. Anyone can check the validity of the message by checking all provided signatures.\n\nFollowing this protocol, an attacker would need to hack multiple wallets in order to create a fake announcement, which should reduce this attack vector substantially.\n\nSigners can use any supported account, including hardware or multisig wallets. Anything that supports EIP-712 signing should be compatible with Signaturi.\n\nThe submission is obviously a proof of concept, but the team had many ideas for future improvements:\n- Allow signers to reject or abstain, not just approve the message.\n- Have a registry of project participants for end users to pull keys and roles of accounts associated to the project.\n- Flexible per-project configuration on what and how many signatures are required for a message to be considered valid. Things like minimum number of signatures or requiring some accounts to always provide a signature.\n- ENS lookup of accounts.\n- A way to visualize org structure/permissions.\n- Aggregate signatures using BLS.\n- Use some commit/reveal scheme to create and publish announcements that can only be decrypted at a set date in the future.",
+  "how_its_made": "The project has two separate parts, included in the same monorepo for convenience:\n1. Signaturi library: NPM package, fully typed with Typescript and full unit-test coverage.\n2. Next.js web app: an example platform that implements the Signaturi protocol to create messages, allow signers to sign them and anyone to verify the announcements.\n\nThe project was based off Scaffold-ETH 2 to have a good starting point with Next.js and a variety of Web3 libraries like ethers and wagmi.\n\nThe Signaturi library helps developers implement the Signaturi protocol as defined in the description above:\n1. When creating the message for the signers to sign, it is encoded following the EIP-712 standard to provide a nice representation to the signers as to what they will be signing.\n2. A function to create a Signaturi message that combines the message that was signed with the collection of all signatures. This encoded message can be sent using any communication protocol.\n3. A verify function is a simple single point of entry for verifying the message as created by the previous point. It provides a global good/bad result, and a separate result for each signature (good/bad/missing).\n4. ethers.js is used for generating the EIP-712 typed message and verifying the signatures.\n\nThe Next.js frontend uses React for UI; PostgreSQL for database persistence; Mantine (https://mantine.dev/) for UI components; wagmi for Web3 React hooks; Vercel (https://vercel.com/) for deployment.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/signaturi-2vrwa",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "n8ot7",
+  "slug": "autopay",
+  "title": "AutoPay",
+  "tagline": "Stripe for Crypto Subscriptions 50% Cheaper, Non-Custodial, Multi-Chain ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n8ot7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/W5SDsscuYbqVUsAUubp5lsO4sm028Nh4S49HvGiIher00/high.mp4",
+  "demo_url": "https://autopayprotocol.com/",
+  "source_url": "https://github.com/apeoverflow/Auto-Pay-Protocol",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackMoney 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "AutoPay is a non-custodial subscription payment protocol for USDC. It lets crypto users pay for recurring services like newsletters, SaaS tools, DAO memberships, and trading signals directly from their wallet. No credit cards, no intermediaries.\n\nUsers fund their wallet from 12+ supported chains (Ethereum, Base, Avalanche, Polygon, Sonic, Sei, HyperEVM, and more) through Circle Gateway. All the USDC ends up on Arc, which is Circle's native settlement layer. From there, users create subscription policies where they define the merchant address, charge amount, billing interval, and a spending cap. The first charge happens immediately inside the createPolicy transaction so users pay upfront when they subscribe.\n\nThe smart contract (ArcPolicyManager.sol) enforces everything on-chain. It can only pull what the policy allows, when the interval allows it, up to the cap the user set. Users can revoke any policy at any time for instant cancellation. No merchant approval needed.\n\nOn the backend, an off-chain relayer indexes PolicyCreated events into PostgreSQL, tracks which policies are due, and calls charge() when the interval elapses. If a charge fails because of insufficient balance or allowance, the contract soft-fails instead of reverting. It returns false and increments a consecutive failure counter. After 3 consecutive failures, anyone can call cancelFailedPolicy() to terminate the subscription automatically. The relayer also sends signed webhooks (HMAC-SHA256) to merchants for every event: charge succeeded, charge failed, policy created, policy revoked, or policy cancelled by failure.\n\nMerchants integrate through a published npm SDK (@autopayprotocol/sdk) with two core functions: createCheckoutUrl() to generate subscription links, and verifyWebhook() to validate payment notifications. Same pattern as Stripe. Two functions, zero custody risk.\n\nThe protocol takes a 2.5% fee on every charge, which is half of what traditional processors like Stripe charge. The remaining 97.5% goes directly to the merchant's wallet on Arc.",
+  "how_its_made": "\nThe smart contract is Solidity 0.8.20, built with Foundry and OpenZeppelin (SafeERC20, ReentrancyGuard, Ownable). Deployed on Arc Testnet at 0x0a681aC070ef81afb1c888D3370246633aE46A27. charge() returns a bool instead of reverting on balance/allowance issues, which lets the relayer distinguish soft failures (user ran out of USDC) from hard failures by checking for ChargeFailed vs ChargeSucceeded events in the receipt.\n\nThe frontend is React with viem and wagmi. Wallet onboarding uses Circle Modular Wallets with passkey auth (Face ID, fingerprint), which creates a smart contract account via CREATE2. No seed phrases, no extensions. Gas is covered by Circle's paymaster. The hackiest part: Arc's bundler requires a minimum 1 gwei maxPriorityFeePerGas but Circle's paymaster doesn't set this, so we override it manually on every sendUserOperation call.\n\nCross-chain funding uses Circle Gateway at the contract level. The useGatewayTransfer hook does: check source chain USDC balance, approve and deposit to GatewayWallet, wait for confirmation (5s on L1s, 30s on L2s like Base that need L1 finality), sign an EIP-712 burn intent via MetaMask, POST it to Gateway's API for an attestation, then call gatewayMint() on Arc through the Modular Wallet with sponsored gas. USDC moves from any source chain to the user's Arc wallet without manual bridging.\n\nThe relayer is Node.js/TypeScript with two loops: an indexer that polls Arc for contract events and writes to PostgreSQL, and an executor that queries for due policies and submits charge transactions. Arc's RPC limits eth_getLogs to 10k block ranges, so the indexer processes sequentially with delays. Webhooks use HMAC-SHA256 signatures.\n\nThe merchant SDK (@autopayprotocol/sdk) is on npm with zero dependencies: createCheckoutUrl(), verifyWebhook(), formatUSDC(), parseUSDC(), and calculateFeeBreakdown(). Merchants build a checkout URL, redirect users, and listen for webhooks. Same developer experience as Stripe.\n\nCircle's stack ties everything together. Arc is the settlement layer. USDC is the only token. Modular Wallets handle passkey onboarding. Gateway handles multi-chain deposits. A user on Base can subscribe to a service and the merchant gets paid on Arc without either side thinking about chains.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/autopay-n8ot7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

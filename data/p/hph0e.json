@@ -1,0 +1,30 @@
+{
+  "id": "hph0e",
+  "slug": "voidmarket",
+  "title": "Voidmarket",
+  "tagline": "ZK powered private prediction markets + wagering on Telegram bots/Mini App built on Arc Network",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hph0e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/j6oIfertgcbDRHevzNHVSI2EDuAv4hbUAWMz02tpwtPk/high.mp4",
+  "demo_url": "https://voidmarket-ethglobal.vercel.app",
+  "source_url": "https://github.com/DarthStormerXII/voidmarket",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "VoidMarket is a private prediction market platform built as a Telegram MiniApp on Arc Testnet, where bets are hidden until market resolution using a commit-reveal scheme. Users create markets on any topic (crypto prices, sports, politics, culture), place bets by committing a salted hash of their position, and only reveal after the market resolves — preventing last-minute copying and information leakage. The platform features a team-based competitive layer called \"Clusters\" (groups of bettors) and \"Novas\" (1v1 cluster battles with prize pools). All markets and bets settle in USDC on Arc Testnet (where USDC is the native currency with 18 decimals), with gasless UX powered by Circle Developer Wallets — users never need to hold gas tokens. The ENS identity layer uses **Durin L2 subnames** to make every entity an **ERC-721 NFT** on Arc: users are `username.voidmarket.eth`, markets are `slug.voidmarket.eth`, and clusters are `name.voidmarket.eth` — each with on-chain text records storing identity, stats, and betting data. Nova bet predictions are committed and revealed via ENS text records, and settlement results are written on-chain by the NovaSettler contract. The CCIP-Read gateway resolves names from the L2Registry on Arc first, falling back to Supabase. Cross-chain deposits from Ethereum, Base, and Arbitrum Sepolia are supported via Circle CCTP bridging. The result is a prediction market where your position stays private until resolution, teams compete for bragging rights, and everything — identity, stats, and betting history — lives as ENS text records on ERC-721 subname NFTs.",
+  "how_its_made": "The frontend is a Next.js 16 app designed as a Telegram MiniApp using @telegram-apps/sdk-react for native Telegram integration (theme, viewport, back button, haptic feedback). Smart contracts are written in Solidity 0.8.24 and deployed on Arc Testnet (chain ID 5042002) using Foundry: VoidMarketCore handles market creation, commit-reveal betting, resolution, and winnings claims; ClusterManager handles team creation, invitations, and photon (reputation) tracking; NovaManager handles 1v1 cluster battles with prize pools; VoidMarketResolver implements ENS CCIP-Read (EIP-3668) for off-chain name resolution on Sepolia. The ENS integration uses **Durin L2 subnames** — a Durin L2Registry is deployed on Arc Testnet providing ERC-721 subname NFTs with on-chain text records. The VoidMarketRegistrar contract (approved as a registrar on L2Registry) mints subnames for stars, markets, and clusters, and handles Nova bet commit/reveal via ENS text records (`commitBet()` stores `keccak256(direction, salt)` as a text record, `revealBet()` verifies and writes YES/NO). The NovaSettler contract verifies a Merkle root of settlement results and writes WIN/LOSE + photons earned to each star's ENS text records. The CCIP-Read gateway (Next.js API route) reads from L2Registry on Arc first, falls back to Supabase, and signs responses with EIP-191 for on-chain verification. Circle Developer Wallets provide gasless UX: wallets are created server-side via Circle's API using Telegram user IDs as deterministic refIDs, and the server signs transactions on behalf of users so they never need ETH for gas. API routes dual-write: star/market/cluster creation registers both in Supabase and on L2Registry via the admin wallet. Cross-chain deposits use Circle CCTP to bridge USDC from Sepolia, Base Sepolia, and Arbitrum Sepolia to Arc Testnet. The architecture makes ENS the on-chain data layer — every entity is an NFT, every stat is a text record, and every bet prediction is committed and revealed via ENS.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/voidmarket-hph0e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "0ycio",
+  "slug": "txauthenticator",
+  "title": "TxAuthenticator",
+  "tagline": "2FA for self-custodied Ethereum wallets. Users can set their own daily transaction limit & add a security key (like YubiKey) to authenticate high-value transactions. TxAuthenticator is an extra security layer for web and mobile-based wallets.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0ycio/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UrPP9nG8wmeZ01xVs8PtiuhmpG02x01Kg3FAh4Gu2aIRXw/high.mp4",
+  "source_url": "https://github.com/Dev43/txauthenticator",
+  "prizes": [
+    {
+      "sponsor": "WalletConnect",
+      "sponsor_id": "46q4i",
+      "placement": "💫 WalletConnect — 🥈 Most Innovative",
+      "title": "WalletConnect"
+    },
+    {
+      "sponsor": "NounsDAO",
+      "sponsor_id": "e3t1p",
+      "placement": "🏆 NounsDAO — Best Public Good",
+      "title": "NounsDAO"
+    }
+  ],
+  "finalist": false,
+  "description": "INSPIRATION:\nTxAuthenticator was inspired by the high incidence of cryptocurrency thefts, which in 2022, totalled $3.8 billion. These thefts predominantly resulted from:\n\n* Phishing attacks leading to private key theft from self-custodied Ethereum wallets; or,\n* Users being tricked into approving malicious contracts.\n\nDespite the existence of hardware wallets, not all crypto users use them regularly, and they come with their own vulnerabilities. 2FA and spending limits are common security features in traditional financial platforms, are absent in self-custodied Ethereum wallets. TxAuthenticator fills this gap, bringing the security of physical 2FA with security keys to digital wallet users.\n\nABOUT:\nTxAuthenticator uses advanced two-factor authentication (2FA) mechanisms to provide additional security for self-custodied Ethereum wallet transactions. It brings together daily transaction limits and YubiKey verification (for amounts higher than the daily limit) to create a personalized and robust security system. Here are some key aspects:\n\n- Setup and Deployment: Users access a web application to set their own daily transaction limit. Amounts under this limit do not require authentication. The user links a security key (YubiKey) to authorize transactions that exceed this limit. These parameters are then deployed to a smart contract, creating a secure vault for users to deposit their funds.\n\n- 2FA Verification: For transactions above the daily limit, users receive a notification via XMTP, requesting YubiKey verification. Once the user verifies the transaction with their YubiKey/NFC device, the system combines this signature with the original transaction data and pushes the transaction to the main Ethereum network.\n\n- Transaction Completion: After verification, the funds are sent to the recipient's address from the smart contract vault.\n\nBenefits of TxAuthenticator include:\n\n- Added layer of security for self-custodied web-based wallets like MetaMask and Wallet Connect.\n- Hybrid security solution when a hardware wallet is not available.\n- Protection of funds deposited in the smart contract vault, safeguarding them from potential hacking attempts without the YubiKey.\n- Physical protection against complete loss of funds in the event of a hack / phishing, even when the private key is exposed to the hacker.\n\nTECH SPECS:\n- Smart Contract: Created a smart contract in solidity that adds an allowance per day of funds, and anything over will need to be authenticated with a yubikey. \n- 2FA Request via XMTP: Communication between a backend and a frontend using XMTP. XMTP can also be used to send a message to a device (like a mobile phone) to request a 2FA.\n- Front-end: Frontend to make the registration and management of the wallet easy. A user can:\n-- Connect via WalletConnect or the new Metamask SDK\n-- Set a daily spending limit\n-- Register their YubiKey\n-- Secure their funds in a 'vault'\n-- Initiate fund transfers from the vault\n-- Authenticate transfers above daily limit with YubiKey\n\n** Ideal flow (future): A transaction is initiated from a laptop, and XMTP sends a notification to your mobile device requesting 2FA completion. After 2FA completion, XMTP returns the credentials, enabling the transaction to be sent. However, due to time constraints, a mobile app supporting this flow couldn't be developed.\n\nFUTURE OPPORTUNITIES: TxAuthenticator has promising future applications as well. \n- Mobile App Integration: Allowing for secure transactions from anywhere as long as the user has an NFC enabled Yubikey. \n- NFT Security:  The concept of a \"vault\" secured by a YubiKey could be extended to high-value assets like Non-Fungible Tokens (NFTs), making it a valuable tool for safeguarding valuable digital art and other unique assets on the Ethereum blockchain.\n- Multichain Support: Expand access to multiple blockchains.\n- API Development: To reach more users, developing an API for TxAuthenticator could be a potential milestone. This would allow wallet providers to integrate this security solution directly.\n\n",
+  "how_its_made": "The project is made of multiple parts:\n\nFirst is a smart contract that acts as a wallet that allows the user to only spend up to a certain amount per day, and if over it would need to be authenticated with a hardware key. Hardware keys are using the secp256r1 curve (and not the secp256k1) so a lot of heavy lifting needs to be done for it to work (thanks to Alembic for creating a great library). \n\nSecond we have a backend (the backend is not necessary but was a huge timesaver to deploy the contracts). The connection between the frontend and backend is bidirectionnally done using XMTP. \n\nLastly we have the frontend, which makes it easy for a user to deploy their contract, register their hardware key and manage their vault. The ideal flow that we wanted to get to was to initiate a transaction that needed to be verified from a laptop, XMTP would then notify a mobile app that we need to authenticate the transaction with a hardware key, the user would use NFC (or the hardware security module) from their phone to validate the transaction, XMTP would send back that data to the frontend and it would post the transaction, allowing the user to spend more thant their allowance securely. The mobile app was not added due to time constraints\n\nUsers can connect their wallet using WalletConnect or the Metamask SDK, and control their vault with both wallet technologies.  ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/txauthenticator-0ycio",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "32ykx",
+  "slug": "clearlane",
+  "title": "ClearLane",
+  "tagline": "Instant, gasless highway toll payments powered by Yellow Network state channels",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/32ykx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RDFozc93eNrbNTnWLmNYNCxzfwG3RKMFtsONI1TCWGA/high.mp4",
+  "demo_url": "https://clear-lane.vercel.app/",
+  "source_url": "https://github.com/revan1010/QueueCash",
+  "finalist": false,
+  "description": "ClearLane revolutionizes highway toll payments using Yellow Network's state channel infrastructure. Drivers connect their wallet once, display a QR code on their windshield, and drive through toll booths at full speed. Toll booth scanners read the QR code and instantly charge the driver's Yellow Network account - no stopping, no gas fees, sub-second settlement.\n\nThe system demonstrates real-world utility of state channels for high-frequency micropayments. Every toll payment is an off-chain transfer via Yellow Network's Clearnode, providing instant finality without blockchain congestion or transaction costs. This makes crypto payments practical for everyday infrastructure use.\n\nTry it live: The app is deployed. If you have ytest.usd tokens from Yellow Network's faucet, connect your wallet and experience real off-chain payments.\n\nBuilt with Next.js 14, TypeScript, and Yellow Network's WebSocket API. Features include: real-time balance tracking, automated route simulation, QR code generation for drivers, toll booth scanner portal, and complete transaction history. All payments use EIP-712 signatures and session key delegation for security.",
+  "how_its_made": "ClearLane integrates directly with Yellow Network's Clearnode via WebSocket API (wss://clearnet-sandbox.yellow.com/ws). The architecture uses EIP-712 signatures for authentication and session keys for delegated signing, enabling gasless toll payments.\n\nFrontend: Next.js 14 with TypeScript, TailwindCSS for styling, and MetaMask integration via viem for wallet connection. QR codes generated using qrcode.react library for driver windshield passes.\n\nYellow Network Integration: Implemented the complete auth flow (auth_request → auth_challenge → auth_verify) using the @erc7824/nitrolite SDK. Each toll payment triggers a direct 'transfer' RPC call to Clearnode with properly formatted amounts (6 decimal precision). Real-time balance updates via WebSocket messages with automatic reconnection logic.\n\nQR Code System: Built a dual-interface system where drivers generate unique QR codes containing their wallet address and session ID for windshield display. The toll booth scanner portal (demonstration/visualization) supports both live camera scanning (html5-qrcode) and image upload (jsqr) for reading driver QR codes. This simulates how automated toll collection would work in production - scanners would extract the driver's wallet address and trigger Yellow Network payments without requiring drivers to stop, similar to E-ZPass but crypto-powered.\n\nChallenges: Initially struggled with Yellow Network's amount formatting (needed smallest units, not decimal USD). Also debugged wallet switching issues where MetaMask account changes weren't clearing authentication state properly. Solved by implementing full session cleanup on wallet changes.\n\nThe project proves state channels can handle real-world micropayment scenarios like toll collection, where instant finality and zero gas costs are critical for adoption.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/clearlane-32ykx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

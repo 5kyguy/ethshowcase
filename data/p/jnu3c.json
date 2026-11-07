@@ -1,0 +1,26 @@
+{
+  "id": "jnu3c",
+  "slug": "radegast",
+  "title": "Radegast",
+  "tagline": "AI agents trade tokenized US stocks on 0G Chain users just see a stock app. ZK proofs for banks. ",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jnu3c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HEcZg026HJVkw5VGe900jIFpLzbZvf2CAJWJbfLgDALGY/high.mp4",
+  "source_url": "https://github.com/Keuchnotkush/Radegast",
+  "finalist": false,
+  "description": "Radegast lets anyone invest in tokenized US stocks (TSLA, AAPL, NVDA…) 24/7 from anywhere\n  with just a Google login. No wallet, no gas fees, no crypto jargon  it looks and feels    \n  like a stock investing app.\n                                                                                             \n  Three independent AI models analyze your portfolio: an XGBoost quantitative model (ONNX) +\n  two LLMs via 0G Compute broker. They vote, majority wins, and the consensus result is\n  stored on 0G Storage (DA) and settled on 0G Chain — every decision is fully auditable. An  \n  autonomous agent can rebalance portfolios automatically in Trade mode, or just advise in\n  Advisory mode.\n\n  Users can also generate zero-knowledge proofs of solvency using Noir circuits (UltraPlonk)\n  proving their portfolio exceeds a threshold (e.g. $50,000 for a mortgage) without\n  revealing which stocks they hold. Proofs are generated entirely client-side via Noir.js    \n  WASM and attested on-chain via a HonkVerifier.                  \n  15 tokenized stocks are deployed as ERC-20 tokens on 0G Chain, with a MockUSDC stablecoin  \n  and auto-faucet for onboarding. Privy handles social login, embedded wallets, and onramp —\n  the blockchain layer is completely invisible to the user.  ",
+  "how_its_made": "The frontend is Next.js 16 + React 19 + Tailwind 4 with Privy SDK v3 for auth\n  (Google/Discord/Email OTP), embedded EVM wallets (auto-created on login), and onramp —    \n  configured with 0G Newton Testnet as the default chain. Users never interact with a wallet\n  directly.                                                                                  \n                                                                 \n  The backend is an Express.js API gateway (port 4000) that uses viem for all on-chain      \n  reads/writes to 0G Chain (chain 16602). It proxies AI requests to a Python FastAPI service\n  (port 8000) that runs the consensus pipeline.                                              \n                                                                 \n  The AI consensus is the hackiest part: three models run in parallel — XGBoost served as    \n  ONNX via a local OpenAI-compatible endpoint, and two LLMs called through\n  @0glabs/0g-serving-broker (0G Compute). The broker handles service discovery, request      \n  signing, ledger deposits, and response verification. Results are majority-voted, then the\n  full consensus blob is uploaded to 0G Storage via @0gfoundation/0g-ts-sdk (Indexer +\n  MemData), which returns a rootHash. That hash is submitted as daHash to\n  ConsensusSettlement.sol on 0G Chain, creating a cross-reference anyone can verify with\n  verifyDA().\n\n  Smart contracts are Solidity 0.8.24 built with Foundry and Solady (OwnableRoles, ERC20) —  \n  20 contracts total: 15 xStock ERC-20 instances with on-chain price oracles,\n  ConsensusSettlement, ProofOfSolvency, ProofRegistry, HonkVerifier, and MockUSDC.          \n                                                                 \n  ZK proofs use Noir circuits compiled to UltraPlonk, with @noir-lang/noir_js and            \n  @aztec/bb.js running entirely in-browser (WASM). The circuit asserts Σ(balance × price) >\n  threshold with a Poseidon BN254 commitment, and the proof is verified on-chain by a        \n  Noir-generated HonkVerifier contract.                          \n\n  The Python↔Node.js bridge for 0G SDK calls (Compute broker + Storage upload) is a notable  \n  hack — the Python orchestrator shells out to Node.js sidecar scripts because the 0G SDKs\n  are JS-only.                                                                              ",
+  "auto_summary": "A tokenized stock investing app combines social login, on-chain settlement, AI portfolio analysis, and browser-based zero-knowledge solvency proofs.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/radegast-jnu3c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

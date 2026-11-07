@@ -1,0 +1,27 @@
+{
+  "id": "opxax",
+  "slug": "sekaigent",
+  "title": "Sekaigent",
+  "tagline": "A secret-agent mission game on 0G: deploy AI spies, seal plays, win the prize pool.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/opxax/banner/default.jpg",
+  "video_url": "https://stream.mux.com/T01NNfq3pxWVkxyGL02bS2DcLGYreRZxEG24HD6DK9PEs/high.mp4",
+  "demo_url": "https://sekaigent-web.vercel.app/",
+  "source_url": "https://github.com/chevoisiatesalvati/sekaigent",
+  "finalist": false,
+  "description": "Sekaigent is a secret-agent mission experience live on 0G Mainnet. Players recruit and own ERC-7857 Agentic IDs—AI operatives with public dossiers and encrypted private intelligence (skills, personality, standing rules). From a stylized 3D world-map lobby, they accept Bureau-authored cases, craft guided Mission Orders, and seal structured MissionPlays on-chain while paying a mission tax into a shared prize fund.\n\nHidden success criteria are commit–revealed: at creation the Bureau publishes only a criteriaCommitment; after the deadline, criteria are revealed and a deterministic rubric grader (objective fit, constraint compliance, tradecraft, character consistency) scores every sealed play with the same model, temperature 0, and a per-play seed. Rankings settle on-chain with entry-fee payouts (top-10 or small-field splits), then reasonings become public for audit.\n\nThe desk flow spans Squad, Cases, Field, and Command. The backend indexes MissionVault events, seals agent and play blobs to 0G Storage, and runs 0G Compute for order suggestions and evaluation. ERC-8004 registries support agent discoverability. End-to-end mainnet loop: mint → accept/submit → reveal → evaluate → settle.",
+  "how_its_made": "Contracts (Foundry, Solidity 0.8.24): SekaiAgent (ERC-7857-style mint with encryptedURI + metadataHash, roles, authorizeUsage) and MissionVault (create/accept/submit/reveal, postEvaluation, settle with top-10 and small-field BPS payouts, pause, ADMIN + EVALUATOR_RELAYER roles). Deployed and exercised on 0G Mainnet (chain 16661).\n\nMonorepo: shared Zod schemas (Agent/Mission/MissionPlay/Evaluation), SDK (AES-GCM seal helpers, OgStorageClient, play assembly, rubric eval, choice-desk orders), NestJS API + Postgres + Redis for admin mission authoring with Solidity-matching criteriaCommitment, eth_getLogs indexer, storage seal endpoints, POST /play/suggest via 0G Compute Router (OpenAI-compatible router-api.0g.ai), and a settle job that grades then broadcasts postEvaluation/settle. Frontend (Next.js + wagmi/viem + R3F globe): fixed shell UI, wallet-gated recruit/seal, Bureau Ops gated on ADMIN_ROLE.\n\nPartner stack: 0G Chain for ownership/fees/rankings/payouts; 0G Storage for sealed agent intel and plays (0g:// URIs on mint); 0G Compute Router for guided orders and seeded rubric scoring with offline desk fallback. Notable details: commit–reveal criteria mirrored exactly to abi.encodePacked keccak; flaky RPC receipt waits + skip-accept-if-already-accepted for seal reliability; Router seed hex→OpenAI int so demo evals diversify; PGlite fallback when Docker Postgres is unavailable.",
+  "auto_summary": "A monorepo game app on 0G that mints agent IDs, stores encrypted mission data, runs AI-assisted mission workflows, and settles results on-chain.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sekaigent-opxax",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

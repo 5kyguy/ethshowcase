@@ -1,0 +1,47 @@
+{
+  "id": "7ybii",
+  "slug": "orchid-wallet",
+  "title": "Orchid Wallet",
+  "tagline": "Orchid Wallet is a smart contract wallet with a zero-knowledge based voting mechanism to allow a pre-defined group of members to vote anonymously to remove control of the wallet from the owner.",
+  "event": {
+    "slug": "ethbogota",
+    "name": "ETHBogotá",
+    "start_time": "2022-10-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7ybii/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hytj8HDVoE800oag5KIoBJHUxQh00uDsSDnWqZKGPCbpQ/high.mp4",
+  "source_url": "https://github.com/orchid-wallet/",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🪪 Polygon — Best use of Polygon ID",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "💬 ENS — Say My Name",
+      "title": "ENS"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🏊‍♂️ ENS — Pool Prize",
+      "title": "ENS"
+    },
+    {
+      "sponsor": "Pocket Network",
+      "sponsor_id": "vr4u8",
+      "placement": "🏊‍♂️ Pocket Network — Pool Prize",
+      "title": "Pocket Network"
+    }
+  ],
+  "finalist": false,
+  "description": "In our project, we built Orchid Wallet, a smart contract wallet with a zero-knowledge based voting mechanism to allow a pre-defined group of members to vote anonymously to remove control of the wallet from the owner.\n\nAt the moment, people mainly think of ethereum wallets as controlling money. But as more and more blockchain applications are developed, blockchain credentials are likely to control many more aspects of professional and private life. In the context of a business, these credentials could control things such as who is defined as an employee, the employees salaries, and an access within the organization.\n\nWhile initially it might make sense to have a “superuser” that stands as the authority, monolithic paradigms are not what is at the heart of web3 and blockchain technology. In the case where the owner of this wallet becomes tyrannical, there needs to be a way to balance the owners power within the context of an organization, in our case, through the vote of a pre-defined group, such as a company board. \n\n**In real-world scenarios, voting against the current leader, especially before the vote is finalized, can have consequences for the person voting.** This is where Orchid Wallet comes in. Orchid Wallet provides a mechanism for the shifting of control of the wallet to a “successor” account using ZKproof-based voting that verifies the members the voter has the right to cast the vote without revealing the identity of the voter. This voting mechanism also verifies that each voter only votes one time. Once the voting threshold is reached, control of the smart contract wallet is shifted to a successor address.\n",
+  "how_its_made": "Backend:\nWe used brownie for development, testing, and deployment of our smart contracts. We built the “smart contract” wallet portion of our contract from scratch, defining a receive function to accept MATIC and a withdraw function to withdraw MATIC to the owner. The main innovation in our smart contract layer comes from the use of PolygonID for zero knowledge voting. We created a custom credential schema to give voting power to predefined users. These users claim these credentials using the PolygonID App. After the contract is deployed, we set the ZKP request by calling this function from the frontend and feeding it our custom schema and verification requirements (that they are a “BoardMember”). This uses PolygonID boilerplate inheritance of the ZKPVerifier contract. \nFor voting, users can cast votes from ANY contract address by scanning our generated QR code with the PolygonID app.\nWe added custom code to the _afterProofSubmit contract to count the votes. This takes the (anonymous) polygon id from the zkproof submission and adds it to a mapping to see if that entity has already voted. If the voting entity has not voted, the voting counter (vote_state) is iterated. If at any point the vote_state reaches vote_threshold, the control of the smart contract is passed to the “successor” address and a notification is sent to the previous owner using Push Protocol (EPNS).\n\nFrontend: \nFor the frontend, we used SvelteKit as a platform/framework. We utilised frameworks such as ether to deploy and communicate with various blockchains (mainly Ethereum and Polygon). The codebase is written fully in TypeScript. The frontend allows the user to subscribe to a predefined notification Channel using Push Protocol (EPNS). This notification is then sent when a succession is done through the smart contract. We are also allowing ENS names for specifying the successor wallet address. If an ENS is used, a small avatar is displayed next to the address entry field. For this ENS connection we use the POKT RPC endpoint. The contracts can be deployed on Polygon and on Ethereum. We are using tailwind to create a website that is not only easy to use and understand, but also accessible and Mobile UX friendly.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/orchid-wallet-7ybii",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "02pa7",
+  "slug": "zeusfi",
+  "title": "ZeusFi",
+  "tagline": "Autonomous yield agent — your DeFi strategy lives on ENS, funds move cross-chain via LI.FI",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/02pa7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rwEJ02OxhdDqKeQPo2DoBh3AbBFSgY8kCGW57dSN1cB00/high.mp4",
+  "demo_url": "https://zeusfi.vercel.app/",
+  "source_url": "https://github.com/fabriciojallaza/zeusfi",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "ZeusFi is a cross-chain yield agent for USDC. Deposit once, and it handles the rest — scanning pools across Base, Arbitrum, and Optimism, picking the best rates across Aave, Morpho, and Euler, and moving funds when the math makes sense.\nThe twist: your entire strategy lives on ENS. Minimum APY, risk tolerance, allowed chains, auto-rebalance — all stored as text records on your name. Not in our database. On-chain, portable, yours. Update from any wallet, any device. The agent reads it every cycle and respects it.\nExecution runs through LI.FI Composer. When the agent decides your USDC on Base should earn yield on Arbitrum instead, LI.FI bundles the swap, bridge, and deposit into one atomic transaction. The agent only pulls the trigger if the 30-day yield gain beats gas costs. Each user gets a non-custodial YieldVault — the agent executes strategies, but only you can withdraw.",
+  "how_its_made": "Django backend with Celery workers, React frontend on Vite, Solidity contracts in Foundry. The interesting part is how ENS and LI.FI aren't bolted on — they're load-bearing.\nENS is the preference layer. We defined custom text records (yield.minAPY, yield.maxRisk, yield.chains, yield.protocols, yield.autoRebalance) that users write from the frontend via wagmi's useWriteContract against the ENS Public Resolver. Backend reads them every 30 minutes with web3.py from Ethereum mainnet and caches on the Wallet model. The agent filters pools entirely through those values — no backend write path for preferences exists at all.\nLI.FI powers every fund movement. We built an async client that fetches quotes, and an executor that handles quote → approval → execute → poll status. The Composer pattern is key — asking LI.FI to turn USDC on Base into aUSDC on Arbitrum returns calldata that atomically bridges and deposits in one shot. The YieldVault contract just forwards that calldata to the LI.FI Diamond. It doesn't know about bridges or DEXs. Works across 3 chains and 6 protocol deployments.\nContracts are Solidity 0.8.24 with OpenZeppelin. Per-chain VaultFactory deploys personal YieldVaults. Agent can execute strategies, only owner can withdraw. 29 tests. Frontend uses wagmi + viem, RainbowKit, Zustand, and shows real LI.FI quotes before users commit.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zeusfi-02pa7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

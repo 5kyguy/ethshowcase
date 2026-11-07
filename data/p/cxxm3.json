@@ -1,0 +1,30 @@
+{
+  "id": "cxxm3",
+  "slug": "ghostlink",
+  "title": "GhostLink",
+  "tagline": "GhostLink: Anonymous, E2EE chat with direct crypto payments, built for World App.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cxxm3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UV01MQkiTCV02VmBNVwDzbiGTcrAJGHT8FLu901jMuuILU/high.mp4",
+  "demo_url": "https://world.org/mini-app?app_id=app_72447c049aca1dc229b3cccafc90924a&draft_id=meta_82ac57a9a675d39f91c0956e1437e4f7",
+  "source_url": "https://github.com/arnnvv/secure",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "Honorable Mention",
+      "title": "Best Mini App"
+    }
+  ],
+  "finalist": false,
+  "description": "GhostLink is a secure, privacy-first chat app built as a World App Mini App. The whole point is anonymous conversations and direct wallet-to-wallet payments, with end-to-end encryption handled entirely on the client. The server never sees message content it just routes ciphertext.\n\nCore Principles: \nPseudonymous identity: no email, no phone. Your wallet address is your identity. Sign-in happens through the Worldcoin MiniKit. Once you’re in, you pick a public username that’s shown in the app.\nEnd-to-end encryption (E2EE): everything is encrypted before it leaves your device. Only the recipient can decrypt. The server just stores gibberish.\n\nHow Encryption Works\n\t•\tOn first use, the browser generates an ECDH key pair and keeps the private key in localStorage.\n\t•\tThe public key is uploaded to the server so others can fetch it.\n\t•\tWhen two people start a chat, each combines their private key with the other’s public key to derive the same shared secret—never transmitted anywhere.\n\t•\tThat shared key is used with AES-GCM to encrypt/decrypt messages.\n\nFeatures\n\t•\tRealtime chat powered by WebSockets. All channels are private and authenticated.\n\t•\tFriend system  you add people by username. Requests are pushed live; once accepted, you can chat.\n\t•\tIn chat crypto payments: integrated with Worldcoin MiniKit. You hit “Pay,” enter amount, and it executes from your World App wallet. The server just logs a confirmation string like PAYMENT::Sent 1 WLD.\nProfiles username plus optional profile picture (UploadThing).\n",
+  "how_its_made": "GhostLink is privacy-first, server-agnostic by design. The server only routes encrypted data and stores user directories. It never sees message content. Everything else is engineered around that principle.\n\nArchitectural Foundation: Next.js + TypeScript\n\nThe app is a single Next.js 15 App Router project, fully in TypeScript.\n\t•\tServer Actions are the core backend mechanism. Sending a message or adding a friend is just a direct call to a secure server function—no REST layer.\n\t•\tTypeScript runs end-to-end, from Drizzle schemas to React components. With cryptographic data and complex payloads, type safety was non-negotiable.\n\nData Layer: Drizzle + Neon (Postgres)\n\nSchema lives in one place. Drizzle generates typed clients off that schema, so all DB operations inside Server Actions are checked at build time. That removes most runtime query errors. Neon provides Postgres as a serverless, scalable backend.\n\nReal-time: Pusher\n\nReal-time state comes from Pusher. A Server Action writes to the DB, then triggers a server-side Pusher client to emit events. The frontend listens on private channels (authenticated through a small API route). It’s instant sync without maintaining our own WebSocket infra.\n\nPartner Tech: Worldcoin MiniKit + Mainnet\n\nMiniKit bridges GhostLink to real wallets, providing identity and payments.\n\nIdentity & Auth\n\nLogin uses walletAuth, a SIWE flow. The client requests a nonce, the World App signs it, and the server verifies. This is off-chain—no gas, no transaction—but the signature proves control of a real mainnet address. That wallet is the user’s identity.\n\nPayments\n\nInside a chat, pay is called with recipient, amount, and token. The World App executes an on-chain transfer: a real transaction signed and broadcasted to the network. GhostLink never touches private keys or RPC calls. After confirmation, the server logs a neutral chat message like PAYMENT::Sent 1 WLD.\n\nThis makes GhostLink web3-native without handling custody, fees, or chain logic itself.\n\nClient-Side End-to-End Encryption\n\nAll encryption is orchestrated in the browser.\n\t1.\tOn first load, Web Crypto generates an ECDH key pair. Private key stays in localStorage.\n\t2.\tThe public key is uploaded so others can fetch it.\n\t3.\tWhen you open a chat, your private key + their public key = a shared secret, never transmitted.\n\t4.\tThat shared secret becomes the AES-GCM key for encrypting and decrypting messages.\n\nThe server only ever sees opaque ciphertext. Key management, derivation, and message crypto all happen on the client.\n\nThat’s GhostLink in full: Next.js + TS for a unified app, Drizzle + Neon for type-safe persistence, Pusher for live updates, MiniKit for mainnet identity and payments, and Web Crypto for true client-side E2EE. The server is deliberately dumb.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ghostlink-cxxm3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

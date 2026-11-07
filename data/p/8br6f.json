@@ -1,0 +1,27 @@
+{
+  "id": "8br6f",
+  "slug": "tradebridge",
+  "title": "TradeBridge",
+  "tagline": "TradeBridge: AI agents reconcile trades, humans approve with World ID, and Sui settles.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8br6f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00SKcZdhIaSRo6tOGaugReRGnE6PXvPrwMdwmKklUACU/high.mp4",
+  "demo_url": "https://tradebridge-sigma.vercel.app/",
+  "source_url": "https://github.com/blackduff32/TradeBridge",
+  "finalist": false,
+  "description": "TradeBridge is a trade reconciliation platform that helps in-house teams and brokers resolve differences between their trade records before settlement. Separate AI agents review each side’s CSV data, identify mismatches in quantities, prices, and settlement amounts, and propose corrections for human review. Approvers use World ID to verify their identity and approve the agreed trade terms. Smart contracts on Sui testnet then coordinate atomic delivery-versus-payment settlement, exchanging both assets together once both sides are funded. By connecting reconciliation, human approval, and settlement through an auditable workflow, TradeBridge aims to reduce manual checks, operational errors, and the risk of one party delivering without receiving payment. The prototype uses simulated bond and cash assets.",
+  "how_its_made": "We built TradeBridge with a React and TypeScript frontend, Vite, and a Node.js backend using Fastify. SQLite stores trade records, proposals, approvals, and audit events. CSV imports preserve each party’s original evidence, while strict validation checks amounts and asset types before a proposal can move forward.\n\nThe in-house and broker agents use OpenAI’s Responses API to review discrepancies and propose corrections. Deterministic application logic validates those proposals, and human approvers retain control over acceptance. World ID adds human verification to the approval process, with approvals bound to a specific trade version and terms hash so they cannot silently carry over to changed terms.\n\nFor settlement, we wrote Move smart contracts and connected them through the Sui TypeScript SDK and gRPC client. Our Sui testnet deployment uses simulated bond and cash tokens to demonstrate atomic delivery-versus-payment: both funded legs settle together. Sui provides verifiable transaction receipts, while World ID connects the automated workflow to accountable human approval.\n\nOne practical hackathon shortcut was using separate server-held testnet wallets for the operator, buyer, and broker. A deployment script publishes the contracts, creates demo assets, funds the parties, and writes the resulting object IDs into the local configuration. This made the end-to-end demo manageable without building a full wallet onboarding flow.",
+  "auto_summary": "A React, Fastify, and Sui-based platform reconciles trade records, collects human approvals, and settles simulated assets atomically on Sui.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tradebridge-8br6f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

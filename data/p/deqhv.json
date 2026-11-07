@@ -1,0 +1,35 @@
+{
+  "id": "deqhv",
+  "slug": "agentrouter",
+  "title": "AgentRouter",
+  "tagline": "An inference exchange where AI agents can buy open-source inference from independent providers.  ",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/deqhv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tRjO4Y7001vON01TzQTERDhv7ARVnO00W8t18ontUy7by4/high.mp4",
+  "demo_url": "https://eth-global-lisbon-2026-dashboard.vercel.app/",
+  "source_url": "https://github.com/GigaHierz/ETH-global-lisbon-2026",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "\"No Solidity Allowed\" — Build with Hedera SDKs",
+      "title": "\"No Solidity Allowed\" — Build with Hedera SDKs"
+    }
+  ],
+  "finalist": false,
+  "description": "AgentRouter is an on-chain inference exchange — an open marketplace where AI agents buy LLM inference per request, paying in HBAR over x402, from independent providers serving open-source models. Think OpenRouter, but as a real market: no accounts, no API keys, no subscriptions — an agent with a funded wallet can buy a single completion from a provider it has never met.\n\nToday, buying inference means onboarding with a company: create an account, add a credit card, manage an API key. That works for humans; it doesn't work for AI agents, which are becoming the biggest consumers of inference but can't sign up for anything. What an agent can have is a wallet. AgentRouter is built for that customer. Providers list which model they serve and at what price; the exchange discovers supply from Hedera Consensus Service and routes every request to the cheapest live provider claiming the requested model; payment settles per request via x402, machine to machine, in about a second. Providers compete on price for each request, so the market — not any platform — discovers what inference costs. Our buyer agent demonstrates the full loop autonomously: it plans a goal into questions and purchases each answer through the exchange under a budget cap.\n\nAn open market where anyone can sell needs a trust layer, so AgentRouter has one built in: providers stake HBAR collateral when they register, and a verifier spot-checks routed traffic by replaying sampled prompts against an honest witness — a provider serving a cheaper model than listed diverges measurably, gets its stake slashed, and drops out of routing. Every registration, trade, and verdict is published to HCS, so the entire market history is a public, tamper-proof audit trail. A trading-terminal dashboard shows the market live: providers, prices, request feed, and the price index moving as competition plays out.\n",
+  "how_its_made": "The project is a TypeScript pnpm monorepo with six packages mirroring the market's actors: exchange (the core — discovers supply from HCS, routes each request cheapest-first per model, pays providers via x402, publishes every trade), provider (OpenAI-compatible chat-completions endpoint behind an x402 HBAR paywall; registers on HCS and stakes to escrow on boot; four env-driven personalities from one codebase), agent (autonomous buyer that decomposes a goal into questions and buys each answer, budget-capped), verifier (the market's audit layer — samples routed traffic, replays prompts against an honest witness, slashes on divergence), dashboard (Next.js trading terminal fed over SSE), and shared (Hedera/HCS/x402 plumbing used by every service).\n\nPartner tech is the backbone of the market itself. Payments are native USDC via x402 v2 (exact scheme on hedera:testnet), settled through a fee-sponsored facilitator — buyer agents need zero gas, which matters when your customer is a wallet with no human attached. Hedera Consensus Service does triple duty as identity registry, trade log, and verdict feed: providers self-register to an HCS topic on boot, the exchange discovers supply by reading it, and every trade and verdict is published back — the whole market state is reconstructable from the public chain. Staking and slashing are native HBAR escrow, with live settlement transactions linked in docs/PROOF.md. Real inference comes from Groq's API.\n\nFor the trust layer, we got verified inference without zkML or TEEs: at temperature 0 a given model answers near-deterministically, so the verifier replays a sampled prompt against both the accused provider and an honest witness claiming the same model and compares answers — a different model phrases things differently enough that similarity collapses. Detect → slash → on-chain verdict → routing ejection, fully automatic.\n\nNotable hacky bits: MOCK_MODE is a first-class execution path (in-memory ledger, registry, and stakes, zero RPC calls) with the identical UI and flow — if the testnet dies mid-judging, nothing changes on screen. Without a Groq key, deterministic canned responses keep the whole demo working air-gapped. And because providers expose the OpenAI-compatible endpoint, any existing OpenAI SDK client joins the market by swapping base_url — a one-line adoption path for the entire current agent ecosystem.\nThe verification mechanism is the hack we're proudest of: verified inference without zkML or TEEs. At temperature 0 a given model answers near-deterministically, so the verifier replays a sampled prompt against both the accused provider and an honest witness claiming the same model, then compares the answers — a different model phrases things differently enough that similarity collapses. Detection → slash → on-chain verdict → routing ejection, all automatic.\n\nNotable hacky bits: MOCK_MODE is a first-class execution path (in-memory ledger, registry, and stakes, zero RPC calls) with the identical UI and flow — if the testnet dies mid-judging, nothing changes on screen. Without a Groq key, deterministic canned responses keep the entire demo working air-gapped, including the fraud divergence. And because providers expose the OpenAI-compatible endpoint, any existing OpenAI SDK client joins the market by swapping base_url — the adoption path for the current agent ecosystem is a one-line change.",
+  "auto_summary": "A TypeScript monorepo for a marketplace where agents buy per-request AI inference, with Hedera-based logging and x402 payment flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentrouter-deqhv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

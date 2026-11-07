@@ -1,0 +1,27 @@
+{
+  "id": "h39iz",
+  "slug": "cackpass",
+  "title": "cackpass",
+  "tagline": "A decentralized event ticketing platform with USDC payments on Arc and on-chain proof of purchase.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h39iz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BO8WsDUsMgJDmYC006XGaIsy51WQ7oS6kIOU01N67OWZg/high.mp4",
+  "demo_url": "https://cackpass-ethonline.vercel.app/",
+  "source_url": "https://github.com/holyaustin/cackpass-ethonline",
+  "finalist": false,
+  "description": "CACK-pass is a Web2/Web3 hybrid event ticketing platform that lets organizers\ncreate events, sell tickets, and settle revenue in USDC on Arc. We originally\nran on Lisk with a Paystack fiat rail, but Lisk Mainnet is being deprecated, so\nwe are migrating the whole platform to Arc — an EVM chain where USDC is the\nnative gas token and Circle-native rails are first-class.\n\nBuyers can pay two ways:\n  • Fiat via Flutterwave (card, USSD, bank transfer, mobile money)\n  • Native USDC on Arc via Circle App Kit, using a Privy embedded wallet\n\nEvery crypto payment is written on-chain by our CackPassArcPayment contract,\nwhich records the payer, amount, reference, event ID, ticket quantity, and\nstatus (Pending → Confirmed → Failed). That gives organizers and attendees a\nshared, tamper-proof audit trail for every ticket sale.\n\nBuyers without crypto can buy real USDC with a card through Privy's Fiat\nOnramp (NGN / USD / EUR / GBP), delivered to their embedded wallet on Base\nMainnet. Tickets are stored on IPFS, verified by signed QR codes, and emailed\nto the customer after purchase — no login required for guest checkout.",
+  "how_its_made": "CACK-pass is a Next.js 16 (App Router) + TypeScript app deployed on Vercel.\nAuth and embedded wallets come from Privy — users sign in with email, Google,\nor Twitter and get a wallet with no seed phrase to manage.\n\nPayments — Fiat: We migrated the old Paystack rail to Flutterwave v3. The\nFlutterwave verify and webhook routes validate `verif-hash` signatures, create\nOrder + Payment + MyTicket records in MongoDB, and trigger a shared ticket\nemail. Card, USSD, bank transfer, and mobile money are all supported.\n\nPayments — Crypto (the hackathon core):\n  • Contracts: A new Hardhat project (`arc-contracts/`) holds\n    `CackPassArcPayment.sol`, deployed and verified on Arc Testnet\n    (0x084622e6970BBcBA510454C6145313c2993ED9E4). It exposes\n    initializePayment / confirmPayment / failPayment and emits\n    PaymentInitiated / PaymentConfirmed / PaymentFailed events.\n\n  • Server side: `lib/arc/client.ts` wraps the contract with ethers v6 —\n    provider, signer, generatePaymentId, paymentIdToBytes32,\n    initializeOnChainPayment, confirmOnChainPayment, and getOnChainPayment\n    (with proper PaymentStatus enum decoding).\n\n  • Client side: `lib/arc/app-kit.ts` wraps Circle App Kit —\n    sendUSDCWithAppKit(provider, contractAddress, amount) uses the Privy\n    embedded wallet's EIP-1193 provider to move USDC on Arc. Ticket price\n    and gas are both paid in USDC because USDC is the native gas token.\n\n  • UX: `components/payments/ArcPaymentButton.tsx` orchestrates it —\n    gets the Privy provider, calls /api/payments/arc/initialize,\n    invokes sendUSDCWithAppKit, then redirects to\n    /payment/success?provider=arc&transaction_id=<hash>. Includes\n    double-click guards, wallet-not-ready state, and insufficient-funds\n    messaging.\n\n  • Verification: /api/payments/arc/verify polls the contract, calls\n    confirmPayment as the platform owner, retries until the status is\n    Confirmed, mints MyTicket records, and sends the ticket email via\n    a shared /api/email/ticket-confirmation endpoint.\n\n  • Fiat → Crypto onramp: The wallet dashboard uses Privy's\n    useFiatOnramp().fund() to buy real USDC with a card (NGN / USD / EUR /\n    GBP) on Base Mainnet. Base and Arc balances are shown side by side in\n    a dual-network dashboard so buyers can see exactly where their funds\n    live.\n\nPartner tech benefits:\n  • Arc — native USDC gas means zero-gas UX for buyers.\n  • Circle App Kit — the fastest way to move USDC into a contract-driven\n    payment flow.\n  • Privy — passwordless auth + embedded wallets + fiat onramp in one SDK.\n  • Flutterwave — reliable African fiat rails (card, USSD, bank, mobile money).\n\nHacky bits worth mentioning: We solved a Mongoose strict-mode gotcha by\nresolving the buyer email from multiple fallbacks (Order → Payment →\nmetadata.userEmail → User) so ticket emails never get dropped. We also\nmade the Arc verify step idempotent — if a payment is marked completed but\nno ticket exists, we self-heal and re-process instead of silently failing.",
+  "auto_summary": "A Next.js ticketing platform that sells event tickets via fiat and USDC payments, with Arc contract-based payment records and email ticket delivery.",
+  "scores": {
+    "originality": 5,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cackpass-h39iz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

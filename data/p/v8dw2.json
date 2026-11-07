@@ -1,0 +1,30 @@
+{
+  "id": "v8dw2",
+  "slug": "attestationstation",
+  "title": "AttestationStation",
+  "tagline": "Attest to or review the quality and safety of a memecoin, defi protocol, or website ",
+  "event": {
+    "slug": "ethonline2024",
+    "name": "ETHOnline 2024",
+    "start_time": "2024-08-23T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v8dw2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/65mvVk02A2SMzJG5Pyrr33lFdAnO65UJGgfVaBhON81U/high.mp4",
+  "demo_url": "https://attestationstation.vercel.app",
+  "source_url": "https://github.com/leouax/attestationstation",
+  "prizes": [
+    {
+      "sponsor": "Sign Protocol",
+      "sponsor_id": "qdgjh",
+      "placement": "Sign Everything Pool Prize",
+      "title": "Sign Everything Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "AttestationStation is a platform for users to rate and review the safety and quality of a website. Users log in, paste a url, choose their rating, and sign a message to attest. Their rating is then aggregated with all the other attestations to produce an average rating that is displayed on the website for all to see. Also, in addition to being able to rate a website's credibility, users can also chat about their experiences.  And with social logins powered by web3auth, the platform is open for use even to non-web3 natives. \n\nAttestationStation's functionality is similar to that of TrustPilot, except that it's for any website hosted on https. This means that the platform can be used to rate anything online, from traditional web2 stores, to defi protocols and memecoins. \n\n\n",
+  "how_its_made": "Sign Protocol\n\nAttestationStation uses Sign Protocol for creating and storing attestations (ratings) of users' scores for websites. All attestations are stored in one schema. Upon rating a website, an attestation is constructed containing the url of the website that is being rated, the safety score that the user chose, and the overall score that the user chose. The user is then prompted to sign a message to upload their attestation. Users can only rate a website once.\n\nWhen fetching the safety and overall scores of a website, the indexService.queryAttestationList() function is called to get a json list containg all attestations. As the script sorts through these attestations it aggregates the safety and overall score of every attestation that has the url of the queried website. Once the script has sorted through all the attestations, it averages these safety and overall scores to be displayed for the user.\n\nHowever, this method is inefficient and each website should have its own schema. This logic will be changed post-hackathon.\n\nSchema Id: SPS_5mYehcsYy7_McrqM7kpPQ\n\nStorage provider: Arweave mainnet\n\nXMTP\n\nAttestationStation uses XMTP group chats to give users the opportunity to chat about websites in addition to testifying to their credibility/uncredibility. The server managing the group chats is hosted on aws. The server stores a key:pair dictionary of urls to group chat identifiers. For every url that a user queries, an api call is made to the server to create a group chat corresponding to the url if it didn't already exist. The server is also used to update the group chat display in the frontend when a user sends a message or searches a different url. When a user sends a message in a chat, the server does it on their behalf. The code was written this way because there wasn't an XMTP v3 Web SDK (only a Node.js SDK, which is what the server was built on) at the time of development. When XMTP does create a Web SDK, this project will be updated to have users sign & send their own messages.\n\nThe code of this backend aws server can be found in the repository here https://github.com/leouax/attestationstation-xmtp-backend/tree/main\n\nWeb3Auth\n\nAttestationStation uses web3auth as a login provider. Web3Auth was used because it enables non-wallet logins, meaning non-web3 users are able to use the platform. In this project the Plug & Play Web - Modal SDK with external wallet logins enabled through the web3auth metamask-adapter was used.\n\nWhen it comes to signing attestations, the web3auth.provider object is used. If the user is connected through a social login, the web3auth.provider.request({method: \"eth_private_key\"}) method is called to get the private key of their generated wallet and sign the message for them. If the user is connected to a wallet, they will get a pop-up prompting them to sign the message.\n\nFor fetching website metadata the url-metadata npm package was used",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/attestationstation-v8dw2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

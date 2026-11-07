@@ -1,0 +1,26 @@
+{
+  "id": "zeoqc",
+  "slug": "humanly",
+  "title": "Humanly",
+  "tagline": "Human-gated liquidity bootstrapping with chain-abstracted USDC settlement",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zeoqc/banner/default.jpg",
+  "demo_url": "https://humanly.francosh.workers.dev/",
+  "source_url": "https://github.com/deluXtreme/humanly",
+  "finalist": false,
+  "description": "As autonomous agents become primary operators on-chain, the bottleneck shifts: not who can transact, but who should be allowed to create new markets. Token launches today are trivially spammable, easily sybiled, and fragmented across chains, making it hard to distinguish legitimate projects from noise.\n\nHumanly makes humans the gatekeepers of new capital formation. Every token issuer must pass a World ID proof-of-humanity check before they can launch. Once verified, their token enters a Uniswap Continuous Clearing Auction, a price-discovery mechanism where all successful bidders pay a single clearing price, eliminating gas wars and front-running.\n\nParticipation is chain-abstracted. Bidders can join from any supported chain using any token they hold. The platform routes everything through USDC as a universal settlement layer: the bidder's token is swapped to USDC, relayed cross-chain via Chainlink CRE, and submitted to the auction contract on Base. One action from the user, one denomination under the hood. While the current build routes USDC settlement through existing cross-chain infrastructure, Humanly is designed to use Arc as its USDC liquidity hub once Arc is live on mainnet, collapsing the swap, bridge, and settlement steps into a single native USDC rail.\n\nThe result is a token launch primitive with three properties: human-curated market creation, fair price discovery, and chain-abstracted stablecoin settlement.",
+  "how_its_made": "The system is built from three on-chain contracts and a Chainlink CRE workflow, stitched together across multiple chains.\n                                                                                                                               \nOn the launch side, HumanlyCCA (Solidity 0.8.34) verifies a World ID proof via an on-chain satellite contract, creates the token, and launches it into a Uniswap CCA all in one transaction flow.\n\nOn the bidding side, a participant initiates a swap through the Uniswap API, which converts any token on the source chain into USDC. That USDC is then burned via Circle's CCTP TokenMessenger, which emits a DepositForBurn event containing hook data that encodes the auction bid parameters. The destinationCaller is locked to our CCTPAuction contract on Base, meaning only our contract can mint and use those funds. No one else can front-run the relay.\n\nA Chainlink CRE workflow watches for those DepositForBurn log events on every supported source chain. When it detects one  addressed to our contract, it fetches the CCTP message attestation from Circle's Iris API, encodes a mintAndSubmitBid call, and delivers a report to CREAuctionWrapper on Base. The wrapper forwards the report to CCTPAuction, which calls Circle's MessageTransmitter to mint the USDC and then immediately submits the bid to the Uniswap CCA — atomically, in a single transaction.\n\nAdditionally, we expose agent friendly endpoints that follow the x402 payment standard. Services return a 402 response with payment instructions, and agents pay programmatically without accounts, sessions, or API keys.\n\nOne notable hack: the contracts span two Solidity versions. CCTPAuction must be Solidity 0.7.6 because Circle's CCTP interfaces require it, while CREAuctionWrapper and HumanlyCCA use 0.8.34 for Chainlink CRE compatibility. We split these into separate Forge projects under contracts/ to keep the compiler happy, with CREAuctionWrapper acting as the bridge — it receives CRE reports and forwards them to the older CCTPAuction contract via a plain external call. Deployment order matters: CCTPAuction is deployed first, and its address is passed as a constructor argument to CREAuctionWrapper.",
+  "auto_summary": "A cross-chain token launch and bidding platform that gates launches with World ID and routes auction bids through Circle CCTP and Chainlink CRE.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/humanly-zeoqc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

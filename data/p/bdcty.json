@@ -1,0 +1,22 @@
+{
+  "id": "bdcty",
+  "slug": "tip-stream",
+  "title": "Tip Stream",
+  "tagline": "TipStream: Telegram→EVVM micro‑tipping with async nonces, batched PYUSD on Sepolia",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bdcty/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HhIjfBmA900XN8EHbZOq8RxcA71wBBFlrQOdHWjhSbr8/high.mp4",
+  "demo_url": "https://t.me/Tip_Stream_Bot",
+  "source_url": "https://github.com/pnupu/TipStream",
+  "finalist": false,
+  "description": "TipStream lets anyone send instant micro‑tips from Telegram that settle on EVVM (Sepolia).\nUsers register an address, then send /tip or /spam; tips are signed as EIP‑712 “intents” with async nonces.\nA relayer batches these signed tips and calls EVVM’s execution path (EVVM.execute → adapter → TipVault).\nThe TipVault keeps internal balances per ERC‑20 (demo: PYUSD). Recipients withdraw from Telegram (/withdraw).\nWhy EVVM: we showcase async nonces (out‑of‑order commits) and an external executor/relayer that validates, batches, and executes on a virtual chain—no new infra or nodes.",
+  "how_its_made": "Contracts (Solidity, Hardhat):\nTipVault.sol: EIP‑712 tip verification, async nonce bitmap (address→word→bit), internal balances, batch execute, withdraw.\nEvvmTipAdapter.sol: minimal forwarder called by EVVM.execute to invoke TipVault.executeBatch.\nRelayer (Node/TypeScript, ethers v6):\nVerifies inputs, micro‑batches tips (RELAYER_BATCH_MS), routes either direct to TipVault or via EVVM.execute(adapter, calldata).\nOptional HTTP queue (RELAYER_HTTP_PORT) so the bot and relayer can run as separate processes.\nTelegram bot (node-telegram-bot-api, ethers v6):\nCommands: /register, /whoami, /balance, /setkey, /withdraw, /tip 0x…, /tip @username, /spam.\nSigns EIP‑712 Tip messages with async nonces (timestamp-based) and posts to relayer; optional immediate relay for single-tx demos.\nIn-memory + JSON registry for username↔address and per-user withdraw keys.\nTech choices that helped:\nEVVM execution function cleanly separates user signing, relayer policy, and on-chain execution.\nAsync nonces remove nonce contention, enabling parallel UX and batching.\nToken‑agnostic vault keeps the demo simple while remaining production‑extensible.\nNotable hacks:\nCompact nonce bitmap for O(1) replay checks.\nDual queue modes (local/HTTP) for easy demo and realistic split processes.\nOne-click spam burst (/spam) to visibly demonstrate out‑of‑order signing, then batched execution.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tip-stream-bdcty",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

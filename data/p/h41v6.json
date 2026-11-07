@@ -1,0 +1,26 @@
+{
+  "id": "h41v6",
+  "slug": "multisigpev2",
+  "title": "MultisigPEv2",
+  "tagline": "Multisig policy engine with on-chain governance, off-chain risk scoring, and 0G audit receipts.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h41v6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XCmiEbwCn6kEk7zCX301QYFFsp01yJ4FHexzY4BhNC7tQ/high.mp4",
+  "source_url": "https://github.com/psinelnikov/multisig-policy-engine",
+  "finalist": false,
+  "description": "This project is a dynamic multisig policy engine built for the 0G Galileo testnet. It lets organizations define and enforce transaction policies on-chain through a unanimous governance multisig. Each policy can include allowlists, denylists, per-transaction and daily USD value limits, contract verification requirements, ERC-7730 clear-signing registry checks, and a custom signer set.\n\nWhen a user proposes a transaction, the target address, calldata, and value are encrypted and submitted to an `EvaluationGateway` contract. An off-chain evaluator service decrypts the payload, fetches the active policies from the `PresetPolicyRegistry`, converts the native token value to USD using a CoinGecko price oracle, and runs an 11-check simulation pipeline. Every check contributes to a weighted risk score from 0 to 100, and the score determines how many signers are required to execute the transaction.\n\nThe evaluator uploads a full receipt to 0G Storage and writes the attested result back on-chain. The `MultisigWallet` only executes after it has collected the required number of approvals and recorded the 0G Storage root in the `AuditLog`. This keeps sensitive transaction details private during the evaluation window while producing a transparent, tamper-evident audit trail for compliance and review.",
+  "how_its_made": "The stack combines Foundry/Solidity smart contracts, a TypeScript evaluator service, a React/Vite frontend, and 0G Storage. The contracts were written in Solidity with Foundry and deployed to 0G Galileo (chain ID 16602): `GovernanceMultisig` enforces unanimous governance, `PresetPolicyRegistry` stores active policies, `EvaluationGateway` receives encrypted evaluation requests, `MultisigWallet` enforces signer thresholds and evaluator signatures, `AuditLog` records evaluation receipts, and `WalletFactory` clones full wallet instances.\n\nThe evaluator service uses `viem` to watch `EvaluationGateway` events, `eciesjs` for payload decryption, the 0G Compute TS SDK for AI calldata/intent analysis, the CoinGecko API for USD price conversion, the chainscan-galileo API for contract verification, and the Ledger ERC-7730 GitHub registry for clear-signing descriptors. It runs 11 weighted risk checks, uploads the receipt through the 0G TS SDK, and submits the result on-chain via `EvaluatorVerifier` ECDSA verification.\n\nThe frontend is built with React, TypeScript, and `wagmi`, allowing users to propose transactions, approve them, and view 0G Storage-backed audit logs. The entire system is containerized with Docker Compose and validated by 36 Forge tests and 37 Vitest tests.",
+  "auto_summary": "A multisig wallet system for 0G Galileo that evaluates encrypted transactions off-chain, stores audit receipts, and enforces policy-based approvals.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/multisigpev2-h41v6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

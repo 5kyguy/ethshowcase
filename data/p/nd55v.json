@@ -1,0 +1,27 @@
+{
+  "id": "nd55v",
+  "slug": "name-inheritance",
+  "title": "Name Inheritance",
+  "tagline": "Heirs inherit an ENS name and the will sealed on it when the owner goes silent. No key holder.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nd55v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/toNc8awjA00j6ax5kiiUGrEPpFgY4OYZ7frcw0202N02oTg/high.mp4",
+  "demo_url": "https://jqnwu27.github.io/sealed-inheritance/",
+  "source_url": "https://github.com/JqnWu27/sealed-inheritance",
+  "finalist": false,
+  "description": "Conditional Name Inheritance lets the heirs inherit an ENS name, its subnames and the will sealed on it, when the owner goes silent. The owner seals the will on his ENSv2 name and checks in every week by writing a heartbeat record. The will is encrypted to a condition, not to a key: no heartbeat on the name for N finalized epochs. When the finalized chain shows that silence, anyone can open it. One transaction writes the disclosure record, hands the parent name to the main heir and the subnames to the other heirs, and the heir reads the will with her own key. Faking the condition means forging Ethereum finality, which Ethereum already slashes: with a third of the stake the attacker is slashed and the will stays sealed; with two thirds it opens, and at least 14.5 million of the 43.4 million ETH staked is burned. Built on the ENSv2 Sepolia beta: two names, records on the permissioned resolver of the owner with roles scoped to one key, the name handed over through the ETHRegistry, every read through UniversalResolverV2. The name tree with its lock runs on ENSv2 registry code on the local chain.",
+  "how_its_made": "Two Solidity contracts, 25 Foundry tests. Studio seals each envelope and writes the heartbeat and sealed records on the name through a role scoped to those two keys. Opener verifies the checker signature, writes the disclosure record once per window, and hands over a list of names through the registry. The name tree uses the vendored ENSv2 PermissionedRegistry and LabelStore code: the owner deploys his own registry, sets it as the subregistry of his name, registers the subnames, and revokes the registrar, unregister and set-subregistry roles so the tree cannot be changed later. Off chain, a Python checker turns the finalized chain into a witness with five checks: a finality certificate, a Merkle storage proof of the heartbeat record against the certified state root, the silence predicate, the horizon, and the beacon chain finalized checkpoint from two endpoints. A witness KEM prototype on the silence arithmetic derives the key, and PyNaCl seals the inner box to the heir key read from her name. The attack panel runs process_attester_slashing from ethereum/consensus-specs with 22 or 44 of 64 validators; on Anvil the two-thirds case rewinds the chain with a snapshot. A watchtower agent opens envelopes on Sepolia; three openings and one handover are on chain. The live page is viem on GitHub Pages, reading the chain in the browser.",
+  "auto_summary": "A Solidity and Python system for conditional inheritance of ENSv2 names, subnames, and encrypted will data based on on-chain inactivity.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/name-inheritance-nd55v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

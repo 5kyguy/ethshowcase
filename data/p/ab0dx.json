@@ -1,0 +1,27 @@
+{
+  "id": "ab0dx",
+  "slug": "autocfo",
+  "title": "AutoCFO",
+  "tagline": "An autonomous CFO that handles your treasury, audited by you.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ab0dx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TevOYh6dpvKif3NbB4ta9qaO5l2awenqt7uNDo3oLNE/high.mp4",
+  "demo_url": "https://ethonline-web.vercel.app/",
+  "source_url": "https://github.com/karanpargal/ethonline",
+  "finalist": false,
+  "description": "AutoCFO is an AI CFO any organization can self-onboard in about a minute. It gets a real treasury (a Privy organization wallet holding USDC on Arc), an on-chain identity (yourco.autocfo.eth on ENSv2), and an agent that runs your finances: it pays vendor invoices when they're due, runs payroll on standing schedules, buys pay-per-call market data over x402 for $0.001 a request, and pays contractors on whatever chain they prefer via Circle Gateway.\n\nThe core idea: autonomy is only safe when enforcement lives below the model. Most agent-wallet demos put guardrails in the system prompt. In AutoCFO, the agent's signing key is cryptographically incapable of exceeding its mandate, every payment rule (payee allowlist, per-payee cap) is evaluated inside Privy's TEE policy engine at signing time. An org-wide daily budget and a duplicate-payment guard are enforced deterministically in code before any send. Payroll amounts and dates never pass through the LLM, schedules are materialized into invoices by code. Anything over the mandate is queued for a human, whose approval executes with the owner quorum key, a key the agent never holds.\n\nYou manage it all by talking to it. Say \"onboard karan at 0x… and pay him 1000 USDC monthly\". The agent registers karan.yourco.autocfo.eth on ENSv2 with its role-bounded key, then stops and asks you what payment cap to grant, because payment authority is a human decision. Every action lands in an audit trail: signal → decision → on-chain proof. An autonomous CFO you can audit line by line and overrule with a better key.\n",
+  "how_its_made": "Privy is the enforcement layer. Each tenant gets an organization wallet whose owner is a human key quorum; the agent is an additional_signer bounded by an override policy of ABI-decoded calldata conditions (transfer.recipient == payee && transfer.amount <= cap), evaluated in Privy's TEE at signing.\n\nArc + Circle Gateway. The treasury settles on Arc. A per-org petty-cash EOA deposits into Gateway and pays x402-priced APIs gaslessly via @circle-fin/x402-batching (EIP-3009 authorizations, batched settlement, the middleware silently defaults to the mainnet facilitator, which cost us an evening). Cross-chain contractor payouts use Gateway's unified balance to mint on Base Sepolia in <1s. We ship our own x402 seller so the demo is self-contained.\n\nENSv2 (Sepolia beta) is the tenancy model. autocfo.eth owns a UserRegistry; onboarding deploys each org its own subregistry via VerifiableFactory, so payees become karan.org.autocfo.eth. Hacky discovery: PublicResolverV2 authorizes via the ENSv1 NameWrapper, so v2-native names can never write records to it ,we deployed a PermissionedResolver with per-record EAC roles instead. The agent's ENS key holds only ROLE_REGISTRAR|ROLE_RENEW (Enhanced Access Control): it onboards payees, it cannot touch parent names. Payout addresses resolve live through the Universal Resolver at pay time never from our DB.",
+  "auto_summary": "AutoCFO is a multi-tenant agent system that manages treasury payments, payroll, and payee identity using Privy, Circle/Arc, and ENSv2.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/autocfo-ab0dx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "obc7d",
+  "slug": "aurasci",
+  "title": "AuraSci",
+  "tagline": "Agent-native open science funding: scientists publish, AI verifies milestones, patrons fund.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/obc7d/banner/default.jpg",
+  "demo_url": "https://aurasci-ethglobal.vercel.app/",
+  "source_url": "https://github.com/evayou0915/Ethglobal",
+  "finalist": false,
+  "description": "AuraSci is agent-native infrastructure for funding open science through milestone-based patronage. It replaces slow, opaque grant cycles with a transparent on-chain trust loop connecting three parties: scientists, AI verification agents, and patrons.\nScientists publish \"research intents\" — proposals that break a project into concrete, fundable milestones with defined proof-of-progress. An AI agent called the Gatekeeper screens and scores each intent, and continues to verify milestone submissions as work is delivered, producing an objective \"Aura\" trust/quality score rather than relying on reputation or committees alone.\nPatrons browse a curated market of AI-verified research intents (filtered by category like Longevity, Neuroscience, Genomics, AI-Bio, Climate, and Materials, plus stage, tier, and Gatekeeper score), then fund promising work. Capital is held in escrow and released milestone-by-milestone as the AI verifies each stage is complete, so funding flows only against proven progress.\nThe platform adds a leaderboard, seasonal Aura-boost rankings, and governance to coordinate the community. In short: scientists publish, AI verifies, patrons fund, and capital flows on-chain — milestone-based open science funding powered by AI agents.",
+  "how_its_made": "Frontend & app layer. AuraSci is a Next.js app deployed on Vercel. The research market, leaderboard, live feed, and onboarding flows are server-rendered React, with Supabase (Postgres) as the backend for research intents, lab profiles, milestone submissions, the live activity feed, and the seasonal Aura-boost rankings. Supabase row data is what powers the market filters (category, stage, tier, and minimum Gatekeeper score).\nAuth & wallets. We used Privy to handle authentication and wallet onboarding, so scientists and patrons can sign in with familiar logins and get an embedded or linked wallet without friction. On the contract-interaction side we used wagmi + viem for reads/writes and transaction state. Scientist identity is additionally verified through ORCID, linking a real scholarly footprint to each Lab Profile before the AuraSci Council approves it.\nSmart contracts & funding. Milestone escrow and funding logic are deployed on Base (with an Ethereum testnet deployment used during development). Patron capital is escrowed in USDC and released milestone-by-milestone — funds only move once a milestone is verified, which keeps the whole trust loop on-chain and auditable.\nThe AI Gatekeeper. The Gatekeeper is an LLM-based agent (GPT/Claude API) that screens each research intent and verifies proof-of-progress on milestone submissions, producing the \"Aura\" trust/quality score. Crucially, its verdicts aren't just an off-chain API call — the verification outcome is committed on-chain so it can gate the escrow release, making the AI decision verifiable rather than a black box.\nHacky bits worth noting. The trickiest piece was bridging an off-chain LLM judgment into an on-chain release condition — we wired the Gatekeeper's milestone verdict to the escrow contract so a passing AI verification is what unlocks the next USDC tranche. We also leaned on Privy's embedded wallets to keep non-crypto-native scientists onboarded in seconds while still giving them a real wallet under the hood.",
+  "auto_summary": "AuraSci is a web app and contract system for milestone-based research funding with AI-reviewed proofs, escrowed payments, and optional private settlement flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aurasci-obc7d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "4bfw0",
+  "slug": "ghostnames",
+  "title": "ghostnames",
+  "tagline": "Temporary ENS subnames that resolve to burner wallets. Share it, use it, let it disappear. ",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4bfw0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QTDK9JnMKKoivf8O4wGeYh7iJ602wbV01gYHz7LwxA6Ok/high.mp4",
+  "demo_url": "https://ghostnames.vercel.app/",
+  "source_url": "https://github.com/RySUp45/ghostname",
+  "finalist": false,
+  "description": "GhostNames is a privacy-preserving ENS subname system that generates temporary, human-readable Ethereum names like anon-782.ghostnames.eth that resolve to fresh burner wallets with no gas required. ENS names are permanent by design. GhostNames makes them disposable.\nThe mechanism is CCIP-Read (EIP-3668), an ENS standard that allows offchain resolution via a gateway server. When any ENS-aware wallet resolves a GhostName, it hits our API, checks whether the name is within its 24-hour window, and returns the burner address if valid or nothing if expired. No onchain trace, no persistent link between the name and the user.\nThe current limitation is that the CCIP-Read resolver contract pointing ghostnames.eth to our gateway has not been fully configured on mainnet, meaning live resolution in external wallets like MetaMask is not yet functional. The resolution logic itself works correctly and is demonstrable via our API endpoint directly. Full ENS resolution is the next step post-hackathon.\nStack: Next.js 16, Tailwind CSS, Privy for embedded wallet auth via Google and email with no MetaMask required, viem for burner wallet key generation, Supabase for name to address mapping with expiry timestamps, and Vercel for deployment. We registered ghostnames.eth on Ethereum mainnet during the hackathon.",
+  "how_its_made": "The core of GhostNames is a CCIP-Read (EIP-3668) gateway implemented as a Next.js API route. When an ENS-aware wallet tries to resolve a GhostNames subname, it hits our offchain resolver endpoint which queries Supabase for the name-to-address mapping and checks the expiry timestamp. If valid, it returns the burner address. If expired, it returns nothing. This gives us gasless, expiring ENS resolution without any onchain writes per name.\nBurner wallet generation is handled by viem's generatePrivateKey and privateKeyToAccount — a fresh keypair is created server-side on every mint request. The private key is returned once to the user and never stored. Auth is handled by Privy, which provisions an embedded Ethereum wallet on Google or email login — no MetaMask required. The owner field in Supabase is tied to the Privy user's wallet address, scoping each user's GhostNames to their account.\nWe registered ghostnames.eth on mainnet during the hackathon to make the subnames feel real. The notable hacky moment was discovering that Next.js 16 has breaking changes from previous versions mid-build, and navigating that with zero prior experience in the new App Router conventions. The entire project — ENS registration, CCIP-Read gateway, Privy auth, Supabase schema, and frontend — was built and deployed in under 12 hours.\n",
+  "auto_summary": "This project creates temporary ENS-style subnames that resolve offchain to short-lived burner Ethereum addresses through a Next.js API.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 6
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ghostnames-4bfw0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

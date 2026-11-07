@@ -1,0 +1,22 @@
+{
+  "id": "aihca",
+  "slug": "soli-forge",
+  "title": "soli-forge",
+  "tagline": "Autonomous Red-Blue Teaming agents that detect, exploit, and fix smart contract bugs via Foundry.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/aihca/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vYcYuKCZGfE01ftyuKPFzfIUbdXZaU1OVE7rXuklDV8k/high.mp4",
+  "demo_url": "https://drive.google.com/file/d/1jK4f_3BvCPLw9tLX4S9EqHj5pydt6iUd/view?usp=drive_link",
+  "source_url": "https://github.com/FFLY-tt/solidity-forge-frontend",
+  "finalist": false,
+  "description": "Smart contract security is a high-stakes \"Dark Forest,\" where a single vulnerability can lead to millions in losses. Traditional static analysis tools (like Slither) are noisy, and manual auditing is slow and expensive.\nSoliForge introduces an autonomous Red-Blue Teaming workflow powered by LLMs. Unlike passive scanners, SoliForge acts as an active adversary and a defender simultaneously:\nThe Red Agent acts as a hacker. It analyzes static reports and writes executable Foundry (.t.sol) exploit scripts to prove the vulnerability exists (e.g., draining a bank via reentrancy).\nThe Blue Agent acts as a senior engineer. It analyzes the successful exploit and patches the source code automatically using CEI (Checks-Effects-Interactions) patterns.\nThe Gatekeeper validates the fix by running regression tests in a sandboxed Docker environment. The loop continues until the contract is mathematically secure against the generated threats.\nSoliForge turns security auditing from a manual consulting service into an automated, verifiable, and self-healing continuous integration process.",
+  "how_its_made": "SoliForge is built on a Python backend orchestrated by LangGraph, which manages the stateful interaction between agents.\nThe Tech Stack:\nBrain: We utilized Alibaba Cloud's Qwen (DashScope) as the core LLM. Its instruction-following capability was crucial for generating valid Solidity code.\nOrchestration: LangGraph defines the cyclical workflow (Discovery -> Weaponize -> Fix -> Validate).\nSecurity Tools: We integrated Slither for initial scanning and Foundry for execution. All compilations and tests run inside isolated Docker containers to ensure host security while allowing the agents to execute arbitrary code.\nFrontend: React + Vite provides a real-time \"Mission Control\" dashboard to visualize the battle between Red and Blue agents.\nThe \"Hacky\" Part (Prompt Engineering): A major challenge was LLMs hallucinating invalid reentrancy attacks (e.g., forgetting to implement the receive() recursion). We solved this by injecting a strict \"One-Shot Template\" into the Red Agent's system prompt. We force the LLM to follow a specific \"Attacker\" contract structure, effectively \"teaching\" the model EVM mechanics (like balance checks vs mapping updates) in real-time. This significantly increased the compilation success rate of AI-generated exploits from <30% to >90%.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/soli-forge-aihca",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

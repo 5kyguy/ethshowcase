@@ -1,0 +1,21 @@
+{
+  "id": "dr50i",
+  "slug": "uniswapv3-liquidity-rebalancer",
+  "title": "UniswapV3 Liquidity Rebalancer",
+  "tagline": "This project aims to give users an automated solution to generate high fees income from UniswapV3 “concentrated liquidity” opportunity",
+  "event": {
+    "slug": "hackmoney2021",
+    "name": "HackMoney 2021",
+    "start_time": "2021-06-18T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dr50i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nUV001bdErZ200JtNxX1IZzW4pw01pODUBO75YkDgYhPrw/high.mp4",
+  "source_url": "https://github.com/Verisana/UniswapV3-liquidity-rebalancer",
+  "finalist": false,
+  "description": "This project aims to give users an automated solution to generate high fees income from UniswapV3 “concentrated liquidity” opportunity\r\n\r\nProject consists of a smart contract on Solidity and a simple backend on TypeScript.\r\n\r\nIdeally, we should have a frontend interface, but I didn’t have enough time to develop it.\r\n\r\nFor users I built features like:\r\nDeposit funds\r\nWithdrawing funds and earned fees \r\nDecide if they want to participate in the next staking\r\n\r\nSmart contract keeps all the funds, guarantees safety for the users and provides means for the owner (backend) to change liquidity positions. The main work has been done here.\r\n\r\nAs for the backend, it sets price ranges and executes maintenance transactions.\r\n\r\nUsers and backend don’t have any connection. Their interactions are orchestrated by smart contract.\r\n\r\nWhat about rebalancing strategy?\r\n\r\nActually, I started with some strategy design in my mind and explained it here, but it turned out that the strategy was flawed, so I have abandoned it and keep writing more basic features to be able to add sophisticated strategies in future after the Hackathon.",
+  "how_its_made": "This project is built using the most common tech stack for Dapp development:\n\nTypeScript\n\nSolidity\n\netherjs\n\nhardhat\n\nEthereum node\n\nuniswap-sdk \n\nmocha\n\nchai\n\n\n\nSmart Contract consists of one Factory and a bunch of created Rebalancers. Each Rebalancer represents one existing UniswapV3 pool.\n\n\n\nIn the Factory contract I keep all global settings, such as: owner, summarizing frequency and serviceFee. They all can be changed.\n\n\n\nAs for the Rebalancer contract, it operates in two distinguished modes: Stake Managing and Summarizing Results. Most of the time it works in the first mode.\n\n\n\nIn the Stake Managing phase we have some Stake. Each user participating in that has their own share in total amount. The owner manages positions through price range rebalancing mechanisms.\n\n\n\nIn the meantime users can withdraw funds from their respective states. All newly deposited funds fall into each user's state. Stake is static and never changes in this stage.\n\n\n\nIn the Summarizing stage:\n\nWe close all the positions\n\nDistribute into each users state the Stake + fees proportional to users share\n\nCreate new Stake from the users, who want to participate in the next Stake.\n\n\n\nIf users are not a lot enough, Summarizing is executed in two separate transactions. Then it falls into the Stake Managing stage.\n\n\n\nThe Summarizing process can be started by anyone with some frequency (no more than 48 hours). It guarantees that users' funds will not be stuck in the Stake Managing phase, if the owner's account becomes compromised.\n\n\n\nThe backend architecture is quite simple and straightforward.\n\n\n\nWe wait for the new Ethereum block to arrive. Then execute the Summarizing stage if it can be started. \n\n\n\nAfter that check if the price is in the open position range. If yes, return to the first phase. If not, calculate the new price ranges using some strategy.\n\nSend transaction to rebalance position accordingly.\n\n\n\nThen go back to the first phase.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/uniswapv3-liquidity-rebalancer-dr50i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

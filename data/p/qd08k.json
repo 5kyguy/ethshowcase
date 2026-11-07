@@ -1,0 +1,26 @@
+{
+  "id": "qd08k",
+  "slug": "design-skills-market",
+  "title": "Design Skills Market",
+  "tagline": "The taste marketplace, agent-native — AI agents buy designers' style skills with USDC over x402.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qd08k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cNKapmoWV02l26JikTLXmJ9cJwEGPQuHXEC1F3xEu6Oo/high.mp4",
+  "demo_url": "https://market.designskills.xyz/",
+  "finalist": false,
+  "description": "Design Skills Marketplace is the agent-native marketplace for design taste. Designers price their visual DNA — color, type, spacing, motion, brand voice — as portable SKILL.md bundles. Humans and, mostly, autonomous AI agents buy them: an agent discovers a skill, gets an HTTP 402, pays in USDC over x402, and fetches the bundle, with no human in the loop. Skills are encrypted before they go to public Walrus storage and decrypted only after payment, so the paywall actually holds. It is the open \"Layer 3\" of designskills.xyz — the taste layer of the AI agent stack that has no incumbent yet — shipped as a separate open-source feature. The thesis: AI converges to the mean, humans make new; as generation becomes free, owned, portable taste is the scarce, defensible good, and it needs a payment + distribution rail built for agents.",
+  "how_its_made": "The frontend is intentionally build-less: vanilla HTML + Tailwind (CDN), no framework, served alongside Vercel serverless functions (Node, zero-dependency router locally). Payments use x402 (Circle's Agent Stack): the skill endpoint returns a spec-compliant 402 PaymentRequirements, and the server verifies + settles a gasless EIP-3009 USDC transfer on Base Sepolia through the x402 facilitator. Storage is Walrus (Sui) over plain HTTP — and because Walrus blobs are public, we AES-256-GCM-encrypt each bundle before storing and only decrypt server-side after the x402 payment verifies, so the ciphertext on Walrus is useless without paying. Humans pay through Privy: email/Google/GitHub login → embedded EVM wallet → viem wallet client → x402-fetch, all bundled with esbuild into one self-contained module (no build step on the site) and lazy-loaded only when a wallet is actually needed. The autonomous agent buyer uses x402-fetch + a viem signer to run the exact same HTTP 402 flow as a human. The notable/hacky part: one endpoint serves both a human (Privy embedded wallet) and an autonomous agent (server wallet) through the same 402 protocol, and the \"encrypt-at-rest, decrypt-after-pay\" pattern turns public decentralized storage into a real paywall. We also ran an AI security audit and hardened XSS, encryption-key management, API input validation, agent payment-target safety, and unlock-token integrity before submitting.",
+  "auto_summary": "A marketplace sells encrypted design skill bundles stored on Walrus and unlocks them after x402 USDC payment verification.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/design-skills-market-qd08k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

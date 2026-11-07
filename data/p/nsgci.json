@@ -1,0 +1,21 @@
+{
+  "id": "nsgci",
+  "slug": "incendia-auction",
+  "title": "Incendia (Auction)",
+  "tagline": "A fully on-chain, anonymous auction protocol using Proof-of-Burn and zk-SNARKs.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nsgci/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1SS5neVjjNwc3K6ttwkxXoN8ftpPUSivqE02CoCY1kKQ/high.mp4",
+  "source_url": "https://github.com/incendia-tech/ethglobal-incendia-auction",
+  "finalist": false,
+  "description": "The auction protocol operates in four main phases: setup, registration, bidding, and determination. In the setup phase, the organizer deploys or configures a smart contract on the blockchain, specifying parameters such as the auction options, time frames, and proof-of-burn verification logic. During registration, eligible bidders generate commitments to their identities and submit zero-knowledge proofs of eligibility. These commitments are aggregated into a Merkle tree, and the resulting root is stored on-chain to define the set of authorized bidders. This structure ensures that only registered participants can later submit valid bids while preserving anonymity.\n\nIn the bidding phase, each bidder generates a unique, unspendable burn address (hash of some parameters including: bid amount, bidder's id, ceremony's id, random value) and sends a small amount of tokens to it, effectively committing to their bid. The bidder then produces a zero-knowledge proof attesting to the correctness of the burn, their eligibility, and the proper formation of a unique nullifier that prevents double bidding. During the winner determination phase, the bidder submits their plaintext bid along with the proof to the smart contract. The contract verifies the proof on-chain, ensures the nullifier’s uniqueness, and immediately updates the winner so far. This design eliminates the need for trusted authorities, maintaining transparency, scalability, and bidder anonymity through unlinkability between bidders and bids.",
+  "how_its_made": "The smart contracts — including the Auction, Factory, and Verifier — are written in Solidity and tested using Hardhat. The deployment script currently supports the following networks: hardhat, hardhatMainnet, hardhatOp, and sepolia.\n\nThe zero-knowledge proofs, including proof-of-burn and proof-of-inclusion, are implemented using Groth16. The on-chain verifier contract is responsible for verifying these proofs.\n\nAuction participation is integrated with MetaMask, allowing users to securely manage all transactions directly from their own wallets. The frontend is built with Next.js (App Router) using TypeScript. We use Alchemy APIs.\n\nTo improve scalability and fairness, the implementation leverages the Archology framework, which enables parallel state updates in the EVM for a large number of transactions. This is particularly useful for handling high-volume bid submissions simultaneously, ensuring a fair bidding process and seamless scaling for massive participation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/incendia-auction-nsgci",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

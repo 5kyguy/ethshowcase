@@ -1,0 +1,27 @@
+{
+  "id": "9uwb8",
+  "slug": "pulse",
+  "title": "Pulse",
+  "tagline": "Configurable onchain attestation oracle: weighted signals, randomized checks, verifiable outcomes.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9uwb8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CqoObMTFjbJCIuZe6mqy01FqbZI02RKKa6LLW4U27q9K4/high.mp4",
+  "demo_url": "https://pulse.mylegacyledger.com",
+  "source_url": "https://github.com/danolar/Pulse",
+  "finalist": false,
+  "description": "Pulse is an open, configurable attestation oracle. It aggregates weighted signals from independent sources, accumulates them against a threshold each profile sets, and emits a verifiable onchain event when that threshold is crossed. The protocol never interprets the outcome; each consumer app decides what it means.The flagship question is \"is this human still here?\", which powers Legacy Ledger, a non-custodial digital inheritance platform. But the same engine answers any question expressible as weighted signals: behavioral risk deviation for a bank, liveness for a DAO's delegated votes, a dead man's switch for a DeFi position, or a parametric insurance trigger. A perfectly responsive profile can still cross the threshold on pattern deviation alone.What makes it resistant to gaming is that no single signal decides anything. Verification attempts fire at unpredictable times, in an unpredictable order of type, so the system cannot be pre-programmed against. A profile is keyed by the user plus the consumer app, so one person can be monitored independently by many apps without any shared or leaked state. Results are public and verifiable, the function of an oracle, while the progress toward each result stays private to the consumer who configured it, preventing anyone from monitoring how close a person is to a sensitive outcome.Pulse was extracted from Legacy Ledger as the hardest problem we had to solve, and shipped as open source infrastructure any application can build on.",
+  "how_its_made": "The core is a single Solidity contract (PulseOracle) on Scaffold-ETH 2 with Hardhat. Profiles are keyed by keccak256(owner, consumer), which gives per-app isolation for the same user without any registry. Signals are reported by authorized adapter addresses, each with a weight and a capability bitmask (may report positive, negative, or both), validated on every call. The contract stays deliberately dumb: it accumulates weight and emits events, never branching on what an adapter does.\n\nWorld ID is the identity and authorization fabric across three roles: owner check-ins at Device level, owner emergency actions (freeze, reverse) at Orb level, and requestor authorization at Device level, each bound by nullifier so only the specific registered human can act. The dual Device/Orb binding handles that nullifiers differ by credential level.\n\nChainlink does two jobs: a CRE workflow acts as the keeper and as the onchain-activity signal adapter, evaluating wallet activity and reporting signals; VRF provides the verifiable randomness seed for attempt timing and the verification-type sequence, which is committed onchain as a hash and revealed per attempt (commit-reveal) so the next check is unpredictable even when the window is known.\n\nWalrus with Seal stores the evidence behind every signal as encrypted blobs; the contract holds only the blob reference. Seal's access policies make the public layer prove evidence exists while keeping contents readable only to authorized parties. This is also how we resolved a privacy problem cleanly: the oracle result is public, but the accumulated weight and signal details stay private, so nobody can watch how close a person is to a sensitive threshold.\n\nThe notably hacky part: sensitive per-user data (a user's Google account, phone) never touches the contract. Adapters are multi-tenant services that bind per-user resources off-chain through a standard data-plane API keyed by profileId, while reporting onchain from a single wallet, so one adapter serves thousands of users with zero data mixing.",
+  "auto_summary": "Pulse is an attestation oracle that aggregates offchain and onchain signals, stores evidence references, and emits threshold-based onchain events per profile.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pulse-9uwb8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

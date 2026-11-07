@@ -1,0 +1,22 @@
+{
+  "id": "d5m0j",
+  "slug": "crossinch",
+  "title": "CROSSINCH+",
+  "tagline": "Stellar to  Ethereum swaps via HTLCs using Limit Order Protocol, deployed cross-chain.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d5m0j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/huJaz02RZQfJTFLP7hzoRB867rgHAnmGN02bhtoHDLkj4/high.mp4",
+  "demo_url": "https://youtu.be/LbYleTFbnA0",
+  "source_url": "https://github.com/daiwikmh/StellarSwap",
+  "finalist": false,
+  "description": "CROSSINCH+ is a Atomic swap platform used to transfer XLM (Stellar's native token) and ETH (Ethereum's native token) between the Stellar and Ethereum blockchains using atomic swaps. It extends the 1Inch Limit Order Protocol (LOP) for Ethereum, for cross-chain operations using LimitOrderBuilder and deploying a contract to interact with stellar scripts parameters named HTLCPredicate within LOP, while implementing HTLC smart contract for Stellar to handle XLM transfers. The current resolvers are custom built for implementation.\n\n\nCore System\n Cross-Chain Bridge: Moves tokens (XLM  ETH) between Stellar and Ethereum Holesky\nAtomic Safety: Guarantees either both transfers complete or both fail - no stuck funds\nFrontend Integration: React interface for user-friendly swap execution\nBridge Server: 1inch LOP LimitBuilder that coordinates cross-chain operations with HTLC contracts.\n\n  Technical Architecture  \nFlow: Frontend → Bridge Server → Cross-Chain Script → Blockchain ContractsStellar Side:\n- Uses your Hashlock hex preimage format\n- contract calls with proper contractInt implementation\n- Event extraction for swapId from blockchain\n- SHA256-based hashlock validation\n\nEthereum Side:\n- Uses standard ethers.js UTF-8 format\n- HTLC predicate registration and validation\n- ETH  Holesky transfers between wallets\n- Keccak256-based hashlock validation\n\n What Actually HappensUser enters amounts\nBridge server receives request and spawns transfer script\nStellar: XLM gets locked in HTLC contract\nEthereum: HTLC predicate gets registered with hashlock\nStellar: User claims XLM, revealing secret on blockchain\nEthereum: User claims ETH using revealed secret\nResult: Tokens moved atomically between chains\n\n1INCH SIDE:\n\nWhat You Do:\nCreate a Limit Order\nThe relayer/maker signs a 1inch limit order offering ETH, using a custom HTLC predicate.\n\nUse an HTLC Predicate\nThe order’s validity depends on:\n\nThe user revealing a valid preimage\n\nThe claim happening before a timelock\n\nThis logic is enforced in your HTLCPredicate.sol contract.\n\nUser Claims Stellar Swap → Gets Preimage\nThe user first claims tokens on Stellar using the secret.\n\nFill 1inch Order Using Preimage\nThe user (taker) uses LimitOrderProtocol.fillOrder(...) and supplies the preimage as interaction.\n\nPredicate Verifies → ETH Released\nIf the predicate approves (preimage matches, not expired), ETH is transferred to the user.\n\n\n\n\n",
+  "how_its_made": "1)Used LimitOrderBuilder.buildLimitOrder() by one-inch which handles all the struct formatting and ABI encoding needed to match one-inch LOPs smart contract's requirements. This is the first time it has been implemented for stellar chain.\n\n2) We extended the limit-order-protocol on oneinch at evm side by deploying a contract which interacts with oneinch and stellar parameters.\n\n3) We used stellar's timelock and hashlock contract functionality to preserve transaction credentials and allows for secure transfer and claim untill the preimage and hash has been passed.\n\n4) The type parameters for Ethereum and Stellar are complete opposite it was a nightmare to have them defined, build, deployed and work but without compromising flow of funds we did that.\n\n5)Smart Contracts:\n\nSolidity: HTLC Predicate contract extending 1inch LOP\nRust: Stellar HTLC smart contract (Soroban)\n1inch LOP v4: Base limit order protocol\n\n6)Backend:\n\nNode.js: Cross-chain bridge logic and API endpoints\nEthers.js: Ethereum blockchain interaction\nStellar SDK: Stellar network integration\nExpress.js: REST API for price feeds and swap execution\n\n7) CoinMarketCap for live price updates of XLM and ETH tokens.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/crossinch-d5m0j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,28 @@
+{
+  "id": "z8a2o",
+  "slug": "inco-swap",
+  "title": "inco-swap",
+  "tagline": "IncoSwap: Confidential Token Swaps Powered by Fully Homomorphic Encryption",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z8a2o/banner/default.jpg",
+  "source_url": "https://github.com/fheswap/inco-swap",
+  "prizes": [
+    {
+      "sponsor": "Inco Network",
+      "sponsor_id": "eu794",
+      "placement": "Best use of confidentiality for DeFi",
+      "title": "Best use of confidentiality for DeFi"
+    }
+  ],
+  "finalist": false,
+  "description": "What It Does: \nThis project enables users to swap cryptocurrencies while keeping their transaction details completely private, unlike traditional DEXs, where all trade data is publicly visible on the blockchain.\n\nHow It Works: \nLeveraging  FHE, the project ensures that the amounts, and prices, remain encrypted during the entire process. The encryption allows the system to perform computations on encrypted data while maintaining the integrity and accuracy of the trades.\n\nWhy It’s Important: \nBy ensuring transaction privacy, this project safeguards users from exploitation by malicious actors, such as sandwich attacks, which manipulate public trade information for profit. It provides a secure and confidential environment for decentralized trading, addressing critical privacy and security concerns in the DeFi space. Also it unlocks the ability for users to trade tokens completely in private",
+  "how_its_made": "Due to the limitation of the TFHE’s div function of which it only allows division by plaintext, a naive implementation of AMM’s bonding curve algorithm cannot be implemented directly. \n\nAs such, we take a novel approach in providing an alternative solution at implementing the swap function. \n\nWe take a three step approach instead of the traditional single step swap approach in traditional AMMs of which a single swap function is splitted into preswap ,`triggerSwap` and finally executeSwap \n\nThe idea of our approach to swap will be to batch multiple swap transactions and to only perform the AMM calculation once. By doing so, we are able to ‘mix’ the inputs and outputs of a swap across a few transactions. ie. Should Alice and Bob swapped for 1usdc and 5usdc for Eth respectively, we will take the grand sum of inputs which is 6usdc to be the token in into the AMM calculation. Let’s say the token out in this case be 18eth for example, this 18eth can be shared by Alice and Bob in correspondent to their token in. As a result, Alice will receive 3eth and Bob will receive 15Eth\n\nThe preSwap stage will attempt to gather user’s swap intent. Storing the tokenIn as maps to the users address as euint64 which is an encrypted value. At this stage, No one is able to know how much token the user is intending to swap\n\nOnce a certain batch threshold is reached, the triggerSwap function can be called. triggerSwap will request for a global decrypt on the reserves of token0 and token1 of the pool. This value will be used as the denominator of our bonding curve calculation.\n\nOnce the calculation is done by Inco’s MPC network, a callback will be initiate to the executeSwap function. executeSwap will contain the bonding curve calculation and finally distribute the tokenOuts to each users in corresponding to the user’s tokenIns value",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/inco-swap-z8a2o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

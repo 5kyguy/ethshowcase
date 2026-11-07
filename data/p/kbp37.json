@@ -1,0 +1,27 @@
+{
+  "id": "kbp37",
+  "slug": "bonded",
+  "title": "Bonded",
+  "tagline": "Bonded stops AI payment agents from paying fraudulent invoices by re-checking every fact first.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kbp37/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kU8IEACv8n00QHxu3qRYc8K02dnezehFIu69fbDqKgynE/high.mp4",
+  "demo_url": "https://bondedai.vercel.app",
+  "source_url": "https://github.com/Narayanan-D-05/Bonded",
+  "finalist": false,
+  "description": "Business Email Compromise is the FBI IC3's costliest cybercrime category: an attacker impersonates a real vendor and says \"we changed our bank account.\" Companies want AI agents to run accounts payable, but an agent that trusts the invoice pays the attacker.\n\nBonded sits inside the agent's payment decision. Before any money moves, it independently re-derives every fact the payment relies on (who the vendor is, the payout address on file, the amount, whether the vendor is active) and compares each against what the invoice claims. It also screens the payout address for sanctions and scam risk.\n\nEvery invoice gets one of three verdicts. CLEARED is paid automatically on Sui. REFUSED pays nothing and shows the claimed value next to the real one. HELD, for the genuinely ambiguous case such as a recent bank-detail change or a large irreversible payment, waits for a World ID–verified human. People are only asked when it matters, so they don't rubber-stamp every invoice.\n\nBonded ships as an SDK and an MCP server, so any AP platform or agent framework can add it before its own payment step.\n\n",
+  "how_its_made": "A TypeScript monorepo (pnpm + Turborepo) with a Next.js 16 console. The core is enforce(), a five-step check: policy hash, premise re-derivation, sanctions screening, budget, then an irreversibility gate. Premises route through a dispatcher to whichever adapter owns each fact. All money is bigint fixed-point with 6 decimals and never a float.\n\nSui: a Move package holds a USDSUI vault and a policy registry. The agent's policy hash is committed on-chain, and each check produces a Verdict object that settle or settle_with_stepup must consume to pay, so a payment can't skip verification. Signing goes through the Sui CLI keystore, so the app never touches key bytes.\n\nIntercepta: live screening of the vendor's EVM payout address. An OFAC-listed Lazarus address is refused, with the evidence stored by hash.\n\nWorld: vendors verify their identity with World ID (IDKit) before a bank-detail change counts. Payments above the irreversible threshold need a fresh World ID for Agents step-up, checked server-side against JWKS within a 5-minute window.\n\nDisclosed limitation: the vendor master is a clearly disclosed fixture standing in for a real ERP or vendor system. Every other check runs live on Sui testnet.",
+  "auto_summary": "A TypeScript monorepo that verifies invoice payment facts, screens payout addresses, and enforces settlement gating through Sui and World-based human step-up.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bonded-kbp37",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "wheqc",
+  "slug": "veilend",
+  "title": "Veilend",
+  "tagline": "Uniswap v4 LP positions as loan collateral, with private credit scoring via Chainlink CRE TEE.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wheqc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/001V9019KIl0201Acm8F01XHR3JIxYNOixsZj7URwsIKx017Q/high.mp4",
+  "demo_url": "https://veilend.vercel.app",
+  "source_url": "https://github.com/harundarat/veilend",
+  "finalist": false,
+  "description": "Veilend lets Uniswap v4 liquidity providers borrow against their LP positions without withdrawing liquidity. Borrowers lock a position, minted in Veilend's own hook-enabled demo pool, as collateral. A CollateralLockHook blocks liquidity removal while the loan is active, though fee collection stays enabled so the collateral keeps earning.\n\nA Chainlink CRE Confidential Workflow then computes a personalized credit score inside a TEE using handlerInTee: one real on-chain data point (LP position size and age, read via Uniswap's PositionManager) is combined with simulated repayment history. Only the resulting loan terms (LTV, APR, and expiry) ever leave the enclave; the raw inputs and scoring logic never do. The LendingVault uses these terms to size and disburse a loan in a mock stablecoin, tiering LTV from 20% to 70% depending on the privately computed score.\n\nBorrowers who repay before the deadline get their position unlocked normally. Borrowers who default past a grace period can have their position seized via a pre-approved transfer, giving the lender a real recovery path even though the lock itself is flag-based rather than custodial.\n\nThis is a from-scratch hackathon build, with no continuity from a prior project. The README transparently discloses exactly which data is real (on-chain LP data) versus simulated (repayment history), and which parts of the architecture, such as the relayer bridging CRE to the vault, are hackathon-scope simplifications versus production-ready design.",
+  "how_its_made": "Veilend is a four-layer stack: Uniswap v4 contracts (Foundry), a Chainlink CRE Confidential Workflow (TypeScript), a Bun relayer, and a Next.js app.\n\nOn-chain we started from the official Uniswap v4 hook template (BaseHook, HookMiner, and CREATE2) and replaced the Counter swap example with CollateralLockHook. The hook has one permission: beforeRemoveLiquidity. We mine the address so the BEFORE_REMOVE_LIQUIDITY_FLAG bits match. LendingVault takes custody of a PositionManager NFT on lock, calls hook.registerLock, then later disburses a mock stable (vdUSD) after a credit report. Collateral is only accepted from our demo pool (vUSD/vEUR) because a v4 hook is part of PoolKey, not of an NFT. We deployed against the canonical Sepolia PoolManager and PositionManager; Foundry tests cover lock, repay, liquidate, and the decrease-while-locked revert.\n\nOff-chain, a Bun + viem relayer watches PositionLocked and shells out to cre workflow simulate with {borrower, positionId}. The CRE handler (handlerInTee, AWS Nitro, us-west-2) fetches a secret, looks up private repayment history, reads LP liquidity via eth_call, and derives position age by scanning Transfer(from=0) logs in 40k-block chunks, because PositionInfo has no mint timestamp. Scoring is 40% position (size + age) and 60% history, mapped to LTV/APR tiers. Only {ltvBps, aprBps, expiry} leave the enclave. Intermediate scores never hit the chain.\n\nThe relayer is the glue we would replace with DON-verified reports in production: it scrapes the “Workflow Simulation Result” JSON from CLI stdout (and refuses output that includes creditScore), then calls submitCreditReport as onlyRelayer. The vault values collateral as amount0 + amount1 if the relayer supplies a snapshot; otherwise 1 unit of liquidity = 1 mock-USD, with no oracle.\n\nThe frontend is Next.js 16, React 19, wagmi/viem, and Tailwind. Borrow discovery uses Alchemy’s Sepolia NFT API on the server so the PositionManager token list is not a public env leak.\n\nPartner tech: Uniswap v4 gave us pool-level enforcement. PositionManager sets salt = bytes32(tokenId), so the hook keys locks as uint256(params.salt). liquidityDelta < 0 vs == 0 lets us block unwind while still allowing collect. Chainlink CRE gave us a real confidential boundary: raw history and the score stay in the TEE; the chain only sees terms.\n\nNotable hacks: (1) we cannot lock arbitrary v4 LPs (ISubscriber is a notifier, not a lock), so collateral is a pool we initialized ourselves; (2) ERC-721 approval is revocable, so the vault pulls the NFT at lock instead of hoping the borrower does not approve(0); (3) CRE ↔ chain is a CLI spawn + stdout parse, not live consensus; (4) position age is reconstructed from mint logs because the periphery does not store createdAt.",
+  "auto_summary": "A lending prototype that uses a Uniswap v4 hook and a Chainlink CRE workflow to underwrite loans against LP position NFTs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/veilend-wheqc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

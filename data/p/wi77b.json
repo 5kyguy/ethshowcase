@@ -1,0 +1,36 @@
+{
+  "id": "wi77b",
+  "slug": "onlydanks",
+  "title": "OnlyDanks",
+  "tagline": "Private end-to-end encrypted messenger built on blobs, fully anonymous and censorship-resistant.",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wi77b/banner/default.jpg",
+  "video_url": "https://stream.mux.com/h99FT5pPRypvSI7gaMXlEMMkaMDk702kp9wpvLGlkW1Y/high.mp4",
+  "demo_url": "https://only-danks.up.railway.app/",
+  "source_url": "https://github.com/holyfuchs/onlydanks",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "World Pool Prize",
+      "title": "World Pool Prize"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Cannes 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "\nWhat Is It?\nOnlyDanks is a messaging system that lives entirely on the Ethereum blockchain. There are no apps, no servers, and no middlemen. Messages are written directly to Ethereum’s new blob storage, making them:\n- Invisible to third parties (no one can read them)\n- Unlinkable (no one can tell who’s talking to whom)\n- Censorship-resistant (no one can delete or block them)\n\nIt works like a fully private postbox, where only the intended recipient has the key—and no one even knows the box exists.\n\nHow It Works (Conceptually)\n- You create a public identity using an Ethereum Name like yourname.onlydanks.eth\n- This name links to a public key, like sharing your digital mailbox\n- When someone wants to message you:\n  - They use your public key to encrypt a message\n  - They publish it into Ethereum’s blob space\n- You periodically check for new messages by scanning the blockchain\n- If a message is meant for you, you can decrypt and read it\n\nWhy It's Special\n- Privacy by design: No servers or apps know who you are\n- Stealthy delivery: Only you can find and read your messages\n- Globally accessible: Anyone with an Ethereum wallet can use it\n- No central control: Can't be taken down, blocked, or censored\n- No history or tracking: All data is ephemeral and unlinkable",
+  "how_its_made": "\nIdentity & Registration\n- Users register ENS subnames (e.g., user.onlydanks.eth) through an L2 registrar on World-Seoplia\n- Each subname links to a secp256k1 public key via ENS text record\n- ENS’s L1 resolver points to our L2 registry\n\nMessage Sending Flow\n1. Look up ENS subname → get public key\n2. Generate ephemeral private key\n3. Use ECDH (Diffie-Hellman) to create shared secret\n4. Sign the message with sender's private key\n5. Encrypt the signed message with the shared secret\n6. Publish to blob:\n   - Ephemeral public key\n   - Initialization vector (IV)\n   - hash(shared_secret) (used for message lookup)\n   - Encrypted message\n\nBackend Service\n- Stateless, self-hostable\n- Indexes blobs and provides:\n  - List of ephemeral public keys + IV\n  - Messages by hash(shared_secret)\n- Does not store any private info or user data\n\nMessage Receiving Flow\n- The recipient downloads ephemeral public keys + IVs from the backend\n- Tries to compute shared secrets from each\n- For each derived hash(shared_secret), queries backend for matching blobs\n- If found, decrypts the message and verifies the sender via signature",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/onlydanks-wi77b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

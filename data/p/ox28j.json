@@ -1,0 +1,22 @@
+{
+  "id": "ox28j",
+  "slug": "tapx",
+  "title": "TapX",
+  "tagline": "Tap a price grid, execute real DeFi trades on Sui. Trading as simple as a game.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ox28j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Dz2DruG2fQn02vlTwh0102kPc00vhc02ZW2MRz5v29FA8K02s/high.mp4",
+  "demo_url": "http://ec2-18-139-2-180.ap-southeast-1.compute.amazonaws.com/",
+  "source_url": "https://github.com/jasong-03/tapx",
+  "finalist": false,
+  "description": "TapX is a DeFi trading interface built on Sui's DeepBook. Instead of complex order forms, users tap cells on a real-time price grid to instantly execute on-chain market orders. Gamification elements like XP, streaks, and leaderboards make trading accessible and engaging for newcomers.  ",
+  "how_its_made": "TapX is a trading interface built with Next.js and TypeScript, featuring a custom HTML Canvas–based price grid renderer running at a steady 60fps for smooth, highly responsive interaction.\n\nReal-time pricing is sourced directly from DeepBook on-chain pools, where we poll the mid_price using Sui’s devInspectTransactionBlock RPC every 3 seconds. To avoid the choppy feel of discrete polling, we apply Catmull-Rom spline interpolation, transforming raw price points into a fluid, continuous chart that feels like a true live market feed.\n\nUser interaction is fully gesture-driven. When a user taps a grid cell, TapX automatically infers trade intent based on its position relative to the current price — taps above trigger buys, while taps below initiate sells. The app then constructs and signs a DeepBook swap transaction using @mysten/dapp-kit, keeping the execution flow fast and transparent.\n\nThe zoom system dynamically adapts price resolution, scaling the Y-axis from 0.2% down to 0.01% per grid cell, allowing users to trade with varying levels of precision depending on their strategy.\n\nOne interesting challenge came from DeepBook’s pricing format: prices are returned as raw u64 values scaled by 1e9 (FLOAT_SCALAR), but trading pairs with different decimal configurations (e.g. SUI = 9 decimals, USDC = 6 decimals) require an additional 10^(baseDecimals − quoteDecimals) adjustment. Missing this factor initially resulted in prices being off by 1000×, which made for a memorable debugging session.\n\nState management is intentionally minimal, relying solely on React hooks with no external state libraries. This keeps the bundle lightweight and ensures optimal performance on mobile devices.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tapx-ox28j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

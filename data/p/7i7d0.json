@@ -1,0 +1,35 @@
+{
+  "id": "7i7d0",
+  "slug": "radius",
+  "title": "Radius",
+  "tagline": "Radius makes your ENS subname the credential for every piece of infrastructure in a network",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7i7d0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00Sk1vwedqiSWr802uvbGENinKo00b200ylItcNQqBSBgXg/high.mp4",
+  "demo_url": "https://radius-wifi.vercel.app",
+  "source_url": "https://github.com/LeoFranklin015/ethtokyo-2026",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "1st place",
+      "title": "Best Integration of ENSv2 into an Existing Project"
+    }
+  ],
+  "finalist": true,
+  "description": "Most networks — corporate offices, university campuses, co-working spaces, event venues — still run on shared passwords, manual key distribution, and flat access for everyone. There's no per-person policy, no isolation between roles, no audit trail, no revocation without a full credential reset. Identity is an afterthought bolted on after the fact, if at all.\n\n**Radius** is an identity-gated network and API access control system. Any organization with an ENS name can use it — a company, a university, an event venue. Your ENS subname becomes the sole credential for everything: WiFi admission, bandwidth tier, sponsor or internal API access, SSH. The subname carries your role, your access policy, and your device group in ENS text records. The infrastructure reads ENS instead of a password database. No VPN client, no RADIUS server, no manual provisioning — mint a subname, walk in, connect.\n\nThe system enforces access in three layers: a captive portal gates WiFi entry and assigns per-role bandwidth tiers at the kernel level, a resource proxy intercepts every API call and injects keys server-side so credentials are never exposed to end users, and an operator console lets administrators define groups, set per-identity and per-group daily quotas, rotate keys atomically, and revoke sessions in real time. Every admission, every proxied request, every quota check is logged against a session identity — not a bare IP — giving operators the first real audit trail without a dedicated security appliance.\n\nCritically, Radius gives everyone on the network a usable, role-appropriate slice of real bandwidth — so nobody has to fall back to their mobile hotspot. Role-based VLANs mean a staff member or VIP gets a dedicated high-bandwidth lane, isolated from general attendee traffic, while basic users get a fair share without being able to saturate or snoop on each other. One shared network, properly segmented — the way it should have always worked. The demo targets a crypto hackathon, but the enforcement model is identical for a corporate office, a university lab, or any physical location where identity-based access control matters.",
+  "how_its_made": "**1. Mint at check-in.**\nEvery attendee gets a subname under the event domain — `philo.tokyo2026.ethglobal.eth`. The organizer writes their role, bandwidth policy, SSH public key, and device group directly into ENS text records. No database entry. No password issued. The subname *is* the credential.\n\n**2. Captive portal reads ENS, not a password DB.**\nWhen a device connects to the event WiFi, it hits the captive portal. The attendee signs an EIP-191 challenge with their wallet. The portal resolves the signing address to an ENS subname, reads the `wifi-tier` and `wifi-bandwidth` records, and maps them to an access group. That's the only auth check.\n\n**3. Network enforcement runs at the kernel level.**\nLogin triggers two things instantly: an `iptables` rule marks the device's traffic with an fwmark tied to its tier, and a `tc HTB` class enforces bandwidth — 5 Mbit for basic attendees, 10 Mbit for staff, 1 Gbit for VIP. Cross-tier `FORWARD DROP` rules prevent devices on different tiers from reaching each other at all. Device isolation is structural, not policy — there's nothing to misconfigure.\n\n**4. A resource proxy injects API keys server-side.**\nAll sponsor API access goes through a proxy layer. Attendees never see the keys. The proxy reads the active session, checks group membership and daily usage counters, then forwards the request with the key injected — into the URL path, query param, or header depending on the upstream. Limits are per-device and per-group, adjustable mid-day without a restart. Key rotation is atomic: stage a new key, commit it — zero downtime, old key invalidated in one swap.\n\n**5. The full audit trail is automatic.**\nEvery proxied request is logged against a session UUID (never a bare IP). Organizers see per-person API usage, bandwidth consumed, login/logout times — in real time, via the operator console. Nothing requires manual instrumentation.\n",
+  "auto_summary": "This project uses ENS-based identities to control WiFi admission, network segmentation, and proxied API access across a multi-component stack.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/radius-7i7d0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

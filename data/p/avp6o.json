@@ -1,0 +1,42 @@
+{
+  "id": "avp6o",
+  "slug": "bubbles",
+  "title": "Bubbles",
+  "tagline": "Bubbles is a voice chat app for onchain communities. Create token-gated rooms based on token ownership, POAP claims, group affiliations and more.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/avp6o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IzbXv9m35WxRXZoSDwMYKubYB4eGEOqdZmXp1iz6mC4/high.mp4",
+  "demo_url": "https://thebubbles.xyz/",
+  "source_url": "https://github.com/gskril/ethglobal-paris-hack",
+  "prizes": [
+    {
+      "sponsor": "Sismo",
+      "sponsor_id": "4i0qt",
+      "placement": "🥈 Sismo — Best Use",
+      "title": "Sismo"
+    },
+    {
+      "sponsor": "Airstack",
+      "sponsor_id": "fb98y",
+      "placement": "🥇 Airstack — Best Use",
+      "title": "Airstack"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Paris 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Bubbles is an innovative audio-chat platform tailored for onchain communities, revolutionizing how users interact and communicate. This cutting-edge project integrates four essential components to create a seamless and secure experience:\n\n- Sign in with Ethereum: Users can effortlessly connect with their Ethereum wallets, streamlining the onboarding process. By importing their Ethereum Name Service (ENS) and social profiles like Farcaster, Lens, and XMTP, users can maintain their online identity consistently across the platform.\n\n- Daily.co: Powering the voice chat rooms affectionately termed \"bubbles,\" Daily.co's robust toolkit and infrastructure offer a smooth and immersive communication environment. Users can engage in real-time conversations, fostering a sense of community and collaboration.\n\n- Airstack: Simplifying data integration, Airstack acts as a blockchain data indexer, aggregating information from various sources such as ERC20, ERC721, and ERC1155 tokens, POAPs, Web3 socials, and XMTP. This allows Bubbles to implement token-gated rooms, ensuring access requirements based on users' holdings and credentials.\n\n- Sismo: Prioritizing user privacy and security, Sismo serves as a sovereign identity aggregator and crypto-native single sign-on (SSO) solution. Through zero-knowledge proofs (ZKPs), Bubbles can validate users' membership in specific data groups without compromising their actual identities.\n\nThe result is an immersive audio-chat experience where onchain community members can connect, chat, and engage like never before. Bubbles empowers users to curate exclusive spaces, fostering meaningful interactions based on shared interests and credentials. Embrace the future of secure and personalized audio-chats with Bubbles! ",
+  "how_its_made": "The project consists in a Web application built with NextJS and React, benefiting both the framework client-side and server-side capabilities. Behind the scenes, we used Firebase to store users' and Bubble data on a proprietary database.\n\nThe sign-up and sign-in to the application is performed through the well know Sign-with-Ethereum method (SIWE), integrate through the Wagmi SDK and React Hooks.\nSign-up and sign-in generate two type of tokens for the user: the auth-token is used to authenticate subsequent API calls; the firebase-token is used to allow the React client reading data from the database without always requiring an API call.\nAt sign-up time, Airstack APIs are called to get the user's ENS and Web3 social data (Farcaster FName, Lens Handle and XMTP enabled flag). \n\nWhen creating a new bubble, there are two crucial steps to describe:the room creation on Daily.co and the bubble enrichment process through Airstack and/or Sismo (only for bubble gated by Sismo data groups). Daily.co offers a toolkit and infrastructure to easily embed video and audio rooms in any app, indeed behind the scenes we interact with their API to create a new room and eventually delete it. During the bubble creation process we also hit the Airstack APIs according to the bubble privacy type (ERC20, ERC721, ERC1155, POAPs) so that we can enrich the bubble data and provide an enhanced user experience giving detailed info about the bubble requirements. If the bubble is of privacy type Sismo, we indeed hit the Sismo API to get detailed info about a specific group id (e.g., name, description, specs).\n\nAirstack e Sismo are also used later to give users' access to bubbles. For bubbles of type ERC20, ERC721, ERC1155, POAP, we look on Airstack to check wallets' holdings and provide bubbles access tokens accordingly. In the case of Sismo instead, we implemented a custom flow that supports the new Sismo Connect, allowing users to prove their membership in a in specific data groups without compromising their actual identities.\n\nFinally, once a user gets access to a bubble, they have to join it and unmute theirselves in order to participate. Again, these interactions are made through the Daily.co React and JS SDKs.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/bubbles-avp6o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

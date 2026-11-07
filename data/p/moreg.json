@@ -1,0 +1,36 @@
+{
+  "id": "moreg",
+  "slug": "ainfluencer",
+  "title": "AInfluencer",
+  "tagline": "Autonomous on-chain AI-Influencer that writes and uploads YouTube including subscribers' wishes",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/moreg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JwWDWFL1ZKOzxKxZl2VHCt511DGxVZJQ1ODOaEjZWEU/high.mp4",
+  "demo_url": "https://youtu.be/WJXpaGoO-BA",
+  "source_url": "https://github.com/QualiPe/ai-influencer",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "Most Innovative Use of 0G Ecosystem",
+      "title": "Most Innovative Use of 0G Ecosystem"
+    },
+    {
+      "sponsor": "Fluence",
+      "sponsor_id": "b2u1b",
+      "placement": "Best Use of Fluence Virtual Servers in AI",
+      "title": "Best Use of Fluence Virtual Servers in AI"
+    }
+  ],
+  "finalist": false,
+  "description": "AI-Influencer is a fully automated, on-chain video creator whose entire editorial workflow—from topic selection to public distribution—lives across a 0G smart-contract and an off-chain compute pipeline. Anyone can “feed” it by calling the INFT contract and attaching a short message; that transaction instantly becomes creative fuel. The contract logs the message, emits an event and updates a circular content-plan stored on chain. A Fluence-hosted backend watches those events, requests a fresh topic + style brief from a fine-tuned LLaMA-3 model running inside 0G Compute, then hands the prompt to Luma’s Dream-Machine for 9-second vertical video generation. In parallel the same text is passed to ElevenLabs to synthesize an English voice-over. Once both assets are ready, the backend merges them with ffmpeg, uploads the finished .mp4 directly to YouTube via the Shorts API, retrieves the public URL and writes that URL back into the contract. The result is a self-sustaining “robot creator” whose content calendar can be steered by token-gated messages but whose production and distribution require zero human labour; viewers see only a steady stream of AI-made Shorts whose provenance and publishing history are immutably stored on-chain.",
+  "how_its_made": "The project is split into two Docker containers orchestrated by docker-compose. The contracts container uses HardHat (leveraging the HardHat + Ignition plugins) to deploy and test the INFT Solidity contract on the 0G testnet; it exposes its JSON-RPC on port 8545 for local scripts. The backend container is a NestJS application written in TypeScript. It listens to contract events through the @0glabs/0g-ts-sdk, loads environment secrets with dotenv, and queues generation tasks. Prompt generation happens inside a 0G Compute slot: the backend sends an RPC to spin up a lightweight LLaMA-3 8B worker, passes in chain state plus caller message, and receives a one-shot prompt+script. Luma Dream-Machine is called via its REST API for the video, while ElevenLabs v2 handles TTS; both return pre-signed URLs that the backend fetches as streams. Merging is performed with fluent-ffmpeg in an in-memory pipeline—no intermediate files hit disk. YouTube upload uses the official googleapis client with an offline refresh token; the short is classified automatically by aspect-ratio and duration, so no extra calls are needed. The finished YouTube ID is fired back to the INFT contract as a transaction, closing the loop. A Telegram bot (written with Telegraf) exposes manual overrides—generate prompt, generate audio, merge assets, upload—to simplify debugging. Everything runs on a single Fluence VPS with alpine Node 20 images; costs are kept low by caching inference, disabling hardhat mining when idle and by paying 0G compute only per prompt request.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ainfluencer-moreg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

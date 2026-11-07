@@ -1,0 +1,27 @@
+{
+  "id": "44j9u",
+  "slug": "agentprisonerdillema",
+  "title": "AgentPrisonerDillema",
+  "tagline": "AI agents play Prisoner's Dilemma with crypto stakes, TEE decisions, P2P negotiation & on-chain bets",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/44j9u/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00x5HTLYDhIDvv01yqvHG002Gqf7VDQoJAzkeEs6q300DUk/high.mp4",
+  "demo_url": "https://agent-prisoner-dillema.vercel.app/",
+  "source_url": "https://github.com/louissarvin/AgentPrisonerDillema",
+  "finalist": false,
+  "description": "Agent Prisoner Dilemma is a multi-agent game theory tournament where 5 autonomous AI agents with distinct strategies (Tit-for-Tat, Always Cooperate, Grudger, Pavlov, Deceptive) compete in iterated Prisoner's Dilemma rounds with real crypto stakes.\n\nEach round follows a 6-phase pipeline: agents negotiate peer-to-peer through Gensyn AXL's encrypted mesh network (6 separate nodes with MCP service registration and A2A agent discovery), then make cooperate/defect decisions via 0G Compute with TEE attestation and self-reflection loops. Moves are committed as hashed secrets on 0G Galileo chain and revealed after the deadline.\n\nAgents autonomously manage their own treasuries through the Uniswap Trading API: staking ETH to USDC before tournaments, sending USDC commitment bonds to opponents as credible cooperation signals during negotiation, and betting on round outcomes through the BettingPool contract on Unichain Sepolia. All swaps use the full Permit2 flow with safety bounds to prevent LLM hallucinations from draining wallets.\n\nAgent reasoning and memory (trust scores, opponent profiles, strategy notes) are encrypted with AES-256 and stored on 0G Storage for persistent cross-match learning. Negotiation transcripts remain unencrypted for public verifiability. Spectators can bet on outcomes and claim winnings trustlessly through the on-chain betting pool.",
+  "how_its_made": "The backend runs on Bun/Fastify with a match orchestrator that drives the full 6-phase pipeline per round. Each phase is sequential but internally parallelized where possible.\n\nFor 0G integration, we use @0glabs/0g-serving-broker to create a compute network broker that connects to TEE-attested providers running qwen-2.5-7b-instruct. Every cooperate/defect decision goes through a self-reflection loop where the model critiques its own reasoning before finalizing. Agent reasoning and memory are encrypted with AES-256 using the SDK's native encryption option before uploading to 0G Storage Log Store. Trust scores and opponent profiles are dual-written to 0G KV Store via the Batcher API. Game state lives on 0G Galileo chain through two Solidity contracts: GameManager handles commit-reveal with 90s commit and 30s reveal windows, and TournamentManager orchestrates round-robin brackets. \n\nFor Gensyn AXL, we run 6 separate AXL nodes (1 hub + 5 agents) with ed25519 identity keys. All negotiation routes through the P2P mesh using /send and /recv endpoints. We went deeper by registering agent capabilities as MCP tools on the AXL router via JSON-RPC 2.0, exposing \"negotiate\" and \"get_strategy\" tools that remote peers can discover and invoke. The A2A server auto-discovers these services and advertises them as agent cards.\n\nFor Uniswap, agents autonomously manage finances through the Trading API v1 on Unichain Sepolia. The hacky part: we invented \"commitment bonds\" where agents transfer USDC directly to opponents during negotiation as a game-theoretic cooperation signal. The LLM decides bond amounts based on opponent trust profiles, clamped to safety bounds (MAX_STAKE_ETH=0.05, MAX_COMMITMENT_USDC=5.00) so hallucinations cannot drain wallets.\n\nThe nonce management was the hardest technical challenge. Unichain Sepolia's public RPC silently drops transactions from the mempool. We built a per-wallet mutex-serialized nonce tracker that validates against the pending on-chain nonce every call, auto-resyncs on drift, and retries with 10x gas bumps on L2 where gas is cheap.\n\nThe frontend uses TanStack Start with React 19, connecting via SSE for real-time match updates. The On-Chain Activity panel shows every blockchain transaction across both chains with clickable explorer links. The P2P Mesh panel shows live AXL agent connections and registered MCP services.",
+  "auto_summary": "A multi-agent Prisoner’s Dilemma game uses 0G services, AXL networking, Uniswap API trading, and smart contracts for wagering and commit-reveal gameplay.",
+  "scores": {
+    "originality": 8,
+    "practicality": 6,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentprisonerdillema-44j9u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

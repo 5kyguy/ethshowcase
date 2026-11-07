@@ -1,0 +1,27 @@
+{
+  "id": "ppqr0",
+  "slug": "aegis-swarm",
+  "title": "Aegis Swarm",
+  "tagline": "A P2P swarm of independent verifiers checking if on-chain executions meet specs.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ppqr0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6pzOAzVh02KFJ01XiQRuAOvUrgTzrCGfcYl3DCouuuWWE/high.mp4",
+  "demo_url": "https://hpsing.github.io/aegis",
+  "source_url": "https://github.com/hpsing/aegis",
+  "finalist": false,
+  "description": "Off-chain agents e.g.; solvers, executors, AI inference workers, routinely take actions on behalf of users. But how does the user know the action actually happened correctly, and not that the agent silently lied or substituted a worse outcome?\n\nAegis answers this with a BFT verification swarm. When an agent claims to have executed a job, three independent verifier daemons race to read the on-chain receipt and vote PASS or FAIL. They commit hashed votes first, reveal after the deadline, and the swarm only settles when consensus. The commit-reveal scheme prevents verifiers from copying each other.\n\nEvery job and every vote is recorded on AegisContract (escrow + commit-reveal logic), and the full execution trace e.g., spec, claim, receipt, per-verifier reasoning, is bundled into a ProofBundle pinned to 0G Storage and addressable by merkle root. Anyone can replay a job from the chain alone.\n\nThe live demo wires this end-to-end: a treasury wallet posts a job → an executor performs an mUSDC.transfer on 0G Galileo → each verifier independently reads the Transfer event from the receipt → 2-of-3 PASS settles the escrow → the SPA renders the whole flow live via SSE.\n\nThe same architecture extends to harder claims (Uniswap swaps, AI inference, cross-chain attestations) by swapping the verifier's check function, the consensus, escrow, and proof-storage layers stay the same.",
+  "how_its_made": "Backend is split into four binaries: aegis-ui (chain watcher + SSE event hub + REST API + embedded Vue SPA), aegis-verifier (three long-running verifier processes), aegis-executor (solver), and aegis-publisher. Smart contracts (AegisContract escrow + commit-reveal, MockUSDC, VerifierRegistry) deployed to 0G Galileo testnet.\n\nThe verifier swarm coordinates over Gensyn AXL, a Yggdrasil-overlay mesh that lets each verifier daemon address every other peer by deterministic peer ID over IPv6 inside the overlay. \n\nDiscovered the hard way that AXL's cross-peer dialer routes via the sender's tcp_port, so all four daemons share tcp_port=7001; per-node ports silently break /send across the mesh.\n\nKeeperHub MCP provides the workflow audit trail, commit / reveal / settle each fire as named workflows per-org, giving an off-chain operational record alongside the on-chain proof. \n\n0G Storage SDK uploads each ProofBundle content-addressed by merkle root, so a verifier's reasoning is permanently retrievable and tamper-evident.\n\nFrontend is Vue 3 + Pinia + Tailwind, hash-routed for GitHub Pages. A wallet-connect using raw window.ethereum.personal_sign (no ethers/viem needed) gates POST endpoints. \nThe server-side middleware recovers the signer using go-ethereum's crypto package, checks the EIP-191 prefix, enforces a ±5-min timestamp window, and matches against an AEGIS_WHITELIST allowlist.",
+  "auto_summary": "Aegis verifies off-chain agent actions with a three-node commit-reveal verifier swarm, on-chain escrow contracts, and proof bundles stored on 0G Storage.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aegis-swarm-ppqr0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

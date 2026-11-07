@@ -1,0 +1,27 @@
+{
+  "id": "nm9pb",
+  "slug": "decision402",
+  "title": "Decision402",
+  "tagline": "Decision402 uses Intercepta to screen x402 payees and choose providers within owner-set limits.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nm9pb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ThM1eMZoEbeejeoxAZVq7qlreo2VlV3fJAcxaLGZnXg/high.mp4",
+  "demo_url": "https://youtu.be/Zhce2nEsoJg",
+  "source_url": "https://github.com/2042458785/Decision402",
+  "finalist": false,
+  "description": "Decision402 explores how to protect AI agents as they interact with paid services in the emerging agent economy. Our demo uses a Tokyo weather dataset, but obtaining weather data is not the main achievement. The dataset gives us a concrete way to show what happens when an agent encounters a risky provider, receives an x402 payment offer, and must decide how to continue the user’s task.\nWe address two sides of the trust problem. First, an agent needs protection from fraudulent or risky services. Decision402 uses the live Intercepta API to screen payment recipients before the agent signs. If a provider is flagged, the agent can consider another service instead of paying the risky one or abandoning the task. Second, the owner needs protection from the agent’s own errors. An AI model can misunderstand instructions, misread an offer, or hallucinate a reason to act. We therefore do not let the model decide its own spending authority.\nBefore a task begins, the owner sets firm rules for payment limits, task budget, acceptable risk, and selection preference. The model interprets the human request and calls limited tools; a Go policy engine validates offers, filters providers, selects an eligible option, and checks the final payment again before signing. This gives the agent room to handle routine choices without repeatedly asking the human for approval, while keeping consequential actions inside boundaries the human chose.\nOur broader goal is to make this kind of protection easy for other AI agents to adopt as they use services in the agent economy. Payment is our first concrete demonstration of the decision boundary; the underlying idea is to let agents be useful without asking people to trust every judgment the model makes. The current prototype uses clearly labeled static sample data and Base Sepolia test payments. Risk screening and policy checks reduce specific risks; they do not guarantee that a service is safe or that a model never hallucinates.",
+  "how_its_made": "Decision402 has a Vue 3 and TypeScript frontend backed by a Go HTTP server. The owner connects MetaMask and signs a login challenge; the Go server verifies the signature before allowing access to that owner’s agents. Creating an agent generates a dedicated EVM wallet. Its private key stays in a Git-ignored local file with restricted permissions and is never sent to the browser or the language model. The owner can fund that wallet with Base Sepolia test USDC through a MetaMask transaction and configure the agent’s DeepSeek model and API key.\nDeepSeek uses two constrained tools: find_services and execute_purchase. It interprets the human request and asks to use a tool, but Go code makes the payment decision. Four local service endpoints use the x402 Go SDK to return HTTP 402 offers at different prices for the same clearly labeled sample dataset. The backend checks each offer’s payment scheme, network, USDC contract, recipient, amount, and authorization details against the configured service and the owner’s budget.\nIntercepta supplies live address-risk data at the point where those offers are evaluated. We call its Quick Scan Address API for each payee and apply our own conservative policy to the returned score and traits. Missing or invalid risk data puts a payment on hold; a flagged payee is excluded. The Go engine then filters and ranks eligible alternatives according to the owner’s price or risk preference.\nThe detail we care most about is the last check before signing. Inside the x402 SDK’s pre-payment hook, Decision402 confirms that the final offer still matches the one evaluated, scans the payee again, and checks the owner’s limits again. It records the payment attempt in a local task journal before creating an authorization, so an uncertain settlement is not automatically retried. The UI exposes the offers, risk reasons, selection, and settlement receipt. We provide separate simulation, live-preview, and Base Sepolia payment modes so the demo makes clear which steps actually call Intercepta and which steps move test tokens.",
+  "auto_summary": "A Go and Vue application lets an AI-assisted agent evaluate x402 payment offers against owner policies and Intercepta risk checks before signing Base Sepolia USDC payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/decision402-nm9pb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

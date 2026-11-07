@@ -1,0 +1,22 @@
+{
+  "id": "mjge9",
+  "slug": "phantom-protocol",
+  "title": "Phantom Protocol",
+  "tagline": "End-to-end encrypted, zero-trust dark pool where AI agents buy and sell proprietary data.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mjge9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02IKPWxBjEk02gDfAsxKLdr54NVQiVSeQBij4HH00WtzJM/high.mp4",
+  "demo_url": "https://phantom.vikings.studio",
+  "source_url": "https://github.com/AceVikings/phantom-protocol-openagents",
+  "finalist": false,
+  "description": "Phantom Protocol is a zero-trust dark pool for AI agent-to-agent data commerce. Agents autonomously buy and sell sensitive payloads — model weights, datasets, prompt libraries, research reports — without either party's identity or the data itself ever touching the coordinator. A five-layer privacy stack operates on every deal simultaneously: Gensyn AXL routes all price negotiations through an end-to-end encrypted P2P tunnel; ENS auto-mints three ephemeral burner subnames per deal (buyer-X, seller-X, deal-X under phantom-protocol.eth) and burns them at close; 0G Storage holds the encrypted payload off-chain, with only a rootHash reaching the server; a PhantomVault smart contract on Sepolia holds native ETH in escrow; and KeeperHub runs two automated workflows — an Arbiter that polls 0G until the rootHash is confirmed and triggers payout(), and a Janitor that destroys all ENS subnames 15 minutes after settlement. The entire deal lifecycle — registration, negotiation, locking, delivery, verification, payout, and cleanup — runs autonomously through a single phantom mcp command exposed as an MCP server to any AI agent.",
+  "how_its_made": "The backend is a Node.js/Express ESM coordinator deployed on Google Cloud Run (auto-deploys on push). It manages deal state through a Mongoose write-through in-memory cache backed by MongoDB Atlas, exposing REST routes for agents, listings, negotiations, offers, deals, and an internal webhook bus. Auth uses SHA-256-hashed bearer tokens tied to registered agent identities with ephemeral wallet addresses.\n\nThe CLI is TypeScript compiled to a single ESM bundle (phantom.mjs) using esbuild. Its phantom mcp command launches an MCP stdio server using @modelcontextprotocol/sdk, exposing 27+ tools directly to AI agents (Claude, GPT-4o, etc.) — including phantom_discover, phantom_negotiate, phantom_lock_funds, phantom_upload_payload, phantom_deal_status. Session identity (API key, AXL pubkey, ephemeral wallet) persists in ~/.phantom/session.json with support for dual buyer/seller identities in the same process.\n\nPrivacy layers are independently integrated: Gensyn AXL handles encrypted P2P negotiation messages (Ed25519 pubkey exchange, blind relay). ENS subname minting calls the Ethereum Name Service L2 resolver programmatically per deal. 0G Storage upload happens directly from the CLI using @0gfoundation/0g-ts-sdk — the coordinator only ever receives a rootHash. PhantomVault.sol (Hardhat, Solidity 0.8) accepts native ETH deposits keyed to a dealKey derived from buyer/seller addresses. KeeperHub workflow creation is triggered server-side on deal acceptance with both an arbiter (0G polling → payout()) and a janitor (TTL-based ENS cleanup) workflow. The notably hacky part: re-registered agent identity continuity is preserved via ephemeralAddress fallback matching across all deal and negotiation endpoints — so agents that re-register with a new API key can still see and act on their existing deals as long as the underlying wallet address matches.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/phantom-protocol-mjge9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,34 @@
+{
+  "id": "vpmw2",
+  "slug": "clawback",
+  "title": "Clawback",
+  "tagline": "Agent payment escrow on Arc with AI-adjudicated disputes — chargebacks for the machine economy",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vpmw2/banner/default.jpg",
+  "demo_url": "https://example.com/",
+  "source_url": "https://github.com/EdwardJXLi/Clawback",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Clawback is a settlement layer that brings chargebacks and fraud protection to the machine economy. AI agents already pay each other over x402, but those payments are fire-and-forget: the moment an agent signs, the money is gone even if the seller returns an empty file, an error, or junk. Clawback fixes that. Agents still pay over x402, but the funds route into an on-chain escrow on Arc Testnet with a dispute window instead of going straight to the seller. If the delivery meets the spec the buyer stated, the agent releases the funds; if it's junk, the agent disputes, and a Chainlink CRE workflow asks a Confidential AI Attester — a verifiable LLM running inside a TEE — to rule on whether the delivery met the spec. The escrow then releases to the seller or claws the money back to the buyer. Reputation accrues to two tiers, the disposable agent and the persistent principal behind it, and is mirrored live into ENS text records and ERC-8004, including a revocable trusted.*.eth trust badge. The whole flow is driven agentically through a Clawback MCP server and Skills, with no human touching the dispute.",
+  "how_its_made": "Contracts are Foundry and Solidity. ClawbackEscrow is a USDC state machine: Held, Delivered, Disputed, Resolved. Funding happens in one call via EIP-3009 receiveWithAuthorization, and the buyer's signed authorization nonce is the deal id — it commits the buyer, seller, amount, dispute window, spec hash, validity, and a salt into a single hash that open() recomputes and rejects on mismatch, so the funding signature can't be replayed against different terms. resolve() has exactly one allowed caller and there is no admin drain path. A two-tier Reputation contract records win/loss and volume on both the agent and its persistent principal, so reputation is inherited and can't be shed by rotating keys.\n\nPayments use the official x402 v2 resource-server lifecycle (Hono) with a custom clawback scheme and a local facilitator. The facilitator verifies the deal-bound EIP-3009 signature, then routes settlement into escrow.open() instead of a direct transfer, and the after-settlement hook hashes the actual response body and commits markDelivered(keccak256(body)).\n\nDispute resolution runs on Chainlink CRE and the Confidential AI Attester. A CRE workflow triggers on the escrow's on-chain Disputed event, reads the disputed deal's spec and response hashes straight from the contract, and calls the Confidential AI Attester over CRE's Confidential HTTP with the API key injected as a vault DON secret. The attester runs a verifiable LLM inside a TEE to judge spec versus delivery and returns a verdict; the inference id and model are hashed into an on-chain attestation. The workflow writes a DON-signed report to a Verifier consumer contract, gated to the CRE Forwarder with a workflow-owner check, which calls escrow.resolve() — the only path that can move held funds. An evidence service re-hashes the spec and response and rejects any mismatch, so the AI only ever judges the exact bytes the deal committed to.\n\nIdentity and reputation use ENS and ERC-8004 via viem. A mirror service watches Recorded events and writes live ENS text records (clawback.score, dispute counts, volume, agent.x402, agent.principal) for the agent and its principal, issues a revocable trusted.*.eth subname via the Name Wrapper when score crosses a threshold, and burns it on a lost dispute. The buyer agent reads a seller's ENS reputation live before paying — nothing is hard-coded. Outcomes are also written to the ERC-8004 Reputation Registry so the data is standard and externally indexable.\n\nThe agent control plane is a Clawback MCP server (tools, subscribable resources, and an evaluate-delivery prompt) so any MCP client drives the flow agentically, plus three Skills (paying-safely, disputing-fairly, building-trust) that make the agent self-police. A Vite, React, and Tailwind dashboard subscribes to Arc escrow and reputation events over viem and streams the buyer's real MCP tool calls.\n\nOn partner tech: Arc gives us programmable USDC with EIP-3009, so escrow funding is a single signed call. Chainlink CRE is the orchestration bridge that lets an off-chain verdict safely move on-chain money, with a simulate-then-deploy path. The Confidential AI Attester lets us adjudicate over private commercial evidence inside a TEE and commit the result on-chain. ENS gives agents a live, human-readable identity and a portable, revocable trust badge other agents read before transacting.\n\nThe hacky bits worth mentioning: the EIP-3009 nonce doubling as the deal id, so one signature funds the escrow, identifies the deal, and binds every term; routing an x402 settlement hook into an escrow open() rather than a transfer; and gating a real financial outcome on a TEE-attested AI verdict that never trusts a server.",
+  "auto_summary": "Clawback routes x402 agent payments into an onchain USDC escrow with ENS-based reputation and Chainlink-mediated dispute resolution.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/clawback-vpmw2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

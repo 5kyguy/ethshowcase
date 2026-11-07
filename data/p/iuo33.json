@@ -1,0 +1,27 @@
+{
+  "id": "iuo33",
+  "slug": "branch-zero",
+  "title": "Branch Zero",
+  "tagline": "A walkable 3D bank where every desk is a real smart-account op—no wallet pop-ups after one consent.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iuo33/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kO01geN64F3BlvRNF1wPAsxSDk4bspS5DEt4T3oN5WH4/high.mp4",
+  "demo_url": "https://branchzero.app",
+  "source_url": "https://github.com/JaCoderX/The-Vault",
+  "finalist": false,
+  "description": "Most crypto apps hide security behind wallet pop-ups. Branch Zero makes the security the building.\n\nYou walk a low-poly 3D bank in the browser (Godot 4.5). Staff speak everyday bank language; the chain does the real work. At Account Opening you sign in once with Privy and grant a scoped session signer. After that, tellers stamp slips—no more modals.\n\nEach desk is a live Bloxchain AccountBlox operation via the public @bloxchain/sdk:\n• Counter (Eve) — routine payments via instant meta-tx to approved payees\n• Vault (Bob) — large wires with an on-chain timelock; the clock is releaseTime\n• Manager (Mr. Walker) — priority release or cancel while PENDING\n• Name Desk (Petra) — claim you.branchzero.eth (ENSv2 subnames + passbook text records)\n• FX Desk (Johnny) — quote and swap practice USD→EUR|ILS through Uniswap v4, only because your account’s guard list whitelists the Universal Router\n\nBoards, clocks, and balances are read from chain (Sepolia Live Main; Remote EVM for Developer Mode)—honest theatre, not local fiction. Tone: Papers, Please procedure + Animal Crossing warmth.\n\nWhat’s next: polish the public demo path, deepen the FX/ENS surfaces judges care about, and keep Arc as a deferred “second wing” rather than a half-shipped claim.",
+  "how_its_made": "Three runtimes, one governed account per player, public packages only—no custom Solidity in this repo.\n\nBrowser: Godot 4.5 (GDScript, single-thread WebGL2) for the walkable bank. A Vite + React shell hosts the canvas and owns the one Privy modal. Godot never holds keys or talks RPC; it only calls window.BranchZero over JavaScriptBridge. The bridge uses @bloxchain/sdk + viem for reads (timelock state, roles, guards, ENS) and HTTP/SSE to the Teller Desk for writes.\n\nServer: Teller Desk is Node 20 + Fastify. It provisions AccountBlox, requests EIP-712 signatures via Privy’s session-signer RPC under a typed-data policy, and broadcasts with a hot wallet that pays gas. Neither piece can move funds alone—enclave signs only in-policy typed data; on-chain guards enforce targets and selectors.\n\nChain: Live Main on Ethereum Sepolia (AccountBlox, practice USDC, ENSv2, Uniswap v4). Developer Mode uses a private Remote EVM (1337).\n\nSponsor seams that mattered:\n• Privy — one embedded-wallet consent + policy-bound session signer so the game never interrupts with pop-ups (B2B treasury workflow under bank fiction).\n• ENS — real Sepolia ENSv2 subnames under branchzero.eth; resolve-to-pay and passbook text records, not a nickname table.\n• Uniswap v4 — FX desk hand-encodes Universal Router calldata with viem; AccountBlox guard list allows only the router. Quoter + StateView feed an honest rate board before the player accepts.\n\nNotable hack: single-thread Godot web export (threaded wasm needs COOP/COEP that breaks Privy’s iframe). Also shipping a lean wasm budget so the game can load same-origin on Cloudflare Pages.",
+  "auto_summary": "A browser-based 3D banking game that uses Privy-authenticated account workflows with ENS name handling and Uniswap-based FX on Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/branch-zero-iuo33",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

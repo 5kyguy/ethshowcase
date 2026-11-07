@@ -1,0 +1,30 @@
+{
+  "id": "drtcd",
+  "slug": "overflow",
+  "title": "OverFlow",
+  "tagline": "The first on-chain binary options trading dapp on Sui Blockchain",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/drtcd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TuPd9ir7vA6AdD00ALq29UqNNkELwyTIkfO9hbbWMKbI/high.mp4",
+  "demo_url": "https://overflow-sui.vercel.app/",
+  "source_url": "https://github.com/AmaanSayyad/Overflow",
+  "prizes": [
+    {
+      "sponsor": "Sui",
+      "sponsor_id": "vsbye",
+      "placement": "Best Overall Project",
+      "title": "Best Overall Project"
+    }
+  ],
+  "finalist": false,
+  "description": "Overflow is a real-time binary options and price prediction dApp on Sui. Users connect a Sui wallet, deposit USDC into an on-chain Move treasury (house balance), and place bets on whether the live price will hit chosen levels within a set time. The app supports multiple timeframes (5s, 15s, 30s, 1m, 3m, 5m) and multiple assets (BTC/USD, SUI/USD, SOL/USD). Prices come from Pyth Hermes for fast, oracle-based resolution. Deposits and withdrawals are on-chain via the shared treasury contract; bets and payouts are handled off-chain in Supabase for speed, with full audit logging. Optional paid features use x402-style payments: AI insights (paid predictions) and Blitz rounds (time-limited 2× multiplier entry). Built with Next.js, TypeScript, Tailwind, Zustand, and Sui dapp-kit, Overflow is testnet-first and shows how to build a fast, secure prediction game on Sui with on-chain custody and off-chain game state.",
+  "how_its_made": "Overflow is a Next.js 16 (App Router) front end with React 19 and TypeScript, styled with Tailwind CSS 4. State is in Zustand (wallet, balance, game, history). The live chart and grid use d3-scale / d3-shape and Recharts with a custom LiveChart that consumes Pyth Hermes (@pythnetwork/hermes-client) for BTC/SUI/SOL; the same prices drive both the UI and bet resolution so outcomes are oracle-bound. On-chain, a Sui Move shared-object treasury holds USDC; users sign deposit and withdraw via @mysten/sui and dapp-kit (no server-held keys). An event listener (or poll of Sui RPC) watches DepositEvent and WithdrawalEvent and syncs balances into Supabase (PostgreSQL) via stored procedures (update_balance_for_deposit / update_balance_for_withdrawal), so the app stays fast without trusting a single “balance API” — the chain is the source of truth for funds. Bets and payouts are off-chain: Next.js API routes call Supabase (deduct_balance_for_bet, credit_balance_for_payout) and resolve wins by comparing Pyth start/end prices to the chosen cell. x402-style flow for AI insight and Blitz: client pays USDC on Sui, sends the tx digest in Authorization: x402 <digest>; the API uses getTransactionBlock (with retries for testnet RPC lag) to verify payment before returning the gated response. Partner tech: Pyth gives low-latency, attested prices; Sui’s object model and events make the treasury and event-driven sync straightforward; Supabase gives fast reads/writes and audit tables. A notable choice is retrying payment verification (e.g. 2–4 attempts with a short delay) so testnet RPC indexing delay doesn’t wrongly reject valid payments.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/overflow-drtcd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

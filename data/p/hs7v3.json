@@ -1,0 +1,27 @@
+{
+  "id": "hs7v3",
+  "slug": "uptome",
+  "title": "UptoMe",
+  "tagline": "A tool used to protect your portfolio from upgradeable contract risk",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hs7v3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1700d1vjomkt5L8WqgBjNwQSbXGjbIjsXyp3HHL801SxY/high.mp4",
+  "demo_url": "https://drive.google.com/file/d/1VJuqvFDvxIv4-44FMDTXbmc33cQtmNvL/view?usp=sharing",
+  "source_url": "https://github.com/Stamp9/UptoMe",
+  "finalist": false,
+  "description": "UptoMe is an autonomous agent system that protects your DeFi portfolio from upgradeable contract risk.                                                                                                                                                                      Every time you approve a DeFi protocol to spend your tokens, you're not just trusting its current code — you're trusting every future version of it.                                                     \nIt scans your wallet's transaction history, identifies every upgradeable proxy contract you've interacted with, and surfaces the approvals currently at risk. Once you register for protection, two autonomous agents take over: a Monitor Agent that watches the chain for Upgraded events, and an Execution Agent that responds the moment an upgrade is detected — automatically revoking your approvals before the new code can act on them.                                                                                                                               \nThe agents coordinate over AXL, Gensyn's encrypted peer-to-peer messaging layer, with no central server in the middle. The Execution Agent publishes its identity to uptome.eth via ENS text records on startup, so the Monitor can always find it.                                                                                                                            \nExecution happens via EIP-7702: the user signs a single delegation transaction, giving the agent permission to call revokeApprovals on their EOA through an on-chain Guardian contract. The user's private key never leaves their wallet.",
+  "how_its_made": "UptoMe is built around two autonomous agents that communicate exclusively over AXL: The Monitor Agent polls Ethereum for Upgraded(address) events on registered proxy contracts using `eth_getLogs`. When it detects an upgrade, it constructs a RevokeApprovalRequest message and sends it to the Execution Agent over an encrypted AXL channel. The Execution Agent receives the message, pulls the user's ERC-20 transaction history from the Etherscan v2 API, filters for non-zero allowances to the upgraded spender, and fires a revocation transaction.                                                                                                                                                               \nFor agent discovery, the Execution Agent writes its AXL pubkey and port to uptome.eth ENS text records on startup using the Public Resolver on Sepolia. The Monitor resolves uptome.eth at boot and connects directly. Three sequential setText calls required manual nonce management since each read the same pending nonce from the mempool; we fetch once and increment locally.                        \nThe key privacy innovation is the EIP-7702 Guardian pattern. Rather than asking users to hand over a private key, users sign a single type-4 authorization transaction delegating their EOA to our UptomeGuardian contract. After that, our agent — using only its own key — can call revokeApprovals(tokens[], spender) directly on the user's EOA. The EOA executes the Guardian code, sets approvals to zero, and the user's key never leaves their wallet.                                \nThe smart contracts are written in Solidity and deployed with Foundry. The frontend is React + TypeScript + Vite + Tailwind, connecting to MetaMask for wallet interaction and the EIP-7702 activation flow.",
+  "auto_summary": "A multi-agent system monitors upgradeable DeFi contracts and automatically revokes risky ERC-20 approvals using ENS discovery and an on-chain guardian.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/uptome-hs7v3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

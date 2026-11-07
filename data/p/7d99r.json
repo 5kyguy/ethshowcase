@@ -1,0 +1,41 @@
+{
+  "id": "7d99r",
+  "slug": "integrumswap",
+  "title": "IntegrumSwap",
+  "tagline": "Decentralised cross chain exchange that combines the best of Uniswap like AMMs and Coincidence of Wants dexes like CoWSwap",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7d99r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NqYW302aCmdKCF7NlVrg702e3FFOCCHY5RasCmPgkQHKk/high.mp4",
+  "source_url": "https://github.com/scarfish-dapps/integrum-swap",
+  "prizes": [
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "2nd place",
+      "title": "Stylus Project"
+    },
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Best use of Blockscout Block Explorer",
+      "title": "Best use of Blockscout Block Explorer"
+    },
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": "Research and Experimentation"
+    }
+  ],
+  "finalist": true,
+  "description": "IntegrumSwap is a decentralised cross chain exchange that inherits the best of two worlds: AMMs like Uniswap & Coincidence of Wants DEXes like CoWSwap.\n\nIn order to understand IntegrumSwap, let's have look at both advantages & disadvantages across Uniswap and CoWSwap.\n\nUniswap runs on-chain and thus is decentralised, however it is subject to MEV and front-running issues that have become an increasing concern. One of the main causes for this is the fact that AMMs do not work with fixed pricing of swaps and therefore someone can change the price of a token just before the order gets executed.\nIntegrumSwap is not impacted by these type of issues though, because like CoW Swap, it uses coincidence of wants to fulfill trade orders.\n\nCoW Swap uses off-chain order matching, but that means it's not decentralised and is therefore vulnerable. ItegrumSwap runs the order matching engine on-chain using Arbitrum WASM VM. This is an order of magnitude that is faster than EVM and with significantly lower gas fees. That's due to the superior efficiency of WASM programs. As an added benefit to this, the memory resources can be 100-500 times cheaper.\n\nNow if we look at both Uniswap & CoW Swap we can see that neither of them are cross chain. This reflects into liquidity fragmentation issues for any particular trading pair. IntegrumSwap uses LayerZero to implement interoperability and thus works cross-chain.\n\nLet's take as an example a user holding tokens on Optimism who wants to trade with a user that holds tokens on Ethereum. \nWith IntegrumSwap these users can avoid going through the hassle of bridging, swapping and bridging back to the source chain. \n\nFor this ETHGlobal hackathon we have deployed IntegrumSwap end-points to Ethereum, Celo, Base, Scroll, Optimism and Linea. They are all Solidity contracts that send limit or market orders using LayerZero to the matching engine that was deployed on Arbitrum Stylus. The order matching engine smart contract is written in Rust and its only job is to match buy and sell orders.\n\nThe interesting question is what happens if we reach the limit that Arbitrum Stylus supports through it’s WASM VM?\nThe answer to this is that it would not be very difficult to implement sharding with multiple order matching engines each taking care of a slice of the orderbook.\n\nIntegrum also implements a Uniswap V4 hook. If the users get better prices in local liquidity pool, the default swap logic is executed locally. Otherwise, if the user can get a better market order price on a remote chain, they go through LayerZero and the tokens are bridged accordingly across chains. \n\nTo sum up, IntegrumSwap proposes a fresh solution that brings together the advantages from Uniswap & CoW Swap into a Decentralized Cross Chain Coincidence of Wants exchange.",
+  "how_its_made": "IntegrumSwap uses Arbitrum Stylus to implement an order matching engine to which all the limit and market orders are sent. It is written as a smart contract in Rust.\n\nTo communitcate between chains, IntegrumSwap uses LayerZero. For the hackathon we have deployed end-points to Ethereum, Arbitrum, Optimism, Scroll, Base, Cello and Near. They are all Solidity contracts that send limit or market orders using LayerZero to the matching engine that lives on Arbitrum Stylus.\n\nFor market orders, IntegrumSwap implements a Uniswap hook. If the hooks see that there are better prices on other chains, instead of doing the swap with the local liquidity pool, it bypasses the default logic and sends a market order through LayerZero to the matching engine. \n\nSo what if we reach the limit that Arbitrum Stylus supports through it’s WASM VM? It should be easy to implement sharding with multiple matching engines each taking care of a slice of the orderbook.\n\nAfter the orders are matched, each individual endpoint uses Stargate to settle the tokens.\n\nMore details in the README here:\nhttps://github.com/scarfish-dapps/integrum-swap/blob/main/README.md",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/integrumswap-7d99r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

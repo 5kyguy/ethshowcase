@@ -1,0 +1,27 @@
+{
+  "id": "mi2xq",
+  "slug": "verdikt",
+  "title": "Verdikt",
+  "tagline": "x402 marketplace: delivery verified per call in a TEE, auto-refunded on-chain, no disputes.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mi2xq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eKvJa7W4uuaUkyFk89utmourWAw4SqZexLiX00XqkhDM/high.mp4",
+  "demo_url": "https://verdikt.bond",
+  "source_url": "https://github.com/imajus/verdikt",
+  "finalist": false,
+  "description": "**Verdikt** is a marketplace of x402-gated API services whose delivery is verified per call — not just self-reported at listing time.\n\nA proxy sits between a paying agent and an x402 provider at `<slug>.verdikt.bond`. When a payment header is present, the proxy recovers the payer from the payment signature and hands the call to a **Chainlink CRE Confidential Workflow**, which:\n\n- Replays the payment against the provider from inside a TEE — once, because an x402 payment settles once\n- Evaluates the response against the provider's own declared SLA\n- Writes a `PASS`/`FAIL`/`DOWN` verdict to the on-chain registry on **Arc**\n\nIf the SLA isn't met, the paying agent is **auto-refunded** from the provider's bonded deposit — capped at what was paid, booked as a credit rather than pushed, with no dispute or arbitration step.\n\nThe SLA lives as a text record on the provider's ENSv2 subname (`<slug>.verdikt.eth`), scoped with per-key access control so only the provider can write it and only the verifier can write the derived reputation scores. An hourly workflow publishes conformance and availability ratios back to the same subname, and the marketplace ranks on them.\n\n**It runs for real.** Providers register self-serve through the dashboard: the wizard mints the ENS subname, publishes the SLA and posts the bond on Arc. The services listed front real third-party x402 providers (Alchemy, Allium, Syntalic and others). A Circle agent wallet has paid them through Verdikt, each call was judged inside the workflow, and the FAIL and DOWN verdicts drew real refunds out of the providers' bonds — all of it readable off Arc Testnet and Sepolia.\n\nBecause verification is deterministic and code-enforced, consumers can pick a service based on its **real track record** instead of a provider's own marketing.",
+  "how_its_made": "**Arc** holds the registry, escrow, verdicts and refunds. USDC is Arc's native gas token, so bond, payment and refund are one asset moving as `msg.value`, with no `approve`/`transferFrom`. `VerdiktRegistry` is an `IReceiver`: verdicts arrive as DON-signed reports through the KeystoneForwarder, and a refund is booked as a credit the payer withdraws, or claims by an EIP-712 signature anyone can relay, never pushed, so a reverting payer can't erase its own FAIL.\n\nEthereum Sepolia holds **ENS**: each provider's SLA lives only as the `sla` text record on `<slug>.verdikt.eth`, using ENSv2's Permissioned Resolver for per-key access control. The provider writes `sla`/`url`, the score writer writes `conformance`/`availability`, and cross-writes revert. `VerdiktSubnameRegistrar` mints subnames with exactly those roles; `VerdiktScoreWriter` is the `IReceiver` the hourly workflow reports to.\n\n**Payment verification** covers both exact transfer methods a real x402 challenge offers, plain ERC-3009 and Circle's `GatewayWalletBatched`, through one verifier that recovers the payer from the signature rather than reading it out of JSON. A contract-account payer is asked via ERC-1271 on the chain it paid on.\n\n**Verification** runs inside a Chainlink CRE Confidential Workflow (TEE): it replays the paid call once, evaluates the response with a pure SLA engine, and writes the verdict to Arc. A 402 on the replay writes nothing, since the provider is saying it wasn't paid. A second, separate CRE cron workflow reads public `VerdictWritten` events and publishes trailing-window conformance/availability ratios to ENS, kept apart so the confidential path never depends on aggregate traffic timing.\n\n**Deployment.** The proxy is a Cloudflare Worker on `*.verdikt.bond`, with Durable Objects for the pending-verification rendezvous. The dashboard is a Lit + Vite static app reading Arc and ENS straight from the browser via viem, live at verdikt.bond.\n\n**Workaround.** Production CRE deployment access wasn't yet enabled, so we ran the confidential and cron workflows entirely through `cre workflow simulate --broadcast`, fronted by a small runner container that plays the role of Chainlink's gateway. It forwards the proxy's trigger into a long-lived `simulate verify --listen` process and runs the hourly aggregate as a scheduled job. Everything on Arc and Sepolia in this submission, every verdict, refund and published score, was produced by that simulator against the real live contracts, not mocked.",
+  "auto_summary": "Verdikt verifies paid x402 API calls through Chainlink workflows, records verdicts and refunds on Arc, and stores SLA and reputation data on ENSv2.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/verdikt-mi2xq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

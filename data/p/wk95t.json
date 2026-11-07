@@ -1,0 +1,34 @@
+{
+  "id": "wk95t",
+  "slug": "lvr-minimizing-hook",
+  "title": "LVR Minimizing Hook",
+  "tagline": "An auto rebalancing, LVR minimizing hook for Uniswap v4 using Brevis",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wk95t/banner/default.jpg",
+  "source_url": "https://github.com/jeffishjeff/LVR-Minimizing-Hook",
+  "prizes": [
+    {
+      "sponsor": "Brevis",
+      "sponsor_id": "mz47w",
+      "placement": "4th place",
+      "title": "Build Data-driven dApps with Brevis ZK Coprocessor"
+    },
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": "Hooks, Hooks, and Hooks"
+    }
+  ],
+  "finalist": true,
+  "description": "Life hasn't been easy for liquidity providers on Uniswap, particularly retail LPs, due to two kinds of headwind. 1) Loss vs Rebalancing (LVR) due to arbitrageurs taking advantage of the stale price since last block; and 2) inability to actively manage positions to earn more fees and avoid more impermanent loss. This LVR Minimizing Hook for Uniswap v4 aims to alleviate much of these problems.\n\nInstead of directly adding liquidity to pools, user does it through the hook which maintains a single position per pool and gives the user proportional fungible shares of the position. The hook also actively rebalance the position after every swap to ensure it's always active and sufficiently buffered (based on 30 day historical volatility).\n\nBefore any swap can take place in a block, the hook requires someone to \"open()\" the pool with a new price. Which, it is in the opener's best interest to pass in the most updated CEX price to capture LVR. However, during open(), the hook removes 90% of liquidity, allows the arbitraging swap to execute up to the new price, then put back liquidity / rebalance as needed, and finally allow other swaps to run as normal. This way LVR is minimized for the LPs (we'd still need the arbitrageur to freshen up the price, which is a service we'd be willing to pay but just not with the full liquidity).\n",
+  "how_its_made": "The hook is developed using Foundry and imports Uniswap v4-core as a dependency. It reverts on beforeAddLiquidity() and beforeRemoveLiquidity() as liquidity need to be added/removed with respective functions of the hook. For the same reason, beforeInitialize() also reverts to give the hook a chance to setup the position it'd be managing. In afterSwap(), all liquidity and claims are removed, appropriate new position range calculated and filled with the entire delta balances. Another open() function is introduced for arbitrageurs to report and swap to the latest CEX price.\n\nTo calculate historical 30 day volatility, we used Brevis ZK co-processor. We used 7,200 blocks to approximate 24 hours, calculated mean square values to derive variance / volatility, feed the result for Bevis to generate ZK proof which in the end is fed into our hook contract for calculating the next position range.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lvr-minimizing-hook-wk95t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

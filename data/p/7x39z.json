@@ -1,0 +1,22 @@
+{
+  "id": "7x39z",
+  "slug": "horoi-protocol",
+  "title": "Horoi Protocol",
+  "tagline": "Agentic governance for CDP stablecoins, AI agents adjust PID parameters on-chain with policy bounds.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7x39z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jBRUjC0131NS02vj8Oz1Ju00jcJtXhL3vr00RTPhmJ53ls4/high.mp4",
+  "demo_url": "https://www.loom.com/share/d8d81c1a2b9645a2b39c9e138366a62d",
+  "source_url": "https://github.com/reflecterlabs/horoi",
+  "finalist": false,
+  "description": "Horoi Protocol is the first agentic-first CDP where governance is performed by AI agents instead of centralized voting or timelocks. The protocol uses a ParameterGuard smart contract that enforces policies and bounds set by a DAO, company, or individual — giving complete control over what the agent can and cannot do.\nThe agent monitors BTC collateral and the GRIT stablecoin peg, then autonomously adjusts PID controller gains (KP, KI) to maintain the peg during crashes and pumps. Every proposal is validated on-chain against policy bounds — anything outside is rejected. Every decision is stored as a Policy Decision Record (PDR) on 0G Storage for auditability.\nKey Innovation: Small model governance. Most agentic protocols use large LLMs ($10+/1M tokens). Horoi is designed around small models (1.5B-7B parameters) that cost 90% less, run on decentralized compute (0G), and can achieve sub-second latency — critical for DeFi crisis response.\nWe trained a Qwen 2.5 1.5B model with RL to adjust PID parameters in crash scenarios. The model learned to propose bounded parameter changes within on-chain policies.",
+  "how_its_made": "Tech Stack\n- Smart Contracts: Solidity (Foundry), Uniswap V4 PoolManager, on Unichain Sepolia\n- Agent: TypeScript, viem, OpenAI SDK — monitors state → calls LLM → executes via ParameterGuard\n- Frontend: React + Vite + Express server — live state, cheat controls, SSE streaming\n- LLM: Qwen 2.5 7B via 0G Compute testnet (OpenAI-compatible API)\n- Storage: 0G Storage SDK for PDR persistence with verifiable rootHashes\n- Chain: Unichain Sepolia (1301)\nArchitecture\nOracle → GrintaEngine (CDP) ↔ PIDController → GrintaHook (Uniswap V4)\n                         ↓\n                    ParameterGuard ← Agent (LLM)\n1. Oracle updates BTC price (demo uses cheat buttons)\n2. Agent reads on-chain state: collateral price, market price, deviation\n3. Agent calls 0G Compute (Qwen 2.5 7B) for reasoning\n4. Returns: hold | adjust | adjust_emergency\n5. ParameterGuard validates against on-chain bounds (KP: 3.33e-7, 1e-6)\n6. On accept → PID updates redemption rate → afterSwap fires on swaps\n7. PDR stored to 0G Storage — audit trail with rootHash\nPartner Technologies\n- 0G Labs: Compute (inference) + Storage (PDR persistence) — decentralized, low-cost\n- Uniswap Foundation: V4 pool state monitoring via API for market prices\n- Unichain: EVM chain with fast finality for on-chain validation\nHacky Notable\n- OpenAI SDK had auth issues with 0G — solved by using native fetch with bearer token\n- No API key for 0G Compute — wallet-based auth via CLI, generates app-sk-... tokens\n- BigInt serialization in 0G Storage — needed to stringify before JSON.stringify\nAll source at github.com/reflecterlabs/horoi (https://github.com/reflecterlabs/horoi)",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/horoi-protocol-7x39z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

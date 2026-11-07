@@ -1,0 +1,26 @@
+{
+  "id": "76d99",
+  "slug": "trim",
+  "title": "Trim",
+  "tagline": "Trim keeps your Aave position healthy on its own, without a keeper.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/76d99/banner/default.jpg",
+  "demo_url": "https://trim.dimsky.xyz",
+  "source_url": "https://github.com/dimasriat/trim",
+  "finalist": false,
+  "description": "When ETH falls, a borrow position on Aave has to sell some ETH and repay debt. Today a keeper like DeFi Saver does it and keeps a median 0.56%: we measured all 919 of its automated Aave v3 rebalances over twelve months (service fee, gas billed at about 2x what it burned, and the DEX swap). Waiting for liquidation is worse: a fixed 5% bonus once the health factor is below 1.\n\nTrim lets the position auction its own rebalance. It sets a target; once it drifts past it, it offers its ETH slightly below the oracle price, and the further it drifts, the bigger the discount. Any bot can repay the debt in USDC and take the ETH in one transaction. Bots race, so they fill while the discount is still tiny, and the offer closes by itself once the position is back at target. In our mainnet-fork demo, rebalancing cost 0.10-0.20% instead of 0.56%.",
+  "how_its_made": "The core is TrimSkew, one new SwapVM instruction (opcode 0xb6) added to the 1inch Aqua SwapVM router. The whole pricing rule lives in the program bytes: TrimSkew(source, maxDiscount, fullDeviation). It asks the maker how far it has drifted, prices the swap at a discount that grows linearly with that drift, and charges the average discount between where the fill starts and where it ends, so nobody can grab the whole rebalance at the steepest price.\n\nThe Aave position is an Aqua maker. Its collateral stays supplied on Aave; Aqua's maker hooks do the work just in time: postTransferIn repays the debt with the USDC that arrives, preTransferOut withdraws exactly the WETH that leaves. With isFirstTransferFromTaker the repay happens first, so a fill works right up to liquidation with no flash loan. The same instruction prices a 50/50 vault unchanged.\n\nSolidity + Foundry, 24 tests on a mainnet fork against the real Aave v3 pool and the official Aqua deployment. Hacky bits: the demo swaps Aave's oracle with anvil_setCode so the market can be moved live, and we run our own Otterscan with a Sourcify repo so every contract is verified in the explorer. Frontend React + Vite + viem; docs VitePress; the keeper research is Python over on-chain data.",
+  "auto_summary": "A Solidity and Foundry project that adds a custom 1inch Aqua SwapVM instruction to auction Aave position rebalancing via discounted self-fills.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/trim-76d99",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

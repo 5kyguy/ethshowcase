@@ -1,0 +1,21 @@
+{
+  "id": "86smz",
+  "slug": "podonchain",
+  "title": "PODOnChain",
+  "tagline": "On-chain supply ops tower with PYUSD escrow and ERP-integrated billing.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/86smz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/k9EZrONOFo8EaUu02kud6OPNtUtTU3XriDbz02xvEHnaw/high.mp4",
+  "source_url": "https://github.com/monopoly21/PODOnChain",
+  "finalist": false,
+  "description": "PODOnChain is a wallet-native control tower that links buyers, suppliers, and couriers across procurement, fulfillment, and settlement. Buyers ingest catalogs, raise purchase orders, and instantly register them on-chain through OrderRegistry.createOrder, while PYUSD escrow deposits flow into EscrowPYUSD. Courier pickup and drop flows capture signed photo and geofence proofs; once the backend validates them, it triggers releaseEscrowWithReward so suppliers and couriers are paid automatically. Order and shipment metadata persist in Prisma/SQLite to power role-aware dashboards, and the architecture is ready to plug into ERP systems like SAP or NetSuite so those platforms can mirror on-chain order IDs, transaction hashes, and settlement receipts without changing their native billing workflows.",
+  "how_its_made": "PODOnChain came together as a full-stack mashup of tools we already trust for production supply ops. The front end is a Next.js (App Router) app styled with shadcn/ui; it leans on thirdweb’s React hooks to drive wallet connection, craft the OrderRegistry.createOrder transaction, and report the resulting hashes. All business data catalog imports, POs, shipments, proofs flows through Prisma models backed by SQLite in data/podx.db, so every wallet scopes its own records while we stay local-first during demos. On-chain we compiled and deployed the escrow suite with Hardhat: EscrowPYUSD.sol custodians funds, OrderRegistry.sol tracks lifecycle, and ShipmentRegistry.sol verifies EIP‑712 pickup/drop attestations before kicking releaseEscrowWithReward. The courier flow stitches a few hackathon conveniences browser geolocation, photo hashing, and a tuned haversine check before the API signs typed data with ethers v6 and forwards it to the delivery oracle signer living in .env. PYUSD itself runs on Sepolia; we expose addresses via NEXT_PUBLIC_* so both server and client talk to the same contracts. Everything is wired together with plain fetch handlers , which kept the surface area small enough to ship quickly while still exercising the partner tech: thirdweb for wallet UX, PYUSD for stable escrow, and the EIP-712 pipeline to prove we’re ready for real couriers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/podonchain-86smz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

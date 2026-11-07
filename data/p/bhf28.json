@@ -1,0 +1,21 @@
+{
+  "id": "bhf28",
+  "slug": "ether-hunter",
+  "title": "Ether Hunter",
+  "tagline": "Ether Hunt: agents pay $0.01 for Graph-grounded USDC allowance audits (x402 · Arc).",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bhf28/banner/default.jpg",
+  "video_url": "https://stream.mux.com/u6BnzSEHPZimhYnhwQ5MaXcYEyReiG5jOdJPnvpMA01U/high.mp4",
+  "source_url": "https://github.com/Linus-Shyu/Ether-Hunt",
+  "finalist": false,
+  "description": "Ether Hunt is a pay-per-scan on-chain allowance auditor built for ETHOnline 2026 Classic (from scratch).\n\nAn agent—or the web UI’s buyer proxy—pays $0.01 USDC for one audit. Settlement is real, not mocked: Hedera ExactScheme x402 via Blocky402 on testnet (HTTP 402 → USDC transfer → 200), or Circle Agent Stack Gateway nanopayments on Arc Testnet (eip155:5042002, GatewayWalletBatched). Unpaid calls stay gated; local “free” scans never count as prize proof.\n\nAfter payment, the API queries our From-Scratch The Graph Studio subgraph (ether-hunt-approvals). Mapping folds USDC Approval logs into live allowance state—Allowance, Account, and Spender entities with unlimited/revoked flags and blast-radius aggregates—so detectors read structured risk, not prose. While v0.0.2 resyncs, a tip-synced v0.0.1 fallback keeps Case Files reviewable. Rule findings plus a cite-only LLM may only reference real evidence IDs.\n\nThe dossier shows Graph LIVE mode, the exact GraphQL that ran, an allowance threat graph, ranked revoke targets, Verifiable rails (HashScan / Arcscan), PDF export, and share. Judges can verify without installing anything: open published HashScan settle txs and Arcscan agent/seller links in the README.",
+  "how_its_made": "Ether Hunt is an npm monorepo: Vite/React web app, Hono audit-api, shared report types, agent-consumer CLIs, and a From-Scratch AssemblyScript subgraph under subgraphs/token-approvals.\n\nPayments sit in front of the audit. Hedera uses @x402/hono + ExactHederaScheme and Blocky402’s testnet facilitator: unpaid POST /audit returns HTTP 402; the agent (or /scan/hedera proxy) settles $0.01 USDC HTS, then retries. Arc uses Circle’s Gateway facilitator and circle services pay (GatewayWalletBatched on eip155:5042002) against POST /audit/arc. Both rails stamp sources.payment.rail / settled / explorer links so the UI’s Verifiable rails panel can open HashScan or Arcscan without trust-me slides.\n\nEvidence is Graph-first. We deployed ether-hunt-approvals to Studio: the mapping folds Approval logs into mutable Allowance state plus Account/Spender aggregates (live unlimited counts, peaks, re-approvals) so risk is computed at index time. The API probes allowance-state GraphQL, caches schema mode per endpoint, and if the subject is empty mid-resync falls back to tip-synced v0.0.1 approval-events—still live Graph, not fixtures. Nine Case Files are warmed on API boot for async judges. Detectors read structured links/metrics and a spender registry (Permit2, Morpho, Balancer, Curve, …); DeepSeek (or other LLM) synthesizes only with citeable evidence IDs.\n\nNotable glue: overlapping Graph warm with x402 settle to hide latency; Prove-the-gate decodes the raw 402 challenge in-browser; PDF export uses a Blob URL print sheet (noopener blank windows broke document.write); HashScan URLs normalize mirror tx ids to @seconds.nanos. Partner tech is load-bearing: without Blocky402/x402 and Circle Gateway there is no pay-per-scan; without our subgraph the AI has nothing honest to cite.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ether-hunter-bhf28",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

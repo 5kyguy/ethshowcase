@@ -1,0 +1,27 @@
+{
+  "id": "84cnd",
+  "slug": "reach",
+  "title": "Reach",
+  "tagline": "Remittance  should work like texting: type an email, send money.\"",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/84cnd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/t9U1Oe400RBfR6HYiYt601f9gMPf48Rw01qNEmrv6NtG6s/high.mp4",
+  "demo_url": "https://reach-send.vercel.app",
+  "source_url": "https://github.com/Kanasjnr/Reach",
+  "finalist": false,
+  "description": " Reach is a stablecoin remittance app, you pick an amount, type the receiver's email, hit send. There's no wallet address to copy, no seed phrase to back up, and no separate step to buy gas before you can transact\n Logging in with email creates a real wallet through Privy in the background the user never sees it as a \"wallet\" at all.\nyou can send to an email that's never touched Reach before. The backend resolves that email through Privy and, if it's genuinely new, pregenerates a real wallet for it right then so funds are already sitting there waiting the first time that person ever logs in. \nThe receiver gets a push notification the moment funds land, and a full transaction history that merges both Reach-routed sends and plain wallet deposits into one view.",
+  "how_its_made": " The contract (Reach.sol, Solidity, Foundry, 30 tests) is a single-transaction payment router deployed and verified on Arc testnet: it pulls the sender's chosen token (USDC or EURC, admin-managed allowlist) and forwards net-of-fee straight to the receiver, with no escrow or claim step. The frontend is a Next.js 16 PWA using Privy for embedded-wallet auth and wagmi/viem for the send transaction, with contract reverts decoded into plain-language errors instead of raw selectors. The backend is Express + SQLite: it indexes the contract's events, resolves emails to wallet addresses via Privy (including pregenerating wallets for brand-new recipients), and sends web-push notifications.\n\nThe trickiest problem was that Arc's USDC is the native gas token, so its ERC20 Transfer log effectively covers every transaction on the chain scanning it directly to catch plain wallet deposits blew straight through the RPC's per-query result cap. Deposits are instead synced per-address, on demand, from Arc's block explorer API, which already indexes both native sends and ERC20 transfers under one address-scoped endpoint.\n I also turned off Privy's own confirmation modal (showWalletUIs: false) since the app already has its own Confirm step showing two separate \"please confirm\" popups for one send was pure friction, not an extra security boundary.",
+  "auto_summary": "Reach is a remittance app that uses Privy-created wallets and an Arc-deployed Solidity router to send USDC or EURC to email-linked recipients.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/reach-84cnd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

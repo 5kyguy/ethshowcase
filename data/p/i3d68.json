@@ -1,0 +1,22 @@
+{
+  "id": "i3d68",
+  "slug": "unhodl-xyz",
+  "title": "unHODL.xyz",
+  "tagline": "giving BTC superpowers - borrow against it , repay once a month : credit card style !",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i3d68/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qMLPm01m6Tc01SQUyY8TdU2aJu7TZ8hQl37JXVZfzSMlE/high.mp4",
+  "demo_url": "https://unhodl.xyz",
+  "source_url": "https://github.com/fredrikparker/unhodl_sc_1",
+  "finalist": false,
+  "description": "Converting BTC → rBTC via the PowPeg ( In Phase 2 , for now we only have option to stake as rBTC )\n\nOnce the peg-in completes, rBTC is minted to the destination Rootstock address. That rBTC can then be staked or forwarded to your smart contract. \n\nContract already expects WRBTC/rBTC ERC-20 tokens\n\nSo once rBTC exists on Rootstock, it can be transfered to the contract for staking or for sending to an LP.\n\nFlyover would be used as an option in next phase for faster txns to those who opt for it .\n\nYou stake rBTC (wrapped as an ERC-20 WRBTC token on Rootstock testnet) into the smart contract.\n\nFunds do not move unless you (the staker) explicitly instruct the contract.\n\nWhen you instruct, you give:\n\nthe recipient address, and\n\nthe settlement currency: rBTC OR USDRIF.\n\nIf recipient chooses rBTC → contract transfers the specified WRBTC to the recipient immediately (reducing your stake).\n\nIf recipient chooses USDRIF → contract transfers the agreed amount of WRBTC to the liquidity provider’s wallet (liquidity provider is specified at settlement time). The liquidity provider is expected to perform the on-chain/off-chain swap WRBTC → USDRIF and send the USDRIF to the recipient.\n\nThe contract records an obligation: the borrower/staker must repay the exact USDRIF amount (the amount that was sent to the recipient) to the smart contract address before the 25th of that month (due date recorded at settlement).\n\nIf repayment is late (past the recorded due date):\n\na 3% per month penalty (calculated on the staked rBTC principal used for the swap) accrues, and that penalty is sent daily, fractionally, to the liquidity provider’s wallet until repaid.\n\nBecause smart contracts cannot run themselves, the contract exposes a public function anyone (a “keeper”) can call to trigger the daily penalty payouts (the function will compute days overdue since last penalty and transfer the due fraction to the liquidity provider).\n\nRepayment is done in USDRIF (contract must receive the exact USDRIF amount via transferFrom). When repaid, the loan is closed; no further penalties accrue.",
+  "how_its_made": "YIeld through strategies , swaps and under-borrowed credit against BTC staked .\n\nImplements a collateralized rBTC staking & settlement system on Rootstock where stakers lock rBTC and may instruct a settlement to a recipient in rBTC or USDRIF on trigger / when needed . If the settlement is in USDRIF, the contract forwards rBTC to a trusted liquidity provider which performs the peg/swap and sends USDRIF to the recipient; the staker must then repay the exact USDRIF to the contract by the 25th of the month. Late repayment triggers a fractional daily 3%/month penalty (paid to the LP) that is applied via a keeper call.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/unhodl-xyz-i3d68",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

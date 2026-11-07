@@ -1,0 +1,21 @@
+{
+  "id": "xja63",
+  "slug": "0g-skillgate",
+  "title": "0G SkillGate",
+  "tagline": "Tamper-evident pre-install security gate for OpenClaw-style agent skills.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xja63/banner/default.jpg",
+  "video_url": "https://stream.mux.com/a8MgHbknj21or2hF00Rpa42X5F6DEvbcCZxoG01mgDpqY/high.mp4",
+  "source_url": "https://github.com/zambrose/skillgate",
+  "finalist": false,
+  "description": "0G SkillGate is framework-level tooling for safer open agents. Before an agent installs or runs a new skill, SkillGate audits the SKILL.md file with deterministic static rules and an optional 0G Compute reviewer. It generates a JSON audit report, publishes evidence through the storage adapter, and records report hashes/verdicts through an AuditRegistry contract on 0G Chain.\n\nThe included example agent demonstrates how an OpenClaw-style runtime can call SkillGate and refuse installation of a dangerous skill. This gives agent framework builders a reusable security preflight primitive with a clear audit trail.",
+  "how_its_made": "0G SkillGate is a lightweight framework-level security extension for OpenClaw-style agent systems, built as a TypeScript CLI with a minimal dashboard and example agent. The core pipeline is composed of three layers: a deterministic static scanner, an optional 0G Compute-based LLM reviewer, and a tamper-evident audit layer using 0G Storage and 0G Chain.\n\nThe CLI is implemented in Node.js/TypeScript and scans SKILL.md files using a rule engine that detects sensitive patterns (private key access, shell execution, data exfiltration, etc.). These findings are normalized into a structured audit report. A pluggable compute adapter integrates with 0G Compute via an OpenAI-compatible API, allowing the system to augment static analysis with model-based risk classification (with a mock fallback to ensure deterministic demos under hackathon constraints).\n\nAudit reports are serialized to JSON and passed through a storage adapter. When configured, reports are uploaded to 0G Storage and produce a content root hash; otherwise, a local fallback ensures reliability. A minimal Solidity AuditRegistry contract is deployed to 0G Galileo testnet (via Hardhat + ethers), recording report hashes, storage roots, scores, and verdicts on-chain for verifiability.\n\nAn example agent demonstrates integration: it proposes a skill, invokes SkillGate, and conditionally blocks installation based on the audit verdict. A simple HTML dashboard reads the latest report and surfaces findings and evidence links.\n\nNotable hackathon tradeoffs include the use of local fallbacks for 0G Compute and Storage to guarantee a working end-to-end demo, while still cleanly abstracting real protocol integrations. The project was built incrementally in small commits using AI-assisted development, emphasizing reproducibility and developer ergonomics.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/0g-skillgate-xja63",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

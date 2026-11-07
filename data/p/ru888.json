@@ -1,0 +1,28 @@
+{
+  "id": "ru888",
+  "slug": "world-of-coloring",
+  "title": "World of Coloring",
+  "tagline": "Turn your child's imagination into printable coloring pages.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ru888/banner/default.jpg",
+  "source_url": "https://github.com/cmd0s/world-of-colloring-pages",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "World Pool Prize",
+      "title": "World Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "AI Coloring Pages is a World App Mini App that transforms children's imagination into printable coloring pages using artificial intelligence. Parents simply describe what their child wants to color — whether it's \"a friendly dragon having a tea party\" or \"an astronaut dinosaur on the moon\" — and within seconds, the app generates a custom, print-ready coloring page with bold, child-friendly line art optimized for A4 paper. How It Works: The application leverages OpenAI's DALL-E 3 to generate unique coloring pages based on text descriptions. For creative inspiration, users can tap \"Generate random idea\" which uses GPT-4o to suggest fun, imaginative concepts. The generated images feature thick black outlines on white backgrounds, specifically designed for children ages 4-10 to color easily. World App Integration: Built as a native Mini App using the MiniKit SDK, the application seamlessly integrates with World App's ecosystem. Inside World App, users pay $0.10 USDC per generation through MiniKit's native payment flow — a simple, frictionless cryptocurrency microtransaction. The app also utilizes World App's native share functionality, allowing parents to instantly save or share the generated coloring pages. Technical Stack:\n- Next.js 16 with React 19 and TypeScript\n- OpenAI API (DALL-E 3 for image generation, GPT-4o for idea suggestions)\n- Worldcoin MiniKit SDK for World App integration and USDC payments\n- Tailwind CSS with shadcn/ui components\nThe Problem It Solves: Parents often struggle to find engaging, personalized activities for their children. Generic coloring books don't capture kids' unique interests. AI Coloring Pages solves this by letting children's wildest ideas become real coloring pages instantly — giving parents those precious minutes of peaceful, creative playtime while their child colors something truly personal to them.",
+  "how_its_made": "How It's Made (Technical Description)\n\nCore Architecture: The project is built on Next.js 16 with the App Router, using React 19 and TypeScript for type safety. The frontend uses Tailwind CSS v4 with shadcn/ui components (built on Radix UI primitives) for a clean, accessible interface with a vibrant purple/pink color scheme. AI Integration: Two OpenAI APIs power the core functionality:\n\n1. DALL-E 3 (/api/generate-coloring) — Generates coloring page images from text descriptions. The prompt is carefully engineered to produce child-friendly output: thick bold black lines, minimal details, large open areas for easy coloring, pure white backgrounds, and A4-optimized dimensions. This prompt engineering was crucial — early iterations produced images too detailed for young children to color.\n2. GPT-4o (/api/generate-idea) — Powers the \"random idea\" feature with a tightly constrained system prompt that outputs exactly one creative, kid-friendly sentence. This gives parents inspiration when they're stuck.\n\nWorld App / MiniKit Integration: The app wraps the entire React tree with a custom MiniKitProvider component that calls MiniKit.install() on mount. We detect World App context using MiniKit.isInstalled() with a 100ms delay to ensure the SDK initializes properly. Payment Flow (the hacky part): The payment system uses a 4-step flow:\n1. /api/initiate-payment generates a UUID reference\n2. Frontend calls MiniKit.commandsAsync.pay() with USDC token amount (using tokenToDecimals() helper)\n3. User confirms in World App's native payment UI\n4. /api/confirm-payment validates the transaction\nCurrently using optimistic confirmation — we trust the MiniAppPaymentSuccessPayload status without calling the Developer Portal verification API. This is a hackathon shortcut; production would verify via developer.worldcoin.org/api/v2/minikit/transaction/{id}. MiniKit Features Used:\n- MiniKit.commandsAsync.pay() — USDC micropayments ($0.10 per generation)\n- MiniKit.commandsAsync.share() — Native World App sharing for generated images\nTokens.USDC and tokenToDecimals() — Token amount handling\n\nNotable Technical Decisions:\n- Conditional payments: Free in browser, paid only inside World App (detected via isInstalled())\n- Progress simulation: 30-second progress bar during generation to set user expectations for DALL-E 3's response time\n- Direct OpenAI fetch: Using raw fetch() to OpenAI endpoints rather than the Vercel AI SDK's streaming for simpler image URL handling\n- Base64 fallback: Images are returned as URLs from DALL-E, but the share functionality handles both URL and base64 formats\n\nDependencies pieced together: Next.js handles routing and API endpoints → OpenAI APIs handle AI generation → MiniKit SDK bridges World App for payments and sharing → Tailwind + shadcn provide the UI layer → All connected through React state management in a single page component.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/world-of-coloring-ru888",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

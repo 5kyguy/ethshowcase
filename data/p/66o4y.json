@@ -1,0 +1,26 @@
+{
+  "id": "66o4y",
+  "slug": "sight",
+  "title": "Sight",
+  "tagline": "Sight — selfie-proofed human agents on ENSv2, with on-chain reputations you can graph and trust",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/66o4y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8cN6l2u8G6dWP7ispRSsN8oL8MmIEM1mb1wdzD8W2H8/high.mp4",
+  "source_url": "https://github.com/gqvz/agent-passport",
+  "finalist": false,
+  "description": "Sight, what we originally called Agent Passport, is an abuse-prevention primitive for the agentic-web era.\n\nThe problem we’re trying to solve looks a bit like this: anyone with an automated script and some compute can spin up 50 sock-puppet agents, Sybil an application, and farm reputation or rewards. As autonomous agents increasingly interact with applications, marketplaces, and each other, there is currently very little tying an agent’s identity back to a real, unique participant.\n\nSight operators on a very simple principle: one verified human ⇒ one wallet ⇒ a set of trusted agents.\n\nEvery agent is registered on ENSv2’s Sepolia deployment under the root `agentpassport.eth`. It is impossible to register one without first passing a live World Selfie Check. There is no CAPTCHA and no KYC involved—only a ZK-backed proof that the wallet belongs to a unique human.\n\nOnce verified, a human can register individual agent subnames beneath `agentpassport.eth`. Each agent identity carries three independent records: who owns the name, whether that owner has been verified as a unique human, and the agent’s reputation score. This separates human provenance from agent reputation: verification establishes that an agent ultimately originates from a scarce human identity, while reputation captures how that particular agent has behaved over time.\n\nAll of this state can be indexed through a The Graph subgraph, allowing applications to efficiently query verified humans, registered agents, ownership relationships, and reputation without repeatedly reading raw contract state. On top of this, an MCP server exposes the same trust layer directly to AI systems. An agent can therefore ask questions such as “Is `agent-x` backed by a verified human?”, “Who controls this agent?”, or “What reputation has this agent accumulated?” before deciding whether to interact with it.\n\nThe goal is to give the agentic web something it currently lacks: a lightweight, privacy-preserving way for agents and applications to distinguish persistent, human-backed identities from an unlimited swarm of disposable ones.",
+  "how_its_made": "The contracts are written in Solidity, with Foundry, against ENSv2's Sepolia registry. The app itself is a just React + Vite + ethers v6. The backend is an Express verifier uses World's Developer Portal /verify API and calls HumanVerification.\n\nthe frontends IDKit widget mints a Selfie Check Proof which the backend validates against World. So now a verified human can register an Agent. This mints a \"agent passpot\" and configures the EAC role bitmaps and sets the initial records. Reputation writes go through onlyScorer. Everything that emits state is indexed by Graph Node and queried via GraphQL from both the dashboard and the MCP server.\n\nSome of the things we'd love to improve on: the nullifier claim is held in an in-memory set. We'd like to swap that to a store. Right now, since we're based of in India, World selfie checks dont really work. So for the purposes of the video we've set it to testing.",
+  "auto_summary": "A multi-component system that registers ENSv2 agent identities for World-verified humans and exposes indexed reputation data through a Graph-backed MCP server.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sight-66o4y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

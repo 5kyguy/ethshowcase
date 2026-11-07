@@ -1,0 +1,27 @@
+{
+  "id": "o28rb",
+  "slug": "try-mandate",
+  "title": "Try Mandate",
+  "tagline": "ERC-8004 identity + ENS naming for AI agents, gated by a hardware-signed second approval.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o28rb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7nDOiEYNDWhudD1qBM02Q2zM1fJppjlO4IJBhxP7d7Ok/high.mp4",
+  "demo_url": "https://trymandate.vercel.app/",
+  "source_url": "https://github.com/sumithprabhu/AgentNS",
+  "finalist": false,
+  "description": "Mandate gives on-chain AI agents a real identity, an ERC-8004 registration paired with a\nhuman-readable ENS name, instead of just a bare wallet address. From there, any change to\nthat agent's ownership or permissions has to go through a PermissionGate contract: the\nrequest sits blocked as Pending until a separate approver signs it with a physically\nconnected Ledger. Nothing executes until that second, hardware-held signature happens, and\nit can be rejected outright instead.\n\nThe whole flow is self-serve and non-custodial: connect your own wallet, register your own\nagent's identity, and deploy your own PermissionGate naming your own approver. No backend\never holds a user's keys. Every agent also carries public reputation feedback left by other\nusers, and its full action history is queryable live from a subgraph, so trust in an agent\nisn't just assumed, it's inspectable. Everything is live on Sepolia today against real\ndeployed contracts, not a mock or a testnet simulation layered on fake data.",
+  "how_its_made": "Identity is ERC-8004 (an Adapter8004 contract binding an ENS-registered ERC-1155 token to a\npersistent agent identity) plus ENSv2's PermissionedRegistry for the human-readable name.\nGating is a custom PermissionGate.sol (Solidity, Foundry-tested): requestOwnershipTransfer\nand requestPermissionEscalation queue an action, and it only executes once the approver\nsigns an EIP-712 typed-data payload, verified on-chain and relayed by anyone. A\nPermissionGateFactory deploys one gate per user for the self-serve path, checking\nAdapter8004.isController so only the real identity owner can deploy a gate for it. A\nsubgraph (The Graph) indexes every GatedAction and reputation-feedback event so the\nfrontend never has to trust a centralized read path. Frontend is React + Vite, wagmi/viem\nfor chain calls, RainbowKit for wallet connect. Backend is a small Express service whose\nonly remaining trusted job is issuing the ENS subname label; everything that touches\ncustody or approval is a direct call from the user's own connected wallet. Backend\npersistence is MongoDB (swapped in from a local JSON file specifically to survive\nserverless cold starts on Vercel, where both frontend and backend are deployed).",
+  "auto_summary": "An on-chain agent identity system uses ENS-linked ERC-8004 identities, approval-gated contract actions, and indexed reputation/history data.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/try-mandate-o28rb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

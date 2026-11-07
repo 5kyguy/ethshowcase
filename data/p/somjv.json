@@ -1,0 +1,22 @@
+{
+  "id": "somjv",
+  "slug": "agent-talos",
+  "title": "Agent Talos",
+  "tagline": "A self-hosted, vertical Ethereum agent. Runs standalone or plugs into any AI host via MCP.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/somjv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yr01f9TaWLfu5kwb00S9YDQxq7ZzWMw1oycAea5k9BV4s/high.mp4",
+  "demo_url": "https://talos.allensaji.dev",
+  "source_url": "https://github.com/Allen-Saji/talos",
+  "finalist": false,
+  "description": "Talos is a vertical Ethereum agent that runs as a local daemon and exposes itself through three thin clients: an interactive CLI REPL, a Telegram bot, and an MCP server you can plug into Claude Code or any other AI host.\n\nMost DeFi agents are chat wrappers around a hosted API. Talos is the inverse: the daemon owns the wallet, the persistent memory, and the tool registry; clients are dumb proxies. Your private key never leaves your machine, conversation history persists across restarts, and the same memory state is visible from the REPL, Telegram, and any embedded MCP host.\n\nOut of the box Talos can read accounts via Blockscout MCP, quote swaps via Uniswap V3, route cross-chain trades via LiFi, and execute Aave V3 supply/borrow/repay/withdraw plus Uniswap V3 swaps on Sepolia from a burner key. The mutate path runs through a KeeperHub workflow envelope by default and through direct viem as a fallback when the upstream is degraded; either way every tool call is recorded in a tamper-evident audit table on PGLite with structured decision metadata.",
+  "how_its_made": "Talos is built on the Vercel AI SDK v6 with @ai-sdk/mcp for connecting to upstream MCP servers (Blockscout, EVM MCP, KeeperHub). The daemon (talosd) is a single Node process running TypeScript via tsx in dev or a compiled bundle in prod; it owns a PGLite database with Drizzle migrations, an HNSW pgvector index for cold memory, and a tsvector GIN index for keyword retrieval.\n\nThe three clients all speak to the daemon over a local WebSocket on 127.0.0.1:7711. The CLI REPL auto-spawns the daemon if it is not already running. The MCP server adapter (talos serve --mcp) is a stdio shim that any MCP host can launch: Claude Code, Cursor, or another agent. Each adapter session gets its own thread keyed by mcp:{pid}:{startedAt}, so memory stays scoped per host conversation but persists across restarts.\n\nMemory is layered: hot context (last 20 runs of the same thread), warm context (a rolling thread summary), and cold context (cross-thread cosine retrieval at >= 0.78). A tool middleware records every call into a tool_calls table with structured audit metadata (decision, reason, executionId, txHash, elapsed time). Mutate routing through KeeperHub uses OAuth 2.1 with PKCE and dynamic client registration; the access token is auto-refreshed on demand and the response shape is parsed defensively after we hit two undocumented schema changes during build week.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-talos-somjv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

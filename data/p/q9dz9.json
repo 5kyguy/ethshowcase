@@ -1,0 +1,28 @@
+{
+  "id": "q9dz9",
+  "slug": "unimagnifier",
+  "title": "Unimagnifier",
+  "tagline": "Make smarter LP decisions with comprehensive pool analytics and profitability metrics",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q9dz9/banner/default.jpg",
+  "source_url": "https://github.com/Marco75116/uni-magnifier-ui",
+  "prizes": [
+    {
+      "sponsor": "Octav",
+      "sponsor_id": "qk38m",
+      "placement": "3rd place",
+      "title": "Best Octav Widget"
+    }
+  ],
+  "finalist": true,
+  "description": "Unimagnifier is a widget for Octav Finance. It empowers hedge funds, asset managers, and DeFi investors to build and optimize profitable liquidity provider (LP) strategies through a comprehensive dashboard. The platform is divided into two core modules: \n\n- Pool Analysis & LP Positions: Deep-dive into individual pools with granular metrics including fee distribution across price ticks, liquidity depth, volume trends, and active position performance. Understand exactly where fees are being generated and how liquidity is distributed to identify optimal price ranges for your LP positions. \n\n- Wallet Analysis & Strategy Research: Analyze successful LP wallets to uncover profitable strategies. View aggregated data across current and historical positions, including PnL calculations adjusted for impermanent loss, position sizing patterns, and rebalancing behavior. Learn from top performers and replicate winning strategies. Key features include real-time analytics, impermanent loss-adjusted returns, tick-level fee distribution data, historical position tracking, and cross-pool comparisons. \n\nWhether you're deploying capital or researching new opportunities, Unimagnifier provides the actionable insights you need to maximize LP returns.",
+  "how_its_made": "Unimagnifier is built with a modern tech stack divided into two core parts: Frontend and Indexer.\n\nFrontend \n\nThe dashboard is built using Next.js 15 as the core framework, with the UI powered by Shadcn UI components. The ecosystem around Next.js and Shadcn UI is vibrant, with regular updates, comprehensive documentation, and a wealth of third-party integrations that accelerate development. Data retrieval is handled directly through the @clickhouse/client library, which connects to our ClickHouse analytical database. This approach allows us to execute high-performance queries for complex analytics. We supplement our indexed data by querying the 1inch API on-demand for token metadata and price feeds—data that would be inefficient to fetch via RPC calls in our indexer and store in ClickHouse. This hybrid approach provides more accurate blue-chip token pricing by leveraging 1inch's aggregated price oracles across multiple DEX sources, rather than relying on individual Uniswap V4 pool snapshots.\n\nIndexer\n\nThe indexer is built using Subsquid's Pipes SDK, a high-performance blockchain data indexing framework. We leverage the EVM Portal Source to stream Uniswap V4 events from Ethereum Mainnet and Unichain in real-time. To iterate and reduce network overhead, we implemented SQLite-based portal caching that stores fetched blockchain logs locally.  Data is decoded using the evmDecoder, which transforms raw blockchain events into structured TypeScript objects. The decoded events are then piped to ClickHouse, a columnar analytical database designed for OLAP workloads. We chose ClickHouse for its exceptional query performance on large datasets. The architecture is modular with network-specific configurations stored in src/utils/constants/networkconfigs/, making it trivial to extend support to other EVM chains like Arbitrum, Base, or Polygon by simply adding new network config files.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/unimagnifier-q9dz9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

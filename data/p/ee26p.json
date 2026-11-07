@@ -1,0 +1,46 @@
+{
+  "id": "ee26p",
+  "slug": "multiple-access-wallet",
+  "title": "Multiple access wallet",
+  "tagline": "Jerry Finance, a cutting-edge Web3 payroll service, unifies FIAT and crypto salary payments while offering employees flexible payment options and frictionless onboarding through non-custodial smart contract accounts created by employers.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ee26p/banner/default.jpg",
+  "source_url": "https://github.com/dallarosa/ethglobal-clarifi",
+  "prizes": [
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "📜 Scroll — Just Deploy",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🤝 Polygon — Best Public Good with Account Abstraction",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊‍♂️ Polygon — Pool Prize",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Safe",
+      "sponsor_id": "weaax",
+      "placement": "🏦 Safe — Best Tech Implementation",
+      "title": "Safe"
+    }
+  ],
+  "finalist": false,
+  "description": "Jerry Finance is a visionary platform that transforms payroll management by harnessing the power of Web3 technology. Our groundbreaking solution seamlessly integrates FIAT and crypto salary payments, addressing the pain points of traditional payroll systems and paving the way for a more efficient and flexible process.\nWith Jerry Finance, employers can easily onboard employees into the crypto ecosystem by creating non-custodial smart contract accounts on their behalf. This frictionless onboarding process eliminates the complexities and barriers often associated with crypto adoption.\nOur platform empowers employees with unparalleled payment freedom, allowing them to choose from various payment methods such as bank transfers, crypto wallets, or streamed salaries. Moreover, they can select their preferred currency or tokens, providing a personalized payment experience.\nJerry Finance is designed to be user-friendly and familiar, enabling employees to access their accounts using their corporate email addresses. This intuitive approach ensures a smooth transition for users, bridging the gap between traditional and decentralized systems.\nWe recognize the importance of organization and efficiency in payroll management. That's why Jerry Finance features ENS company subdomains, streamlining employee contract accounts and payment processes. Additionally, our bulk scheduled payments functionality saves time and reduces gas costs, making payroll management more efficient and cost-effective.\nBy revolutionizing payroll management with Web3 innovation, Jerry Finance fosters trust and growth in the digital era. Our platform enables businesses to adapt to the ever-evolving financial landscape, offering a robust, flexible, and future-proof solution. Experience the transformative power of Jerry Finance and redefine your payroll management today.",
+  "how_its_made": "## Smart Contract\n\nOn the smart contract side, we focused on the user story for the payment recipient. Specifically, the recipients will use AA smart contract wallets powered by Safe Wallet so the payroll service has unified integration surface. Because AA makes wallet programmable, recipients retain the freedom on what they would like to do whenever payment is received. For example, they could hook it up with Monerium to automatically offramp it to a bank account.\nFor this hackathon, we implemented an automatic swap function so that user could receive any payment in any cryptocurrency of their choice by piping the payment through UniswapV3. We implemented the Autoswap Module, which allows the wallet owner to set desired tokens and source tokens for swapping. The module utilizes `execTransactionFromModule` function provided by the Safe Wallet to bypass its own security controls and execute token swaps via the Uniswap V3 Router.\n\n\n### Usage\n\n1. Deploy the AutoswapModule contract, providing the Uniswap V3 Router contract address as a constructor parameter.\n```\nnpx hardhat run scripts/deploy.ts --network polygon\n```\n2. Enable the deployed AutoswapModule as a module in the Safe Wallet wallet.\ne.g. https://app.safe.global/matic:0x04A55848D38EDec988A6F2287B8E00718E14ab14/transactions/tx?id=multisig_0x04A55848D38EDec988A6F2287B8E00718E14ab14_0x5f45465a6e897267c1515b9e9dd0473dfea2b2c1be109ec1f70f4a997af937bc\n3. Set a desired token by calling `setDesiredToken()` from the Safe wallet.\n4. Set source tokens that are allowed to be swapped by calling `setSourceToken()` from the Safe wallet.\ne.g. https://app.safe.global/matic:0x04A55848D38EDec988A6F2287B8E00718E14ab14/transactions/tx?id=multisig_0x04A55848D38EDec988A6F2287B8E00718E14ab14_0x43fdaa9d4e9c81826a977d877ee73f159e0209f9857ad500bb68f332cfe3c590\n5. (Optional) Unset source tokens that should no longer be allowed for swapping by calling `unsetSourceToken()` from the Safe wallet.\n\nWhenever an allowlisted source token is received, anyone could swap them into desired token by\n1. Execute an autoswap by calling `executeAutoswap()`, providing the Safe address, token to swap, and the amount to swap.\n```\nnpx hardhat run scripts/autoswap.ts --network polygon\n```\ne.g. https://polygonscan.com/tx/0x2842461e19f4c84203e760b723abe91536ba5f2e8ec9075445cdc0419374c770\nIn the context payroll service, the payroll administrator could push this transaction automatically as a contract with their payee. It is also easy to set up relayer / MEV incentives such that an external party will be motivated to facilitate these transactions.\n\nIn fact, it is very much in company's interest to use this set up instead of company actively swapping the tokens before sending to payees. That is because company would have incur taxable event and additional account burden if the settlement currency hits company's book. In this setup, the company's payment currency first lands in user's wallet and company is simply facilitating non-custodial blockchain interactions as approved by the user.\n\n### Contract Overview\n\n- **SafeWallet Interface**: An interface for interacting with the Safe Wallet wallet.\n- **AutoswapModule**: Main contract implementing the Autoswap Module functionality.\n  - **setDesiredToken()**: Sets the desired token for the Safe wallet.\n  - **setSourceToken()**: Sets a source token to be allowed for swapping.\n  - **unsetSourceToken()**: Unsets a source token, disallowing it for swapping.\n  - **executeAutoswap()**: Executes the autoswap for a specified Safe, token, and amount using the Uniswap V3 Router.\n\n## Frontend\n\nWe have used NuxtJS v3 with Vuetify 3 for the webdevelopment.\nTo implement the registration/login features we have used Safe Auth Kit together with Web3Auth for the login providers.\n\n### Usage\n\n1. Enter the ` jerryfi`  folder in the repository.\n2. run ` yarn install`  to install all the dependencies\n3. run ` yarn dev`  to run the server in your local machine",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/multiple-access-wallet-ee26p",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

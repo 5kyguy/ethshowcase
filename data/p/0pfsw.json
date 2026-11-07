@@ -1,0 +1,30 @@
+{
+  "id": "0pfsw",
+  "slug": "defileplace",
+  "title": "deFilePlace",
+  "tagline": "A decentralized marketplace for buying and selling encrypted files with conditional access control.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0pfsw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vaMGQcQ2q0200ppkg3SBabPwkQ4VHAkluZW6EZ3ux00njw/high.mp4",
+  "demo_url": "https://defileplace.netlify.app/",
+  "source_url": "https://github.com/joaocosta9/filecoin_marketplace",
+  "prizes": [
+    {
+      "sponsor": "Filecoin",
+      "sponsor_id": "bnkyu",
+      "placement": "3rd place",
+      "title": "Best dApps powered by Filecoin Onchain Cloud"
+    }
+  ],
+  "finalist": true,
+  "description": "deFilePlace is a trustless marketplace where creators can monetize digital goods without intermediaries, unlike traditional platforms that control users content and take fees.\nThe solution combines decentralized storage on Filecoin's distributed network with conditional encryption via Lit Protocol. Files are content-addressed through cryptographic CIDs ensuring integrity, while Lit Protocol acts as a decentralized key management network that only releases decryption keys when programmable conditions are met. The conditions are simple: you're either the file creator or you've purchased it, verified on-chain. When a buyer pays, the smart contract records the purchase in a mapping and sends payment directly to the creator with no escrow or middleman fees. The encrypted file lives on Filecoin, and when a buyer attempts to download and decrypt, Lit Protocol queries the smart contract to confirm purchase status before decrypting and delivering the file. This creates a censorship-resistant, creator-owned marketplace where all transactions are verifiable on-chain and content remains private to authorized users only.",
+  "how_its_made": "The project is built with a Solidity smart contract deployed via Foundry on Filecoin Calibration Testnet, handling content registration and purchase tracking through a simple mapping structure that stores creator addresses, content UUIDs, prices, and buyer verification. The frontend is a React application using Vite as the build tool, with wagmi and RainbowKit managing wallet connections and contract interactions, while TanStack Router handles client-side routing and TanStack Query manages server state and API calls. The Synapse SDK abstracts the complexity of Filecoin storage by handling storage provider selection, and deal-making automatically. When a user uploads a file, the flow generates a random UUID that becomes the access control identifier rather than using the Filecoin piece CID directly. Files priced above zero get encrypted client-side using Lit Protocol's encryption SDK before being uploaded to Filecoin, with the encrypted payload serialized as JSON and stored as a new file. The Lit Protocol integration uses threshold cryptography with access control conditions written as EVM contract calls, specifically checking the Sale contract's purchases mapping with three parameters: the buyer's address, the creator's address, and the content UUID. The conditions use an OR operator so either the creator can always decrypt their own files or anyone who has a true value in that mapping can decrypt after purchase. The smart contract itself is intentionally minimal with no upgradeability or complex logic, just two core functions: 'setContent' to register items and 'buy' to handle purchases with direct payment transfers to creators, and getAllContents for marketplace enumeration. \nOne detail is how the encrypted file download works: the system fetches the encrypted JSON blob from Filecoin, passes it to Lit Protocol which queries the smart contract in real-time during decryption, and only if access is granted does it reconstruct the threshold-encrypted key and decrypt the file client-side in the browser. \nThe Synapse SDK integration provided massive value by eliminating hundreds of lines of boilerplate for Filecoin deal-making, automatic retries, provider selection, and dataset management, allowing the project to focus on the marketplace logic rather than storage infrastructure. The entire architecture is stateless from the application perspective since all state lives either on Filecoin or on-chain, meaning the frontend could be hosted on IPFS and the entire stack would be fully decentralized with no traditional backend servers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/defileplace-0pfsw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

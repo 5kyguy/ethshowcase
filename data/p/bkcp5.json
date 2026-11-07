@@ -1,0 +1,29 @@
+{
+  "id": "bkcp5",
+  "slug": "athena",
+  "title": "Athena",
+  "tagline": "Backfills starknet events , transaction ,blocks and a tool to decode starknet transactions to get execution trace &  also decodes events and ABI",
+  "event": {
+    "slug": "ethonline2024",
+    "name": "ETHOnline 2024",
+    "start_time": "2024-08-23T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bkcp5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6eybGZxOAQWHzdfmOr1r6OjnHckqXQFvuq202hHlRvqQ/high.mp4",
+  "source_url": "https://github.com/BlocSoc-iitr/Athena",
+  "prizes": [
+    {
+      "sponsor": "Nethermind",
+      "sponsor_id": "bk5qx",
+      "placement": "Build Starknet.anything",
+      "title": "Build Starknet.anything"
+    }
+  ],
+  "finalist": false,
+  "description": "This tool does the following \n1. Outputs the Contract Implementation History for a Contract Address\n2. Gets Starknet ABI JSON & Parses into event signatures\n3. Decodes the full transaction data and events for a given transaction hash \n4. Backfilling events with filters\n5. ABI decoding \n6. Backfilling full blocks, transactions and events.\n\nEvent decoder :- \nTo decode an event , user provides the contract hash and the name of the event and block range , firstly the abi is fetched and parsed and the data for the particular event and block range is fetched \nThe data fetched contains the keys and data required to decode the event , the decoder then initiates a new decoder class for that particular event and the event’s data is decoded with the provided inputs of hash,block range and event name\n\nFunction decoder:- \nSimilar as above but instead of keys and data pairs we give call data as input that we will fetch in the provided blockrange\n\nYou can do all that using cli\nThis tool is inspired from nethermind/entro but our tool is written in golang and uses goroutines to produce results faster.",
+  "how_its_made": "Firstly we worked on the abi parser , to parse each event and function ie to get its name and parameters and their datatype to help us in decoding \nFurther for event decoder the keys and data values are converted into bytes and are decoded according to the arguments and datatype that we obtained by parsing the abi \n\nFor function decoder we take the call data as input and it is also decoded acc to arguments and datatypes obtained by parsing the abi.\n\nBackfilling uses goroutines to fetch block & transaction data using rpc http calls so that it is faster , we are using nethermind/starknet.go to fetch events , class hash & apply filter to events. For block data and transaction receipt we use direct http calls to rpc and goroutines to make it fast.\nWe used cobra to interact with cli & morph to create a database to store ABIs and backfilled data. \nThe databse is used to save the abi which can be used to decode transaction database is created using mySQL",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/athena-bkcp5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

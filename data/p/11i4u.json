@@ -1,0 +1,34 @@
+{
+  "id": "11i4u",
+  "slug": "ghostbet",
+  "title": "GhostBet",
+  "tagline": "Bet on prediction markets privately — your position, amount, and identity stay hidden on-chain.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/11i4u/banner/default.jpg",
+  "video_url": "https://stream.mux.com/v5OnoptNW602JSE4rTVDHvsFnTvFKWsSUnRXxcS18lis/high.mp4",
+  "source_url": "https://github.com/GuillaumeLepin/ghostbet",
+  "prizes": [
+    {
+      "sponsor": "Unlink",
+      "sponsor_id": "itd29",
+      "placement": "Best Private Application",
+      "title": "Best Private Application"
+    }
+  ],
+  "finalist": false,
+  "description": "GhostBet is a ZK-powered prediction market built on Base where individual bets are completely invisible on-chain. Users deposit WETH privately through Unlink's zero-knowledge protocol, then place bets via ephemeral burner wallets that are cryptographically unlinked from their identity. Only aggregate pool totals ever appear on-chain — no one can trace which wallet bet how much, or on which side. Markets are sourced from Polymarket and Base-native contracts, with live odds updating in real time. Cashouts and winnings flow back directly into the user's private Unlink balance, keeping the entire lifecycle off the public ledger.",
+  "how_its_made": "GhostBet is built with Next.js 16 (App Router) on the frontend, Solidity contracts deployed on Base Sepolia via Foundry, and PostgreSQL through Prisma for off-chain state. The core privacy primitive is the Unlink SDK: when a user bets, the server spins up an ephemeral burner EOA via BurnerWallet.create(), funds it by withdrawing from the user's private Unlink WETH pool, and uses that burner to call depositBet() on our BaseExecutionPool contract — then immediately disposes and deletes the burner key. The burner is never associated with the user's wallet on-chain.\n\nThe trickiest part was a race condition: Unlink signals the burner as \"funded\" before the WETH transaction is actually mined. We solved this by polling WETH.balanceOf(burner) on-chain after the Unlink status check, and only proceeding once the balance is confirmed. We also added a 4-second delay plus 3 retries between approve() and depositBet() to handle RPC nodes that lag behind the latest block.\n\nOn cashout and claim, funds can't go directly to the user's wallet (that would deanonymize them). Instead, the operator receives the WETH via withdrawBetTo() / claimWinningsTo(), then re-deposits it into the user's Unlink private pool server-side using Permit2 — signed with the operator key, no user interaction required.\n\nLive odds for Base-native markets are read directly from BaseExecutionPool.liquidityByCondition() rather than PooledMarket (whose totals never decrease on withdrawal), while Polymarket odds are pulled from their CLOB API and polled every 10 seconds.",
+  "auto_summary": "A Next.js prediction market app uses Unlink private balances and burner wallets to place and settle bets on Base Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ghostbet-11i4u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

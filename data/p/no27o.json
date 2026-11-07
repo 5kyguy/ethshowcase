@@ -1,0 +1,29 @@
+{
+  "id": "no27o",
+  "slug": "orbital-hook",
+  "title": "Orbital Hook",
+  "tagline": "A Uniswap V4 Hook implementing a custom spherical AMM curve for efficient stable asset swaps.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/no27o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01ozkRmndWBPcEmTo8tGfYz9IkonBNgxg2nvo54TqEVI/high.mp4",
+  "source_url": "https://github.com/Dhruv-2003/ethglobal-buenos-aires-25",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Uniswap v4 Stable-Asset Hooks"
+    }
+  ],
+  "finalist": true,
+  "description": "Orbital leverages Uniswap V4 Hooks to introduce a new primitive for stablecoin liquidity: the Spherical AMM. Unlike standard pools that rely on hyperbolic curves x.y=k or fragmented ticks, Orbital implements a custom pricing invariant based on high-dimensional spherical geometry. \n\nThis design creates a naturally \"flatter\" price curve, ideal for pegged assets, reducing slippage without requiring active tick management. By mathematically defining liquidity as a \"radius\" rather than a tick range, we unlock higher capital efficiency and lay the groundwork for future multi-asset pools where USDC, DAI, and USDT can share a single liquidity surface. This project demonstrates how V4 Hooks can be used to completely replace the underlying AMM math while retaining the Uniswap interface.",
+  "how_its_made": "I built Orbital as a Uniswap V4 Hook that overrides the default AMM logic. The notable \"hack\" in our architecture is the \"Hook-as-Vault\" pattern: I bypass the standard PoolManager's tick system entirely. Instead, our Hook contract manages its own reserves and implements an embedded ERC-4626 vault to handle LP shares. \n\nWe utilize the beforeSwap hook with the BEFORE_SWAP_RETURNS_DELTA flag to hijack the swap flow. Inside the hook, we use Solady's optimized fixed-point math library to solve the spherical intersection formula (R-x)^2 + (R-y)^2 + (R-z)^2 = L^2 in real-time. This allows us to calculate the exact output based on our custom curve and settle the trade using V4's Flash Accounting, effectively replacing the V4 \"engine\" (math) while keeping the \"chassis\" (router).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/orbital-hook-no27o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

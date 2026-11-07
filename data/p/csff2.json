@@ -1,0 +1,26 @@
+{
+  "id": "csff2",
+  "slug": "quotebridge",
+  "title": "QuoteBridge",
+  "tagline": "Recover missing Tempo route quotes and validate execution before route comparison.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/csff2/banner/default.jpg",
+  "demo_url": "https://multi-hop-quote-correction.vercel.app/",
+  "source_url": "https://github.com/nganhuongg/multi-hop-quote-correction",
+  "finalist": false,
+  "description": "A swap route can be executable yet unavailable for price comparison because its quote simulation fails.\n\nQuoteBridge addresses a specific case involving Uniswap v4 and TempoExchangeAggregator. During standard quote simulation, the hook attempts to transfer input tokens from PoolManager. If PoolManager lacks those tokens, the quote fails, even when a full Router transaction that settles the user's input before swapping can execute successfully.\n\nQuoteBridge composes quotes for supported Tempo routes, constructs a compatible execution plan, and validates the complete Universal Router transaction on a local fork before admitting the candidate for comparison.\n\nAt the tested historical block, the standard quoter fails for a 25 cUSD -> PathUSD -> USDT0 route. QuoteBridge recovers a quote of 24.997499 USDT0 and verifies that the recipient receives that amount.\n\nThe project includes a reproducible fork demo, an evidence dashboard, and a proposed UniRoute integration patch. It demonstrates recovery of an executable route; it does not claim production deployment or measured savings over competing routes.",
+  "how_its_made": "We built a standalone Python quote and validation adapter using deployed Uniswap v4 hooks, PoolManager, Universal Router, and Tempo Exchange on an Anvil fork of Tempo at block 41,183,156.\n\nFor supported routes, the adapter calls each deployed Tempo hook's quote function and passes its output into the next hop. It constructs a SETTLE -> SWAP -> TAKE execution plan and validates the complete Universal Router transaction. Candidate admission is bound to the route, input amount, block context, and execution-plan digest. Failed or indeterminate validation prevents admission.\n\nA key debugging finding involved PathUSD: when the payer and recipient were the same wallet, gas paid in the output token reduced the wallet's balance increase despite a correct swap transfer. We separated swap output from wallet balance changes and used receipt evidence to account for the gas payment.\n\nThe recorded fork suite passes 29 tests. We also prepared a TypeScript patch for UniRoute's quote-dispatch boundary. That boundary is tested with mocks; wiring the real validator into the complete UniRoute service remains unfinished because required internal components are absent from the public checkout.\n\nThe dashboard displays recorded fork evidence, and the repository provides reproduction commands and explicit scope limitations.",
+  "auto_summary": "This project reproduces and mitigates a Uniswap v4 quoting failure by validating full Universal Router execution for certain Tempo multi-hop routes on a fork.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/quotebridge-csff2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

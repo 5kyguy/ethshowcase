@@ -1,0 +1,41 @@
+{
+  "id": "qtfxd",
+  "slug": "novi-corpus",
+  "title": "Novi Corpus",
+  "tagline": "A Wyoming legal body for AI agents. Agents pay on Arc, now Hedera too; human guardians via World.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qtfxd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zMrdPlGMSVssK01KxN01ZqZ6eFNky7Gl802tqyWNr01fsvI/high.mp4",
+  "demo_url": "https://www.novicorpus.com",
+  "source_url": "https://github.com/jb1011/Project-Alpha",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "AgentKit Continuity",
+      "title": "AgentKit Continuity"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Novi Corpus forms a Wyoming limited liability company for an AI agent, with a human guardian and an on-chain treasury that enforces spending rules the agent cannot exceed. The company is the product: it gives the agent's operator limited liability and gives anyone dealing with the agent a registered legal body in good standing to check. Every company has an identity on chain (ERC-8004 and ENS on Arc), a treasury the guardian can pause, and a payment rail the agent uses to buy services.\n\nDuring ETHOnline 2026 we extended it in two directions.\n\nOn World: every guardian is a verified human. The guardian verifies with World ID in World App at the accountable-human step of onboarding, on an Orb, passport or mobile-network credential, and a company cannot be formed until that check passes. Novi Corpus stores only the nullifier hash, which is also what caps how many companies one human can hold. A Novi Corpus company registers in AgentBook on World Chain, and an AgentKit checker lets any World agent confirm that a counterparty has a legal body before it deals with it, with a seller policy that admits legal bodies only.\n\nOn Hedera: a company can now be paid for a legal-standing check. `GET /verify/<company>` costs 0.001 USDC on Hedera testnet, paid through the x402 protocol and settled by the Blocky402 facilitator, and the answer is signed so a buyer can verify it offline. The paying agent holds its own Hedera key; Novi Corpus's server never sees it. The account it pays from has a 1-of-2 key list, agent and guardian, so the guardian can rotate the agent out at any time, and the agent asks Novi Corpus's policy check before every payment. Each company is also registered in the ERC-8004 registry on Hedera and carries an HCS-14 universal agent id, so another agent can find and check it from that id alone.",
+  "how_its_made": "The contracts are Solidity on Arc testnet: a factory that only the platform can call (formation is a managed, KYC'd step), an entity proxy per company, and a treasury with a guardian pause. The backend is TypeScript on Hono with SQLite, served with tsx, and exposes a Model Context Protocol server that agent runtimes call. The interface is Next.js with wagmi and viem.\n\nHedera rail, built this week. `GET /verify/:publicId` is priced in HTS USDC (token 0.0.429274) with x402 v2 (`@x402/core`, `@x402/hono`, `@x402/hedera`) and settled through the Blocky402 testnet facilitator: the agent gets a 402 with the requirements in the `PAYMENT-REQUIRED` header, signs with its own key, resubmits, and the facilitator settles on Hedera. We never trust the facilitator's reply alone: the ledger row is marked settled only after the buyer's `report_payment` call reads the transaction back from the Hedera mirror node and finds a USDC transfer of the right amount to the right account. Custody is self-custody with a leash: the float account is a 1-of-2 `KeyList` of the agent and a human guardian, so the agent pays alone and the guardian can revoke it; three MCP tools link the account, check policy (balance, pause state, legal status) before a payment, and record the outcome. Each company is registered in the ERC-8004 identity registry on Hedera testnet (`0x8004A818BFB912233c491871b3d84c89A494BD9e`) and derives an HCS-14 universal agent id (SHA-384, Base58, the canonicalization copied from the standards SDK and pinned to its golden vector so we carry no second Hedera SDK). The `/verify` body is signed with EIP-712 by a dedicated attestation key that must differ from every other key on the box; the client verifies offline through its own copy of the twelve-field type, and a golden signature is pinned in both packages' tests so the copies cannot drift silently.\n\nWorld, built this week. Our agents answer a seller's AgentKit challenge with their pocket key, the same EOA that pays x402 invoices, and that signer now announces `eip155:480` so a World seller verifies the proof against the chain where AgentBook lives instead of skipping it. A guardian holding an Orb-grade World ID vouches for that pocket address in AgentBook on World Chain: the browser builds the signal `abi.encodePacked(agent, nonce)`, the guardian approves it in World App over World's v2 bridge, and our own submitter wallet simulates the `register` call, signs it, persists the raw transaction before anything reaches the wire, broadcasts it and pays the gas, with a reconciler that settles the row from contract state at the `safe` block. Beside that we added the second question a seller needs to ask: `GET /legal-bodies/<address>` is a public unauthenticated lookup that says whether an address is the payment address of a Novi Corpus legal body in good standing, read fresh from the entity's on-chain legal status and its treasury pause flag on Arc and cached only as a 15-second memo of definitive answers. A zero-dependency checker object wraps any AgentBook verifier and returns the human id only when both answers are yes, and our own x402 seller gained a `legal-bodies-only` policy that demands a verified human and a legal body in good standing, fails closed with a 503 when either read cannot be made, and sets `X-NOVI-LEGAL-BODY` on a served request. The agent dashboard shows the two answers as two chips side by side, neither rendered as evidence for the other, and the vouch button disappears once the agent is vouched because AgentBook has no second vouch to make and no removal function. The hacky parts: the interface pins `@worldcoin/idkit-core@2.1.0` under an npm alias because the v4 request path is not available for World's own app, and we register on World Chain even though World's registration guide and hosted relay have moved to Base, because World Chain is what verifiers read today. Until this branch no AgentKit client could buy from a strict wall at all, so our buyer now answers the 403 challenge with a fresh proof and retries once.\n\nThe hacky parts. Hedera ECDSA signs keccak256 of the transaction body over secp256k1, so any raw-digest signer works through `transaction.signWith`, which is how the agent's key stays out of our server. Hollow accounts pay through Blocky402 with zero HBAR, since the facilitator pays the fee. Our local test rig runs the backend against an Anvil fork of Arc testnet with the factory's owner storage slot patched, so the whole Hedera leg runs live while the Arc reads come from a fork; the demo's refusal leg pauses the treasury by impersonating the guardian on that fork.\n\nPartner technologies: Hedera (HTS USDC, mirror node, ERC-8004 registry on testnet, HCS-14 ids, Blocky402 facilitator), World (World ID, AgentKit, AgentBook on World Chain), Arc (the home chain of the contracts and the original payment rail), ENS (names for companies on Arc).",
+  "auto_summary": "This project forms legally registered agent-controlled companies with on-chain identity, treasury controls, World human verification, and a Hedera-paid verification API.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/novi-corpus-qtfxd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

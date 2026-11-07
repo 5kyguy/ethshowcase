@@ -1,0 +1,21 @@
+{
+  "id": "xhh41",
+  "slug": "social-kontracts",
+  "title": "Social Kontracts",
+  "tagline": "Helping people gamify and enforce healthy habits on the blockchain",
+  "event": {
+    "slug": "scaling",
+    "name": "Scaling Ethereum",
+    "start_time": "2021-04-09T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xhh41/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bICG8owahk700oJDtB8vVt9k4gkFgpA02nNG00ruuSTC48/high.mp4",
+  "source_url": "https://github.com/beshup/socialkontracts",
+  "finalist": false,
+  "description": "I'll keep this short.\r\n\r\nSocial Kontracts builds on the idea that subconscious \"social contracts\" modulate much of our behaviour. For example, if I tell my friend I will achieve x goal in y time, I now have social pressure to actually do so. I wanted to use this idea to provide pressure for people to actually follow through on their commonly touted but rarely followed through improvement strategies.\r\n\r\nUsers will create an account and set their app to report app usage data to the Social Kontracts web app. They can manage their Kontracts through the web app as well. There are currently 2 types of Kontracts, \"Invest\" and \"Streak.\" Both make the user initially stake an amount they're willing to put on the line to enforce positive habits. \"Invest\" takes this stake an invests it into a lending pool (AAVE), giving the user profits if they follow through on the terms of their Kontract. \"Streak\" has no such benefit, but is more interactive, forcing the user to maintain positive habits every day. \"Streak\" takes the user's stake and actually streams it back to them -> until the Kontract's time period is over, and the full stake is won back, or a Kontract condition is violated ( > x hours of app usage in a day). Thus, they have to maintain the Kontract's conditions every day.\r\n\r\nThe big idea really is about implementing what people have been touting about smart contracts for so long. Let's really start building out systems that move assets on the blockchain based on real life conditionals.\r\n\r\nWhat's Next?\r\n\r\n- More token support\r\n- More game modes (the core of what makes up ideas like \"Invest\" and \"Streak\" are infinitely composable)",
+  "how_its_made": "There's many moving parts here. For the sake of brevity I'll sacrifice cohesion for organization.\n\n\n\nPhone app\n\n\n\n- made with Dart, using as Android app since only Android currently has usage stats api\n\n- store registration on disk\n\n- perform background task every 15 min of fetching usage data then sending to /report on api\n\n\n\nWeb app\n\n\n\n- Next.js SSR with React\n\n- /login route on api\n\n- using firebase auth\n\n- login page and dashboard\n\n- dashboard hits /getkontracts for data fetching\n\n- on \"Invest\" kontract creation, we first transfer DAI to MainManager contract, then hit the stake function on MainManager, then we save to db\n\n- on \"Streak\", first transfer DAI to MainManager, then hit /createstream on API\n\n\n\nApi (Node.js/Express)\n\n\n\n- /report will take in usage data, find meaningful one base don ccurrently alive kontracts, and then update kontract progress data -> if a kontract is breached, either cut the stream (if \"Streak\"), or update value for \"Invest\" indicating breach\n\n- /getkontracts (purely db)\n\n- /createkontract (purely db)\n\n- /createstream will create stream between my wallet and user passed in wallet (they would have already staked at this point\n\n\n\nMainManager\n\n\n\n- stake and withdraw functions to interact with AAVE lending pool\n\n- deal with DAI tokens (or any ERC20)",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/social-kontracts-xhh41",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

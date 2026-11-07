@@ -1,0 +1,22 @@
+{
+  "id": "86zkr",
+  "slug": "whistec",
+  "title": "Whistec",
+  "tagline": "Library for integrating private Aztec transactions to Web2 Applications.",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/86zkr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WeG01i00tcVJvZ2RNjDvwO02OCAuOKhBHPmnQRvwlPlSI8/high.mp4",
+  "demo_url": "https://github.com/berkingurcan/Whistec/",
+  "source_url": "https://github.com/berkingurcan/Whistec",
+  "finalist": false,
+  "description": "The Whistec is a web3 library designed to facilitate the integration private transactions into web2 applications using zk, expecially payment systems.\n\nIt provides customizable and useful package for integrating Aztec with web2 applications.\n\n### Problem\n\n- Web2 applications selling claims for use of their services (e.g., AI image generators, logo generators).\n- Occurring via payment methods such as PayPal, Visa, Mastercard, etc.\n- Desire for anonymity by some users.\n- Crypto payments not providing complete privacy (e.g., Ethereum, Bitcoin, Solana, etc.).\n\n### Solution\n\nThe Whistec library provides a solution for integrating private Aztec transactions into Web2 applications. It consists of three components: the Transaction Handler, Event Listener, and Verifier. The Transaction Handler encrypts the user's secret and transfers tokens privately using the Whistec Token contract. The Event Listener listens for encrypted Whistec Token Transfer events, retrieves the encrypted secret, and triggers a POST request to a centralized database. The Verifier authenticates the user by verifying the secret using Noir circuit without revealing it, and then triggers another POST request. This library offers a way to achieve anonymity for users in Web2 applications, addressing the limitations of traditional payment methods and existing cryptocurrencies in providing complete privacy.\n\n**Library consists of 3 components:**\n\n**Transaction Handler:** Encrypts `user secret`, transfer tokens privately by using Whistec Token contract with encrypted Secret\n\n**Event Listener:** Listens encrypted Whistec Token Transfer events, gets `encrypted secret` and trigger `POST` request to centralized DB\n\n**Verifier:** Authenticate user by getting secret and verify it Noir circuit without revealing the secret and trigger another `POST` request.",
+  "how_its_made": "This library is a Rust Crate which also uses Aztec Sandbox to utilize Noir contracts and Typescript scripts, and includes Noir circuits.\n\nIt has 3 handlers:\nwhistec_transaction_handler.rs: encrypts user secret and nonce with Poseidon and sends transaction which uses whistec_token contract's(written with Noir.) private transfer function by passing encryptedCode as an extra parameter. And it emits encrypted event about the transfer which can be decrypted only by application's account. The event includes encryptedCode also.\n\nwhistec_event_listener.rs(NOT COMPLETE): listens encrypted transfer events of Whistec Token contract, gets secret, decrypt it and triggers POST request to the application's backend\n\nwhistec_verifier.rs(NOT COMPLETE): gets user secret and nonce or proof and verifies it by using Noir user circuit. So, triggers POST request which provides authorization for user.\n\nThe hacky thing that I have made was modifying Token Contract.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/whistec-86zkr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

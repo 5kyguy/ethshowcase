@@ -1,0 +1,40 @@
+{
+  "id": "zd3st",
+  "slug": "univ4-cclp-hook",
+  "title": "UniV4 CCLP Hook",
+  "tagline": "UniV4 Crosschain Liquidity Hook evens out fragmented liquidity across chains to meet trader's needs",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zd3st/banner/default.jpg",
+  "source_url": "https://github.com/cesarhuret/ethglobalnyc",
+  "prizes": [
+    {
+      "sponsor": "Axelar",
+      "sponsor_id": "hoadp",
+      "placement": "🥈 Axelar — Best Use",
+      "title": "Axelar"
+    },
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🌐 NeonEVM — Most Transactions",
+      "title": "Neon EVM"
+    },
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "🪝 Uniswap Foundation — Best use of Hooks",
+      "title": "Uniswap Foundation"
+    }
+  ],
+  "finalist": false,
+  "description": "The multichain future is causing disproportionate liquidity fragmentation. Some chains have too much liquidity sitting idly, and others don't have enough. This has negative effects on the small chains, as traders experience high slippage, but users on larger chains also face lower yield.\n\nOne example of fragmented liquidity is FRAX. On Ethereum, there is over $350m in liquidity, mainly in the FRAX/USDC pool on Curve. This deep liquidity provides multiple benefits to users and protocols on Ethereum. A $500k swap between FRAX and USDC on Ethereum would lead to ~0.22% slippage. Conversely, on Arbitrum, there is only about $5m in liquidity, leading to a 14% slippage when attempting a $1m swap from FRAX to USDC.\n\nEnter the UniV4 Crosschain Liquidity Hook. This is hook that automatically bridges out a portion of a user's LP from a chain that they're LPing to, to another chain with low liquidity on that pair. By evening out the liquidity on chains, LPers not only get increased yield, but activity can now finally flourish on that smaller chain due to an increase in liquidity.\n\nSlide Deck: https://docs.google.com/presentation/d/1C1lLhoYYmpsEEC-JGbzujo_J7OndEnWInum2RjecHco/edit?usp=sharing\n",
+  "how_its_made": "This project uses UniV4's beforeModifyPosition to bridge off a pool-specific percent of the LP the user is about to provide - to another chain via the AxelarGateway, and provide LP on a pool over there. \n\nWe spun up two local chains, that have support for EIP-1153 in order to deploy UniV4's core contract.\nWe then developed a hook which also implements the ILockCallback interface as we modified the modifyPosition function to add bridging support. \nWe included callback functions of AxelarExecutor that allows AxelarGateway contract to call it with custom data. This callback helps to add liquidity on the foreign chain with the configured parameters on the source chain, like the liquidity range and liquidity amount. Upon receiving the tokens, the contract callback calls the Uniswap PoolManager on the foreign chain to provide liquidity, and later transfer the LP position to the user wallet on that chain.\nWe self hosted a relayer to monitor the bridging events. The relayer queries the event every 5 seconds and sends the crosschain transaction when it receives. The relayer code is modified from axelar example repo with custom parameters and bug fixes so that it runs on a hosted cloud server.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/univ4-cclp-hook-zd3st",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

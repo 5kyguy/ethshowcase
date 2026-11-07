@@ -1,0 +1,26 @@
+{
+  "id": "xy8rt",
+  "slug": "nightwatch",
+  "title": "NightWatch",
+  "tagline": "A Graph subgraph for Blur's Blend protocol, paired with an AI skill for loan portfolio analytics.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xy8rt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bCOuJjNZi202Z01O4eIHaCRy6fl87RCabHyT8rM01L0135E/high.mp4",
+  "source_url": "https://github.com/kripsterama/ethGlobal-graph-blend",
+  "finalist": false,
+  "description": "This project indexes Blur's Blend NFT-lending protocol on The Graph, then layers a Claude Code skill on top that turns raw on-chain loan data  into real portfolio analytics no explorer gives you out of the box.\n\nThe subgraph tracks a Blend loan's full lifecycle from a public GraphQL API: origination (LoanOfferTaken), repayment, refinancing, Dutch-auction exits, seizure, and buy-to-borrow-locked sales — fully synced against production mainnet history, not a sample window.\n\nThe AI skill queries that data and computes what actually matters to a lender: APY (validated against Blend's real contract source rather than assumed), USD-converted gains to date plus monthly/annual forecasts using the protocol's actual continuous-compounding interest formula, LTV via live NFT floor prices (looked up once per collection, not per loan), and auction status with an accurate countdown.",
+  "how_its_made": "Stack: The Graph (AssemblyScript mappings + GraphQL schema, deployed to Subgraph Studio), Solidity (Blend's own verified contract source, pulled from Blockscout), Matchstick for unit tests, and a Claude Code skill (a Markdown instruction file, not custom backend code) as the analytics layer on top.\n\nThe subgraph has two data sources on the same proxy address — Blend's business-logic ABI plus the ERC1967 proxy's admin/upgrade events (deliberately no-op handlers, confirmed dormant against real logs) — feeding a schema modeled to mirror the contract's own storage pattern: one mutable entity per lienId, overwritten across its lifecycle, the same way the contract itself only ever stores a hash per lienId rather than a history.\n\nThe skill itself is fully keyless at runtime: CoinGecko for floor price/ETH-USD, a public RPC for on-chain name() fallback and current block height, all stitched together with curl and short Python snippets rather than a full web3 SDK — including hand-decoding ABI-encoded eth call results byte-by-byte. \n\nWe iterated fast by temporarily narrowing the subgraph's startBlock to a ~3-day window during development — full resyncs took minutes instead of the multi-hour cost of the real ~8.76M-block production history — then restored the real startBlock once the schema and queries were verified correct.",
+  "auto_summary": "The project builds a The Graph subgraph for Blur Blend loans and adds Claude skill files for portfolio and market analytics.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nightwatch-xy8rt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

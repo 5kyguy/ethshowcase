@@ -1,0 +1,27 @@
+{
+  "id": "ea5f9",
+  "slug": "iceberg",
+  "title": "Iceberg",
+  "tagline": "Partially active AMM on 1inch Aqua & Uniswap v4: bots reach only the tip, the rest earns in Morpho",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ea5f9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4HLTokmSa576DR9LjAm5VQZtLy700l02i41IQbLYenPlc/high.mp4",
+  "demo_url": "https://iceberg-lp.vercel.app/",
+  "source_url": "https://github.com/SudeepGowda55/Iceberg",
+  "finalist": false,
+  "description": "Liquidity providers lose money to arbitrage bots every block. When ETH moves on Binance or Coinbase, an AMM's price is stale until someone trades against it. Bots trade first and keep the gap, a cost researchers call loss-versus-rebalancing (LVR).\n\nIceberg implements the Partially Active AMM from a 2026 research paper (Ko, arXiv 2602.09887): in each block, only a fraction λ of the pool can trade. On the block's first trade the reserves are split into an active part and a passive part, and the passive part is frozen for the rest of that block. Bots can only take from the tip, so LPs lose less. The frozen part isn't idle: it sits in Morpho vaults earning yield until a trade actually needs it.\n\nThe same kernel runs on two venues. On 1inch Aqua it's a set of custom SwapVM instructions; on Uniswap v4 it's a hook. A fee-aware keeper picks λ from the last six hours of real ETH prices at the pool's fee and publishes it on-chain for both venues. On Aqua, the maker holds only Morpho vault shares: each fill withdraws exactly what it needs and deposits the proceeds straight back. The same balance also backs a second strategy on 1inch's official router (Aqua shared liquidity). A weight-tracking rebalance retires the strategy when its ETH/USDC mix drifts and re-ships it balanced at the live price, without paying arbitrageurs to do it.\n\nOn a minute-by-minute replay of a real day (21 Sep 2026) against a real plain Uniswap v4 pool, Iceberg cut LP losses to arbitrage by 17.6% at λ = 50% and 19.3% at λ = 39%, and the Aqua version lost exactly the same as the v4 hook. Iceberg is live on Base mainnet, and every demo trade is a real transaction on Basescan.",
+  "how_its_made": "1inch Aqua / SwapVM: I wrote two custom SwapVM opcodes.\n\nPAActiveReserves (0x92) splits the strategy's balances into active and passive parts on the first fill of each block. It hands only the active part to 1inch's stock XYCSwap curve, and quotes never write storage, so a quote always equals the swap.\nChainlinkDeviationGuard (0x21) refuses to trade if the pool price drifts more than 1% from Chainlink.\nIcebergRouter is 1inch's official AquaSwapVMRouter, unchanged, with these opcodes added in free slots; any other opcode falls through to 1inch's code. The router came out at 26 KB, over the contract size limit, so I moved λ policies into external ILambdaSource contracts. That brought it to 24,349 bytes, and a test fails if it grows past the limit.\n\nAqua shared liquidity: 1inch's official router on Base runs SwapVM v1.0.2, which has a different order encoding, opcode table and hook signatures from swap-vm main. I wrote a v1.0.2 encoder so one maker's Morpho shares back both the Iceberg position and a plain strategy on the official router.\n\nUniswap v4: IcebergHook is built on OpenZeppelin's BaseCustomCurve. It keeps reserves as ERC-6909 claims and runs the same per-block split in _getUnspecifiedAmount.\n\nIt parks the never-active share in Morpho, and if a large swap needs parked reserves, it pulls them back out of Morpho inside the swap.\nLP withdrawals unpark automatically.\nThe hook address is mined with HookMiner and deployed through the standard CREATE2 deployer.\nThe hook's vault operations were colliding with OpenZeppelin's liquidity callback, because both encoded their unlock data as 96 bytes. I fixed it by tagging vault operations with a marker.\nMorpho and Chainlink: idle reserves sit in the MetaMorpho vaults Moonwell Flagship ETH and Steakhouse USDC. IcebergParams caps λ at what the vault can actually release, so the pool never quotes more than it can deliver. This needed a nested, gas-capped maxWithdraw call. Chainlink ETH/USD on Base prices everything.\n\nKeeper, API and UI:\nA TypeScript keeper (ethers v6) replays recent real prices to choose λ, parks idle funds, and rebalances through Uniswap v3.\nA Next.js dashboard and REST API show every split, vault move and λ update live, with Basescan links on mainnet.\nA terminal watch feed mirrors the same events.\n\nTesting and deployment:\nFoundry: 52 tests, including 1inch's own invariant suite and fork tests against the real Base contracts.\nA 25-point end-to-end check.\nDeployed on Base mainnet with the official Aqua, the Uniswap v4 PoolManager and real Morpho vaults.",
+  "auto_summary": "This project implements a partially active AMM across 1inch Aqua and Uniswap v4, with idle liquidity parked in ERC-4626 vaults.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/iceberg-ea5f9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

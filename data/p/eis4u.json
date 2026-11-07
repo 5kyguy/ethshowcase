@@ -1,0 +1,30 @@
+{
+  "id": "eis4u",
+  "slug": "mintyourlove",
+  "title": "MintYourLove",
+  "tagline": "Immortalize your love on the blockchain - Mint your memories as NFT tokens",
+  "event": {
+    "slug": "ethonline2022",
+    "name": "ETHOnline 2022",
+    "start_time": "2022-09-02T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/eis4u/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3gOQDONP00Ii7P1SWwu2WZkmYBQl00k00XEFF2FFnHoGY8/high.mp4",
+  "demo_url": "https://mint-your-love.vercel.app/",
+  "source_url": "https://github.com/FlyGuy352/mint-your-love",
+  "prizes": [
+    {
+      "sponsor": "Abacus",
+      "sponsor_id": "0ndp2",
+      "placement": "🌠 Hyperlane — Best NFT",
+      "title": "Hyperlane (formerly Abacus)"
+    }
+  ],
+  "finalist": false,
+  "description": "Visitors coming to the website, https://mint-your-love.vercel.app/, will be able to mint their love memories as NFTs on the blockchain! Users will be able to:\n\n1. Create a new collection representing a new relationship\n\n2. Upload photos to that collection, which can then be viewed on-demand\n\n3. Commemorate special days for that collection, and visualize these events in a calendar UI\n\n4. Search for specific photos within a collection based on the tags they have assigned during initial upload\n\n5. Burn a collection when a relationship ends\n\n6. Filter and switch between different collection views (for the more amorous among us)\n\n7. Link their partner's account to share a collection\n\n8. Migrate a collection between BSC Testnet and Polygon Mumbai\n\n9. Browse photos uploaded by other users in other collections",
+  "how_its_made": "The blockchain backend is relatively simple, as it consists of just one ERC721 contract deployed on two chains - BSC Testnet and Polygon Mumbai. The contract implements a particular interface and stores a particular \"Outbox\" contract address required by the Hyperlane protocol in order to enable cross-chain messaging.\n\nOne departure from standard ERC721 contract is that the tokens are also associated with \"collections\" which represent a group of tokens minted by the same owner. On the collection level, we also store additional information such as the address of the linked partner, if any. This address is then used in a modifier which ensures that only the collection owner or the linked partner can perform authorized actions on that collection and its tokens.\n\nWhen transferring a collection's tokens cross chain, we simply burn the tokens on the origin chain and remint them on the destination chain. We leverage the Hyperlane protocol such that one method call on the sending end and one interface method implementation on the receiving end takes care of all the routing and message encoding logic for us. The one extra check we perform is just to ensure the sender contract address belongs to a whitelist which can be modified only by the admin.\n\nOne key design consideration throughout backend development was where specific types of data should be stored. Here the objective was to optimize gas by avoiding bad practices such as unbounded Solidity loops while still storing enough data on-chain so that when a user wished to migrate his/her token collections to a different chain, we could dependably reconstruct all the necessary data structures in the receiving contract. For the most part this meant that IPFS would store only two extra pieces of information not available on-chain but necessary for the frontend to work: the image URL for an \"image type\" NFT,  or if the NFT was of an \"event type\" to be rendered in a separate calendar UI instead.\n\nFor the event indexing/querying layer, I initially wanted to use The Graph as a decentralized solution. However, because it was supporting a limited number of networks, I had to opt for Moralis instead. This layer is leveraged heavily in order to feed those more complicated frontend views which require performant off-chain data reads. These encompass a public browse page to search and filter other's tokens by tags, relationship profile and block creation timestamp, and a private story page where a user can see all the tokens for which he/she is either the owner or the linked partner of the parent collection.\n\nLastly, the frontend is a Next.js application deployed on Vercel. The React hooks provided by the wagmi library are used extensively to connect a user's wallet, display his/her address, and detect the current Chain ID for interacting with the correct ERC721 contract and pulling indexed event data from the correct Moralis server.\n\nBecause it takes awhile for Moralis to index these smart contract events, we chose to use the React Query library as its in-memory cache can be directly modified to optimistically surface the results of a user's transaction on the UI even before our Moralis databases have been synced with these results. For example, after a user uploads an image to IPFS and mints an NFT of that image, we will append the new token information to this query cache such that the consuming frontend renders both the committed Moralis tables already fetched on page load and data generated on the client-side pending backend settlement.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mintyourlove-eis4u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

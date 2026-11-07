@@ -1,0 +1,22 @@
+{
+  "id": "s6efe",
+  "slug": "leash-agent-guard",
+  "title": "LEASH - Agent Guard",
+  "tagline": "A signed, revocable spending mandate that stops an AI agent from ever paying past its cap.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s6efe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vrs00gWsWp5Dh2QWDDd15YvblJJXPeGmaSk79xUpHt2c/high.mp4",
+  "demo_url": "https://leash-kowaipanda.vercel.app",
+  "source_url": "https://github.com/KowaiPanda/leash",
+  "finalist": false,
+  "description": "LEASH gives an AI agent a wallet with a real budget instead of a prompt that tells it to be careful. A mandate sets the scope, meaning which resources it can pay for, plus a ceiling, a rate limit, and an expiry. Every payment attempt is checked against that mandate's current state before any money moves, so a rejected request never reaches the payment rail at all. The same mandate is enforced the same way across two separate settlement rails, Hedera testnet through a Blocky402 facilitator and Arc testnet through a Circle Developer Controlled Wallet, so the enforcement is not tied to one chain.\n\nEvery mandate event, including issuing, spending, rejecting, raising the ceiling, and revoking, is written to Hedera Consensus Service and can be checked independently on the public mirror node. Raising a mandate's ceiling needs signatures from a real Privy key quorum, so one compromised operator cannot widen what an agent is allowed to spend on their own. \n\nLive at leash-kowaipanda.vercel.app",
+  "how_its_made": "The frontend is built with Vite, React, TypeScript, and Tailwind, deployed on Vercel. The backend is Express and TypeScript on Render, and it keeps mandates in memory with a JSON snapshot for persistence. The core piece is a small guard function that checks scope, remaining ceiling, rate limit, expiry, and revocation before either settlement rail is touched. The x402 v2 spec says budget and session management are out of scope, and its facilitators do not expose a hook for custom checks. So instead of waiting on one, LEASH runs as its own facilitator proxy sitting in front of Blocky402 on Hedera testnet, and settlement only happens after our own check passes.\n\nHedera's exact payment scheme does not use a signed authorization object the way EVM chains do, so we build and sign a real, partially signed TransferTransaction with the Hedera SDK, and the facilitator adds its own signature and settles it. Every mandate event is sent to an HCS topic, so the audit trail can be checked on Hedera's public mirror node instead of just trusting our own database. \n\nThe second rail settles real USDC on Arc testnet through Circle's Developer Controlled Wallets SDK, using createTransaction and then polling until the transfer finishes, and the token id is looked up from the wallet's own balance instead of being hardcoded. The trickiest part was Privy. Privy's policy engine only gates real wallet actions like eth_sendTransaction, it does not have a field for an arbitrary business number like a spending ceiling. So we mirror the mandate's ceiling into the value of a policy rule owned by a key quorum. That rule is never checked against a real transaction, but changing the number still needs signatures from enough Privy authorization keys to meet a 2 of 2 threshold, sent all at once with generateAuthorizationSignature, which skips Privy's support gated approval queue entirely. The Arc rail falls back to a clearly labeled mock settlement if Circle sandbox keys are not set, so the guard logic can still be demoed either way.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/leash-agent-guard-s6efe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

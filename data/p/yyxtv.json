@@ -1,0 +1,29 @@
+{
+  "id": "yyxtv",
+  "slug": "onename",
+  "title": "OneName",
+  "tagline": "Unifying blockchain names across every chains using Hyperlane, EVVM, and ENS",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yyxtv/banner/default.jpg",
+  "demo_url": "https://one-name-alpha.vercel.app/",
+  "source_url": "https://github.com/0xibs/e-ba-hack",
+  "prizes": [
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "Best Use of Hyperlane",
+      "title": "Best Use of Hyperlane"
+    }
+  ],
+  "finalist": false,
+  "description": "OneName is an EVVM-deployed sovereign naming system that gives every user a single permanent .one name. Using Avail Nexus it auto-discovers all wallets across 50+ chains, imports existing ENS/.sol/.lens names, and stores per-chain addresses + World ID reputation on-chain. \n\nResolution is truly omnichain via LayerZero V2 (primary) + Hyperlane (fallback), allowing any dApp on any chain to resolve username.one → correct address without bridging. Onboarding is seedless via Privy embedded wallets + optional World ID proof-of-humanity. All events are indexed with The Graph for instant querying. One beautiful mobile-first profile (username.one) + embeddable “send-to-name” widget. Fully live on testnets in 48h.\n\nStacks: EVVM • LayerZero • Hyperlane • Avail Nexus • World ID • Privy • ENS • The Graph • Hardhat",
+  "how_its_made": "How We Built OneName in 48 Hours – The Real Story\n\nWe knew the only way to win was to go all-in on the highest-value sponsor stack and ship something that actually works end-to-end, not just slides.\nCore idea: put the name registry on its own sovereign chain (EVVM) so it’s cheap, fast, and upgradeable forever. Then make that name resolvable from literally any chain without the user (or sender) is on.\n\nDay 1 – Morning\nDeployed an EVVM virtual chain on Sepolia in ~8 minutes with the EVVM CLI (evvm deploy). Got our own RPC, chain ID 1337-ish, and explorer. That became the source-of-truth registry.\nDay 1 – Afternoon\nWrote a super-simple OneNameRegistry.sol (ERC-721-style but lighter) that stores:\n\nnamehash → owner\nnamehash → mapping(chainId → address)\nnamehash → world_id nullifier (for verified-human badge)\n\nDeployed it with Hardhat + Ignition. Verified on the EVVM explorer so judges can see it’s really sovereign.\n\nDay 1 – Evening\nAdded Avail Nexus SDK (literally 12 lines of code) to pull every historical address a user ever touched on 50+ chains. We just feed it the Privy user ID after login → boom, auto-populate the registry. No manual “add wallet” needed for 99 % of users.\n\nDay 2 – The Omnichain Magic\nThis is where it got spicy.\nWe made the registry an LayerZero OApp (V2). That means any chain with a LayerZero endpoint (Ethereum, Base, Arbitrum, Polygon, Optimism, BSC, Avalanche, etc.) can send a tiny message to our EVVM chain asking “what’s vitalik.one on your current chain?” and get the answer back in the same transaction.\nWe added Hyperlane as hot backup – if LayerZero ever throttles or goes down, the resolver automatically retries via Hyperlane mailbox. Dual redundancy in production on day 2 – probably the hackiest-coolest part.\nOnboarding flow (the part normal humans see)\n\nPrivy embedded wallet → email/Google login, zero seed phrase\nOptional World ID orb scan → verified badge on the name (MiniKit + backend verification endpoint)\nAfter login → Avail auto-import → user picks primary addresses per chain → tx batch-sent to EVVM registry\n\nFrontend\nNext.js 14 + Tailwind + RainbowKit + Wagmi + Privy + IDKit. The designer delivered pixel-perfect Figma → our frontend dev copied it 1:1. The public profile (yourname.one) is just a static-generated page that pulls from The Graph.\n\nThe Graph subgraph\nIndexed every NameRegistered, AddressSet, and WorldVerified event from the EVVM chain. Queries are instant, no RPC spam.\nThe “send to username.one” widget\nA 4-line <script> any dApp can paste. It opens a modal, resolves the name via LayerZero, and pre-fills the correct address for the user’s current chain. Works on MetaMask, Phantom, Rainbow, Coinbase Wallet – all tested live.\nNotable hacky moments\n\nWe pre-funded the EVVM genesis with 100 test ETH so new users can register for free during the hack (gas sponsored).\n\nLayerZero + Hyperlane in the same resolver contract using assembly fallback – probably the first time anyone’s shipped both in a 48 h hack.\nAvail gave us real wallet history for Vitalik, Buterin, Sandeep – we used those as live demo profiles (with permission of course).\n\nTech stack that actually shipped\nEVVM (sovereign chain) • LayerZero V2 (primary omnichain) • Hyperlane (backup) • Avail Nexus (wallet discovery) • World ID (human verification) • Privy (seedless login) • The Graph (indexing) • Hardhat/Ignition (deploys) • Next.js 14 + Tailwind (frontend)\n\nOne name, every chain, no bridges, no seed phrases, works today.\nThat’s OneName. We built the universal username Web3 has been missing for ten years – in a weekend.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/onename-yyxtv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

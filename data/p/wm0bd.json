@@ -1,0 +1,36 @@
+{
+  "id": "wm0bd",
+  "slug": "defi-butler",
+  "title": "DeFi Butler",
+  "tagline": "Cross-chain yield intents via ENS profiles and LI.FI execution",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wm0bd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6sPEmOfL8Gml0101EtoVX9S24Dh7ttTRGlCQ6Y5arV501s/high.mp4",
+  "demo_url": "https://de-fi-butler.vercel.app/",
+  "source_url": "https://github.com/proskairos/DeFi-Butler",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Most creative use of ENS for DeFi",
+      "title": "Most creative use of ENS for DeFi"
+    }
+  ],
+  "finalist": false,
+  "description": "DeFi Butler solves the annoying fragmentation problem in DeFi where you have assets scattered across chains but want to deposit into the best yield opportunities. Instead of manually bridging, swapping, finding vaults, and depositing across multiple transactions, you define your preferences once in your ENS name and execute everything in a single click.\n\nHere's how it works: You store your risk tolerance (conservative/moderate/aggressive), preferred chains, and whitelisted protocols as ENS text records. When you want to deposit, you just enter your ENS name, select what token you have and where, and DeFi Butler finds the highest-yielding vault that matches your preferences across all supported chains. Then it uses LI.FI Composer to bridge, swap, and deposit atomically—all in one transaction.\n\nThe social following feature is pretty cool too. You can set your ENS to follow someone else's strategy (like \"vitalik.eth\"), and automatically use their risk preferences without having to research protocols yourself. Great for people who want exposure to DeFi yields but don't have time to monitor APYs across dozens of protocols.",
+  "how_its_made": "We built this as a Next.js app with TypeScript, using Wagmi and Viem for wallet connections and ENS interactions. The core integration is LI.FI's SDK for cross-chain execution—we're using their Composer feature to chain bridge + swap + deposit actions into a single transaction bundle.\n\nFor yield discovery, we aggregate data from DefiLlama's yield API and Yearn's vault API (we had Beefy too but removed it for deployment). We query these in parallel, filter by the user's risk tolerance and chain preferences from their ENS records, then rank by APY. The yield service caches results for 5 minutes to avoid hammering the APIs.\n\nThe ENS integration uses Viem's ENS utilities to read text records. We defined a custom schema like com.yieldintent.riskTolerance and com.yieldintent.preferredChains that users can set on Sepolia (since it's free to test there). The tricky part was parsing the JSON arrays stored in text records—we had to handle malformed data gracefully since users can put anything in their ENS records.\n\nOne hacky thing we did: since we didn't have time to build a proper backend for strategy following, we just recursively resolve ENS names. So if alice.eth follows bob.eth, and bob.eth follows charlie.eth, we traverse the chain until we find actual preferences or hit a depth limit. It's simple but works surprisingly well for the demo.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/defi-butler-wm0bd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "vaiyv",
+  "slug": "amu-7702",
+  "title": "AMU-7702",
+  "tagline": "Make your EOA account as an OMNI account by leveraging EIP 7702",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vaiyv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YaAMlXUPCV4ZOiNbmiljZvdOOsxKu02Fh6MTSrhD6ag4/high.mp4",
+  "demo_url": "https://amu-7702.vercel.app/",
+  "source_url": "https://github.com/Maniveer007/EthDelhi",
+  "finalist": false,
+  "description": "The multi-chain ecosystem is growing rapidly with Bitcoin L2s (Rootstock), Hyperliquid, ENS chain, World Chain, and more. While this unlocks innovation, it creates a major user experience challenge: most users don’t have funds on every chain. Today, if you want to transact on one chain but hold assets on another, you need to bridge, swap, and move tokens back — a painful and costly process.\nExisting solutions like embedded wallets and ERC-4337 smart wallets try to solve this with cross-chain gas payments, but adoption remains low. Why? Because users are reluctant to migrate from their trusted wallets. Moving means losing your ENS, POAPs, and on-chain history — essentially abandoning your digital reputation.\nAMU 7702 solves this by bringing cross-chain gas payments directly into your existing wallet. Powered by Ethereum’s Pectra upgrade (EIP-7702), AMU temporarily extends your EOA into an omni-wallet, enabling you to pay for transactions on any chain with funds from another chain.\nFor example:\nYou want to make a transaction on Ethereum mainnet.\n\n\nYour funds are on Hedera.\n\n\nInstead of bridging back and forth, AMU lets you use your Hedera funds to pay Ethereum gas directly.\n\n\nNo migration. No lost history. No friction.\n Just seamless, chain-agnostic transactions from the wallet you already trust.\n",
+  "how_its_made": "We built this by taking advantage of EIP-7702 that just shipped with Ethereum’s Pectra upgrade. The core idea is that users don’t need to ditch their existing wallet — instead, they can delegate control to our Delegation Contract whenever they want to use cross-chain gas.\nThe flow works like this:\nWhen a user delegates, their wallet essentially points to our Delegation Contract.\n\n\nThey can then prepay gas on any chain by sending funds to our Gas Sponsor contracts.\n\n\nThose contracts update the Delegation Contract’s storage to keep track of balances.\n\n\nWhen the paymaster covers a transaction on another chain, it deducts the corresponding balance and sponsors the gas for that transaction.\n\n\nSo from the user’s perspective: they just keep using their same wallet. Behind the scenes, we’re keeping a universal ledger of prepaid balances and making sure gas gets paid wherever it’s needed.\nTech used:\nSolidity (Delegation + Paymaster contracts)\n\n\nEIP-7702 delegation hooks\n\n\nCross-chain gas sponsor contracts\n\n\nA simple storage accounting system to track user balances\n\n\nThe hacky bit is how we wired up EIP-7702 delegation + paymasters in a cross-chain context. Normally, paymasters are chain-specific, but by making the Delegation Contract storage the “source of truth,” we can synchronize balances across chains and let users spend gas from anywhere.\nIn short: EOA stays the same, history stays the same, but it acts like an omni-wallet for gas.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/amu-7702-vaiyv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

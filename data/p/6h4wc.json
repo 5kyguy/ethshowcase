@@ -1,0 +1,22 @@
+{
+  "id": "6h4wc",
+  "slug": "datingappscambusters",
+  "title": "DatingAppScamBusters",
+  "tagline": "DAS Busters lets users prove single status to dating apps and keep optional details private.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6h4wc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xx00Ue6yC4OEgeU4evJtmGNPrPuvqMsArgh56j55Pe02Y/high.mp4",
+  "demo_url": "https://canva.link/0f24q393s6t16nc",
+  "source_url": "https://github.com/CobaltSato/das-busters",
+  "finalist": false,
+  "description": "DAS Busters is a service that lets users prove their single status on dating apps. Self-declared profile information alone makes it difficult to confirm whether someone is actually unmarried. Our goal is to reduce relationship problems caused by false claims of being single and build trust in online dating.\nUsers receive signed digital certificates issued by public authorities or other authorized organizations through DAS Busters and store them on their own devices. When connecting to a dating app, they review the requested information and approve what they share. Proving single status is required, but optional attributes, such as “lives in Tokyo” or “in their 30s,” can remain undisclosed. The app receives only the proof results, never the certificate itself.\nThe same certificate cannot be used to register a second account on the same dating app. This prevents one person from maintaining multiple profiles with verified single status within that app.\nBy combining verification of relevant facts, limited disclosure, and duplicate-account prevention, DAS Busters supports trustworthy connections while respecting users’ privacy.",
+  "how_its_made": "DAS Busters combines signed digital certificates, zero-knowledge proofs (ZKPs), and contracts deployed on Sepolia. The certificates use a custom format signed with EdDSA-Poseidon rather than the W3C Verifiable Credentials format. For this prototype, we used a simulated public authority as the issuer and implemented the complete flow: certificate issuance, receipt and storage, proof generation, and verification.\nUsers review the attributes requested by a dating app and choose what to disclose, then generate a ZKP from their stored certificate directly in their smartphone’s browser. Neither the certificate nor the user’s secret value leaves the device.\nThe proof circuit uses circom and Groth16 and contains 9,921 constraints. Proofs are generated with snarkjs and verified by a contract on Sepolia. Names, dates of birth, and other personal information are not recorded on-chain. The contract stores only a nullifier—an anonymous identifier determined by the combination of the user and the app. The same combination produces the same nullifier, preventing duplicate registration with the same certificate within a single app.\nThe frontend uses Next.js. We use Privy for Google login and World ID through IDKit 4 in the staging environment for human verification. Foundry supports contract development, while viem connects the frontend to the contracts.\nA key implementation detail is that the nullifier is calculated from a secret value held only on the user’s device and an app-specific value. The issuer receives only a hash of that secret, so it cannot calculate the nullifier or identify the corresponding user on the dating app. We also bind each proof to a request-specific value to prevent it from being reused for a different request. For the prototype’s trusted setup, we used a single local contribution.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/datingappscambusters-6h4wc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

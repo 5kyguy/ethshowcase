@@ -1,0 +1,29 @@
+{
+  "id": "nmr2w",
+  "slug": "ffe",
+  "title": "FFE",
+  "tagline": "Multi-party fine-tuning on 0G. Encrypt data to a TEE, train one LoRA, co-own it as an INFT.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nmr2w/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AhhHRMVJRqH6ZmBceA65Rgz8kRFPpCtd700zCMkg5gME/high.mp4",
+  "source_url": "https://github.com/mandatedisrael/federated-finetuning-extension",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "5th place",
+      "title": "Best Agent Framework, Tooling & Core Extensions"
+    }
+  ],
+  "finalist": false,
+  "description": "  FFE (Federated Fine-tuning Extension) turns 0G's fine-tuning network from single-tenant into multi-tenant. Today on 0G, one wallet uploads one encrypted dataset and gets one private LoRA back, clean, but it locks out every situation where the most valuable training data is split across parties who legally, competitively, or operationally can't share raw data.\n\nFFE fixes that. N parties each encrypt their JSONL dataset to a TEE aggregator's public key and upload to 0G Storage. A coordinator contract on 0G Chain tracks session lifecycle, stakes, and quorum. Once quorum is reached, an aggregator running inside a 0G Tapp enclave fetches the encrypted blobs, decrypts them in-enclave, runs a Quality Gate (per-contributor mini-LoRA scored against a held-out eval set, with TEE-signed rejection certificates that drive on-chain slashing of bad actors), trains ONE shared LoRA on the union of accepted data, encrypts the result, and seals one decryption key per contributor.\n\nThe output is minted as an ERC-7857 INFT co-owned by every contributor, each owner gets their own sealedKey and can decrypt and run the joint model locally or via 0G's Sealed Inference. Nobody ever saw anyone else's raw data; everyone walks away with the same stronger model trained on all of it.\n\n  Ships as @0g/ffe (TS SDK), a CLI, the Coordinator + INFT-minter contracts, the reference TEE aggregator, and a 3-contributor demo. ",
+  "how_its_made": "FFE is a monorepo of five pieces wired together by 0G's stack.\n\nSDK (@0g/ffe, TypeScript). Three calls — openSession, submit, download. submit pulls the aggregator's enclave pubkey + attestation quote from chain, verifies the attestation matches the published code hash, encrypts the contributor's JSONL with X25519 to that pubkey, uploads the ciphertext to 0G\n\nStorage, and commits the blob hash on chain. download reads the minted INFT, finds the contributor's sealedKey, decrypts it with their wallet key to recover the symmetric K, then decrypts the LoRA blob.\n\nCoordinator contract (Solidity, 0G Chain). Session lifecycle, participant whitelist, stake bookkeeping, hash commits, QuorumReached event, and slashWithProof — which verifies a TEE-signed rejection certificate before slashing. The TEE attestation is verified on-chain so honest contributors can trustlessly slash bad ones.\n\n Aggregator (Rust + Python, runs inside a 0G Tapp enclave). Listens for QuorumReached, fetches encrypted blobs from 0G Storage, decrypts in-enclave, runs the Quality Gate (trains a 1-epoch mini-LoRA per contributor, scores against a held-out eval set, filters/slashes outliers via signed rejection certs), concatenates accepted data, trains one joint LoRA via 0G Compute's fine-tuning primitive, generates a fresh symmetric key K, encrypts the LoRA, and produces N sealedKeys one per owner pubkey.\n\nINFT minter. Wraps 0g-agent-nft (ERC-7857) for multi-owner output. The novel bit: ERC-7857's sealedKey was specced for two-party transfer; we use the same mechanism for N-party initial mint so every contributor decrypts independently with their own wallet key. No protocol fork, just a usage pattern nobody had shipped.\n\n0G primitives lit up: Tapp (enclave), Compute / Fine-tuning (training), Storage (encrypted blobs in & LoRA out), Chain (Coordinator + minter + slashing), ERC-7857 INFT (co-owned artifact), Sealed Inference (private serving). Basically the whole stack.\n\n Some bits worth flagging. (1) Multi-owner sealedKey on initial mint isn't how ERC-7857 demos usually present the standard — we lean into the spec. (2) The Quality Gate is a TEE-internal training pass whose only output to the outside world is a signed rejection cert — the bad data never leaves, but the slash is fully trustless on-chain. (3) Aggregator pubkey + code hash are pinned together so contributors are encrypting to this code running in this enclave, not just \"some TEE.\"",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ffe-nmr2w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

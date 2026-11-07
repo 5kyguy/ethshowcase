@@ -1,0 +1,26 @@
+{
+  "id": "7ninc",
+  "slug": "overlap",
+  "title": "Overlap",
+  "tagline": "Sealed two-party negotiation: a TEE model sees both sides' terms, everyone else sees one answer",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7ninc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/djFfY8Q4fWrZpYCLAoAnrEenPQ802B1NOgVsojaCwhyw/high.mp4",
+  "source_url": "https://github.com/fabroche/ethglobal-lisboa-2026",
+  "finalist": false,
+  "description": " Overlap kills the negotiation dance. Two parties who each refuse to show their hand first — buyer and seller, employer and candidate — write their real terms in plain language into a sealed room. A model running inside a TEE (0G compute) reads both positions and returns a single line to both sides: workable_deal or not_workable_deal. Neither party ever sees the other side's terms. If — and only if — both sides opt in, a failed match can also say how many issues block (gap:single / gap:multiple), never which.\n\nThe room's clock is published before anyone writes; positions are sealed in the browser; only ciphertext hashes reach the public record; at the deadline the enclave judges and its signature is verified independently before any verdict publishes — no valid attestation, no verdict (fail closed). One World ID verification per seat means one human per side: you can't open ten rooms to probe someone's price by binary search.\n\nThere is no database and no smart contract. The entire session state — deadline, commitments, verdict — lives as versioned messages on a Hedera Consensus Service topic, readable by anyone via Mirror Node. Three use-case presets (property/CPCV, job offer, OTC trade) guide what to cover; the positions themselves stay free-form. The verdict is deliberately almost no information: enough to justify a phone call, too little to leak a negotiating position.",
+  "how_its_made": " Next.js 16 / React 19 / TypeScript; every external response (0G, Hedera, World) is Zod-validated; no DB, no Solidity — SDKs only.\n\n0G (sealed inference): the pinned TEE model (single-provider, temp 0) judges both positions and may output only an enum — the parser refuses to extract a verdict from prose, and consent gates the gap:* values twice. The hard part was attestation: the 0G Router never yields a verifiable signature (it pays the broker with its own wallet, so it is the customer), so we make direct on-chain-paid broker calls and verify the enclave's response signature ourselves with general-purpose crypto (@noble) — no 0G code in the trust path, and we never call the SDK's own processResponse(). The signing key is checked on-chain (teeSignerAddress from the InferenceServing contract — not the provider address, a trap that cost us a night). The signature provably covers the inputs as well as the output: \"this model saw these positions and said this.\"\n\nHedera (storage IS the topic): three versioned HCS message types (expiry, commitments, verdict) per room; deadline published before anyone can write; reads via Mirror Node REST. No scheduler daemon — the first reader past the deadline triggers the reveal, with per-room in-flight coalescing to stop duplicate paid enclave calls.\n\nWorld ID: one verification per (room, side) via runtime-scoped actions (they auto-create on first use — found by probing the precheck API, not the docs) and the v4 verify endpoint. max_verifications: 1 is our anti-probing control, so server checks are ordered to never burn a user's single verification on a doomed submit.\nNotably hacky/honest: positions are ECIES-sealed in the browser to an enclave-directed key, deliberately randomized so equal plaintexts don't leak equality on the public topic — but since the 0G router is a chat API that can't hold a decryption key, the server unseals just before the enclave call. We document that seam instead of hiding it. Positions also reach the model in canonical byte order, never seat order — the same texts measurably produced different verdicts by seat before we fixed it.",
+  "auto_summary": "A Next.js app lets two parties privately submit terms, uses 0G TEE inference to judge compatibility, and stores session events on Hedera HCS.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/overlap-7ninc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

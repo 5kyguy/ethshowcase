@@ -1,0 +1,30 @@
+{
+  "id": "hofe8",
+  "slug": "abees",
+  "title": "αBees",
+  "tagline": "AI agents gathering yield and signals with visualized strategies",
+  "event": {
+    "slug": "agents",
+    "name": "Agentic Ethereum",
+    "start_time": "2025-01-31T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hofe8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cybgedqgkigwvkIEW5WPai35L5GFiSsun0002HLk4k2v8/high.mp4",
+  "demo_url": "https://alpha-bees.onrender.com",
+  "source_url": "https://github.com/fractaldotbox/alpha-bees",
+  "prizes": [
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "AgentKit Pool Prize",
+      "title": "AgentKit Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "\n### Key Features\n- 📊 Visualized Market Charts\n- 💬 Chat with Agent to formulate De-Fi Strategy\n- 🤖 Autonomous Execution by Agents with Wallets (Coinbase MPC / EOA)\n- 🌾 Yield Farming with Aave, Morpho across multiple markets\n\nTo make Defi simpler, 🐝αBees\n - provides visual and professional strategies with data and expert advices. \n - effortless by with agents automatically deposit and rebalance for you\n - Keep you safe with private strategy and risk guardrails on segregated wallets \n\n\n## Architecture\n\nWe decoupled \"Hive\" and \"Garden\", responsible for strategy and execution respectively\nThis design help us to interact with agent on reasoning model to formulate strategy and data pipelines, while achieve low latency, private execution with agents on isolated wallets guardrails.\n\n- Base on CDP agentkit and We've implemented our own [https://github.com/coinbase/agentkit/issues/323](Aave v3 Action Provider)\n- Agents are deployed on [Autonome](https://dev.autonome.fun/) with [Live UI demo](https://alpha-bees.onrender.com)\n",
+  "how_its_made": "### Hive Component - Strategy formulation\n- This is where agents gather data and formulate strategy with users\n- For strategy, we use reasoning model such as o3-mini/o1-mini/deepseek R1/framework of multiple agents. We coin this \"Queen LLM\"\n- This allow us to benefit from more data and context\n- Chat is generally based on gpt-4o, low latency model\n- The strategy can be configured by user input\n- Agent will elaborate research rationale and store policy onto nillion for workers private consumption\n- Data such as Defillama will be fetched both during chat and at the background\n- Data are visualized -- LLMs provide structured output, and the frontend renders components based on OnchainKit and @geist/dappkit.\n\n### Garden Component – Trade Execution\n- Each \"Worker Bee\" (Agent) is responsible for one market (e.g. USDC of Aave on base-sepolia).\n- Agents will tap into real-time data and execute trades based on a predefined policy.\n- Execution can be implemented through simple algorithms or via a worker LLM that opts for low cost and low latency (e.g., gpt-4o).\n- Agents read policies from Nillion, which are JSON-based and include both strategy and guardrails:\n  - They incorporate prompting mechanisms and numerical conditions.\n  - Policies and reference signals remain encrypted until execution to prevent sandwich attacks.\n- Agents are able to generate final instructions using the policy, which is protocol-specific (e.g., staking, swapping, supplying for yield, etc.).\n- Agents evaluate on-chain portoflio of all agents. They listen to transactions from other agents and act to achieve low-latency risk management, although they don't talk directly to each other  \n- For demo purposes, perform rebalancing on Aave and Morpho.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/abees-hofe8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "7xuf8",
+  "slug": "flexprover",
+  "title": "FlexProver",
+  "tagline": "Selective trading performance proof on-chain - attested by Flare TEE",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7xuf8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fTvpCLmeCRFQwyvEH3S8lGFlLJHE4BK01jSNcFRoAKvg/high.mp4",
+  "demo_url": "http://localhost:3000/",
+  "source_url": "https://github.com/emmatekulova/flex_prover",
+  "prizes": [
+    {
+      "sponsor": "Flare",
+      "sponsor_id": "2ugg8",
+      "placement": "2nd place",
+      "title": "Next generation of apps with TEE Extensions and Smart Accounts"
+    }
+  ],
+  "finalist": true,
+  "description": "A trustless proof-of-trading-performance protocol built on Flare's\nConfidential Compute (FCC) framework. It solves a real problem traders face: how do you prove your PnL to a prop firm, a fund, or your Twitter followers, without handing over your API key or trusting a screenshot?\n\nThe answer is a Trusted Execution Environment (TEE). The user encrypts their\nBinance read-only API credentials using the TEE's public key directly in the\nbrowser, the plaintext key never touches a server or the blockchain. They then choose\nwhat to prove: a specific futures position, their total account PnL, their spot\nbalances, or their full user profile. That selection is also encrypted before going\non-chain.\n\nInside the secure enclave, the TEE decrypts the credentials, calls Binance's\nauthenticated API, extracts only the chosen metric, and signs the result with its\nown secp256k1 key. The signed attestation is published on-chain via\nBinanceAttestationStore, where anyone can verify it using ecrecover — the TEE\nhardware proves the code wasn't tampered with, and the open-source handler proves\nthe data came from Binance.\n\nThe result is a permanent, shareable, cryptographically unfakeable proof. Not a\nscreenshot. Not a trusted third party. Math.",
+  "how_its_made": "FlexProver is built on Flare's Confidential Compute (FCC) — a TEE (Trusted Execution Environment) framework that lets us fetch and attest private data without ever exposing it. \nThe flow: a user's exchange credentials (Binance/Bitget API keys) are ECIES-encrypted client-side with the TEE's public key, then sent on-chain via our InstructionSender.sol contract on Flare Coston2. A TEE node decrypts them inside a hardware enclave, hits the exchange API, computes portfolio growth or trade history, then signs the result with a secp256k1 key. The signed attestation is published on-chain in BinanceAttestationStore.sol, verifiable by anyone via ecrecover.\n\nThe frontend is Next.js + React with Reown AppKit for multi-chain wallet connection (EVM + Solana) and a custom SIWX (Sign-In With X) auth flow. For the proof-card export we layer html-to-image, jspdf, and html2canvas to produce shareable PNG/PDF attestation cards.\n\nThe hackiest part: the Next.js API route spawns Go CLI subprocesses (child_process.execFile) to talk to the TEE toolchain — reads the TX hash from stdout, then fetches the on-chain attestation. It works, but it's delightfully cursed for a production app.\n\nPartner tech used: Flare FCC for TEE infrastructure + registry, Reown AppKit for wallet + SIWX auth, deployed on Flare Coston2 testnet.",
+  "auto_summary": "A web app and on-chain attestation system that uses Flare confidential compute to prove exchange account metrics without exposing API credentials.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/flexprover-7xuf8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

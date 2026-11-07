@@ -1,0 +1,22 @@
+{
+  "id": "btphu",
+  "slug": "fieldproof402",
+  "title": "FieldProof402",
+  "tagline": "AI agents pay people to verify real-world facts via x402, with auditable Hedera receipts.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/btphu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1SZH1VQQLb022vzBNshO022ULyMEHn1FragKEAgt4hfSE/high.mp4",
+  "demo_url": "https://github.com/mgarciate/HBARProof402",
+  "source_url": "https://github.com/mgarciate/HBARProof402",
+  "finalist": false,
+  "description": "FieldProof402 is a marketplace where software agents can pay people to check real-world facts. For example, an agent creates a task to inspect a bicycle and offers a reward in HBAR. A person accepts the task, scans a QR code, takes two photos, answers a question, and submits the evidence from an iPhone. The Apple Watch helps the user receive and accept tasks quickly.\n\nBefore verification begins, the agent pays a small fee through x402 and Blocky402 on Hedera Testnet. The backend checks the evidence, prevents photo reuse, and publishes hashes and results through Hedera Consensus Service. If the task is approved, the contributor receives the reward directly in their Hedera account.\n\nThe demo uses real x402 payments, real HBAR rewards, and real HCS records. The visual analysis is currently a clearly labelled rule-based simulation, so the project does not claim to prove that a physical object is genuine or in good condition.",
+  "how_its_made": "I built FieldProof402 with a TypeScript backend using Node.js, Fastify, PostgreSQL, Zod, Drizzle, and an S3-compatible MinIO store. The iPhone prototype is written in SwiftUI and uses AVFoundation for QR scanning, the camera for evidence capture, and CryptoKit for SHA-256 hashes. The Apple Watch companion is part of the planned complete flow but is not finished yet.\n\nHedera is the main trust and payment layer. I use the Hedera JavaScript SDK to publish task, evidence, verification, and reward events through Hedera Consensus Service. Approved tasks trigger real HBAR rewards on Hedera Testnet. Mirror Node is used to check accounts, transactions, transfers, and HCS messages, while HashScan links make every public transaction easy to inspect.\n\nThe verification endpoint uses x402 v2 with Blocky402. The requesting agent checks the price against its task budget, signs an HBAR transfer locally, and sends the signed payment authorisation to the API. Blocky402 verifies and settles it, so the backend never stores the agent’s private key. This gave the project a proper pay-per-use verification flow instead of a normal subscription or API key.\n\nOne notable hack is the recovery system. Signed transaction bytes are stored before submission, and the agent keeps a private local payment journal. If the network fails after settlement, the worker checks Mirror Node and reuses the same transaction instead of signing another one. A unique purchase memo links the x402 payment to the task, while database locks and unique constraints prevent duplicate charges and rewards.\n\nPhotos stay private and off-chain. Only hashes, decisions, and payment references are published. The current visual decision is still a clearly labelled rule-based mock, but the x402 payment, HBAR reward, HCS events, and receipt verification are real.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fieldproof402-btphu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

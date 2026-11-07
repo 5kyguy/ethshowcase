@@ -1,0 +1,30 @@
+{
+  "id": "q5fyz",
+  "slug": "fulloncrypto",
+  "title": "FullOnCrypto",
+  "tagline": "Solution for pro-crypto believer to live practically without fiat currency. Live life without fiat.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q5fyz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/X6S00cCZvi9ZAou5gNWVa8K02uPbMTzzlVNIBEyOFFhMg/high.mp4",
+  "demo_url": "https://full-on-crypto-web.vercel.app/",
+  "source_url": "https://github.com/kpkeerthi25/FullOnCrypto-Web",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "3rd place",
+      "title": "Build a full Application using 1inch APIs"
+    }
+  ],
+  "finalist": true,
+  "description": "# Problem Statement :\n\nCurrently in countries like India, the cryptocurrency adoption is very low. You cannot but any products/services with crypto, so we are stuck with centralised fiat, But that's going to change now.\n[Note: P2P crypto to fiat exchanges in India is a mess - it took me an hour last time to get the crypto for the hackathon staking.]\n\n# Solution\n\nFullOnCrypto solves this problem by delegating the fiat INR payment to others(resolvers) and settle them in DAI(crypto) + fee in eth(crypto). ",
+  "how_its_made": "## BASE MAINET CONTRACT:\n\nPaymentEscrow contract: 0x7e7E2bBB58C1F7C710005797C48705747877C647\n\n## BASE TESTNET CONTRACT:\n\nPaymentEscrow contract: 0x0C446A3e9c245E255D7d9cE994cd5321BA4E52A4\n\n# 1-Inch APIs used:\n\n1. Balances API - To fetch he current users token balances to be displayed in the profile page.\n2. Token API - To fetch the token metadata to display the logo of the token. Used both common tokens API and specific token API for DAI.\n3. Spot Price API - To fetch the INR price of the token.\n4. Gas price API -  To show the current GAS proce of the BASE chain to the users and resolvers.\n\n## 🏗️ Architecture\n\nThis monorepo contains three main applications:\n\n### 📱 Frontend (`fulloncrypto-web/`)\n- **Tech Stack**: React, TypeScript, ethers.js\n- **Purpose**: User interface for creating and managing crypto payment requests\n- **Features**:\n  - QR code scanning for UPI payments\n  - MetaMask wallet integration\n  - Payment request management\n  - Real-time crypto balances\n  - Gas price monitoring\n  - resolver features for commiting and settlement of UPI payment\n\n### 🔗 Backend API (`fulloncrypto-nodejs/`)\n- **Tech Stack**: Node.js, Express, MongoDB\n- **Purpose**: Backend API for user management and payment data\n- **Features**:\n  - User authentication (traditional & wallet-based)\n  - Payment request storage and indexing\n  - UPI ID mapping for smart contracts, storing paymentCriticalData off-chain in MongoDB\n  - CORS-enabled API endpoints\n\n### 📜 Smart Contracts (`fulloncrypto-contract/`)\n- **Tech Stack**: Solidity, Hardhat, OpenZeppelin\n- **Purpose**: Escrow contracts on Base blockchain\n- **Features**:\n  - Payment escrow with DAI deposits\n  - Commitment-based payment flow\n  - Automatic crypto release upon UPI confirmation\n  - Gas-optimized for Base network\n\n\n# Blockers faced during hackathon:\n\n1. [HIGH] [Mocked] - Verifying the the UPI transactionId status on-chain using oracle. But i need to have a PaymentGateway lisence to get access to the transactionStatus API, So it is mocked with a regex for now. \n2. [HIGH] [Fixed] - Generating a UPI QR code on behalf of a merchant, here when creating a payment request you want the upi QR to have the destination UPI-address of the merchant. Currently no paymentGateway provides this functionality but i solved it using barebones mobile upi deep-link. eg: upi://pay?pa=<UPI_ID>&pn=<NAME>&am=<AMOUNT>&cu=INR&tn=<NOTE> \n3. [HIGH] [Fixed] - Merchant UPI address is a payment-critical-data and cannot be stored in public blockchain, so i used mongoDB off-chain storage.\n4. [HIGH] [FIXED] - Double payment by resolvers was a concern, so i introduced a 5-min commitment window. First a resolver should commit to a payment on blockchain by paying gas and the settke it in 5-mins. \n\nNote: For building this project, I've used assistance of AI to fine-tune the code and the UI styles and documentation",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fulloncrypto-q5fyz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

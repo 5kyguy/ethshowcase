@@ -1,0 +1,34 @@
+{
+  "id": "ux41a",
+  "slug": "xchain-protocol",
+  "title": "Xchain protocol",
+  "tagline": "Crosschain governance project utilizing Safe, Axelar and LxLy bridge to make safes talk to each other for governance",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ux41a/banner/default.jpg",
+  "source_url": "https://github.com/publu/proposer_module",
+  "prizes": [
+    {
+      "sponsor": "Safe",
+      "sponsor_id": "weaax",
+      "placement": "🥈 Safe — Best Use of Safe{Core}",
+      "title": "Safe"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "❌ Polygon — Best use of LxLy Bridge",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "This project is a crosschain governance system that leverages the power of Axelar and LxLy bridge. It includes several smart contracts that interact with each other to facilitate crosschain transactions. The system allows for the execution of transactions not only from an Externally Owned Account (EOA), but also from any multisig. This means an Ethereum multisig can message any other chain to execute a change, as demonstrated in the provided polygonscan links. The project also integrates with the Axelar gateway contracts and the Proposer Execution Module for enhanced functionality.\n\nzkEVM Proposer Module:\nhttps://zkevm.polygonscan.com/address/0x1EaF18086C07D4d6a59B94277F80204274Ccc54d\n\nthis is the createExecution test from an EOA:\nhttps://polygonscan.com/tx/0xae9e6b334cfe1d6ac4bb6d648f604527bd728a9e431ab61cd937879fc8dcd44e#eventlog\n\nThis is it being executed (verifying that safe module works):\nhttps://polygonscan.com/tx/0xd3eaa7e48a31ef7aba2d67c557d2ecceb5ce94040a8189c7b3d3fb8bd84ec0f\n\n\nAxelar execution:\n\nhttps://axelarscan.io/gmp/0xdfd625647f4985429e69cb860cb15068396dcc7cf7d3058c1fe3931187c74da3\n\nProposer Execution Module:\nhttps://polygonscan.com/address/0x02668453F6138bE9BBA9946de8472228c4400109#writeContract\n\nAxelar Execution Proposer:\nhttps://polygonscan.com/address/0xD2BeD6f2b32832ddA397C9FcA6d1E503d627C49d#writeContract",
+  "how_its_made": "The main component of the project is the LxLyProposer contract, which is responsible for proposing transactions. It implements the IBridgeMessageReceiver interface, which means it can receive messages from other networks. This contract is also Ownable, meaning it has an owner who has special privileges.\n\nThe LxLyProposer contract interacts with the ExecutionModule contract, which allows an external contract to request the execution of a transaction. This interaction is facilitated by the createExecution function, which is called within the onMessageReceived function of the LxLyProposer contract.\n\nThe LxLyProposer contract also interacts with the IPolygonZkEVMBridge contract, which is used to verify merkle proofs and withdraw tokens/ether. The polygonZkEVMBridge is an immutable public variable, meaning it can't be changed after it's set in the constructor.\n\nThe project also integrates with the Axelar gateway contracts and the Proposer Execution Module for enhanced functionality. Axelar provides a decentralized network that connects all blockchains, allowing them to communicate and interoperate. This greatly benefits the project by enabling crosschain transactions.\n\nThe project allows for the execution of transactions not only from an Externally Owned Account (EOA), but also from any multisig. This means an Ethereum multisig can message any other chain to execute a change, as demonstrated in the provided polygonscan links.\n\nOne notable hacky thing we did was to use the abi.decode function to extract the necessary data from the received message. This is a low-level function that can be used to decode data of any type, and it's very powerful but also potentially dangerous if not used correctly. We used it here because it provides the flexibility we need to handle different types of data.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/xchain-protocol-ux41a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

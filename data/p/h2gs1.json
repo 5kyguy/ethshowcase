@@ -1,0 +1,41 @@
+{
+  "id": "h2gs1",
+  "slug": "soulvault",
+  "title": "SoulVault",
+  "tagline": "Local PII redact + wallet-gated rehydrate. Authorized wallets see granted fields.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h2gs1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dKNaf8nplTnrOpcmzYwpaEaQzzulNlX8JMEGv022lhzQ/high.mp4",
+  "demo_url": "https://nacmonad.github.io/soulvault",
+  "source_url": "https://github.com/nacmonad/soulvault",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Best Integration of ENSv2 into an Existing Project",
+      "title": "Best Integration of ENSv2 into an Existing Project"
+    },
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "1st place",
+      "title": "Extend to Ledger"
+    }
+  ],
+  "finalist": true,
+  "description": "SoulVault is an event-driven coordination and continuity layer for AI agent swarms — plus a selective-disclosure document layer built on the same cryptographic core (secp256k1 ECDH + AES-256-GCM).\n\nThe problem: Agent sessions are ephemeral and shared state is ad hoc. Multi-agent teams need verifiable coordination, encrypted continuity, and human-governed value flows — while the documents humans and agents exchange leak sensitive fields (PII, credentials, financial data) through every email and Slack copy.\n\nWhat we shipped:\n1. Selective disclosure for documents (Sepolia, this hackathon's focus). A browser dashboard runs local PII detection (presidio-web), produces a redacted artifact plus encrypted per-field slots, and anchors a docHash on a SoulvaultDocumentRegistry contract. The public bundle that travels is self-contained (registry address included), so any wallet — even outside the org — can request rehydration; the author grants per-slot keys wrapped to the requester's rehydration public key via SlotKeyGranted events, and only granted slots decrypt locally. Redaction runs are non-reversible by default; grants are explicit wallet capabilities.\n2. LKRP Swarm continuity upgrade. A swarm contract on Sepolia drives membership governance (join request/approve/remove), event-driven encrypted backups, a three-mode messaging bus (public/group/DM), and a fund-request lifecycle: agents file FundRequested, a bound SoulVaultTreasury approves and releases native funds onchain. ENS (org roots, swarm subdomains, ENSIP-11 multichain treasury discovery) and ERC-8004 provide public naming and identity. Recovery has been redesigned around Ledger's wallet-cli Key Ring (LKRP): the old model stored K_epoch as a physical secret that every member-custodian had to hold — losing custodians meant unrecoverable state, and kicked members kept copies. The Key Ring replaces stored epoch keys with ring-derived ones: the key is never stored, it's HKDF-derived from Ledger trustchain material with the key name (soulvault:epoch-recovery:<agentId>:epoch-<n>) as domain separation, so any enrolled machine — including ephemeral agents on a fresh VPS — can re-derive it with nothing to lose and nothing to escrow. Only the plaintext key name is durable metadata; harness-memory escrows are AES-256-GCM encrypted under it.\n\n3. Hardware & human gates. Ledger signing via Device Management Kit with clear-signing (verified against Speculos + a real Nano S Plus), and a World Selfie Check (incomplete) gate on rehydrate requests.",
+  "how_its_made": "Every encrypted thing — epoch keys, backups, group messages, DMs, document slots — uses the same primitive stack (ECDH + AES-256-GCM). Wire formats are locked to what the original node:crypto implementation produced, and enforced in both directions by cross-checked compat tests in packages/protocol/test/crypto-compat.test.ts. Slot IDs are deterministic per entity value, which is what makes same-redact-run detection work when a bundle is re-imported.\n\nArchitecture. A pnpm workspace monorepo with a strict dependency direction: @soulvault/protocol (isomorphic crypto — @noble/curves, @noble/ciphers, @noble/hashes; no Node built-ins, runs identically in Node and browser) → @soulvault/node (contract calls, signers, ENS, state) → the surfaces that consume it: a Commander.js CLI and a Next.js dashboard. Contracts are Solidity with 60+ Foundry tests; all contract reads/writes in the browser go through viem.\n\nENS as the config layer, not a database. On Sepolia, an org's configuration IS an ENSv2 subname registry (UserRegistry proxy deployed via the canonical VerifiableFactory, post-verified for ROLE_REGISTRAR before being trusted). Treasuries are discovered via ENSIP-11 multichain addr records (coinType = 0x80000000 | chainId), swarm/agent names carry epoch-bound expiries renewed on rotation, and EAC role bitmaps give per-name, per-role scoped delegation. Every ENS read/write dispatches through one v1↔v2 client (ensv2.ts) because v2's per-label string navigation silently breaks ported v1 labelhash walks.\n\nEvent-driven everything. Both the CLI and the dashboard run off contract events ordered by (blockNumber, logIndex) — same-tx pairs like FundRequestApproved → FundsReleased render in order. The browser watcher (viem getLogs, chunked with learned per-provider range caps, 429 backoff, multi-provider round-robin transport) discovers sources at runtime. The biggest hack: deploy blocks for event-scan start are found by binary search over eth_getCode (~24 calls, cached per address in localStorage), because ENS records don't carry them. \n\nPartner technologies:\n- Ledger DMK + Ethereum Signer Kit — hardware signing with clear-signing; verified against the official Speculos emulator (we built a test-only DMK transport over Speculos's APDU bridge since emulated devices never appear in WebHID) and a real Nano S Plus.\n- Ledger wallet-cli Key Ring (LKRP) — the recovery redesign. Epoch keys stop being stored secrets: they're HKDF-derived from trustchain material with a key name as domain separation (soulvault:epoch-recovery:<agentId>:epoch-<n>). Any enrolled machine re-derives the key; a freshly-deployed ephemeral agent recovers its harness memories with nothing escrowed and no custodians to lose.\n- ENSv2 — org→swarm→agent is a real registry hierarchy with EAC delegation, replacing a CBOR text-record list.\n- ERC-8004 — public agent identity, mirrored into resolver records so ENS names reverse-resolve to agent profiles.\n- presidio-web — in-browser PII detection feeding the redaction slots.",
+  "auto_summary": "SoulVault combines Sepolia smart contracts, ENS-based discovery, hardware-backed signing, and local document redaction for agent coordination and selective disclosure.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/soulvault-h2gs1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

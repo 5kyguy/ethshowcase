@@ -1,0 +1,27 @@
+{
+  "id": "cr2kk",
+  "slug": "yuin",
+  "title": "yuin",
+  "tagline": "Privacy-preserving sign-in for any app — email or Google in, smart account out. No address mapping.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cr2kk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kXEELg01aTu026QugwKNyytyA00w7pSFW4rVjobwTtBsis/high.mp4",
+  "demo_url": "https://yuin.dev",
+  "source_url": "https://github.com/agoston0x/yuin",
+  "finalist": false,
+  "description": "Sign-in for apps that need real accounts, without making anyone learn crypto.\n\nYour users type an email and a password. They get a smart account with a passkey on it. No seed phrase, no extension, no gas prompt, nothing to understand. And nobody can take it from them. The password never leaves their browser, so no server holds the thing that unlocks the account. Creating one takes two independent parties agreeing — neither can mint an account alone, and both colluding get an empty one. Not \"we promise not to look.\" We can't.\n\nDevelopers set up in one page. Claim a name on ENSv2, tick which sign-in methods you accept, done. Those rules are published where your users can read them before they trust you with anything.\n\nInside the account, Uniswap quietly fixes the worst part of crypto UX: your user holds ETH, your price is in USDC, it just works. One confirmation.\n\nLike trusted vendors, but without the lock-in. Auth without the auth code.",
+  "how_its_made": "Solidity on Sepolia, Next.js on the front, two small Node services between them.\n\nIdentity is a keccak hash of the email and an Argon2id stretch of the password, computed in the browser with WASM. The chain sees one hash and nothing else. It is written once, and only when two separately-keyed senders have each signed the same digest — chain id and contract address baked in, signers required in ascending order so one cannot sign twice wearing a hat.\n\nAccounts are ERC-4337 with an owner list instead of a single owner, and session keys whose spend cap the account itself enforces. Passkeys are genuine owners: the account rebuilds the exact bytes the authenticator signed, confirms the challenge really is in that clientDataJSON, checks the user-presence flag, then verifies the P-256 signature on chain through a deployed verifier — Sepolia has no RIP-7212 precompile, so the verifier is a contract using OpenZeppelin's Solidity implementation.\n\nENSv2 is an ENSIP-10 wildcard resolver reading AppRegistry directly, so <app>.app.yuin.eth serves the app's sign-in rules as text records that cannot drift from the registry — it is the same storage, not a copy.\n\nUniswap runs through the account's own execute. Swaps quote all three fee tiers and take the best, since Sepolia pool depth varies by an order of magnitude; ETH in is a single payable call, tokens in batch the approval and the swap into one transaction.\n\nGas for a brand-new owner key is sponsored openly by a sender until a paymaster replaces it.",
+  "auto_summary": "This project implements email-and-password onboarding to smart accounts with passkeys, onchain app policy records, and integrated token swaps for payments.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/yuin-cr2kk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

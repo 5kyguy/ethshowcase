@@ -1,0 +1,27 @@
+{
+  "id": "77bm3",
+  "slug": "xenia",
+  "title": "Xenia",
+  "tagline": "Slashable-stake trust for AI agents: ENS identity, Graph standing, Hedera x402 pay-per-check.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/77bm3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fllvq9t5023e1drprmXj7IXaowo4pQ8jewcCqxCJ026Ho/high.mp4",
+  "demo_url": "https://xenia-protocol.vercel.app/",
+  "source_url": "https://github.com/Caerlower/Xenia",
+  "finalist": false,
+  "description": "Xenia is slashable-stake infrastructure for AI agents, named after Greek guest-friendship. Agents register as *.xenia.eth (ENS namehash on Sepolia). A host locks ETH behind an agent and sets a premium; the agent pays that trust fee to keep coverage live. If the agent defaults, stake can be slashed to the victim after a dispute window.\n\nThe Graph indexes registry events into standing scores (premiums up, defaults/slashes down). Hedera is not the stake ledger — it meters API access: POST /xenia/check returns HTTP 402 until ~0.001 HBAR settles via x402/Blocky402, then returns standing. Live demo theater runs mint → stake → premium → default → slash → Pay HBAR → decide (transact vs refuse).",
+  "how_its_made": "Xenia is a pnpm monorepo: Foundry Solidity for XeniaRegistry on Sepolia; Next.js + wagmi/viem/RainbowKit for apps/web and the CRT-style apps/demo theater; Fastify for apps/api; AssemblyScript subgraph; optional MCP standing tool.\n\nENS gives each agent a *.xenia.eth handle. Registration stores the namehash on-chain; scripts set backing text records (xenia.host, stake, premium) and demo host-only EAC so non-hosts can’t rewrite trust metadata.\n\nThe Graph indexes registry events into standing: clamp(50 + 10×premiums − 25×defaults − 40×slashes). Product UI and the demo Decide step read Studio GraphQL — not raw RPC — so scores stay queryable after slash.\n\nHedera is only for API metering. Stake never leaves Sepolia. POST /xenia/check returns HTTP 402; the client signs an exact HBAR transfer with @x402/hedera, Blocky402 settles ~0.001 HBAR, then standing is returned. Demo Run requires pnpm dev:api after the slash path.\n\nThe demo orchestrator mints fresh agent wallets each Run, funds them from a host key, and streams NDJSON over SSE into the theater. Notable hack: payer ≠ payTo (self-transfer nets to 0 under x402), so we auto-provision a distinct testnet payer and cache it; Decide also polls the subgraph so A’s ~60 isn’t race-zeroed like B’s post-slash 0.",
+  "auto_summary": "A monorepo for registering ENS-named agents, staking slashable ETH coverage on Sepolia, indexing standing with The Graph, and gating API checks with Hedera x402 payments.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/xenia-77bm3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

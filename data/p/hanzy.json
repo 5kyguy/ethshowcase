@@ -1,0 +1,27 @@
+{
+  "id": "hanzy",
+  "slug": "ic-pay",
+  "title": "IC Pay",
+  "tagline": "Bringing stablecoin payments to everyday Japan through the IC cards people already carry.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hanzy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/W7HH3JqnzPd5lh1kHuxNAMgvtuLBoWRVJhP8iB1qPA00/high.mp4",
+  "demo_url": "https://github.com/akashbiswas0",
+  "source_url": "https://github.com/akashbiswas0/IC-Pay",
+  "finalist": false,
+  "description": "Japan already has the habit stablecoin payments need: tapping a card to pay. In its March 2025 report, JR East counted **112.3 million Suica cards issued**, including mobile cards, and **2.07 million stores** accepting interoperable transport e-money. That network recorded **253 million purchases in January 2025 alone**. \n\nhttps://www.jreast.co.jp/e/investor/pdf/202503_e_suica_finance.pdf\n\nStablecoin spending is growing quickly. Visa reported **$5.2 billion in stablecoin-linked card spending in 2025**, up **319% year over year**, with more than **130 programs across 50+ countries** by March 2026. Yet this spending represented just **0.04% of Visa’s total volume**, suggesting substantial room for adoption. \n\nhttps://www.visa.com/en-us/thought-leadership/innovation/stablecoin-linked-cards-monetize-money-movement\n\n\nSuica Pay brings crypto payments to a card people already carry. Users link a physical Suica to a crypto wallet, verify with World, and tap their card against a participating merchant’s iPhone to pay within approved spending limits. Merchants can accept payments and manage their own reward programs from the app.\n\nWe built rewards around the familiar earn-and-redeem experience of Japanese loyalty programs. Customers accumulate merchant-specific points on qualifying purchases and redeem them toward later bills. Merchants choose the earning rate, reward caps, and expiry rules. For example, a 5% offer earns 5 points on a 100 icUSD purchase, which can cover 5 icUSD on a future visit. Customers can authorize automatic redemption and set limits on how many points each purchase uses.\n\nThe app also supports NFT vouchers with redeemable merchant credit. Customers can spend part of a voucher’s credit and save the rest; collectible NFTs remain in their wallet after the credit is used. This is our RWA angle: representing a merchant’s promised discount or store credit onchain and redeeming it at checkout. One dashboard brings together wallet balances, points, vouchers, and payment history. The demo runs on Sepolia using icUSD test tokens.",
+  "how_its_made": "We built customer and merchant flows in one Swift/SwiftUI iPhone app. Core NFC reads a physical Suica’s FeliCa IDm, which the backend HMAC-hashes and links to a separate crypto wallet. Its transit balance stays untouched. Customers approve spending limits beforehand, then tap their card at the merchant’s iPhone. World IDKit Selfie Check handles onboarding and account recovery, with backend verification. The prebuilt Swift SDK dropped `sybil_score`, so we rebuilt the official Rust core and regenerated its UniFFI bindings to preserve the complete verification result.\n\nThe TypeScript/Fastify backend uses PostgreSQL for accounts, invoices and payment jobs. Merchant phones sign invoice-bound requests with Secure Enclave P-256 keys; AWS KMS holds the operator-managed secp256k1 wallet keys. We built the adapter that converts KMS signatures into valid Ethereum transactions. Curvegrid MultiBaas constructs unsigned transactions, broadcasts signed transactions and indexes events for the dashboard. We used Curvegrid’s icUSD token and built payment and reward contracts with Solidity, OpenZeppelin and Hardhat on Sepolia. icUSD is an unbacked test token.\n\nRewards include Japanese-art NFT vouchers and merchant points with fractional earnings, partial redemption and atomic payment settlement. Existing vouchers retain their credit and artwork; daily expiry buckets keep points processing bounded. Durable jobs, reservations and signed transaction journals prevent blind retries, and the app shows “Paid” only after verifying confirmed receipts. AWS Fargate runs the API and worker with private RDS PostgreSQL; a React/TypeScript dashboard on Amplify displays balances, payments and rewards. We tested against a real local EVM and PostgreSQL, and checked the native screens on both physical iPhones.",
+  "auto_summary": "A multi-component payment system links Suica card taps to stablecoin payments, merchant rewards, and voucher redemption across iOS, backend, web, and smart contracts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ic-pay-hanzy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

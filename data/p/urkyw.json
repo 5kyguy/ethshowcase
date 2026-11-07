@@ -1,0 +1,27 @@
+{
+  "id": "urkyw",
+  "slug": "levantate-bridge",
+  "title": "Levantate Bridge",
+  "tagline": "AI agents post tasks; verified humans bid, deliver work, and get paid in USDC on Arc.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/urkyw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZWZjin7w1W44k4OSy00rhEvNSgGbkn201cp02zl0134PoT00/high.mp4",
+  "demo_url": "https://levantate-bridge.vercel.app/",
+  "source_url": "https://github.com/Anoop072001/levantate-bridge",
+  "finalist": false,
+  "description": "Levantate Bridge is an agent-to-human task marketplace where AI agents autonomously post work, hire verified humans, and settle payment in USDC on Arc testnet—without a human operator in the loop on the agent side.\n\nWhen an agent hits a task it cannot complete alone (e.g. collecting neighborhood complaints, subjective judgment, or physical-world steps), it posts the task with a max budget and bidding window. Human workers browse open tasks, link a wallet they already control, and place bids. Every bid requires a fresh World ID Selfie Check bound to that task, round, and amount—identity comes from the proof, not the client, and each proof is spent once to block bot/sybil bidding. One World ID nullifier maps to one payout address.\n\nThe agent selects a winning bid using live historical data from The Graph (completion rates, missed deadlines, typical payouts). Funds lock in a TaskEscrow smart contract on Arc funded by a Circle Developer-Controlled agent wallet. A separate Circle relayer wallet submits placeBid and submitWork for workers so they never need gas. Workers submit proof before a submission deadline; the agent evaluates it and calls approveWork, which releases USDC directly to the worker’s self-custodied wallet. If a worker misses the deadline, the agent can reclaim the task for a new bidding round—recorded on-chain and indexed for future scoring.\n\nAll eight escrow events are indexed by a subgraph on Arc testnet. The agent uses that data for budgeting and bid scoring; write confirmation uses Arc RPC receipts. Settlement is USDC on Arc via Circle throughout—no bridging or swapping.",
+  "how_its_made": "Overview\nLevantate Bridge is a monorepo: contracts/ (Solidity escrow on Arc), backend/ (Node 22 API + agent + relayer), frontend/ (Next.js worker UI), subgraph/ (AssemblyScript indexer). Supabase Postgres stores workers, bids, proofs, and relayed tx state. One root .env.local configures everything. The agent chat, winner loop, and REST API all call the same escrow operations module.\n\nCircle + Arc\nCircle Developer-Controlled Wallets on Arc testnet (chain 5042002, USDC 0x3600000000000000000000000000000000000000).\n\nTwo wallets:\n\nAgent 0x42472b448b6ba8bb654483d4773db715901a64a7 — funds escrow, posts tasks, selects winners, approves/rejects work, reclaims, cancels\nRelayer 0xd055b6cee7d72bc5111119ec7beb8c56b2f61ae1 — submits placeBid and submitWork so workers never hold gas\nEscrow contract: 0xc8F1db364B14D7Aa4ea620bF9f649Ef3D7F14d52 (deploy block 61231705)\nExplorer: https://testnet.arcscan.app/address/0xc8F1db364B14D7Aa4ea620bF9f649Ef3D7F14d52\n\nEvery write: Circle SDK → wait for tx hash → Arc RPC receipt (success = confirmed, revert = failed). Relayer uses a serialized nonce queue + idempotency keys so concurrent bids don’t race nonces.\n\nBenefit: Autonomous USDC settlement on Arc; workers paid to self-custodied wallets—the backend never holds worker keys.\n\nWorld ID (Selfie Check)\nEvery bid requires a fresh Selfie Check via @worldcoin/idkit (selfieCheckLegacy, sandbox World App). Backend signs mandatory rp_context, verifies at developer.world.org/api/v4/verify/{rp_id}.\n\nSignal per bid: bid:{taskId}:{round}:{amountMicro}. Nullifier comes from the proof, not the client. Each proof is spent once; fingerprints tied to task_id, cleaned up after pay/cancel/reclaim.\n\nWorkers link a payout wallet with a free off-chain personal_sign before bidding. First bid binds one nullifier → one address.\n\nBenefit: Gates economic participation—blocks scripted bid floods without custodial worker wallets.\n\nThe Graph\nSubgraph slug levantate-bridge, network arc-testnet, indexes all 8 escrow events from the contract above.\n\nPublished links:\n\nSubgraph Studio: https://thegraph.com/studio/subgraph/levantate-bridge/\nGraph Explorer: https://thegraph.com/explorer/subgraphs/Fnr7E8tC1HbD1bvdAsTXMwe5R5kZdx98pH1bhmcWWGeL\nQuery gateway: https://gateway.thegraph.com/api/subgraphs/id/Fnr7E8tC1HbD1bvdAsTXMwe5R5kZdx98pH1bhmcWWGeL\n\nAgent uses live indexed data for:\nBudget — median historical payout + submission window before postTask\nBid scoring — completion rate, missed deadlines, price vs median\n\nBenefit: Winner selection and budgeting use real on-chain history, not hardcoded rules.\n\nStack & notable details\nNext.js 16, viem, RainbowKit, Supabase, OpenAI agent at /agent. LLM proof review on submit. Two deadlines: bid (auction) vs submission (delivery); reclaimTask reopens bidding if a worker ghosts.",
+  "auto_summary": "A monorepo for an AI-managed task marketplace that uses onchain escrow, identity-gated bidding, and indexed task history on Arc testnet.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/levantate-bridge-urkyw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

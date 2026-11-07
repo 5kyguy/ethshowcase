@@ -1,0 +1,30 @@
+{
+  "id": "qchi4",
+  "slug": "stylus-playground",
+  "title": "Stylus Playground",
+  "tagline": "An Online Playground for Stylus, where users can write Rust contracts online and test it with a user interface.",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qchi4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yYx1ExhlP01KqvDyCB02Ji9umujLkg7mgQeME4a5F6hAM/high.mp4",
+  "demo_url": "https://stylus-playground.vercel.app/",
+  "source_url": "https://github.com/onuruci/stylus-playground",
+  "prizes": [
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "🥇 Winner",
+      "title": "Best Stylus Project"
+    }
+  ],
+  "finalist": true,
+  "description": "Stylus Playground is an online playground for Arbitrum Stylus. Users can write Rust contracts on browser and test them out with UI components.\n\nExploring out Stylus requires multiple steps, installing cargo packages, writing scripts to test the contract, using a testnet or building a local test node. These steps extend the onboarding process for new developers and make it really hard for non web3 developers.\n\nStylus Playground eliminates these steps and builds a Stylus setup for developers through a web application. Using Stylus Playground Developers can explore Stylus and test their contract via user interface. This project aims make it easy to onboard new developers to Stylus.\n\nThere is a code editor on the user interface, where users can write or edit their code. Later with the compile button they send it to a server where their code gets compiled. Server returns compilation logs so users can also track errors if there are any.\n\nAfter a successful compilation process, users can deploy the compiled code. They can send deployment request to server, server will first export the ABI of the contract, later it will deploy it to a test node on the server itself. Server will return the ABI and deployment address of the contract.\n\nUsing the ABI, on the client it builds a user interface for testing the contract ( buttons and input boxes regarding to the abi ). Later users can test the contract using these buttons, transaction results will be logged on the bash component on the user interface.",
+  "how_its_made": "This project uses cargo-stylus package on the server for generating new projects, compiling contracts, exporting abi of the contracts  and deploying them to a test node. On the server side it runs a local Arbitrum nitro-testnode reserved only for test transactions coming from the user interface.\n\nFor editing code on UI it uses Monaco Editor it is the code editor that powers VS Code. For async communication between the server and the client this project uses web socket implementation of socket-io library.\n\nConcurrency is important when running computations on the server. It enables multiple users to use the system simultaneously. For concurrency it uses child_process in javascript and runs compilation, new project, export abi commands on a separate process. After the execution of the process it sends the result using web sockets. Concurrency is one of the main tasks in this project. I think running these operations on separate processes it the most optimal solution. \n\nAs for the user experience, while user waiting for the code to be compiled they need to see updates. On the server side it directs to outputs of the compilation process to a file reserved for the client, client constantly reads this file until process terminates and logs the upcoming outputs to user on the bash component.\n\nAfter exporting the abi, server returns it to the client. Client builds UI component based on that, buttons and input boxes. User can use those to test the compiled and deployed contracts. Results of transactions are logged to on the bash component.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/stylus-playground-qchi4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

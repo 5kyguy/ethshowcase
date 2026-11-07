@@ -1,0 +1,27 @@
+{
+  "id": "p8wjj",
+  "slug": "aqua-prime",
+  "title": "Aqua Prime",
+  "tagline": "Inventory-healing MM on 1inch Aqua: liquidity strategies routing, desk knobs run by AI",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p8wjj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/t02uDDE2PvkZeBR1jhQRfo102ZD01HxArF01OoOGBCn5301Y/high.mp4",
+  "demo_url": "https://canva.link/bi6bul6kmyqh39x",
+  "source_url": "https://github.com/MiguelBits/ETH-Global-Lisbon-Aqua-Prime",
+  "finalist": false,
+  "description": "Aqua Prime (Prime Desk) is an inventory-healing market-making desk built on 1inch Aqua + SwapVM, operated by Jarvis, an AI agent that retunes the maker’s swap settings from live market data.\n\nThe problem. Classic DeFi pools force LPs onto one passive curve. That creates toxic flow, bad inventory drift, and different prices for the same asset across pools. A TradFi desk would manage one book: shade quotes against imbalance, anchor to a reference price, and pick the execution path that leaves the book healthier.\n\nWhat we built. Aqua Prime brings that desk model on-chain:\n\nSelf-custodied liquidity on Aqua. The maker ships WETH/USDC virtual balances once. Tokens stay in the wallet until a swap settles (Aqua’s shared liquidity layer, no pool custody).\n\nInventory-aware pricing. A custom SwapVM opcode, SkewPricer, shades quotes by virtual-balance imbalance so each fill tends to heal the book instead of deepening skew.\n\nStrategy race, not one curve. PrimeSelector runs candidate programs (e.g. baseline vs heal) on the same book and picks by maker score: taker value minus a penalty for post-trade skew, not “best price for the taker only.”\n\nTunable desk knobs. The market maker can set healing strength, skew penalty (λ), and related swap settings. Hard caps live in the gateway contract so parameters stay bounded and quote/swap stay consistent.\n\nJarvis, the AI desk agent. Jarvis reads Uniswap Trade API fair-price tape (CLASSIC + BEST_PRICE) as decision fuel, proposes desk settings via 0G Compute (or a local heuristic fallback), and commits an attestation on-chain. Its personality/identity is rooted in ENS (jarvis.primedesk.eth). The AI never invents prices; it only turns bounded knobs before settlement on Aqua.\n\nDemo flow: consult Jarvis → stage/dock/ship a desk set on Aqua → swap; SwapVM races strategies; the selector picks the route that heals inventory most; ERC20 balances settle on-chain.\n\nIn short: Aqua Prime is maker-side best execution: programmable, self-custodied liquidity strategies on 1inch Aqua, with an AI agent overseeing the healing desk.",
+  "how_its_made": "We built Aqua Prime as two tightly coupled layers: an on-chain desk on a fork of 1inch/swap-vm + Aqua, and a Next.js operator console that drives it through Jarvis.\n\nOn-chain Smart Contracts:\nWe forked 1inch/swap-vm and appended a custom opcode, SkewPricer, to the Aqua opcode table (table-end, backward compatible) so inventory skew can shade quotes with maker-favorable rounding. PrimeSelector implements Extruction / StaticExtruction: it runs 2–3 candidate SwapVM programs on the same Aqua book and scores them with takerValue − λ·|postSkew|, then routes the winner. AquaPrimeSwapGateway owns the desk-set lifecycle (stageDeskSet → Aqua.dock → Aqua.ship → finalizeDeskSet) and stores a 0G attestation hash on-chain. Strategy changes respect Aqua immutability: dock old bytes, ship new ones. Liquidity stays self-custodied in the maker wallet until pull/settle against canonical Aqua. Chainlink ETH/USD bounds the fair mid. We prove it with ~60 Prime-specific Foundry tests (unit, e2e, fuzz, mainnet fork) inside a still-green upstream suite.\n\nFrontend ( 0G , Scaffold , Uniswap API ).\n/desk is a Bloomberg-style terminal (book, routing race, tape, ticket). /jarvis is the voice console (Web Speech API for STT + TTS). API routes keep partner keys server-side. A one-command Anvil mainnet-fork pipeline deploys the stack, funds demo wallets, and boots the UI for MetaMask on chain id 31337(localhost).\n\nPartner tech and why it mattered:\n\n1inch Aqua / SwapVM: Shared virtual balances + programmable bytecode strategies without redeploying a pool per idea. That is the core product surface.\nUniswap Trade API: Not settlement. Jarvis pulls CLASSIC + BEST_PRICE quotes into TapeIntel (impact, route, edge, filler gap) as a mainnet fair tape so desk knobs track real market conditions before Aqua settles.\n0G Compute: OpenAI-compatible chat for propose + critique of desk settings; keccak(inference) becomes the on-chain/ENS attestation. No key → deterministic local heuristic so the demo never hard-depends on the API.\nENS + IPFS: Jarvis’s “soul” is text records on jarvis.primedesk.eth injected into the system prompt; ENSIP-26 contenthash + agent card make the agent discoverable. Desk identity lives on maker.primedesk.eth.",
+  "auto_summary": "An on-chain market-making system that uses a modified 1inch Aqua/SwapVM stack and a Next.js console to tune inventory-aware swap strategies.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aqua-prime-p8wjj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

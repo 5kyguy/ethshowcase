@@ -1,0 +1,22 @@
+{
+  "id": "o880f",
+  "slug": "kamui",
+  "title": "Kamui",
+  "tagline": "Secretly teleport your assets into a shielded pool without a trace",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o880f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/r5xpauSNcm023nc51yezoXZFiIM02t1bo2CoFA6Nx1flM/high.mp4",
+  "demo_url": "https://kamui-hackmoney.vercel.app/",
+  "source_url": "https://github.com/geovgy/kamui",
+  "finalist": false,
+  "description": "This project is a privacy protocol that consists of a shielded pool and deposits into it are done via ZK-Wormholes similarly to EIP-7503. This allows users to shield their assets for privacy without revealing any signs of a deposit into the shielded pool onchain. It will just look like a normal transfer to what appears to be an unused EOA address. This is a burn address that is a hash of a secret and the real intended recipient's address. Once user transfers funds to that address, it is effectively burned and recipient can then later submit a zero-knowledge proof to claim the funds and use them privately in the shielded pool. Both fully private p2p transfers within the pool and withdrawals are supported. When funds are unshielded (aka withdrawn from pool), the asset will mint the amount to the unshielded receiver.\n\nThis project was designed to be extendible to support any token standard including NFTs and future token standards that suffice with an id and/or amount for their accounting.\n\nWormhole deposit claims and shielded UTXO transfers are executed in the same ZKP. If the user is doing a shielded transfer and no wormhole deposit, then a pseudo nullifier will still be outputted from the ZKP. This hides who, when and how many deposits were made into the pool. It is also a single omni shielded pool for all assets, which combined with the zk-wormholes makes it difficult to figure out which assets and % of supply are actively shielded in the pool.",
+  "how_its_made": "This project uses the following technologies:\n- Noir for the zero knowledge circuits\n- Solidity for the smart contracts with foundry.\n- Subgraph to index smart contract events\n- NextJS and shadcn for the webapp\n\nPartners:\n- ENS for resolving names and addresses of the recipient in the webapp\n\nI used Noir and UltraHonk for the zero-knowledge privacy piece. They have recently gotten much faster in proving speed for keccak and ECDSA signatures, so I chose to use regular Ethereum addresses and EIP712 for signing UTXO transfers in the shielded pool. This means people can just use their regular wallet like MetaMask. I did this to save time and hassle of handling keys in the app but its also much more secure and better UX for the user given their familiarity and habits with current wallets.\n\nTricky thing though was message hashes from EIP-712 typed data tend to exceed the max field value allowed in a proof. Thankfully, a convenient workaround was that it can still be allowed in the proof as bytes. So after ecrecover in the proof, I could just split the hash and return the splits in proof output to verify onchain.\n\nAll of the tokens that can do zk wormholes into the shielded pool all inherit the IWormhole interface. This interface allows the token to call the shielded pool on every normal token transfer it does for possible wormhole deposits. Approvers then screen out any illicit funds from being including in the tree, not that they know whether it is a normal transfer or a wormhole deposit. They look the same onchain. The IWormhole interface also gives the token the ability to mint new tokens as \"unshields\" that only the shielded pool contract should be allowed the call. By being an interface, any token can inherit the ability to be a zkWormhole-enabled asset.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/kamui-o880f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

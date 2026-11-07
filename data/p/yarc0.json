@@ -1,0 +1,30 @@
+{
+  "id": "yarc0",
+  "slug": "agentkit-aave",
+  "title": "AgentKit Aave",
+  "tagline": "Added Aave actions support to the AgentKit [PR Contribution]",
+  "event": {
+    "slug": "agents",
+    "name": "Agentic Ethereum",
+    "start_time": "2025-01-31T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yarc0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kqkYFxPaBpd3ky02UkdpgvDYnvWwveTUy96hxKp2gG900/high.mp4",
+  "demo_url": "https://github.com/coinbase/agentkit/pull/326",
+  "source_url": "https://github.com/Hebx/agentkit",
+  "prizes": [
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "AgentKit Pool Prize",
+      "title": "AgentKit Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "The Aave Action Provider integrates Aave V3 lending protocol with AgentKit, enabling AI agents to perform DeFi operations through natural language commands. Currently supports Base network operations for USDC and ETH. Using Aave sdk for protocol interactions and agentkit chatbot for interacting with the ai agent.",
+  "how_its_made": "# Aave Action Provider for AgentKit\n\n## Overview\n\nThe Aave Action Provider integrates Aave V3 lending protocol with AgentKit, enabling AI agents to perform DeFi operations through natural language commands. Currently supports Base network operations for USDC and ETH.\n\n## File Structure\n\n```\n\nagentkit/src/action-providers/aave/\n\n├── aaveActionProvider.ts    # Main provider implementation\n\n├── aaveActionProvider.test.ts # Test suite\n\n├── constants.ts            # Protocol addresses & configs\n\n├── schemas.ts             # Zod validation schemas\n\n└── index.ts              # Public exports\n\n```\n\n## Core Features\n\n### Supply Action\n\n```typescript\n\n@CreateAction({\n\n  name: \"supply\",\n\n  description: \"Supply assets to Aave protocol\",\n\n  schema: SupplySchema,\n\n})\n\n```\n\n- Supports USDC and ETH deposits\n\n- Handles token approvals automatically\n\n- Converts human amounts to protocol units\n\n### Withdraw Action\n\n```typescript\n\n@CreateAction({\n\n  name: \"withdraw\",\n\n  description: \"Withdraw assets from Aave protocol\",\n\n  schema: WithdrawSchema,\n\n})\n\n```\n\n- Supports USDC and ETH withdrawals\n\n- Verifies aToken balances\n\n- Manages gas optimization\n\n## Integration Example\n\n```typescript\n\n// examples/langchain-cdp-chatbot/test-aave.ts\n\nconst agent = new Agent({\n\n  actionProviders: [new AaveActionProvider()],\n\n});\n\n// Natural language command\n\nconst result = await agent.chat(`\n\n  Supply 100 USDC to Aave on Base network\n\n`);\n\n```\n\n## Technical Details\n\n### Dependencies\n\n- @aave/contract-helpers: Protocol interactions\n\n- @bgd-labs/aave-address-book: Contract addresses\n\n- ethers: Web3 provider\n\n- viem: Amount handling\n\n### Error Handling\n\n- Balance verification\n\n- Network validation\n\n- Transaction failures\n\n- Approval errors\n\n### Testing\n\n- Mocked provider interactions\n\n- Success and failure scenarios\n\n- Balance checks\n\n- Network validation\n\n## Usage in AgentKit\n\n```typescript\n\n// agentkit/src/index.ts\n\nexport { AaveActionProvider } from './action-providers/aave';\n\n// In your agent\n\nimport { AaveActionProvider } from 'agentkit';\n\n```\n\n## Environment Setup\n\n```env\n\n# examples/langchain-cdp-chatbot/.env\n\nPROVIDER_URL=https://mainnet.base.org\n\nWALLET_KEY=your_private_key\n\n```\n\n## Current Limitations\n\n- Base network only\n\n- USDC and ETH support\n\n- Single position management\n\n## Future Enhancements\n\n- Multi-network support\n\n- Additional assets\n\n- Position optimization\n\n- Collateral management\n\nThis integration enables AI agents to interact with Aave through a secure, type-safe interface while maintaining protocol-level safety checks.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentkit-aave-yarc0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

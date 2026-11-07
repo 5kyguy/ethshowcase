@@ -1,0 +1,20 @@
+{
+  "id": "hspt2",
+  "slug": "antisandwich-hook",
+  "title": "AntiSandwich Hook",
+  "tagline": "Dynamic quadratic fees that predict sandwich risk using pre-swap deltaTick analysis.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hspt2/banner/default.jpg",
+  "source_url": "https://github.com/kaream-badillo/ethglobal-uniswap-2025",
+  "finalist": false,
+  "description": "AntiSandwich Hook is a Uniswap v4 Hook that predicts pre-swap price impact using deltaTick and adjusts swap fees using a continuous quadratic formula. Instead of blocking swaps or relying on oracles, the hook uses on-chain pool state to detect abnormal tick jumps—typical of sandwich attacks in stable pairs—and increases fees smoothly up to a capped maximum. Normal swaps remain cheap (5 bps), while risky swaps automatically incur higher fees (up to 60 bps), protecting LPs from MEV exploitation without hurting user experience. The design is fully gas-efficient, requires no external dependencies, and works transparently within the v4 hook architecture.",
+  "how_its_made": "The project is built entirely using the Uniswap v4 Hook template, Solidity (^0.8.x), and Foundry for testing and scripting. The hook integrates directly with the v4 PoolManager and relies only on on-chain data—specifically sqrtPriceX96 and tick conversions—to compute deltaTick before every swap. A quadratic fee function is implemented using integer-scaled coefficients to maintain precision without decimals. The system stores only minimal per-pool state (lastTick, avgTradeSize, baseFee, maxFee) to keep gas costs low. All logic runs inside beforeSwap() and afterSwap(), following Uniswap’s native hook flow. The demo uses Forge scripts and a Sepolia fork to simulate normal, medium-risk, and high-risk swaps, allowing judges to observe the dynamic fee curve in action. No oracles, no off-chain components, and no external libraries beyond the v4 template were required.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/antisandwich-hook-hspt2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

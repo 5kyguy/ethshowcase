@@ -1,0 +1,30 @@
+{
+  "id": "32w3s",
+  "slug": "savio",
+  "title": "Savio",
+  "tagline": "Group savings protocol with fixed deposits, random/auction payouts, cross-chain wallets, gasless UX",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/32w3s/banner/default.jpg",
+  "video_url": "https://stream.mux.com/beHB02Gx78f3hXkTp01VjVPawRGLBJUfYfdgeJ51MqMl4/high.mp4",
+  "demo_url": "https://youtu.be/Oce2XKnf5A0",
+  "source_url": "https://github.com/AkashWarlocks/savio-smart-contracts",
+  "prizes": [
+    {
+      "sponsor": "Circle",
+      "sponsor_id": "x3xey",
+      "placement": "Enable end users to pay for gas using USDC",
+      "title": "Enable end users to pay for gas using USDC"
+    }
+  ],
+  "finalist": false,
+  "description": "Savio is a trustless, group-based savings protocol inspired by traditional ROSCA (Rotating Savings and Credit Association) models used by over a billion people worldwide. It enables users to contribute a fixed, predefined amount at regular intervals into a shared pool and receive payouts in rotating cycles.\n\nParticipants can either join an existing group—filtered by specific criteria—or create a new one. Group creators receive a 5% fee rebate and a unique invite link to share with others they wish to onboard.\n\nSavio supports two distinct payout mechanisms:\n\t•\tRandomized Payouts, powered by Chainlink VRF, where no bids are placed and one user is selected at random for that cycle.\n\t•\tBlind Auction-Based Payouts, where users secretly bid for the next payout. The highest bid wins, and all losing bids are returned to their respective users. The winning bid is redistributed evenly among the remaining participants, with the protocol retaining a 20% cut. Each round with bidding redistributes new value to the group, creating a dynamic incentive layer.\n\nIf no bids are placed during a round, the protocol defaults to a random selection using Chainlink VRF.\n\nThe cyclical nature of Savio introduces subtle game theory dynamics. Early payout recipients can treat their payout as a low- or zero-interest loan, while users who receive the payout later benefit from cumulative bid distributions—potentially yielding a larger return. Users can strategically decide when to bid—or not—based on past participant behavior and perceived urgency.\n\nBids are submitted blind and alongside the scheduled contribution. Once all bids are received, the smart contract automatically determines the highest bidder and allocates the payout accordingly. In essence, bids represent not an interest rate, but a signal of a user’s urgency to access the pooled funds.\n\nTo ensure integrity and prevent defaults—such as a user ceasing contributions after receiving their payout—every participant must stake the full value of their projected savings upfront. This collateral is held in USDC and deployed into Euler to generate yield (7% APY at time of writing). Should a user fail to contribute, the contract taps into their staked collateral to protect the group’s continuity.\n\nOnce the savings cycle concludes, all participants may unstake their collateral in full.\n\nPayouts are sent directly to the user’s smart wallet. Users can either withdraw their funds—subject to a protocol fee—or retain them within the protocol to allocate toward yield-generating strategies.\n",
+  "how_its_made": "We built a modular, gasless, and cross-chain savings protocol by weaving together a stack of powerful technologies, each solving a critical piece of the UX and infrastructure puzzle.\n\nUser Onboarding & Wallet Infrastructure:\nWe used Privy for seamless Web2-style onboarding, and extended it to support custom smart accounts using Circle’s Modular Smart Wallet built on ERC-4337. This allowed us to build programmable wallets with integrated paymasters and signature flexibility.\n\nSmart Wallet Deployment Across Chains:\nTo ensure multi-chain availability, we used LayerZero to deterministically deploy wallets across supported chains using the OAPP standard. Leveraging LayerZero’s batchSend, we deployed wallets and SaviolzManager contracts across all networks in a single transaction.\n\nEach chain hosts a SaviolzManager.sol contract that coordinates cross-chain execution and state synchronization.\n\nCross-Chain Token Transfers with Circle CCTP:\nWe used Circle CCTP to enable fast and secure cross-chain USDC transfers for key protocol operations like joining, contributing, and withdrawing. CCTP gave us canonical, native USDC bridging with low latency and high reliability.\n\nGasless Experience via Circle Paymaster:\nTo ensure frictionless usage, we integrated Circle Paymaster on Amoy, Base, and Arbitrum testnets, enabling users to perform all actions gas-free regardless of which chain they’re on.\n\nCollateralized Group Saving with Yield:\nWhen users join a group, they submit a collateral = period × pledge. If they default on monthly contributions, the protocol can use this collateral to protect the group. Meanwhile, it’s deployed into Aave or Euler to earn passive yield.\n\nROSCA Gamification & Protocol Profitability:\nUsers can bid for a chance to win the payout in each round. The highest bidder receives the pool early, and the bid amount is redistributed to the rest, ensuring the protocol stays solvent and incentivized.\n\nHacky Highlights:\n\nEnabled custom smart account wallet support in Privy\n\nBuilt one-click cross-chain contract deployment using LayerZero batchSend\n\nIntegrated ERC-4337, LayerZero, Circle Paymaster & CCTP into a cohesive system\n\nCombined modular account abstraction, cross-chain state, gasless infra, and DeFi into one seamless UX\n\nOur stack lets users join from any chain, contribute without gas, and experience a decentralized rotating savings protocol with built-in yield and game theory mechanics.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/savio-32w3s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

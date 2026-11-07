@@ -1,0 +1,27 @@
+{
+  "id": "do11y",
+  "slug": "amanascore",
+  "title": "AmanaScore",
+  "tagline": "An AI guardrail blocking non-compliant Hedera transfers with on-chain HCS audit logs.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/do11y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fBd1T7Jn61uAkh9aPD3sLaIZ00uOy02bIzPN7SsLpt02HQ/high.mp4",
+  "demo_url": "https://www.youtube.com/watch?v=asTrOV0YJNs",
+  "source_url": "https://github.com/layla-lili/AmanaScore",
+  "finalist": false,
+  "description": "Islamic finance has very little on-chain compliance infrastructure. Most payment flows do not check whether a transfer is acceptable before executing, and they rarely preserve an auditable trail of that decision.\nAmanaScore is a Hedera testnet demo that blocks non-compliant transfers with a custom Sharia policy and logs every decision to Hedera Consensus Service (HCS).",
+  "how_its_made": "AmanaScore is a Node.js agent built on Hedera Testnet that enforces Sharia-compliance rules before executing any HBAR transfer. I used the Hedera SDK (@hashgraph/sdk) for native CryptoTransfer transactions and Hedera Consensus Service (HCS) for immutable audit logging, plus Hedera Agent Kit to wire the agent's decision-making flow.\nThe architecture is intentionally simple but powerful: a custom ShariaCompliancePolicy module sits as a middleware gate between the agent intent and the Hedera network. Every transfer request first hits the policy lookup — if the recipient is tagged as interest-lending (riba), the transfer is blocked before any network call is made. If the recipient is asset-backed and compliant, the agent signs and submits a live CryptoTransfer to testnet. Unknown recipients fall back to dry-run mode, allowing safe exploration without spending HBAR.\nFor auditability, every decision — allowed, rejected, or dry-run — is serialized to JSON and submitted to a dedicated HCS topic. If no topic ID is configured, the app auto-creates one on first run, making deployment frictionless. I used dotenvx for encrypted secret management and built the entire flow as a single-file demo (demo.js) that runs three scenarios end-to-end in under 10 seconds.\nThe hacky part: I treated the compliance policy as a pre-flight middleware rather than a post-transfer filter. This means non-compliant transactions cost exactly zero HBAR — they never touch the network — while still producing an immutable HCS audit trail of the attempt. This pattern could plug directly into custodian wallets or payment rails that need provable compliance without wasting gas on rejected transactions.",
+  "auto_summary": "A Node.js Hedera testnet demo applies Sharia compliance checks before HBAR transfers and logs decisions to Hedera Consensus Service.",
+  "scores": {
+    "originality": 6,
+    "practicality": 7,
+    "technicality": 6
+  },
+  "showcase_url": "https://ethglobal.com/showcase/amanascore-do11y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

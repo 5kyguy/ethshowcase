@@ -1,0 +1,22 @@
+{
+  "id": "m71nq",
+  "slug": "incepson",
+  "title": "incepSON",
+  "tagline": "IncepSON which is an autonomous LLM agent can *request* payments. It can never *authorize* them.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m71nq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/U01hzp5uScmC00u5Tz0001O68po8XfkvUOwifeMySzSycpo/high.mp4",
+  "demo_url": "https://incepson.vercel.app/",
+  "source_url": "https://github.com/anonymoushaalu/incepson",
+  "finalist": false,
+  "description": "Every payment an agent asks for passes through a deterministic policy engine\nplain TypeScript, no language model, no I/O - that resolves the request to\nexactly one of three outcomes:\n\n ALLOW- small, in-budget, allowlisted. Settles over [x402](https://github.com/x402-foundation/x402) on Hedera testnet, autonomously.\nESCALATE - legal but worth a human's attention. Suspended until a physical button is pressed on an ESP32.\nDENY- breaches a hard limit. Refused unconditionally. No appeal.",
+  "how_its_made": "AgentPay/IncepSON is built on three honest boundaries. The agent (OpenAI tool-calling loop) has one tool: request_payment(service, amount, reason). Module structure, a grep check, and a unit test together ensure it has no import path to payments/x402.ts  the only file allowed to touch the x402 client. That boundary isn't convention; it's enforced.\nEvery request hits a pure TypeScript policy engine  no I/O, no network, no LLM, clock injected so it's testable with a frozen timestamp. Evaluation order is itself a security property: hard denials (allowlist → per-transaction limit → rolling 24h aggregate budget) before escalation signals. A request that's both anomalous and over-budget is denied, never escalated  a human can't be socially-engineered into approving something the policy already forbids.\nPayments settle over x402 on Hedera testnet through the public x402.org facilitator (no API key). The client registers Hedera's exact scheme via @x402/hedera, and the merchant process returns a genuine HTTP 402  faking it in-process would make the demo a lie.\nThe ESP32 escalation path was the trickiest piece. The device polls GET /device/pending every 2s (outbound, no port forwarding on venue WiFi), recomputes the HMAC locally before rendering anything, and refuses to arm the button on a mismatch. A pinned cross-language HMAC test vector guards the wire format between the Node backend and the Arduino firmware. One notable gotcha: HEDERA_KEY_TYPE must match the account's actual on-chain key type — a mismatch signs silently but fails facilitator verification with no client-side error.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/incepson-m71nq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

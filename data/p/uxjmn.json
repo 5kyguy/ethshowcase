@@ -1,0 +1,26 @@
+{
+  "id": "uxjmn",
+  "slug": "casium",
+  "title": "casium",
+  "tagline": "Scoped AI rental agent with Sui-enforced permissions and private document sharing.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uxjmn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uvrdNusH5WBAAigbiLTEeIX2iIL6LcySC00k4gEmuTHU/high.mp4",
+  "source_url": "https://github.com/c3n21/casium",
+  "finalist": false,
+  "description": "Cassiuum is a scoped AI rental agent that finds suitable properties and submits applications within limits set by the renter. Sui enforces the agent’s permissions, while World verifies that each agent represents a unique human and prevents duplicate applications. Sensitive documents remain encrypted on Walrus and are shared only with authorized landlords.",
+  "how_its_made": "Casium is a scoped rental-application agent: a renter authorizes an agent to apply for apartments, but the agent is constrained by both human identity and on-chain permissions. The core idea is: **World limits who the agent represents. Sui limits what the agent can do.**\n\nI built it as a pnpm/TypeScript monorepo with three main apps:\n\n- **Next.js 16 + React 19 frontend** for renter, provider, landlord, and agent-operator views.\n- **Hono provider API** that owns listings, application reservations, duplicate-human checks, packet registration, receipt verification, and Postgres persistence via Drizzle.\n- **Node.js deterministic agent service** that reads a renter mandate, evaluates listings, reserves an application slot with the provider, then submits the application on Sui.\n\nThe on-chain core is a **Sui Move package deployed to testnet**. It defines `RentalMandate`, `OwnerCap`, `AgentCap`, `RentalListing`, and `ApplicationReceipt`. A renter creates a `RentalMandate` with limits like max rent, municipality allowlist, bedroom count, expiration, and remaining application count. The agent receives an `AgentCap`, but Move still checks that the transaction sender matches the mandate’s authorized `agent_sui`, the listing is eligible, the mandate is not revoked/expired, and the agent has remaining application allowance.\n\nFor **World AgentKit**, the provider verifies the agent’s EVM identity before accepting a reservation. The app supports both a mock mode for deterministic local testing and real AgentKit verification using `@worldcoin/agentkit` helpers. The important part is that raw World human IDs are immediately SHA-256 hashed, and the provider enforces one application per verified human per listing. We also bind the AgentKit-verified EVM address back to the Sui mandate’s `agent_evm` field, so a random verified agent cannot use someone else’s mandate.\n\nFor documents, we used **Walrus** as the storage layer and **Seal** as the access-control layer. The renter’s browser generates a synthetic application packet, encrypts it client-side, uploads only ciphertext to Walrus, and registers the `walrusBlobId` plus packet hash with the provider. Walrus is abstracted behind one adapter interface with mock, HTTP, and CLI modes; the live HTTP adapter was smoke-tested against Walrus testnet with byte-identical download verification.\n\nSeal handles landlord-gated decryption. The packet identity is derived from:\n\n```text\nbcs(mandate_id) || bcs(listing_id)\n```\n\nThat was a deliberate design choice because the renter encrypts before the eventual `ApplicationReceipt` exists, but we still wanted the ciphertext scoped to exactly one mandate and one listing. We upgraded the Sui package to add `seal_approve_packet`, which Seal key servers dry-run before releasing keys. The Move policy checks landlord sender, packet identity, receipt status, access expiry, mandate match, and revoked state.\n\nThe hackiest-but-important part was stitching together multiple identity domains safely. The agent has a Sui address for transactions and an EVM address for AgentKit. Sui cannot directly verify the AgentKit EVM signature inside the Move call, so the provider becomes the cross-chain enforcement point: it sees the AgentKit-verified EVM signer, reads the Sui mandate, checks the mandate’s expected EVM/Sui agent addresses, then only returns a reservation hint if everything matches.",
+  "auto_summary": "A monorepo for rental-application agents that uses Sui contracts, World human verification, and Walrus/Seal-based encrypted document handling.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/casium-uxjmn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

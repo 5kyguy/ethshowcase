@@ -1,0 +1,27 @@
+{
+  "id": "frc9u",
+  "slug": "kipio",
+  "title": "kipio",
+  "tagline": "Permanent, private memory storage where users own their data.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/frc9u/banner/default.jpg",
+  "video_url": "https://stream.mux.com/k4hmKxOLClvef45Vpku5fr2MzIKMsGrmiGJDGXwQqx00/high.mp4",
+  "demo_url": "https://frontend-six-iota-ze7l5weg9c.vercel.app/",
+  "source_url": "https://github.com/AndresChanchi/vaultchain-sovereign-agent",
+  "finalist": false,
+  "description": "Kipio is a digital sovereignty architecture that integrates Arbitrum Stylus (WASM) and Irys L1 Datachain to turn \"cloud storage\" into permanent, user-owned digital property. Photos are encrypted client-side before leaving the device, stored permanently through Irys, and indexed on-chain through a Rust-powered Stylus contract. The current MVP runs end-to-end on Arbitrum Sepolia with browser wallets.\n\nFor ETHOnline 2026 I targeted the Ledger — Continuity track. Kipio already worked as a complete product, so the hackathon work was to extend it with hardware-backed signing without touching the smart contracts. The dApp now exposes two Ledger connectors through Wagmi v3, both routed through the Ledger Device Management Kit: one for physical devices over WebHID, and one for the Speculos emulator deployed on Oracle Cloud. Reviewers can experience the full signing flow — EIP-191, EIP-712, and on-chain transactions — without owning hardware, and users with a real Ledger get the same pipeline through a different transport.",
+  "how_its_made": "The frontend is Next.js + TypeScript. Image processing and AES-GCM-256 encryption run inside Web Workers before any data leaves the browser. Ciphertext is uploaded to Irys devnet, and the content hash plus the Irys transaction ID are registered in a Stylus contract written in Rust and compiled to WASM on Arbitrum Sepolia.\n\nFor the Ledger integration I wrote a custom Wagmi v3 connector from scratch (src/lib/ledger/connector.ts) that wraps the Ledger Device Management Kit and exposes a Viem-compatible account. It is not a thin wrapper: it implements the full EIP-1193 surface — personal_sign, eth_signTypedData_v4, eth_sendTransaction, eth_signTransaction — and routes each method to the DMK SignerEth builder, while read-only RPC calls are proxied to a public client on the chain's HTTP transport. This is what allows ethers-based SDKs (like Irys) to sign through the Ledger without special-casing.\n\nThe same connector is instantiated twice in wagmi.ts, sharing the DMK signer but using different transports: webHidTransportFactory for physical devices and speculosTransportFactory for the emulator. The Speculos transport accepts an ordered list of URLs and caches the first one that responds, so a single build targets both local Docker and a remote deployment via environment variables.\n\nThe emulator backend ships a precompiled Ledger Ethereum app ELF and runs inside Docker on an Oracle Cloud Always Free ARM VM. The HTTP API (port 5000) is exposed through a Cloudflare Tunnel over HTTPS, which is what allows the Vercel-hosted dApp to talk to it without mixed-content blocks. A second tunnel exposes the VNC server (port 41000) through websockify, so the emulator screen can be embedded directly in the dashboard next to the upload pipeline.\n\nA few hacky details worth mentioning: the connector normalizes Viem's typed-data output before it reaches the device (Ledger rejects bigint chainIds and inline EIP712Domain entries), it maps DMK's {r,s,v} signatures into the 65-byte hex format Viem expects while normalizing v between 0/1 and 27/28, and it detects the active connector ID to surface the emulator URL only when the user is on the Ledger Simulator. Everything else — the contracts, the Stylus registry, the encryption layer — was left untouched, which was the entire point of the track.",
+  "auto_summary": "A Next.js dApp encrypts images client-side, stores ciphertext on Irys, and registers metadata through an Arbitrum Stylus contract with Ledger-backed signing.",
+  "scores": {
+    "originality": 6,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kipio-frc9u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

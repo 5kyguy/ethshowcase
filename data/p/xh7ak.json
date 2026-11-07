@@ -1,0 +1,35 @@
+{
+  "id": "xh7ak",
+  "slug": "folio",
+  "title": "Folio",
+  "tagline": "0% interest credit line backed by your stocks. Borrow cash without selling, no minimums, no taxes",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xh7ak/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZoSDpdOpVoUMnSme61PFED00nUsaI02TN025SWVOii4XAk/high.mp4",
+  "demo_url": "https://folio-blush-omega.vercel.app/",
+  "source_url": "https://github.com/zalatar242/folio",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Tokenization on Hedera",
+      "title": "Tokenization on Hedera"
+    }
+  ],
+  "finalist": false,
+  "description": "Globally, trillions sit in brokerage accounts that people can't spend. Need cash? You either sell shares and lose up to 37% to capital gains taxes, or take a margin loan at 7-12% interest — if you even qualify. Most brokerages require $500K+ in assets.\n\nFolio gives you a 0% interest credit line backed by your stock portfolio. No interest. No minimums. No liquidation risk. No selling, no taxes.\n\nWhen you spend $50 against your $225 TSLA, Folio locks ~0.222 shares as collateral and sets a zero-cost collar — your downside is protected (floor at $213.75), your upside is temporarily capped ($258.75). You receive $50 USDC instantly. At expiry, repay $50 and get your shares back, or the collar settles automatically. The premium from capping your upside pays for the downside protection. Net cost to you: $0.\n\nThe entire experience feels like a neobank — email login, \"spend\" buttons, virtual cards, transaction receipts. No wallets, no hex addresses, no MetaMask. The blockchain is invisible plumbing.\n\nUnder the hood: Hedera Token Service manages all equity tokens, stablecoin advances, and NFT receipts (zero Solidity). A Chainlink CRE workflow pulls real-time prices from Data Streams and implied volatility from DoltHub, computes market-driven collar strikes, and writes them on-chain to a CollarOracle on Base Sepolia. Dynamic provides email-only auth via the JavaScript SDK and MPC server wallets via the Node SDK for automated settlement. An AI optimizer uses on-chain oracle data to recommend optimal protection ranges for every spend.\n\nThe big brokerages all offer securities-backed credit lines. Every single one requires $500K+ and charges 7-9%. Folio does the same thing for anyone, at 0%, from their phone.\n",
+  "how_its_made": "Folio is a Next.js 16 App Router application (TypeScript, Tailwind CSS) with three sponsor integrations running in concert. Solo build, 36 hours.\n\nHEDERA — All financial operations run on Hedera Token Service using the @hashgraph/sdk — no Solidity anywhere on Hedera. Folio creates fungible tokens (MOCK-TSLA, MOCK-AAPL, USDC-TEST) to represent equity positions and stablecoin advances. When a user spends against their portfolio, the collateral lock is prepared as an unsigned transaction, signed client-side with their encrypted Hedera key (AES-256-CBC), then co-signed by the operator — a true non-custodial flow. Each spend mints an NFT Spend Note with IPFS metadata (via Pinata) recording the asset, shares locked, collar parameters, and expiry. Hedera Consensus Service provides an immutable audit trail logging every spend, repayment, and settlement. The app uses 4+ native Hedera services: HTS fungible tokens, HTS NFTs, HCS audit logging, and account management with KYC grants, freeze/unfreeze, and custom fee schedules.\n\nCHAINLINK — A CRE workflow orchestrates the entire pricing pipeline. Step 1: Chainlink Data Streams (via Confidential HTTP — HMAC credentials secured in CRE's confidential compute enclave) fetches real-time asset prices at 8 decimal precision. Step 2: DoltHub SQL API fetches options implied volatility, historical volatility, and IV rank. Step 3: The workflow computes zero-cost collar strike prices using a log-symmetric approximation with real market volatility. Step 4: Results are written on-chain to a CollarOracle smart contract on Base Sepolia via EVM Write. The frontend reads collar parameters from the on-chain oracle using viem. This gives Folio DON-verified, market-data-driven protection ranges instead of hardcoded percentages. The Confidential HTTP capability keeps Data Streams API credentials secure — they never leave the enclave.\n\nDYNAMIC — The JavaScript SDK provides email-only OTP authentication — users never see a wallet connection screen. Custom themed to match the neobank aesthetic. Server-side JWT verification via JWKS protects all API routes. The Node SDK powers server wallets with 2-of-2 MPC threshold signing for oracle maintenance on Base Sepolia and a delegation flow for automated settlement on behalf of users.\n\nNOTABLE HACK — The zero-cost collar is the financial innovation that makes 0% possible. Selling a call option (capping upside) pays for buying a put option (protecting downside). The CRE workflow computes these strikes using real implied volatility from options markets, not hardcoded values. The AI optimizer uses a three-tier approach: (1) on-chain Chainlink oracle data as highest priority, (2) LLM-enhanced analysis with real options chain data, (3) quantitative fallback using Black-Scholes-inspired math.\n\nAdditional integrations: Plaid (real brokerage holdings), Lithic (virtual debit cards), Pinata (IPFS metadata), Supabase (user registry, spend notes), Vercel AI SDK (AI recommendation engine).",
+  "auto_summary": "A Next.js app provides portfolio-backed spending by combining Hedera token operations, Chainlink-based pricing workflows, and Dynamic-managed user authentication and wallets.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/folio-xh7ak",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

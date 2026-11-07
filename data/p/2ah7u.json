@@ -1,0 +1,27 @@
+{
+  "id": "2ah7u",
+  "slug": "tr4ce",
+  "title": "TR4CE",
+  "tagline": "Verifiable ERC-4626 vault evidence for people and agents. Vault Activity data? Verified ✅",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2ah7u/banner/default.jpg",
+  "video_url": "https://stream.mux.com/N25VaycH5ovvij6B9toSMGN3na006Uf4QDYziLBgOIiY/high.mp4",
+  "demo_url": "https://tr4ce.vercel.app/",
+  "source_url": "https://github.com/0xlann/tr4ce-app",
+  "finalist": false,
+  "description": "Most vault products show a number without preserving enough context to verify it. And that's the main reason i built TR4CE. ERC-4626 standardizes how vaults are called, but a clean APY or successful preview does not prove that the data is complete, current, tied to the right asset, or comparable across different vault implementations.\n\nTR4CE traces Base mainnet vault activity and turns it into reproducible evidence reports. Each report keeps the vault address, chain, blocks, observation window, raw calculation inputs, policy version, provenance, and limitations. I then evaluate that evidence against five explicit rules covering the underlying asset, history, TVL, observed share-value return, and account withdrawability.\n\nEvery rule returns PASS, FAIL, or UNKNOWN. I treat missing, stale, reverted, or unsupported data as UNKNOWN instead of guessing a value or hiding the gap. The committed evidence manifest currently covers four USDC-denominated ERC-4626 vaults across Morpho V2 and Yearn V3, backed by recorded Base contract reads and public transaction references.\n\nWhen someone wants to act on a report, TR4CE prepares exact deposit or redeem calldata and simulates it at a named block. It never signs or submits the transaction. The connected wallet owner still reviews and approves every action. I built it this way so the same evidence can help a person, wallet, or agent make a decision without giving TR4CE custody of funds or control of a private key.",
+  "how_its_made": "I built TR4CE as an evidence pipeline rather than another vault dashboard. The historical layer is a Rust and WASM package running on The Graph Substreams. It filters Base blocks to a configurable set of ERC-4626 vaults, then emits typed deposits, withdrawals, share transfers, and block-scoped snapshots through protobuf. Keeping vault addresses as runtime parameters means the same package can trace a different curated set without rebuilding it.\n\nThe Substreams output uses the PostgreSQL Database Changes format. Raw observations and the stream cursor land together, while a worker promotes only confirmed rows into the application schema. If a deep reorganization changes a promoted block, dependent reports and prepared actions are invalidated instead of quietly serving stale evidence.\n\nI kept the evidence and policy logic in shared TypeScript packages. Token values stay in integer base units, ratios retain their original inputs, and missing data never becomes a convenient zero. The five policy rules always resolve to PASS, FAIL, or UNKNOWN, so the web app, API, and MCP tools all return the same decision from the same evidence.\n\nThe interface uses Next.js and React, with Hono for the HTTP API and a generated OpenAPI 3.1 contract. I also built six MCP tools for vault search, evidence retrieval, policy evaluation, action preparation, and receipt status. viem handles contract reads and simulation, while wagmi hands unsigned calls to the connected wallet. TR4CE never receives a private key and has no transaction submission endpoint.\n\nThe most time-consuming part was making the proof honest across Morpho V2 and Yearn V3. They share ERC-4626 interfaces but not identical behavior, so I kept versioned adapters and raw capability results instead of forcing everything into one score. I also found that substreams run --test-file was not enforcing assertions in the CLI version I used. I wrote a pinned live-check script that runs real Base blocks and compares the output with committed fixtures. That workaround became part of the reproducible evidence trail rather than something hidden from reviewers.",
+  "auto_summary": "TR4CE collects ERC-4626 vault activity on Base, stores reproducible evidence, evaluates policy rules, and prepares unsigned deposit or redeem simulations.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tr4ce-2ah7u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

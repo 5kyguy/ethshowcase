@@ -1,0 +1,36 @@
+{
+  "id": "3q0co",
+  "slug": "cosmic-cowboys",
+  "title": "Cosmic Cowboys",
+  "tagline": "A dynamic on-chain game that involves interacting with stranded space cowboy NPCs, powered by AI and ERC-6551",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3q0co/banner/default.jpg",
+  "video_url": "https://stream.mux.com/meNWXJm7QgU6nRrafckLWCguuBdduityUJdV00FhdHfQ/high.mp4",
+  "demo_url": "https://cosmiccowboys.cloud",
+  "source_url": "https://github.com/stevedylandev/cosmic-cowboys-contracts",
+  "prizes": [
+    {
+      "sponsor": "XMTP",
+      "sponsor_id": "nbyyv",
+      "placement": "🐦 XMTP — Best Onboarding ",
+      "title": "XMTP"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "In this project we wanted to demonstrate the power of AI, Blockchain, and ERC-6551 when it comes to gaming and NPCs. Cosmic Cowboys lets you enter a world with NPCs that are controlled by AI, where you can chat with them about their journey and influence them to make on chain decisions thanks to ERC-6551. \n\nThe backstory: \nThe cosmic gold rush began with a bang. Literally. An asteroid the size of Jupiter slammed into our galaxy causing a ripple that knocked out power on Earth globally for three days. Scientists quickly learned the rock was made of 90% lithium. Earth’s electric-hungry population clamored to mine the space rock so that they could power our electrified future. But to get to the rock, the world would need modern day gold miners willing to risk it all to travel across the galaxy in search of fortune and maybe a little fame. \n\nA legion of space cowboys volunteered and were quickly trained, provided with hastily constructed ships, and sent hurtling into the nothing of space. These cowboys stopped at nothing to be first to claim any of the large pieces of lithium land they could. A demolition derby in space ensued. Ships careening off ships. Hacked and redirected navigation systems sending ships into various astroid fields. Comms units overrun with the taunting and sometimes panicked voices of space cowboys battling for a lawless place across infinity. \n\nIf only the cowboys had been paying attention to their course.\n\nThe ripple that had impacted Earth reverberated across the galaxy and caused the sun to shift ever so slightly in its throne at the center of the Milky Way. That shift was enough to move planets, debris, asteroids, and meteorites. It shifted the course for the cowboys and they were no longer heading toward the rock of lithium. Instead, they were heading for one of Jupiter’s moons. \n\nAs the ships crash-landed on Ganymede and the space cowboys realized there was no lithium to mine, they had to find ways to survive. Using the mining tools each ship carried, a settlement was constructed. Conserving fuel, and using the re-usable rockets they’d set off on their adventure in, quick trips for supplies and food sources from Jupiter’s other moons were made possible. \n\nBut our space cowboys were stranded on a moon in a desolate land, forced to build a society and fend for themselves.\n\nGame Dynamics\n\nEach cowboy is an ERC-721 NFT that has a ERC-6551 Tokenbound account, which allows them to own a starting out supply of 5 food, 5 supplies, and 20 credits. They also have a starting location of the \"Bar.\" From there they can visit:\n- Home:  Will give them 2 health in exchange for 2 food\n- Supply Depot: Allows the NPC to trade and start Supply Missions. \nWith trading, they can either buy or sell supplies, 1 credit for each supply. A supply mission costs 5 credits and once completed will give the NPC 5 food and 5 supplies. The goal of the game is for NPCs to grow in power based on their total holdings in all categories. \n\nEach NPC has all of their backstory stored in their IPFS metadata linked to the NFT and serves as their AI DNA. That background is fed into OpenAI to help curate decisions. Each of actions available to the NPC are run as callable AI functions which then translate to smart contract interactions through the individual NPC TBA (token bound account). This gives the NPCs a true sense of autonomy. \n\nPeople on Earth (game players) can visit https://cosmiccowboys.cloud and connect with their own wallet or their web2 login such as google, and engage with some of these NPCs. They can view their backstory, their stats, and click \"engage\" if they want to chat with them. This chat connects their wallet with the NPC TBA and created an encrypted wallet to wallet messaging thanks to XMTP. Through the chat the end user can help steer the NPC to make certain decisions, such as visiting home, or starting a supply mission. The chat UI will notify when these actions are taking and periodically the on chain statistics are updated. ",
+  "how_its_made": "For the smart contracts we made use of the following: \n- A primary key that can deploy / own the contracts \n- An altered ERC-721 where each NFT is an NPC. The additions to the contract include on-chain state like health and location.\n- ERC-20 Contract for the in game currency\n- Two ERC-1155 Contracts for in game supplies and items \n- A custom \"Operator\" contract that abstracts the other contracts and allows on chain dynamics.\n- A custom implementation of ERC-6551 for deploying to chains that may not have an implementation address, like Scroll. \n\nThe Operator contract serves as the brain of the entire game logic, taking in the other elements as constructors. The ownership of the ERC721, ERC20, and ERC1155 are transferred to the Operator contract so that contract can make multiple contract calls in on function, such as burning ERC20 tokens while minting supplies during a trade. We used hardhat to help compile and deploy these contracts to multiple chains. \n\nThe AI functionality is managed through OpenAI's chat API along with OpenAI's function calling capabilities. A cron job runs hourly and cycles through all 20 NPCs. Each one is reminded of their backstory and their onchain game state and then asked to make a decision on what they should do next. The decision made by AI results in an onchain transaction. \n\nFor speed and performance, all onchain actions and data are replicated to IPFS. The game's frontend uses this index and polls for updates to the index file. The frontend also makes heavy use of XMTP. Each player can chat, wallet-to-wallet, with NPCs via XMTP. However, XMTP is also used as a message bus for \"system messages\". In keeping the player immersed in the game world, system messages are sent through the command line interface in the game and provide additional information. Finally, XMTP messages inform the activity feed seen for each NPC. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cosmic-cowboys-3q0co",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

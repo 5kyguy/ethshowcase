@@ -1,0 +1,21 @@
+{
+  "id": "2rx2k",
+  "slug": "splithappens",
+  "title": "SplitHappens",
+  "tagline": "Pay friends with USDC on a blockchain. Just login with email, splits settle automatically",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2rx2k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WCAjd59HxfUHGgDm9axCcTtPy01nrLF1y8EGAfmccxc4/high.mp4",
+  "source_url": "https://github.com/KeshavBansal42/SplitHappens",
+  "finalist": false,
+  "description": "Splitting a bill with friends is easy, actually collecting the money is the annoying part. SplitHappens fixes that by turning a bill split into a real on-chain escrow, without making anyone deal with seed phrases or gas. You log in with your email through Privy, which spins up an embedded wallet for you behind the scenes. From there you can create a split, name it, set the total, and pick how many people are chipping in. Everyone gets invited by email, and once they log in the split just shows up for them, no links to pass around. Each person pays their share with one click, which deposits USDC straight into a SplitEscrow contract on Arc testnet. The contract holds everything until the full amount is collected, then anyone can trigger the release and the whole balance goes to the payee in one shot. Nobody, including us, ever holds the money in between. ",
+  "how_its_made": "The frontend is a React + Vite app that handles Privy login, wallet creation, and signing the two transactions that matter: approving USDC and calling openSplit/deposit on the contract. The backend is Express with Prisma sitting on top of Postgres, and it never trusts the client's word that a payment went through, every deposit and release gets verified by pulling the actual transaction receipt off-chain and checking it against the SplitEscrow ABI. Auth is handled by Privy JWTs on both ends, verified server-side with @privy-io/server-auth and mapped to a local user row. The contract itself is a fairly small Solidity file, deliberately kept minimal: openSplit registers a split, deposit pulls in USDC via transferFrom, and release is permissionless, so once the target's hit, literally anyone (not just the payee) can flip the switch and send the balance over. That was a deliberate choice so no single party, including our own backend, is a chokepoint for releasing funds. The trickiest part was probably reconciling on-chain state with the DB, since a deposit can succeed on-chain before our API even hears about it, so we lean on receipt verification rather than optimistic updates. Everything's a pnpm monorepo with a shared Zod-validated types package so the API and web app don't drift out of sync on the split payloads. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/splithappens-2rx2k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

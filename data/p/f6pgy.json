@@ -1,0 +1,29 @@
+{
+  "id": "f6pgy",
+  "slug": "rebalancor",
+  "title": "Rebalancor",
+  "tagline": "Automated and decentralized portfolio rebalancing for retail investors based on predefined criteria. Set up a pool with assets, weight bands, and rebalancing cadence, and let Rebalancor handle the rest.",
+  "event": {
+    "slug": "sydney",
+    "name": "ETHGlobal Sydney",
+    "start_time": "2024-05-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f6pgy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ybhAemWbhhYezIzY9XUGmQo7tEew01q4btsrcpDmhsUQ/high.mp4",
+  "source_url": "https://github.com/OfficialTomJ/ETHGlobal2024",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Connect the World with Chainlink",
+      "title": "Connect the World with Chainlink"
+    }
+  ],
+  "finalist": false,
+  "description": "Rebalancor is a decentralized, automated portfolio management solution on-chain. Investing in crypto comes with high volatility and complexity.\nPortfolio management is time-consuming for retail investors, who often lack expertise and are susceptible to emotional decision-making rather than\nsticking to a predefined investment strategy.\n\nRebalancor makes portfolio rebalancing easy and stress-free. Users simply create pools, determining assets, weights, sell thresholds, and rebalancing\ncadence. Rebalancor is permissionless and allows for self-custody of assets. Users can create multiple asset pools that are isolated from each other.\n\nOnce the pool is created, the factory deploys it and registers it in the Chainlink Automatic Registry. After the user deposits funds, keepers check the\nportfolio based on set parameters. If the portfolio is out of balance by more than the set % deviance, a stop loss / take gain is executed through AMM.\n\nIn the future, the product will offer additional rebalancing logics and strategies that users could choose (such as dynamic rebalancing or creating their\nown index), and expand into other markets (e.g., DAOs).\n\n\nSee the presentation here: https://www.canva.com/design/DAGELGI6z2k/Q6vM8DB_jbAItcIKaPmKlw/edit",
+  "how_its_made": "Chainlink is a critical piece of infrastructure in our design for automating the self-custodian automated rebalancor pools. We leverage two of the main tech stacks:\n\nautomation\nchainlink feeds\n\nThe initial point of contact for the user its  a Factory which allows the user to create an unlimited amount of isolated smart pools with their desired asset composition, deviation threshold and cadence. User proceeds to call createRebalancor in the Factory, where it will have two main tasks:\n\ncreate a fresh isolated smart pool with the target configuration\nregister programatically the automated task of the smart pool into the automation registry\n\nOnce, those two elements are atomically finalised, the user can proceed to approve their assets to be transferFrom them into the smart pool. At this point, the assets are idle in the smart pool and waiting for the automation to kick off based on the cadence. Once enough time elapsed the intelligence living in checkUpkeep will be encoding the logic to be executing in performUpkeep, which once there it will be successfully either taking profit, stop loss trigger or rebalancing to desired targets atomically using UniswapV2\n\nSome interesting points during our work flow was to use mock oracle to be able to fake significant deviations and create fake uniswap v2 on the fly to properly test in testnet the whole flow!\n\nHere is one example of a successful transaction hash triggered by chainlink keepers (see screenshots in media).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/rebalancor-f6pgy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

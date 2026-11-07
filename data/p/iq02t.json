@@ -1,0 +1,22 @@
+{
+  "id": "iq02t",
+  "slug": "zenith",
+  "title": "ZENITH",
+  "tagline": "AI agents find the best DeFi yields across chains, guarded by a Chainlink TEE, rebalanced via CCTP",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iq02t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SC02MOChOZjAHVfPh9hgupdnbgsunJL01lR01264vGza02E/high.mp4",
+  "demo_url": "https://youtu.be/IA0X1uH9FGI",
+  "source_url": "https://github.com/alibenyezza/ETHCC_DVB",
+  "finalist": false,
+  "description": "ZENITH is an autonomous cross-chain yield optimizer. One blind AI agent runs per chain (Base, Arbitrum, Ethereum, Avalanche, Optimism) via 0G Compute — each agent observes DeFi yields (Aave, Morpho, Compound), models post-deposit yield compression using kink-based rate models, and proposes optimal capital allocations. Agents cannot see other chains. A Chainlink Confidential Compute TEE (Intel SGX) collects encrypted proposals every 30 seconds, validates them against security rules (safety thresholds, TVL drop detection, oracle health), and periodically reallocates capital across chains via Circle CCTP V2 native burn/mint. Users deposit USDC on Arc (Circle's L1) into an ERC-4626 vault (ArcMindVault) and receive arcMIND share tokens. The vault maintains a 10% local buffer for instant withdrawals while the rest is deployed cross-chain. TEE execution attestations are anchored on 0G Chain for public verifiability without revealing the underlying strategy. The system has no single point of failure: agents are blind, the TEE is the only entity with a global view, and all decisions are cryptographically attested.",
+  "how_its_made": "The project has four layers. Smart contracts (Solidity 0.8.24, Foundry): an ERC-4626 ArcMindVault on Arc for deposits/withdrawals, a CCTPBridge wrapping Circle CCTP V2 TokenMessenger for native USDC burn/mint across chains, and per-protocol strategy contracts (Aave, Morpho, Compound, Silo, Yearn, Fluid, Pendle) implementing a common IStrategy interface. AI Agents (TypeScript, ethers v6): one agent per chain with a modular pipeline — YieldObserver pulls rates, RiskObserver checks TVL/oracle/peg health, DepositImpact models yield compression via piecewise-linear kink models, ProposalBuilder outputs signed JSON proposals. Agents use 0G Compute (0g-serving-broker) for ML inference (Qwen 2.5-7B on 0G testnet) for yield prediction and risk analysis, and 0G Storage (0g-ts-sdk) for persistent memory of yield histories and performance logs. Orchestrator (TypeScript): a TEE simulation with ProposalValidator (signature + safety checks), Reallocator (cross-chain capital optimization comparing yield curves weighted by gas costs), TxSigner, and an Attestor that anchors decision hashes on 0G Chain (Newton testnet, chain ID 16600) for verifiability. The orchestrator runs as a Chainlink CRE workflow (project.yaml). Frontend (Next.js 16, React 19, Tailwind, Framer Motion): dashboard showing live agent proposals, vault deposit/withdraw, and an animated cross-chain reallocation visualizer. The network topology is rendered as an interactive schema overlay with a WebGL light-ray shader (OGL).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zenith-iq02t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

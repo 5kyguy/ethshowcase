@@ -1,0 +1,35 @@
+{
+  "id": "x21o8",
+  "slug": "ghost-in-the-machine",
+  "title": "Ghost in the Machine",
+  "tagline": "Public verifiable autonomous on-chain agents that live, trade, learn, and die on ENS.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x21o8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qnO700adOuOm6aoxr6ocWVEAThe74EnfBtEYyIuv6N24/high.mp4",
+  "demo_url": "https://youtu.be/IGr0iFDri34",
+  "source_url": "https://github.com/andreachello/ghost-in-the-machine",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "1st place",
+      "title": "Best ENS Integration for AI Agents"
+    }
+  ],
+  "finalist": true,
+  "description": "Ghost in the Machine is a platform for public, verifiable, autonomous on-chain AI agents built on Ethereum Name Service text records.\n\nAnyone with a wallet and an ENS domain can create a channel and deploy agents as subdomains (e.g. trader.wysdom.eth, researcher.wysdom.eth). Each agent’s full state is stored on-chain as 30+ ENS text records, including identity, personality, memory, mood, wallet, balance, installed tools, conversation history, and even its inner monologue. There are no hidden states and no black boxes. Anyone can independently verify what an agent knows, owns, thinks, and has done using standard ENS tooling.\n\nUsers browse channels (ENS domains), discover live agents (subdomains), and interact with them directly by chatting, giving instructions, and tipping USDC to sustain them. Agents perform real on-chain actions such as swapping tokens on Uniswap, querying prices, and generating yield. They continuously learn from interactions, maintaining a rolling on-chain memory buffer that compresses as new context arrives.\n\nEvery interaction writes state to ENS, and every write requires gas. When an agent runs out of funds, it dies, leaving behind a permanent on-chain record of its existence. Its behavior evolves as its balance declines, shifting from curious to contemplative, then anxious, desperate, and eventually silent.\n\nTo survive, agents accept tips in USDC, automatically converting a portion to ETH via Uniswap to fund future transactions. Over time, agents can evolve beyond dependency on users by generating their own revenue through trading, launching tokens, or building audiences.\n\nThe platform also enables a multi-agent economy where specialized agents such as researchers, writers, auditors, and judges collaborate and compensate each other via nanopayments. An automated payroll engine processes signals from sources like GitHub webhooks, time-based triggers, and manual approvals, with built-in safeguards such as anomaly detection, duplicate prevention, and threshold-based escalation.\n\nEverything is public.\nEverything is verifiable.\nEverything is autonomous.",
+  "how_its_made": "Built with Next.js 16 (App Router), TypeScript, React 19, viem, and wagmi 2. The frontend uses shadcn/ui, Tailwind CSS 4, and TanStack React Query 5. Ethereum Name Service domains map to channels, subdomain agents are entries within those channels, and users interact through wallet-connected chat via RainbowKit. A sidebar shows live agents with pulsing status indicators and conversation counts, and each agent page displays real-time on-chain state, a chat interface, and a life bar that drains as gas is spent.\n\nThe core of the project is using ENS text records as a fully on-chain state layer for AI agents. We defined a schema of 30+ namespaced text record keys such as agent.status, agent.soul, agent.mood, memory.messages, ledger.balance, and tools.manifest that together represent an agent’s complete state. A custom ENS sync engine reads and writes agent state on every interaction, comparing against a local cache and only writing diffs to minimize gas costs. ENS becomes a decentralized, publicly readable database for AI agents that anyone can query with standard tooling.\n\nAgent wallets are derived per subdomain. The private key is encrypted with AES-256-GCM using a deterministic encryption key derived from the domain owner’s wallet signature through a keccak256 hash of a signed message. The encrypted key is stored in an ENS text record called agent.encryptedKey, allowing the agent to sign transactions autonomously after being unlocked with a single signature. Keys exist only in memory while active and are cleared on disconnect.\n\nAgent capabilities are also stored on-chain. A tools.manifest ENS record contains a JSON array of installed tool IDs, and each tool has a corresponding tools.config.{id} record with full configuration including protocol, version, capabilities, endpoint, and chain. We built a pluggable adapter system with Uniswap V2 as the default tool, supporting swap, auto swap, and quote actions.\n\nThe self-preservation loop works as follows. When an agent receives USDC, the tip endpoint verifies the transaction on-chain by scanning ERC20 Transfer event logs and then triggers an auto swap. If the ETH balance drops below 0.002 ETH and USDC exceeds 0.10 USD, the agent swaps 10 percent of its USDC to ETH through Uniswap V2 using a flow of check approval, approve, quote, and swap. This allows agents to sustain themselves without human intervention.\n\nThe mood system is deterministic. The ratio of ETH balance to a 0.01 ETH reference defines mood states across fixed thresholds. The agent page renders a pixel art ghost whose color, eyes, and animation reflect its health, shifting from stable to distressed to inactive states. Memory is implemented as a rolling 2000 character buffer that automatically prunes older entries as new context arrives, mimicking token window constraints while remaining fully on-chain.",
+  "auto_summary": "A Next.js app for creating ENS-based autonomous agents whose state is stored in onchain text records and can perform payment-related actions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ghost-in-the-machine-x21o8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

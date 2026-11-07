@@ -1,0 +1,30 @@
+{
+  "id": "3kw4z",
+  "slug": "freelance-pay",
+  "title": "Freelance Pay",
+  "tagline": "Instant, gasless payments for freelancers via state channels. Pay by ENS, settle on any chain.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3kw4z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/j5lMKxruW51aF00S93Cj7VpVV7Ruv4HVK6uKWo02T3vKI/high.mp4",
+  "demo_url": "https://github.com/robertointech/freelance-pay",
+  "source_url": "https://github.com/robertointech/freelance-pay",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "FreelancePay solves the broken payment experience for freelancers. Traditional payment methods charge 3-8% in fees and take 3-7 days to settle. FreelancePay uses Yellow Network state channels to enable instant, gasless payments denominated in USDC.\n\nHow it works:\n1. Freelancers register an ENS name and store their rate, services, and preferred settlement chain as ENS text records — creating a portable, decentralized professional profile.\n2. Clients search for a freelancer by their ENS name (e.g., robertofreelance.eth), which is resolved on-chain using custom wagmi hooks.\n3. The client opens a payment session by depositing USDC into a Yellow Network state channel using the Nitrolite SDK (ERC-7824).\n4. Multiple payments are sent instantly and gaslessly within the state channel — each confirmed in under 100ms with zero gas costs.\n5. When the session closes, the final balance is settled on-chain, and Circle Arc bridges the USDC to the freelancer's preferred chain.\n\nThe result: only 2 on-chain transactions (deposit + settlement) instead of one per payment, saving freelancers significant time and money.\n\nTech stack: Next.js 14, TypeScript, wagmi, RainbowKit, @erc7824/nitrolite SDK, ENS text records, Circle CCTP, Tailwind CSS. Deployed on Ethereum Sepolia testnet.",
+  "how_its_made": "FreelancePay is built with Next.js 14 and TypeScript as the frontend framework, using wagmi v2 and RainbowKit for wallet connectivity.\nYellow Network Integration: We use the @erc7824/nitrolite SDK to create state channels for instant off-chain payments. The SDK's createAppSessionMessage and createCloseAppSessionMessage functions handle session lifecycle, while payments are processed as signed state updates over WebSocket connections to Yellow's ClearNode.\nENS Integration: We wrote custom hooks (useENSProfile, useEnsAddress with chainId for Sepolia) beyond RainbowKit's default ENS support. Freelancer profiles (rate, services, preferred chain, availability) are stored as custom ENS text records with the com.freelancepay prefix. Name resolution works on Sepolia testnet.\nCircle Arc Integration: USDC settlement uses Circle's CCTP for crosschain bridging. When a payment session closes, funds are bridged from the state channel to the freelancer's preferred chain (Ethereum, Polygon, Arbitrum, Base, or Arc).\nThe architecture separates concerns into three layers: Identity (ENS), Payments (Yellow Network state channels), and Settlement (Circle Arc). This modular approach allows each component to be upgraded independently.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/freelance-pay-3kw4z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

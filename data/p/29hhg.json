@@ -1,0 +1,27 @@
+{
+  "id": "29hhg",
+  "slug": "bridge-sentinel",
+  "title": "Bridge Sentinel",
+  "tagline": "Monitor DeFi bridge config and TXs to detect exploits and pause contracts before it's too late",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/29hhg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kY77DxoeWLfABhcO003snqjJfildZTBczyf8dUi8DW5Y/high.mp4",
+  "demo_url": "https://bridge-sentinel-ethglobal.vercel.app/",
+  "source_url": "https://github.com/AxelGes/bridge-sentinel",
+  "finalist": false,
+  "description": " Bridge Sentinel is a real-time 3-agent swarm that detects and prevents DeFi bridge exploits. It replays the KelpDAO attack pattern — a weak 1-of-1 DVN bridge config paired with a large deposit and max-LTV borrow — and\n  proves it would have caught the exploit in under 2 minutes. Three autonomous agents coordinate: Config Agent polls the bridge contract and scores DVN validator security, Anomaly Agent watches lending events for suspicious\n   deposit+borrow patterns, and Risk Agent combines both signals using 0G Compute's qwen-2.5-7b-instruct LLM to produce a final risk score with TEE-attested inference. Agents communicate peer-to-peer via Gensyn AXL signed\n  ed25519 transport — no centralized messaging. All agent identity, contract addresses, and monitoring config are resolved from ENS subnames on Sepolia at startup, with zero hardcoded values. A Next.js dashboard shows live\n  signals and a Pause button that lands an on-chain transaction to freeze the lending contract before the attacker can exit.",
+  "how_its_made": "  The swarm is three independent TypeScript agents (tsx + Node.js) sharing a common agents/transport/ layer that abstracts over local HTTP and AXL P2P. Each agent is its own package with its own .env — no monorepo\n  orchestrator, just pnpm dev in three terminals.\n\n  Gensyn AXL was the trickiest integration. AXL's Go binary exposes a local HTTP sidecar per agent (ports 9002/9012/9022). Sending is POST /send with an X-Destination-Peer-Id header containing the recipient's ed25519\n  pubkey. Receiving is GET /recv which returns raw bytes + X-From-Peer-Id. The hacky part: AXL returns a Yggdrasil-derived address as the sender ID, not the raw pubkey we store in ENS. We discovered the first 24 hex\n  characters match between the two, so we validate sender identity via prefix comparison — just enough uniqueness for a 3-node swarm without needing to reverse the Yggdrasil address transform. The AxlTransport class polls\n  /recv every 500ms and dispatches parsed JSON signals to handlers.\n\n  0G Compute runs the Risk Agent's LLM inference. We migrated from the deprecated @0glabs/0g-serving-broker to @0gfoundation/0g-compute-ts-sdk v0.8.0 mid-hackathon — the old SDK's createZGServingNetworkBroker was replaced\n  with createZGComputeNetworkBroker and the settlement flow changed. The agent calls broker.inference.getServiceMetadata() to discover the provider's endpoint, builds auth headers via getRequestHeaders(), then hits the\n  OpenAI-compatible /chat/completions endpoint with a structured DeFi security prompt. Responses include a ZG-Res-Key header for TEE attestation, verified via broker.inference.processResponse(). We use qwen-2.5-7b-instruct\n  on 0G testnet with a fallback rule-based scorer when the provider is offline.\n\n  ENS provides zero-config agent discovery. At startup each agent calls getEnsText() on Sepolia to resolve bridgesentinel.eth subnames (config., anomaly., risk.) for AXL pubkeys, and kelpdao.bridgesentinel.eth for monitored\n   contract addresses and thresholds. The resolveENSConfig() helper in agents/transport/src/ens.ts returns typed config that the transport factory uses — if ENS resolution fails, agents fall through to .env vars via || (not\n   ??, since ENS returns empty strings for unset records).\n\n  Smart contracts are Foundry/Solidity on 0G testnet (chain 16602): a MockOFTBridge with configurable DVN validator sets, MockLending with deposit/borrow/pause mechanics, and a fake rsETH ERC-20. The demo script replays the\n   KelpDAO exploit — sets 1-of-1 DVN, mints 116.5k rsETH, deposits, borrows 93.2k WETH at 80% LTV — all re-runnable (auto-unpauses first).",
+  "auto_summary": "A multi-agent TypeScript and Solidity system monitors bridge and lending activity, exchanges signals over AXL, uses ENS-based configuration, and can pause a mock lending contract.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bridge-sentinel-29hhg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

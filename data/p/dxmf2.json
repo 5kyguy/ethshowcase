@@ -1,0 +1,35 @@
+{
+  "id": "dxmf2",
+  "slug": "world-app-forge",
+  "title": "World App Forge",
+  "tagline": "An AI agent that builds human-only sparks in World App — named on ENS, stored on Walrus",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dxmf2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fS1IOI57AQrL1OV4G6TXMHec6RElpKsg01zRs7rQ001Lc/high.mp4",
+  "demo_url": "https://worldapp-forge.vercel.app/",
+  "source_url": "https://github.com/bottxrnife/worldapp-forge",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Forge is an AI agent that builds human-only mini-apps, running inside World App.\n\nYou describe an everyday app in plain language — \"a coffee loyalty card,\" \"a one-vote-per-human DAO ballot,\" \"a parking meter,\" \"hire a research agent\" — and Forge's design agent turns it into a schema-validated manifest, gives it a human-readable ENS name, stores it on Walrus, and publishes it so anyone can run it. Because only verified humans can run or claim each app (via World ID), Forge is the place to build apps that simply break without proof of personhood: fair raffles, sybil-resistant votes, one-membership-per-human passes, and loyalty that can't be farmed by bots.\n\nThe core loop is: describe → the agent drafts a manifest → preview & run it live → publish (Walrus + ENS) → others run it, gated by World ID. Published apps are never arbitrary user code — they're JSON manifests that a schema-driven runtime renders into real, interactive experiences: World-wallet payments, punch-card loyalty with points, menu ordering with pickup codes, ballots with live tallies, fundraisers with supporter walls, event passes with scan codes, transit tap-to-ride, and agent deliverables you can re-open later. This keeps an AI generator security-reviewable and policy-compliant inside World App by construction.\n\nIt ships with ~20 sample \"Sparks\" across Finance, Community, Agents, Events, and Tools, plus a catalog, an Activity hub, and an ENS Identity explorer where every app and agent has its own on-chain name and ENSIP-26 records.",
+  "how_its_made": "Forge is a World App Mini App built with Next.js 16 (App Router, Turbopack), React 19, TypeScript, and Tailwind v4, deployed on Vercel and loaded inside the World App webview. The product constraint that ties everything together: apps are schema-driven JSON manifests (validated by a strict gate), never arbitrary code — the runtime renders components[] + permissions + workflow. That's what makes an AI app-generator both safe to review and compliant inside World App.\n\nWorld (the human layer + the surface): sign-in uses MiniKit walletAuth (SIWE), verified server-side against an httpOnly nonce. Proof-of-human uses IDKit 4.0's proofOfHuman preset — our backend signs the RP request with the app's RP key, World's v4 verifier validates the proof, and a nullifier store enforces strict one-per-human. Payments go through MiniKit.pay (USDC on World Chain 480) with a clearly-labeled simulated fallback so flows always complete outside World App.\n\nENS (identity for every app + agent): live reads go through viem's Universal Resolver — full profiles, ENSIP-26 agent records, ENSIP-25 registry verification. The notably hacky part: we discovered Sepolia migrated to ENS v2 (a PermissionedRegistry with per-name subregistries), so classic setSubnodeRecord doesn't apply. We registered the parent forgedapp.eth on v2, deployed a UserRegistry subregistry + a shared PermissionedResolver, and now auto-mint label.forgedapp.eth on publish and write the Walrus blob id into the agent-context text record — users pay zero gas. Two bugs cost real debugging: setText kept reverting until we (1) registered the subname with the full role bitmap (a roleBitmap of 0 grants the owner no record-writing role) and (2) dropped a hard-coded gas cap so viem could estimate — a ~450-byte ENSIP-26 record is ~16 cold SSTOREs (~430k gas). Verified live: publish returns mode: on-chain and the record resolves through the standard Universal Resolver.\n\nWalrus (storage): each manifest, plus cover and menu images, is written to the Walrus testnet publisher as a blob and read back through an aggregator proxy on our own origin (so <img> renders without CORS). The blob id is the canonical pointer recorded in ENS.\n\nThe AI agent is a server-side Claude tool-calling loop (Anthropic Messages API) with a toolbelt — check ENS subname availability, resolve names, draft/refine manifests, offer 2–3 variations — that always emits a manifest passing the same validator the runtime trusts. A deterministic template generator is the keyless fallback. Notable touches: every integration has a non-failing simulated path so the whole app works with no keys; issued passes/credentials get a deterministic scan-code matrix; and loyalty, votes, supporters, transit balances, and agent deliverables persist client-side so returning users see the outcome they already earned.",
+  "auto_summary": "A Next.js World App mini app that generates schema-based human-gated apps, stores manifests on Walrus, and assigns ENS identities.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/world-app-forge-dxmf2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

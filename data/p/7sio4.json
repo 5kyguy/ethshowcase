@@ -1,0 +1,47 @@
+{
+  "id": "7sio4",
+  "slug": "l2-optimizoooors",
+  "title": "L2 Optimizoooors",
+  "tagline": "Gas efficient routers for L2 applications. With custom contracts that use less calldata than standard methods we can reduce transactions costs for users.",
+  "event": {
+    "slug": "ethonline2022",
+    "name": "ETHOnline 2022",
+    "start_time": "2022-09-02T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7sio4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nZtoc8009knqEgJhzB5zAaSMp00ybd1z87CzNljsG8nvg/high.mp4",
+  "source_url": "https://github.com/ScopeLift/l2-optimizoooors",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline Finalist",
+      "title": "ETHGlobal"
+    },
+    {
+      "sponsor": "Superfluid",
+      "sponsor_id": "x59d1",
+      "placement": "🚀 Superfluid — Best Futuristic Hack",
+      "title": "Superfluid"
+    },
+    {
+      "sponsor": "Connext",
+      "sponsor_id": "ygz83",
+      "placement": "🥇 Connext — Best Original Project",
+      "title": "Connext"
+    },
+    {
+      "sponsor": "Connext",
+      "sponsor_id": "ygz83",
+      "placement": "🏊‍♂️ Connext — Pool Prize",
+      "title": "Connext"
+    }
+  ],
+  "finalist": true,
+  "description": "Layer 2 networks share security with mainnet by posting transaction calldata to Layer 1. As a result, Layer 2 users pay their portion of the mainnet gas costs when executing transactions. Layer 1 gas can be >25,000x more expensive than Layer 2 gas, so paying for calldata dominates L2 transaction costs. With custom contracts that use less calldata than standard methods we significantly reduce transaction costs for users.",
+  "how_its_made": "For three protocols—Aave, Connext, and Superfluid—we deployed a factory contract on Optimism (or Optimism Goerli) which deploys the calldata-optimized routers for that protocol. The factory deploys a unique contract for every combination of methods and parameters that can be hardcoded.\n\nFor example, with Aave:\n\n- Deposing ETH into Aave has a dedicated contract.\n- Withdrawing ETH from Aave has a dedicated contract.\n- Depositing USDC into Aave has a dedicated contract.\n- And so on.\n\nAnd similarly for Connext and Superfluid.\n\nThis means users don't need to specify a function selector, which saves 4 bytes of calldata. This also means users don't need to specify a token address, saving another 32 bytes (20 bytes of non-zero calldata).\n\nAave lets you specify where to send the receipt tokens (on deposit) or the asset itself (on withdraw). Similarly, Connext lets you specify where to send the asset once bridged. For both of these we assume the user wants to send the asset to themselves so a recipient address is not required, which again saves 32 bytes (20 bytes of non-zero calldata).\n\nAave, Connext, and wrapping tokens in Superfluid require you to specify an amount of tokens. Instead of specifying exact amounts, users specify amounts as percentages of their balance. If zero bytes of calldata are provided, the full user's balance is used. Any non-empty calldata provided is considered the numerator of a fraction, such that:\n\n- If one byte of calldata is provided the denominator is 255, which is the max value of a single byte.\n- If two bytes of calldata are provided the denominator is 65,535, which is the max value of two bytes.\n- And so on.\n\nFrom there, we compute the amount to use as `userBalance * calldata / denominator`. This lets you specify nearly any amount of tokens with just a few bytes of calldata. The tradeoff is precision: you may not be able to send exactly one token, and must tolerate a small deviation in the amount.\n\nSome protocols may deem this tradeoff unacceptable, and others require rates or other parameters that don't work with this pattern. One such case is creating a flow on Superfluid, which requires specifying a flow rate. In these cases, the user specifies the amount as normal, but with all zero-padding removed. If you wanted to specify a value of 100e6 with this method, the calldata would be `0x05f5e100`. This is just 4 bytes, instead of the standard 32 bytes used by ABI-encoding.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/l2-optimizoooors-7sio4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

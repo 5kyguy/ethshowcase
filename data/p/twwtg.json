@@ -1,0 +1,66 @@
+{
+  "id": "twwtg",
+  "slug": "zkalpha",
+  "title": "ZkAlpha",
+  "tagline": "zkAlpha connects quant traders and liquidity providers w/o revealing the strategy trustlessly through the use of ZKML. ",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/twwtg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/t02AclYisj00iQi02W01Z6kmedbLEEABLqdpLYas9rETugc/high.mp4",
+  "demo_url": "https://zk-alpha-frontend.vercel.app/",
+  "source_url": "https://github.com/jeff0723/ZkAlpha",
+  "prizes": [
+    {
+      "sponsor": "1inch Network",
+      "sponsor_id": "if0ri",
+      "placement": "🧠 1inch — 🥈 Best use of 1inch Contracts",
+      "title": "1inch Network"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🔀 Polygon — Best use of zkEVM",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Filecoin",
+      "sponsor_id": "9zj01",
+      "placement": "🏆 Filecoin — Grand Prize",
+      "title": "Filecoin, IPFS & more"
+    },
+    {
+      "sponsor": "zkBob",
+      "sponsor_id": "2x9jd",
+      "placement": "🏊 zkBob — Pool Prize",
+      "title": "zkBob"
+    },
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🥉 Neon EVM — Best Use",
+      "title": "Neon EVM"
+    },
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🏊 Neon EVM — Pool Prize",
+      "title": "Neon EVM"
+    },
+    {
+      "sponsor": "Celo",
+      "sponsor_id": "inotq",
+      "placement": "🥉 Celo — Best Use",
+      "title": "Celo"
+    }
+  ],
+  "finalist": false,
+  "description": "zkAlpha connects quant traders and liquidity providers w/o revealing the strategy trustlessly through the use of ZKML. \n\nPreprocessing zk-SNARKs allows proving correct executions of a preprocessed circuit without revealing it. This allows parties to grant access to their innovative computation models without revealing them. However, the execution histories of computations can leak information about the computations themselves. Thus, we also use a mixing relayer (similar to Tornado Cash) to reduce information leakage. \n\nAltogether, traders can create a vault corresponding to a committed model (not a verifying key for this hackathon since there are limited projects that provide a recursive-proof solidity verifier). After collecting the funds, they can trade anonymously by interacting with swaps through a mixing relayer. They can only return the funds to the original vault address, which is ensured by our commitment design.",
+  "how_its_made": "# The protocol design\nWe design the protocol by ourselves. We consider preprocessing zkSNARKs as a circuit commitment scheme and additionally mix the circuit outputs to avoid extraction/distillation of the circuit. It was interesting to work out the details, e.g. the two-step trade (since the trader must be supplying the node), the address commitment for compliance, etc.\n\n# Engineering\n\n## Vault (solidity, hardhat)\nVault has three modes that indicate its status for LPs and the strategist dictating their ability to deposit, withdraw, and deposit into the relayer. We use the state machine pattern for the implementation. We plan to introduce a slashing mechanism to solve the problem that traders may go offline or conditionally submit model predictions.\n\n## Relayer (ezkl, solidity, hardhat)\nWe use a Merkle tree to handle resource nodes, which are commitments to relevant data. Traders prove ownership of resources by opening the resource nodes in the Merkle tree and opening the resource nodes themselves. They also need to prove the transitions are done correctly.\n- A resource node is a commitment to the following data\n  - s (secret): to let an anonymous address manipulate the resource\n  - k (nullifier): to mark the status of the resource (transacted/nullified)\n  - balance\n  - cModel (commitment to a model): to ensure the trade decision is done by the committed model\n  - address: to ensure the withdrawal address is the same as the deposit address for legal compliance\n- Interface\n  - Since only the depositor can update the balance by inserting a new resource node and nullifying the traded one, the transaction needs to be split into two operations: `transact` and `finalize`\n  - `deposit`\n    - The relayer receives the resource and inserts the resource node into the tree\n  - `withdraw`\n    - The relayer checks the resource node's balance, returns the resource, and marks the resource nullified\n  - `transact`\n    - The relayer checks the resource node's balance, checks the model did the decision, executes the trade, and marks the resource as traded. The trade result is stored and the resource is awaiting finalization.\n  - `finalize`\n    - The relayer checks the difference between the nodes then nullifies and inserts old and new nodes respectively.\n\nWe use [ezkl](https://github.com/zkonduit/ezkl) to write circuits. The library allows algebraic circuits to be written in Python (PyTorch modules to `.onnx` files to `halo2` circuits, with ~20 Einstein summations as basic operations). It also provides a solidity verifier out of the box. \n\n## Swap (1inch SDK integration)\nWe use 1inch to do transactions, which gives a superior trading experience and the best prices.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkalpha-twwtg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

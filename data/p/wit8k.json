@@ -1,0 +1,29 @@
+{
+  "id": "wit8k",
+  "slug": "d-agar",
+  "title": "D-Agar",
+  "tagline": "Introducing D-Agar, a browser game inspired by the popular agar.io. Grow, compete, and conquer in a trustless environment powered by Arbitrum, Dynamic, NounsDAO and lots of smart contracts wizardry",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wit8k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hn02C01C01wF01dSXK02Tw7K2UdFBAxYahe00GS4BR4qhil6k/high.mp4",
+  "source_url": "https://github.com/OxMarco/D-Agar",
+  "prizes": [
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "1st place",
+      "title": "Best Orbit Chain Project"
+    }
+  ],
+  "finalist": true,
+  "description": "# D-Agar\n\nA decentralized version of the popular multiplayer browser game [agar.io](https://agar.io), where players try to get as big as possible and eat each other.\n\n## Rationale\n\nBrowser games are becoming increasingly popular, with the leader Agar.io boasting over 6 million active users. This project aims to showcase how to leverage browser gaming to introduce more people to web3.\n\nIn order to do so, the user experience must be:\n- Fast and easy, without complicated popups or endlessly-loading frontends.\n- Cheap, as nobody likes to spend excessive gas just to play.\n- Secure, thanks to smart contract logic preventing cheating.\n\n\n## How it works\n\n### Backend\n\n1. A user calls the *DagarFactory* contract to deploy a new rollup. The rollup is picked up by the backend, and a node is set up for it.\n2. The user deploys the game smart contract from Arbitrum Sepolia to the new L3 using the relay bridge.\n3. Other users join the game and bridge a little ETH to the L3.\n4. Each relevant game interaction (map generation, food eating, and player kills) is registered and validated on-chain, leveraging the L3 for its speed and low gas fees.\n5. When only one player remains, they can kill the L3 and relay a message to the L2 to claim the pot.\n\nMap generation is based on a seed unique to each game, which is then fed into a random number generator to create 200 food dots. Whenever a player eats a food dot, its position is validated on-chain to ensure they cannot cheat. The same model applies to player-to-player interactions, verifying that both players are alive and that the larger player kills the smaller one (incrementing its size).\n\n### Frontend\n\nA combination of React and canvas to create smooth transitions.",
+  "how_its_made": "## How it was made\n\n- **React**\n- **Chakra UI**\n- **Arbitrum**: Through the factory contract, we spawn a new Orbit L3 chain, deploy the game contract there, and bridge the ETH necessary for users to play. Once the game is completed, the winner is relayed back to Arbitrum One and the bets are awarded to them.\n- **NounsDAO**: Provides custom skins for the players based on the NFTs they hold in their wallets.\n- **Dynamic Wallet**: A seamless signup/signin experience with headless interactions (not implemented) to provide a web2-like user experience.\n- **PeerJS**: Enables peer-to-peer communication, allowing players to connect and exchange real-time game data without relying on a centralized server.\n- **Smart Contracts**: The \"backend\" of the game, responsible for generating the playing field, validating kills, and collecting the bets to be awarded to the winner.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/d-agar-wit8k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "srxdi",
+  "slug": "spendveto",
+  "title": "SpendVeto",
+  "tagline": "Governs what your AI agent can spend — before it pays, not after. Open source, x402-native.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/srxdi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eRZoJ5YcPGTJ2AURwFDIIiqxl1mp5Rfmi56qNWj4Czw/high.mp4",
+  "demo_url": "https://spendveto.com/",
+  "source_url": "https://github.com/revanthrajeev/spendveto",
+  "finalist": false,
+  "description": "SpendVeto is an open-source spend-governance layer for AI agents that pay for things over x402/MCP — budgets, human-in-the-loop approvals above a threshold, a kill switch, tool/chain/payee scoping, and a tamper-evident hash-chained audit ledger, all enforced server-authoritatively before a single payment settles. Live at spendveto.com with 298 end-to-end verified assertions from a clean clone (npm run verify).\n\nFor this Continuity Track build, we extended three real capabilities: governance for x402 v2's new upto scheme (variable-amount authorizations, where a buyer signs for a ceiling and the seller charges less later — held against the budget until it settles, so open ceilings can't silently exhaust an hourly cap); real on-chain settlement on Hedera testnet with a live governed payment (settled + a policy-refused case, both recorded); a migration to World ID 4.0's RP-based proof-of-personhood protocol gating human approvals; and ENS name resolution in payee allowlists, so an allowlist reads as vitalik.eth instead of raw hex, resolved against real Ethereum mainnet and cached for the hot policy-check path.",
+  "how_its_made": "Node.js/Express backend, viem for signature verification across seven signature families (secp256k1, ed25519, Move, Stellar, Hedera, Algorand, XRPL), a hash-chained JSON ledger for tamper-evident audit trails, and an MCP stdio server so any MCP client (Claude Desktop, Claude Code) sees governed tools natively. The x402 gate is server-authoritative — policy is re-checked at settlement, not just client-side, so a hand-rolled client can't bypass it.\n\nFor the Continuity Track work: server/upto.js governs x402's upto scheme by holding the authorized ceiling against the hourly budget until settlement, releasing headroom afterward. server/worldid.js was rewritten against @worldcoin/idkit-server for World ID 4.0's signed rp_context handshake — verified end-to-end with a real device-scanned proof from the actual World App. client/ens.js resolves .eth names via viem's getEnsAddress against Ethereum mainnet, fails closed if a name won't resolve (never a wildcard match), and caches to keep checkPolicy (which runs on every governed call) fast. Hedera settlement was verified with a real $0.01 payment on testnet — tx 0.0.9185802-1788804271-756194533.",
+  "auto_summary": "A Node.js governance layer that enforces spending policies for AI-agent x402 payments, with audit logging, approvals, and multi-chain settlement support.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/spendveto-srxdi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

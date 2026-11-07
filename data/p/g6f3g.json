@@ -1,0 +1,27 @@
+{
+  "id": "g6f3g",
+  "slug": "sodera",
+  "title": "Sodera",
+  "tagline": "Sodera turns your Android phone into a seedless, passkey-powered Ethereum wallet.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/g6f3g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00lGKpQSR9v4Z8sltDZwqen8RvJNXjazQR01jh7NGkX02o/high.mp4",
+  "demo_url": "https://sodera.xyz",
+  "source_url": "https://github.com/garguelles/sodera",
+  "finalist": false,
+  "description": "Started in ETHOnline2026 - Passkey + smart account + basic send transactions with ETH existed before ETHGlobal tokyo. Everything else was built here. See PRs prefixed with [ETHGlobal Tokyo]\n\nSodera is an Android home launcher with a seedless Ethereum wallet built into the phone’s everyday starting point. It works as a home screen for finding and opening installed apps, while putting wallet access, balances, and activity within reach. Instead of creating a seed phrase, users create a passkey-controlled ZeroDev Kernel smart account. The passkey directly authorizes wallet operations after the user reviews and confirms them; Sodera’s backend does not hold a key that can spend their funds.\n\nThe current build runs on Ethereum Sepolia. Users can send and receive ETH and USDC, view wallet activity, and swap ETH and USDC in either direction through Uniswap v4. Swaps execute from the user’s smart account, with gas sponsored through ZeroDev for the demonstrated swap flows. Sodera also includes Dera, an optional assistant that turns requests such as “send 0.01 ETH to Alice” into a plan the user can review. The app checks that plan before preparing an operation, and the assistant cannot sign or move funds on its own.\n\nWe’re building toward an Android experience where onchain identity and financial tools feel like a natural part of using your phone.",
+  "how_its_made": "We built Sodera as an Expo/React Native Android app with native Android integration for two jobs: acting as a default Home launcher and invoking Android Credential Manager for passkeys. Expo Router handles the app screens, while the native launcher integration discovers and opens installed apps. A Vite/React site at sodera.xyz hosts the Android Digital Asset Links file that associates the app with the domain for passkey use.\n\nThe wallet is a ZeroDev Kernel ERC-4337 smart account on Ethereum Sepolia. We use ZeroDev’s WebAuthn validator so the user’s platform passkey directly authorizes account operations—there is no seed phrase or backend-held wallet signer. The app constructs an operation with the ZeroDev SDK and viem, shows the user what they are approving, invokes the Android passkey ceremony, and submits it through ZeroDev’s bundler. ZeroDev’s paymaster sponsors eligible operations.\n\nFor swaps, we integrated Uniswap v4 directly from the smart account. The Uniswap SDK defines the ETH/USDC pool, calculates trade details and minimum received, and builds the v4 swap plan. We query the v4 Quoter with viem and encode the Universal Router call. One passkey confirmation can execute a swap, including the approvals needed for USDC → ETH. We verified live swaps in both directions on Sepolia.\n\nENSv2 gives the wallet its identity. We deployed and mounted a sodera.eth child registry on Sepolia. During onboarding, a user chooses a <username>.sodera.eth name; the app checks availability, and a PostgreSQL-backed API verifies a one-time passkey challenge against the smart account’s onchain validator before registration. The resulting subname is owned by the user’s Kernel account, with a resolver controlled by that account—not merely a label displayed by our service.\n\nCurvegrid MultiBaas supplies indexed wallet activity and balance reads, while a Chainlink ETH/USD feed supports the home screen’s USD valuation. We also built Dera, an optional assistant: a separate Hono service uses Claude to turn a natural-language request into a structured plan. Both the service and the phone check the plan against the same safety rules. The assistant never holds keys or signs transactions.",
+  "auto_summary": "An Android launcher app with a passkey-based smart-account wallet supporting ENS identities, transfers, swaps, and an AI planning assistant on Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sodera-g6f3g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "a1kzy",
+  "slug": "world-in-paper",
+  "title": "World In Paper",
+  "tagline": "World mini app for onchain paper trading competitions across all chains and more",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a1kzy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qgneUICcICjOZFKrwOzaEvW4v19Jiu02oc5XOxFbHSIw/high.mp4",
+  "demo_url": "https://world-in-paper-eth-global.vercel.app/",
+  "source_url": "https://github.com/TristanAzlt/world-in-paper",
+  "finalist": false,
+  "description": "World In Paper is a competitive paper trading game built inside World App. The format is simple: a player can create a game by choosing a name, a USDC buy-in, a maximum number of players, a virtual starting balance, a start time, and a duration. Other players can then join the game by paying the same USDC buy-in before it starts. Once the game begins, every participant receives the same virtual balance, so everyone starts from equal conditions.\n\nDuring the game, players use that virtual balance to trade real market assets using live prices. They can open and close positions across a wide range of assets, including crypto, memecoins, stocks, indices, and commodities. The important point is that they are not buying those assets with real money inside the game: the portfolio is virtual, but the prices are real, and performance is tracked as if they were trading the markets live.\n\nWhen the game ends, all players are ranked by the final value of their portfolio. The payout rule is very clear: the top 50% of players win and receive 2x their buy-in, the bottom 50% lose their buy-in, and if the number of players is odd, the exact middle player simply gets their buy-in back. This makes the game easy to understand: you just need to finish in the better half of the lobby to win.\n\nThe app is designed to make competitions fair and transparent. Each game has fixed rules set at creation, everyone starts with the same virtual capital, rankings are based on portfolio performance, and the whole game state lives onchain. In short, World In Paper turns trading into a simple competitive format: join a game, trade real markets with a virtual portfolio, finish in the top half, and win.",
+  "how_its_made": "WorldInPaper is built as a Next.js 16 World App mini app. On the frontend, we use MiniKit for wallet auth, transaction sending, haptics, and the overall World App mobile flow, and IDKit / World ID 3.0 for proof generation. A nice part of the UX is that users do not need a separate wallet extension or a complex onboarding flow: they open the mini app, connect, fund in USDC, join a game, trade, and claim directly inside World App.\n\nOn the backend, we use a lightweight Express API as a stateless read layer over the protocol. It does not store the game state in a database: games, entries, virtual balances, trades, rankings, and claims all live onchain in the World Chain contracts. The backend mainly reads from the main game contract and an Observer contract that makes rankings, portfolios, and game lists easier to query. We only use Redis as a short cache for some asset reads, not as a source of truth.\n\nThe core protocol is a Solidity contract built with Foundry and deployed on World Chain mainnet. It handles game creation, USDC buy-ins, joining, trade submission, settlement, and payout distribution. A key integration is World ID 3.0: when a user creates or joins a game, the mini app generates a proof, passes it onchain, and the contract verifies it through the World ID router.\n\nFor pricing and execution, the most interesting piece is the Chainlink CRE workflow. When a player submits a trade, the contract emits a SettlementRequest event. Our CRE workflow listens to that event with an EVM Log Trigger, decodes the trade, and fetches the right quote depending on the asset origin: Uniswap Trade API for EVM tokens on Base, Ethereum, BSC, and World Chain, Jupiter for Solana tokens, and Hyperliquid allMids for crypto perps and tradfi assets like stocks, indices, and commodities. The DON reaches consensus with median aggregation, then writeReport sends the verified execution price back onchain through the receiver flow. The contract then settles the trade and updates the player’s virtual balances entirely onchain.\n\nWe also integrated Uniswap directly in the user flow on World Chain so players can swap the tokens they already hold into USDC before joining a game. That helped us keep the whole experience in one place while still giving access to a very broad asset universe, from Solana memecoins to BTC, ETH, stocks, commodities, and the S&P 500.",
+  "auto_summary": "A World App mini app for onchain paper-trading competitions with World ID-gated entry, USDC buy-ins, and Chainlink-based trade settlement.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/world-in-paper-a1kzy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

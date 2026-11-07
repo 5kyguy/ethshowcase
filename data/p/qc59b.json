@@ -1,0 +1,28 @@
+{
+  "id": "qc59b",
+  "slug": "fidora",
+  "title": "Fidora",
+  "tagline": "Decentralised reputation system that tracks and scores the credibility of X users",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qc59b/banner/default.jpg",
+  "source_url": "https://github.com/stefann-01/Fidora",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Big Blockscout Explorer Pool Prize",
+      "title": "Big Blockscout Explorer Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Fidora is a decentralised reputation protocol that scores X accounts based on the accuracy of what they post — truth vs. falsehood — fully transparent and free from platform control.\n\nThe problem: misinformation spreads fast, truth has no weight in current algorithms, and there’s no public record of how much falsehood each account spreads. Existing solutions either rely on centralised moderation or Schelling-point-style incentives that punish dissent, even when it’s correct.\n\nOur solution uses a transparent truth-scoring system where the crowd submits evidence, and a zero-knowledge-assembled jury decides. ZK proofs ensure jury randomness and privacy, hiding staked opinions to avoid Schelling-point bias. Users who contribute to accurate decisions are rewarded, while accounts build a visible accuracy history over time.",
+  "how_its_made": "We built Fidora by gluing together several off-the-shelf tools and a few custom hacks—here’s the bird’s-eye view of how it all fits:\n\nSolidity + Hardhat\n• We wrote three main contracts in Solidity (0.8.x):\n– Fidora.sol holds the “business logic” (claims, secret bets, jury selection, voting, payouts).\n– ZkPlaceholder.sol acts as a stand-in for a true zk-rollup\n– RandomNumberSource.sol hooks into Pyth’s on-chain entropy feed (IEntropy) to give us pseudo-random numbers for jury shuffling.\nHardhat (v2.x) compiles, tests, and deploys these contracts, with a single deploy script that automates everything (choosing the right RNG address per network, funding the Pyth consumer, wiring ownership to Fidora, and writing back addresses into .env).\n\nPartner RNGs: Pyth + Flare\n• On general EVM testnets (Arbitrum Sepolia, local Hardhat), we use Pyth’s IEntropy oracle. Our Pyth consumer contract requests randomness, stores it, then hands it off to Fidora whenever we need to shuffle jurors.\n• On Flare’s Coston2 testnet, we tap into Flare’s built-in RandomNumberV2 via ContractRegistry.getRandomNumberV2(). A simple boolean flag in Fidora’s constructor (isFlare) switches to that source instead of Pyth. In the rare case both are enabled, we hash the two seeds together as a quick—and not fully VRF-secure—“best of both worlds.”\n\n“Secret Bets” Without a Full ZK Stack\n• We wanted truly secret bets (no blockchain explorer can see who bet what), but didn’t have time to build a SNARK circuit. So we wrote ZkPlaceholder.sol, which stores each user’s vote/amount in private mappings. The frontend deliberately never reads those mappings until after voting closes—creating the illusion of privacy without the complexity of a real zk prover. It’s hacky, but it let us ship without months of zk development.\n\nFrontend: React + Ethers.js\n• We built a React app that:\n– Connects to MetaMask/Ethereum via Ethers.js.\n– Reads contract ABIs and network-scoped addresses from .env (keys like REACT_APP_FIDORA_ADDRESS_COSTON2).\n– Renders UX flows for creating a claim (paying the fee), secretly placing a bet, signing up as a juror, casting a vote, and withdrawing rewards.\n– Hides bet amounts in the UI (the contract “knows” them, but our code doesn’t display them until resolution).\nThis stack let us spin up a fully interactive web UI without writing custom web3 plumbing.\n\nAutomation & Deployment Hacks\n• Our single Hardhat deploy script reads in network name (network.name.toUpperCase()), picks the right ENTROPY_ADDRESS_<NETWORK>, deploys ZkPlaceholder, funds RandomNumberSource (if not on a “no-RNG” testnet), deploys Fidora with two boolean flags (_isFlare, _isPyth), transfers helper-contract ownership, and then writes all resulting addresses back into .env under keys like FIDORA_ADDRESS_COSTON2 and ENTROPY_ADDRESS_ARBITRUM_SEPOLIA. That saved us from manually copying addresses after every redeploy.\n\nMinor “Hacky” Bits Worth Mentioning\n• We combined two RNG sources by simply hashing them together during jury selection. It’s not a true cryptographic VRF, but it works for a testnet demo.\n• The “secret bets” are stored privately on-chain in ZkPlaceholder.sol, but our frontend never pulls those mappings until it’s time to reveal payouts. In other words, the privacy guarantee lives entirely in the UI layer, not in actual zk logic.\n• We pin specific versions of ethers and Hardhat in package.json to avoid errors like “JsonRpcProvider undefined” that popped up when mixing plugin versions.\n\nPutting it all together, Fidora’s stack looks like this:\n– Contracts: Solidity (Fidora.sol + ZkPlaceholder.sol + RandomNumberSource.sol)\n– Build/Test/Deploy: Hardhat + @nomiclabs/hardhat-ethers (+ optional Etherscan plugin)\n– Off-chain RNG: Pyth’s IEntropy (for general EVM) + Flare’s RandomNumberV2 (on Coston2)\n– Frontend: React + Ethers.js + MetaMask, with .env-driven contract addresses and a “secret-bets” illusion in the UI.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fidora-qc59b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

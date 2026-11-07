@@ -1,0 +1,27 @@
+{
+  "id": "wg97w",
+  "slug": "opendeal",
+  "title": "OpenDeal",
+  "tagline": "Open onchain framework for autonomous agent-to-agent B2B negotiation.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wg97w/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dzdyerJGJBXC5a1ZqbbGAYdj5zb86qXqF02OQmaKtsuc/high.mp4",
+  "demo_url": "https://open-deal.vercel.app/",
+  "source_url": "https://github.com/rodrigoarias12/open-deal",
+  "finalist": false,
+  "description": "Open Deal is the first open onchain framework for autonomous agent-to-agent B2B commerce. Anthropic just published Project Deal showing AI agents can negotiate enterprise contracts on behalf of a company (186 deals in a single week). What's missing is the infrastructure to make it run outside the lab — on real ERPs, with real escrow, real audit, and a real spec any agent can adopt.\n\nSo I built a wire-level protocol with six sub-specs: ENS-based discovery, content-addressed catalogs on 0G Storage, paid RFQs + signed quotes via HTTP 402, two settlement modes (escrow.v1 for goods, direct.v1 for services), on-chain audit anchors, and ERP source-system connectors.\n\nThe reference implementation ships:\n• 5 Claude tools ready to drop into any Anthropic SDK project: record_audit, treasury_policy_check, kh_pay, kh_balance, kh_fund_instructions\n• 3 plugins: audit-to-0g (anchors decisions on 0G Chain), policy-from-ens (treasury rules as ENS text records), keeperhub-rail (USDC payments via x402)\n• 2 deployed contracts: ProcurementEscrow.sol on Sepolia, AuditAnchor.sol on 0G Chain\n• A live buyer agent connected to Odoo ERP that runs end-to-end procurement: detects low-stock SKUs → broadcasts RFQs to seller agents → Claude picks the winner with reasoning anchored on-chain → locks USDC in escrow → requests human approval via Telegram → writes the chain refs back into Odoo's chatter. 92 seconds, zero manual intervention.\n\nFor verifiability, a public KeeperHub workflow checks all audit anchors every 30 minutes and alerts on anomalies — fork it, point it at any Open Deal agent.\n\nMIT-licensed and onchain today.",
+  "how_its_made": "Built with Next.js 14 on Vercel. The buyer agent runs as a serverless function streaming live logs via SSE to a badge-based terminal in the browser.\n\nAnthropic Claude (via AWS Bedrock) drives winner selection — the agent calls 5 Claude tools registered via the Anthropic SDK (record_audit, treasury_policy_check, kh_pay, kh_balance, kh_fund_instructions). The model receives eligible quotes, purchase history, and policy constraints, and returns a reasoned choice that gets anchored on-chain. The reasoning is stored in the audit JSON on 0G Storage so any third party can verify why the agent chose a specific supplier.\n\n0G Foundation: every procurement tick uploads a JSON audit record to 0G Storage and calls AuditAnchor.append() on 0G Galileo. The content-addressed root hash is the proof of what the agent decided and why.\n\nKeeperHub: a public workflow (forkable by anyone) polls /api/anomaly/check every 30 minutes. The endpoint reads the AuditAnchor contract, downloads each new audit JSON from 0G, runs four heuristics (vendor concentration, LLM degradation, budget pressure, pattern-triggered orders without approval), and calls /api/anomaly/notify which fires a Telegram alert — no secrets in the public workflow.\n\nSellers are ENS subnames on Sepolia with text records for endpoint, catalog-uri (pointing to 0G Storage), and procurement.rfq-price (x402 anti-spam). Sellers can charge per RFQ via X-Payment headers — making brute-force RFQ farming economically irrational at scale. Payment is locked in a custom ProcurementEscrow.sol contract.\n\nOdoo integration via JSON-RPC closes the loop by creating POs with escrow tx hashes and 0G anchor indices in the chatter.\n\nHacky bit worth mentioning: treasury policy lives entirely as ENS text records on the parent name. To change a cooldown, max swap, or carrier whitelist, you don't touch code — you update an ENS record. The agent reads the record, hashes it, and includes the hash in every audit anchor. Policy is governable like a domain.",
+  "auto_summary": "An onchain procurement agent framework that uses ENS discovery, 0G-backed audit storage, escrow contracts, and ERP connectors to automate RFQ workflows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/opendeal-wg97w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

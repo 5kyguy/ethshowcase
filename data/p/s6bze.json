@@ -1,0 +1,21 @@
+{
+  "id": "s6bze",
+  "slug": "diti-chat",
+  "title": "Diti Chat",
+  "tagline": "Diti is the version of you that lives in your phone and remembers everything important!",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s6bze/banner/default.jpg",
+  "video_url": "https://stream.mux.com/y01HhTewQNa9HVyHfBAkJhq9iUJuIfomOb2X3eyIlH00Y/high.mp4",
+  "demo_url": "https://fiwin-personal-agent.fly.dev/",
+  "finalist": false,
+  "description": "DITI (formerly Fiwing) is a personal AI agent you reach through iMessage, not a separate app. Before today, the core loop was already in place: a visitor registers on the landing page, the API calls Photon Spectrum to assign a dedicated iMessage line, and the user opens the Open iMessage deep link to start chatting. Inbound messages arrive via the Spectrum Cloud stream worker (primary) or an HTTP webhook; both paths feed the same pipeline. Supabase stores canonical user identity (phone, Photon user ID, assigned number, Composio connection IDs). On each turn, the API syncs Composio tool accounts (Gmail, WhatsApp, Google Sheets), loads Honcho session memory, runs an LLM agent graph (Fireworks/Qwen or Anthropic, env-driven), and sends the reply back through Spectrum. There was no decentralized memory layer—all persistence lived in Honcho plus Supabase metadata. The landing page handled registration and marketing; proactive daily check-ins and toolkit OAuth were already wired. With this weekend additions, portable memory was introduced: user memory can be summarized, AES-256-GCM encrypted, uploaded to Walrus testnet, and linked via an ENS Sepolia subdomain under ditiai.eth ({hex8}.memory.ditiai.eth). This is gated per user, the user must opt in via POST /api/register with portableMemoryOptIn: true or by sending phrases like “Enable portable memory” in chat.",
+  "how_its_made": "Today, DITI is a monorepo deployed mainly on Fly.io: a Hono API plus a Next.js static landing. Registration (POST /api/register) provisions a Photon shared iMessage user, stores the row in Supabase, and returns an assigned number and deep link. When the user texts their assigned line, Spectrum delivers the message to the API (stream and/or webhook). The shared inbound pipeline deduplicates events, resolves the user by phone, and runs runDitiAgentTurn: sync Composio connections (i.e. Gmail, Excel, Sheets), optionally detect portable-memory opt-in from the message, load Honcho context plus (if opted in) decrypt/load Walrus memory via ENS blob ID, invoke the agent graph with tools, append the reply to Honcho, and (if opted in) summarize, encrypt, upload to Walrus, and update the ENS walrus.blob record. Replies go out via Spectrum app.send (stream mode) or the configured delivery path. Memory therefore has two tiers: Honcho for everyone by default, and Walrus+ENS for users who explicitly opt in. Health endpoints expose Spectrum and portable-memory status for ops.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/diti-chat-s6bze",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

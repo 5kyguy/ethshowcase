@@ -1,0 +1,27 @@
+{
+  "id": "bt6pb",
+  "slug": "alt-agent",
+  "title": "Alt Agent",
+  "tagline": "Pay-per-inference AI on Hedera. x402 micropayments auto-routed to the cheapest capable model.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bt6pb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZbwyjbywcYRENHx2362PxPc7xjoFNHMAqwsNLO101r5w/high.mp4",
+  "demo_url": "https://hedera-agent.himotechglobal.com/",
+  "source_url": "https://github.com/prochaosdevv/alt-agent",
+  "finalist": false,
+  "description": "An agentic AI gateway on Hedera where every inference call is paid per request via the x402 protocol — no subscriptions, no prepaid balances. A prompt classifier automatically routes each request to the cheapest model capable of handling it, and every paid call is settled through Blocky402 and logged to Hedera Consensus Service for a verifiable on-chain audit trail. One endpoint replaces a stack of separate AI subscriptions, and the agent proves what it paid for.",
+  "how_its_made": "The project is built on top of Hedera's x402-inference-pay-per-request-poc starter, extended with a custom broker overlay that adds intelligent model routing and on-chain auditing.\n\nThe core is split into two packages. packages/router holds a prompt classifier, an offering catalogue (each model tagged with capability and cost-per-call), and selection logic that picks the cheapest model capable of handling a given prompt — so a trivial query never gets billed at frontier-model prices. This is what turns a plain gateway into an actual router. It ships with unit tests, including a word-boundary regex fix that was killing us early on: the classifier was matching substrings inside unrelated words and misrouting requests, so we tightened the matching to whole-word boundaries.\n\nPayments run through the x402 protocol on Hedera testnet, with Blocky402 as the facilitator (X402_TESTNET_FACILITATOR_URL=https://api.testnet.blocky402.com). The flow is genuinely pay-per-request: a call only settles once the request completes, and the gateway won't forward the inference until payment confirms. The model itself is served locally through LM Studio sitting behind the x402 gate, which let us test the full paid loop against a real open model without external API keys.\n\nEvery settled call is logged to Hedera Consensus Service via packages/audit — an HCS logger plus a topic-creation script — giving each transaction a tamper-evident, verifiable on-chain receipt rather than a claim in a database.\n\nOn the hacky side: because the starter repo wasn't designed to be extended, we kept our overlay as isolated packages and wired them into the agent with three surgical edits documented in INTEGRATION.md, which kept the reused-vs-new boundary clean for attribution and let us iterate on the router without touching the upstream PoC.",
+  "auto_summary": "A Hedera-based AI gateway routes prompts to lower-cost models, charges each inference request through x402, and records payment events to HCS.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/alt-agent-bt6pb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

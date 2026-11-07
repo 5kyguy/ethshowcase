@@ -1,0 +1,26 @@
+{
+  "id": "92p9u",
+  "slug": "agentpass",
+  "title": "AgentPass",
+  "tagline": "AgentPass: on-chain identity + spending policy for AI agents. Backed by World ID, ENS & Ledger.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/92p9u/banner/default.jpg",
+  "demo_url": "https://77-42-84-161.sslip.io/",
+  "source_url": "https://github.com/devprojectsmoon/agentpass",
+  "finalist": false,
+  "description": "AgentPass is an identity and authorization layer for AI agents. Every agent gets a verified\non-chain identity — an ENS subname (e.g. trading-abc123.agentpass.eth) registered on World Chain, cryptographically linked to a human owner via World ID ZK proof.\n\nBeyond identity, AgentPass enforces a programmable spending policy on every agent action.\nOwners set two parameters: a free threshold (actions below this auto-approve instantly) and\na daily cap (hard ceiling — no exceptions). Actions at or above the threshold are held until\nthe owner physically approves them on a Ledger hardware wallet.\n\nThis means AI agents can act autonomously within safe limits, and escalate high-value\ndecisions to a human — without the agent being able to bypass or self-authorize. It's a\npassport, a policy engine, and a kill switch in one. Built for any agent runtime via the\nzero-dependency @agentpass/sdk.",
+  "how_its_made": "AgentPass is a pnpm/Turborepo monorepo with three layers:\n\nSMART CONTRACT — AgentRegistry.sol on World Chain (chainId 480). Stores agent-to-owner mappings keyed by World ID nullifier hash. Enforces max 10 agents per human. Deployed with a custom Node.js script using viem's walletClient.deployContract() and solc-js for runtime compilation (no Hardhat/Foundry needed).\n\nWORLD ID — We use the v4 IDKit widget on the frontend for QR-based ZK proof of humanity. The backend generates a signed RP context (signRequest from @worldcoin/idkit-server) and verifies the proof against developer.world.org/api/v4/verify/:rpId. One notable gotcha: the v4 API returns the nullifier as \"nullifier\" not \"nullifier_hash\" — this required\nconverting a large decimal string to a padded bytes32 for the contract (pad(toHex(BigInt(nullifierHash)), {size:32}) via viem).\n\nENS — Each agent gets a subname under agentpass.eth. We run in offchain mode (ENS_OFFCHAIN_MODE=true) backed by a local JSON store, which avoids L1 gas costs entirely while still giving agents a human-readable, typed identity with metadata in text records (owner, type, worldIdHash, version).\n\nLEDGER — The approval flow uses @ledgerhq/device-signer-kit-ethereum (SignerEthBuilder) in the browser via WebHID. When an agent submits a high-value action, it opens a Server-Sent Events stream (SSE) and blocks — the action is held server-side in an in-memory Promise map. The owner's browser connects to the same SSE stream, sees the pending action, and signs it with their Ledger. The signature is verified on the server via viem's recoverMessageAddress before releasing the decision.\n\nThe hacky-but-clever bit: HTTPS without a domain. We needed a real TLS cert for World ID\n(no localhost). We used sslip.io — the hostname 77-42-84-161.sslip.io resolves to the bare IP, so Certbot issued a valid Let's Encrypt certificate for it. No domain purchase needed.\n\nStack: Hono (API), Next.js 14, viem, World ID v4, ENS.js, Ledger DMK, Solidity, PM2, nginx.",
+  "auto_summary": "A monorepo for registering AI agents with World ID-backed ownership, ENS subnames, on-chain registry entries, and Ledger-gated approval policies.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentpass-92p9u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

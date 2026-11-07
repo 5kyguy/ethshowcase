@@ -1,0 +1,21 @@
+{
+  "id": "zr73n",
+  "slug": "pulsefi",
+  "title": "PulseFi",
+  "tagline": "Agent-driven capital optimization with Uniswap v4 hook-gated settlement",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zr73n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02dhS5rrobHHl7YetnWRKZtfGpJiwvN4bYt01uidQTTsI/high.mp4",
+  "source_url": "https://github.com/imanishbarnwal/PulseFi",
+  "finalist": false,
+  "description": "PulseFi introduces session-based agentic trading on Base Sepolia. Users lock capital once into a non-custodial SessionEscrow contract, while an off-chain solver continuously evaluates routing opportunities across Uniswap v4 and LiFi. Execution is gated by a custom Uniswap v4 Hook (SessionGuardHook), which enforces just-in-time funding and session balance validation before swaps occur.\n\nInstead of executing every trade onchain, PulseFi separates decision-making from settlement. The solver performs market scanning and route simulation off-chain, minimizing unnecessary gas costs and reducing information leakage. When a profitable opportunity is detected, the system performs an atomic execution: escrow spend → Uniswap v4 swap → capital settlement, all in a single, verifiable transaction.\n\nYellow is used to structure session-based execution flows and vault logic, ensuring scoped authorization and executor-restricted actions. LiFi enables cross-route discovery and liquidity aggregation, while Uniswap v4 provides programmable liquidity via hooks for secure capital enforcement.\n\nThe result is a composable, transparent, and hook-enforced agentic execution model that prioritizes security, capital efficiency, and clean separation between intelligence and settlement.",
+  "how_its_made": "PulseFi is built with Solidity (0.8.26) and integrates directly with Uniswap v4 core and periphery contracts. We implemented:\n\n• SessionEscrow.sol: a session-based capital vault that locks USDC and authorizes a trusted executor\n• SessionGuardHook.sol: a custom Uniswap v4 Hook that enforces session balance checks in beforeSwap()\n• Atomic execution flow: escrow.spend() → PoolManager.swap() → settle()\n\nThe hook validates executor identity, decodes hookData (sessionId, maxAmountIn), verifies session balance from the escrow contract, and atomically funds the swap through PoolManager before execution. This ensures just-in-time liquidity without exposing full session capital.\n\nThe backend (Node.js + TypeScript) runs an off-chain solver loop that integrates:\n• Uniswap SDK for v4 pool interaction\n• LiFi SDK for route comparison and liquidity aggregation\n• Price and slippage heuristics\n\nThe frontend (React + Vite + Ethers.js) manages wallet connection, session provisioning, and atomic execution UI. All onchain interactions are verifiable on Base Sepolia, and the system is designed to meet Uniswap v4 Agentic Finance track requirements by emphasizing reliability, composability, and transparent execution boundaries over speculative AI.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pulsefi-zr73n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

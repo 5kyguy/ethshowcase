@@ -1,0 +1,29 @@
+{
+  "id": "i3cs3",
+  "slug": "chooseadelegate",
+  "title": "ChooseADelegate",
+  "tagline": "A farcaster frame that uses the social graph to help people choose an active delegate.",
+  "event": {
+    "slug": "superhack2024",
+    "name": "Superhack 2024",
+    "start_time": "2024-08-02T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i3cs3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LJC64j02DGH02HnRWUlsteLbgdoOMfffWGXbJdyPGhRd8/high.mp4",
+  "source_url": "https://github.com/Michael-Vander-Meiden/delegation_frame_optimism",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Superhack 2024 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Across all DAOs, governance participation is a huge problem. It is hard to keep up to date with every proposal and do the research necessary.\n\nDelegation was supposed to make up for this by allowing users to choose active participants, yet\n\nIn Optimism's last token house vote, only 31 Million tokens cast a vote, out of a 1.1 Billion circulating supply. That's only 2.6% of tokens that are active in governance!\n\nThis problem can be solved by 1) Making sure anyone who has OP tokens has chosen a delegate and 2) making sure that the delegate is a good delegate and active.\n\nThat is where our project comes in. We have create a Farcaster frame that first allows users to see if they have selected a delegate. If they have a delegate, it checks if that delegate was active in the 10 most recent proposals. If they don't have a delegate or they have a \"bad\" delegate, it will suggest a delegate for them to choose.\n\nThe suggestion method for delegates is a new innovation we have created. We surface the top 3 delegates based on people that you follow. By looking at everyone you follow and at their Optimism delegates, we are able to pull the delegates that are most popular in your farcaster circle for you to choose from!\n\n",
+  "how_its_made": "When a user clicks the \"get stats\" button on the farcaster frame (built using Frog), the frame will look up any ethereum address linked to their farcaster id (using neynar) and get the ethereum address of their optimism delegate. We then get that delegate's history on the last 10 votes (using Agora's api) to see if they are a \"good delegate\". All of the logic is happening on a custom-built lambda function which is called by the frame frontend.\n\nIf they are a \"good delegate\", all is well and the frame stops there. But if they are a \"bad delegate\" by missing some of the last 10 votes, we allow the user to click a button to \"explore delegates\".\n\nWhen the user clicks this button, we use neynar to get all of the farcasture users that they are following, get each of those users verified ethereum addresses, and then get the delegate for each of those ethereum addresses.\n\nBecause this often involves ~1000 lookups, we used dune to get the top 200,000 delegators and stored it as a python dictionary in amazon s3, which is loaded by our lambda function for reference. Once we have the delegate for each and every one the people that the user follows, we count to get the top 3 most popular delegates among that user's social circle and return those 3 delegates to the user.\n\nWe have an amazing designer that did her work in Figma.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/chooseadelegate-i3cs3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

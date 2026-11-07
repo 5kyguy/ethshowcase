@@ -1,0 +1,27 @@
+{
+  "id": "hefkc",
+  "slug": "perdiem",
+  "title": "Perdiem",
+  "tagline": "Hotel AI agents bid on encrypted travel policy. Hotels fill empty rooms, buyers get the best deal.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hefkc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02K49RQ02sVtwS01oph2lJizimMqyNYAtP02dCCYqtzUKVo/high.mp4",
+  "demo_url": "https://vps-12791642.vps.ovh.ca",
+  "source_url": "https://github.com/zguesmi/perdiem",
+  "finalist": false,
+  "description": "Hotel AI agents bid on a sealed travel policy. The buyer's selection rules stay private and sealed bids decide the price, so hotels fill empty rooms and\nbuyers get the best deal.\n\nA corporate travel desk writes one sentence. A model turns it into a policy: hard requirements, weighted preferences, a maximum price. The policy hash goes\non chain before any bid exists, so the rule cannot be changed once bidding opens. The policy itself never reaches the chain. It stays sealed to an enclave.\n\nThree supplier agents each submit one sealed bid and stake USDC behind a commitment. No supplier sees another's bid. A Chainlink CRE confidential workflow\nopens the policy inside the enclave, verifies every signature and commitment, scores the bids against the private rule, books the winner against that\nsupplier's own booking API, and reports only the winner, the payout and the booking id. The contract pays the winner, refunds the buyer and returns every\nstake.\n\nThe result: the cheapest bid loses. It asks 2 USDC, 50% under the cheapest four-star bid, and the private trade-down rule wants 60%. The winner charges 6\nagainst a 4 rival, because the private policy pays 2 for a refundable rate and 1 for breakfast. Nobody outside the enclave learns why. Change one number in\nthe policy and the payout moves, with the same three bids.\n\nThe buyer's USDC sits in a Privy organization wallet behind a spend policy that reads the transaction calldata, so the organization checks the spender and\nthe amount, not just the destination. Over the ceiling, Privy refuses before anything is signed. Each supplier agent signs its bid and its stake with a\nCircle Agent Stack wallet, verified on chain through ERC-1271. Escrow, payout and stakes run on Arc testnet in Arc's own USDC, and the winning stay is\nbooked through a real hotel booking API.\n",
+  "how_its_made": "- TypeScript, one pnpm workspace: the contract, the confidential workflow, three supplier agents, the buyer service, a relay and the page. Hardhat and viem for the chain, React and Vite for the page, Docker Compose behind Caddy for the deployment.\n\n- Chainlink CRE runs the confidential workflow. The private policy is opened, the sealed bids are decrypted, verified and scored, and the winner is booked, all inside the enclave. Only the settlement leaves it, and the workflow nodes never see a price.\n\n- Arc is the settlement layer. The escrow contract holds the payout cap and every supplier stake in Arc's own USDC, and pays out against the committed policy hash.\n\n- Circle Agent Stack gives each supplier agent its own wallet, which signs its bid and its stake and pays its own gas.\n\n- Privy holds the buyer's USDC in an organization wallet behind a spend policy, so the organization approves what the buyer's own service may spend.\n\n- LiteAPI supplies the real hotels and takes the booking the enclave makes for the winner.\n",
+  "auto_summary": "A sealed-bid hotel booking system uses an onchain escrow contract and a Chainlink confidential workflow to privately score bids and settle USDC payouts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/perdiem-hefkc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "jko7i",
+  "slug": "one-agent",
+  "title": "One Agent",
+  "tagline": "An on-chain policy firewall that keeps AI DeFi agents inside the rules you set.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jko7i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sdOAWoDGeUE1oGJ8RUmXrTSFmlAb5j2FPbDCfFDZPW8/high.mp4",
+  "demo_url": "https://github.com/DecentralizedGlasses/One-Agent.git",
+  "source_url": "https://github.com/DecentralizedGlasses/One-Agent",
+  "finalist": false,
+  "description": "AgentGuard is an on-chain policy firewall for AI-powered DeFi agents. Today there's no safe middle ground between giving an AI agent full access to your wallet and giving it none at all. Full access means a single prompt injection, compromised tool server, or reasoning bug can drain everything with no way to stop it. No access means the agent can only suggest actions a human must manually approve — which defeats the point of automation.\n\nAgentGuard solves this with PolicyVault, a smart contract that sits between the agent and your wallet. Every agent-initiated transaction must pass through it. The user defines rules the agent cannot bypass: max spend per transaction, a protocol whitelist (Aave only), time-locks, and an automatic kill if the Aave health factor drops below a safe threshold (read live from Chainlink price feeds). If the agent tries anything outside these rules, the transaction reverts — the agent literally cannot do it.\nThe agent layer uses the Claude API to read a user's Aave position on Base Sepolia, recommend a rebalancing action, and submit it through PolicyVault. A dashboard shows live positions, active rules, and a feed of every action the agent executed or had blocked — plus a prominent kill switch that revokes all agent access instantly with one click.\nThe result: AI agents that can manage your DeFi position autonomously, but can never drain your wallet, and that you can shut off the moment something looks wrong. AgentGuard isn't just one app — it's a composable safety primitive any AI agent project can plug into.\n",
+  "how_its_made": "One-Agent is built around a single Solidity contract, PolicyVault, deployed on Ethereum Sepolia and written/tested with Foundry. PolicyVault is the heart of the project: every agent-initiated transaction is routed through its execute() function, which runs a series of on-chain rule checks — max spend per transaction, a protocol whitelist, a time-lock, and a health-factor threshold — before forwarding the call to Aave v3. If any rule fails, the call reverts, so the agent literally cannot perform a disallowed action. An owner-only emergencyRevoke() acts as a kill switch that disables all agent execution in one transaction.\nThe agent layer is a Node.js service powered by the Claude API. It reads the user's live Aave position on Sepolia, sends that state to Claude with tool-use, and Claude returns a structured rebalancing action. Crucially, the agent never touches Aave directly — it submits every action through PolicyVault, so the AI proposes and the contract disposes.\nChainlink price feeds power the health-factor logic: PolicyVault reads live price data on-chain to compute whether a position is safe, and auto-blocks agent actions (or triggers the kill condition) when the health factor drops below the user's threshold. This is what makes the safety enforcement react to real market conditions rather than stale data.\nThe frontend is a React + Vite dashboard using Dynamic for wallet connection and embedded-wallet auth — the wallet a user connects through Dynamic is the exact wallet One-Agent's policies protect. We integrated ENS so the agent and whitelisted protocols display as human-readable names (e.g. one-agent.eth) instead of raw hex, resolved on-chain via wagmi/viem. The dashboard shows live positions, the active policy rules, a real-time feed of executed vs. blocked actions, and the kill switch.\nOn the hacky-but-notable side: to make the \"agent gets blocked\" moment reliable for a live demo (AI output is non-deterministic), we built a deterministic demo trigger that fires one known-valid action and one known-violating action back to back — so the firewall visibly catches the bad one on cue every single time, while still running through the real on-chain PolicyVault checks.",
+  "auto_summary": "An AI-assisted DeFi agent routes transactions through a Solidity vault that enforces on-chain safety rules before interacting with Aave.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/one-agent-jko7i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

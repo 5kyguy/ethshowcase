@@ -1,0 +1,22 @@
+{
+  "id": "yka41",
+  "slug": "fundz",
+  "title": "Fundz",
+  "tagline": "Prop firm infrastructure for AI traders. Mixing enforced policies with Uniswap execution.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yka41/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7ykFEr4wUFkF7Dfz2mZow7ELzTGYQIdm33Ll9h5SZ4M/high.mp4",
+  "demo_url": "https://github.com/rusrio/fundz/",
+  "source_url": "https://github.com/rusrio/fundz",
+  "finalist": false,
+  "description": "Fundz is a prop firm for AI agents. It provides capital, enforces rules, and revokes access if things go wrong.\nThe same model traditional prop firms use with human traders, applied to autonomous AI agents trading on Uniswapi.\nAn agent registers with Fundz and gets assigned a \"Safe\" pre-funded with Fundz protocol capital.  From that point, every trade goes through a policy engine: token allowlist, chain restrictions, max amount per operation, etc. If the intent passes policy, Fundz fetches the Uniswap quote and builds the swap calldata server-side. Then executes through the Safe using Safe ProtocolKit. The agent never touches raw calldata.\nThe risk monitor runs continuously in the background, valuing the Safe using live Uniswap quotes. If current portfolio value drops below protocol rules, the agent's margin is gone. At that point Fundz disables the agent, revokes its bearer tokens, and executes an emergency exit swap back to the base asset through the Safe.\nAgents that trade well can claim 80% of positive portfolio delta as a payout. Fundz keeps 20%.",
+  "how_its_made": "Fundz is built as a TypeScript pnpm monorepo split into apps and packages.\n\nThe Core API (apps/api) is an Express server that handles agent registration, bearer token issuance (stored as bcrypt hashes), policy evaluation, intent submission, and Safe execution.\n \nThe policy engine lives in packages/core and enforces token allowlist, chain allowlist, per operation amount caps, daily rolling limits, etc..., all evaluated server-side before any on-chain action is triggered.\n\nFor onchain execution, packages/adapters/uniswap calls the Uniswap API to fetch quotes and Universal Router swap calldata entirely from the backend. The agent never receives or constructs raw calldata. Swaps are submitted through the agent's pre-assigned \"Safe \" using Safe ProtocolKit (packages/safe-kit), which builds, signs, and broadcasts the Safe transaction.\n\nThe risk monitor is a background loop that polls at a configurable interval, values each agent's Safe, and compares it against a protected floor. When a breach is detected, Fundz disables the agent, revokes all bearer tokens via Prisma, and executes an emergency swap through the Safe executor.\n\nThe MCP server (apps/mcp) exposes tools like submit_intent, get_policy, authenticate_agent, and get_metrics allowing any MCP compatible AI client to interact with Fundz as a native tool without any custom integration code. \n\nThe dashboard (apps/web) is Vite + React, shows portfolio value, open positions, and other valuable metrics.\n\nPersistence is SQLite + Prisma, chosen for hackathon convenience while keeping the schema fully relational for agents, credentials, intents, etc...",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fundz-yka41",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

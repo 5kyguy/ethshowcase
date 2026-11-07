@@ -1,0 +1,65 @@
+{
+  "id": "9wbj6",
+  "slug": "truep2p",
+  "title": "TrueP2P",
+  "tagline": "P2P swaps market based on onchain wire transfer confirmation",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9wbj6/banner/default.jpg",
+  "demo_url": "https://bos.gg/#/azbang.near/widget/peer2peer",
+  "source_url": "https://github.com/pvolnov/true-p2p",
+  "prizes": [
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "🥇 Lit Protocol — Best use of PKPs",
+      "title": "Lit Protocol"
+    },
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "💰 Mantle — Best DeFi",
+      "title": "Mantle"
+    },
+    {
+      "sponsor": "XMTP",
+      "sponsor_id": "nbyyv",
+      "placement": "🥇 XMTP — Best Use",
+      "title": "XMTP"
+    },
+    {
+      "sponsor": "NEAR Protocol",
+      "sponsor_id": "5b69q",
+      "placement": "🥇 NEAR — Best Frontend using BoS",
+      "title": "NEAR Protocol"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏆 Scroll — Best Use",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊‍♂️ Scroll — Pool Prize",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "🏊‍♂️ Arbitrum — Pool Prize",
+      "title": "Arbitrum"
+    }
+  ],
+  "finalist": false,
+  "description": "# True P2P\n\n**Problem:** P2P crypto swaps require bank transfer confirmation. This leads to centralization, delays, and errors.\n\n*example: swap DAI to USD on Bank of America*\n\n**Solution:** Protocol for P2P swaps based on onchain wire transfer confirmation\n\n## How it works\n1. Bob creates a deal to sell DAI.\n2. Alice accepts the deal and freezes Bob's DAI.\n3. Alice sends USD via Zelle.\n4. Alice creates onchain proof of her Zelle transfer.\n5. Alice uses this confirmation to close the deal and take Bob's DAI.\n\n## Onchain proof for Bank (Zelle) transfer\n\nThe confirmation works with Plaid and the LIT Protocol nodes.\n\n1. Alice connects Plaid and creates an API key with access to transaction history from the bank.\n2. Alice calls Programmable PKPs action on LIT Protocol with Plaid transactionId and API key ([demo.js](https://github.com/pvolnov/true-p2p/blob/main/lit-action/demo.js)).\n3. Inside the `LitAction`, it executes the request on Plaid and verifies that the transaction actually exists in Alice's bank account. ([litActionPlaidCheck.js](https://github.com/pvolnov/true-p2p/blob/main/lit-action/litActionPlaidCheck.js))\n4. The `LitAction` signs the transaction information using the decentralized `signEcdsa()`.\n5. Alice adds the signed transaction to the \"vault\" smart contract ([plaid-transactions-storage.sol](https://github.com/pvolnov/true-p2p/blob/main/contracts/plaid-transactions-storage.sol)), and now everyone can verify that she actually made the transaction from her bank account.\n\n![Cover.png](https://github.com/pvolnov/true-p2p/blob/main/res/Cover.png)\n\n## Step-by-step-swap\n1. Bob creates a deal to sell DAI on [p2p-market](https://github.com/pvolnov/true-p2p/blob/main/contracts/p2p-market.sol) (`createPaymentRequest(...)`)\n2. Alice accepts the deal and freezes Bob's DAI (`confirmPayment(...)`)\n3. Alice sends USD via Zelle.\n4. Alice creates onchain proof of her Zelle transfer on [plaid-transactions-storage](https://github.com/pvolnov/true-p2p/blob/main/contracts/plaid-transactions-storage.sol) (`addTransaction(...)`)\n5. Alice uses this confirmation to close the deal and take Bob's DAI on [p2p-market](https://github.com/pvolnov/true-p2p/blob/main/contracts/p2p-market.sol) (`reservePayment(...)`)\n\n## Main components:\n\n- [p2p-market.sol](https://github.com/pvolnov/true-p2p/blob/main/contracts/p2p-market.sol) - P2P Market smart contract\n- [plaid-transactions-storage.sol](https://github.com/pvolnov/true-p2p/blob/main/contracts/plaid-transactions-storage.sol) - onchain wire transactions storage\n- [litActionPlaidCheck.js](https://github.com/pvolnov/true-p2p/blob/main/lit-action/litActionPlaidCheck.js) - LIT Action to verify Plaid requests\n- [bos](https://github.com/pvolnov/true-p2p/tree/main/bos) - Frontend\n\n## Demo:\n\nUrl: [https://bos.gg/#/azbang.near/widget/peer2peer](https://bos.gg/#/azbang.near/widget/peer2peer)\n\n## Source\n- BOS Component: [https://bos.gg/#/azbang.near/widget/peer2peer](https://bos.gg/#/azbang.near/widget/peer2peer)\n- LIT-Protocol action ipfsId: `QmVcetXaAnDcHmpX6cWxsGKGSoid4buVK2PkXQEDmgh6wQ`\n- LIT-Protocol PKPs: [https://explorer.litprotocol.com/pkps/110216617645918104171481682055149393821345448971586480839222858944196209976493](https://explorer.litprotocol.com/pkps/110216617645918104171481682055149393821345448971586480839222858944196209976493)\n- Goerli Plaid transactions endpoint: [https://goerli.etherscan.io/address/0x00e42dc2248f37a28d39f790d49230e2ddd37b99](https://goerli.etherscan.io/address/0x00e42dc2248f37a28d39f790d49230e2ddd37b99)\n- Goerli P2P Market: [https://goerli.etherscan.io/address/0xa3724030aA74016d1AE1e1B54bD79608F0E5866F](https://goerli.etherscan.io/address/0xa3724030aA74016d1AE1e1B54bD79608F0E5866F)\n",
+  "how_its_made": "The project is written in js and solidity. BOS VM and widgets are used for frontend. Verification of bank transactions is done via LIT Protocol, data is received from Plaid.\n\nSolidity contracts are used for p2p market and transactions vaults, Metamask sdk and ethers are used to sign transactions and verify wire transfers. \n\nXMTP Protocol is used for a secure chat during P2P deal",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/truep2p-9wbj6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

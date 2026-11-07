@@ -1,0 +1,41 @@
+{
+  "id": "yxuj7",
+  "slug": "zap",
+  "title": "zaP!",
+  "tagline": "Make blockchain anon, private and fun again!, hiding easter eggs and logic bombs across blockchains in autonomous Smart Contracts",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yxuj7/banner/default.jpg",
+  "demo_url": "https://zero-awareness-protocol.vercel.app/",
+  "source_url": "https://github.com/ffdfyjkgkgfork/zero-awareness-protocol",
+  "prizes": [
+    {
+      "sponsor": "Cartesi",
+      "sponsor_id": "buucz",
+      "placement": "🥉 Cartesi — Best Use",
+      "title": "Cartesi"
+    },
+    {
+      "sponsor": "XMTP",
+      "sponsor_id": "nbyyv",
+      "placement": "🏊‍♂️ XMTP — Pool Prize",
+      "title": "XMTP"
+    },
+    {
+      "sponsor": "Tellor",
+      "sponsor_id": "x6m3m",
+      "placement": "🥉 Tellor — Best Use",
+      "title": "Tellor"
+    }
+  ],
+  "finalist": false,
+  "description": "The zaP! (zero awareness protocol) let any Smart Contract be autonomous and act guided by obfuscated triggers that will look for some activity in any blockchain to do some pre-configured or even dynamic obfuscated on-chain actions.\n\nThis triggers can be any transaction parameter (matched by regex) and can use a set of synchronic or even asynchronic actions guided by an amount of blocks but that can happen in one or more blockchains simultaneously.\n\nThis makes impossible to track: What, How and Who is making this autonomous Smart Contract do whatever is planned to.\n\nThere is many use cases for the technology, some very sensible while others more gamified, in example:\n-Dynamic Trading Contracts.\n-Easter Eggs rewards for community engagement with some tech.\n-Access Control.\n-Red button government multi-lateral actions.\n-Intelligence communication.\n-Logic Bombs.",
+  "how_its_made": "We had many challenges to accomplish our goals, first of all is the security level in all the involved communications as much as possible so we had to buil the POAR (Proxy Obfuscation for API Requests).\n\nThis POAR is a python service that can be used by anyone to receive an API request for an Optimistic Oracle (i.e. Tellor) and complete the API request to the analytics data source (blockchain blocks transaction information, i.e. Dune), encrypt the data and send it back to the Oracle to be finally received, decrypted and analyzed by the trigger function in the autonomous Smart Contract.\n\nTo be compliance with the Optimistic Oracle protocol the Smart Contract has a read checkOracleData; function where you can verify if a encrypted message is valid or not (success;/error;), being this enough for that purposes.\n\nThe triggers works with a ruleset of regex expressions that will let the programmer write what is expecting to find in the chain to execute different functions, everything obfuscated. Our PoC follow this basic standard:\n\nTrigger specification\nOne per line preceded by \"tN-\" where N is the id of the trigger, trigger is separarted by spaces and\nmiltumatch is separated by unlimited \",\" when are syncronic or \";\" when are asyncronic.\n\n* can be used to match anything before or after the place.\n? can be used to match anything exactly on that position with same lenght.\n\nfromAddress         matches tx sender Address\ntoAddress         matches tx receiver Address\ntToken_Value         matches tx Token with Valie\nbChain            look for the tx in the blockchain Chain\ncN                look fot the above data in the N last txs\n\nActions specifications\nFunctions called aN where N is matching the tN used for the correspondent Trigger.\n\nTo make this autonomous contracts work we need users to execute it and there is where the Reward functions comes, along with some read functions to let the users know if is the correct time to do so, this works as follows:\n\nexecute callReward (external payable); Runs the SC if is the correct time to do so and send the Reward amount to the senderAddress executing it and also refunds the gas fees (with a configured limit).\n\nread maxGas; will tell the user be the biggest amount of gas that the autonomous SC will refund on a Reward tx, if is exceeded the user will loss some gas amount.\n\nread Reward; will tell the user the reward amount to receive when he executes the contract on the correct time.\n\nread Timelapse; will return if the contract is ready to execute or how much time is left to be ready to execute.\n\nFor the PoC we used Cartesi to code the SC and its functions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zap-yxuj7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

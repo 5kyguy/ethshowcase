@@ -1,0 +1,27 @@
+{
+  "id": "jqad7",
+  "slug": "product-tracker",
+  "title": "product tracker",
+  "tagline": "Transparent USDC grants on Arc — one-sig contribute + ERC-8004 agent IDs.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jqad7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Z8B00Y027DkDZ7v01gi7fqhJnabvMljlvrJRkxsSQzotfI/high.mp4",
+  "demo_url": "https://open-treasury.vercel.app/",
+  "source_url": "https://github.com/ely67/Open-Treasury",
+  "finalist": false,
+  "description": "Open Treasury is a transparent public-funding vault on Arc Testnet. It is built for NGOs, DAOs, grant programs, and anyone who needs to collect USDC and later pay it out as grants — with every contribution and allocation visible on-chain.\n\nThe problem. Typical treasuries are opaque: money goes into a wallet or multisig, and the public cannot easily see who funded it, how much is still free to grant, or what has already been promised to recipients. Open Treasury separates who paid from what the vault holds, and it keeps grant state on-chain.\n\nHow funding works. A contributor connects a wallet (MetaMask, Rabby, Coinbase Wallet, Trust, or Phantom) on Arc Testnet, gets test USDC from Circle’s faucet, and submits an amount plus a short reference (for example a campaign or grant name). That reference is hashed with keccak256 and stored in a ContributionRecorded event. Approve and contribute happen in one signature using Arc’s Multicall3From, so the recorded contributor is the user’s wallet, not a helper contract. The same Arc USDC balance pays both the donation and gas.\n\nHow the vault works. Funds sit in TreasuryVault. Operators (role holders) can create grants, approve them, and recipients can claim (including partial claims). The UI today focuses on connect, inspect balances, register an agent, and contribute. Grant create/approve/claim is already in the contracts and is planned for the UI next.\n\nAgents. On Arc, actors can have a portable ERC-8004 identity (an NFT ID on Arc’s shared Identity Registry — we did not deploy our own). Users can register an agent, then optionally tag a contribution as agent:{id}|their-reference. That does not move money by itself; it lets funding be attributed to an on-chain agent, not only a bare address. Reputation and ERC-8183 jobs (for example agent-assisted grant review) are the next step.\n\nWhat you can see. The app shows wallet USDC, vault total, available (unallocated) and allocated balances, transaction finality with Arcscan links, recent contribution history, and in-app docs from the project README.",
+  "how_its_made": "Open Treasury is a transparent USDC grants vault on Arc Testnet. Contracts are Solidity 0.8.20, built and tested with Foundry (unit + invariant tests) and OpenZeppelin (AccessControl, Pausable, SafeERC20).\n\nThe protocol is split on purpose: TreasuryVault holds tokens and grant state (Pending → Approved → Claimed); a thin TreasuryFundingRouter pulls USDC and emits ContributionRecorded so the vault never stores who paid. Contributors get one wallet signature by batching USDC.approve + router.contribute through Arc’s Multicall3From (aggregate3 + CallFrom). That preserves the original EOA as msg.sender — a normal multicall would record the batcher as the contributor. We always use Arc USDC’s ERC-20 6-decimal interface for amounts; the same USDC balance also pays gas (native 18-decimal).\n\nThe frontend is Vite + React + TypeScript, wagmi / viem, and TanStack Query. Wallet connect uses explicit injected targets (MetaMask, Rabby, Coinbase Wallet, Trust, Phantom) so providers don’t race on window.ethereum. History prefers Arcscan’s logs API because Arc RPC caps eth_getLogs at 10k blocks. A known router ABI typo (refrenceHash) is kept so event topics still decode.\n\nFor Arc’s agentic stack we did not deploy a private registry: we call register(string) on the shared ERC-8004 Identity Registry. Contributions can optionally hash agent:{id}|reference so funding is attributable to a portable agent ID. Docs in the app are the root README parsed into sections at build time.\n\nHacky-but-necessary bits: Multicall3From sender preservation, USDC 6 vs 18 decimals, chunked/Arcscan log fallbacks, and collapsing huge wallet-reject hex dumps behind Details. Hosted on Vercel from the frontend/ app.\n\nThat’s about 1,600 characters. If the form has a tight max, use this shorter cut (still well over 280):\n\nBuilt on Arc Testnet with Foundry / Solidity / OpenZeppelin: a TreasuryVault plus a thin TreasuryFundingRouter. Contributors approve + contribute in one tx via Arc Multicall3From, so ContributionRecorded still names the real wallet. The app is Vite + React + wagmi/viem; we use Arc USDC’s 6-decimal ERC-20 for transfers (same USDC pays gas). History uses Arcscan logs because RPC eth_getLogs is capped at 10k blocks. Agents register on Arc’s shared ERC-8004 Identity Registry and can tag contributions as agent:{id}|ref. Notable: sender-preserving multicall, decimal split, and truncated wallet-error dumps.",
+  "auto_summary": "A Solidity and React app on Arc Testnet collects USDC contributions into a treasury vault and manages on-chain grant allocation state.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/product-tracker-jqad7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

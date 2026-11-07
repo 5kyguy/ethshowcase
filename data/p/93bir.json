@@ -1,0 +1,42 @@
+{
+  "id": "93bir",
+  "slug": "daoism",
+  "title": "DAOism",
+  "tagline": "A system that allows for the creation and verification of employment contracts on the chain.  Third parties can verify employment history trustlessly via a key, and aggregated salary data would be transparently available and verified by employers with Zero Knowledge Proofs.",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/93bir/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SGH9HzNG5uDVZP01T1w9FKJ01uN01SeKRnnpSiro6V22gE/high.mp4",
+  "demo_url": "https://www.daoism.app/",
+  "source_url": "https://github.com/joshpwrk/DAOism",
+  "prizes": [
+    {
+      "sponsor": "ApeCoin",
+      "sponsor_id": "t3zyt",
+      "placement": "🤝 ApeCoin — 🥉 Best Integration",
+      "title": "Apecoin"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🫡 Optimism — Best govTech",
+      "title": "Optimism "
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🧰 Polygon — Best Developer or DAO Tooling",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "Traditional means of establishing trust in an individual that are so critical in many facets of life are currently limited to credit scores and ad-hoc employment checks with limited verifiability. W2s offer a more solid guarantee of trustability, but are less useful for individuals working at smaller companies.\n\nOur solution to this is a decentralized one. With DAOism, employment contracts could be initiated by a DAO with details such as role title, start date, and salary, all of which would be hashed and obfuscated when on chain. This employment agreement would be persisted in the block chain as a smart contract, with optional employer and employee signature fields for further agreement verification. Once an employment term has ended, the agreement can be further amended with an end date.\n\nAs employers add agreements, they can generate proofs off-chain to transparently reveal the average salary for their employees - without revealing actual salaries. The DAO can deploy a ZK-SNARK verifier contract on-chain that proves that a given set of salary hashes actually average to the average which the DAO claims to be true. This allows for verification that the average salaries are correct without persisting real salaries on chain. These results would be reported on a publicly available Pay Transparency Dashboard and link to the ether scan transaction that serves as proof that the conditions were met. \n\nFor third parties that an individual might wish to transact with off-chain, the individual can reveal select fields in a specific smart contract they are involved in with by sharing a field-specific secret token. This would reveal only as much as the employee wishes of their work history to this third party.\n\nOne of the most powerful facets of this innovation is the fact that an individual can establish an on-chain, soul-bound identity that can massively decrease risk in contexts like undercollateralized p2p loaning. Protocols like Aave can then deploy their own zero knowledge verifiers on-chain that employees could use to prove that they earn more than a threshold amount without revealing the exact salary.\n\nWe believe in a future where DAOs can flourish and become a pillar of trust on chain.",
+  "how_its_made": "DAOism is a full-stack governance dApp built of:\n(1) an employment contract deployed to Optimism\n(2) a functioning ZK proof built with circom2.0 \n(3) a fully fledged frontend application that allows DAOs to create contributor agreements and generate transparency reports backed by ZK proofs using snarkjs.\n\nSmart contracts were deployed to Goerli Optimism. These contracts allow DAOs to issue and cancel contributor agreements that include the (a) role (b) hashed salary (c) start date and (d) verify proofs around contributor salaries.\n\nWe created two ZK verifier contracts:\n- Average Salary Verifier - given a witness + a set of public average salaries, the prover returns \"true\" if the salaries in fact average to the claimed average value.\n- Salary Hash Verifier - given a witness + a set of public hashed salaries, the prover returns \"true\" if the salaries in fact hash to the hash salary that is stored in the WorkAgreements.sol contract.\n\nThe clever trick we're really excited about is the ability to never have to unhash the salary on-chain when proving an \"average company salary\" by combining the two verifiers. Without the \"Salary Hash Verifier\", a malicious employer could use fake salaries when generating the witness. This is why in the WorkAgreement contract, we use the hashed salaries of all employees as the \"input\" into the \"Salary Hash Verifier\", thus forcing employers to use no less and no more than salaries of the current employees.\n\nThe above trick can be used to prove competitive pay, share reports on equality of pay and even get undercollateralized loans \n- without revealing specific employee salaries and \n- having mathematically sounds proof to their claims.\n\nThe frontend mocks were designed in Figma, built with React / Next.js and deployed to vercel. It uses rainbowkit as a wallet connection integration and wagmi with ethers to read and write from contracts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/daoism-93bir",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

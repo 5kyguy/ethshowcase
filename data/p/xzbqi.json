@@ -1,0 +1,26 @@
+{
+  "id": "xzbqi",
+  "slug": "handshake",
+  "title": "Handshake",
+  "tagline": "A guardrail for AI agent payments: screens every x402 payment for risk and escalates to a human.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xzbqi/banner/default.jpg",
+  "demo_url": "https://github.com/George-WM/handshake",
+  "source_url": "https://github.com/George-WM/handshake",
+  "finalist": false,
+  "description": "Handshake is a trust layer for the emerging agent-to-agent economy. As AI agents begin paying each other over x402 — for API calls, datasets, and services — most of those payments get signed with no one checking who is on the other side. Handshake makes sure every payment an agent signs has been screened, and that risky decisions still involve a human.\n\nEvery outgoing x402 payment passes through a three-way policy pipeline before signing:\n\n- PASS — The destination wallet and token are screened live via the Intercepta API. Clean counterparties (toxicScore 0, no risk traits) proceed to automatic settlement on Base Sepolia.\n\n- BLOCK — Sanctioned or scam-linked counterparties are stopped before the signature ever happens. In our demo, a payment routed to an OFAC-sanctioned Lazarus Group wallet is blocked with the full reasoning visible: toxicScore 100 with sanction_address, known_scammer, and blacklist traits.\n\n- ESCALATE — Payments above a spending threshold (or with ambiguous risk) require the agent's human owner to approve via World ID for Agents. The agent pauses, the owner authenticates through an OIDC device grant flow, and only a backend-verified approval releases the payment. Denied or expired requests mean the money never moves.\n\nA real-time web dashboard visualizes the whole pipeline: trigger payments, watch the screening verdicts arrive with raw Intercepta responses, scan the World ID approval QR, and audit the full payment history. The entire flow runs end-to-end with real settlements on Base Sepolia — no mocked verdicts, no hard-coded outcomes.\n\nAgents are about to control real money. Handshake is what makes their owners comfortable with that.",
+  "how_its_made": "The stack is a TypeScript monorepo (pnpm workspaces): apps/seller (x402-paywalled API), apps/agent (the buyer agent with the guardrail), apps/dashboard (real-time web UI), and packages/guard (the screening + policy engine, reusable as a standalone module).\n\nThe key architectural decision: we use x402 V2's onBeforePaymentCreation hook as the guardrail insertion point. The hook hands us payTo, amount, and asset right before the signature, and returning {abort, reason} cancels the payment — so screening lives exactly at the moment of decision, not bolted on around it. We deliberately disabled the client's built-in spendControls so all policy lives in our guard package and every verdict is visible and auditable. Payments settle as testnet USDC on Base Sepolia (eip155:84532) via EIP-3009 signatures, with the x402 facilitator covering gas.\n\nPartner tech, and what we learned integrating it:\n\n- Intercepta — quick-scan-address and scan-token run live before every signature. Notable gotcha we hit: quick-scan is EOA-only, so contract addresses (e.g. the Tornado Cash router) return 404. We switched our BLOCK demo target to a Lazarus Group EOA and got a clean toxicScore 100 with three risk traits. Since risk data is mainnet-based, we screen real mainnet addresses even though settlement runs on testnet, and map the testnet USDC to its Base mainnet equivalent for token screening.\n\n- World ID for Agents — we discovered it's standard OIDC Device Grant (RFC 8628) under the hood, so we skipped the SDK entirely and implemented it with raw fetch + jose for RS256 id_token verification against JWKS (issuer, audience, expiry, auth_time all checked server-side; the client response is never trusted as authorization). Approval, denial, AND expiry paths are all implemented and live-verified.\n\nHacky-but-notable: the dashboard streams the agent's pipeline events over SSE from an in-memory event bus — no database, no queue, just enough infrastructure for the demo to feel alive. Every step (harness, seller, e2e payment, guard, escalation) has its own verification script, and the three demo scenarios are one-command reproducible: pnpm demo:pass | demo:block | demo:escalate.",
+  "auto_summary": "A TypeScript monorepo that screens x402 payments with Intercepta and escalates higher-risk agent payments to human approval via World ID.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/handshake-xzbqi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "z3zf7",
+  "slug": "interline",
+  "title": "Interline",
+  "tagline": "Lend in a pool or open a named credit line with other people",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z3zf7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZQ8CoPMJ8OlMANeB6ayhcTrjJ1VEp9mkql4PrnHsNiA/high.mp4",
+  "demo_url": "https://github.com/QUAGZA/Interline",
+  "source_url": "https://github.com/QUAGZA/Interline",
+  "finalist": false,
+  "description": "Interline is credit in two forms that do not share funds. You can supply or borrow in an isolated pool like a normal market, with collateral and a health factor. You can also open a named agreement with one other address, where that lender puts up the cash, the other side has to accept, borrowed money sits in a restricted vault, and the stress path is a due date or a recall rather than a pool liquidation. Same wallet can be a supplier, a borrower, a lender, and a counterparty at once. Roles come from the agreement, not from a badge on the account.\n\n",
+  "how_its_made": "Interline is an isolated lending protocol plus bilateral direct credit, live on Ethereum Sepolia. Contracts are Solidity 0.8.24, compiled with Foundry/Forge (via-IR). Each pool is its own LendingMarket with its own oracle, caps, and liquidation params; OTC lines are DirectCreditFacility clones. Factories do not carry market initcode — we split MarketDeployer, DirectFacilityDeployer, and VaultDeployer so factory bytecode stays under EIP-170. Pricing is a ChainlinkPairOracle (collateral/USD, loan/USD, L2 sequencer). On Sepolia, those feeds are mocks; the UI still reads mainnet Chainlink and can push those answers onto the mocks. Interest, LTV, and liquidation math live in a shared TypeScript package so the keeper, indexer, and UI use the same ray formulas as the contracts.\n\nThe app is Next.js 15 (Turbopack) + React 19 + wagmi/viem. Writes go wallet → contract. Reads are layered on purpose: a Hono + Drizzle indexer first, then MarketLens RPC, and we never show fake “live” stub loans in production. Activity can come from a Sepolia subgraph on The Graph, then the indexer; balances never depend on The Graph. ENS is mainnet-only reverse/forward lookup so counterparties can be name.eth while the checksum address stays on screen. Wallets are injected (MetaMask, including Ledger through MetaMask) plus optional WalletConnect for Ledger Live.\n\nPartner stack that actually ships: Chainlink for every LTV quote, ENS for human-readable counterparties, The Graph for the activity feed without making it the source of truth for money, Ledger as a first-class connect path, WalletConnect for Ledger Live. Notable hacks: Sepolia builds with optimizer_runs = 1 and stripped metadata to fit EIP-170; a relative viem/utils alias because Turbopack rejects Windows absolute imports of the hoisted workspace viem; mainnet sits in the wagmi config as a read-only chain for ENS, not as a switchable write network.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/interline-z3zf7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

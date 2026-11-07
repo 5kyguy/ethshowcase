@@ -1,0 +1,27 @@
+{
+  "id": "9kuru",
+  "slug": "devouch",
+  "title": "devouch",
+  "tagline": "Portable, revocable contributor endorsements on ENSv2. Each repository keeps its own policy.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9kuru/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yWIJ8dU3el7TYbCvRvLGqEQrhYtIV9JkBpb02Rjb1FR4/high.mp4",
+  "demo_url": "https://geeknees.github.io/devouch/",
+  "source_url": "https://github.com/geeknees/devouch",
+  "finalist": false,
+  "description": "Devouch lets an issuer recommend an open-source contributor once, then lets independent repositories decide whether to accept that recommendation.\nThe issuer signs a GitHub numeric account ID, purpose, expiry, and publishing location using EIP-712.\nThey publish the complete signed JSON to their own ENSv2 Permissioned Resolver on Sepolia.\nContributors carry the original JSON in their pull requests.\n\nA Ruby CLI and a read-only GitHub Action verify the signature, the actual PR author's account, the publication history, and the receiving repository's policy.\nWithdrawing the ENS record invalidates the endorsement on the next check.\nRestoring an old JSON cannot resurrect it.\nThe static wallet workspace handles setup, publication, key permissions, withdrawal, and transaction recovery.\n\nAnyone can try it without a wallet: the verification page [*](https://geeknees.github.io/devouch/?name=masusanou.vouches.geeknees.eth#verify)  reads a live endorsement from ENS on Sepolia, shows who vouched by their primary ENS name, and compares two example repository policies side by side. Add the issuer to repository B's trusted list and its decision changes from rejected to accepted, while the evidence stays the same.\n\nIssuers can also keep many endorsements and agent identities under their own ENS name. Each endorsement gets its own subname, such as `masusanou.vouches.geeknees.eth`, with its own record and withdrawal history, so publishing another endorsement never overwrites it. An AI agent can have its own subname that holds a declared GitHub identity and wallet, and the issuer grants or revokes individual profile fields through ENSv2 Enhanced Access Control. Publishing, withdrawing a single endorsement, and granting, using and revoking an agent's permission have all been done with real wallets on Sepolia.\n\nMaintainers can paste a public pull request URL to check its endorsement against the repository's base policy and explore the result as a trust map. Before opening a pull request, an agent can run `devouch check` against the destination repository, also packaged as a portable SKILL, and continue only when that repository's policy accepts its endorsement.\n\nNo Devouch-operated API, database, signing service, publisher key, or unique storage service is required.\nThe project still depends on Ethereum/ENS, name maintenance, a wallet, GitHub for PR identity, and a reliable historical RPC provider.\nRecommendations do not prove humanity, code quality, delegation, or merge approval.",
+  "how_its_made": "The command-line interface is Ruby and uses the standard library for bounded file handling, policy evaluation, and read-only GitHub API access.\nA bundled TypeScript helper uses viem for EIP-712 recovery, ENS normalization, contract reads, and event decoding.\nThe static HTML/CSS workspace connects to an injected wallet and sends transactions directly to the official ENSv2 factory, registry, and dedicated resolver.\nThe complete signed JSON is stored in devouch.vouch, so another verifier can retrieve it without the Devouch website.\n\nVerification checks a pinned chain snapshot, the resolver's deployment origin, exact publication bytes, subsequent text updates, and transient binding or upgrade changes.\nThe wallet-free verification page reuses the same TypeScript verifier, resolves the issuer's primary name with viem's `getEnsName` (the ENSv2 Universal Resolver confirms it resolves back to the same address), and evaluates repository policies in the browser; shared test cases check that the browser and the Ruby CLI reach the same decisions and reason codes.\nSubname registries use the pinned official ENSv2 UserRegistry implementation. For a subname, the verifier walks the whole hierarchy up to ten labels and checks each parent registry, link and implementation history, so a change higher in the tree cannot silently restore or forge an endorsement.\nThe pull-request verification page and the `check` command reuse the same verifier: they read the destination repository's policy from GitHub and the endorsement from ENS, send no transaction, and need no wallet or GitHub token for public repositories.\nA composite GitHub Action uses the PR author's numeric ID, the base commit's policy, and the head commit's endorsement without checking out PR code.\nTests combine Minitest, Bun, Playwright, and a disposable Hardhat EVM running pinned official ENS bytecode.\nNo new smart contract, backend service, database, or shared signing key was added.",
+  "auto_summary": "A Ruby CLI, GitHub Action, and static web app verify signed GitHub contributor endorsements published as ENS records on Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/devouch-9kuru",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

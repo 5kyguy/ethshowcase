@@ -1,0 +1,21 @@
+{
+  "id": "y6p79",
+  "slug": "fevm-boost",
+  "title": "FEVM-Boost",
+  "tagline": "A Filecoin actor to store proposer's commitment from the mev-boost protocol.",
+  "event": {
+    "slug": "hackfevm",
+    "name": "Hack FEVM",
+    "start_time": "2022-11-18T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y6p79/banner/default.jpg",
+  "demo_url": "https://github.com/quartz-technology/fevm-boost",
+  "source_url": "https://github.com/quartz-technology/fevm-boost",
+  "finalist": false,
+  "description": "This project aims to make the storing of fraudulent commitments from the mev-boost protocol more secure and decentralized.\n\nmev-boost is a solution that helps to split the roles of the block builder and the block proposer.\nIt sits between the proposer and a Relay, which is an entity responsible for holding block \nbuilders' bids.\n\nUsing a commitment scheme, the Relay tells the proposer:\nMr. Relay: Hey, here's the hash of the block you will propose. Don't worry, it's the most valuable for you out of the ones I have in memory.\"\n\nThen, the proposer responds to the relay by sending a signature of the block's hash.\nMr. Proposer: Alright Mr. Relay ! Here is my commitment to use this block and only this block when you will send me the full block.\"\n\nFinally, once the Relay has received the commitment from the proposer, it will send the full \nblock to him.\n\nMr. Relay: Cool ! Now I am able to know whether you will modify the block I have given you or  not. Don't play with me kid, I'm exposing this data to everyone.\"\n\nRight now, Relays are storing this data on their own storage platforms, which are not safe from failures. This is very important as these commitments, sent by the proposers in the first place, are used to detect when validators modify blocks they received from third party block builders.\n\nWe used the FEVM to record storage deals pointing to data which themselves store fraudulent commitments, i.e. commitments to use a certain block not proposed by a validator in the end.",
+  "how_its_made": "There are two components in this project.\n\nThe first one asks the Relay the commitment it received for a given slot.\nIt is using a golang SDK I built which queries the Flashbots Data Transparency API.\n\nOnce received, the commitment - which is just the block hash the proposer has promised to propose and more metadata about the exchange - is stored in a Filecoin Storage. This method is mocked for now, and the result of the mocked function is a fake storage deal with the block hash set as the deal's label.\n\nI used a mapping to store the commitments based on their respective slots.\n\nThen, the Relay can verify the commitment once the block has been proposed. If the block hash of the real proposed block is the same as the one previously stored in the storage deal's label, it means that the proposer has not lied, otherwise the fraudulent commitment is stored in a second mapping, which contains fraudulent commitments only.\n\nThese queries to the Smart Contract (the Actor deployed on the Filecoin EVM) are made using hardhat scripts, called in the golang program.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fevm-boost-y6p79",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

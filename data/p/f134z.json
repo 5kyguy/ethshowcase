@@ -1,0 +1,30 @@
+{
+  "id": "f134z",
+  "slug": "lean-silicon",
+  "title": "Lean Silicon",
+  "tagline": "A physical chip prototype to speed up Ethereum proof-generation",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f134z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WWAUPlGLMKawu02902DJCnYHZXbo01UrwbIhwIebXT2mCA/high.mp4",
+  "demo_url": "https://github.com/lfglabs-dev/lean-silicon",
+  "source_url": "https://github.com/lfglabs-dev/lean-silicon",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Lisbon 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Ethereum’s post-quantum future has a compression problem. Hash-based signatures can replace quantum-vulnerable BLS signatures, but they are much larger and cannot be aggregated as efficiently. leanVM solves this by verifying many signatures inside a zkVM and producing one succinct proof that every Ethereum client can check.\n\nBefore that proof can be generated, leanVM must first execute the program and build its memory image and instruction trace. Much of the proving backend can run in parallel across many cores or accelerators. The execution itself cannot: each instruction depends on the machine state produced by the previous one. As proving systems scale, this serial front end can become the bottleneck.\n\nleanSilicon brings that execution layer into hardware. We target leanVM-b, an experimental binary-field zkVM. Its first core, LSC-1, is a small host-assisted scalar coprocessor: the host keeps program storage, VM memory, BLAKE3, witnesses and proof generation, while the hardware validates and executes each non-BLAKE3 instruction and returns the next state, memory effects or a fault over a simple 8-bit interface.\n\nOur first goal is not to beat optimized software, but to prove that the design is correct and reproducible. We are building an auditable path from frozen upstream semantics to executable models, Lean proofs, SystemVerilog, an FPGA prototype and eventually an open Tiny Tapeout ASIC.\n\nIn the long term, leanSilicon could become a dedicated witness-generation accelerator for Ethereum’s post-quantum proof aggregators: specialized hardware handles the serial execution, while parallel CPUs, GPUs or clusters generate the final succinct proof.",
+  "how_its_made": "We basically designed Lean Silicon down to the physical transistors.\n\nWe implemented the LSC-1 core in synthesizable SystemVerilog. To keep the circuit compact, 128-bit field elements were streamed byte by byte over an 8-bit ready/valid interface, while multiplication in GF(2^128) used a small bit-serial datapath reduced modulo x^128 + x^7 + x^2 + x + 1.\n\nLSC-1 was designed as a host-assisted coprocessor rather than a standalone computer. The connected host retained program storage, VM memory, BLAKE3, witnesses and proof generation. For each instruction, it sent a self-contained transaction to the hardware. The core validated the supplied state, executed the non-BLAKE3 scalar transition and returned the next pc and fp, memory effects, retirement status or a precise fault.\n\nWe first exercised the design in simulation and compared its behavior against executable reference models of leanVM-b. We used Lean 4 to formalize selected properties such as byte serialization, address representation and arithmetic lower bounds, and used HDL simulation and SymbiYosys to test the actual RTL under malformed packets, stalls, aborts and protocol backpressure.\n\nWe then deployed the exact ASIC-facing RTL on an ULX3S FPGA. An FPGA is a reprogrammable hardware device: instead of running our SystemVerilog as software, it configures physical lookup tables, registers and interconnects to behave like the processor we designed. This let us test the core at hardware speed, inspect internal signals and fix the design repeatedly without manufacturing a new chip.\n\nImportantly, the FPGA prototype preserved the same narrow 8-bit interface, packet framing, reset behavior and timing stalls intended for the final ASIC. We deliberately avoided a wider FPGA-only shortcut, so the prototype exercised the real hardware boundary rather than an easier simulation-only version.\n\nWe also synthesized the RTL with Yosys and passed it through an OpenLane/OpenROAD physical-design flow. This transformed the SystemVerilog into a gate-level netlist, placed the standard cells, routed the metal connections and produced a GDSII layout. We inspected the resulting circuit in OpenROAD and KLayout, from the complete floorplan down to individual logic cells and routing layers.\n\nThe next step is to submit that physical design through Tiny Tapeout. Tiny Tapeout combines leanSilicon with many unrelated open-source designs from students, engineers and researchers onto one shared chip. The combined layout will be manufactured by SkyWater using its open 130 nm process, turning the synthesized gates and routed wires into real transistors and metal interconnects.\n\nOnce fabricated, we will select the leanSilicon tile on the shared chip and replay the same transaction and differential test suite used for simulation and FPGA validation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lean-silicon-f134z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

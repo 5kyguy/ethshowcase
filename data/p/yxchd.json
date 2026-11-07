@@ -1,0 +1,30 @@
+{
+  "id": "yxchd",
+  "slug": "feedme",
+  "title": "FeedMe",
+  "tagline": "Accept payments from multiple chains, deposited directly into your DeFi position via your ENS.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yxchd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DjHNmfjy9jKQ01drjvrrydKNc4oguB00KnAXxKkpZT00rA/high.mp4",
+  "demo_url": "https://feedme-eta.vercel.app/",
+  "source_url": "https://github.com/taylorferran/feedme",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Getting paid in crypto is annoying. You want USDC on Base earning yield, but your client has ETH on Arbitrum. That means swapping, bridging, depositing, all manually. \n\nFeedMe lets you set your payment preferences once on your ENS name (chain, token, DeFi protocol) and anyone can pay you. They sign one transaction, LI.FI swaps and bridges it, and the funds land directly in your DeFi position. You start earning yield immediately without doing anything.\n\nThe part I'm most proud of is payment splits into Aave. You can configure multiple recipients with percentages, and when someone pays, each person gets their share deposited straight into their own Aave position. All in one transaction. Think DAO contributor payouts, creator revenue splits, or charity donation routing, all going directly to yield.\n\nAll position data is stored in ENS records.\n\nCurrently supports Ethereum, Base, and Arbitrum with Aave V3, Lido, and Aerodrome.",
+  "how_its_made": "FeedMe combines ENS for identity and LI.FI for a beautiful cross-chain UX.\n\nENS as the config layer:\nI store all your payment preferences (destination chain, token, DeFi protocol, payment splits) as text records on your ENS name. Everything is on-chain and you own it. When someone visits yoursite.com/yourname.eth, we read your ENS text records (feedme.chain, feedme.token, feedme.protocol, feedme.splits) to figure out how you want to get paid. I batch-write config using the Public Resolver's setText() multicall so it's just one transaction.\n\nLI.FI Contract Calls API:\nI've used a two-step quote process: first fetch a preliminary quote to get the expected output amount, then encode the target protocol's deposit call with that amount and hit LI.FI's /quote/contractCalls endpoint. This lets us append any arbitrary contract call to the end of a swap&bridge route. Sender signs once, and in one transaction their tokens get swapped, bridged, and deposited into the recipient's DeFi position.\n\nAave splits flow:\nI also deployed a custom FeedMeSplitter contract on Base. When a payment with splits comes through, LI.FI routes the swapped tokens to the splitter, which calls Aave's supply(asset, amount, onBehalfOf, 0) for each recipient individually. So one inbound payment becomes multiple Aave deposits, each recipient gets aTokens and starts earning yield immediately, all from a single sender transaction.\n\nFLow:\nSender pays ETH on Arbitrum → LI.FI swaps to USDC and bridges to Base → FeedMeSplitter.distributeToAave() → Alice gets 500 USDC (50%) into Aave, Bob gets 300 USDC (30%) into Aave, Carol gets 200 USDC (20%) into Aave. One sender transaction, three Aave positions updated.\n\nTech stack:\nReact + Vite + TypeScript + Tailwind + RainbowKit on the frontend. LI.FI SDK + Contract Calls API for cross-chain. ENS text records for config (with NameWrapper support for wrapped names). Solidity + Foundry for the smart contract on Base. Aave V3's onBehalfOf parameter is what makes third-party deposits possible.\n\nHacky bits:\nI've handled both wrapped and unwrapped ENS names by checking both the Registry and NameWrapper contracts. Payment splits can include ENS names like \"alice.eth:50,bob.eth:50\" which we resolve to addresses before building the transaction. The splitter uses basis points (10000 = 100%) for precise percentages, and the last recipient gets the remainder to avoid dust issues.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/feedme-yxchd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

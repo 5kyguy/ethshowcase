@@ -1,0 +1,30 @@
+{
+  "id": "2vejz",
+  "slug": "aegis",
+  "title": "Aegis",
+  "tagline": "A cryptographic firewall that slows, exposes, and makes DeFi exploits costly before they land.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2vejz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ca01InHIaH02rY5JBkp6b9G8iOENKKCclO57LvqCwsosE/high.mp4",
+  "demo_url": "https://aegis-flax.vercel.app/",
+  "source_url": "https://github.com/Jayanth-M0625/DeFiGuardian",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "DeFiGuardian stops DeFi hacks before they drain funds. The problem? $3.8B was stolen in 2022 alone, and most attacks complete in a single block — no time to react.\n\nWe built a security layer that sits between users and protocols. Every transaction goes through our \"airlock\" where three things happen:\n\nFirst, an ML model trained on past exploits analyzes the transaction. Flash loan patterns, unusual amounts, known attacker addresses — if something looks off, it gets flagged.\n\nSecond, flagged transactions hit a 30-minute cryptographic time-lock (VDF). Attackers can't speed this up no matter how much compute they throw at it. This buys time to investigate.\n\nThird, a network of 10 guardians votes on suspicious transactions. You need 7/10 to approve, so there's no single point of failure — no admin key to compromise.\n\nThe best part? Users can set their own security rules through ENS. Set a threshold like \"flag anything over 10 ETH\" or whitelist only the protocols you trust. Your ENS name becomes your portable security policy.\n\nWe also integrated with Uniswap v4 hooks so security checks happen on every swap, and LI.FI for cross-chain protection — if we detect an attacker on Ethereum, every chain knows instantly.",
+  "how_its_made": "The core insight was that most DeFi security fails because attacks are too fast. So we built around enforcing delays that can't be bypassed.\n\nFor the time-lock, we implemented Wesolowski VDFs with RSA-2048. The math guarantees sequential computation — you literally cannot parallelize it. 300 million iterations = 30 minutes, period. The VDF worker runs server-side and the proof gets verified on-chain.\nFor guardian consensus, we used FROST threshold signatures (7-of-10 Ed25519 Schnorr). This means no single guardian controls anything — you need 7 signatures that get aggregated into one. We also added ZK voting with Groth16 circuits so guardians can vote privately until reveal, preventing bribery.\n\nThe ML model is XGBoost trained on Etherscan transaction data — 47 features covering transaction patterns, timing, counterparties. It calls the Etherscan API in real-time and flags anything scoring above 50.\n\nFor Uniswap v4, we wrote a hook contract that runs beforeSwap() and afterSwap(). It checks blacklists, enforces protocol pauses, and reads ENS security profiles. The hacky bit — we're reading ENS text records on-chain to get user preferences like threshold and whitelist, then enforcing them at the swap level.\n\nLI.FI integration was straightforward — we wrap their quote API with our security checks and use LayerZero to broadcast security events cross-chain. One blacklist, every chain.\n\nThe SDK ties everything together with parallel processing — VDF computation and guardian voting run simultaneously, then both proofs get submitted on-chain in one transaction.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aegis-2vejz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

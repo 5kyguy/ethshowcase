@@ -1,0 +1,22 @@
+{
+  "id": "ggiwg",
+  "slug": "kym-finance",
+  "title": "KYM-Finance",
+  "tagline": "KYM-Finance wraps KDA and splits it into tradable principal and yield tokens to maximize returns.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ggiwg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/H8GthKC77shg01k6RfsyoYYWHKV3fU7ZvQOj43XewXN8/high.mp4",
+  "demo_url": "https://kym-finance.vercel.app/",
+  "source_url": "https://github.com/kadena-yieldify/yieldify",
+  "finalist": false,
+  "description": "KYM-Finance lets users convert native KDA into an ERC-20 wrapper (wKDA) and then split that wrapped asset into two tradeable pieces:\n\nPrincipal Token (PT): represents the original principal (redeemable at expiry/maturity period).\nYield Token (YT): represents the future interest / yield stream.\n\nUsers can mint PT+YT from wKDA, trade PT and YT independently on a simple mock AMM, claim accumulated yield, or recombine PT+YT to redeem wKDA. Markets are created per wrapped-asset + expiry date (maturity time period) so different expiry buckets can exist in parallel.",
+  "how_its_made": "Frontend\n\n- Next.js (app router) starter for fast UI development.\n- Wagmi + Viem for wallet integration and contract calls.\n- Tailwind + DaisyUI for quick, clean components (Deposit, Split, Swap, Redeem).\n\nSmart contracts (Solidity)\n\n- WrappedKDA.sol: wrap native KDA into an ERC-20 (wKDA) so the protocol can work with a standard token interface.\n- KadenaPrincipalToken.sol (PT): ERC-20 that represents principal; only the paired YT contract can mint/burn to keep 1:1 accounting. Has an expiry timestamp.\n- KadenaYieldToken.sol (YT): ERC-20 that represents yield shares, tracks last-claim times and accrues yield with a simple time-based formula for the MVP; supports mintPY, redeemPY, and claimYield. Uses ReentrancyGuard and SafeERC20 patterns.\n- YieldSplitterFactory.sol: deploys and registers PT/YT pairs per (SY, expiry) so markets are discoverable and isolated.\n- SimpleAMM.sol: minimal constant-product AMM (0.3% fee) to swap PT ↔ YT and add liquidity. Reads KDA/USD from a DIA oracle for price reference.\n\nTooling & deployment\n\n- Hardhat + ethers (TypeScript) for compile & deploy scripts.\n- OpenZeppelin libs for ERC-20, Ownable, SafeERC20.\n- Example deploy flow: deploy WrappedKDA, deploy YieldSplitterFactory, create a market (expiry), then deploy AMM pointing to the new PT/YT pair. Network config and private key stored in env for testnet deploys.\n\nMVP shortcuts & notable choices\n\n- Mock yield: YT uses an on-chain accrual formula and simulated yield reserves so features can be demoed without integrating a lending protocol. Swap in a real yield source later.\n- Mock AMM: constant-product AMM is easy to reason about and fast to implement for trading YT/PT during the hackathon.\n\nDev flow (user perspective)\n\n1. Deposit native KDA → receive wKDA.\n2. Approve wKDA and call mintPY → receive PT + YT.\n3. Trade PT / YT on the AMM or hold YT to accrue/claim yield.\n4. Redeem PT+YT (or at expiry) to get back wKDA, then unwrap to native KDA.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/kym-finance-ggiwg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

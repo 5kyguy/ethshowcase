@@ -1,0 +1,26 @@
+{
+  "id": "um0su",
+  "slug": "prediction-fx",
+  "title": "Prediction FX",
+  "tagline": "Binary FX options on Arc - deposit EURC to go long, USDC to go short",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/um0su/banner/default.jpg",
+  "demo_url": "https://www.bleu.builders/en",
+  "source_url": "https://github.com/bleu/prediction-fx-markets",
+  "finalist": false,
+  "description": "FX prediction markets where your deposit currency is your directional bet. Think EUR/USD is going up? Deposit EURC. Think it's going down? Deposit USDC. At expiry, winners take the losing side's funds, paid in the other currency.\n\nThis product can't exist on any other chain. Arc is the only L1 where both USDC and EURC are native assets — no bridging, no wrapping. Gas is paid in USDC, so the whole experience stays within the FX pair. Sub-second deterministic finality means resolution and payout are atomic.\n\nBinary FX options were a multi-billion dollar retail market before EU regulators banned them in 2018 - Nadex was the one peer-to-peer exception. We rebuilt the concept on-chain: the smart contract is the counterparty, the oracle settles the price, positions are self-custodial, and there's no house edge. \n\nAs more stablecoins deploy to Arc through Circle's StableFX (BRL, JPY, MXN, AUD, KRW, CAD), each one becomes a new tradeable FX pair.",
+  "how_its_made": "The core is a Solidity smart contract that holds two ERC-20 pools per market (USDC and EURC). At market creation, the contract reads the Chainlink EUR/USD price feed and locks it as the strike. Users deposit into whichever side matches their view — the currency itself signals direction, eliminating yes/no UI complexity entirely.\n\nResolution leverages Chainlink price feeds (mocked currently) to compare the spot price at expiry against the strike. The resolve function is permissionless - i.e. callable by anyone after expiry, with a small incentive paid from the pool to the caller. \n\nThe payout math is parimutuel: each winner receives a pro-rata share of the losing pool. Winners always receive the opposing currency (EURC winners get USDC, USDC winners get EURC), which mirrors how FX settlement actually works in traditional finance. \n\nFor cross-currency conversion back to the user's preferred denomination, we aim to utilize FxEscrow on Arc (though since StableFX requires KYB, the hackathon demo doesn't implement it)\n\nThe frontend is React, reading on-chain pool balances to display live odds, potential payouts, and a countdown to resolution. Arc's USDC-denominated gas means no ETH is needed anywhere in the flow, and deterministic sub-second finality means every state change is immediately final with no reorg risk on resolution.",
+  "auto_summary": "An onchain FX prediction market lets users deposit EURC or USDC as directional positions and settles payouts across the opposite currency.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/prediction-fx-um0su",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

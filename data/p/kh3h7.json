@@ -1,0 +1,41 @@
+{
+  "id": "kh3h7",
+  "slug": "canary",
+  "title": "Canary",
+  "tagline": "Parametric insurance instrument underwritten and priced by prediction markets",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kh3h7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4XwIlUoDeWTbZ7GVjONC4APOvf1TwuG6fm00p58uzYhw/high.mp4",
+  "demo_url": "https://canary-gamma.vercel.app/",
+  "source_url": "https://github.com/carluzh/canary",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Best workflow with CRE",
+      "title": "Best workflow with CRE"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New York 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Canary turns DeFi depeg risk into tradable, fully-collateralized insurance markets, and lays the foundation for the one thing crypto has never had: a live market-implied risk curve.\n\nEach market is a binary bet on a machine-verifiable long-tail risk event, e.g. \"USDe trades below $0.95 for one continuous hour.\" Coverage buyers pay a premium for protection; underwriters post USDC collateral to earn it. There's no claims process and no human adjudicator. Settlement is permissionless and fully automatic, proven directly from a price feed's on-chain round history. If the breach is provable, coverage redeems $1; otherwise the underwriter keeps the premium.\n\nThe price of coverage is the product. A YES token trading at $0.02 is simultaneously the premium and the market's implied 2% probability of that disaster. Read across future markets and maturities, those prices become the foundation for a real-time risk curve for DeFi: the on-chain answer to Wall Street's CDS curve.\n\nIt runs fully on-chain on Arc with USDC as collateral, and uses Chainlink infrastructure across the stack: Data Feeds-style round-history settlement, CCIP relay contracts for cross-chain feed delivery into Arc, and a CRE workflow validated in simulation against Arc to watch the feed and trigger settlement with no keeper path. An optional yield layer can rehypothecate idle collateral so that, for deep-tail cover, the float can, in principle, offset the premium: insurance that funds itself.",
+  "how_its_made": "Core contracts (Solidity 0.8.24, Foundry). Each market is a single CanaryMarket contract that bundles three things: complete-set collateralization (deposit 1 USDC → mint 1 YES + 1 NO, à la Gnosis CTF), an unsorted on-chain limit order book for price discovery (the best YES ask is the premium and the implied depeg probability), and self-verifying settlement. A CanaryMarketFactory deploys one per insured risk.\n\nFrontend & Blinks. Next.js on Vercel reading live Arc state. The best YES ask renders as the premium. Funding flows through Blink-style one-click deposits inside the app: USDC is pulled straight from your wallet to buy cover or to provide liquidity (mint a complete set, post it two-sided). Built behind a one-file adapter so the Blink SDK can drop in.\n\nChainlink Data Feeds. settleDepeg proves \"price < threshold for the full window\" by walking the feed's on-chain round history, and treats feed silence as price persistence, so a breach settles even with no new rounds. Permissionless, no keeper, no resolver.\n\nChainlink CCIP. USDe/USD has no Chainlink feed on Arc, so rather than trust a resolver we built a real CCIP relay. DepegSentinel (Sepolia) reads an AggregatorV3 source and ccipSends (roundId, answer, updatedAt) to RelayedFeed (Arc), which re-exposes the standard AggregatorV3Interface under locally gapless round ids while preserving the source timestamps. settleDepeg can't tell it from a native feed. Replay/ordering guards keep the mirror a faithful prefix of the source. On testnet the source is a mock stand-in, since no USDe/USD Chainlink feed exists on testnet; in production only SOURCE_FEED changes to the real mainnet feed.\n\nChainlink CRE. A TypeScript \"Canary Watchtower\" workflow runs on a cron, reads the USDe feed, and on a provable depeg emits a report through the Keystone Forwarder → CanaryReportReceiver.onReport → settleDepeg path. Validated via cre workflow simulate --broadcast against the Arc RPC; real DON deployment is Early-Access-gated.\n\nCircle Arc. Deployed end-to-end on Arc testnet, with USDC for both collateral and gas.\n\nSelf-funding yield (optional layer). When enabled, 100% of idle collateral is rehypothecated into an IYieldStrategy (USYC T-bills / Aave-4626), no idle buffer. Harvested yield splits three ways via MasterChef-style per-side accumulators (accYieldPerYes/accYieldPerNo): protocol fee, underwriters, and a rebate to coverage buyers. Designed so the buyer rebate can offset the premium over time.\n",
+  "auto_summary": "An onchain insurance and prediction market protocol uses USDC-collateralized binary markets, Chainlink feeds, CCIP relay contracts, and a CRE settlement workflow on Arc.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/canary-kh3h7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

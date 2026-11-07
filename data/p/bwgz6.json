@@ -1,0 +1,36 @@
+{
+  "id": "bwgz6",
+  "slug": "vanderlinde",
+  "title": "Vanderlinde",
+  "tagline": "Vanderlinde is your gateway to onboarding web2 people onto web3. ",
+  "event": {
+    "slug": "sydney",
+    "name": "ETHGlobal Sydney",
+    "start_time": "2024-05-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bwgz6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tAxz01GJwvslB2VSSnGhRhOtLDC8ZwTdqx6MWEer4m5k/high.mp4",
+  "demo_url": "https://www.vanderlinde.io",
+  "source_url": "https://github.com/Complexia/vanderlinde-eth",
+  "prizes": [
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "Base",
+      "sponsor_id": "h5ps8",
+      "placement": "2nd place",
+      "title": "Best use of 4337 Account Abstraction"
+    }
+  ],
+  "finalist": true,
+  "description": "Vanderlinde is an Oauth Provider that works exactly as your regular web2 user would suspect - it provides a social login (Google), can fetch user details, and you use it to authenticate with other websites. So, what's special? \n\nYou see, on Vanderlinde, once you create an account, a Smart Wallet is silently created for you. The smart wallet is an AA wallet that follows ERC-4337 and is deployed straight onto the Base Network. When the user uses Vanderlinde to auth with your dApp, they're ready to interact with your blockchain right out of the gate.\n\nBut wait, don't you need gas, tokens, etc? They'll need to purchase crypto first, and send it to their wallet, right? Nope!\n\nLeveraging on Smart Wallet capabilities, users can have their gas sponsored by a Paymaster. Vanderlinde's Paymaster is a pool that can be sponsored by any good samaritans and blockchain proponents. They would deposit to this pool, and this pool would sponsor new users' gas transactions, driving blockchain adoption. To prevent bad actors, users have to be WorldID verified in order to enjoy free gas on the house. No need for Orb verification, Device level verification is enough. After all, it's just gas, not a digital passport.\n\nFrom the project developer's perspective, they would go onto Vanderlinde, login/create an account, and register a project. They would be provided with a client id and client secret. They'd store this client side somewhere, and use provide the client id as a parameter to the Auth with Vanderlinde button. Vanderlinde would look up the project in Supabase using client id, fetch secret, sign a jwt token containing user information (inc their smart wallet address) and send it back to the client. Client can then use this to authenticate the user on their dApp.\n\nNow, here for the spicy part. If the user isn't actually connected with a EOA such as Metamask to the dApp, how can they call transactions? Glad you asked!\n\nVanderlinde provides another button - execute transaction. This button takes as params target contract, target chain, and abi encoded transaction data which includes function name and arguments.\n\nUser, upon pressing this button, is redirected to Vanderlinde, where they can authorize the transaction using their Smart Wallet - and have Paymaster fund the gas as well - and come back to dApp with the response of the transaction.\n\nRedirected, they can now continue to use the dApp. Think microtransactions, tips, subscriptions, DeFi, anything else, they can just do it without having to sign Metamask transactions.\n\nOh, and one more thing. You know how they probably need to fund their Smart Wallet anyway for any kind of meaningful experience with a dApp? They don't have to leave Vanderlinde to do that. With Unlimit onramp, they can just click Fund Wallet, which opens up a modal, and they insert their debit card, and receive their choice of crypto tokens. Works everywhere, from USA to Europe to LATAM, thanks to Unlimit's network. \n\nBut wait! There is more! Remember how there was a param called target chain? That's right! So the user's Smart Wallet lives on Base, but what if the dApp has contracts on Mainnet, or Polygon, or whereever else? Not to worry! With Chainlink's CCIP, we can create cross chain arbitrary userOperations and call destination contracts anywhere. With our custom Sender and Receiver contracts on CCIP's supported networks, we can call any arbitrary function - anywhere!\n\n",
+  "how_its_made": "It all starts with a little NextJS. As it always has to. For starters, when the user clicks Login on Vanderlinde, they're greeted with a very familiar Login with Google button. They click it, and they're taken over to Google's Auth Page upon which they do their thing. This is facilitated by Supabase, and their user info is hence stored there. Once authed, there is a check to see if this user (in supabase) already has a wallet. If yes, fetch that wallet and use it. We fetch the wallet address. If no, a keypair is created, and stored in Supabase. (ideally we want this to be non-custodial and multisig, but maybe in a future iteration). Once Keypair is created, Alchemy AA SDK is used to deploy the users Smart Wallet on Base Sepolia. Gas manager is used as a Paymaster.\nUser can also connect with their WorldID, and if they're verified, they can make use of the paymaster for gasless transactions.\n\nFor authorizing transactions from a dApp, we fetch user's private key (on Vanderlinde side) and use Alchemy Signer to initiate a UserOperation after encoding the transaction using viem (again, gas free if WorldID verified). \n\nFor CrossChain operations, such as if a dApp has a contract somewhere else other than Base, ChainLink's CCIP is used. \n\nA transaction data is abi encoded, including the target contract address on destination chain, and is sent to the Sender contract on Base. Sender contract encodes from input params AnyEVMMessage type and sends it to ChainLink's CCIP Router on Base. This router makes connection to target chain's router, and that then calls the Receiver contract on target chain. Receiver contract decodes transaction details, calls the target contract's function. \n\nFor onramp, we use Unlimit's modal overlay integration, with user's AA wallet as input, in order to purchase crypto directly inside Vanderlinde.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/vanderlinde-bwgz6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

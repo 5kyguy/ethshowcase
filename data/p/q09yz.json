@@ -1,0 +1,35 @@
+{
+  "id": "q09yz",
+  "slug": "humanattentiontoken",
+  "title": "HumanAttentionToken",
+  "tagline": "HAT: Earn USDC micropayments for your attention. No bots, no middlemen — just humans getting paid.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q09yz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5n4891JWg01alPOMg8PyDxC017W7D9Dvf5gZpX49gFNyE/high.mp4",
+  "demo_url": "https://hat.pages.dev/",
+  "source_url": "https://github.com/Achthar/hat",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "2nd place",
+      "title": "Best use of World ID 4.0"
+    }
+  ],
+  "finalist": true,
+  "description": "HAT is a middleman-free ad network where advertisers pay verified humans directly for their attention using gasless USDC micropayments on Arc.\n\nViewers install a browser extension, verify their humanity with World ID, and earn USDC for every second they view ads — plus bonus HAT tokens as an incentive layer. Advertisers create campaigns, set their own per-second view rates and per-click bonuses, deposit USDC, and get real-time analytics on views, clicks, and spend.\n\nThe payment infrastructure uses Circle Gateway nanopayments on Arc — EIP-3009 signatures are signed offchain and batched into single on-chain transactions by Circle, making each micropayment effectively gas-free. Settlement runs automatically every 2 minutes via a Cloudflare Workers cron.\n\nWorld ID 4.0 orb verification ensures every viewer is a unique, verified human — eliminating bot fraud entirely. No ad network takes a cut. No upfront budgets required. Advertisers pay exactly for what they get: $0.0001 per second of proven human attention.",
+  "how_its_made": "The stack is a pnpm monorepo with 6 packages: a Cloudflare Workers backend (Hono + D1 SQLite), two React frontends (viewer site + advertiser console), a Chrome MV3 browser extension, shared TypeScript types, and Solidity contracts (Foundry).\n\nThe core payment flow runs on Arc Testnet where USDC is the native gas token (18 decimals natively, 6 decimals via ERC-20 — we handle both). When a viewer watches an ad, the extension tracks attention via IntersectionObserver with 15-second heartbeats. On session end, the backend calculates USDC earned at the advertiser's custom rate. Every 2 minutes, a Cloudflare Workers cron triggers settlement: it signs EIP-3009 TransferWithAuthorization messages offchain against Circle's GatewayWalletBatched contract (0x00777..., same deterministic address on every chain), then POSTs them to Circle's Gateway settle API. Circle batches all pending authorizations into a single on-chain transaction — zero gas per individual payment.\n\nThe hackiest part was reimplementing World ID v4's RP signing for Cloudflare Workers. The official @worldcoin/idkit-server package blocks non-Node.js environments, so we reverse-engineered the exact binary message format (version byte + 32-byte nonce + uint64 timestamps + keccak256-hashed action field-reduced to 32 bytes) and reimplemented EIP-191 signing with ethers.js — producing byte-identical signatures to the official library.\n\nThe extension opens the World ID verification page with ?autoclose=1, the QR widget auto-triggers, and after successful verification the tab auto-closes returning the user to where they were. The extension listens for chrome.storage changes to activate/deactivate the ad sidebar in real-time.\n\nOn top of USDC payments, the HAT token serves as an additional incentive layer exclusively for verified humans. It's an ERC-20 with a gas-optimized batchMint() that mints to all recipients in one transaction, proportional to USDC earned (10,000 HAT per $1 USDC by default). Since HAT is only minted to World ID-verified accounts, it functions as a proof-of-human-attention token — advertisers can optionally boost HAT rewards on their campaigns to attract more verified viewers, creating a secondary incentive market on top of the base USDC micropayments.\n\nAdvertisers set custom view rates and click bonuses per campaign, can pause/resume ads, withdraw unspent USDC, and see real-time analytics (views, unique viewers, CTR, spend breakdown by attention vs clicks).",
+  "auto_summary": "A monorepo ad network pays World ID-verified viewers in USDC on Arc and includes a browser extension, web apps, backend services, and Solidity contracts.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/humanattentiontoken-q09yz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

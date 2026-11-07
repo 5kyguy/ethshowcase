@@ -1,0 +1,41 @@
+{
+  "id": "grkq2",
+  "slug": "openpop",
+  "title": "OpenPop",
+  "tagline": "OpenPop is the OpenClaw of verifiable agent workflows. Proof over Promises.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/grkq2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dKEVcGiEqftbS2TRDWyT02RdkYml4DuqvfeVYkA9Qdso/high.mp4",
+  "demo_url": "https://youtu.be/lS5N3-kqoGE",
+  "source_url": "https://github.com/orbbit-tech/openpop",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "1st place",
+      "title": "Best Smart Contracts on Arc with Advanced Stablecoin Logic "
+    },
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Best workflow with CRE",
+      "title": "Best workflow with CRE"
+    }
+  ],
+  "finalist": true,
+  "description": "\nThe idea of OpenPop is inspired from our own journey of building fintech startup Orbbit where we always want to increase investors' trust in us so we can lower our cost of capital. Currently investors have to rely on our promises to ensure their returns. \n\nWe built an invoice financing trust portal for investor. First a business owner submits invoices. Then CRE (Chainlink Runtime Environment) workflow with TEE (Trusted Execution Environment) runs three sequential checks: a KYC/KYB compliance screen, a live USDA dairy price fetch paid with x402, and an underwriting model call. The CRE broadcasts the signed result to Arc testnet, where a `ProofGatedEscrow contract deployed on Arc testnet holds investor USDC and releases it automatically when the screening proof is verified. The proof increases investors confidence in the deals, and investors can easily invest with USDC with Dynamic embedded wallet with a seamless web2 auth experience.\n\nMoreover, investor can uses any AI agent like Claude cowork to call get_proof() via MCP to get mathematically proved execution. One example would be investor setups a portfolio allocation agents to diversity risk and optimize return given a thesis / time horizon.",
+  "how_its_made": "OpenPop has five connected layers.\n\n1 ) Next.js trust portal. The web app is where user experience comes together. Investors see a live dashboard showing exactly what screening ran on a deal, the scores, and a link to the proof on-chain. There's also an MCP endpoint so an investor's AI agent can call get_proof and verify the receipt independently — without taking anyone's word for it. Proof is stored as a flat JSON file after each workflow run, which both the UI and the MCP server read from.\n\n2) Chainlink CRE workflow. The invoice screening runs as a three-step TypeScript workflow on Chainlink's Runtime Environment: compliance check, commodity price input, then underwriting score. For this hackathon, we run the workflow in simulated environment locally since production access need special access.  One subtle requirement: we use runtime.now() instead of Date.now() everywhere inside the workflow, because Date.now() is non-deterministic across nodes and would break consensus. The workflow is triggered from the Next.js backend by shelling out to the CRE CLI as a child process — hacky, but it kept everything in one repo.\n\n3) ProofGatedEscrow contract on Arc Testnet. The escrow contract holds investor USDC and won't release it until it receives and verifies the Chainlink signed receipt on-chain. Pass (score >= 82, compliance clean) → funds go to the SMB. Fail → funds stay locked with a reason written on-chain. No human decides; the contract decides. We read the on-chain result by hitting the Arc RPC directly and decoding the event logs by their keccak256 topic signatures — no indexer, no SDK, just raw JSON-RPC calls.\n\n4)  Dynamic wallets (two separate roles). Dynamic does double duty here. On the frontend, investors get an embedded wallet built into the portal with familiar email OTP — no MetaMask or external extension needed. Arc Testnet is registered as a custom network inside Dynamic's provider, so the investor is automatically on the right chain and can deposit USDC in three steps (create deal → approve spend → deposit) all from the browser. On the backend, we use Dynamic's Node.js server wallet — a completely separate headless wallet that authenticates with an API token and signs transactions automatically, no human in the loop.\n\n5)  x402 for live data. We include x402 bc we feel like payment will be a crucial part of the OpenPop framework abstraction, like how OpenClaw abstracts all the channels etc. The dairy price API with x402 is a project we built from Consensus Miami hackathon. We use this x402  API so the Dynamic server wallet automatically pays for each data fetch with a micropayment. No manual billing, no API key quota to manage. Because CRE can't make x402-authenticated calls during local simulation, we fetch the price first in the Next.js backend, then inject it into the CRE trigger payload before the workflow runs.\n\nhttps://github.com/jianruan-io/dairy-cream-price-x402-demo",
+  "auto_summary": "OpenPop is a multi-part app for invoice financing that runs offchain screening workflows and conditionally releases USDC from an Arc escrow contract.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/openpop-grkq2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

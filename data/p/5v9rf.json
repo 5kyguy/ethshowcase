@@ -1,0 +1,27 @@
+{
+  "id": "5v9rf",
+  "slug": "blee",
+  "title": "Blee",
+  "tagline": "Pay USDC over Bluetooth. No internet, wallet address or QR code required.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5v9rf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HyPIexpP2M022xO19Y2htl8cWT00dGERwKGWYpuUQTw2w/high.mp4",
+  "demo_url": "https://bleeonarc.vercel.app/",
+  "source_url": "https://github.com/rishantster/Blee",
+  "finalist": false,
+  "description": "Blee makes digital money work like cash.\n\nToday, sending crypto usually starts with friction: find a wallet address, scan a QR code, make sure both sides have connectivity, select the right network and wait for infrastructure to cooperate.\n\nBlee removes that interaction entirely.\n\nOpen Blee and nearby people automatically appear through the Blee Bluetooth Mesh Network. Tap the person, enter an amount and send USDC. No wallet address needs to be exchanged. No QR code needs to be scanned. The phones can communicate directly over Bluetooth even when the sender and receiver do not have internet access.\n\nUnder the hood, the sender cryptographically authorizes the payment and the payment packet can be carried across nearby Blee devices using store-and-forward networking. If another Blee device in the network has internet connectivity, it can broadcast the sender's already-signed transaction to Arc without ever controlling the sender's funds or paying the sender's gas.\n\nThe result is a payment experience that feels much closer to handing someone cash: discover the person beside you, tap their name and pay.\n\nBlee is currently built around USDC on Arc Testnet, with a self-custodial wallet, durable offline transaction state and a native Android Bluetooth networking layer.",
+  "how_its_made": "Blee is an Android-first self-custodial wallet built with a React/Capacitor application layer and a native Android networking service.\n\nNearby Blee devices discover each other using Bluetooth Low Energy scanning and advertising. Payments are transported through BLE/GATT with fragmentation, acknowledgement, retry and bounded store-and-forward routing. The native Android service owns networking so discovery and payment delivery are not dependent on the WebView remaining active.\n\nThe financial state is persisted locally using SQLite with WAL, including the payment journal, signing intents, mesh inbox/outbox, seen packets, settlement jobs, peer identities and settlement receipts. This lets Blee survive application restarts and temporary connectivity loss without treating UI state as the source of truth.\n\nFor payments, Blee uses USDC's EIP-3009 TransferWithAuthorization. The sender creates the payment authorization and, when settlement information is available, also signs an EIP-1559 transaction calling transferWithAuthorization.\n\nThis enables one of Blee's most important properties: another Blee device can relay the payment and broadcast the sender's already-signed raw transaction when it reaches internet connectivity. The relay device cannot change the recipient or amount, never receives the sender's private key and never pays gas on behalf of the sender.\n\nSettlement currently runs on Arc Testnet (chain ID 5042002). Internet connectivity determines when blockchain settlement happens; it does not determine whether nearby Blee devices can create, persist, deliver or acknowledge a payment.\n\nWe also built durable duplicate protection, signed mesh messages, encrypted wallet backup/recovery, native payment notifications and optional biometric unlock.",
+  "auto_summary": "An Android-first wallet enables nearby offline USDC payments over Bluetooth and later settles sender-signed transactions on Arc testnet.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/blee-5v9rf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

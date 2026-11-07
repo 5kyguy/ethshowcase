@@ -1,0 +1,22 @@
+{
+  "id": "nvtrv",
+  "slug": "treasuryforge",
+  "title": "TreasuryForge",
+  "tagline": "Glass‑box USDC treasury automation for Arc, Circle Gateway, and Sui.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nvtrv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kWBT501ZTGN02L500mCsVjwFByP02yXDMwoVLvjtM1w17t4/high.mp4",
+  "demo_url": "https://treasury-forge.vercel.app/",
+  "source_url": "https://github.com/prakhar728/TreasuryForge",
+  "finalist": false,
+  "description": "TreasuryForge is a glass‑box USDC treasury system built for risk‑off markets. It solves a personal problem I face personally right now. Because of the market conditions I am holding stables, yields are moving fast and are very volatile due to the price fluctuations - hence the best bets are stablecoins and yield pools. I don’t have the time or confidence to constantly rotate across chains and venues. The vault is intentionally simple for users: deposit on Arc Testnet, choose a policy, and let the agent do the rest. Users can pick RWA yield (powered by Stork yield signals and USYC on Arc) or DeFi yield strategies.\n\nThe key to the simplicity is Circle’s infrastructure. Arc Testnet gives us a unified USDC balance, and Circle Gateway lets the agent route liquidity across chains without rebuilding bridge complexity. We can move USDC to the best‑yielding venues when it’s worth it. And thanks to Circle’s CCTP routes, we’re not limited to EVM only—Sui and DeepBook become first‑class options. The agent can move funds to Sui, deploy into DeepBook liquidity, and return capital when yields change. Users don’t need a separate non‑EVM wallet; the agent handles it.\n\nEverything is observable: the agent monitors yields, executes borrows/deposits/repays, and streams every decision to a live ops console. The UI shows positions, transaction hashes, and a decision feed, so users can track exactly what the agent did and why.",
+  "how_its_made": "TreasuryForge is stitched together from three layers: an Arc vault, a TypeScript agent, and a live ops UI.\n\n- The vault is a Solidity contract (Foundry) that handles USDC deposits, user policies, agent‑only borrows/repays, and withdrawal requests on Arc testnet.  \n- The agent is a Node/TypeScript service with a plugin system: arc‑rebalance pulls Stork signals and routes into USYC; gateway‑yield uses Circle Gateway to move USDC across Arc/Base/Eth/Avalanche and compares yields (DefiLlama + Aave fallback); sui‑yield computes DeepBook spread‑based yield signals and can bridge to Sui for liquidity deployment.  \n- Wormhole CCTP is used to move USDC to Sui, and the agent can mint/manage a custodial Sui key so users don’t need a separate wallet.  \n- The frontend is React + Vite + Tailwind, reading live logs and state from a lightweight HTTP API the agent exposes, including positions and tx links.  \n- For demo reliability, we added mock fallbacks when allowlisting or external routes are unavailable.\n\n## Some tx links that are useful\nBridging from Base to Sui: https://wormholescan.io/#/tx/0x163ec1e8284b08bde3cabc6dd2c62b5535c91cb76f642fd1408cc4d3f7c496fd?network=Mainnet\n\n## Vault withdraw \nhttps://sepolia.basescan.org/tx/0x7808992e5bb41d48b66f35bb72c37c37a8a0c75aadcd85fcce31248b17b2bb2b\n\n## Gateway Deposit Base\nhttps://sepolia.basescan.org/tx/0x9db62eb0dd1b796f3ff5f4227ab7a7bb7751eaf385e06a7127252e81d25e6dcc\n\n## Gateway Mint (Base)\nhttps://sepolia.basescan.org/tx/0xfefa611541df4b8c36c650540e6b022464c51c2cfd4f882c7bd1e9b9b26b0f1f\n\n## Gateway Mint (arc)\nhttps://testnet.arcscan.app/tx/0x4ecc6fc4fd90583872811783b24f7ad612cedd00c994d3ce559f36ac321b29e8\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/treasuryforge-nvtrv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

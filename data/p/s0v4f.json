@@ -1,0 +1,71 @@
+{
+  "id": "s0v4f",
+  "slug": "degen-dogs",
+  "title": "Degen Dogs",
+  "tagline": "An NFT series that invests in DeFI and streams money to owners. DeFi meets NFTs.",
+  "event": {
+    "slug": "ethonline2021",
+    "name": "ETHOnline 2021",
+    "start_time": "2021-09-17T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s0v4f/banner/default.jpg",
+  "demo_url": "https://degendogs.club",
+  "source_url": "https://github.com/markcarey/degendogs",
+  "prizes": [
+    {
+      "sponsor": "Zora",
+      "sponsor_id": "f2so0",
+      "placement": "Zora Prize Pool",
+      "title": "Zora"
+    },
+    {
+      "sponsor": "Covalent",
+      "sponsor_id": "f7o0p",
+      "placement": "Covalent Prize Pool",
+      "title": "Covalent"
+    },
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Chainlink Pool Prize",
+      "title": "Chainlink"
+    },
+    {
+      "sponsor": "Superfluid",
+      "sponsor_id": "x59d1",
+      "placement": "Superfluid Pool Prize",
+      "title": "Superfluid"
+    },
+    {
+      "sponsor": "Skynet",
+      "sponsor_id": "2zqzn",
+      "placement": "Skynet Pool Prize",
+      "title": "Skynet"
+    },
+    {
+      "sponsor": "Compound Grants",
+      "sponsor_id": "j5u2x",
+      "placement": "Compound Grants Supply Pool",
+      "title": "Compound Grants"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "⭐️ ETHOnline 2021 Finalist",
+      "title": "ETHGlobal Finalist"
+    },
+    {
+      "sponsor": "Superfluid",
+      "sponsor_id": "x59d1",
+      "placement": "Superfluid - Top Project",
+      "title": "Superfluid"
+    }
+  ],
+  "finalist": true,
+  "description": "Degen Dogs is an experiment that combines NFTs and DeFi. New Dogs are dropped daily via auction. The proceeds of daily auctions are sent to the treasury. That's when the DeFi Dog magic starts:\r\n\r\n- The ETH from the winning bid is swapped on Uniswap for DAI. The resulting DAI is then deposited in Compound Finance, and begins to earn yield\r\n- A portion of the Compound tokens (cDAI) representing the deposits are then upgraded to \"Super Tokens\" in the Superfluid protocol.\r\n- Then Super Tokens begin streaming -- every second -- back to Dog owners:\r\n- 10% of of the proceeds of the auction stream back to the Dog Owner over the next 365 days. If the Dog is sold or transfered, the stream switches to the new owner.\r\n- 40% of the proceeds of each auction are shared by all current Dog owners and streamed to each of them over the next 365 days.\r\n- 20% of the proceeds for each auction go to the owner of the 10th Dog before this one. For example, 20% of the proceeds of the auction for Dog 10 will get streamed to the owner of Dog 0, over the next 365 days.\r\n- In future, the Club may decide to change the DeFi investments and distributions in interesting ways.\r\n\r\nOf course, Degen Dogs are ERC721 NFTs that can be used as Avatars and traded on OpenSea or other marketplaces. Degen Dogs Club is an experiment fusing NFTs with incentived tokenomics to foster community.",
+  "how_its_made": "Degen Dogs is composed of two smart contracts and a front-end dapp that manages periodic NFT minting and auctioning Dogs to the highest bidder.\n\n\n\nThe auction house contract is a modified version of the Zora Auction House contract. While the idea is for auctions to last 24 hours, minting one Dog each day, it is currently set to 10 minutes for development and demo purposes. Once the contract is deployed and initialized, it calls the ERC721 contract to mint a new Dog. At this point the Dog is not transferred to the Auction House but is held by the ERC721 contract pending the outcome of the auction. When the auction is over, a transaction to settle the auction triggers the transfer of the Dog to the winner and the transfer of the ETH proceeds to the ERC721 contract, which also acts as a treasury. That's when the DeFi starts...\n\n\n\nThe Dog contract leverages OpenZeppelin contracts to provide standard ERC721 functions, but also doubles as a treasury that not only holds funds, but invests them in DeFi and streams the result back NFT holders via Superfluid Finance. When an is won, the Dog contract transfers the Dog to the winner and receives the ETH proceeds. Immediately, the following is triggered:\n\n- The Dog contract calls the Chainlink price feed oracle for ETH/DAI to get the latest price for DAI.\n\n- Using the Chainlink data to set a reasonable slippage margin, the ETH is then swapped for DAI using Uniswap v3.\n\n- The DAI is then immediately deposited in Compound Finance, where is starts to earn yield and COMP token rewards for the treasury. The contract now holds cDAI tokens representing the deposited DAI.\n\n- A subset of the cDAI is then \"upgraded\" to cDAIx via the Superfluid protocol.\n\n- Multiple streams of cDAIx being streaming -- every second -- back to the auction winner, and also to other Dog owners, according the following formula: 10% of auction proceeds stream back to the holder of that NFT over 365 days, PLUS 40% of the proceeds are divided among all Dog owners at the time, and streamed to them over 365 days, PLUS 20% of the proceeds are streamed to owner of the 10th dog prior, over 365 days (proceeds from Dog 10 stream to the owner of Dog 0, proceeds from Dog 11 stream to Dog 1, etc.)\n\n- After 365 days, anyone can act as a \"closer\", and send a transaction to close the streams that are eligible. An instant (not streamed) reward equivalent to 30 days of flow is earned.\n\n- When a Dog is sold or transferred, the streams are redirected automatically to the new owner.\n\n\n\nThe front-end dapp is hosted on Skynet decentralized storage, via dLink at https://degendogs.club and can also be added to Skynet \"homescreens\". The \"Deploy to Skynet\" Github Action made deploying the dapp super-easy, something I did at least 126 times during development!\n\n\n\nThe dapp primarily interfaces with the Auction House contract. User can connect their wallet, submit bids and settle auctions, which triggers the minting of a new Dog and starts a new auction. The dapp also displays the cDAI balances of the treasury and connected user, showing the real-time changes as funds are streamed out of the treasury to Dog owners.\n\n\n\nTo display bid history for each auction, I used the Covalent API with their \"primer\" filters to fetch only the specific \"new bid\" events from the Auction House contract, along with date stamps for each. This made is very easy to display this information on the frontend.\n\n\n\nPrior to this project, I had a bit of experience with NFT smart contracts but this is my first time interacting with DeFi protocols. In some respects this was easier than expected, but I did encounter challenges relating to Big Number math, making calculations with tokens that use different numbers of decimals, and calculations involving numbers with different types, such as int96 and uint256. I learned a lot, but definitely have more learning to do.\n\n\n\nThe goal of the project is merge NFTs and DeFi in a way that hopefully provides some incentivizing tokenomics that could fuel an active community of Dog owners. A future feature could be a way for artists to submit new Dogs, and the community can vote for which Dogs will get minted as part of the collection, with a portion of auction proceeds streaming to artists. A governing Dog DAO might decide to change the investment and stream distribution strategies.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/degen-dogs-s0v4f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

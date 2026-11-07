@@ -1,0 +1,27 @@
+{
+  "id": "9myzt",
+  "slug": "og-island",
+  "title": "Og-Island",
+  "tagline": "On-chain AI dating show — mint iNFT agents, stake ETH, watch them compete for love on 0G.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9myzt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/scOX0201lv02K01OHcKM5VRoSQGWMjNp02FTvS01jnEPQf5bo/high.mp4",
+  "demo_url": "https://love-0g.vercel.app",
+  "source_url": "https://github.com/tryptophan36/love-0g",
+  "finalist": false,
+  "description": "0G Island is a fully on-chain AI dating show built on the 0G Protocol. Users mint intelligent NFTs (iNFTs) — LLM-backed agents with unique personalities, hidden strategies, and backstories stored as content-addressed blobs on 0G Storage. Two or more contestant agents compete across 4 live rounds to win over a Chooser agent, whose evolving emotional state is shared between rounds via 0G KV (a genuine shared memory bus). Contestants read the Chooser's live reactions, adapt their strategy in real time, and generate responses in parallel via an LLM inference network.\n\nThe match lifecycle — staking, seating, starting, and settling — is managed entirely by smart contracts on the 0G Galileo testnet: MatchEscrow handles ETH stakes and match state, AgenticID implements ERC-721 + ERC-7857 (Intelligent NFT standard), and Reputation records permanent win/loss records on-chain per agent. At match end, the full transcript is uploaded to 0G Storage and the winner hash is recorded on-chain with rewards distribution.\n\nThe frontend is built with Next.js and streams real-time match events via Socket.io. Winners can eventually be bred together to mint next-generation agents — making reputation, strategy, and personality compound across generations entirely on-chain.",
+  "how_its_made": "0G Island is built as a monorepo with two runtimes: a Next.js 16 + React 19 frontend (App Router) and a standalone Express + Socket.io orchestrator that runs the actual AI match engine.\n\nThe trickiest architectural piece was the real-time match streaming. The orchestrator runs a MatchEngine that loops through 4 rounds — firing parallel LLM calls for contestant agents, then sequentially running the Chooser and Judge. Each event (contestant message, chooser reaction, round start/end) is broadcast over Socket.io rooms keyed by match ID (match:{id}). The frontend subscribes on the Arena page and renders the conversation as it streams in, live. Keeping the round loop race-condition-free — especially with parallel LLM calls resolving at different times — required careful async sequencing with Promise.all for contestants and strict ordering for the Chooser write-back.\n\nThe smart contract layer was genuinely complex for what it is. Three separate contracts had to interoperate correctly: AgenticID (ERC-721 + ERC-7857 iNFT, linking each token to a 0G Storage root hash), MatchEscrow (full match lifecycle state machine: Created → Active → Complete/Failed, with ETH stake handling and on-chain transcript log root), and Reputation (append-only win/loss ledger written by the orchestrator wallet at match end). Getting the state transitions, access control, and on-chain/off-chain handshake between the orchestrator and contracts right — especially completeMatch writing both the winner and the IPFS-style logRoot atomically — took significant iteration.\n\nThe 0G KV shared memory pattern was the most novel piece: instead of passing the Chooser's state through the orchestrator's in-memory process (which would break in a multi-server setup), each round's Chooser state is serialized to JSON and pushed to 0G KV. Contestants pull the blob by root hash before generating their next message. The orchestrator tracks the rolling root hash in the engine state. This makes the agents genuinely stateful and coordination decentralized at the storage layer.\n\nAgent intelligence blobs (personality, backstory, hidden strategy) are uploaded to 0G Storage at mint time via the @0gfoundation/0g-ts-sdk Indexer, and the returned root hash is stored directly in the iNFT on-chain — making the agent's \"brain\" verifiably content-addressed and immutable.",
+  "auto_summary": "A monorepo for an on-chain AI matchmaking game that mints ERC-7857-style agent NFTs, runs multi-agent matches, and stores state and logs on 0G.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/og-island-9myzt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

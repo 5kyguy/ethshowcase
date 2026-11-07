@@ -1,0 +1,27 @@
+{
+  "id": "d7uhh",
+  "slug": "shoalfi",
+  "title": "Shoalfi",
+  "tagline": "tells lending markets what their collateral is really worth if sold, and caps borrowing to it",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d7uhh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Q7BCxeZdccuRuBnjSjTaQXNUWLsMuXOKI0269lsf4k7o/high.mp4",
+  "demo_url": "https://www.shoalfi.xyz/",
+  "source_url": "https://github.com/shoalfi/monorepo",
+  "finalist": false,
+  "description": "Last August, three lending protocols were drained the same way. Moonwell lost $8.7M. Morpho saw $36.4M of liquidations set off by about $320K of trades. Tectonic lost ~$75M and Cronos halted the whole chain.\n\nNone of them were hacked. The price oracle was right every time. Nobody asked the second question: if this collateral had to be sold, how much would actually sell?\n\nThat's what shoalfi measures.\n\nFor every collateral token in a lending market, we check how much could really be sold on Uniswap before the price drops 10%, then compare it to how much has been borrowed against it. If a market has lent far more than the token can absorb, it shows up red.\n\nRight now we cover 134 tokens across 250 markets on Compound v3 and Morpho Blue. 14 are lent past what's safe. WBTC is the clearest: $412M borrowed against it, but only $29M could actually be sold. That's a 47× gap.\n\nThe part we think matters most: 103 of those tokens have no Uniswap pool at all. We don't score them zero and call them safe, we show a dash and leave them out of the ranking, because we genuinely don't know. One is PT-reUSD, live on Morpho right now with $926K borrowed against it. That's the same kind of token that caused the $36.4M cascade three weeks ago.\n\nYou can also just ask it questions in plain English, and the data comes from The Graph.\n\nWe also put the number on-chain. A contract on Sepolia takes the $28.8M depth reading and turns it into an $8.6M borrow cap. If the reading goes stale for 15 minutes, the cap drops to zero.",
+  "how_its_made": "You open the dashboard and the first thing you see is a green pill: \"live · block 25,963,881.\" That isn't decoration. Every response from our API carries the Ethereum block its numbers came from, in a header the browser is allowed to read. The pill is that header. If it ever goes stale, you'll know before you trust a row.\n\nThen you look at a row: WBTC, $412M borrowed, $29M sellable. That second number is the hard part. TVL and volume both lie about thin tokens, so we don't use them. We walk the real Uniswap v3 tick liquidity with Uniswap's own v3 SDK, starting at the pool's current price, crossing each tick, adjusting liquidity as we go, until we reach the price 10% down. That's genuinely how much would clear. The walker is tested against the closed-form math to prove it.\n\nThe \"$412M borrowed\" side comes from The Graph, and this is what made a weekend build possible. Aave, Compound and Morpho all publish the same standardized schema, so one query reads all three, only the subgraph ID changes. We added Morpho Blue's 214 markets by setting one environment variable. No new code.\n\nYou scroll down and hit a divider: \"no uniswap venue found.\" 103 of 134 tokens sit below it, every column an em dash. This is the deliberate part. The API returns null, not 0, and the UI refuses to rank them, because they aren't safe, they're unmeasured. A zero here would be a lie, and that exact lie is what broke Morpho.\n\nYou type a question in plain English and get a real answer. That's The Graph's Subgraph MCP wired into Claude, so it can query subgraphs live when the answer isn't already on screen. It has three fallbacks and always responds; the badge tells you honestly which path it took, and we never show the MCP badge unless a tool was actually called.\n\nFinally you click through to a contract on Sepolia. The $28.8M depth reading is published on-chain, and CapSteward turns it into an $8.6M borrow cap. Let that reading go 15 minutes stale and the cap returns zero, no fresh depth, no new borrows.",
+  "auto_summary": "A monorepo that measures lending-market collateral liquidity using Uniswap v3 depth, serves risk data and Q&A APIs, and prototypes on-chain borrow caps.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/shoalfi-d7uhh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

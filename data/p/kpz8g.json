@@ -1,0 +1,27 @@
+{
+  "id": "kpz8g",
+  "slug": "zerokeymate",
+  "title": "ZeroKeyMate",
+  "tagline": "An iPhone companion that proves your age privately and pays on Arc.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kpz8g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mi21KToANB1WbpvAdjR6rogGpOGyksMse6JAts4CIXc/high.mp4",
+  "demo_url": "https://zerokeymate-arc-shop.oyster880.workers.dev/demo/",
+  "source_url": "https://github.com/susumutomita/ZeroKeyMate",
+  "finalist": false,
+  "description": "ZeroKey Mate turns an iPhone into a companion that helps you act while keeping identity details private. Ask Mate for a beer. The on-device model proposes the supported order, while application code controls identity verification and payment.\n\nThe phone authenticates a physical Japanese My Number card and creates an order-bound zero-knowledge proof that the cardholder is at least twenty. The shop receives the proof, not the card certificate, signature, name, address or date of birth. A deployed Age Gate contract verifies the proof before checkout proceeds. After the user approves this exact payment, a Privy embedded wallet signs a 0.10 test-USDC authorization and the shop settles through x402 on Arc Testnet.\n\nA physical-card purchase completed on September 13, with 12.0 seconds of local age-proof processing shown on the iPhone and a confirmed public Arc transaction. Further test payments completed, and the app links to their real explorer receipts. A DockKit stand adds the physical companion experience. The recorded demo combines actual device takes.\n\nThis is an experimental testnet build: no real money or physical delivery. Payment approval remains explicit, and the supported purchase is one configured product and store. World ID authentication, smartphone My Number card support and unattended spending permissions are not integrated.",
+  "how_its_made": "The native iOS app uses SwiftUI, Apple Foundation Models, on-device Speech, AVFoundation, DockKit and CoreNFC. The local model produces a structured purchase proposal; deterministic code checks the item, merchant, network and amount. Card fields, proof witnesses and signing interfaces are never exposed to the model. Camera capture stops before NFC begins.\n\nThe physical My Number card supplies a government-signed JPKI credential and signs a challenge bound to the order and nonce. Our Noir circuit checks the trusted root, RSA signatures, certificate validity, age of at least twenty and order expiry. ProveKit from World Foundation generates the proof on the iPhone, using a pinned experimental Groth16 backend and native Rust bridge. Identity evidence stays on the device; the shop receives the proof and public order inputs. This is not World ID authentication.\n\nCloudflare Workers, D1 and a Durable Object run the store, preserve order state and serialize sponsored settlements. The Worker verifies the proof with the deployed Arc Age Gate contract through two independent RPC providers before returning x402 payment requirements. Privy supplies the embedded buyer wallet and signs the exact EIP-712 USDC authorization after user approval. The merchant sponsors gas. Signed transactions are persisted before broadcast, and receipt checks bind success to the actual transfer and authorization.\n\nA real-card certificate exposed a mandatory policy extension missing from our early fixture. We corrected both parser and circuit, regenerated matching proof artifacts and verifier, and completed the physical purchase. We also separated camera shutdown from DockKit motor commands to unblock NFC.\n\nAge verification is an eth_call enforced by the Worker, separate from the token transfer. The setup is single-party, certificate revocation is not checked, and the app still relies on network services for wallet login, store access and settlement. Source, reused public components, AI assistance and testnet evidence are documented in the repository.",
+  "auto_summary": "An iOS app performs age-gated checkout by generating on-device zero-knowledge age proofs and settling approved USDC payments on Arc testnet.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/zerokeymate-kpz8g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

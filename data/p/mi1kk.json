@@ -1,0 +1,54 @@
+{
+  "id": "mi1kk",
+  "slug": "cowsschain",
+  "title": "CowssChain",
+  "tagline": "Cowss-Chain serves as an expansive cross-chain infrastructure, facilitating a myriad of functionalities including cross-chain swaps, limit orders, and broader programmatic transactions. The protocol executes cross-chain financial operations.",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mi1kk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sXDnivxKIc01OZJAR3Rz6L025mLNIbBVbjWQqRq3X29NI/high.mp4",
+  "demo_url": "https://eth-istanbul-sigma.vercel.app",
+  "source_url": "https://github.com/orgs/CowssSwap",
+  "prizes": [
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "🎼 Hyperlane — 2nd Best Interchain App",
+      "title": "Hyperlane"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "2nd Place",
+      "title": "Best Interchain Application"
+    },
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "Innovate on Gnosis Chain",
+      "title": "Innovate on Gnosis Chain"
+    },
+    {
+      "sponsor": "Chronicle Protocol",
+      "sponsor_id": "sct4c",
+      "placement": "Integrate a Chronicle Oracle",
+      "title": "Integrate a Chronicle Oracle"
+    }
+  ],
+  "finalist": true,
+  "description": "Cowss-Chain represents a robust cross-chain infrastructure that facilitates various functionalities, including cross-chain swaps, limit orders, and broader programmatic transactions. This protocol enables seamless management of liquidity across EVM blockchains, optimization of exchange rates, and exploration of arbitrage opportunities.\n\nThe user initiates the process by completing a JSON file with data, securing tokens for sale on the source chain within an escrow contract. A solver agent retrieves order data from a maintained database, subject to verification by the escrow contract for integrity. After verification, the solver agent places a stake and undertakes the responsibility of delivering funds to the designated address on the destination chain.\n\nUpon executing the order and successfully depositing funds to the destination address, a mediator contract on the destination chain broadcasts a message to the source chain. This empowers the solver to reclaim the stake and receive the previously locked funds.\n\nThe solver has the autonomy to choose the method for delivering funds, whether by possessing the required funds on specified chains, bridging funds from another chain, or executing a swap to acquire the necessary funds. The solver must execute the order diligently, and profit accrues from the variance between the actual exchange rate and the predetermined destination token amount.\n\nThe protocol is a cross-chain iteration of CowSwap, combining hooks and intends with the adaptability of a cross-chain infrastructure. It is characterized by its permissionless nature, open-source architecture, deployability on every EVM-compatible chain, and compatibility with every ERC20 token.\n\nTo enhance the DeFi user experience, the protocol leverages the best available solutions, extending CowSwap's capabilities to embrace cross-chain hooks and intends. Various protocols like 1inch, Chronicle and Hyperlane are utilized to achieve increased functionality, ensuring flexibility and efficiency in financial operation execution.\n\nThe intend-based architecture allows users to execute cross-chain orders seamlessly. Order information is encoded in a signed JSON file, ensuring data integrity after multiple transfers through different agents. The protocol relies on solvers incentivized to let users access funds from one chain to another.\n\nThe solution can be deployed anywhere thanks to Hyperlane, and the dual stack of the solver leveraging Cowswap and 1inch covers every chain. The technology is free to use and open-source, aligning with the permissionless ethos of the ecosystem.",
+  "how_its_made": "The CowssChain protocol unfolds through three pivotal stages, each playing a significant role in the seamless execution of cross-chain transactions. Here is a brief description of those three:\n\n1. EIP-712 Authentication and JSON Data Handling: The journey commences with the EIP-712 authentication of JSON data, provided by the user to the front-end. This authenticated data is then securely stored in a database and uploaded on IPFS, subsequently retrieved by a solver agent. \n\n2. Source Funds Locking and Destination Deposit: A fundamental aspect of the protocol involves the locking of source funds until equivalent funds find their place on the destination address. This synchronized action ensures a secure and coordinated transfer of assets between chains.\n\n3. Source Funds Unlocking and Solver Responsibility: In the final stage, source funds are unlocked following the signal of a message passing protocol (Hyperlane). This broadcast triggers the seamless transfer of funds to the solver's address—the entity responsible for  delivering the assets to the destination chain in time.\n\nEmbedded within the protocol are several key principles that underpin its integrity and effectiveness:\n\n1. JSON File Customizability: The protocol capitalizes on the flexibility of JSON files, allowing for the encoding of arbitrarily complex data. This customization empowers users to tailor the order execution flow according to their requirements.\n\n    \n\n2. Data Integrity Assurance: signature of the JSON files enables to retrieve the sourceAddress from the data claiming to represent the order of that same address. This assures that no party is able to corrupt the data written by the user. \n\n    \n\n3. Solver's Defined Responsibility: The role of the solver is distinct, focusing solely on the delivery of funds to the destination chain. This provides flexibility to the solver, who can obtain the funds on the destination chain using a method of their choice.\n\n    \n\nGoing into more detail with the user journey:\n\nThe user intends to get a specific amount of tokens on a distant chain. Then:\n\n1. The user completes the JSON using our app and signs it (according to the EIP-712 standard). (Everything that is specified in the JSON is decided by the user).\n\n2. The JSON is stored in the database and uploaded to IPFS.\n\n3. A new entity: the solver (more details later), retrieves order information from the database.\n\n4. If the solver finds a profitable opportunity, it calls the escrow contract that verifies the authenticity of the JSON file, and locks funds for a predetermined period (specified in the signed JSON). It has to deposit a stake (specified in the JSON) so it is disincentivized to lock user funds without having an actual opportunity.\n\n5. The solver takes responsibility for delivering the funds to the destination address in due diligence, adhering to the conditions encoded in the JSON (e.g., stop-loss strike). The solver has no restrictions imposed on the source of the funds. They should just be delivered on time. \n\n6. Once the funds are obtained, the solver calls the deposit funds function of the mediator contract on the destination chain. The contract verifies the authenticity of the JSON file, delivers the funds to the destination address, and broadcasts a message to the source chain using Hyperlane.\n\n7. Once the message is received on the source chain contract, the order is now marked as completed. It is removed from the state of the escrow contract. The solver’s stake is restituted, and the solver who delivered the funds to the destination chain can claim the corresponding escrowed funds.\n\n8. If no solver fullfills the order before expiry then, the solver’s stake is used as an incentive for other solvers to call the restitute funds function so the users don’t have to pay gas to unlock their escrowed funds.\n\nTo streamline the solver's workflow, as well as open new gates to our user's liquidity, we have implemented various hooks and programmable orders. These have been built using CowSwap’s stack, and therefore are available only for Gnosis Chain and Ethereum Mainnet.  These ensure that necessary executions are triggered with due diligence, making the task of fund delivery easier for the solvers.\n\nWe implemented a solver relying on several technological stacks to be available in as many chains as possible. It obviously uses the Cowswap SDK in an extensive way, especially with the Programmatic Orders Function and additional hooks.\n\nDeposit Fund Post-Hook: \n\nThe most important hook is the one allowing the solver to complete the order. It automatically calls the depositFunds function as a post-hook after the swap is done. First it approves the contract with the funds and then call the contract function to register the completed order and send the funds to the destination address.\n\nStop Loss Programmable Order: \n\nWe leverage CowSwap’s conditional order template to build a stop-loss programmable order, that triggers an order only once a certain price region is hit. To determine whether the region has been hit, we use Chronicle oracles to monitor the exchange rates of both the sell and buy tokens. Therefore, whenever a stop-loss order type is read from the JSON file, the solver is explicitly creating a stop-loss order through CowSwap. Thanks to the post-hook feature, the Programmatic Order Function is called before the depositFund function, in order to delegate the fund flow entirely to CowSwap.\n\nSpark finance’s sDAI in one click\n\nAs our main feature, we have implemented a hook allowing a user to go from any token on a source chain to sDAI directly in the user’s wallet. The hook is made so the CowSwap solver deposits DAI into Spark to get sDAI automatically before finalizing the order with the Deposit-Fund Hook. \n\nMoreover, the solver relies on the 1inch SDK to get access to a broader set of chains for the convenience of the user. Thanks to this integration we can propose chains like Arbitrum, zkSync, and Polygon ZkEVM and more while making sure to obtain the best price for the user.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cowsschain-mi1kk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

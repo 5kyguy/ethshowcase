@@ -1,0 +1,29 @@
+{
+  "id": "jv485",
+  "slug": "settleone",
+  "title": "SettleOne",
+  "tagline": "Batch offchain USDC payments instantly and settle them all in one transaction",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jv485/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ibm600LioGwnY003j00KT7TaSVE1mwm3fM4VGnNOMompAk/high.mp4",
+  "source_url": "https://github.com/AnkanMisra/SettleOne/",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "SettleOne is a unified payment interface designed to solve the fragmentation and high cost of DeFi transactions. It combines off-chain state channels, identity resolution, and batched settlement into a seamless \"checkout\" experience for crypto payments.\n\nInstead of signing a transaction and paying gas for every single payment, users open a session (powered by Yellow Network state channels) where they can queue unlimited USDC payments off-chain instantly and gas-free. We integrate ENS deeply into the UI, allowing users to pay human-readable names like vitalik.eth instead of error-prone hex addresses.\n\nWhen the session ends, SettleOne aggregates all pending transfers and executes a single, atomic transaction on Base Sepolia using our custom SessionSettlement smart contract. This reduces gas costs by up to 90% compared to individual transfers. For cross-chain needs, we integrate LI.FI to automatically route funds across networks. \n\nSettleOne transforms crypto payments from a series of stressful transactions into a single, secure settlement.",
+  "how_its_made": "We built SettleOne using a modern stack optimized for speed and security.\nFrontend: Built with Next.js 16, React 19, and Tailwind CSS. We use wagmi and viem for blockchain interactions. The core \"magic\" lies in our integration of the Yellow Network SDK (@erc7824/nitrolite). \n\nWe implemented a custom hook useYellow that manages WebSocket connections to Yellow's ClearNode, handling authentication (challenge-response), session creation, and state updates. This allows us to maintain a secure off-chain ledger of payments in real-time.\n\nBackend: A robust Rust (Axum) server acts as our orchestrator. It handles:\n1.  Identity: A custom EnsService that queries the ensdata.net API with TTL-based caching to resolve names instantly without hitting rate limits or mainnet RPCs unnecessarily.\n2.  Cross-Chain: A proxy service for LI.FI API to fetch bridging quotes securely.\n3.  State: An in-memory session store (using Arc<RwLock>) that persists session state across UI reloads.\n\nSmart Contracts: We deployed our SessionSettlement.sol contract on Base Sepolia using Hardhat. It features:\n-   Circle / Arc Compatibility: Designed for USDC.\n-   Security: ReentrancyGuard, SafeERC20, and explicit integer overflow checks (unchecked blocks with validation) to safely handle batched amounts.\n-   Gas Optimization: Custom errors instead of strings.\n\nPartner Tech Highlights:\n-   Yellow Network: Their state channels enabled the \"instant queuing\" UX. We hacked around the WebSocket disconnect behavior by implementing a custom \"confirmation wait\" loop to ensure the off-chain state was fully synced before allowing on-chain settlement.\n-   ENS: We built a dual-layer resolution system (Frontend immediate + Backend verified) to ensure 100% uptime for name lookups.\n-   Circle: We utilized the transferFrom pattern to allow a single user signature to distribute funds to N recipients atomically.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/settleone-jv485",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "rdc11",
+  "slug": "railbridge-x-unlink",
+  "title": "Railbridge x Unlink",
+  "tagline": "Private treasury for agentic x402 payments - powered by Unlink",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rdc11/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Hgn8QQmBFzxCvLSSM3j02g28OZyJB7Lic25jgaqsTV9c/high.mp4",
+  "demo_url": "https://app.testnet.railbridge.ai/",
+  "source_url": "https://github.com/RailBridge-AI/Railbridge-X-Unlink",
+  "finalist": false,
+  "description": "RailBridge is a merchant operating system for AI agent and API payments. Merchants integrate x402 (HTTP 402 Payment Required) into their APIs so agents and users can pay in USDC across EVM chains without the merchant running their own payment infrastructure. RailBridge provides a facilitator that verifies and settles payments, plus Merchant OS, a control plane where merchants configure paid routes, track settlements, view balances, and request payouts.\n\nThis project adds a private treasury layer on top of that stack using Unlink. Today, on-chain observers can often infer merchant revenue because payments settle directly to merchant-specific public wallets. In private treasury mode, x402 payments still settle publicly to a shared RailBridge intake address (so observers see payer → RailBridge, not payer → merchant). A sweep worker then deposits pooled funds into a RailBridge Unlink account and privately allocates balances to per-merchant Unlink accounts. Merchants see private available balance in Merchant OS and withdraw to their public wallet only when they request a payout. The goal is merchant treasury privacy breaking the public link between individual payments and merchant revenue",
+  "how_its_made": "RailBridge is a Node.js monorepo with three main runtime pieces wired together end-to-end.\n\nMerchant integration: Merchants protect paid API routes with our @railbridgeai/merchant-sdk, which wraps Coinbase’s @x402/express middleware and @x402/core client types. When a request hits a paid route, the SDK asks Merchant OS to resolve payment requirements, then returns HTTP 402 with USDC payment instructions.\n\nFacilitator (TypeScript + Express): A separate service implements the x402 facilitator (/verify, /settle, /supported) using @x402/evm’s ExactEvmScheme. It settles payments on-chain with viem, supports cross-chain routes via Circle BridgeKit / CCTP, and publishes settlement events back to Merchant OS over HTTP. For private treasury, attribution uses an opaque paymentContextId instead of leaking merchantId/accountId in client-visible metadata.\n\nMerchant OS (Node ESM + Next.js 15): The backend is a plain node:http server (no Express) talking to SQLite through the sqlite3 CLI. lightweight, but intentionally scrappy for the prototype. It owns treasury logic: policy (treasuryMode: public | private), a private ledger (payment_requirement_contexts, private_ledger_entries, sweep/transfer/withdrawal tables), and a privacyVaultService abstraction over Unlink (@unlink-xyz/sdk).\n\nHow Unlink fits in: After a public x402 settlement lands in a RailBridge intake wallet, a background PrivacySweepWorker (interval poller) deposits funds into a RailBridge Unlink account, then privately transfers to a per-merchant Unlink account. Payouts go through privatePayoutService, which submits Unlink withdrawals to the merchant’s public destination address. Omnibus keys come from env mnemonics; merchant Unlink mnemonics are generated per account, encrypted with a custody master key, and stored in SQLite.\n\nPartner tech benefit: Unlink gives us the actual privacy layer private internal balances and transfers inside their contract/system, which public chain observers can’t attribute to individual merchants. x402 gives us a standard machine-payment rail. \nCircle CCTP gives us cross-chain USDC before/after private treasury zones.\n",
+  "auto_summary": "RailBridge is a multi-service payment platform that adds private merchant treasury accounting and cross-chain USDC settlement to x402 API payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/railbridge-x-unlink-rdc11",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,36 @@
+{
+  "id": "dvpjd",
+  "slug": "omni402",
+  "title": "Omni402",
+  "tagline": "Pay x402 from any chain, any token. Settle instantly in USDC on Base",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dvpjd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/A4NjltOjFjRZyb8YXal71KfwY9XtS3xCb8OzMJkWA6c/high.mp4",
+  "demo_url": "https://omni402.xyz",
+  "source_url": "https://github.com/omni402/omnitab",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "Utilize 1inch APIs",
+      "title": "Utilize 1inch APIs"
+    },
+    {
+      "sponsor": "LayerZero",
+      "sponsor_id": "dkzkp",
+      "placement": "1st place",
+      "title": "Best Omnichain Implementation"
+    }
+  ],
+  "finalist": true,
+  "description": "# omni402 - Description\n\nomni402 is a clearing layer between fragmented user liquidity and x402 USDC invoices. It solves a critical problem in web3 payments: users have tokens scattered across multiple chains, but merchants want to receive payments in a single, stable currency on one chain.\n\n## The Problem\n\nToday, if a merchant wants to accept crypto payments, they need to:\n- Support multiple chains and tokens\n- Handle volatile assets\n- Wait for slow cross-chain bridges\n- Manage complex treasury operations\n\nMeanwhile, users are forced to bridge tokens, swap to the right asset, and pay high gas fees—often abandoning the purchase entirely.\n\n## Our Solution\n\nomni402 makes this seamless:\n\n**For Users:** Pay with whatever you have—ARB, ETH, USDC on Arbitrum, or any supported token. No bridging required. One click and you're done.\n\n**For Merchants:** Sign up with email, get a CDP-managed wallet, and receive instant USDC settlements on Base. No crypto complexity, no seed phrases, just a dashboard showing your payment history.\n\n**For Developers:** Two lines of code to protect any API endpoint with x402 payments. Wrap your route handler with `requirePayment()` and you're monetizing.\n\n## How It Works\n\n1. User initiates payment on source chain (e.g., Arbitrum)\n2. EdgePayment contract swaps their token to USDC via 1inch Aqua\n3. LayerZero sends cross-chain message to Base\n4. OmniTabHub triggers instant settlement from the pool\n5. Merchant receives USDC immediately\n6. Confirmation travels back to update invoice status\n\nThe settlement pool provides instant liquidity so merchants don't wait for the cross-chain message—they get paid in seconds, not minutes.\n\n## Use Cases\n\n- **API Monetization:** Charge per-request for premium data, AI inference, or content\n- **Digital Goods:** One-time payments for downloads, licenses, or access\n- **Microtransactions:** Sub-dollar payments without credit card minimums\n- **Global Access:** Accept payments from users worldwide without payment processor restrictions\n\nomni402 turns any HTTP endpoint into a cross-chain monetizable resource, powered by the x402 protocol standard.\n",
+  "how_its_made": "# omni402 - How It's Made\n\n## Core Architecture\n\nomni402 is built on three main pillars: **LayerZero V2** for cross-chain messaging, **1inch Aqua** for token swaps, and **Coinbase Developer Platform** for merchant wallets.\n\n## Smart Contracts\n\n### EdgePayment (Arbitrum)\nExtends LayerZero's OApp for bidirectional messaging. When a user pays, it:\n1. Accepts any token and swaps to USDC via 1inch SwapVM\n2. Stores invoice as \"Pending\"\n3. Sends LayerZero message to Hub with payment details\n4. Receives settlement confirmation and marks invoice as \"Settled\"\n\n### OmniTabHub (Base)\nThe central coordinator that:\n1. Receives payment messages via `_lzReceive`\n2. Uses `lzCompose` for atomic settlement + confirmation\n3. Calls SettlementPool to transfer USDC to merchant\n4. Sends confirmation back to EdgePayment\n\n### SettlementPool (Base)\nShare-based liquidity pool that enables instant settlements. LPs deposit USDC and earn fees from payments. The pool ensures merchants get paid immediately without waiting for cross-chain finality.\n\n## LayerZero V2 Integration\n\nWe use the full OApp pattern with both `OAppSender` and `OAppReceiver` for round-trip messaging. The executor options include both `lzReceive` gas (200k) and `lzCompose` gas (150k) to handle the settlement composition pattern.\n\nThe hacky part: we use `sendCompose` to trigger a self-compose, which allows atomic execution of settlement + return message in a single transaction. This ensures the merchant gets paid and the confirmation gets sent in one atomic operation.\n\n## 1inch Aqua (SwapVM)\n\nInstead of routing through AMMs with slippage, we use 1inch Aqua's resolver network. The EdgePayment contract stores a pre-configured swap order (strategy hash), and resolvers fill the other side of the trade. This gives users better execution than typical DEX aggregation.\n\nThe taker traits `IS_EXACT_IN` and `USE_TRANSFER_FROM_AND_AQUA_PUSH` allow the router to pull tokens from our contract while resolvers push USDC output directly to us.\n\n## Coinbase Developer Platform\n\nMerchants authenticate with email via CDP Auth and get an embedded wallet automatically. No seed phrases, no MetaMask—just email login. We use `@coinbase/cdp-hooks` for React integration:\n- `useCoinbaseAuth` for authentication state\n- `useFundWallet` for onramp\n- `useWalletBalance` to display USDC balance\n\n## SDK Architecture\n\nThe TypeScript SDK provides:\n- **Server:** `requirePayment()` wrapper for Next.js route handlers\n- **Client:** `Omni402Provider` context and `useOmni402` hook\n- **PaymentModal:** React component for the payment flow UI\n\nThe client intercepts 402 responses, shows the payment modal, and retries with `X-PAYMENT` header containing the transaction hash.\n\n## Facilitator Service\n\nExpress.js service with Prisma/PostgreSQL that:\n- Verifies payment transactions by reading EdgePayment events\n- Stores payment records with status tracking\n- Listens to Hub's `PaymentSettled` events to update status\n- Provides payment history API for merchant dashboard\n\n## Stack Summary\n\n- **Chains:** Arbitrum (edge), Base (hub)\n- **Messaging:** LayerZero V2 OApp\n- **Swaps:** 1inch Aqua/SwapVM\n- **Wallets:** Coinbase Developer Platform\n- **Frontend:** Next.js 15, TailwindCSS\n- **Backend:** Express.js, Prisma, PostgreSQL\n- **Contracts:** Solidity, Hardhat, OpenZeppelin\n\nBuilt for ETHGlobal Buenos Aires 2025.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/omni402-dvpjd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

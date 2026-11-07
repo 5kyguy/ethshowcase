@@ -1,0 +1,27 @@
+{
+  "id": "wdb8n",
+  "slug": "insync",
+  "title": "InSync",
+  "tagline": "Trustless physical exchange- Lock payment on-chain before meeting; release in person",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wdb8n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SeQdLn00KQhPZnGEBQmhzfHOyh02TPsX63jOXVT9o01SSo/high.mp4",
+  "demo_url": "https://drive.google.com/file/d/13cg1u7gyYauVPWA_WJxYsl5eVxiWKA7J/view?usp=sharing",
+  "source_url": "https://github.com/cryptomachia/insync",
+  "finalist": false,
+  "description": "inSync makes buying and selling rom a stranger on Facebook Marketplace or Craigslist safe for both sides.inSync makes exchanging physical things with strangers on Marketplace or Craigslist actually reliable by requiring both parties to financially commit to the meetup, preventing no-shows, ghosting, fake buyers, last-minute changes, and wasted time.\n\nNo more:\nNo-show for time wasted travelling: \"Sorry, something came up.\"\nFake buyer: \"I'm definitely coming\" (never shows).\nLast-minute price increase: \"Actually, I need $50 more.\"\nSeller sells to someone else: \"Someone offered me more.\"\nMeeting at wrong place/time: \"Wait, I thought we were meeting tomorrow.\"\n\ninSync removes the trust problem for real world physical assets. A seller lists an item (photo, price, meeting spot + time, contact, notes) and shares a link or QR. The buyer browses or opens the link and locks the full payment — item price plus a small refundable deposit — into a smart-contract escrow before anyone travels. The seller verifies on-chain that real funds are waiting, so nobody wastes a trip. The app then helps them meet: a map of the spot, a Calendly-style proposed time, two-way live-location sharing, tap-to-call, and an in-app \"propose a new spot/time.\" At the handoff the buyer inspects the item and scans the seller's one-time QR to release payment. Settlement is instant and final — no bank, no chargebacks, no counterfeit cash. A live status timeline and a printable receipt (with on-chain proof links) close the loop.\n\nIt is dispute-free by construction. Every outcome is a deterministic on-chain rule or a mutual in-person signature — never a judge, jury, or support desk. The item price is always refundable until the buyer confirms; the deposit is only forfeited if the buyer flakes after the seller has checked in, and if the seller never shows, the buyer gets everything back. A Chainlink keeper auto-refunds any expired deal.\nTech behind it:\n- Dynamic SDK (@dynamic-labs) — embedded wallets / email auth\n- Blink (@swype-org/deposit) — one-tap USDC deposit + merchant signer (ECDSA P-256)\n- Chainlink CRE — auto-reclaim keeper workflow\n- Chainlink Data Streams — signed price reports for volatile-token release\n- qrcode + html5-qrcode — in-person QR release handshake + listing-share QR\n- Google Maps embed + browser Geolocation API — meetup / live location\n- Playwright — end-to-end browser tests on live testnet\n- USDC (test MockERC20 with public mint) — settlement token + faucet",
+  "how_its_made": "inSync is a TypeScript/Solidity monorepo. The core is an Escrow.sol state machine on Base Sepolia (Foundry, 76 passing tests) that holds USDC and moves it only on a buyer's in-person confirmation or a deterministic refund rule; a companion Reputation.sol can tally outcomes. The frontend is Next.js 14 (App Router) + Tailwind, talking to the chain via viem. A Fastify + SQLite (better-sqlite3) backend indexes contract events (chunked eth_getLogs backfill from the deploy block so public RPCs work) and stores off-chain meet data — photos, location, proposed time, contacts, lifecycle events — keyed by on-chain listingId/dealId.\n\nNotable details: the in-person release is a QR handshake (qrcode + html5-qrcode) with a one-time nonce so the seller proves presence without a server; Google Maps is embedded keylessly (maps.google.com ...&output=embed) plus the browser Geolocation API for live location; a test-USDC faucet (the pay token is a public-mint MockERC20) auto-tops-up fresh wallets so funding \"just works\"; the whole happy path is proven by a Playwright e2e against live Base Sepolia and a 20/20 on-chain script e2e covering every cancel branch\n\n- Dynamic provides email-based embedded wallets, so a non-crypto user signs in with\n  an email and gets a wallet with no seed phrase. We run connect-only mode (no\n  extra login signature) and register Base Sepolia via the evmNetworks override.\n- Blink powers an optional one-tap USDC funding path via its hosted deposit + a\n  server-side merchant signer endpoint (ECDSA P-256).\n- Chainlink does two jobs: a CRE keeper workflow calls reclaimExpired() to\n  trustlessly auto-refund a buyer when a deal's window lapses; Chainlink Data\n  Streams price-locks volatile-token payments so the seller is paid the exact\n  USD-denominated price and surplus returns to the buyer.",
+  "auto_summary": "A monorepo for in-person marketplace escrow using smart contracts, email wallets, optional deposit funding, and automated expiry handling.",
+  "scores": {
+    "originality": 8,
+    "practicality": 9,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/insync-wdb8n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

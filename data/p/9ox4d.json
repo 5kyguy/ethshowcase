@@ -1,0 +1,29 @@
+{
+  "id": "9ox4d",
+  "slug": "mev-shield",
+  "title": "MEV Shield",
+  "tagline": "Autonomous Execution Firewall that predicts and prevents sandwich attacks on swaps.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9ox4d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3lAX7xFYPCr57EWo4Uzx7QQlif4V501TmZ01qFeoCMmmo/high.mp4",
+  "source_url": "https://github.com/CodeMongerrr/MEV-Shield",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "MEV Shield is an intelligent execution layer that protects users from sandwich attacks by sitting between swap intent and on-chain settlement.\n\nIt mirrors live chain state to simulate adversarial MEV strategies using real AMM mechanics, estimating how profitable an attack would be before a transaction is ever sent. Instead of executing a single large trade, the system splits orders into carefully sized chunks and routes them across Ethereum, Arbitrum, and Base, ensuring each portion is too small to be worth attacking after gas costs.\n\nA real-time optimizer balances MEV risk, gas prices, and cross-chain routing costs to determine the most efficient execution path. If any portion of a trade remains unsafe, MEV Shield routes it through private order flow via Flashbots Protect to avoid public mempool exposure.\n\nThe result is a smart order routing system that transforms MEV from a hidden threat into a controllable execution parameter.",
+  "how_its_made": "MEV Shield is built as a simulation first execution engine. A backend service continuously mirrors live state from Ethereum, Arbitrum, and Base using archive RPCs and local state forking. When a user submits a swap intent, we spin up an ephemeral fork and run adversarial simulations that model sandwich attackers using constant product AMM math and profit maximization logic. This lets us estimate how extractable the trade is before it ever touches a public mempool.\n\nThe execution engine then runs a chunking optimizer that searches multiple order split configurations. Each candidate route is scored using a cost model that combines simulated MEV loss, real time gas oracles per chain, and bridge routing fees. We built a lightweight solver to keep this search fast enough for near real time UX.\n\nRouting is handled through smart contract executors deployed on each chain, coordinated by an offchain controller that sequences chunks and tracks fill state. For high risk fragments, we integrate private order flow through Flashbots Protect to bypass public mempools.\n\nOne hacky but effective trick was caching pool reserves and precomputing price impact curves so simulations run in milliseconds instead of seconds. The result is a system that treats MEV like a quantifiable execution cost and optimizes around it in real time.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mev-shield-9ox4d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

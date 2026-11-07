@@ -1,0 +1,30 @@
+{
+  "id": "tjdwg",
+  "slug": "streamit",
+  "title": "StreamIt",
+  "tagline": "StreamIt is a full-stack Web3 live streaming platform that rewards creators instantly",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tjdwg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EfLvqKwBesNqJl69aA5qa00GjtaeZa9mXUpx029f5Vclw/high.mp4",
+  "demo_url": "https://streamit-theta.vercel.app/",
+  "source_url": "https://github.com/snehasharma76/EthGlobalBAEVVM",
+  "prizes": [
+    {
+      "sponsor": "EVVM",
+      "sponsor_id": "gatm1",
+      "placement": "Feedback on EVVM or MATE Metaprotocol",
+      "title": "Feedback on EVVM or MATE Metaprotocol"
+    }
+  ],
+  "finalist": false,
+  "description": "StreamIt amplifies content creation by enabling creators to stream live and receive instant crypto tips from their audience, all powered by blockchain technology with gasless transactions and autonomous agents.StreamIt leverages EVVM blockchain to provide:\n- ✅ Instant Tips- Viewers tip creators directly with crypto\n- ✅ Zero Platform Fees - Only 2.5% fee (vs 30-50% on Web2)\n- ✅ True Ownership- Creators control their content and wallet\n- ✅ Gasless Transactions - EVVM's async nonces enable parallel tipping\n- ✅ Autonomous Agents - x402 agents monitor and distribute rewards automatically",
+  "how_its_made": "We built StreamIt using React 19 + Vite for lightning-fast development, with TailwindCSS for a modern, responsive UI. The frontend integrates ethers.js v6 for blockchain interactions, connecting seamlessly to our custom smart contracts deployed on Sepolia testnet.The real innovation lies in our EVVM integration. Traditional blockchains force sequential nonce ordering—if you send transaction #5 before #4 confirms, it fails. This creates terrible UX for tipping scenarios where multiple viewers want to tip simultaneously. We solved this using EVVM's AsyncNonceManager contract with bitmap-based nonce tracking. Each user gets 256 parallel nonce slots, enabling truly concurrent transactions. When a viewer tips, we generate an EIP-191 signature with an async nonce, allowing instant parallel tipping without waiting for sequential confirmation.\n\nSmart Contract Innovation:\n\nOur StreamTipping contract (0x49C31b473C3EfBe8F5384eB7b77C257A961C8Fc8) implements a dual payment system. Creators register on-chain, and viewers can tip via traditional ETH or gasless EVVM MATE tokens. We integrated the Executor pattern for batched operations, reducing gas costs by up to 40%. The platform takes only 2.5% fees (vs 30-50% on Web2 platforms), with tips sent directly to creator wallets.\n\nMATE Metaprotocol Integration:\n\nWe integrated three MATE services:\n\nName Service (0x7F41487e77D092BA53c980171C4ebc71d68DC5AE) - Users register @usernames instead of showing 0x addresses\nStaking (0x0fb1aD66636411bB50a33458a8De6507D9b270E8) - Creators stake MATE for rewards\nEVVM Core (0x5c66EB3CAAD38851C9c6291D77510b0Eaa8B3c84) - Gasless transaction execution\nx402 Autonomous Agents - The Hacky Part:\n\nHere's where it gets interesting. We built three autonomous x402 agents that run 24/7 monitoring the blockchain:\n\nTipMonitorAgent: Listens to TipSent events, tracks creator performance, and generates notifications for large tips (>0.1 ETH). It maintains an in-memory analytics database.\nRewardDistributionAgent: Automatically identifies stakers and distributes rewards proportionally every 5 minutes.\nNameServiceAgent: Caches MATE username registrations to avoid repeated RPC calls, reducing API costs by 80%.\nThe hacky part? We use Node.js event emitters with custom retry logic and exponential backoff. If the RPC fails, agents automatically switch to backup providers. They're completely autonomous—no human intervention needed.\n\nLive Streaming Integration:\n\nWe integrated ZegoCloud for HD live streaming. The clever bit: we pass the creator's wallet address as metadata in the ZegoCloud room configuration, so when viewers join, they automatically see the tip button with the correct recipient address. No centralized database needed—everything is derived from blockchain state.\n\nThe Dual Tipping Flow:\n\nETH Tipping: Standard MetaMask transaction to StreamTipping contract\nEVVM Tipping: User signs EIP-191 message → Agent submits to EVVM Core → Gasless execution → Creator receives MATE\nWe built custom React hooks (\nuseEVVM\n, useStreamTipping, useMATEServices) that gracefully handle both flows and fall back if EVVM services are unavailable.\n\nNotable Hacks:\n\nAsync Nonce Generation: We use keccak256(abi.encodePacked(user, token, timestamp)) to generate deterministic but unique nonces, preventing collisions.\nError Handling: EVVM contracts revert if users haven't funded their MATE balance. We wrapped all contract calls in try-catch blocks that return zero values instead of crashing, then show friendly \"Get MATE tokens\" messages.\nLeaderboard Without Subgraph: Instead of deploying a subgraph, our TipMonitorAgent maintains a sorted in-memory leaderboard by listening to events and updating rankings in real-time.\nUsername Caching: NameServiceAgent caches all username registrations and serves them via a local API, reducing blockchain reads by 90%.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/streamit-tjdwg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

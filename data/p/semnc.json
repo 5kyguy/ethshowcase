@@ -1,0 +1,48 @@
+{
+  "id": "semnc",
+  "slug": "signcast",
+  "title": "SignCast",
+  "tagline": "SignCast is a trustless Web3 content delivery platform for users to share paid exclusive content to their subscribers.",
+  "event": {
+    "slug": "ethonline2024",
+    "name": "ETHOnline 2024",
+    "start_time": "2024-08-23T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/semnc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rXZBf4OoF4UxUBojXnS4YaMM4EJZrJBmZJkyO01VQhi00/high.mp4",
+  "demo_url": "https://signcast.ngrok.io/",
+  "source_url": "https://github.com/EthGlobal2024SafeDocs/SafeDocs",
+  "prizes": [
+    {
+      "sponsor": "Tableland",
+      "sponsor_id": "eov0f",
+      "placement": "1st place",
+      "title": "Best use of Basin (object storage)"
+    },
+    {
+      "sponsor": "Sign Protocol",
+      "sponsor_id": "qdgjh",
+      "placement": "Sign Everything Pool Prize",
+      "title": "Sign Everything Pool Prize"
+    },
+    {
+      "sponsor": "Sign Protocol",
+      "sponsor_id": "qdgjh",
+      "placement": "Best Technical Integration of Schema Hooks",
+      "title": "Best Technical Integration of Schema Hooks"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2024 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Overview\nHello! This is SignCast. It is a content delivery system that uses decentralized technologies to offer secure, private, and exclusive access to digital content.\n\nWe use:\n\nSign Protocol attestations to control access to content\nBasin S3 for secure content storage\nProxy re-encryption to ensure that content is delivered securely, without compromising user control or privacy.\nReact for the front-end interface\nNode.js for the back-end server\nSignCast is a way for users to share timed access to their files privately and securely. This is especially useful for:\n\nsharing exclusive content for monthly subscriptions\nsharing official id to government authorities\nsharing timed access to documents\nloaning ebooks\n\nA Typical SignCast Share Scenario\nAlice wants to share her exclusive masterclass tutorial with Bob for a month.\n\nStorage\nOn her device, Alice encrypts the video and uploads it to SignCast\nSignCast generates a document id for the file and stores it in the database\nAlice uploads her encrypted video to SignCast\n\nIssue\nBob gives Alice his email to request access to the masterclass.\nAlice asks the server to resolve the email to a public key.\nAlice uses the public key and her own private key to create a new transformation key.\nAlice passes the document id, the transformation key, and Bob's email to the server to create an attestation on the chain.\n\nAccess\nWhenever Bob wants to fetch the document, Bob retrieves the attestation from the chain\nBob presents the attestation as an access pass to the SignCast server for verification\nThe server validates Bob's access and fetches the encrypted content from IPFS through Basin S3\nThe server re-encrypts the content with Bob's public key and delivers it to Bob\nBob decrypts the content using his private key on his device and enjoys the masterclass\n\nFeatures\nDecentralized Access Control:\nUses Sign Protocol attestations as passes to securely access exclusive content.\nEncrypted Content Storage:\nStore encrypted files securely using Basin S3, ensuring no unauthorized consumption.\nZero-Knowledge Server Operations:\nOur servers never handle unencrypted data or know the contents of your documents.\nProxy Re-Encryption:\nSecurely re-encrypt content for delivery, ensuring it can only be decrypted by the intended recipient.\nClient-Side Security:\nAll encryption and decryption operations are performed on the user's device, guaranteeing privacy.\n",
+  "how_its_made": "The Problem\nTypical access control requires a lot of overhead to set up. This involves:\n- granting access\n- encryption\n- delivery\n\nManaging temporary access to your files while sharing with multiple people presents a big challenge when you try to scale.\n\nRedundant files are created even if they're never accessed\nManual process to encrypt and share files\nReplay attacks are possible for simple access control systems\n\n---\n\nTrustless Time-Based Access Control\nTo solve for these issues, we've created a trustless time-based access control system.\n\nFiles are encrypted on device and sent to our servers for storage\nSharers create a time-based access control passes to share their files with others\nConsumers present their passes to access the content\n\n---\n\nSystem Architecture\n\nAttestation-Based Access Control\nSignCast uses Sign Protocol's attestations as passes to control access to content. Here’s how it works:\n\nIssue Access passes:\nContent owners issue unique attestations to consumers, granting them access to specific content for a predetermined time.\nPass Verification: -Consumers present their attestation to SignCast's servers. The server verifies the pass by checking ownership and expiry details, ensuring that only authorized users can access the content.\n\nContent Storage and Security with Basin S3\nEncrypted Storage:\nAll files are encrypted by the content creator and stored securely using Basin S3. Content Identifiers (CIDs) are stored in a secure directory on SignCast’s servers, preventing unauthorized access.\n\nSecure Directory Management:\nCIDs are protected on the server side, adding an extra layer of security and ensuring that content can only be retrieved with a valid attestation. The CIDs are not stored on the attestation itself since attestations are public. Doing so would expose the content to unauthorized access.\n\nProxy Re-Encryption for Secure Content Delivery\nNo Plain Text Handling:\nContent is uploaded to SignCast fully encrypted by the creator, ensuring that our servers never see plain text files.\nTransformation Key Integration:\nA transformation key, tailored to the consumer’s public key, is included in the attestation, allowing the server to re-encrypt content specifically for the consumer.\n\nRe-Encryption Process:\nUpon receiving a valid attestation, the server re-encrypts the content and delivers it to the consumer, who can decrypt it using their private key.\n\nClient-Side Encryption and Decryption\nCustom Wallet Creation:\nContent creators and consumers create custom wallets via the SignCast client app. These wallets securely store private keys used for encryption and decryption.\n\nOn-Device Security:\nAll encryption and decryption processes occur on the user's device, ensuring no sensitive data is transmitted over the network.\n\nSmart Contract Escrow\nSchema Hooks\nRelease subscription payments to content creators\nSafely manage subscriber's payments.\n\n---\n\nComponent Breakdown of SignCast\n\n1. Client Side Attestation Manager\nDescription: Manages the creation, issuance, and verification of attestations that serve as passes for content access.\nResponsibilities:\nGenerate unique transformation keys for the consumer to decrypt the content.\nDecides on the validity period for each data access pass.\nInterfaces:\nAccesses server's API endpoints for creating and issuing attestations.\nInterface for verification of attestations when consumers request content access.\nTechnologies Used:\nGenerates a secp256k1 key pair for new wallet creation.\nUses private key to encrypt content for secure storage via server API.\nProxy Re-encryption to generate transformation key\nDigital signatures to sign in\n\n2. Server Side Content Store and Retriever\n\nDescription: Handles the secure storage of encrypted content and manages retrieval operations when a valid attestation is presented.\nResponsibilities:\nStore encrypted files in Basin S3.\nMaintain a secure directory of Content Identifiers (CIDs).\nAssociate CIDs with user facing document ids.\nInterfaces:\nUploading encrypted content.\nRetrieving content based on document id.\nTechnologies Used:\nBasin S3 for decentralized storage.\nMongoDB for internal database.\n\n3. Proxy Re-Encryption Service\n\nDescription: Provides re-encryption services to transform encrypted content for specific consumers, enabling secure delivery.\nResponsibilities:\nFetch encrypted content from S3 and the transformation key from the attestation.\nRe-encrypt the content so that only the intended consumer can decrypt it.\nEnsure that the original content is never exposed in plain text during the process.\nTechnologies Used:\nProxy re-encryption library.\n\n4. Server Side Content Delivery and Access Control\n\nDescription: Manages the secure delivery of content to consumers based on valid attestations.\nResponsibilities:\nAct as a gatekeeper by verifying attestation validity before content delivery.\nEnsure content is delivered in its re-encrypted form, tailored to the consumer.\nInterfaces:\nAPI for consumers to request content access.\nIntegration with the proxy re-encryption service to securely re-encrypt and deliver content.\nTechnologies Used:\nNode and Express for API endpoints.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/signcast-semnc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

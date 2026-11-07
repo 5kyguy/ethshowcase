@@ -1,0 +1,21 @@
+{
+  "id": "h4q81",
+  "slug": "omnichainfheauction",
+  "title": "OmnichainFHEAuction",
+  "tagline": "Using fully-homomorphic encryption on Fhenix to implement second-price sealed bid auctions, and using LayerZero to allow bids from any chain, unifying liquidity: a global secret auction across all chains.",
+  "event": {
+    "slug": "sanfrancisco2024",
+    "name": "ETHGlobal San Francisco",
+    "start_time": "2024-10-18T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h4q81/banner/default.jpg",
+  "demo_url": "https://github.com/nathanhleung/ethglobal",
+  "source_url": "https://github.com/nathanhleung/ethglobal",
+  "finalist": false,
+  "description": "Auction creator creates an auction contract on Fhenix: The auction creator sets an auction start / end date, minimum bid, and code to run when the auction is won (e.g. automatically send an NFT). This code can be run cross-chain using LayerZero.\nUser visits our frontend, they want to bid on X Chain\nWe use Fhenix’s FHE frontend library to encrypt their bid.\nEncrypted bid is sent to our bid submission smart contract on X Chain.\nWe also ask the user to approve the bid submission smart contract as a spender for UINT256_MAX\nWe use LayerZero to send the encrypted bid to our auction smart contract on Fhenix.\nThe auction contract stores the encrypted bit and the chain from which the bid originated.\nSince it’s difficult to install on LayerZero on new chains, we’re actually sending via Sepolia (the base cain for the Fhenix L2)\nAt the end of the auction period, the contract uses FHE to compare all bids and determine which bid is the highest\nWe use LayerZero to send a message back to the chain from which the bid originated and transfer the assets from the winning bidder.\nIf the transfer is unsuccessful, LayerZero can send message back and Fhenix contract can move on to next highest bidder\n",
+  "how_its_made": "Frontend which can grab data from Fhenix to show auction status and can send data to X Chain to submit bids\nFigure out how encrypt data with the Fhenix JS SDK and send it as arbitrary bytes to another smart contract\n\nAuction smart contract on Fhenix\nFigure out how to compare different encrypted values on Fhenix\nhttps://github.com/FhenixProtocol/blind-auction-example \n\nBid submission contract on any L1 we want to support\nFigure out how to accept encrypted bytes\n\nLayerZero infrastructure to send data to and from other L1s and Fhenix\nFigure out how to send data between chains\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/omnichainfheauction-h4q81",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

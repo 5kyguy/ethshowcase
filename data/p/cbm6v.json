@@ -1,0 +1,29 @@
+{
+  "id": "cbm6v",
+  "slug": "dao-gamify",
+  "title": "DAO-Gamify",
+  "tagline": "Gamify DAO is a dApp to manage tasks for micro-participation and reward them using game mechanisms (XP and LVLs). Members can take tasks and submit proof of completion while admins can create tasks and verify completion.",
+  "event": {
+    "slug": "ethnewyork2022",
+    "name": "ETHNewYork 2022",
+    "start_time": "2022-06-24T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cbm6v/banner/default.jpg",
+  "demo_url": "https://gamify-dao.netlify.app",
+  "source_url": "https://github.com/StableUnit/gamify-dao",
+  "prizes": [
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🚀 Optimism — Just Deploy!",
+      "title": "Optimism"
+    }
+  ],
+  "finalist": false,
+  "description": "Our solution is named “Gamify DAO'' and as the name suggests it relies on game mechanisms such as experience points and levels. Gamify DAO is a dApp with two distinct user pages. The core team of a DAO has to whitelist some addresses as Admins who can create tasks, set deadlines for these tasks and  experience point rewards. The second type of users who are DAO members can then, on a different page, select the tasks they wish to do and submit proof of completion. Afterwards, Admins can either check if the task was done or if the user submitted a fake proof and refuse their entry. If a user submits fake proofs of completion three times, his wallet address will be banned. \nOur solution doesn’t rely on discord or telegram which are two popular group messaging tools used by DAOs. It is directly linked to the wallet address of the user and by rewarding them NFTs and ERC-20 tokens, the core team can give them privileges on the group messaging platform of their choice (E.g : Gated chatrooms for high level members). Hence, this is a platform agnostic solution for a platform agnostic problem. \nWe invited community to try it out, and got 400 voluters and 14k bots=) There's definitely potential there.\n",
+  "how_its_made": "Centralized backend on node-ts, with monga (trying tatum),that calcults the xp point and schedule the tasks, keep track of jobs.  front-end is react-ts + wallet connect (helps a lot on mobile devices and able to work with gnosis-safe) and chose l2/sidechain frameworks. there was lots of challenges, nothing worked from the first time, here some system details:\nImplementation\nminMVP\n1) web-page for DApp\nLanding page with information\nAdd task page (for admins)\nTasks information\nJob page\nVerification page\n\n2) Data formats\n- task: { // Ex. Like some fb post\nid, \ndescription: string, \nproof_format: json, \nreward: number, repeats: number, \nstatus: {active, completed, canceled}, \nonCompleteCall: url, \nminLevel: number\n}\n- job:{id, task_id, user_id, proof: json, status: {opened, pending, approved, denied}} // task of user\n- \n\n3) API for Gamefi DAO:\nGreen = can be used in frontend now\ncreateTask(name, description, xp, deadlineMs)\nReturns 200 or 503\ngetTasksToVerificate(userAddress)\n// proofs that should be returned are equal to completeTask proofs\nReturns { taskId, name, description, xp, proofs: Record<string, string> }[]\nconfirmTask(taskId, isConfirmed)\nReturns 200 or 503\ngetTasks()\nReturns {id, name, description, xp, deadlineMs}[]\ntakeTask(userAddress, taskId)\nReturns 200 or 503\ngetUserTasks(userAddress)\nReturns { id, name, description, xp, deadlineMs, proofs: string[] }[]\nсompleteTask(userAddress, taskId, proofs: Record<string, string>)\n// for example if proofs for task were ‘userName’ and ‘commentUrl’, so we will send { userName: ‘someuser’, ‘commentUrl’: ‘https://link-to-comment’ } \nReturns 200 or 503\nNeed to think about LVL and XP\n\nconfirm(event_id, isConfirmed, sender)\n  getTaskToProve(sender)\n\nSenders - regular & priviledged, banned (if > 3 wrong approvals) \nIf confirmed - mint X tokens to approvers\nIf not confirmed burn tokens from those who mistaken or ban if > 3 wrong\n\n4) smart-contract\nDAO_NFT (ipfs), \nvestingNFTmcap(chaink), \nlevel. levelUp(address)\naccessControl\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dao-gamify-cbm6v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "ryesm",
+  "slug": "trustless-gacha",
+  "title": "Trustless Gacha",
+  "tagline": "Provably fair trading-card gacha on Sui: random draws, Seal-sealed boxes, collateral-backed prizes",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ryesm/banner/default.jpg",
+  "demo_url": "https://trustless-oripa.pages.dev/",
+  "source_url": "https://github.com/shunm19/gacha",
+  "finalist": false,
+  "description": "Trustless Gacha is a trading-card gacha (\"oripa\") where nobody has to trust the operator.\n\nThe problem: in Japan's online oripa, an operator sells N draws from a fixed prize list, and buyers only see how many draws are left. Everything runs on the operator's word: whether the jackpots are really in the pool, whether hits were pulled or extra draws added before the \"last one\", who drew what, what the real return rate is, and whether a won card is ever shipped. On Sept 17, 2026, 38 buyers sued five of Japan's largest oripa operators over a false \"100% total return\" claim. Overseas on-chain gacha is growing fast, but users still trust the operator's pool contents and randomness keys.\n\nOur Blind Oripa keeps the Japanese format (you only see the draw count) and makes every step verifiable on Sui:\n- The prize lineup is public. Each box is committed on-chain (sha256) and its contents are Seal-encrypted. No function can change them, and the package is immutable.\n- Each draw picks a random remaining box with sui::random. There is no pre-shuffled order, so not even the operator can choose or predict the next box.\n- Only the ticket holder can decrypt their box, right after drawing.\n- When 3 draws are left (or the sale closes), anyone can decrypt every box and check that each box matches its commitment and each lineup card was in exactly once. This also removes the operator's information edge before the tail is sold.\n- Shipping is backed by operator collateral: if a card isn't shipped by the deadline, the winner is paid automatically, and a box left unrevealed pays the top prize.\n\nTry it: a live 100-box pool on Sui testnet, paid in Gacha Points (1 GP = ¥1, free to charge), plus a 6-box pool already in its public tail where you can verify everything.",
+  "how_its_made": "Move (Sui testnet) — one immutable package with three modules:\n- blind.move: the Blind Oripa. The pool stores the public lineup, a sha256 commitment per box (slot || prize || salt) and a Seal ciphertext per box. draw is a private entry function that takes &Random and swap_removes a random remaining slot id, so every outcome costs the same gas (no \"abort unless I win\" by gas budget) and no other module can wrap it. Redemption, shipping deadlines, collateral claims and a top-prize penalty for boxes left unrevealed use Balance escrow + Clock.\n- gacha_point.move: Gacha Point, a coin created through coin_registry (0 decimals, 1 GP = ¥1) with a shared PointBank so judges can charge for free. Pools are generic over the coin, so production could use JPYC or USDC.\n- pool.move: open (ichiban-kuji style) and batch-break modes, tested but not in the demo UI.\nThe package is published and made immutable in the same PTB (the UpgradeCap goes straight into package::make_immutable).\n\nSeal is the heart of it. Box identities are pool_id || slot. seal_approve_holder releases a key only if the caller owns that box's ticket object; seal_approve_public releases every key once the pool closes or 3 draws are left. The public policy checks the 32-byte pool-id prefix, so a fake pool can't unlock another pool's boxes. The seeding script commits and encrypts all 100 boxes against Mysten's testnet key-server committee, then loads them in chunked add_slots calls plus seal_slots in one PTB. The browser decrypts with a Seal session key (one wallet signature) and re-checks the commitment locally.\n\nFrontend: Vite + React + @mysten/dapp-kit v2 on the gRPC client. Objects and events are decoded from BCS instead of API-specific JSON. Hosted on Cloudflare Pages (Seal needs https for WebCrypto). 37 Move unit tests. Card prices and images come from our own SNKRDUNK dataset. Built with Claude Code; two slides drafted with Codex.",
+  "auto_summary": "A Sui-based gacha application uses Move contracts, a custom coin, escrow, randomness, and Seal-backed encrypted prize reveals.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/trustless-gacha-ryesm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

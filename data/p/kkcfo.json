@@ -1,0 +1,30 @@
+{
+  "id": "kkcfo",
+  "slug": "evm-porst",
+  "title": "EVM PORST",
+  "tagline": "The PORST signature scheme is a superior building block on the EVM than existing PQ implementations",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kkcfo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hQL5pJ01VIbKphKnocGKySLUzENb8oTfb28cVg8TaJl00/high.mp4",
+  "demo_url": "https://github.com/duncancmt/porst",
+  "source_url": "https://github.com/duncancmt/porst",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Cannes 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "This is an implementation of the PORST (from Gravity-SPHINCS) signing scheme implemented as an improvement to the HORS(T) signing scheme specified for SPHINCS (non-plus) https://eprint.iacr.org/2017/933.pdf . Witnesses sizes are smaller than HORS(T) and its standardized successor FORS (in SPHINCS+), resulting in less verifier work and also less gas charged for relaying the signature on-chain. We also provide prescriptions for several different settings combinations for integrators to build a more fully-featured wallet on top of this basic primitive (e.g. an XMSS). While a signature scheme like SPHINCS+ (standardized as SLH-DSA) provides strong security guarantees without the need for state synchronization between signer and verifier and state-ful schemes like WOTS+-XMSS require synchronization after every signature, the EVM is a setting where infrequent state synchronization is expected. I.e., when submitting a transaction, the signer must become aware of the current nonce of the account. Therefore, SLH-DSA pays a lot of complexity to obtain statelessness where it is not required. A scheme combining PORST few-time signatures with an XMSS for synchronization provides a better match for the setting while improving performance.",
+  "how_its_made": "This project is implemented in Solidity (mostly Yul assembly) using Foundry. AI assistance (both Codex 5.4 and Claude Opus 4.6) was used sparingly. There are no dependencies. It was implemented over the course of roughly 12 hours of hacking by a single contributor. The bulk of the complexity was introduced in the (successful) attempt to minimize the representation of the signature to *ONLY* the witness words that will be hashed to obtain the pubkey root. The ordering of the leaf preimages as well as the prescribed path through the Merkle octopus are efficiently computed on-chain, improving implementation rigidity, witness size, and verification gas costs. The final data structure(s) used to represent the octopus are not the most advanced, however due to the EVM memory cost model more advanced data structures (e.g. binary heap, skip list, explicit tree) were more costly.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/evm-porst-kkcfo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

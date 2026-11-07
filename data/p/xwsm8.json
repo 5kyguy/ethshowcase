@@ -1,0 +1,29 @@
+{
+  "id": "xwsm8",
+  "slug": "swapyoursuiiii",
+  "title": "SwapYourSuiiii",
+  "tagline": "Seamless cross-chain token atomic swaps between EVM and Sui using 1inch LOP and HTLCs",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xwsm8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZWL9bvFeLkpOK6BQ01G7JmEpEXcO6mAE9b1602uq2cKWs/high.mp4",
+  "source_url": "https://github.com/krishnan74/evm-sui",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "5th place",
+      "title": "Extend Fusion+ to Sui"
+    }
+  ],
+  "finalist": false,
+  "description": "This project enables secure, permissionless cross-chain token ( USDC ) swaps between EVM-based chain and the Sui blockchain using Hashed Timelock Contracts (HTLCs). It allows two parties on separate blockchains to swap assets without trusting a third party, using cryptographic hashlocks and time-based constraints.\n\nThe system consists of:\n\n1) 1inch official escrow contracts on base sepolia tesnet EVM to lock ERC-20 tokens with a hashlock and timelock.\n\n2) A corresponding HTLC Move module on the Sui testnet to lock SUI-based coins under the same conditions.\n\nRelayer/Off-chain Service:\n\n1) A relayer built with Next.js and Ethers/Sui SDKs monitors both chains, detects events (like SrcEscrowCreated or DstEscrowCreated ), and facilitates sharing of secrets for claiming or refunding actions .\n\nSwap Flow:\n\nOne party locks tokens on chain A with a hash of a secret.\n\nThe counterparty uses the same hash to lock tokens on chain B.\n\nWhen the initiator claims the tokens on chain B by revealing the preimage (secret), the counterparty can use that same preimage to claim on chain A.\n\nIf the trade is not completed within the timelock, either party can reclaim their locked assets.\n\nTestnet Simulation:\n\nFully implemented and tested on Sui testnet and Base Sepolia Testnet.\n\nIncludes a working  backend relayer to simulate swaps and verify correctness.\n\nThis project demonstrates how atomic swaps can work across fundamentally different blockchain architectures (EVM vs. Move) and provides a base for building more advanced cross-chain systems.",
+  "how_its_made": "This project was built by integrating both EVM and Sui smart contract ecosystems to enable atomic swaps via HTLCs (Hashed Timelock Contracts). Here's how it came together:\n\n🔧 Tech Stack\nSolidity: HTLC smart contract deployed on an EVM. Handles ERC-20 token locking, claiming, and refunds.\n\nMove (Sui): HTLC module deployed on Sui testnet. Handles Coin<T> deposits with similar hashlock/timelock logic.\n\nNext.js: Used for the frontend interface and to build the off-chain relayer service.\n\nTypeScript: For the relayer logic to listen to events on both chains.\n\nEthers.js: To interact with the EVM chain.\n\nSui SDK (TypeScript): For interacting with the Sui chain and reading on-chain objects.\n\nKeccak256 hashing: Used consistently to derive the same preimage hash on both sides.\n\n🧠 Design Notes\nHTLC logic had to be implemented independently on both chains due to the architectural differences (e.g., object-centric vs. account-centric models).\n\nThe Sui side does not have a native factory pattern like EVM; instead, each swap SRCand DEST escrows are represented by an object and directly transferred on-chain.\n\nUsed keccak256 on Sui to match keccak256 behavior from EVM for consistent hashlocks. The hash compatibility had to be manually verified.\n\nTimestamps had to be normalized—Sui uses Clock with millisecond precision, while EVM uses seconds.\n\n🤝 Partner Tech Used\nSui Testnet & Tooling: Sui CLI, SDK, and test tokens were crucial for deploying and interacting with Move modules.\n\nEthereum : Allowed testing the ERC-20 HTLC logic in an EVM-compatible environment.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/swapyoursuiiii-xwsm8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "0hjno",
+  "slug": "pm-amm",
+  "title": "pm amm",
+  "tagline": "Prediction markets resolved by Chainlink, monitored by a Graph agent, yield-backed via 1inch Aqua",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0hjno/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fxHN00Vim006iB6puITxcM00F5kHZZMHWVFPRlTA3s6EE00/high.mp4",
+  "source_url": "https://github.com/Abhijay05/prediction_market",
+  "finalist": false,
+  "description": "PM-AMM is a decentralized prediction market protocol using a Gaussian-CDF pricing curve from Paradigm's research. Anyone can create a YES/NO market, trade shares priced by the AMM in real time, and redeem winnings once it resolves. Originally built May-June 2026 with a full indexing, charting, and telemetry stack, this event added three integrations that each close a real gap rather than bolt on for eligibility: Chainlink Price Feeds now auto-resolve objective markets with zero admin involvement, and Chainlink VRF fixes what used to be a genuine dead end - disputing a market previously had no resolution path at all, and now a fair, unpredictable resolver gets picked from a registered panel instead. A subgraph on The Graph indexes the whole protocol and feeds a natural-language risk-monitoring agent that flags when the crowd's price disagrees with the real-world price, gated to only fire near a market's deadline so it's not just noise. A 1inch Aqua strategy lets idle, already-resolved collateral earn swap fees while sitting unclaimed, without ever leaving the protocol's own custody.\n",
+  "how_its_made": "Contracts are Solidity/Foundry: Router.sol is a factory routing trades to per-market LvrMarket.sol instances implementing the PM-AMM curve (Gaussian CDF math, using Solady's FixedPointMathLib for precision). For Chainlink, resolveWithChainlink() pulls AggregatorV3Interface.latestRoundData() directly on-chain to auto-resolve price-target markets, and a new DisputeResolverVRF contract requests Chainlink VRF v2.5 randomness on dispute, handing the final call to one address from a registered pool - the original dispute() function had literally no resolution mechanism before this. For The Graph, LvrMarket is a dynamically-instantiated data source template off Router's factory pattern, with ABIs exported straight from the Foundry build so they can't drift from the real contracts; a backend agent cross-references the subgraph's live AMM price against the Chainlink feed and calls Gemini for a natural-language risk briefing, gated to only fire within 6 hours of a market's deadline (an always-on version would falsely flag almost every market, since a rational AMM price correctly differs from the current spot price when there's still time left for it to move). 1inch Aqua has no testnet, so CollateralYieldStrategy.sol - a real AquaApp - is fork-tested against the actual deployed mainnet Aqua registry with real numbers (1,000 USDC in, ~0.4936 WETH out). It's deliberately not wired into the live redemption path: Aqua's non-custodial design means a market's collateral composition can shift the moment a taker swaps against it, and risking that in the same path a user might be redeeming from, under a hackathon deadline, wasn't a trade worth making. Frontend is React/wagmi/viem; backend is Express/Prisma/BullMQ on Neon Postgres with Redis pub/sub and Prometheus/Grafana telemetry.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pm-amm-0hjno",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

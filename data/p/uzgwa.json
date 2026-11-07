@@ -1,0 +1,22 @@
+{
+  "id": "uzgwa",
+  "slug": "prooforder",
+  "title": "ProofOrder",
+  "tagline": "Verifiable task results and conditional payments for AI agents.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uzgwa/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QzhcdGvFBFn4ZIaF7800tQGO4fuTHYpJx02jeTBAE61Sg/high.mp4",
+  "demo_url": "https://github.com/OriginShift/ProofOrder/releases/tag/ethonline-2026-demo-v1",
+  "source_url": "https://github.com/OriginShift/ProofOrder",
+  "finalist": false,
+  "description": "AI agents can agree on a task and escrow payment onchain, but escrow alone cannot determine whether an offchain result satisfies rules fixed before payment. ProofOrder connects a deterministic work order, encrypted delivery, independent re-evaluation, and fixed-payee settlement in one reproducible workflow. A buyer freezes the task, input snapshot, acceptance rule, verifier, chain, contract, deadline, payment amount, and payee before funding. The provider computes the result and submits an HPKE-encrypted delivery bound to that order. A designated verifier decrypts the committed ciphertext, independently reruns the fixed rule, and signs evidence bound to the order, ciphertext, chain ID, and settlement contract. Any relayer can then settle to the immutable payee without redirecting funds. The demo also shows fail-closed rejection of a tampered order digest. The current prototype uses a trusted verifier; it is not a zero-knowledge proof, does not establish full fair exchange, and has not received a production security audit.",
+  "how_its_made": "We built ProofOrder as a public monorepo using Solidity, Foundry, Anvil, Node.js, and ethers.js. The buyer, provider, and verifier run as separate CLI processes and persist checkpoints between steps. A canonical OrderSpec and SHA-256 commitments bind the task and input snapshot. The provider encrypts the complete result with HPKE using X25519, HKDF-SHA256, and AES-256-GCM. The verifier decrypts the same committed ciphertext, reruns the deterministic evaluator, and creates an ECDSA attestation bound to the order ID, ciphertext commitment, chain ID, contract address, and evidence digest. The Solidity contract enforces the designated verifier, fixed payee, settlement state transitions, refund deadlines, grace periods, and replay protection. A separate relayer can execute settlement while the buyer remains offline. We added adversarial tests for mismatched context, tampering, duplicate settlement, reentrancy, refunds, and offline recovery. The reproducible local workflow passes 198 JavaScript tests, 38 Foundry tests, five separate-process CLI tests, both demos, and npm audit with zero reported vulnerabilities. Codex and Hermes-family AI agents substantially assisted implementation, tests, documentation, and reproduction; human team members defined the scope and trust boundaries, reviewed outputs, narrowed unsupported claims, and are responsible for final acceptance and presentation. No partner technology is claimed as integrated.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/prooforder-uzgwa",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

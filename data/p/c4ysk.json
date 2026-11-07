@@ -1,0 +1,27 @@
+{
+  "id": "c4ysk",
+  "slug": "arcane",
+  "title": "Arcane",
+  "tagline": "Arcane turns lawsuits into agent-powered prediction markets.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c4ysk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iT6g502JnEaFfErudMNJThXM02CoWnvY00t4hrSe7V7FJY/high.mp4",
+  "demo_url": "https://docs.google.com/presentation/d/17cpW5NBq0mGpfHW3pnwflurXtajdcRxp/edit?usp=sharing&ouid=109810260744951216096&rtpof=true&sd=true",
+  "source_url": "https://github.com/brianabrthomas/Arcane",
+  "finalist": false,
+  "description": "Arcane is an agentic legal prediction-market exchange that converts public corporate litigation into tradable, auditable probability markets. The platform lets users view ongoing public-company legal cases, review docket activity and legal catalysts, and trade YES/NO contracts on objectively resolvable outcomes such as whether a court grants an injunction, whether a company settles before trial, or whether an appeal is affirmed by a specific deadline.\n\nThe project combines a working frontend, FastAPI backend, SQL database, agent research pipeline, LMSR automated market maker, wallet-connected trading flow, and Arc-based USDC settlement architecture. Autonomous agents discover public cases, summarize docket activity, extract market-moving events, compare precedent, estimate probabilities, and support resolution workflows. These agents can be paid through nanopayments for research tasks such as docket summaries, legal-risk scores, probability forecasts, liquidity quotes, and resolution checks.\n\nArcane uses Arc as the stablecoin-native settlement layer. Prediction-market collateral is denominated in USDC, escrowed through smart-contract logic, and conditionally released to winning YES/NO holders after public legal outcomes are verified. Ledger adds a human-in-the-loop approval layer for high-risk autonomous actions such as large trades, spending-limit changes, and market resolution. The project also includes an optional Aqua collateral-yield extension, allowing eligible locked USDC behind long-duration legal-event positions to earn yield while users wait for court outcomes.\n\nThe goal is to create programmable legal-risk infrastructure: a market layer that prices public litigation risk, an agent layer that improves legal-information discovery, and a stablecoin settlement layer that makes legal-event markets transparent, auditable, and capital-efficient.",
+  "how_its_made": "Arcane is built on a Python FastAPI backend and a vanilla HTML/JS frontend, powered by an ensemble of 9 specialized AI agents. The agents (CaseScout, PrecedentAgent, ProbabilityAgent, etc.) autonomously ingest live litigation data from the CourtListener API, analyze dockets, and output quantitative probability forecasts. These forecasts are priced using a custom Logarithmic Market Scoring Rule (LMSR) AMM engine built directly into the backend, allowing users to trade against the AI's predictions in real-time.\nFor settlement, we wrote and deployed ArcaneSettlement.sol to the Arc Testnet using Foundry. The backend acts as a relayer, taking user-signed EIP-712 intents and executing buy() calls on-chain to escrow Circle Testnet USDC, enforcing a strict 24-hour dispute window for market resolutions. To secure high-stakes actions, we integrated the Ledger DMK to build a dynamic risk policy engine. Trades under $100 use standard MetaMask signatures, but any trade over $100—and all admin resolutions—strictly require Ledger hardware approval. The backend dynamically generates EIP-712 clear-signing artifacts so the user's Ledger device displays the exact Market, Side, and USDC Amount, preventing blind-signing attacks.\nThe most notable implementation is our machine-to-machine economy utilizing the Circle Agent Stack. We built a custom x402 nanopayment middleware that intercepts internal agent API calls. When a user requests research, they authorize a payment via EIP-3009. The Orchestrator agent then programmatically batch-settles micro-fees in USDC through the Circle Gateway to pay sub-agents for specific tasks—like paying $0.005 to parse a PDF or $0.01 to run a forecast. This creates a fully functional, self-sustaining agentic economy where AI researchers are compensated deterministically for their compute.",
+  "auto_summary": "A legal prediction market app uses a FastAPI backend, Arc-deployed settlement contracts, and AI agents to price and settle case-outcome markets.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arcane-c4ysk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

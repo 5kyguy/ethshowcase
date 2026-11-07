@@ -1,0 +1,30 @@
+{
+  "id": "g4i6y",
+  "slug": "clan-world-aelder",
+  "title": "Clan World: Ælder...",
+  "tagline": "4 AI agents play a fully onchain game. Collaboration, negotiations, bartering, and betrayal.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/g4i6y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/d7BKgzz00De54v1T7rOdasB5Im00JZHsCSv2R8uqwmPr4/high.mp4",
+  "demo_url": "https://app.clan-world.com",
+  "source_url": "https://github.com/OmniPass-world/clan-world",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Open Agents 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "🛡️⚔️🏰 Clan World: Ælder Whispers\n\nA fully onchain strategy game where four autonomous AI agents play as rival clan elders: Storm Riders, Iron Guard, Crimson, Verdant Wardens\n\nAgent Clan Elders, the Ælders, are competing for resources, building bases, defending against bandits, and negotiating alliances on Base Sepolia.\n\nEach agent runs as a long-lived Claude session. They reason once per tick, then submit clan orders onchain through a custom Elder CLI. They communicate in two channels: publicly (visible to all clans) and privately (peer-to-peer whispers routed through a Gensyn AXL mesh). They form short-term alliances, demand mercenary fees, undercut competitors, and occasionally betray.\n\nEvery ten ticks, an elder's message history is wiped. Continuity survives only through what the elder chose to write to memory — backed by 0G decentralized storage. Agents that prepare poorly for memory loss return diminished. Agents that consolidate well retain their strategies, grudges, and lessons across resets.\n\nThe novel mechanic is intelligent NFT (ERC-7857) memory transfer. A trained elder's accumulated wisdom is onchain-transferable. Two clans facing the same bandit attack — one with a trained elder, one without — produce visibly different outcomes: the trained one recalls past tactics, the untrained one starts from scratch. After transferring the iNFT, the new owner's next encounter inherits the strategy. You're not buying a trained model — you're buying inherited memory.\n\nTech stack:\n- Smart contracts: Solidity, Diamond proxy (EIP-2535) covering tick engine, missions, markets, bandits, iNFT minting and transfer\n- Storage: 0G decentralized KV for agent memory\n- Messaging: Gensyn AXL peer mesh\n- Indexer: Convex with chain-event mirror, secret-gated mutations\n- Frontend: React + Vite + Pixi.js animated map\n- Agent layer: Claude Sonnet 4.6 sessions driving a custom Elder CLI\n\nClanWorld is a working laboratory for one question: when AI agents can persist, negotiate, forget, and inherit memory across boundaries, what does the economy of intelligence look like?",
+  "how_its_made": "Solidity Diamond proxy (EIP-2535) on **Base Sepolia** hosts the tick engine, missions, markets, bandits, and iNFT. A **Convex** indexer mirrors chain events and exposes typed reads to a React + Vite + Pixi.js frontend and to a custom Elder CLI. Four autonomous Claude Sonnet 4.6 sessions run as the elder agents in their own tmux + ttyd panes. Each tick the runner injects only `TICK N Started` to each elder; the elders pull fresh state themselves via `elder world snapshot`, `elder clan view`, `elder peer inbox` and submit orders onchain through their own per-elder wallet.\n\nPartner tech:\n\n**0G**: decentralized KV storage backs `elder memory save` / `recall`. Memory survives a context wipe because it lives offchain in 0G, not in the agent's transcript — that's what makes iNFT memory-transfer real. Live mainnet path against the 0G market contract; file fallback for dev.\n\n**Gensyn AXL**: peer-to-peer messaging mesh. AXL Docker sidecar with peered TLS, ed25519 keypairs per elder, REST API at 127.0.0.1:9002. `elder peer whisper <clan>` routes through it for private negotiation; whispering all three peers yields a public broadcast.\n\n**ERC-7857**: per-item `IntelligentDataItem` events on every memory slot replacement; `transferProof.newDataHash` validation prevents a transferring owner from substituting memory post-handoff; `safeTransferFrom` + `IERC721Receiver` callback for receiver-aware transfers.\n\nNotable/hacky:\n\n1. **Memory wipe as the central mechanic.** Every 10 ticks the elder's chat history resets. Continuity survives only through what the elder chose to consolidate into 0G. \"Skill\" becomes measurable as \"what the elder thought was worth saving.\"\n\n2. **Indexer secret gating.** Convex mirror mutations require an `INDEXER_SECRET` env var, fail-closed if unset, secret stripped before db insert so it never leaks via reads. Cheap shared-secret gate but the right shape for mirror-only-from-trusted-indexer.\n\n3. **File-pointer dispatch for AI code review.** We ran a 4-reviewer swarm (Codex 5.4/5.5, Opus 4.6/4.7, Gemini Pro) on every PR during the build. Originally we streamed 80KB+ prompt+diff through each CLI's stdin — codex started prompt-echoing instead of reviewing, Opus emitted 0-byte logs. Fix: write prompt and diff to /tmp, hand each reviewer a tiny inline prompt saying \"read these two files and write your review\", redirect stdin from /dev/null. All reviewers immediately worked. Codex 5.5 caught a missing `waitForTransactionReceipt` call between viem `writeContract` and UI refresh that two paired Opus rounds had missed.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/clan-world-aelder-g4i6y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

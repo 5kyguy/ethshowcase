@@ -1,0 +1,22 @@
+{
+  "id": "nk1zz",
+  "slug": "vigil",
+  "title": "Vigil",
+  "tagline": "Autonomous working capital & solvency surveillance OS for AI agents on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nk1zz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/k4b6DWmHiuB01vlkVNcRzJZvk5wRyOs1sDpyDPVj00hHg/high.mp4",
+  "demo_url": "https://vigil-web-pi.vercel.app",
+  "source_url": "https://github.com/NeelShah1505/Vigil",
+  "finalist": false,
+  "description": "AI agents can now pay for compute, data, and APIs on a per-request basis using protocols like x402. But there is a glaring blind spot in the agent economy: an agent that knows how to make a single payment does NOT know how to maintain ongoing financial solvency. When an autonomous agent is assigned a multi-step task and its token balance runs dry mid-flight, the entire workflow crashes with no recovery mechanism.\n\nVigil is an Autonomous Working Capital and Solvency Surveillance Operating System for AI agents, built natively on Hedera.\n\nOperating like an automated corporate treasury desk, Vigil continuously forecasts an agent's upcoming payment obligations, calculates a real-time Payment Coverage Ratio (PCR), and identifies liquidity deficits before failures happen. When a shortfall is detected, Vigil evaluates competing liquidity routes, autonomously executes two-leg swaps via liquidity providers (converting reserve HBAR into service tokens like FUSDC), and restores the agent’s solvency ratio back above 100%. \n\nOnce funded, the agent executes metered x402 micropayments with cryptographic proof of payment, while automatically queuing future recurring renewals via native on-chain schedules. Every single forecast, shortfall alert, route decision, and payment receipt is immutably anchored to the Hedera Consensus Service, giving humans and auditors a verifiable flight recorder of machine financial behavior.\n",
+  "how_its_made": "Vigil is built as a modular TypeScript monorepo powered by Turborepo, Next.js 14, Node.js, Express microservices, and the native @hashgraph/sdk. We deeply leveraged three native Hedera network primitives to eliminate third-party smart contract risk:\n\n1. Hedera Consensus Service (HCS): We created an immutable audit trail topic (0.0.10524552) where every financial transition—shortfall alerts, liquidity quotes, LP swaps, and HTTP 402 payment receipts—is sequenced with decentralized consensus timestamps. We also implemented an HCS-14-inspired identity registry (0.0.10524553) anchoring agent capabilities, public keys, and spending policy bounds.\n\n2. Hedera Token Service (HTS) & HIP-18 Custom Fees: We minted a fungible token (FUSDC, 0.0.10510032) configured with an on-chain Custom Fixed Fee. Instead of handling protocol fees in application code, Hedera's ledger automatically intercepts transfers and routes a 0.01 FUSDC surcharge directly to a dedicated Fee Collector account (0.0.10510030).\n\n3. Hedera Schedule Service (HSS): For recurring workflow continuity, Vigil uses ScheduleCreateTransaction to schedule forward payments (0.0.10524570) that execute autonomously at expiration without requiring human signatures.\n\n4. x402 Metering & Replay Protection: Our market intelligence service gates data behind HTTP 402 Payment Required. When the agent pays on Hedera, it passes a base64-encoded payment proof in the X-PAYMENT header. The merchant verifies the transaction ID directly against the Hedera Mirror Node REST API and validates freshness (<120s) with an in-memory nonce store to prevent double-spend replay attacks.\n\n5. Treasury Desk & VigilRouter LP: When PCR drops below 100%, the agent queries liquidity routes. If a DEX pool is absent on testnet, it falls back to VigilRouter LP (0.0.10510029) via a two-leg atomic flow: the agent transfers HBAR, the router verifies settlement on the mirror node, dispatches FUSDC, and flips PCR from 0% to 110%.\n\n6. Frontend & Telemetry: The UI is crafted in Next.js 14 with a warm Swiss-editorial aesthetic, polling the Hedera Mirror Node to stream live consensus events, and includes an interactive mission configurator allowing judges to dynamically test custom call volumes and reserve buffers.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/vigil-nk1zz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

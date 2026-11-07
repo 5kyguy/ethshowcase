@@ -1,0 +1,35 @@
+{
+  "id": "vvvaq",
+  "slug": "harness",
+  "title": "Harness",
+  "tagline": "Every AI agent gets a container with limits your Ledger sets and ssh to it by its ENS name.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vvvaq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IA02q4fm47IT36soLYVMpdGCRFohlzqwgwv5eiUtkZu00/high.mp4",
+  "demo_url": "https://harness-rcrm.onrender.com/",
+  "source_url": "https://github.com/LeoFranklin015/Harness",
+  "prizes": [
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "1st place",
+      "title": "AI Agents x Ledger"
+    }
+  ],
+  "finalist": true,
+  "description": "Harness gives every AI agent its own machine, its own name, and a spending limit it cannot go past.\n\nRight now, giving an agent money means giving it a key. Once it has the key, it can spend everything, and the only thing stopping it is the agent's own judgement. We think that is backwards.\n\nWith Harness you tap your Ledger once. That creates a container for the agent, mints it an ENS name like runner.acme.harness.eth, and writes a daily spending limit on chain. The agent gets a shell, tools, and whatever credentials you sealed for it.\n\nInside its limit the agent acts on its own, with no approvals and no waiting. Past that, a human has to sign. There is no server deciding any of this. The contract enforces it.\n\nThe name is real ENS, so you just ssh to it. No wallet, no plugin, no copied IP address. The same name that resolves for DNS is the one sshd checks your key against.\n\nRevoking is one transaction. The name stops resolving, the shell stops opening, and the money stops moving, all at once, because all three were reading the same record the whole time.",
+  "how_its_made": "Ledger Key Ring, on a machine with no USB port\n\nThe host is a VPS. There is no device attached to it and there never will be, so the ring has to be joined over the network without a key ever crossing it.\n\nThe host generates its own member keypair and keeps it. The browser opens a relay session and does nothing but forward bytes between the Ledger over WebHID and the ring flow running on the host. It never holds a key and never sees one. One confirmation on the device admits the host as a member of the tenant's ring.\n\nOnce that is done we write the trustchain and the member credentials into wallet-cli's state directory, so wallet-cli ring encrypt and ring decrypt work on the VM from then on with no device present. That is how the ring ends up usable directly inside the machine.\n\nWe use it to hold the agent's credentials. Model keys and service tokens are sealed under the tenant's ring and sit on disk as ciphertext. They are opened at container start, in memory, and only if the chain still says the agent is live. A revoked agent does not get them back the next time it starts. The agent never sees a private key at any point.\n\nThe fiddly part was the transport. LKRP's SDK speaks hw-transport-webhid and the Device Management Kit speaks its own, and only one of them can hold the HID handle at a time. So a session is something we open, use, and explicitly release, and the device is passed back and forth between the two as the flow moves from Ledger Sync to the Ethereum app. WebHID permission is per origin and per device and it persists, so the handover is invisible to the person holding the Ledger.\n\nThe Ledger signs a grant that says what the agent may spend and over what period. Inside that permission the agent acts on its own, whether that is an x402 call or any other transaction. Anything outside it is pushed back to the Ledger for the person to sign, so they stay in the loop for what they did not already allow. The registry enforces it by measuring the tenant's balance before and after the batch and reverting if the difference is over the allowance.\n\nPayments use EIP-3009 out of the tenant's account, the one the Ledger controls. We use @x402/express and @x402/core, so none of the payment code is ours and it works with any x402 seller.\n\nEIP-7702\n\nSetting up a machine needs four transactions. We batch them with 7702 so it is one confirmation on the device instead of four.\n\nENS\n\nWe deployed our own registry on the ENSv2 Sepolia contracts, using PermissionedRegistry and EnhancedAccessControl. Each tenant's registry roots its own subtree. harness.eth holds acme.harness.eth, and acme's registry holds runner.acme.harness.eth. EAC is what stops one tenant writing into another's subtree, and it is also why the agent cannot rewrite its own records, so it cannot change the key or the fingerprint it is admitted by. None of that is us checking it in application code.\n\nAgentResolver answers for those names. It resolves the machine's address, the agent's key, and the ssh host key fingerprint, computed from the grant when you ask rather than written in as separate records.\n\nBoth are fine to have in public. An ssh host key fingerprint is meant to be published, which is what GitHub does with theirs. The address is a Tailscale mesh address, so it only means anything to a device already in the tailnet.\n\nWe run a nameserver in front of it that answers .eth over DNS. That is what makes ssh runner.acme.harness.eth work with no wallet and no plugin. On the machine, sshd's AuthorizedKeysCommand asks ENS whether the key being offered is allowed in, and known_hosts comes from the same name.\n\nRevoking is one transaction. It unregisters the name, so resolution, ssh access and spending all stop together.",
+  "auto_summary": "A system for provisioning named AI-agent machines with onchain spending limits, ENS-based access, and Ledger-backed secret handling.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/harness-vvvaq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

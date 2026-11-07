@@ -1,0 +1,35 @@
+{
+  "id": "5mctm",
+  "slug": "liqu1tent",
+  "title": "liqu1tent",
+  "tagline": "liqu1tent allows users to swap cross-chain without significant latency based on an intent-based execution.",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5mctm/banner/default.jpg",
+  "demo_url": "https://www.figma.com/design/zukZPE61Y6TNd2fectm8Zd/1delta?node-id=7290-55277&t=2SeacAhwARpvFT5o-0",
+  "source_url": "https://github.com/1delta-DAO/liqu1tent",
+  "prizes": [
+    {
+      "sponsor": "LayerZero",
+      "sponsor_id": "dkzkp",
+      "placement": "2nd place",
+      "title": "Best Omnichain Implementation"
+    },
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Research and Experimentation"
+    }
+  ],
+  "finalist": true,
+  "description": "liqu1tent allows users to create orders (with specified sellAmount [using a token on the origin chain] and buyAmount [using a token on the destination chain]) on an origin chain and sign them to allow a set of solvers (professional swap operators that execute swaps on users behalf) to execute them on a different destination chain.\n\nFor EVMs e.g. it uses eth-sign to sign a hash of an order which is then broadcast to the solvers. Once  a solver decides to fill the order, they first lock the sellAmount on the origin chain by triggering the initiate-function on the origin-settlement contract.\n\nThey then can directly fill the order on the destination chain by triggering the settle function on the destination-settlement contract.\n\nThe contract will then\n1) Transfer the buyAmount from solver to user-defined recipient\n2) Broadcast a message (consisting of orderHash, fill status and solver-defined receiver) to the origin chain\n3) Once the message on the origin chain is received, the sellAmount is transferred  from origin-settlement contract to the solver-defined receiver.\n\nThe process makes the swaps nearly instant since a cross-chain messaging service (in our case Layer Zero) is only used after the user receives their buy amount on the destination chain.\n\nRisks such as block-building latency or finality are to be evaluated by solvers which can compete (e.g. fill quick to get a good quote and accept possible risks of block finality) and impact the end user experience only minimally.",
+  "how_its_made": "We deploy Settlement contracts (https://github.com/1delta-DAO/liqu1tent/blob/main/contracts/evm/contracts/Settlement.sol) on multiple chains.\n\nWe deployed the following ones as a demo on the given networks:\n[ChainId.MANTLE]: '0x1d051eeD29Df13E1A1d1546329E54036A57AEb77'\n[ChainId.POLYGON]: '0x1280Bdbe692fA1ae7b69B9356daD6Cc211cbEA41'\n\nThe Settlement contracts loosely follow the ERC-7683 standard that was introduced by Uniswap Labs.\n\nAs an example, we have a user (0x2D449a74a043e03fAF5C50171Eee640254B99e44) and a solver (0x45a000c10ae9ACd6dA466F650a2D80Cb38620117).\n\nThe user signed an order for a swap of 2 wMNT on Mantle against 1.5 wMATIC on Polygon that was picked up and validated (via ecrecover) at txn https://mantlescan.xyz/tx/0xa33d34c3f2b6c8f9b002bdb4ecbb91da70f212e3d0ff7b9a093e96f703123db6\n\nThe solver filled the order on the destination chain at txn https://polygonscan.com/tx/0x343d8efc36aec85df2242291c0c24d3a016e66d6bbc935b392dff6755b351aa8\n\nThis in return triggered the messaging service LayerZero V2 to broadcast the order-hash and fill status from Polygon to Mantle at https://layerzeroscan.com/tx/0x343d8efc36aec85df2242291c0c24d3a016e66d6bbc935b392dff6755b351aa8\n\nThe message triggered the lzReceive function on the Settlement contract on Mantle and unlocked the 2 wMNT to be received by the solver at txn https://explorer.mantle.xyz/tx/0x7e2f5a0a0b3fbcbdc3a4a4d7999e41504229c57d092e84b221c5e6ca76bb5bf7\n\nWe derived a few conclusions about ERC-7683:\n- The standard uses `address`  to refer to EOAs an tokens. Given that messaging services like layer zero support non EVMs like Solana, a generalization from `address`  to `bytes32`  would extend the compatibility to a larger set of chains (including Cosmos & Solana)\n- This also raises questions about how to potentially be more efficient with identifying chains (e.g. a compact bytesXX type would allow to include chains without numbered chainIds)\n\nWe also provided an example for an order database and solver in /backend.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/liqu1tent-5mctm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

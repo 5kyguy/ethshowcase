@@ -1,0 +1,30 @@
+{
+  "id": "j9t9a",
+  "slug": "floowdy",
+  "title": "FLOOWDY",
+  "tagline": "Flowdy provides the ability to stream or deposit into a contract and earn yield using aave using the collateral for credit delegation to pool members.",
+  "event": {
+    "slug": "ethonline2022",
+    "name": "ETHOnline 2022",
+    "start_time": "2022-09-02T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/j9t9a/banner/default.jpg",
+  "video_url": "https://stream.mux.com/njJVVIXvx01GbwJiGjXJkeGWUwHx800OmezOUBQ7crL8M/high.mp4",
+  "demo_url": "https://floowdy.web.app",
+  "source_url": "https://github.com/donoso-eth/floowdy",
+  "prizes": [
+    {
+      "sponsor": "Superfluid",
+      "sponsor_id": "x59d1",
+      "placement": "💸  Superfluid — Best DeFi Hack",
+      "title": "Superfluid"
+    }
+  ],
+  "finalist": false,
+  "description": "Floowdy helps web3 on the one hand being more robust and secure fostering the more utilisation of stable coins with help of Superfluid and aave staking, as well as using the collateral available in aave to foster credit delegation to pool members.\n\n## Pool\nThe pool accepts deposits or streams of Superfluid Supertoken and will after a threshold is met, recursively downgrade the  supertokens to erc-20 tokens and supply to the aave protocol.\n\nThe process is as follows:\n- User deposit or stream supertokens (We have created a supertoken for the usdc aave)\n- A gelato task watches the pool and when achieves a certain threshold (5 ethers formthe demo) will :\n    1) Downgrade the supertokens---> to underlying erc20\n    2) supply() to aave the underlying tokens\n\nEvery time a pool interaction happens the pool will maintain the indexes for allocation of the yield to the users. In every pool interaction the pool call atoken(asset).balanceOf(poll address) to gather the yield won so far.\n\n\n## Credit Delegation\nFloowdy will use the collateral to delegate to other pool members. \nEvery member can request a credit, the amount of the credit has two constraints, the available ave borrow-base and the member available balance n the pool.\nIn order to request a credit, the member is required to have a lens profile, so the pool members can have some insights into his reputation.\n\nThe Credit approval process has three phases.\n\n  Phase 1) 1 pool member checks in the full risk (50 of credit) we move to Phase4 waiting for approval, if not a member we move to Phase 1\n  Phase 2) 10 pool members check in for 1/10 of the risk we move to Phase4 waiting for approval, if not credit will be rejected\n  Phase 3) (not implemented)\n  Phase 4) The credit requester exeutes the credit --->\n          - The pool approves credit delegation to member\n          - the member borrows interacting directly from aave pool\n\nThe approval process is managed by the gelato network. After credit request, a gelato task will move from one phase to the other after a certain interval\n\n\n## Credit Repayment\n\nAs the credits traded between the members mimics IRL conditions, floowdy integrates a repayment strategy in installments. The credit will be repayed automatically in n-installments defined by request.\nThe repayment will be automated by Gelato, after the predined interval (one month/one day) ert Gelato will trigger:\n  - Transfer borrowed tokens from cedit-requester to the pool\n  - aave.repay() to the pool\nThe repayment task will executed with a try catch call ensuring that, if the repayment reverts, the credit will automatically be liquidated",
+  "how_its_made": "Floowdy has been developed using Angular and the library angular-web3 (still in development)\nIt uses PrimeNg as scss/component framework\n\nThere is a main contract  Floowdy.sol in solidity\n\nWe integrate a superfluid super app base for managing the streams and receiving the callbacks required to update the pool as well as we implement the tokens received(ERC777)  interface for reacting after a .send(tokens) \nWe also implement gelato for stopping the streams programmatically when the user wants to stream only a certain amount/time.\n\nWe use aave to stake and earn yield distributed among the members, we also use aave to delegate pool collateral credit power to members.\n\nWe query Lens Protocol to have insights of the pool participants.\n\nWe use the graph for storing our data and querying with appollo client in front end",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/floowdy-j9t9a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

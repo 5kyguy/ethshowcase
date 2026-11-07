@@ -1,0 +1,29 @@
+{
+  "id": "s0gf6",
+  "slug": "tickbit",
+  "title": "TickBit",
+  "tagline": "TickBit demonstrates the fastest Bitcoin block status verification via web proofs.",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s0gf6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Ptdseh9feM839rlMQlwD6OPt01X4lTPdGMboS2kE4sPI/high.mp4",
+  "source_url": "https://github.com/yash25198/TickBit",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Blockscout Explorer Big Pool Prize",
+      "title": "Blockscout Explorer Big Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "“Signed exchanges (SXG) allow Google Search to prefetch your content while preserving the user's privacy. In practice, this means that both AMP and non-AMP results shown on Google Search may prefetch a few key resources (such as HTML, JavaScript, CSS, images, or fonts) in a privacy-preserving manner, if the associated website supports SXG.” —Google\n\nWe used https://btc.cryptoid.info/btc/, a Bitcoin indexer, which have been operational for the last ten years. They have enabled SXG’s on their webpages recently to create attestation that a valid bitcoin block has been indexed by their systems and is available publicly to all their users.\nTickBit relies on relayers who can generate a proof of a valid response from the crypto.id servers.",
+  "how_its_made": "The idea is a user of Ticket can bet that a bitcoin block will be mined in an interval while relayers can generate proofs for the block’s validity to create a game where the closet bet to the timestamp hashed in the Bitcoin header is deemed the winner. Another user case provided the tooling generated for TickBit would be to enable cross chain transfer of Bitcoin to and from the supported chains.\n\nThe proof is generated to verify if the response from the indexer’s webpage contains a mined Bitcoin block hash. This is done via\n!. Verifying SXG signatures from the website off-chain\n2. Finding the integrity hash using MICE or mi-sha256\n   The hash function used for \"mi-sha256\" content encoding is SHA-256\n   [FIPS180-4].  The integrity proof for all records other than the last\n   is the hash of the concatenation of the record, the integrity proof\n   of all subsequent records, and a single octet with a value of 0x1:\n\n      proof(r[i]) = SHA-256(r[i] || proof(r[i+1]) || 0x1)\n\n   The integrity proof for the final record is the hash of the record\n   with a single octet with a value 0x0 appended:\n\n      proof(r[last]) = SHA-256(r[last] || 0x0)\n3. Generating a proof for following\n         1. Inclusion for integrity in the response data\n         2. Verification of secp256r1 signature from the server’s TLS certificate.\nThe circuits are built using precompiles and rust libraries provided by SP1 (by Succinct) \nZKP is used in TickBit as a means of verifiable compression for the webpage size is fairly big and expensive to perform an on-chain verification while a 160 bytes Groth16 proof provides cheap and constant time verification. Verification of additional parameters if needed per use case can be implemented as part the zk circuit eg. If the bets are required to be private (or) if the transaction (inputs (or) outputs) to be verified for inclusion in the Bitcoin block header must remain private.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tickbit-s0gf6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

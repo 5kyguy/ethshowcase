@@ -1,0 +1,41 @@
+{
+  "id": "prk3o",
+  "slug": "nyx",
+  "title": "Nyx",
+  "tagline": "Fully private perp DEX, allowing leverage trading with yield-earning RWA collateral. ",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/prk3o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NzHQqJftE16FyUKaoRGQ0002c02fNCcLbBl00qIUxXHORTE/high.mp4",
+  "demo_url": "https://nyx-dex.vercel.app/",
+  "source_url": "https://github.com/ybapat/ethny26",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Connect the World with Chainlink",
+      "title": "Connect the World with Chainlink"
+    },
+    {
+      "sponsor": "Canton Foundation",
+      "sponsor_id": "ddg6s",
+      "placement": "1st place",
+      "title": "TradFi, RWA & Tokenized Assets"
+    }
+  ],
+  "finalist": true,
+  "description": "2 main ideas, combined to shield traders from predatory public exploits while maximizing the earning power of their collateral.\n\n\nA fully private perp DEX:\nBuilt natively in Daml on the Canton Network, the DEX ensures sub-transaction privacy. This is done by using a private orderbook with peer-to-peer settlement. Only the venue can see the orderbook (to match orders), meaning no liquidation hunting, no front-running, no copy trading. Traders' positions, margins, and exposure are completely hidden from non-participants. Comes with all the perks of a regular perp DEX (including leverage), but without the con of broadcasting your activity for bad actors to take advantage of. \n\n\nMargin trading with yield-bearing RWA as collateral:\nYou can hold RWA’s like Gold or MMF’s as collateral when you trade with leverage on Nyx, earning yield as the asset appreciates, allowing traders on Nyx to have far greater capital efficiency. Chainlink data streams are used for our oracle for both RWA price and underlying asset price, and the oracle's signature is verified inside the Daml transaction, meaning marks, funding, and liquidations are anchored to real, signed prices, not a relayer we ask you to trust. Chainlink Proof-of-Reserve is also used to check that the collateral is actually backed before it's accepted.\n",
+  "how_its_made": "The very idea of building an entire perp DEX from scratch for a hackathon was a huge undertaking which led to many technical roadblocks and learnings. \n\nWe chose to build on top of Canton’s best-in-class technology for privacy, allowing a truly private perp dex. This meant implementing a DAML layer to our application with 5 core templates: Market, Order, MatchedPair, RWAToken, and OraclePrice plus PoRAttestation. Every position is stakeholder-scoped to the venue, traders, regulator, and a uninvolved observer. Settlement gives us atomic delivery-vs-payment on PnL and collateral return in a single transaction. This was deployed on-ledger in a Daml package called perp-dex-v2 deployed to the Seaport 5n DevNet validator. \n\nOur matching engine is a standalone C++ service that reads the resting order book and submits\nMatchOrders back to the gateway. We used C++ for performant, low-latency code, which is paramount in building critical financial infrastructure like a matching engine.\n\nFor our Chainlink Integration, we use Data Streams over both REST and WebSocket. We parse V3 reports for ETH/USD, validated against a real live report. Proof of Reserve is wired as a PoRAttestation template that asserts reserves >= issuedSupply before any RWA collateral is accepted. The Chainlink-on-Canton Verify choice is plumbed behind a PriceOracle interface so the mock and the verified path are a one-template swap. We chose to integrate with Chainlink because they provide low-latency price streams for all the assets we need, and furthermore their PoR allows us to ensure trust end to end.\n\nA fun technical challenge was, in ensuring our books would have liquidity at first, we had to write a market-making bot (represented as a party on Canton). This implementation was tricky, as we had to continually react to price movements in the underlying asset (ETH) and continually requote to ensure competitive prices. \n\nThe wallet we used generates an Ed25519 keypair in the browser, onboards an external party, signs the topology multiHash. The participant does not auto-sign anything for us. The M2M OIDC token does HTTP auth; the party's private key does transaction signing. Two different trust planes, kept separate on purpose.\n\nFrontend is React + Vite with an in-browser Ed25519 wallet built on canton-network/wallet-sdk. The backend is a TypeScript gateway running on node that owns OIDC auth, the periodic jobs, and the bridge from off-chain price feeds into on-ledger state. ",
+  "auto_summary": "A private perpetuals trading prototype uses Daml on Canton, a TypeScript gateway, a React frontend, and a C++ matching engine.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nyx-prk3o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

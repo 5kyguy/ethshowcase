@@ -1,0 +1,41 @@
+{
+  "id": "y1d3j",
+  "slug": "lortnoc-tahc",
+  "title": "Lortnoc Tahc",
+  "tagline": " Hide real messages inside ordinary Telegram chats. Everyone else sees small talk.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y1d3j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2koRTfGMfDiS2Vz01FMz4PJ6YXz8JTBxSDW9dKFQlzV4/high.mp4",
+  "demo_url": "https://www.lortnoctahc.com/",
+  "source_url": "https://github.com/forever8896/lortnoc_tahc",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "Best Infrastructure & Tooling on 0G",
+      "title": "Best Infrastructure & Tooling on 0G"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Lisbon 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Chat Control is the plan to scan every message before you send it. lortnoc_tahc is Chat Control spelled backwards, and it does the exact opposite.\n\nYou type what you mean in Telegram. The instant before it sends, the extension quietly swaps your words for small talk. \"I'm sending you the funds for the deal\" leaves your screen as \"let's grab coffee today, the sun is out.\" That harmless sentence is the only thing Telegram ever sees, ever stores, ever hands to anyone. On the other end, the same extension turns it back into your real message, right in place, for the one person meant to read it. Everyone else, every scanner, every server, sees a conversation about the weather.\n\nThere is nothing to flag. No blob of ciphertext, no lock icon, no hint that anything was hidden at all. The message is invisible because it reads exactly like talk.\n\nThe extension is how you get out. Lortnoc DM is where you land: a messenger that is actually yours. Your name is an ENS handle you own. Your history lives in a vault only your keys can open. The membership that pays for it can never be tied to the handle it bought, so paying never reveals who you talk to. One signature rebuilds every key on any device, so there is nothing to memorise and no account for anyone to seize.\n",
+  "how_its_made": "The hero is a Chrome MV3 extension (CRXJS, Vite, TypeScript) running a content script inside your own Telegram Web session. No bot, no MTProto, no stored session token, so there is zero ToS or ban risk. It only reads and writes the DOM. Your text is encrypted with AES-SIV (@noble/ciphers) entirely in the page, and the AES-SIV auth tag doubles as the stego detector: a valid tag means the bubble is ours and it decodes inline, an invalid tag means ordinary chatter and is left untouched. There is nothing to mark.\n\nKey exchange happens through Telegram itself. Each side encodes its ephemeral X25519 public key as cover text and sends it as a normal message, then both derive the same conversation key by ECDH. The symmetric key is never transmitted, only derived. No server, no wallet, no gas for the free tier.\n\nThe steganographic codec is a deterministic GPT-2 (HuggingFace transformers, CPU) driving an arithmetic and block coder, hosted on fly.io. Determinism plus full-vocabulary logprobs are exactly what reversible steganography needs, and exactly what hosted GPU inference cannot give you, which is why the model runs locally behind our own service.\n\nPartner tech does real work here, not decoration. 0G runs sealed best-of-N cover-text selection on its Compute network and hosts our anonymous-membership contract on 0G mainnet: paying is a Semaphore join() that inserts a nullifier commitment, and a Groth16 proof generated in the browser later severs the link between the payment and the handle. ENS v2 on Sepolia is the identity core, where every handle gets its own VerifiableFactory PermissionedResolver proxy with per-record write delegation via Enhanced Access Control, so you can grant a gateway the right to rotate one text record and nothing else, revocable in a single transaction. Sui, Walrus and Seal form the encrypted, Quilt-batched vault with an on-chain access policy. LI.FI bridges into 0G for a two-transaction onboarding. A stateless relayer carries the burned membership ticket from 0G to a Sepolia handle so the payer is never the claimer, which closes the fee-payer and timing-correlation leaks.\n\nEverything hangs off one wallet signature (deterministic under RFC 6979) fanned out through HKDF into every key: messaging, handle ownership, storage, per-conversation, and the Semaphore identity. The wallet you sign with is never the wallet that pays.\n\nThe notably hacky parts: smuggling X25519 public keys as cover text for a keyless, gasless handshake; reusing the AES-SIV tag as the is-this-ours oracle so the stego carries no marker; a single Semaphore nullifier that unlocks both your ENS handle and unlimited codec use, because the relayer that verifies your membership on-chain also mints the codec token; the paywall itself is a real HTTP 402 x402 payment resource; and the extension ships through CI-signed GitHub Releases with build provenance, so users can verify the build instead of trusting it.",
+  "auto_summary": "A browser extension and companion web app hide Telegram messages with steganographic cover text and add blockchain-based identity, membership, and encrypted storage.",
+  "scores": {
+    "originality": 9,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lortnoc-tahc-y1d3j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

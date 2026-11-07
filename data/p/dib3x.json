@@ -1,0 +1,22 @@
+{
+  "id": "dib3x",
+  "slug": "suilo",
+  "title": "SuiLo",
+  "tagline": "Suilo is a lending protocol on Sui that enables users to work with DEFI using DeepBook",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dib3x/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JLjT6R8iyF00VHm2eLm76YsHplcGXdLr02tro1oZDBJJ4/high.mp4",
+  "demo_url": "https://suilo.xyz/",
+  "source_url": "https://github.com/0xasuna/suilo",
+  "finalist": false,
+  "description": "Suilo is a comprehensive DeFi lending protocol built on Sui blockchain, designed to facilitate peer-to-peer lending and borrowing with robust risk management. The protocol operates through decentralized markets that pair debt tokens (like SUI) with collateral tokens, allowing flexible cross-asset lending.\nCore Architecture\nMulti-Module Design:\n- Vault Module - Generic storage wrapper for managing coin balances (liquidity pools and collateral reserves)\n- Interest Module - Sophisticated rate model using compounding indices to track debt growth over time\n- Loan Module - Central market orchestrator handling deposits, borrows, repayments, and liquidations\n- Admin Module - Capability-based system for creating and configuring markets\n- Liquidation Module - Standalone interface for liquidating under-collateralized positions\nKey Features\n1. Liquidity Provisioning\n- Users deposit SUI (or other debt tokens) into liquidity pools\n- Deposits earn passive interest as borrowers pay fees\n- Users can withdraw liquidity anytime, subject to availability\n2. Collateralized Borrowing\n- Users lock collateral tokens to borrow debt tokens\n- Loan-to-Value (LTV) limits prevent over-leverage\n- Example: 80% LTV means $100 collateral allows $80 borrowing\n- Multiple positions per user supported\n3. Compound Interest Accrual\n- Interest accrues continuously based on elapsed time\n- Borrow index converts between debt shares and actual debt\n- Interest rate configurable per market (basis points per year)\n- Formula: debt = shares * (index / 1_000_000_000)\n4. Liquidation Mechanism\n- Positions with debt exceeding LTV threshold are liquidatable\n- Liquidators repay debt and receive collateral + bonus\n- Liquidation bonus (e.g., 5%) incentivizes liquidators\n- Prevents protocol insolvency from collateral price drops\n5. Admin Capabilities\n- Markets created only with AdminCap (transferred to deployer)\n- Configurable parameters: LTV, liquidation bonus, interest rate\n- Upgrade capabilities for future protocol improvements\nTechnical Implementation\nSui-Specific Features:\n- Uses Sui's object model for state management\n- Share objects for immutable market configuration\n- Table structures for user position tracking\n- Clock integration for time-based interest accrual\n- Efficient coin operations using Balance<T>\nSafety Measures:\n- Assertions prevent invalid amounts, insufficient liquidity, and over-borrowing\n- Price oracle integration (external) for LTV calculations\n- Separation of concerns between modules for maintainability",
+  "how_its_made": "Phase 1: Core Structures\n- Defined Vault for coin management\n- Created RateModel for interest math\n- Established Market data structure\nPhase 2: Market Operations\n- Implemented deposit_liquidity and withdraw_liquidity\n- Built borrow with LTV enforcement\n- Added repay with share-burning logic\nPhase 3: Risk Management\n- Implemented liquidation with collateral seizure\n- Added liquidation bonus calculations\n- Created admin market creation\nPhase 4: Refinement\n- Added zero-value coin handling\n- Fixed type casting issues\n- Ensured proper resource cleanup\nCompilation & Deployment\nBuild Process:\nsui move build  # Compiles all modules\nDeployment:\nsui client publish --gas-budget 100000000\nResult:\n- Package: 0x7fefc406bba60b421482f1ca1c45c6d1a7c285000dc6352d3151844be8f0ce73\n- AdminCap: 0x92ef5a9c0b494fd83de6a21a30fe9fbb3a50f44e663760d725f26eced2e31185\n- Network: Sui Testnet",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/suilo-dib3x",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

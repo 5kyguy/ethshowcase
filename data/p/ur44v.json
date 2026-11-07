@@ -1,0 +1,22 @@
+{
+  "id": "ur44v",
+  "slug": "invoice-financer",
+  "title": "Invoice Financer",
+  "tagline": "Invoice financing for SMBs using accounts receivable (invoices) as loan collateral.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ur44v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zePuqoTJEV2W2Ax6xtKtIX74hAgFq2dayLecz9KB0102E/high.mp4",
+  "demo_url": "https://invoice-financer.vercel.app/",
+  "source_url": "https://github.com/Constantino/Invoice-Financer",
+  "finalist": false,
+  "description": "Invoice Financer brings real-world invoice financing on-chain. Borrowers submit invoices and complete KYB; admins approve and create ERC-4626 vaults. Lenders deposit USDC for vault shares; borrowers get funding and repay on-chain; lenders redeem for principal and yield. Built on Ethereum Sepolia with Foundry, Next.js, and Privy.",
+  "how_its_made": "Architecture\nThe project is split into three layers: smart contracts (source of truth and money flows), a backend API (orchestration and persistence), and a web app (user flows and wallet interactions). The frontend talks to the API for all data and business logic; both the app and the API talk to the chain when deploying vaults, moving USDC, or reading state.\nContracts (Foundry + Solidity)\nWe use OpenZeppelin’s ERC-4626 for each invoice vault so lending is standard-compliant and composable. A VaultFactory (owner-only) deploys one Vault per approved invoice with fixed params (borrower, max capacity, maturity). Vaults move through states: FUNDING → ACTIVE (funds released to borrower) → REPAID (lenders can redeem). We added InvoiceNFT (ERC-721) for on-chain provenance of approved invoices and a Treasury for protocol-side handling. MockUSDC on Sepolia is used for testing. All contracts are written in Solidity, tested and deployed with Foundry; ABIs are generated and copied into the API and web app so both stay in sync with the same interfaces.\nBackend (Node + Express + TypeScript)\nThe API is a REST service that owns the “off-chain” workflow: KYB records, loan requests, approval state, and mapping of loan requests to vault addresses. It uses PostgreSQL (we support both a local DB and Supabase via DATABASE_CONNECTION_STRING) and runs SQL migrations for schema. When an admin approves a loan, the API uses ethers.js and a server-side signer to call VaultFactory and deploy the vault, then stores the new vault address and status. Invoice PDFs are stored in Supabase Storage (S3-compatible); NFT metadata can be hosted on Pinata (IPFS). The API also coordinates repayments and fund release so the frontend only needs to trigger the right endpoints and sign the right txs. CORS is set so the Next.js app (and production frontend URL) can call the API.\nFrontend (Next.js 16 + React 19 + Tailwind)\nOne Next.js app serves all roles: Admin (approve loans, see requested count), Borrower (KYB, request loan, view loans, repay), and Lender (browse vaults, deposit USDC, view portfolio, redeem). We use Privy for auth and embedded wallets so users can get started without an existing wallet. Role is stored in the client (e.g. Zustand) and drives the sidebar and which pages are available. The app calls the API for all list/detail/submit flows and uses ethers.js with the user’s wallet for deposits, repayments, and redemptions. We use a shared getApiErrorMessage helper so network/API errors show a single clear message (e.g. “Cannot reach the server…”). The UI uses a blue, finance-oriented theme and shared components (modals, tables, charts) so the experience is consistent across roles.\nNotable choices\nERC-4626 gives us a standard vault interface and share accounting out of the box.\nSingle backend signer for vault deployment and fund release keeps key management simple and leaves user wallets for their own txs only.\nGenerated ABIs from Foundry keep the API and frontend aligned with the contracts.\nSupabase for DB and storage lets us ship without running our own infra.\nPrivy lowers friction for non–crypto-native users (e.g. borrowers) while still using Sepolia and real wallets under the hood.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/invoice-financer-ur44v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

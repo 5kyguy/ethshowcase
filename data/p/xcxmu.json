@@ -1,0 +1,35 @@
+{
+  "id": "xcxmu",
+  "slug": "f2f-cross-border",
+  "title": "F2F Cross-Border",
+  "tagline": "Fiat in, fiat out, no wallet ever — Hedera anchors every step so it's provable, not just claimed.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xcxmu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cKmO32NePesr3JEdKIWNFtftQAF00Ot1JmN5eIAyT01NA/high.mp4",
+  "demo_url": "https://f2f-uzh.vercel.app",
+  "source_url": "https://github.com/sabaazdn73/Cross-Border-Payments-DDiB2026-OG04",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Autonomous On-Chain Automation Platform",
+      "title": "Autonomous On-Chain Automation Platform"
+    }
+  ],
+  "finalist": false,
+  "description": "F2F Cross-Border is a non-custodial orchestration layer that lets someone send money across a border without either the sender or the recipient ever touching a wallet. Licensed partners handle the fiat on-ramp and off-ramp exactly as they do today — a card payment or SEPA transfer in, an ordinary bank credit out — while a compliant stablecoin carries the value between them, settling on Hedera in seconds instead of the days a correspondent-banking chain takes.\nWhat makes this provable rather than just asserted: every compliance check, every FX quote, every routing decision (which chain a transfer settled on, and why), and now the completion of the transfer itself, is hashed and anchored to Hedera Consensus Service with a consensus timestamp neither party controls. Anyone — a regulator, an auditor, the sender — can independently recompute the hash and check it against a public Mirror Node, not our database. The completion anchor is the newest and most novel piece: it uses the Hedera Schedule Service so that \"this transfer is fully complete\" only reaches the ledger once both the source-side and destination-side licensed partner have independently signed off, a genuine two-party confirmation, not our backend marking its own homework. The same 2-of-2 threshold key gates a Hedera settlement account that we, the platform, never hold a key to.",
+  "how_its_made": "Backend: Node.js (ESM) + Express 5. Frontend: React + Vite, 14 pages plus a distinct mobile app shell. Database: MongoDB via Prisma, with a local JSON fallback. Tests: node:test, Vitest, and Playwright end-to-end.\nHedera is used natively across four of its services, no Solidity anywhere in the flow. HCS anchors four record types (compliance, quote, routing decision, completion), each a small hashed pointer message ({kind, recordId, transferRef, recordHash, appTimestamp}), never the underlying PII. HTS executes the actual stablecoin transfer on testnet when a corridor routes to Hedera. HSS is the centerpiece: createCompletionSchedule() wraps a TopicMessageSubmitTransaction inside a ScheduleCreateTransaction with setWaitForExpiry(false), so the moment the second of two required signatures lands, Hedera's own consensus executes the submission — no code of ours triggers it. The Mirror Node REST API verifies every anchor independently, by sequence number and by transaction ID.\nThe hacky part worth mentioning: getting the two-party gate to actually gate anything. A scheduled transaction's required signers come from whoever is required to sign the inner scheduled transaction, not from whoever signs the schedule afterward. Our first attempt anchored the completion message to the same HCS topic used for everything else, whose submit key is our own operator key — meaning our own signature as transaction payer already satisfied the requirement, and the schedule executed at creation, before either partner ever signed (SCHEDULE_ALREADY_EXECUTED on the first ScheduleSignTransaction). The fix was a second, dedicated HCS topic whose submit key is the 2-of-2 partner KeyList itself — only then does the schedule genuinely wait for both partner signatures.\nPartner technology: SaucerSwap, Hedera's largest DEX, is used as a first-party liquidity source — the corridor router calls SaucerSwap's own /stats endpoint directly for real TVL, rather than going through a third-party aggregator, to decide whether a transfer amount is safe to settle on Hedera or needs to fall back to deeper liquidity elsewhere (Ethereum, Solana).",
+  "auto_summary": "A web application and backend for orchestrating walletless cross-border transfers with Hedera-based audit anchoring and conditional settlement workflows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/f2f-cross-border-xcxmu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

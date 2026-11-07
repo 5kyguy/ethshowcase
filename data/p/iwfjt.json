@@ -1,0 +1,22 @@
+{
+  "id": "iwfjt",
+  "slug": "watson",
+  "title": "Watson",
+  "tagline": "Agent platform for smart contract audits that lets you create and rank agents",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iwfjt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EC02L9CYuM8VdCZgPMFEAipNvZzIfdm1402AtzB9bv02Ag/high.mp4",
+  "demo_url": "https://watson-ethonline.vercel.app",
+  "source_url": "https://github.com/ipsavitsky/watson",
+  "finalist": false,
+  "description": "Watson — AI Agents for Smart Contract Auditing\nAudits are a core part of Web3 security — projects without audits are several times more likely to be hacked. In the first half of 2025 alone, more than $1.5 billion was lost due to smart contract exploits.\nExisting solutions are divided between competitive auditing platforms (like Sherlock, Code4rena, HackenProof) and AI-based tools (from Nethermind, Sherlock AI, etc.). Watson unites both worlds.\nWatson is an open platform where anyone can create and run custom AI agents for auditing.\nYou can:\n • Choose any base model from openrouter.ai\n • Connect custom MCPs for analysis, parsing, or blockchain data\n • Add a vulnerability database or documentation\n • Write your own prompt to define how the agent audits\nWatson creates a new, competitive space where AI auditors can analyze, compare, and improve — bringing transparency and automation to Web3 security.",
+  "how_its_made": "The frontend is written with next js and is deployed on Vercel. It connects to the backend that is somewhat crud app that stores user data and spawns ai agents. It also implements a SIWE protocol with the frontend. The backend is hosted on hetzner.\n\nThe backend spawns AI agents, hosted on the same machine as the backend, and calls mcps hosted on railway.\n\nAudit Agent is a production-ready, Dockerized service for automated smart-contract audits. It exposes a clean HTTP API to create and manage jobs, schedules work across a small worker pool, and persists state in SQLite. The agent is built on LangGraph with a ReAct loop and integrates with OpenRouter for LLM calls (with graceful fallback to direct LLM or deterministic DRY_RUN). Through Model Context Protocol (MCP) it can auto-discover and invoke tools from multiple servers (e.g., Blockscout, GitHub, Slither/Mythril), enabling on-chain lookups and static analysis inside the reasoning loop. The system supports idempotent job creation, cancellation, real-time progress/metrics, and generates detailed audit reports stored on disk. Health checks, concise logs, and a minimal configuration surface make it easy to deploy, run locally, or ship as a single Docker image.\n\nEven though we support adding custom user-created MCP servers, we allow users to use a selection of existing MCP servers, hosted by us (or external providers). So far we’ve implemented the following MCP servers:\n- mcp-foundry\n  - initializes a Foundry project\n  - writes or imports smart contracts into the project\n  - installs necessary dependencies\n  - creates, edits, and runs Foundry tests\n  - performs gas usage and coverage analysis\n- mcp_for_ethOnline\n  - parses Solidity source code into an Abstract Syntax Tree (AST)\n  - performs static analysis using Slither\n- mcp-for-file-management\n  - enables working with in-memory directories\n  - parses GitHub repositories and HTML content\n  - converts between multiple file types\n  - builds a knowledge base with indexed documents\n  - collects and aggregates information from documentation and external sources about smart contract vulnerabilities\n- We’re also using the blockscout MCP server",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/watson-iwfjt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "czk7z",
+  "slug": "dim",
+  "title": "Dim",
+  "tagline": "Confidential ETH UTXO research prototype with public Uniswap payments.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/czk7z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UMtfMHe2lGRbNU5rHQX9geHzw01Xrg4kBCkJ9JJUdFpc/high.mp4",
+  "demo_url": "https://dim.mmymshd52.workers.dev/",
+  "source_url": "https://github.com/shodaimomiyama/ethereum-confidential-utxo",
+  "finalist": false,
+  "description": "This project studies confidential ETH transfers on Ethereum while keeping the relationships between consumed and created UTXOs public. The research prototype supports ETH deposits, confidential transfers, and public withdrawals. Its Uniswap integration exchanges a fixed amount of ETH for a public token, delivers all swap proceeds to a designated recipient, and lets the payer reuse the remaining confidential UTXO. It is aimed at developers and researchers evaluating functionality, cost, security, and the limits of amount confidentiality as a basis for future standardization. The public transaction graph and known amounts can reveal transfer amounts or remaining balances.",
+  "how_its_made": "The core tracks input existence and unspent status in contract storage and exposes UTXO consumption and creation relationships, following the core specification. Every operation checks valid owner authorization bound to its intended effects and execution context. ETH deposits create matching UTXOs, transfers conserve the input value, and withdrawals preserve the sum of the public withdrawal and any confidential remainder. Unauthorized spending, double spending, and replay of successful operations are rejected. Gas is paid separately in public ETH.\n\nRecipients discover, decrypt, and check receipt data using their keys and public history. The CLI distinguishes confirmed receipt from pending, failed, or unverified operations and supports resynchronization. The Uniswap integration binds the swap conditions to the owner's withdrawal authorization and rolls back all payment asset effects if the swap or delivery fails, following the integration requirements.\n\nThe prior-EIP benchmark provides a separate measurement path for EIP-8182. Its Bash and JavaScript scripts build a pinned EIP-8182 reference implementation, generate Groth16 pool and demo-authorization proofs with snarkjs, and verify them on a local Anvil node using Foundry tools. They also exercise the reference demo's ML-KEM-768/X25519 receipt encryption and recovery from public logs. The comparison report records the reference code, measurement conditions, development-key assumptions, and limitations.",
+  "auto_summary": "A monorepo prototype implements confidential ETH UTXO transfers, withdrawals, and a Uniswap v2 payment adapter with supporting web, service, and test tooling.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/dim-czk7z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

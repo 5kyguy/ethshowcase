@@ -1,0 +1,20 @@
+{
+  "id": "jd5mt",
+  "slug": "oracleflow",
+  "title": "OracleFlow",
+  "tagline": "A more efficient solution for oracle updates using MEV-Share",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jd5mt/banner/default.jpg",
+  "source_url": "https://github.com/KRD-Kai/mevshare-oracle-update",
+  "finalist": false,
+  "description": "Traditional price oracles like Chainlink price feeds play a crucial role in the defi ecosystem. Major protocols like Compound and AAVE rely on them for core mechanisms like liquidations. Or GMX for perps. But they are far from perfect. Apart from their permissioned nature, another major flaw exists with these current solutions that affect regular defi users every day. They are just inefficient. Price feeds only update when a deviation threshold is exceeded which is often around 0.5% (a huge gap), or when a heartbeat occurs in a pretty infrequent interval. These inefficient parameters are required because of the economic cost associated with updating oracle contracts on-chain, and the lack of incentives for oracle operators to do so. Because of this searchers are able to extract significant value and users suffer millions in losses due to worse price execution etc.\n\nThis project proposes a different approach to oracle updates in order to combat this issue. Rather than submitting update transaction on-chain every now and then, oracle nodes continuously feed updates into the MEV share relay, for example on any ticker/orderbook update on CEXs. Searchers listen to these events and as soon as at least one searcher discovers some extractable value based on an update, the searcher submits a bundle with a price update to the oracle contract and a liquidation/backrun etc. after. The searcher refunds the oracle the gas cost and an additional incentive defined by the oracle. Because all kinds of strategies exist that are affected by oracle updates, and because MEV is a highly competitive game, there will be many searchers bidding that take advantage of oracle price updates in some way. The updates will be more granular and far more frequent, and sustainable too as oracles receive a portion of the value extracted. \n\nMoreover, it may be possible to return some of the value captured to users, which is a major selling point of MEV share. This redistribution is not straightforward though as multiple users can be affected across different protocols as a result of a single price update",
+  "how_its_made": "Oracles submit continuous transactions that never land on chain by design. They call a function which is guaranteed to revert but exposes the price update and a signature, all within the calldata which is offered as a hint to mev-share. The oracle signs the price, expected minimum payment and a nonce to present signature replays. Searchers extract the signature from the calldata of these events and build their own transactions to the oracle contract using the signature from the oracle provider. The contract verifies the signature and then updates the lastPrice. The searcher must provide the amount of ETH expected by the oracle with the call",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/oracleflow-jd5mt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

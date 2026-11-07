@@ -1,0 +1,30 @@
+{
+  "id": "4eqyh",
+  "slug": "zk-social-graph",
+  "title": "ZK Social Graph",
+  "tagline": "Revolutionize networking in Web3 events with our project! Find shortest connections, reward active users, and ensure scalability with zk Bellman-Ford algorithm. Join us for seamless, incentivized networking. ",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4eqyh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KkUYpANtrGcHHZRsErLxG7MWA02Jgqnp8m5DGY5jtjwc/high.mp4",
+  "demo_url": "https://karma-dapp.vercel.app/",
+  "source_url": "https://github.com/karma-protocol-ethnewyork2023/karma_dapp",
+  "prizes": [
+    {
+      "sponsor": "Nouns DAO",
+      "sponsor_id": "e3t1p",
+      "placement": "🎨 Nouns DAO — Best Use of Artwork",
+      "title": "Nouns DAO"
+    }
+  ],
+  "finalist": false,
+  "description": "Our team has developed an Web3 social Dapp ”ZK Social Graph” that focuses on improving networking and connectivity among users during conferences and events. Rewarding active users and addressing the challenges of scalability with zero knowledge proof are key elements . Here's a breakdown:\n\n👉 What “ZK Social Graph” offers 👈\n1. Connectivity Solution: \nIt aims to help users find the shortest path to connect with each other. This is especially valuable in networking situations, where people often meet a lot of new contacts and struggle to keep track.\n\n2. Rewarding Active Users:\nIt incentivizes users to engage with your social graph Dapp, both by on-boarding new users and by rewarding active users who have a significant number of followers or connections.\n\n\n👉Why Graph Algorithms Matter👈\n1. Valuing Users:\nGraph algorithms can help determine a user's value within the network by analyzing their connections and influence.\n\n2. Explaining Connectivity:\nMetrics can explain the level of connectivity a user has within the network, which is essential for assessing their importance.\n\n3. Reward Mechanisms:\nUsing well-known graph algorithms can also facilitate the development of fair and effective reward mechanisms for active users.\n\nOur approach of using zk Bellman-Ford to find the shortest path and reward users based on provable connectivity appears to be a promising solution to the challenges associated with on-chain computation. However, it's important to carefully consider the implementation details and potential trade-offs to ensure the scalability and security of our project. Additionally, user privacy and data protection should also be a priority in “ZK Social Graph”.",
+  "how_its_made": "- Building circuits\n\nWe used circom to write circuits for bellman ford algorithm. In the process, we figured out that it is not trivial to port the algorithm into a circuit, so we had to fallback to matrix  computation to optimize the circuit. It is very similar to a LP problem in convex optimization, where you need to find the constraints of objective function and formulate matrix multiplication from it. We have extended on top of circom-matrix library(https://github.com/socathie/circomlib-matrix), with some custom modifications. \n\n- Proving eth storage\nSince user can game with the state of the graph (nodes and edges) we need to make sure that the inputs to the proof is actually the values stored in our contract storage slots. In order to do this, we used Axiom's storageQuery to get the value with the storage proof, and we use this storage proof along with our bellman ford circuit proof. Both proofs are submitted to the contract, where we run verification for both. If it satisfies both verifications it rewards the users by updating the balances. The policy of rewarding a user can be varied.\n\n- Building dapps.\n\nWe have a wasm verifier in client, however since the circuit had 200k+ contstraints we had to reduce the size of the graph, and also remove some constraints. The dapp works by requesting a eth storage proof to the axiom service, and upon the response, we start proving for bellman ford algorithm as well. If we have both proofs, we can send transaction to connect() method in our contract, and rewards will be given to the users in the shortest path. One seamless way we could have taken is that axiom service allows halo2 circuit proof on their side, which removes the need to proving and verifying twice. Sadly it was too late to change the circom implementation to halo2, and couldn't use the proof integration that axiom is providing. I think for actually zk usage on client side, their way of handling storage proof and circuit proof at once would be quite useful. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zk-social-graph-4eqyh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

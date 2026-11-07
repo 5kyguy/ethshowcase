@@ -1,0 +1,22 @@
+{
+  "id": "30jxo",
+  "slug": "chaos-lp",
+  "title": "Chaos LP",
+  "tagline": "Chaos LP — MEV-resistant Uniswap v4 liquidity using Pyth Price Feeds + Entropy randomness",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/30jxo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IJ4MjW3Bym02sw1500VPpIpjWdWWmge00DN1vpSQM01AML4/high.mp4",
+  "demo_url": "https://www.canva.com/design/DAG4n6h_QZA/tBSK1NuMxQ-6tN-UsrQSfg/view?utm_content=DAG4n6h_QZA&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h927271b026",
+  "source_url": "https://github.com/reymom/chaos-lp-ethglobal-ba",
+  "finalist": false,
+  "description": "Chaos LP is a Uniswap v4 Hook that creates MEV-resistant, oracle-driven, randomized liquidity ranges using Pyth Price Feeds (pull oracle) and Pyth Entropy for on-chain randomness. Instead of predictable LP bands attackers can front-run, Chaos LP continually recomputes its liquidity around the latest Pyth ETH/USD price and a fresh random offset provided by Entropy. This produces chaotic, unpredictable liquidity placement that dramatically reduces adversarial overlap and MEV profitability.\n\nThe project includes:\n• A fully-deployed v4 pool on Base Sepolia with ChaosHook wired to Pyth Price + Entropy\n• A TypeScript client to fetch Hermes updates and trigger Chaos LP on-chain\n• A Rust MEV simulator running 10k Monte Carlo scenarios showing >95% MEV payoff reduction\n• Local fork tooling (Anvil) for end-to-end reproducible demos\n\nChaos LP demonstrates how oracle-fresh prices + verifiable randomness can meaningfully improve the robustness of on-chain liquidity.",
+  "how_its_made": "Chaos LP is built using Solidity, Foundry, TypeScript, and Rust, tightly integrated with Pyth Price Feeds and Pyth Entropy. The core smart contract is a Uniswap v4 Hook that follows Pyth’s pull oracle workflow: price updates are fetched from Hermes, passed as bytes[], and delivered on-chain via updatePriceFeeds. The hook then calls getPriceNoOlderThan to consume the freshly updated price and convert it into the corresponding Uniswap tick.\n\nNext, the hook requests a random number from Pyth Entropy V2, storing the sequence until the callback arrives. The callback maps the 32-byte entropy to a random tick offset inside pre-defined bounds, snaps it to v4 tick spacing, clamps to global tick limits, and finally calls modifyLiquidity to insert liquidity into this randomized band.\n\nThe system is deployed using Foundry scripts on Base Sepolia, with automatic explorer verification. A Rust MEV simulator using alloy performs 10k Monte Carlo runs comparing predictable LP bands vs Chaos LP, writing CSVs and generating visual dashboards via plotters. A TypeScript script (requestChaos.ts) fetches Hermes updates, pays Pyth+Entropy fees, and triggers Chaos LP in real time.\n\nEverything is modular, reproducible, testable, and showcases how combining oracle freshness + on-chain randomness can meaningfully improve LP security.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/chaos-lp-30jxo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,29 @@
+{
+  "id": "3axen",
+  "slug": "modelopsx",
+  "title": "ModelOpsX",
+  "tagline": "ModelOpsX - MLOps Pipeline for pedestrian detection using Tableland Basin",
+  "event": {
+    "slug": "ethonline2024",
+    "name": "ETHOnline 2024",
+    "start_time": "2024-08-23T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3axen/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mpEVMJlHnaqdQH4vewU00hYIn02unnDkp7LmG4Z4bnR6I/high.mp4",
+  "source_url": "https://github.com/vaibhav-vemula/ETHOnline2024-ModelOpsX",
+  "prizes": [
+    {
+      "sponsor": "Tableland",
+      "sponsor_id": "eov0f",
+      "placement": "Runner ups",
+      "title": "Best use of Basin (object storage)"
+    }
+  ],
+  "finalist": false,
+  "description": "This project develops an MLOps pipeline for pedestrian detection in autonomous driving, incorporating Tableland Basin for the decentralized storage of datasets, model weights, and performance metrics. The pipeline automates the complete lifecycle, from data ingestion to deployment, ensuring seamless integration and updates. It starts by pulling the latest pedestrian detection dataset from Tableland Basin for preprocessing, followed by splitting the data into training, validation, and testing sets.\n\nDuring the training phase, the pipeline fine-tunes the model using advanced computer vision techniques. Each training iteration is tracked, and the resulting model weights are saved back to Tableland Basin. After training, the model undergoes rigorous testing using a dedicated test dataset to evaluate its accuracy, precision, and recall.\n\nA key feature of the pipeline is its ability to compare the newly trained model with the previously best-performing model. The newly generated model is benchmarked against the stored metrics from previous versions (also stored in Tableland Basin) to ensure performance improvements. If the new model performs better in terms of accuracy, precision, and recall, it replaces the older model in production. If not, the pipeline continues to use the best-performing model while logging the results for further analysis.\n\nThis cyclical process ensures continuous improvement and adaptability of the pedestrian detection system, providing a robust solution for real-world applications in autonomous driving.",
+  "how_its_made": "In building this MLOps pipeline, I used Data Version Control (DVC) to version both the dataset and the model, ensuring traceability and reproducibility throughout the workflow. DVC helped manage large datasets efficiently, tracking changes and automatically syncing the data with storage, while maintaining lightweight metadata in the Git repository.\n\nKey Pipeline Stages:\nIngest:\nThe raw pedestrian detection data, stored in decentralized storage via Tableland Basin, was pulled into the pipeline. DVC tracked every new dataset version, ensuring I could always refer back to previous versions or retrain the model using an older dataset if necessary.\nSplit:\nAfter ingestion, the dataset was split into training, validation, and testing sets. DVC versioned these splits, allowing consistent replication of experiments when using different dataset partitions across multiple model versions.\nAugment:\nIn this stage, data augmentation was applied to improve model robustness. Techniques such as random flips, rotations, and brightness adjustments were applied to the pedestrian images. DVC ensured that each version of the augmented data was stored and linked to the dataset version it came from.\nTrain:\nTensorFlow/Keras was used to train the pedestrian detection model, fine-tuning pre-trained architectures. After each training cycle, DVC logged the model weights and metrics such as accuracy, precision, and recall, allowing for easy rollback or comparison with previous models.\nPredict:\nThe model was then tested on the validation set, and predictions were made. These predictions were also tracked using DVC, along with any performance degradation or improvements. This stage allowed me to evaluate the real-world performance of the model.\nCompare:\nIn the final stage, the newly trained model was compared to the previous best-performing model, both stored in DVC. Using DVC's metrics tracking, the pipeline could automatically evaluate which model had better performance based on stored metrics like precision and recall. The best-performing model was then pushed to production.\nIntegration of Technologies:\nDVC was seamlessly integrated with Tableland Basin for data storage and TensorFlow for model development. This versioning system was key to maintaining structured, traceable data and model lifecycles, ensuring that experiments were reproducible and scalable across different stages of the pipeline.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/modelopsx-3axen",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

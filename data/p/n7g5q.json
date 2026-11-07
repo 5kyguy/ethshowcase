@@ -1,0 +1,22 @@
+{
+  "id": "n7g5q",
+  "slug": "e-lisa-simpson",
+  "title": "E-Lisa Simpson",
+  "tagline": "E-Lisa Simpson showcases a framework to connect your wallets with AI agents without exposing your private keys. ",
+  "event": {
+    "slug": "agents",
+    "name": "Agentic Ethereum",
+    "start_time": "2025-01-31T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n7g5q/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NA4ZKXg6guYZGJFuHms01nHR1o7nxqJm8xub8kjLJ01hk/high.mp4",
+  "demo_url": "https://agentic-hackathon.vercel.app/",
+  "source_url": "https://github.com/AyushBherwani1998/agentic-hackathon",
+  "finalist": false,
+  "description": "E-Lisa Simpson is the first AI Agent to leverage EIP-7702, ERC-7579, and ERC-7715 (Smart Sessions), enabling access to users’ wallets without ever revealing their private keys. Below is an overview of how the process works:\n\n1. When a user connects with an Externally Owned Account (EOA), we use EIP-7702 to authorize the Safe L2 smart contract as its implementation. During this same authorization transaction, we install ERC-7579 modules such as the Ownable Validator and Smart Sessions.\n\n2. Once the user enters a prompt, we create a new Smart Session (per ERC-7715) in which Privy’s Server Wallet acts as the session owner. The session details, session signature, and user prompt are then passed to the AI agent to carry out any requested on-chain transactions.\n\n3. Based on the user’s prompt, the AI agent constructs a new User Operation using the submitted session details. The Session Owner (Privy’s Server Wallet) signs the operation, and it is subsequently broadcast to the blockchain—ensuring the transaction is executed securely without exposing the user’s private keys.",
+  "how_its_made": "We use EIP-7702 to sign an authorization request that designates the Safe Singleton contract as our delegator for Privy’s Embedded Wallet. In the same authorization transaction, we install both the Ownable Validator and the Smart Sessions module provided by Rhinestone.\n\nThe Smart Sessions module enables the creation of a secure session between the Externally Owned Account (EOA) and the agent, removing any need to expose private keys to the agent in order to carry out transactions.\n\nHowever, the Safe Singleton contract does not allow its owner to be address(this), so we use Privy’s Server Wallet as the Safe owner. Whenever a user submits a prompt, we spin up a new Smart Session, with Privy’s Server Wallet acting as the session owner. The session hash is then signed by the user’s EOA wallet and sent—together with the session details and prompt—to the Eliza agent.\n\nBecause ElizaOS does not natively support Smart Sessions (and traditionally requires direct private key access), we forked and extended ElizaOS to be compatible with Privy’s Server Wallet and to support ERC-7579 and ERC-7715 (Smart Session).\n\nOn receiving the user’s prompt, Eliza processes it via an OpenAI model to determine the necessary action. It then composes a new ERC-4337 User Operation using the provided session details. This User Operation is signed by the session owner (Privy’s Server Wallet), enabling the transaction to be executed on behalf of the user’s EOA without revealing the user's private keys.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/e-lisa-simpson-n7g5q",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,28 @@
+{
+  "id": "poj85",
+  "slug": "vouchertoken",
+  "title": "VoucherToken",
+  "tagline": "ERC1155 vouchers with non-transferable ERC721 merchant certification & instant redemption.",
+  "event": {
+    "slug": "taipei",
+    "name": "ETHGlobal Taipei",
+    "start_time": "2025-04-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/poj85/banner/default.jpg",
+  "source_url": "https://github.com/RuhigesWasser/VoucherTokenTaipei",
+  "prizes": [
+    {
+      "sponsor": "Celo",
+      "sponsor_id": "inotq",
+      "placement": "Celo L2 Pool Prize",
+      "title": "Celo L2 Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "1. Overall Architecture\nThe system is built on an EVM-compatible blockchain and utilizes two token standards to meet its requirements:\n\nMerchant Certification: Uses the ERC721 standard to issue non-transferable certification tokens that record the merchant type and expiration time, ensuring that only qualified merchants can participate in voucher redemptions.\n\nVoucher Management: Based on the ERC1155 standard, it supports multiple voucher types. Each voucher type has its own expiration, maximum usage count, single-use limit, and allowed merchant types for redemption.\n\nIn addition, the system includes fund management functions that support deposits, withdrawals, and immediate payment during voucher redemption.\n\n2. Key Smart Contract Functions\nMerchant Certification Contract\n\nmintCertification: Called by the owner only, this function mints a certification token for a specified address while recording the merchant type and expiration time.\n\nrevokeCertification: Allows the owner to burn a certification token when it expires or needs to be revoked.\n\nNon-transferability: Overrides the transfer function to ensure that tokens can only be minted and burned.\n\nVoucher Contract\n\ndefineVoucherType: Defines a voucher type by setting its expiration, maximum usage count, single usage limit, and allowed merchant types.\n\nmintVoucher: Issues vouchers to a specified address; each address can only receive a voucher of a given type once.\n\nuseVoucher: When a consumer uses a voucher, it verifies the validity of the merchant’s certification token and checks that it meets the allowed merchant types. It also verifies the voucher’s balance, usage count, and single-use limit. Upon successful validation, the voucher is burned and the equivalent native currency is immediately paid to the merchant.\n\nmintClaimableVoucher / claimVoucher: Extended functionality that allows the owner to mint vouchers that any address can claim, with each address limited to claiming a fixed amount once.\n\n3. Fund Management\ndeposit and withdraw: The owner can deposit native currency into the contract to ensure funds are available for redemption or withdraw any unused funds.\n\nImmediate Payment: During voucher redemption, the contract directly transfers the corresponding native currency amount to the merchant, ensuring transparent and instant fund movement.\n\n4. Frontend-Backend Interaction\nFrontend Application: Built with Next.js, the application uses RainbowKit and wagmi to enable wallet connection and blockchain interaction. The main modules include:\n\nMerchantCertification: Displays and manages merchant certifications, supporting minting and revoking.\n\nVoucherManagement: Defines voucher types, mints vouchers, and manages deposits.\n\nVoucherConsumer: Allows users to view, use, and claim vouchers, including a modal for voucher redemption.\n\nVoucherEvents: Displays all system events for tracking operational status.\n\nMultilingual Support: Provided via i18next for internationalized text, enhancing the user experience.",
+  "how_its_made": "We built this project with two smart contracts using OpenZeppelin libraries—one ERC721 for non-transferable merchant certifications (by overriding the transfer update) and one ERC1155 for vouchers with expiry and usage limits. We used Hardhat with the MultiBaas plugin from Curvegrid to deploy on Celo and interact with the contracts via a REST API. On the frontend, Next.js, React, RainbowKit, wagmi, and Tailwind CSS were combined, with the MultiBaas SDK tying everything together for smooth blockchain interactions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/vouchertoken-poj85",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

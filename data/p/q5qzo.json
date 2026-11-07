@@ -1,0 +1,27 @@
+{
+  "id": "q5qzo",
+  "slug": "standby",
+  "title": "Standby",
+  "tagline": "Protocol-enforced future execution capacity from shared AMM liquidity.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q5qzo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HC7cp9ZD012Q3KcHwaNXgTbas00uBFLUSasxqNQFvsVVI/high.mp4",
+  "demo_url": "https://www.loom.com/share/4a40fa663c9d425da94f9ee9726d0fb9",
+  "source_url": "https://github.com/garykocsis/Standby",
+  "finalist": false,
+  "description": "Institutions increasingly hold productive onchain assets such as tokenized cash-management assets, but their future settlement needs may be denominated in assets such as USDC. When a known liquidity-risk window approaches, their choices can include holding idle settlement balances in advance, relying on issuer redemption, or depending on whatever acceptable secondary-market spot or RFQ liquidity happens to be available when the need materializes.\n\nStandby introduces another liquidity instrument: a finite-duration commitment to bounded future secondary-market execution capacity.\n\nInstead of reserving settlement assets for a beneficiary, Standby uses qualifying shared AMM liquidity to back the commitment. That liquidity can continue supporting compatible ordinary trading while the commitment is outstanding. The beneficiary therefore gains protocol-enforced access to a bounded amount of future execution capacity without requiring the corresponding assets to sit segregated and idle.\n\nStandby is designed to complement, not replace, immediate cash, issuer redemption, RFQ liquidity, and ordinary secondary-market execution. An institution could use committed capacity selectively during identifiable future liquidity-risk windows as one layer of a broader liquidity strategy—reducing dependence on both fully pre-positioned settlement balances and uncommitted future market liquidity.\n\nThe Uniswap v4 implementation makes this enforceable by tracking Supporting Capacity (S) against Capacity Obligation (O) and preserving the invariant S ≥ O. Compatible ordinary activity continues while sufficient backing remains, but a pool transition that would destroy the backing for an admitted commitment is rejected.\n\nThe canonical demo proves this distinction end to end: a 50,000 USDC commitment is admitted against 80,000 USDC of supporting capacity; an unrelated trader successfully uses 15,000 USDC from that same shared capacity; a subsequent trade that would reduce supporting capacity below the outstanding obligation is rejected; and the beneficiary ultimately exercises the full 50,000 USDC entitlement through actual Uniswap v4 AMM execution.\n\nThe broader idea is to give DeFi shared liquidity a new coordination role: not only providing execution now, but supporting enforceable commitments over execution capacity needed later.\n\nStandby doesn't reserve liquidity. It protects capacity.",
+  "how_its_made": "Standby is implemented as a Solidity protocol on Uniswap v4. StandbyHook is the enforcement boundary around shared AMM liquidity: it derives supporting capacity from authoritative pool state, tracks outstanding capacity obligations, admits commitments only when they are supportable, and prevents ordinary pool transitions from violating the S ≥ O backing invariant.\n\nThe exercise path uses an ExerciseRouter and hook-owned causal context so an authorized beneficiary can exercise an outstanding entitlement through actual Uniswap v4 execution. An onchain EligibilityRegistry provides the permissioning predicates used by the demo. The canonical fixture uses MockUSTB and MockUSDC, while execution runs through the real Uniswap v4 PoolManager stack.\n\nThe contracts and tests are built with Solidity, Foundry, and Anvil. Verification includes unit, integration, fuzz, and stateful invariant testing. The final suite has 590 passing tests, with 99.42% line coverage and 100% function coverage for the Standby protocol core.\n\nA minimal frontend provides demo instrumentation by reading authoritative contract, PoolManager, and token state rather than maintaining separate economic state. The canonical demo deterministically reproduces the complete commitment → shared use → protection → fulfillment sequence.\n",
+  "auto_summary": "A Solidity protocol and demo that uses a Uniswap v4 hook to enforce bounded future swap capacity commitments against shared pool liquidity.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/standby-q5qzo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

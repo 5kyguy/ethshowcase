@@ -1,0 +1,27 @@
+{
+  "id": "o1ds8",
+  "slug": "0mcp",
+  "title": "0MCP",
+  "tagline": "0MCP: Persistent memory for AI agents on 0G, with ENS identities and Brain iNFTs.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o1ds8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Ja5ayyANyI01gT9BxDloV00plbtG00NQkpPHk5RmpCxiQw/high.mp4",
+  "demo_url": "https://persistent-ai-brain-1.preview.emergentagent.com/",
+  "source_url": "https://github.com/Samarth208P/0MCP",
+  "finalist": false,
+  "description": "AI coding agents are powerful, but they are still stateless. Every new session resets their memory, so developers have to repeat architecture decisions, debugging history, security rules, and project-specific context again and again. That wastes time, burns tokens, and makes agents inconsistent across sessions.\n\n0MCP solves this by giving AI agents persistent memory and identity on 0G. It encrypts agent context locally, stores it on 0G Storage, anchors the latest memory root on-chain, and restores that memory in later sessions through MCP tools. It automatically ingests git commit history to bootstrap agent knowledge from day one, detects when new prompts contradict past decisions, and provides a memory health dashboard to surface staleness and conflicts before they silently degrade quality. It also assigns each agent a human-readable ENS identity and can mint its expertise as a Brain iNFT, so agent knowledge becomes persistent, portable, discoverable, and ownable.",
+  "how_its_made": "0MCP is built as a Model Context Protocol server in TypeScript, running over stdio so it plugs directly into Cursor, Windsurf, and VS Code style agent workflows. The main memory path is handled in src/storage.ts, where each interaction is serialized, encrypted locally with AES-256-GCM, uploaded through the 0G Storage Turbo SDK, and anchored with a registry contract that stores the latest Merkle root for each project. That gives every agent a verifiable long-term memory layer on 0G instead of relying on local disk or a centralized database.\n\nOn top of that, src/ens.ts turns each agent into a human-readable ENS identity, storing metadata such as the project ID, session count, Brain iNFT token ID, contract address, and AXL peer key in ENS text records. src/snapshot.ts exports the saved memory into a portable snapshot and mints it as a Brain iNFT on 0G, then loads it back later by resolving the ENS name and reading the tokenURI. For peer-to-peer collaboration, src/axl.ts and src/exchange.ts implement encrypted AXL messaging, peer discovery, and brain-to-brain memory transfer across separate nodes. src/ingest.ts adds a git-aware ingestion pipeline that reads commit history, classifies each commit into typed events like bug_fix, refactor, or breaking_change, and writes them into 0G memory with local deduplication so repeated runs only pick up new commits. src/analysis.ts is a pure deterministic layer that extracts decision rules from stored memory, scores new prompts for contradictions against those rules, and computes memory health metrics with no external API calls. src/index.ts exposes the full workflow as MCP tools including get_context, save_memory, mint_brain, load_brain, register_agent, merge_brains, check_drift, ingest_repo_state, and memory_health.\n\nOne particularly hacky part was keeping the MCP JSON-RPC stream intact. Because the stdio transport breaks if anything noisy reaches stdout, we redirect console.log to stderr and keep the protocol channel clean while the Web3 SDKs do their work. We also added retries, fallback indexers, dynamic AXL startup, and paymaster-backed ENS writes so the system stays usable in real hackathon conditions.",
+  "auto_summary": "An MCP server stores encrypted agent memory on 0G, anchors project roots on-chain, and uses ENS and AXL for identity and exchange.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/0mcp-o1ds8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

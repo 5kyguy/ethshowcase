@@ -1,0 +1,27 @@
+{
+  "id": "o5o1t",
+  "slug": "agentize",
+  "title": "Agentize",
+  "tagline": "Turn human shops into agent-readable stores in mins, World-verified merchants, Intercepta @ x402.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o5o1t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ot1uGDMOxbPP00fb02nNbVV4IHnCYsWZZ229P146vwRzI/high.mp4",
+  "demo_url": "https://agentize-three.vercel.app/",
+  "source_url": "https://github.com/itzsihui/Agentize",
+  "finalist": false,
+  "description": "The web is built for humans. Storefronts are HTML, carts, and checkouts, agents can't reliably read them, scrape them without breaking, or pay through them without hallucinating SKUs and payees.\n\nAgentize makes that conversion stupidly easy: a merchant talks inventory, drops a CSV, or pastes an existing shop URL, and we publish an agent-friendly storefront, registry.json, llms.txt, machine catalogs, and a /buy endpoint, so any HTTP agent can discover and purchase without scraping the human UI.\n\nEase without trust is dangerous, so security is first-class at both edges of the network:\n\na) World ID: merchants prove they are a real person before listing on the open market (one person → one storefront). No Sybil flood of clone catalogs poisoning agent search.\nb) Intercepta, at the x402 point of contact, before USDC settle on Base, we live-screen payer and payTo. Dirty wallets are refused with reasons; honest buys clear to a receipt.\n\nBuyers get a chat salesperson that ranks live SKUs; settle only accepts a locked quote (store, SKU, price, merchant address) so catalog copy can't rewrite the money path. Merchants get reach to every agent that speaks HTTP, not just two consumer chat apps.\n\nAnd oh, there is also a skill, so you can just pass in our skill to any agent you may have and it will know where to look for products.\n\nAgentize = human shop in → agent storefront out, with real humans on the sell side and screened settlement on the pay side.",
+  "how_its_made": "We built a conversion pipeline first, then wrapped it with crypto-native trust rails.\n\nConversion layer: Next.js + TypeScript merchant agent. Merchants chat inventory, upload CSV/XLSX (PapaParse / SheetJS), or paste a store URL; the agent normalizes SKUs and publishes agent surfaces — /registry.json, /llms.txt, /s/{slug}/llms.txt + catalog.json, and shared GET /api/search. Same ranker for the buyer UI and external agents. No HTML scrape on the pay path.\n\nBuyer side: OpenAI salesperson agent (deterministic tools if no key) clarifies intent, searches live multi-merchant inventory, and settles in-chat.\n\nSecurity spine (the part we take seriously):\n• World ID (IDKit, passport) — server-signed RP flow binds a nullifier to the Firebase merchant uid. listOnMarket only flips on when verify succeeds; same passport on a second account → 409. Unverified shops stay drafts.\n• Intercepta at x402 — unpaid POST returns HTTP 402; before @x402/evm + viem verifyAndSettle on Base Sepolia USDC, protocol handlers run live Quick/Deep Scan (X-API-KEY). Seller gate screens the payer; buyer tools Quick Scan payTo. Demo personas show allow vs refuse without mocked verdicts.\n• Locked quotes — pay tools only take {storeSlug, skuId, price, merchantAddress}; catalog prose is quarantined so injection-shaped titles can't retarget funds.\n\nNotable: Intercepta screens the risk persona while settle still signs with the demo buyer key on Sepolia — judges see a real 402→200 or a live refuse table. Also have prompt injection protection built in, this is based on a paper by google deepmind about caMeL architecture, which dropped AgentDojo attack counts from hundreds to 0 on frontier models\n\nThe hack is intentional: make “human shop → agent catalog” a five-minute chat, then put World at listing and Intercepta at the exact moment money moves.",
+  "auto_summary": "A Next.js application converts merchant inventory into agent-readable storefronts and adds identity verification and payment screening to purchase flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentize-o5o1t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

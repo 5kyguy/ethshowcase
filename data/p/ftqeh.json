@@ -1,0 +1,30 @@
+{
+  "id": "ftqeh",
+  "slug": "echobox",
+  "title": "EchoBox",
+  "tagline": "EchoBox: ENS-addressed, time-locked crypto gifts for birthdays, holidays, and special moments.",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ftqeh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AIHv7GWP01mqYYohZvVXo261AB5taAx55DNNyeS5arZE/high.mp4",
+  "demo_url": "https://echobox-sandy.vercel.app/",
+  "source_url": "https://github.com/DoctorNasa/echobox",
+  "prizes": [
+    {
+      "sponsor": "PayPal USD",
+      "sponsor_id": "aezzh",
+      "placement": "Best Consumer Experience",
+      "title": "Best Consumer Experience"
+    }
+  ],
+  "finalist": false,
+  "description": "EchoBox lets anyone send a crypto gift today that unlocks in the future—perfect for birthdays,\nanniversaries, and holidays. The sender enters an ENS name (e.g., alice.eth), picks an unlock\ndate/time, and funds the gift in ETH or a supported ERC-20. On or after the unlock time, the\nrecipient can claim the funds with their wallet.\n\nKey features\n• ENS-first UX: send to names, not hex addresses (with reverse→forward verification for safety).\n• Time locks: gifts remain non-claimable until a precise timestamp.\n• Tokens: ETH and ERC-20 (e.g., PYUSD on testnet) with clear on-chain events.\n• Clean dApp: Connect Wallet, Create Gift, View Gifts (sent/received), countdowns, and one-click claim.\n• Merchant mode: NYC restaurants/cafés/matcha shops/pet stores can pre-issue gifts to customers\n  for promos or prepaid credit (see MERCHANTS.md for POS flow and compliance pointers).\n\nWhy it matters\nGifting crypto is clunky. EchoBox makes it delightful, safe, and date-aware—so value arrives at\nthe right moment, addressed to human-readable names, with transparent on-chain guarantees.\n",
+  "how_its_made": "Frontend\n• Next.js (App Router) + TypeScript + Tailwind for a fast, responsive UI.\n• wagmi + viem for wallet connections and contract calls (WalletConnect/MetaMask/Coinbase).\n• Dedicated connect flows:\n  - /connect (generic wagmi)\n  - /connect-gemini (Gemini-only via native connector or WalletConnect)\n  - /connect-privy (Privy User SDK auth + wallet listing)\n• ENS helpers perform forward lookup for sending and reverse→forward verification for display.\n\nSmart contracts\n• GiftBox.sol (Solidity) holds gifts with {sender, recipient, amount, unlockTimestamp, token, claimed}.\n• createGift (ETH, payable) and createGiftToken (ERC-20 via approve/transferFrom).\n• claimGift enforces recipient-only access after unlock, with ReentrancyGuard and CEI pattern.\n• Events: GiftCreated, GiftClaimed for clean indexability.\n\nTooling & tests\n• Hardhat for compile/deploy/tests; Vitest + Testing Library for UI tests.\n• Bun for scripts (fast install/test/lint/build).\n• Deployed to Sepolia for demos; RPC via Alchemy/Infura.\n• TDD: unit tests for revert paths (past time, zero value, non-recipient, double claim), plus UI mocks\n  for tx lifecycle and ENS failure states.\n\nWhat’s novel/hacky\n• ENS safety by default (reverse→forward verify to prevent spoofing).\n• Merchant mode (“gift as prepaid credit”) with POS-friendly Gift ID/QR lookup page.\n• Token-agnostic pipeline (ETH or ERC-20, e.g., PYUSD on testnets) with identical UX.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/echobox-ftqeh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

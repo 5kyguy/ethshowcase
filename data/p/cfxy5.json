@@ -1,0 +1,27 @@
+{
+  "id": "cfxy5",
+  "slug": "prism",
+  "title": "Prism",
+  "tagline": "The per-call royalty rail for AI agents on 0G. One tx, N atomic transfers, every contributor paid.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cfxy5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/K1gM02H7OO7aj4TvfcHYpLNsZi9r1KYLoSKBm202U5hKU/high.mp4",
+  "demo_url": "https://prism-galileo.vercel.app/",
+  "source_url": "https://github.com/0x2kNJ/Prism",
+  "finalist": false,
+  "description": "When an AI agent answers a question, it composes contributions from many builders — a creator who designed the agent, a framework that runs it, a handful of MCPs that supplied tools, a model that did the inference. Today, the model gets paid. Most of the rest get a GitHub star.\n\nPrism makes every contributor a paid leg. One agent call, one atomic transaction per pick, N transfers — to creator, framework, MCP author, runtime, and inference provider — on 0G Chain. No clearinghouse, no platform middleman. The only platform take is a transparent 25 bps protocol fee. Cascading royalties travel with ERC-7857 forks: iClone shows every payee's bps before signing, so original creators keep economic stake on every downstream call.\n\nConnect a Privy wallet at /demo, ask one question, watch 3+ wallets tick atomically per pick on chainscan. Behind the scenes: 7 verified contracts on 0G Galileo (PrismSplit / PrismPass / PrismVault / PrismAgent / PrismAgentBook / PrismRuntimeRegistry / TestUSDC), 1 published SDK + 6 framework adapters (LangChain · Vercel AI · Claude Agent SDK · MCP · Skills · OpenClaw), a Studio mint flow at /studio, a permissionless runtime registry where runtimes are themselves paid legs (legs[] primitive extended to a third participant class — no new contract), and a three-LLM specialist swarm (planner picks iNFTs · synthesizer aggregates · critic verifies on TEE) with per-wallet, ownership-gated memory on 0G Storage.\n\nTrack A (Framework Extension): four monetization hooks added to OpenClaw — Skills, MCP, Workspace, Loop — via a 10-line @prism/openclaw import. Track B (Swarms & iNFTs): sealed-config ERC-7857 agents, multi-iNFT swarm, agent breeding via iClone with cascade preview.",
+  "how_its_made": "Getting the planner to do real tool-calling against 0G Compute. The 0G chatbot service runs qwen-2.5-7b-instruct, which doesn't speak the AI SDK's tool-calling abstraction — so we wrote callZGComputeWithTools() (apps/web/src/lib/zg-compute.ts) to send OpenAI-format tools[] to qwen's /chat/completions, dispatch each tool_calls response through the same handler as the Anthropic fallback, and loop up to maxSteps = 6. Three LLM roles (planner, synthesizer, critic) run this dual-path independently; each response surfaces inferencePath plus a verified:boolean from TEE attestation, and a per-call pill (0G COMPUTE · TEE✓ vs ANTHROPIC FALLBACK) shows which gateway served each role.\n\n0G stack (3 of 4 components live; DA is roadmap, not faked):\n• Chain — PrismSplit.route(token, amount, legs[]) atomic settlement on Galileo (chainId 16602).\n• Storage — packages/agent/src/seal.ts AES-256-GCM + ECIES key-wraps the agent prompt; rootHash pinned on-chain. iTransfer / iClone rekey under the new owner's pubkey via PrismAgent.transferAndRewrap(). Per-query memory traces and per-wallet recall in apps/web/src/lib/swarm-memory.ts.\n• Compute — createZGComputeNetworkBroker → qwen-2.5-7b-instruct → processResponse() for TEE-attested verification.\n\nVercel: Next.js 16 + React 19, 19 Vercel Functions (8 under /api/gateway/: inference, inference-0g, inference-groq, synthesize, critique, library, 402, seed-demo; plus onboarding, manifests, OG cards, GitHub OAuth). Vercel AI Gateway powers the three LLM roles with real-cost passthrough via result.providerMetadata.gateway.cost — zero markup arithmetic, Anthropic Claude Haiku 4.5 default.\n\nContracts + standards: Solidity 0.8.24 + Foundry + OpenZeppelin v5 — 7 verified contracts on 0G Galileo, 221 tests passing. Full ERC-7857 surface (iTransfer, iClone with cascade royalty preview before signing, authorizeUsage, pluggable IERC7857DataVerifier). HTTP 402 Machine Payment Protocol at /api/gateway/402 — clients parse, fire PrismSplit.route(), retry with X-Prism-Tx. SHA-256 throughout for ZK-gadget compatibility (Binius / Halo2 / Plonky3 / Noir).\n\nFrontend: wagmi v2 + viem + Privy embedded wallets (no MetaMask required; first connect drips test-USDC + 0G via /api/onboard).",
+  "auto_summary": "Prism is a multi-package agent monetization system with 0G-based compute and storage integrations, ERC-7857 iNFT contracts, and framework adapters.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/prism-cfxy5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

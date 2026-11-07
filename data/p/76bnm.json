@@ -1,0 +1,22 @@
+{
+  "id": "76bnm",
+  "slug": "predex-fun",
+  "title": "Predex.Fun",
+  "tagline": "Launch USDC prediction markets on Arc with instant liquidity and  autonomous trading agents.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/76bnm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1GN00tAHB8pJXoppIqfu1BcrfOemuCGuHzGaZlViFgLU/high.mp4",
+  "demo_url": "https://predex-pump-git-dev-predex.vercel.app/",
+  "source_url": "https://github.com/PreDex-exchange/predex-pump",
+  "finalist": false,
+  "description": "  Predex is a prediction-market launchpad for people and automated agents.\n  Anyone can create a market around a question they care about, trade on\n  its outcome, and change their position as new information comes in.\n  Users can discover markets, follow prices, and keep track of their\n  holdings and trading activity.\n\n  Agents are part of the project too. Our creator agent can take proposed\n  questions, check for duplicates, and create new markets. Our trading\n  agent discovers markets, looks for opportunities, and places orders\n  within configurable spending and inventory limits. Developers can review\n  its planned trades in a dry run before enabling execution.\n\n  We’ve kept the app playful and mobile-friendly, with a cartoon-style\n  interface that works in desktop and mobile browsers. MetaMask is the\n  main wallet option, with optional email login through Privy. The current\n  demo runs on Arc Testnet using test USDC, giving people a place to try\n  prediction markets and experiment with trading agents without using real\n  funds.",
+  "how_its_made": "  We built Predex with Solidity contracts on Arc Testnet and a mostly\n  TypeScript application stack. The contracts handle outcome tokens,\n  initial LMSR trading, market graduation, and settlement, with Foundry\n  used for contract testing. Arc lets us use USDC for both collateral and\n  gas, keeping the funding flow simpler for users and agents.\n\n  The frontend uses Next.js, React, wagmi, and viem. MetaMask is the main\n  wallet option, while Privy adds email login and embedded wallets. We\n  connected Privy to the existing wagmi signing flow so it uses the same\n  account and transaction code. A shared TypeScript package holds the\n  ABIs, API types, and transaction builders used by the website and agent\n  SDK.\n\n  The backend uses Fastify, PostgreSQL, Prisma, and a viem indexer. It\n  reads contract events and builds the market, position, and activity data\n  shown in the app. Redis caches market reads and distributes updates to\n  WebSocket clients. Browser-to-chain subscriptions were unreliable, so\n  the backend serves the books and reconnecting clients fetch a fresh\n  snapshot. On-chain and Hybrid books stay separate; Hybrid trading uses\n  signed off-chain orders with settlement on Arc. Qdrant helps suggest\n  duplicate markets, with an optional OpenAI embedding and comparison\n  provider.\n\n  We built separate creator and trading agents on top of the SDK. The\n  creator checks proposed questions for duplicates before creating\n  markets. The trader discovers opportunities, reads market-derived\n  pricing signals, and checks current chain state before signing. Trading\n  defaults to dry-run mode, with configurable spending and inventory\n  limits. Our subgraph in The Graph’s Subgraph Studio indexes market\n  lifecycle events and settled trades for agent discovery, while the\n  backend supplies live orderbooks.\n\n  Circle Gateway and x402 provide an optional pay-per-request path for\n  market signals. This lets agents purchase data with USDC without a\n  manual checkout. World AgentKit adds a human-backed access policy to\n  that flow: the backend checks an agent’s AgentBook registration, and\n  agents backed by the same anonymous human share three free signal\n  requests. PostgreSQL tracks the allowance and prevents replayed requests\n  from claiming extra access. Once the allowance is exhausted, or an agent\n  is unverified, the existing Circle payment path applies. \n\n  One practical shortcut was reusing the responsive web app inside a thin\n  Flutter mobile shell, keeping wallet and trading logic in one place.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/predex-fun-76bnm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

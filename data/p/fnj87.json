@@ -1,0 +1,21 @@
+{
+  "id": "fnj87",
+  "slug": "runconnect",
+  "title": "runConnect",
+  "tagline": "This is a proof of concept/trail to see if FHE is a viable/reasonable way to hide a users location and be used to find other users \"nearby\" without having to ever disclose location.",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fnj87/banner/default.jpg",
+  "demo_url": "https://github.com/deapinkme/ETHGlobal-Brussels2024-runConnect/blob/main/demoVideoLink",
+  "source_url": "https://github.com/deapinkme/ETHGlobal-Brussels2024-runConnect",
+  "finalist": false,
+  "description": "This project is meant to see if FHE can be used to create a way for users (in this sample, runners) to connect without having to share location.\n\nThe premise of this is to create 3 basic features/functions:\n1) Adding yourself to the runners pool\n2) Removing yourself from it\n3) Finding runners near you (within a specified distance)\n\nThe idea here is to try and create a way for runners (users) to find other runners(users) near by. Using FHE we can calculate the distance between two encrypted point and compare that to a desired and specified distance range.",
+  "how_its_made": "The solidity smart contract imports FHE.\n\nA struct is created that contains:\n1) rounded longitude coordinate\n2) rounded latitude coordinate\n3) encrypted longitude coordinate\n4) encrypted latitude coordinate\n5) telegram handle\n\nA user can register one runner per ETH address, and we have a mapping of ETH addresses to an index associated with a runner and therefore our struct.\n\nA user can add to the list of runners, they can remove themselves from the list, and can provide a distance range, which uses the coarse (rounded) location to narrow down runners(users) and then goes through that list of runners and calculates the distance between the encrypted longitude and latitude coordinates.\n\nThe distance between two points should be calculated with Haversine formula (d  =  2r⋅arcsin(sin2(2Δϕ​)+cos(ϕ1​)⋅cos(ϕ2​)⋅sin2(2Δλ​)​)      ), given that the distance is not on a flat surface, but rather a spherical surface. This however is too complex for this example. For this example I decided to use Manhattan distance (distance  = d = ϕ2​−ϕ1​∣+∣λ2​−λ1​∣ ). This is accurate enough. Consider that the largest difference/discrepancy occurs between the poles and the horizon and a single degree will be 1km at the pole and 111km at the equator, this estimation is valid.\n\nI pushed code to github, however, I compiled and tested my solidity smart contract in the remix web browser.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/runconnect-fnj87",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

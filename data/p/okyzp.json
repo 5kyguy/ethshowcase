@@ -1,0 +1,20 @@
+{
+  "id": "okyzp",
+  "slug": "stylus-noir-verifier",
+  "title": "Stylus Noir Verifier",
+  "tagline": "Noir verifier smart contract written using Stylus SDK for cheaper onchain verification",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/okyzp/banner/default.jpg",
+  "source_url": "https://github.com/TomAFrench/noir-stylus-verifier",
+  "finalist": false,
+  "description": "Verification of ZK proofs onchain can sometimes be relatively expensive which limits their usecases. For example, a Uniswap V4 hook could perform compliance checks utilising ZK proofs but the gas costs necessary for these proof verifications impose extra fees on swappers, making the pools less attractive.\n\nArbitrum's Stylus SDK promises orders of magnitudes of speedup with large gas reductions relative to solidity contracts, so a ZK proof verifier written using stylus would help avoid the extra costs imposed on swappers due to these hooks.",
+  "how_its_made": "At the start of the hackathon, I planned on tackling this through linking barretenberg into the stylus project as a static lib with a thin Rust wrapper around it to inject the verification key, etc. I ended up running into a couple of issues at this stage:\n - Firstly our barretenberg library doesn't currently have up-to-date Rust bindings, once these were updated I started running into some compilation issues which seemed like they would need a decent amount of debugging which would chew up too much time to complete in the weekend.\n- I was a little concerned that due to the fact I'd be bringing in all of barretenberg there would be various proving logic, etc. which may be included in the final wasm, blowing up the size so that it couldn't be deployed.\n\nBecause of these I went down the route of doing a straight port of our solidity verifier into Rust to use the Stylus SDK directly. This would be guaranteed to fit within the size limit and sidestep any debugging of barretenberg.\n\nI've made a certain amount of progress on this but I've also been splitting time on supporting other teams hacking on Noir so the verifier is about half written and in a seriously hacky state at the minute.\n\nThis hack was mainly motivated by wanting to explore Arbitrum's Stylus Rust SDK and as an added bonus to the cost reductions, it was nice to see the readability improvements relative to the original contract (even despite me writing it in a super hacky way due to time constraints).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/stylus-noir-verifier-okyzp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

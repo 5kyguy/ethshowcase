@@ -1,0 +1,27 @@
+{
+  "id": "ojfqx",
+  "slug": "resvary",
+  "title": "Resvary",
+  "tagline": "Resvary lets an AI agent buy document analysis with USDC-funded credits on Arc.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ojfqx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jqMJlmcwjw17BbiuZ02BlKSL5Buf7otZrfsmcJ02juplQ/high.mp4",
+  "demo_url": "https://agent.resvary.xyz",
+  "source_url": "https://github.com/horn111/resvary",
+  "finalist": false,
+  "description": "Resvary is an open-source prepaid credit and usage ledger for AI products. This demo lets a visitor submit text to a buying agent. The agent checks the account balance and service quote. When credits run short, a Circle Agent Wallet pays a fixed Circle Gateway challenge in Testnet USDC on Arc. Resvary grants product credits, reserves the quoted cost, calls a separate document-analysis model, charges measured token usage, releases the unused reserve, and returns an auditable receipt. Replaying the same request returns the saved result and receipt without another model call or charge.",
+  "how_its_made": "I built the demo as a new Next.js 16 application in the Resvary TypeScript monorepo. OpenAI Agents SDK runs the buying loop with four fixed tools: check balance, get a quote, fund a shortfall, and execute the prepared analysis. The agent has no shell access. Server code fixes the Arc Testnet network, service URL, Circle Agent Wallet, Gateway payer, seller, amount, and spending limits.\n\nVercel Workflow coordinates durable execution. Managed Neon PostgreSQL stores signed visitor sessions, jobs, input hashes, reservations, model results, usage, receipts, quotas, and the persistent demo budget. One database execution claim serializes paid work across Vercel instances. The service saves a model result before committing usage, so a commit retry does not call the model again. Unknown payment or provider outcomes stop for operator review.\n\nThe reusable @resvary/circle package now exports createGatewayCreditGate. It attempts a credit reservation and creates a Circle Gateway top-up challenge when the account lacks credits. Circle CLI 1.0.0 controls the Testnet Agent Wallet. Gateway funds the credit ledger with USDC on Arc, after which the agent retries the reservation. Nous hosts qwen/qwen3.8-flash for the buying agent and openai/gpt-4.1-mini for the paid document analysis. Playwright, Vitest, deterministic providers, and a sanitized proof exporter cover the source and live paths.",
+  "auto_summary": "This monorepo implements prepaid AI usage credits, receipts, and Arc testnet funding flows, including a demo where an agent tops up credits with Circle Gateway.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/resvary-ojfqx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

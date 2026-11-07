@@ -1,0 +1,27 @@
+{
+  "id": "qrcx7",
+  "slug": "ecorestore-network",
+  "title": "Ecorestore Network",
+  "tagline": "Protocol for ecological restoration, where capital is released against verified restoration activity",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qrcx7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WPsudL0279BP6CRJKvdLJmKdh02CaBx65LRN69EnPu8ds/high.mp4",
+  "demo_url": "http://32.189.224.38/",
+  "source_url": "https://github.com/JayMatsushiba/ecorestore-network",
+  "finalist": false,
+  "description": "Ecorestore Network is a prototype tool that links nature restoration projects to payments. People pay for many kinds of restoration work, such as replanting forests, restoring riverbanks, and offsetting habitat loss. Funders need to know two things. First, did the land actually recover? Second, did it recover because of the project, or would it have recovered anyway? Today, these answers are often hard to check. They are also often kept apart from the payment itself.\n\nHow Ecorestore Network works: \n\nFirst, a restorer makes a claim. For example: \"Tree cover on our site grew by a certain amount.\"\n\nSecond, a fixed set of rules checks the claim. The same inputs always give the same answer. The rules measure the site before and after the work. They compare the site with similar land nearby that was not restored. They check that the site and the nearby land changed in the same way before the work began. They take out any gain that would have happened anyway. Finally, they work out a range that shows how uncertain the result is.\n\nThird, payment uses the conservative number. The system uses the lowest value in that range, so funders do not overpay.\n\nFourth, a methodology layer records the result. This layer is modelled on Hedera Guardian. It confirms that the right rules were followed and issues a record of that.\n\nFifth, a smart contract handles the money. We call this contract a \"Restoration Deed.\" It is on blockchain that holds the funder's money and releases only the approved amount. Only one approved account, chosen by the funder, can release it.\n\nSixth, every step is saved and searchable. The Graph indexes the blockchain history, so anyone can trace what happened and why.\n\nSeventh, an AI assistant explains the results. The Auditor can look across a project's history, spot unusual patterns, and explain results in plain words. \n\nEcorestore Network makes restoration results easier to check, easier to audit, and easier to fund.\n\nA working web app shows the whole process from start to finish. It uses a made-up restoration project on the Kootenay River in British Columbia. All environmental data is synthetic, not real field or satellite measurements. The demo runs on a test blockchain with test money only. It uses the self-hosted Hedera Guardian instance and does not touch real funds. Next steps are to deploy the contract to Arc Testnet, add digital signatures to strengthen the approval step, and quantify the spatial verification pipeline rigour with known restoration projects. \n",
+  "how_its_made": "Ecorestore Network is a TypeScript monorepo, with the following layers: \n\n1. Verification engine (TypeScript). A set of pure, deterministic functions checks a restoration claim. It compares the restored parcel with matched control parcels. It checks that both had similar trends before the work started. Then it measures the difference, removes gains that would have happened anyway, and applies an uncertainty range. \n\n2. Hedera Guardian (partner). Guardian holds the methodology, the workflow states and the credential. Guardian gave us a clear model for who may approve a result and in what order. It rejects a result if its hash no longer matches the evidence.\n\n3. Arc and USDC (partner). We wrote a Solidity RestorationDeed contract with OpenZeppelin and tested it with Hardhat. It holds USDC in escrow. It releases funds only when the verifier chosen by the sponsor submits a valid approval, and it blocks replayed approvals. Designing for Arc meant we could build around USDC settlement from the start. For now, it runs on a local chain with a mock USDC token.\n\n4. The Graph (partner). A subgraph indexes every deed event, running on a real Graph Node in Docker. The Graph gave us a queryable history without writing our own indexer. Our Auditor reads that history and compares it with the verification and Guardian records.\n\n5. Interface. A React and Vite app shows each stage, including a Leaflet map. Node server sends the app the real outputs of each layer. The server has no signing key. Docker Compose coordinates the whole stack, and GitHub Actions deploys it to the AWS EC2 host.",
+  "auto_summary": "A TypeScript monorepo for verifying ecological restoration claims, recording methodology outputs, escrowing USDC-style payments, and indexing contract events for audit queries.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ecorestore-network-qrcx7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

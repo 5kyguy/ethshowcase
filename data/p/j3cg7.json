@@ -1,0 +1,22 @@
+{
+  "id": "j3cg7",
+  "slug": "arcanum",
+  "title": "Arcanum",
+  "tagline": "Privacy-aware, intent-based swaps on Uniswap v4 reducing MEV via timing and routing privacy",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/j3cg7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lBQD01UiN19vRQXHhCANv9yMJFWZS01g9bic701200QC5cY/high.mp4",
+  "demo_url": "https://github.com/Nakshatra05/Arcanum",
+  "source_url": "https://github.com/Nakshatra05/Arcanum",
+  "finalist": false,
+  "description": "Arcanum is a privacy-aware swap execution system built using Uniswap v4 hooks. Instead of executing swaps immediately and predictably, users submit swap intents that specify execution windows, minimum delays, acceptable pools, and output constraints. These intents are executed non-deterministically within a block range, reducing timing and routing predictability and making MEV strategies like sandwiching and front-running significantly harder.\n\nArcanum allows executors to choose optimal routes at execution time from a set of allowed pools, preserving routing privacy while maintaining price competitiveness. It also introduces liquidity shielding via cooldowns on liquidity removal, preventing reactive LP behavior that amplifies MEV. The system is designed to be MEV-aware by default, with no delta-return permissions, router allowlisting, and hook-level execution controls.\n\nBuilt on Uniswap v4’s singleton architecture and flash accounting model, Arcanum remains composable while improving execution privacy. It integrates natively with Unichain’s bundle execution (eth_sendBundle) to align intent windows with private, revert-protected execution.",
+  "how_its_made": "Arcanum is built as a Uniswap v4 hook written in Solidity and developed using Foundry. The core logic lives in a custom hook that intercepts swap execution and decodes an intent structure passed via hook calldata. Each intent specifies execution windows, minimum delays, acceptable pool IDs, output constraints, and salts for uniqueness.\n\nThe hook enforces timing constraints onchain and restricts execution to allowlisted routers, with no delta-return permissions to prevent balance manipulation. Routing privacy is achieved by allowing multiple valid pool IDs per intent, deferring the actual route choice until execution time. Liquidity shielding is implemented by tracking LP actions and enforcing cooldown periods before liquidity can be removed.\n\nDeployment and testing are handled via Foundry scripts and a custom CLI that automates hook deployment, pool creation, liquidity provisioning, and swap execution. The CLI supports both local Anvil environments and Unichain Sepolia. For private execution, swaps are submitted using Unichain’s eth_sendBundle, aligning intent execution windows with revert-protected bundle inclusion.\n\nUniswap v4’s singleton PoolManager and flash accounting model make it possible to implement these controls without breaking composability, while Unichain’s native bundle infrastructure enables practical timing privacy in real execution.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/arcanum-j3cg7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

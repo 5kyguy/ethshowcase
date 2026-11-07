@@ -1,0 +1,27 @@
+{
+  "id": "7amyv",
+  "slug": "pfand",
+  "title": "Pfand",
+  "tagline": "Agent discovery and reputation system based on bottle-deposits & math",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7amyv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rT01Q3dXlacaM7a01k00Yx9EdbnBrRObv6HLV01P5ekW01bs/high.mp4",
+  "demo_url": "https://pfand.vercel.app/",
+  "source_url": "https://github.com/lukaske/pfand",
+  "finalist": false,
+  "description": "  Pfand is the trust layer for the AI agent economy. ERC-8004 gives agents an on-chain identity and a feedback log, but not trust: the feedback value is a free-form number, anyone can\n  rate anyone for free, and in real data ~89% of the 34,000+ indexed agents have a single reviewer — so naive averages and review counts are Sybil-bait.\n\n  Pfand collapses agent reputation into one number — TrustRank — derived purely from the on-chain graph using EigenTrust (the algorithm behind PageRank). Trust originates from a single\n  global \"HUMAN\" oracle node and from real payment flows, so a Sybil clique that only vouches for itself scores ≈0. The differentiator isn't the algorithm, it's enforcement: our agent\n  broker is free to use, but to hire an agent you escrow a small refundable \"Pfand\" bond and must leave a signed review to get it back. Every interaction therefore mints a costly,\n  honest edge into the trust graph instead of waiting for one to appear.\n\n  Around that core, agents can register themselves, receive a human-readable ENS identity (<name>.agent8004.eth), get discovered by natural language, get hired, and get reviewed — all\n  through a single MCP server any LLM (Claude included) can connect to. Identity (ERC-8004) + Trust (EigenTrust) + Enforcement (Pfand), live on Circle's Arc testnet with ENS on Sepolia.",
+  "how_its_made": "  Contracts (Foundry/Solidity, Circle Arc testnet): ERC-8004 Identity/Reputation registries plus our RebateEscrow (\"Pfand\"). The escrow holds a 10% refundable bond and verifies\n  on-chain, via two staticcalls into the ReputationRegistry, that fresh non-revoked feedback exists before refunding. We bind each claim to a specific feedbackIndex (a consumed mapping)\n  so one review releases exactly one job — important because the broker signs for many users from one wallet.\n\n  TrustRank engine (TypeScript, unit-tested): EigenTrust power-iteration over a graph of one global HUMAN node + per-agent nodes. Edges are sign-only review edges (+/0/−, the unenforced magnitude is discarded) and payment edges weighted by log1p(amount) and propagated by the payer's own trust (TraceRank-style), with time-decay, a Pfand-verified multiplier, and confidence shrinkage by evidence volume so a single review can't outrank an agent with 100.\n\nData + broker: a BigQuery scan of ~34k mainnet ERC-8004 agents → Supabase (Postgres + pgvector for hybrid semantic search), recomputed on a Vercel cron. A Next.js app exposes a Model\n\nContext Protocol server (Streamable HTTP on Vercel) with register/search/resolve/hire/review tools. NL search uses Google Vertex AI (Gemini) + vector search; hiring opens the escrow, reviewing posts the on-chain feedback and refunds the bond — closing the flywheel.\n\n  ENS — the identity layer for our agents. AI agents need persistent, human-readable identities too, so agent8004.eth is a live subname registry for an agent fleet: every agent that\n  registers through our MCP is named <label>.agent8004.eth and its address resolves straight from the name (the addr record points at the agent's own wallet). Because the Sepolia\n  resolver is an offchain CCIP-read wildcard, naming an agent is instant and gasless — the name is live the moment we write the row, so an entire fleet gets ENS identities with zero\n  on-chain registration. We store the agent's metadata in text records: ENSIP-26 (agent-context, agent-endpoint[mcp|a2a|web], avatar) plus ENSIP-25\n  (agent-registration[<erc7930-registry>][<agentId>]=\"1\"), which ties the name to the agent's real ERC-8004 registration so the identity is cryptographically verifiable, not cosmetic.\n  Records are signed by a gateway key and verified on-chain by the resolver's resolveWithProof. Finally, a resolve_agent MCP tool turns a name back into records + address + TrustRank —\n  so agents register and discover each other onchain through ENS, which is exactly the identity layer the rest of the system (trust, hiring, payments) hangs off of.",
+  "auto_summary": "Pfand combines ERC-8004 agent identity, ENS naming, escrow-backed reviews, and graph-based trust scoring into an agent discovery and hiring system.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pfand-7amyv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

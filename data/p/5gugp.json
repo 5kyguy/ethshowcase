@@ -1,0 +1,27 @@
+{
+  "id": "5gugp",
+  "slug": "ward",
+  "title": "Ward",
+  "tagline": "AI agent that hires humans and pays them in USDC, settled by sensor proof not human approval.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5gugp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qAwBbYDt8Dfj767XqFgwdeUP1L1z6ib024wFslWsKW2k/high.mp4",
+  "demo_url": "https://web-nine-ashen-75.vercel.app/demo",
+  "source_url": "https://github.com/joeykokinda/ward",
+  "finalist": false,
+  "description": "WARD is rails for an autonomous system to hire and pay a verified human for physically-verifiable work, with settlement, identity, and reputation on-chain. The instrumented home is the first instance, not the product.\n\nAn autonomous agent watches your devices and climbs an escalation ladder. First it will try to self-fix most faults in software for free (reboot, reconfigure, cycle a relay, close a valve). Only when the fault is physical and software can't touch it does it hire a verified human, escrow USDC on Arc, and dispatch the worker it discovered and ranked through ENS. Payment releases the moment a Chainlink CRE workflow reads the device telemetry and confirms the fix. Essentially the sensor settles the bill.\n\nIt's a working end-to-end implementation of ERC-8183 (Ethereum's new Agentic Commerce standard) on live Arc testnet: the home agent is the Client, the field tech is the Provider, and the Chainlink CRE workflow is the Evaluator the one role the standard lets release escrow. The home demo is visceral (a 2am leak, owner asleep), but the real buyer is software with no bank account: property managers, DePIN fleets, DAO treasuries, agent wallets anything that has to pay humans for verifiable work and can't open a Stripe account.",
+  "how_its_made": "Contracts (Foundry / Solidity): WardEscrow is a keyed ERC-8183 JobEscrow holding native Arc USDC with a real policy layer in-contract — per-job caps, daily caps, an owner-approval threshold, and deadline auto-refund (the standard's Expired state). WorkerRegistry holds worker stakes and on-chain reputation. Both are source-verified on Arc's Blockscout (solc 0.8.24, optimizer 200 runs); 56 forge tests pass. Native Arc USDC is also the gas token, so settlement is gas-free and sub-cent — the only reason sub-$200 machine-to-human payments are economical.\n\nEvaluator (Chainlink CRE): a CRE workflow (TypeScript SDK) fetches device telemetry from our public HTTPS device simulator on a cron tick, runs identical-consensus across the DON that the fault is resolved, and produces an EVM WriteReport to Arc that drives complete() on the Job, releasing the escrow. The contract trusts the attestation, not a human.\n\nIdentity (ENS): the agent holds ward-agent.eth, verified per ENSIP-25 (its agent-registration record points at the live WorkerRegistry on Arc). Workers are subnames carrying ENSIP-26 text records — skills, region, and a CAIP-10 reputation pointer that resolves their reputation live off the Arc registry. The agent discovers and ranks workers by resolving ENS, not a private DB; the address ENS resolves for a worker is the exact address paid on Arc. We also registered agent.demo-home.eth to demonstrate the sovereign-agent pattern. ENS code lives in packages/ens + a /api/ens route.\n\nAgent + infra: a Python agent (asyncio + web3.py) runs the escalation ladder and uses Claude API for fault diagnosis and dispatch selection only. All spending is contract-capped and owner-threshold-gated. A FastAPI device simulator runs on an always-on box exposed over HTTPS via Tailscale Funnel so CRE can reach it. Frontend is Next.js + React + Tailwind v4 on Vercel (a marketing homepage + a cinematic /demo), state persisted in Supabase. The attestation seam is identical whether the device behind the HTTPS endpoint is mocked or a real Home Assistant / DePIN node.",
+  "auto_summary": "An autonomous home-maintenance system that escrows Arc USDC, discovers workers via ENS, and uses a Chainlink CRE workflow to release payment from device telemetry.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ward-5gugp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

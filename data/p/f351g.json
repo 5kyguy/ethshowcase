@@ -1,0 +1,30 @@
+{
+  "id": "f351g",
+  "slug": "eidolon",
+  "title": "EIDOLON",
+  "tagline": "Earn Uniswap fees without locking funds. Your wallet is the liquidity pool. ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f351g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/n02QmTWC2vbE802aTah2kN1Ln2abhxoYkp9IysxZWY3jY/high.mp4",
+  "demo_url": "https://eidolon.oneroad.app",
+  "source_url": "https://github.com/ucEzette/eidolon",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": "Uniswap v4 Agentic Finance"
+    }
+  ],
+  "finalist": true,
+  "description": "What if we could create a DEX that was mathematically impossible to drain?\n\nEidolon is the \"Undrainable Standard\" for decentralized finance, a radical reimagining of liquidity provision on Uniswap V4. Traditional DEXs require users to deposit funds into smart contracts, creating massive \"honeypots\" (TVL) that attract hackers. In 2024 alone, billions were lost to contract exploits.\n\nEidolon eliminates this risk entirely by introducing Ghost Liquidity.\n\nThe Core Innovation Instead of depositing tokens, Eidolon users sign off-chain \"intents\" (Ghost Positions) that authorize liquidity provision only for specific conditions. These funds remain safely in the user's self-custody wallet, completely inaccessible to hackers.\n\nHow it Works\n\nAuthorize: Users sign a cryptographic intent via our Permit2 Witness system. No gas, no deposit.\nExecute: When a trade comes in, our Executor Bot triggers the transaction.\nMaterialize: The Eidolon Hook validates the signature and \"materializes\" the liquidity from the user's wallet milliseconds before the swap.\nSettle: The swap executes, fees are earned, and the principal + profit is atomically returned to the user in the same block.\nAt rest, the Eidolon smart contract is empty. There is zero TVL to steal.\n\nKey Benefits\nUndrainable Security: Hackers can't drain what isn't there.\nZero Passive Impermanent Loss: funds aren't sitting idle. You only provide liquidity when it matches your price intent.\nMultiplexed Capital: The same USD in your wallet can back ghost positions in 10 different pools simultaneously. 10x your fee opportunities with 1x the capital.\nGasless Provision: LPs create orders without paying gas fees; execution costs are handled by the bot.\nEidolon isn't just a trading protocol; it's a security paradigm shift. Moving DeFi from \"Trust Code\" to \"Trust Math\"",
+  "how_its_made": "Eidolon was built by fundamentally \"hacking\" the standard Liquidity Provision model on Uniswap V4. my goal was to eliminate the \"Honeypot\" risk of TVL (Total Value Locked) by keeping funds in user wallets until the exact microsecond of execution.\n\nThe Tech Stack i engineered a custom V4 Hook (EidolonHook.sol) in Solidity using Foundry, deployed on the Unichain testnet. The frontend is a Next.js application that serves as a \"Summoning Portal\" for creating off-chain intents. The execution layer is a Node.js bot that monitors these intents and triggers on-chain settlement.\n\nPartner Technologies\nUniswap V4 Hooks: The core enabler. I used beforeSwap to pull liquidity Just-In-Time (JIT) and afterSwap to return it atomically. Without V4's customizability, this architecture would be impossible.\nPermit2 (Witness): This is my major security backbone. I utilized the advanced \"Witness\" feature to cryptographically bind every user signature to my specific Hook address and Pool ID. This means even if a signature is leaked, it is mathematically invalid for any other use, i tagged it: a massive security win.\nThe \"Hacky\" Part The most notable technical feat is how i turned an AMM into an atomic RFQ (Request for Quote) engine. I store \"Ghost Positions\" (signed intents) off-chain in a Redis store. When a trade occurs, my Hook \"materializes\" this liquidity mid-transaction. To make this work seamlessly, i had to bypass standard pool state readings and implement extsload to read storage slots directly, ensuring my UI reflects the \"Active\" state of pools that theoretically have zero TVL. I essentially tricked the blockchain into treating off-chain promises as hard on-chain assets, but only for the duration of a single block",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/eidolon-f351g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

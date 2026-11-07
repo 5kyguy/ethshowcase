@@ -1,0 +1,26 @@
+{
+  "id": "6jh5j",
+  "slug": "spieon",
+  "title": "Spieon",
+  "tagline": "Open-source AI Red Team for the Agent Economy for finding vulnerabilities in AI agents and tools",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6jh5j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FMktyWA2tCECf3NaZGCqS58BKprvR00vRI7rzvvB02ZKo/high.mp4",
+  "source_url": "https://github.com/agiCitizens/spieon",
+  "finalist": false,
+  "description": "Spieon is an open-source AI red team for the agent economy. It is an autonomous LangGraph agent that scans paid AI agents and MCP servers- recon, plan, probe, reflect, attest, consolidate- and narrates every step over WebSocket so you watch it think.\n\nEvery probe settles in real USDC over x402, so each finding ships with the on-chain cost of exploitation. Findings are deduped across engines, LLM-judged, and attested on Base Sepolia via EAS with OWASP Agentic Top 10 / MITRE ATLAS / MAESTRO taxonomy fields populated. Detail bundles are encrypted with age + X25519 to an operator key generated in the browser- the agent itself has no decryption capability.\n\nA BountyPool contract pays module authors when their probe code lands, gated by per-severity caps and a per-module daily cap. A ModuleRegistry maps probe hashes to author addresses; the agent's procedural memory (heuristics that survive consolidation) is published per version and hash-attested onchain. Scans are free for operators in V1; Spieon-the-agent is a subsidized demo.",
+  "how_its_made": "Agent runtime: LangGraph orchestrates an adaptive scan workflow (recon -> plan -> probe -> reflect -> adapt -> verify -> attest -> consolidate). Every node is checkpointable and emits structured narration events. Probe selection uses an Anthropic select_probes tool call with a deterministic fallback; LangMem on pgvector backs a three-tier memory system (hot buffer -> working memory with usefulness scoring -> long-term, with promotion to public procedural heuristics).\n\nBackend: FastAPI + SQLModel (async, asyncpg) on Postgres + pgvector. Probes execute inside e2b sandboxes wrapped by a safety harness - per-host token bucket, destructive-action blocklist, auto-stop on budget exhaustion / 5xx streak / max attempts, attribution headers (User-Agent: Spieon-Pentest/1.0, X-Spieon-Scan-Id). A CostMeter reads real USDC Transfer amounts from the x402 payment receipts so cost-of-exploit is grounded in on-chain spend, not estimates.\n\nx402 + Coinbase facilitator: every probe is a payable HTTP call, settled per-request. The agent has a hot wallet capped at $50 with auto-sweep to a cold Safe.\n\nOnchain: Foundry contracts (ModuleRegistry, BountyPool) deployed on Base Sepolia. EAS attestations carry sha256(ciphertext), the bundle URI (ZeroG / IPFS / local fallback), severity, cost, and full taxonomy IDs. Bounty payouts enforce per-severity caps and a per-module daily cap.\n\nFrontend: Next.js 15 + Tailwind + viem/wagmi. The browser generates the X25519 recipient at scan submission - only the public age1… form goes to the backend, so encrypted bundles can never be decrypted server-side. The narration WebSocket renders the live agent stream.\n\nDefense layers: target responses pass through an LLM Guard scanner, get length-capped, and land in an isolated sub-agent context that cannot directly call tools - only the main agent makes structured tool calls (payouts only to registered modules, attestations only for recorded probes, memory writes scoped to scan).\n\nObservability: self-hosted Langfuse traces every agent decision, tool call, memory op, and chain interaction.\n\nAI tooling disclosure: Claude Code assisted with scaffolding, refactors, doc consistency, and a concurrency fix in backend/app/api/agent.py; all architectural, probe-design, and sponsor-scoping decisions are hu",
+  "auto_summary": "An AI red-team platform that scans paid agents and MCP servers, records findings, and manages attestations, payouts, and live scan narration.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/spieon-6jh5j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "8i4cf",
+  "slug": "moveorbit",
+  "title": "MoveOrbit",
+  "tagline": "Extension to 1inch Fusion+ for the Move-based blockchains Sui and Aptos",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8i4cf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TJ2xPq8sSdz1FMRty3q96JaNqnr00CYVg1802AZxNpWNE/high.mp4",
+  "demo_url": "https://youtu.be/QXYVxNi-rhg",
+  "source_url": "https://github.com/tamago-labs/moveorbit-xyz",
+  "finalist": false,
+  "description": "We built an extension of 1inch Fusion+ to support Move-based blockchains, specifically Sui and Aptos. It enables atomic swaps across different virtual machines.\n\nDuring the hackathon, we experimented with various APIs and the original system for cross-chain swaps. After some trial and error, we realized the existing setup was too complex then we decided to fork the protocol and build a simpler version. \n\nThis allowed us to deploy all them on testnets and focus on core functionality and have a functional CLI to interact with the system.",
+  "how_its_made": "We created the MultiVMResolverExtension. This extension allows resolvers to register addresses across multiple chains without modifying core escrow or limit order contracts. It cleanly integrates with 1inch’s Fusion+ architecture by overriding _postInteraction, enabling cross-VM logic while remaining modular and composable.\n\nWhen a swap is executed, the extension parses extraData to determine the destination VM, chain ID, and recipient address. If the destination is a non-EVM chain, it creates a CrossVMOrder with metadata that off-chain agents or other contracts can process.\n\nCurrent Flow\n-  Deploy LimitOrderProtocol, EscrowFactory, and Resolver on EVM. Sui and Aptos use unified contracts for simplicity.\n- Register resolver addresses across EVM, Sui, and Aptos using registerResolver\n- User creates an order by construct and sign a standard EIP-712 limit order with details\n- User computes a secret and hash, then shares it securely with the resolver (should use SDK for production) to complete the swap\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/moveorbit-8i4cf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

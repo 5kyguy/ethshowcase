@@ -1,0 +1,28 @@
+{
+  "id": "eccun",
+  "slug": "emerald-da",
+  "title": "Emerald DA",
+  "tagline": "Stake‑backed data availability for decentralized imageboards",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/eccun/banner/default.jpg",
+  "source_url": "https://github.com/rednaxela5950/emerald-da",
+  "prizes": [
+    {
+      "sponsor": "Symbiotic",
+      "sponsor_id": "y3oj0",
+      "placement": "1st place",
+      "title": "Best Use of Symbiotic Relay SDK"
+    }
+  ],
+  "finalist": true,
+  "description": "Emerald DA is a prototype data‑availability module for a future decentralized imageboard protocol called Emerald. Instead of trusting a single node that claims that post data is (un)available, we use a set of staked operators on Symbiotic to attest that each post’s blob has propagated in the off-chain data network.\n\nIn this hackathon version, Emerald itself is not implemented. I've only built the data‑availability layer around a single Solidity smart contract that stands in for the future Emerald blockchain. A user uploads a blob to a simple HTTP storage service and registers its hash plus a KZG‑style commitment in this \"mock chain\" contract. Symbiotic operators who can download and validate the blob then sign a Symbiotic Relay message that the post is available. The contracts treat the aggregated Relay attestation as a stake‑weighted \"yes\" vote.\n\nWhen the vote crosses a threshold, the post leaves the pending state and a second phase begins: we randomly select some of the yes‑voters and give each of them a unique custody challenge derived from the commitment. Operators who cannot answer their challenge are marked as failing custody in the contract. In a full deployment those failures could be fed into Symbiotic's slashing logic, but in this prototype we stop at detection and flagging. Operators who pass keep the post in good standing, and in the demo UI the post is promoted into the visible thread. The result is a compact, proof‑of‑custody data‑availability layer, demonstrated with a smart contract in lieu of a full blockchain, that can later be plugged into the complete Emerald protocol.",
+  "how_its_made": "I built a thin end‑to‑end slice around Symbiotic Relay, using Solidity contracts as a stand‑in for the future Emerald appchain. One contract (EmeraldPostRegistry) stores posts as (postId, cidHash, kzgCommit, status) and models the “pending → finalized” lifecycle. A second contract (EmeraldDaAdapter) is the entry point for Symbiotic: it is called by a Relay adapter with a stake‑weighted DA attestation, checks a threshold, records which operators voted “yes,” and moves the post into a “Phase 1 passed” state. KZG openings are routed through a MockKzgVerifier, so the control flow matches a real system while the cryptography stays lightweight for the hackathon. \n\nOff‑chain, a small Node.js HTTP service acts as a fake storage network, and a TypeScript DA worker listens to contract events. When a post is registered, the worker fetches the blob by cidHash, checks keccak256(blob) == cidHash, and decides whether to sign the Symbiotic Relay DA message or stay silent. If its operator is later sampled for a custody challenge, it generates mock opening data and calls submitCustodyProof on the adapter. A minimal React UI ties everything together so you can upload blobs, create posts in the mock chain, and watch them move through Pending → Phase1Passed → Available / Unavailable while we toggle scenarios like “blob deleted” or “lazy operator” to show how the Symbiotic‑backed DA flow behaves.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/emerald-da-eccun",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

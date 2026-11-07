@@ -1,0 +1,27 @@
+{
+  "id": "vnakb",
+  "slug": "iris-finance",
+  "title": "Iris.finance",
+  "tagline": "Options made simple: deposit, earn yield upfront, settled on-chain.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vnakb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/h4y01nPzrPPOV8tRdUpdpPwNYYIQtU2xf6rKpwVPXaN4/high.mp4",
+  "demo_url": "https://iris-finance.vercel.app/",
+  "source_url": "https://github.com/abaresks24/iris",
+  "finalist": false,
+  "description": "Iris makes options feel like a savings product.Options are the most powerful tool in finance, and also the scariest one: margin, liquidations, Greeks. Iris hides all of that. It takes a single, fully collateralised option and presents it as three products you can read in plain English.The Cash Secured Put is the headline one. You deposit USDC, you earn yield upfront, and in the worst case you simply end up buying the asset cheaper than it trades today. The Covered Call earns you a bonus on an asset you already hold. Buy Call is a straight bet on the upside, where the most you can lose is the premium you paid.No margin maths, nothing to liquidate. You know your worst case the moment you deposit.Iris works across chains by default. Send any token from any chain and it lands as USDC, ready to put to work. The onboarding doubles as a lesson: the landing page is a forest path you scroll down in 3D, and as you walk it the protocol explains what an option actually is, where your premium comes from, and how calls differ from puts. By the end of the walk you have signed up and understood the product without noticing the seam.Pricing comes from Derive's permissionless options orderbook, so it is live and real. Positions settle onchain on Circle's Arc, where the payoff is trustless and anyone can verify it.",
+  "how_its_made": "The frontend is Next.js 15, React 19 and Tailwind. The hero landing runs in React Three Fiber on top of three.js. The forest is a single GLB that started at 128 MB; I got it down to 11 MB with gltf-transform, using Draco for the geometry and WebP for the textures, so the scene actually loads fast enough to ship. The camera walks the real dirt road inside the model instead of a path I placed by hand. I extract the road centerline automatically from the road meshes, running PCA and then a small \"snake\" that keeps chasing the average position of the road vertices ahead of it, and I raycast the terrain every frame so the camera stays planted on the ground. The teaching bubbles fade in as you scroll, driven by CSS scroll timelines.\nWallets run on Privy, which hands users an embedded wallet in one tap or lets them bring their own. Underneath I use wagmi and viem with a custom chain definition for the Arc testnet.\nThere are two separate execution paths. Buy Call orders go to Derive's REST orderbook and are signed with EIP-712 using session keys. The testnet book is empty, so I run a second maker account under a different owner that immediately fills the user's order as an IOC taker. The fills are real and cross account, which keeps it clear of the rule that stops an account trading against itself. The headline Cash Secured Put instead goes through my own OptionVault, a Foundry and Solidity contract on Arc. It locks the USDC collateral, pays the premium upfront from a protocol APR, and settles at expiry against a price feed in the Chainlink format.\nThree partner pieces did real work here. LI.FI is the funnel that pulls money in: it bridges any token from any chain into USDC on Arc, so onboarding never depends on where your funds happen to live. Circle's Arc is the settlement layer, built entirely around USDC. One nice quirk is that gas on Arc is paid in USDC itself, so a small /api/gas faucet drips a bit of native gas into a fresh wallet before it mints the test USDC it will use as collateral. Chainlink is the settlement oracle, since Derive's prices live offchain and cannot settle a contract onchain on their own, so Chainlink computes the payoff at expiry in a way anyone can check.\nThe piece I am proudest of is the settlement split. Derive's own onchain settlement reverts on testnet because it hits an unmaintained price feed. Rather than fake a result, I rebuilt only the broken part, the settlement itself, on Arc, where Chainlink feeds are live and I control the contract. So matching happens where the liquidity already is, on Derive, and settlement happens where it can be verified, on Arc. The second maker account is what makes real matches possible on an otherwise dead testnet, and the GLB compression plus the road following camera are what turn the 3D landing from a nice idea into something that loads and runs in a browser.",
+  "auto_summary": "A multi-chain options app combines a Next.js frontend, Arc-based settlement contracts, Derive order execution, LI.FI bridging, and Privy wallets.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/iris-finance-vnakb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

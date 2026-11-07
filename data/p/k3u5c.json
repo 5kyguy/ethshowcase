@@ -1,0 +1,22 @@
+{
+  "id": "k3u5c",
+  "slug": "optix",
+  "title": "Optix",
+  "tagline": "gasless options trading protocol built on Yellow Network state channels",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k3u5c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/skjqvaixbFMP8vbVhgiqacYwbpUF87owDOUuKCk9iaA/high.mp4",
+  "demo_url": "https://github.com/Giri-Aayush/hackmoney-2026",
+  "source_url": "https://github.com/Giri-Aayush/hackmoney-2026",
+  "finalist": false,
+  "description": "We built Optix because trading options on-chain sucks. Every trade costs gas, execution is slow, and the UX feels like you're fighting the blockchain instead of using it. We wanted to change that. Optix is a gasless ETH options trading protocol powered by Yellow Network's state channels. Once you deposit USDC into our smart contract, you can create, buy, and trade options without paying a single wei in gas fees. All the trading happens off-chain through Yellow Network's ClearNode, while the settlement and dispute resolution stays trustless on Ethereum. \n\n\nHere's how it works: \n- You connect your wallet\n-  Deposit USDC (minimum 10), and enable gasless trading by authenticating with Yellow Network - From there you can write covered calls or puts\n- set your own strike prices and premiums, or browse the options chain and buy existing contracts.\n\n The whole experience feels like using a CEX, but your funds never leave your control. We integrated Pyth Network for real-time ETH/USD price feeds, which powers our Black-Scholes pricing model for theoretical option values and Greeks calculations. The smart contract handles deposits, withdrawals, option settlements with a 24-hour challenge period for dispute resolution, and full state channel support. This project is our answer to the question: what if DeFi options could actually compete with TradFi on speed and cost, without sacrificing decentralization?",
+  "how_its_made": "The stack is TypeScript end-to-end. Frontend is Next.js 14 with the App Router, styled with Tailwind and shadcn/ui components. We used wagmi and viem for all wallet interactions, with RainbowKit handling the connect flow. State management is TanStack Query - everything from price feeds to trading balances polls on intervals to keep the UI snappy. The backend is an Express server that acts as a trading engine. We implemented a full options orderbook that tracks listings, matches buyers to writers, and handles the option lifecycle (open → filled → exercised/expired). All pricing uses a Black-Scholes implementation we wrote from scratch - it calculates theoretical prices, Greeks (delta, gamma, theta, vega), intrinsic/time value breakdowns, and breakeven points in real-time. For Yellow Network integration, we're using the @erc7824/nitrolite SDK to handle WebSocket connections to the ClearNode. The auth flow was tricky - we generate an ephemeral session key on the client, request a challenge from ClearNode, then sign it with EIP-712 using the user's wallet. Once authenticated, all trading messages go through the state channel instead of hitting the blockchain. The smart contract (Solidity 0.8.24) handles deposits, withdrawals, and settlement. We integrated Pyth Network for price oracles - when exercising options, the contract fetches the latest ETH/USD price and calculates payouts on-chain. There's a 24-hour challenge period for dispute resolution so neither party can cheat. One hacky thing: since Alchemy's free tier limits block range queries to 10 blocks, we built a separate \"Sync Deposits\" endpoint that scans the blockchain for a user's specific Deposit events by address, which is way more efficient than scanning all events. Database is Supabase (Postgres) for persisting balances, options, trades, and positions across server restarts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/optix-k3u5c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "xereh",
+  "slug": "tinyfeed",
+  "title": "TinyFeed",
+  "tagline": "An agent turns your transcripts into a feed of AI artifacts you own, stored in TinyCloud.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xereh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DMjaD7MNclwsrMfWgnCTtdjLcKwDBQKZ6qF8pKuQPVU/high.mp4",
+  "demo_url": "https://tinyfeed.tinycloud.xyz ",
+  "source_url": "https://github.com/TinyCloudLabs/distillery",
+  "finalist": false,
+  "description": "TinyFeed turns the conversations you already have into a feed of content you actually own. Your meeting transcripts (from TinyCloud Listen) live in your own TinyCloud space — not a SaaS silo. You sign into the feed, delegate a narrow, revocable permission to an agent, and that agent reads your transcripts, distills them into publishable artifacts (a tweet, an article with a hero image, and more), and writes the results straight back into your space. A pure-client feed then renders those artifacts directly from your storage. Every step runs under a scoped UCAN delegation tied to your wallet identity, the agent can only touch what you granted, and you can revoke it at any time. The result is a personalize AI content pipeline tailored to the user where the user, rather than the platform, owns both the inputs and the outputs.",
+  "how_its_made": "The project runs on user-owned data in TinyCloud — an encrypted personal datastore keyed to your did:pkh wallet identity. Transcripts are read from your TinyCloud space; artifacts are written back to an xyz.tinycloud.artifacts space (a SQL feed table + KV for media).\n\nThe agent never holds your keys. The feed (a pure-client React 19 + Vite SPA, OpenKey passkey sign-in) calls delegateTo(agentDid, scopes) to mint a scoped UCAN delegation and POSTs it to a Bun agent backend, which validates it (audience, chain, capability-subset) before activating — so the agent only ever touches what you granted. Generation is an ElizaOS agent that triggers a Smithers workflow running a set of composable artifact-building skills.\n\nAll TypeScript on Bun; the feed deploys static to Cloudflare Pages and talks to TinyCloud straight from the browser via the web-sdk. Proven this weekend: a real transcript → tweet + article published under delegation, with a byte-identical hero-image round-trip through KV, read back by the live feed.\n\nWhy it matters: most AI tools pull your data into their silo and keep the output — TinyFeed flips that, giving you scoped, revocable control over both the transcripts going in and the artifacts coming out, portable across any app built on TinyCloud.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tinyfeed-xereh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

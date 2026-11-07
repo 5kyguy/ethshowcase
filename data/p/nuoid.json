@@ -1,0 +1,22 @@
+{
+  "id": "nuoid",
+  "slug": "smartrenovate",
+  "title": "SmartRenovate",
+  "tagline": "Auditable Reno Escrow: Rule-based payouts & cross-chain settlement for transparent milestones.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nuoid/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DhD8fPrmcjkldiVdBq2c1AJGgwlT7ufk7RyQwgyXCIo/high.mp4",
+  "demo_url": "https://smart-renovate.vercel.app",
+  "source_url": "https://github.com/primeverose/SmartRenovate",
+  "finalist": false,
+  "description": "We’re building a USDC escrow and milestone-based payout system on Arc for home renovation projects. The prime contractor creates a project and uploads the scope and quote; the owner accepts the contract version and funds escrow. The contractor submits deliverables per phase, and an inspector approves or rejects. Funds are released only when conditions are met, with an immutable on-chain record.\n\nOur payout logic is currently fixed for the MVP: Phase 1 and Phase 5 release 100% to the contractor, while the three middle milestones automatically split payouts 90% to the contractor and 10% to the inspector. This MVP demonstrates a reliable fixed split, and we plan to make the split configurable at project creation (and support more recipients) in the next iteration.\n\nWe also integrate Circle Wallets and Circle Bridge/Bridge Kit to enable cross-chain USDC settlement while keeping escrow and approvals on Arc. We have verified cross-chain payout execution: during milestone release, the inspector’s 10% share is delivered cross-chain to a Base Sepolia recipient address, and the USDC transfer is confirmed on-chain.",
+  "how_its_made": "SmartRenovate is built on Arc Testnet (Chain ID: 5042002) using a custom Solidity 0.8.28 smart contract (RenovationEscrow.sol) that handles milestone-based escrow, dispute resolution, and change orders entirely on-chain. The frontend is Next.js with TypeScript and Tailwind CSS, using viem for direct contract interaction without an abstraction layer.\n\nThe most notable technical piece is the dual-wallet architecture: homeowners fund projects with USDC on Arc Testnet, while inspector payments are routed cross-chain to Base Sepolia via Circle's Bridge Kit (CCTP). This means a single milestone approval triggers both an on-chain approveMilestone() call (paying 90% to the contractor) and a cross-chain bridge transfer (10% inspector fee to a different network).\n\nWe store document hashes on-chain via keccak256 for tamper-proof milestone submissions, and use role-based wallet switching so the same UI handles all four participants (Homeowner, Contractor, Inspector, Arbitrator) by detecting the connected address against the contract state.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/smartrenovate-nuoid",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

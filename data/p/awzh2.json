@@ -1,0 +1,21 @@
+{
+  "id": "awzh2",
+  "slug": "ethfunny",
+  "title": "EthFunny",
+  "tagline": "Pay anyone by ENS name -- instant payments via Yellow Network, cross-chain deposits via LI.FI.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/awzh2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01gMmZqj00Vp01FjGLWHXZF3NMhGtAyaWNOrY1GZenK3Ds/high.mp4",
+  "source_url": "https://github.com/LSpinoti/PayFlow",
+  "finalist": false,
+  "description": "PayFlow is a DeFi payment app that combines three Web3 primitives into a seamless payment experience. Recipients store their payment preferences -- preferred chain, token, and tip limits -- as custom ENS text records (com.payflow.chain, com.payflow.token, com.payflow.maxTip). Senders simply enter an ENS name, and PayFlow auto-resolves the recipient's address, avatar, and preferences. Funds arrive from any EVM chain via LI.FI cross-chain routing, which bridges and swaps in a single transaction across Ethereum, Arbitrum, Optimism, Base, and Polygon. Once deposited, all payments happen instantly and gaslessly through Yellow Network state channels -- no block confirmations, no gas fees per transaction. Users can send rapid micropayments and tips within a session, and on-chain settlement only occurs when the session closes. The result is a payment UX that feels like Venmo but runs on fully decentralized infrastructure: ENS for identity and preferences, LI.FI for cross-chain liquidity, and Yellow Network for real-time off-chain execution with on-chain security guarantees.",
+  "how_its_made": "PayFlow is a Next.js 16 app (App Router, TypeScript, Tailwind CSS) with three core integrations wired together in a 3-step payment flow.\nFor ENS, we go beyond simple name resolution. We use wagmi's useEnsText, useEnsAddress, and useEnsAvatar hooks to resolve recipients and read their custom text records. Recipients write preferences to the ENS Public Resolver via its setText() function using viem's encodeFunctionData and namehash. The custom record keys (com.payflow.chain, com.payflow.token, com.payflow.maxTip) turn every ENS name into a self-describing payment endpoint -- no backend database needed.\nFor LI.FI, we use the @lifi/sdk to fetch cross-chain deposit routes via getRoutes() and quotes via getQuote(). The sender picks their source chain and token, and LI.FI finds the optimal bridge+swap path to the recipient's preferred chain and token. We display route metadata (steps, estimated time, gas cost, tools used) before execution. The SDK handles all DEX and bridge aggregation under the hood.\nFor Yellow Network, we use the @erc7824/nitrolite SDK to connect via WebSocket to the ClearNode sandbox (wss://clearnet-sandbox.yellow.com/ws). We create a NitroliteMessageSigner from the user's wallet client that signs RPCData payloads, handle the auth_challenge/auth_verify handshake, then use createAppSessionMessage to open payment sessions with custom app definitions. Off-chain payments use createSubmitAppStateMessage to update allocations instantly between participants. Session closure via createCloseAppSessionMessage triggers on-chain settlement. A ping keepalive maintains the WebSocket connection.\nThe three integrations compose naturally: ENS provides the \"who\" and \"how\" (identity + preferences), LI.FI provides the \"from where\" (cross-chain funding), and Yellow provides the \"how fast\" (instant off-chain execution). RainbowKit handles wallet connection with ENS avatar display throughout.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ethfunny-awzh2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

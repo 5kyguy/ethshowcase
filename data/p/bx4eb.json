@@ -1,0 +1,21 @@
+{
+  "id": "bx4eb",
+  "slug": "sentinel-swarm",
+  "title": "Sentinel Swarm",
+  "tagline": "Multi agent DeFi guardian swarm with verifiable AI decisions and guaranteed on chain execution",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bx4eb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NfwcZJfGuPPJkp8yhrVUQCTJvFNoWcwpi00pI6IMY02Is/high.mp4",
+  "source_url": "https://github.com/gylshaurya/Sentinel",
+  "finalist": false,
+  "description": "Sentinel is an autonomous multi agent system that protects DeFi positions from liquidation and fee loss. Three specialized agents run continuously: a Risk Agent that monitors lending health factors on Aave and Spark, a Yield Agent that watches Uniswap V3 LP tick ranges, and a Swarm Coordinator that receives proposals from both agents, reasons about priority, and routes protective actions to KeeperHub for guaranteed on chain execution with retry logic and MEV protection. Every agent decision is cryptographically provable through 0G DA blob storage and verified on chain through our InferenceGuard contract before any transaction fires. The Coordinator agent is minted as an ERC-7857 inspired iNFT on 0G Galileo whose experience counter increments on chain after every successful execution, creating an agent that genuinely evolves over time and can be transferred with its full history intact.",
+  "how_its_made": "Sentinel is built on top of four 0G primitives working together. The Risk Agent calls 0G Compute's verifiedEvaluate endpoint for TEE-signed inference, meaning every health factor analysis is cryptographically tied to a specific model run inside a secure enclave. The Yield Agent is rule based and reads tick data directly from Uniswap V3 pool contracts via slot0(), comparing the current tick against the registered range every 15 seconds. When either agent detects a problem it emits a structured proposal to the Swarm Coordinator.\n\nThe Coordinator is the most interesting piece. Before it will route any execution to KeeperHub, it first writes the agent reasoning trace as a blob to 0G DA and submits the returned root hash to our InferenceGuard smart contract on chain. KeeperHub only fires the transaction if that proof is valid. After execution, the proof is consumed to prevent replay, and the SentinelINFT experience counter increments. This makes every execution cryptographically auditable by any third party without trusting our team.\n\nOn the KeeperHub side, the coordinator calls create_workflow and trigger_execution via their REST API, with exponential backoff retry and multi RPC failover across two 0G Galileo endpoints. The x402 payment architecture is implemented and ready to activate once testnet payment infrastructure is confirmed. We deployed four contracts on 0G Galileo: SentinelINFT, PositionRegistry, InferenceGuard, and a MockUniswapV3Pool for the demo. The iNFT implements on chain tokenURI with live metadata including the experience counter and 0G Storage pointer, so the NFT reflects real agent state directly from the chain.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sentinel-swarm-bx4eb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

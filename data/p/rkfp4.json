@@ -1,0 +1,26 @@
+{
+  "id": "rkfp4",
+  "slug": "plumb",
+  "title": "Plumb",
+  "tagline": "Onchain rent escrow releasing USDC when an NYC HPD violation resolves, verified by Chainlink CRE",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rkfp4/banner/default.jpg",
+  "demo_url": "https://plumb-ethglobal-nyc-2026.vercel.app/",
+  "source_url": "https://github.com/DelshahCap/ETHGLOBAL_NYC2026",
+  "finalist": false,
+  "description": "Plumb is an onchain escrow for rent withheld over housing violations. When a NYC tenant's apartment has an open HPD (Housing Preservation & Development) violation, their rent is locked in a USDC escrow on Arc instead of flowing to the landlord. A Chainlink CRE oracle checks the violation's real status against NYC's official open-data feed and posts the verified outcome onchain, which settles the escrow automatically: if the landlord fixes the issue (violation Closed), the contractor who did the repair is paid their fee and the landlord receives the remaining rent; if the violation is Dismissed, the landlord is made whole. Any yield earned on the locked funds always goes to the tenant. No party can release the money unilaterally — settlement is driven only by the city's own verified data.",
+  "how_its_made": "The core is a Solidity EscrowVault on Arc testnet (chain 5042002) holding USDC — Arc's native gas token, 6 decimals — which it deposits into a yield source for the lock period and settles per-escrow through an oracle-gated updateStatus(). The real-world data comes from a Chainlink CRE (Chainlink Runtime Environment) workflow in TypeScript: a cron job polls NYC's HPD Housing Maintenance Code Violations dataset (Socrata wvxf-dwi5) by violationId, maps violationstatus/currentstatus to an onchain Status enum (Open/Closed/Dismissed), and delivers a signed report through the Chainlink Keystone forwarder to an EscrowVaultReceiver that inherits Chainlink's ReceiverTemplate and is registered as the vault's authorized oracle. The frontend is Next.js + Privy (embedded wallets) + viem. Two things worth noting: we vendored Chainlink's ReceiverTemplate/IReceiver verbatim from the official docs rather than reconstructing them, so the auth and interface match upstream exactly; and we proved the full loop end-to-end in CRE simulation against live HPD data — using the Arc MockForwarder, a real corrected violation (ID 18100032) drove escrow #1 to settle onchain, with the contractor/landlord/tenant payouts verified by reading contract state, not logs. The production path swaps the MockForwarder for the live KeystoneForwarder (DON-signed reports).\n\n",
+  "auto_summary": "An Arc-based rent escrow app locks USDC until a Chainlink workflow verifies NYC housing violation status and then settles payouts onchain.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/plumb-rkfp4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

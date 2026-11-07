@@ -1,0 +1,27 @@
+{
+  "id": "ryd2b",
+  "slug": "orbit",
+  "title": "Orbit",
+  "tagline": "A DeFi collectible economy where trading fees fund rewards and liquidity stays permanently locked.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ryd2b/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PQL9WPz1btygABkiRDHeeqRBzcjXbYZ800PPseXG29AQ/high.mp4",
+  "demo_url": "https://orbit.gamified.trade",
+  "source_url": "https://github.com/hrsh22/ethonline-26",
+  "finalist": false,
+  "description": "Orbit is a DeFi collectible economy on Base that connects liquid tokens, permanent collectibles, and rewards funded by trading activity.\n\nFUEL is the tradable side of a 4,444-identity collection. Gaining a whole FUEL unit triggers a random Discovery that reveals a Grounded Craft, including its rarity and reward track. Collectors can keep trading or choose to Launch a favorite: permanently burn one FUEL to turn that craft into an Orbiter. The Orbiter keeps its identity, becomes reward-eligible, and no longer depends on a FUEL balance. Unclaimed rewards belong to the collectible and transfer with it to its next owner.\n\nThe economy runs through a canonical Uniswap v4 FUEL/WETH market. A custom hook charges 3% on WETH-side trading volume: 2% funds stock-reward conversion, 0.85% builds permanently locked protocol liquidity, and 0.15% goes to the creator. Reward cycles split the available budget across AAPLc, GOOGLc, METAc, and NVDAc tracks. Ordinary Orbiters share their track's allocation by rarity weight; three Stations and an Observatory receive allocations across all four tracks. Rewards depend on actual activity and successful conversions.\n\nUniswap's Continuous Clearing Auction distributes 4,000 FUEL, discovers the opening price, and combines auction proceeds with 444 reserved FUEL to seed permanently locked market liquidity.\n\nPrivy lets a collector start with email or an existing wallet and use the same account for funding, trading, Launch, and claims. The Graph integration makes pooled fee allocations and completed reward conversions inspectable.\n\nThe working demo is deployed on Base Sepolia. Settlement and stock-reward tokens are valueless test assets, demonstrating the mechanics rather than live stock ownership or guaranteed returns.",
+  "how_its_made": "Orbit combines Solidity contracts tested with Foundry, a Next.js/React/TypeScript frontend, and Effect-based TypeScript services with SQLite persistence.\n\nThe protocol pairs ERC-20 FUEL with ERC-721 collectible identities. Whole-unit acquisitions create pending Discoveries. Chainlink VRF supplies a verifiable seed; separate, retryable finalization applies identity draws in acquisition order. Launch burns exactly one FUEL and activates permanent collectible reward accounting. The reward ledger accrues rewards to identities and checks current ownership when a wallet claims.\n\nUniswap is the market and launch infrastructure. CanonicalRouter settles swaps through the official v4 PoolManager, while CanonicalFeeHook enforces the registered FUEL/WETH market and collects the WETH-side fee using hook deltas. The initial distribution integrates the official Continuous Clearing Auction and Liquidity Launcher with wallet-bound bidder escrows. A launch coordinator verifies pool initialization and permanent liquidity custody before enabling trading. EpochConverter processes four fixed WETH-to-USDC-to-reward-token routes independently; failed tracks keep their reserved budgets for retry.\n\nPrivy's React SDK and wagmi adapter support email-created embedded wallets and external wallets on Base Sepolia. The same connected account signs the faucet proof, approvals, trades, Launch, and claims. A bounded testnet faucet supplies gas and test WETH. Saved transaction evidence and receipt reconciliation recover interrupted wallet responses without automatically replaying a trade.\n\nThe Graph subgraph preserves the Messari DEX AMM 1.3.2 schema and adds v4 hook-fee, reward-funding, and auction lifecycle entities. Standard pool/token/swap fields support reusable market queries; custom entities expose exact fee allocations and successful conversion spending. Live Studio integration evidence and reproducible queries are included in the repository. The frontend requests funding analytics through a cached, budgeted API. Direct contract reads serve current balances and ownership; a separate SQLite index serves protocol history.\n\nTwo subtle integration challenges were separating PoolManager swap deltas from the user's total payment after hook fees, and checking actual auction-to-pool readiness because a successful migration transaction can still contain an internal migration failure. Both are covered by contract checks and lifecycle tests.",
+  "auto_summary": "A Base Sepolia DeFi collectible protocol combining Uniswap v4 trading, auction-based launch, reward accounting, Privy wallets, and a custom The Graph subgraph.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/orbit-ryd2b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,20 @@
+{
+  "id": "tf9on",
+  "slug": "token-flow-viz",
+  "title": "Token Flow Viz",
+  "tagline": "A ERC20 transfers as interactive token flow graphs using HyperSync & D3",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tf9on/banner/default.jpg",
+  "source_url": "https://github.com/0ex-d/token_flow_viz",
+  "finalist": false,
+  "description": "HyperSync Token Flow Visualizer turns raw ERC20 transfer data into an interactive graph so teams can inspect\n  value movement across wallets in seconds. A Rust/Axum backend hits HyperSync’s hyper-efficient query API—orders\n  of magnitude faster than traditional JSON-RPC—to pull Transfer events for a token/chain and aggregate them into\n  weighted edges. The frontend (plain HTML/JS with D3) calls the backend, then renders a force-directed network\n  where node positions, link thickness, and labels immediately surface top counterparties, potential clusters,\n  and high-volume routes. Because requests run through HyperSync, analysts can iterate on block ranges and tokens\n  without waiting on slow RPC providers; we return a JSON graph structure ready for further automation, and there’s\n  an included mock mode for demos when live creds aren’t available.",
+  "how_its_made": "Rust + Axum + Tokio power the backend, with the official hypersync-client SDK handling all ERC20 transfer queries. That SDK compiles our filter (chain, token, block window) into HyperSync’s optimized plan format, manages pagination, retries and schema evolution, and pushes the results back in one shot—orders of magnitude faster than JSON-RPC calls. We immediately stream the returned events into a saturating u128 aggregator that tallies (from,to) pairs and emits a compact JSON {nodes,links} structure ready for graphing.\n\nOn the front end, a tiny vanilla HTML/JS page uses D3 for a force-directed layout: it fetches the JSON from Axum, scales link width by transfer magnitude, and abbreviates checksum addresses for readability.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/token-flow-viz-tf9on",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

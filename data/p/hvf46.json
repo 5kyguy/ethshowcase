@@ -1,0 +1,22 @@
+{
+  "id": "hvf46",
+  "slug": "miru",
+  "title": "Miru",
+  "tagline": "Copy-trade elite makers on Sui DeepBook via Telegram—automated liquidity provision made simple.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hvf46/banner/default.jpg",
+  "video_url": "https://stream.mux.com/odruQ9d4osFZAXd6SaE9BLB01dKHuC57psDBp92T029Lk/high.mp4",
+  "demo_url": "https://miru-bot.vercel.app",
+  "source_url": "https://github.com/devesh1011/Miru",
+  "finalist": false,
+  "description": "**Miru** is the first copy trading bot built on DeepBook's on-chain CLOB—mirror top makers via Telegram while keeping full custody of your funds.\n\n**The Problem:** Copy trading on CEXs and most Telegram bots requires handing over your keys or depositing into custodial vaults. You're trusting a black box with your assets.\n\n**Our Solution:** A Telegram bot that plugs directly into Sui's DeepBook V3 CLOB, using TradeCap delegation for trustless order mirroring:\n\n- `/connect` — Sign in with Google via zkLogin (no seed phrase, no extension)\n- `/pools` — Browse live DeepBook trading pools\n- `/discover SUI_USDC` — Find top makers ranked by win rate\n- `/copy <maker> <pool> 25` — Mirror their orders at custom ratio percentage size\n- `/setup_trading` — One-command BalanceManager + TradeCap setup\n- `/fund_trading` — Deposit SUI/DEEP into your on-chain BalanceManager\n- `/my_funds` — Check your BalanceManager balances\n- `/positions` — Track active copy positions, stop anytime\n- `/revoke` — Revoke the bot's TradeCap instantly\n\nYour funds live in a BalanceManager you own. The bot holds only a TradeCap—it can place orders but **cannot withdraw**.\n\n**How It Works:** Sign in with Google (zkLogin) → `/setup_trading` creates your BalanceManager and grants TradeCap in one step → `/fund_trading` deposits into your BalanceManager → `/discover` finds top makers → `/copy` starts mirroring → Bot listens to DeepBook events and places matching limit orders on your behalf → You keep full custody, revoke anytime.\n\n**Why It Matters:** DeepBook is Sui's native order book, but there's been no way to copy its best traders without giving up your keys. Miru is the first bot to combine zkLogin onboarding, TradeCap delegation, and real-time event monitoring to bring trustless copy trading to an on-chain CLOB. Bot trades, you own. No custody risk.",
+  "how_its_made": "Miru is built on four Sui-native primitives that don't exist on other chains:\n\n**1. Object Capabilities (TradeCap + MirrorCapability)**\nDeepBook V3's TradeCap is a Sui object — the bot must *own and present* it to place orders. We also deploy a Move contract with `MirrorCapability` objects (with expiry and size limits) for position-level delegation. Capabilities can be revoked by deleting the object.\n\n**2. zkLogin (Google OAuth → Sui Address)**\nUsers authenticate via Google. We generate an ephemeral Ed25519 keypair, bind it to the OAuth token via a nonce, fetch a ZK proof from Mysten's prover, and assemble a `zkLoginSignature`. The user's Sui address is deterministically derived from their Google `sub` claim — same user always gets the same address, no seed phrase needed.\n\n**3. Programmable Transaction Blocks**\nEvery user action is a composed PTB. Setup is one atomic transaction: `createAndShareBalanceManager()` → `depositIntoManager()` → `mintTradeCap()` → `transferObjects([tradeCap], botAddress)`. Intermediate results pass between calls — the TradeCap minted in step 3 is the exact object transferred in step 4. No multicall contract needed.\n\n**4. Owned vs. Shared Objects**\nBalanceManagers are shared objects (so both owner and TradeCap holder can access them). MirrorPositions are owned objects (enabling parallel execution across users). ProtocolConfig is shared (global pause). This object topology enables concurrent trading without contention.\n\n**Stack:** DeepBook V3 SDK, Move contract for position tracking, Supabase, Telegram bot (Telegraf), TypeScript. Dual-client architecture: gRPC for transactions, JSON-RPC for event monitoring . Deployed on **mainnet**.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/miru-hvf46",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

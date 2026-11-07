@@ -1,0 +1,30 @@
+{
+  "id": "35okq",
+  "slug": "explorador-pt",
+  "title": "explorador.pt",
+  "tagline": "Collateralize the home you're selling to draw stablecoin liquidity for the new one.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/35okq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nIXxgQZi5kb5FSVkl5vdLN01Q00YEnmZwPTRxL6u01NEQU/high.mp4",
+  "demo_url": "https://ethglobal.explorador.pt",
+  "source_url": "https://github.com/joaointech/explorador-house-flash-loan",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Lisbon 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "\nPortugal is in the middle of a housing crisis. House prices have gone up about 170% in five years, a 30 year old on a normal salary can't afford to buy, and the market is jammed. One of the reasons it's jammed is that properties aren't circulating. People who want to move up, sell their old home and buy a bigger one, get stuck, because they can't do both at once.\n\nHere's the trap. In Portugal, if you buy a new home before selling your current one, signing the new home's CPCV (promissory contract) means paying a \"sinal\" deposit right away, often 10 to 20%. But your money is still locked in the property you haven't sold yet. So you either wait to sell first and lose the house you actually want, or you go to the bank for a bridge loan that's slow, buried in paperwork, and often not approved in time. Either way the property doesn't move, and the whole chain behind you stays frozen too.\n\nexplorador Bridge breaks that logjam. It lets a homeowner unlock the value of the house they're selling on-chain, in minutes, so they can put down the sinal on the new one today and keep the market moving.\n\nYou sign in with email or a social account and Privy gives you a non-custodial Sui wallet with no seed phrase. You upload your caderneta predial and ID, and Claude reads out the tax article, VPT value, address and owner. World ID proves you're a unique human living in Portugal. Your documents get encrypted and stored on Walrus, with their hash anchored on Sui, and your house is minted as HOUSE equity coins by our Move package, with supply pegged 1:1 to the property's VPT in euros and held in a shared CollateralVault.\n\nYou then lock a fraction of that equity as collateral. An AI treasury agent checks the collateral and the verified human, then pays out eUSD, our own Sui stablecoin, in a single transaction, so you can fund the new home's CPCV today. A loan dashboard shows every open position live from the vault objects, and one click repays the eUSD debt and releases the collateral back to you on-chain. The whole loan lifecycle (tokenize, anchor, draw, repay, release) is real and verifiable on Suiscan on Sui testnet.\n",
+  "how_its_made": "The whole thing runs on Sui. The core is a Move package (bridge::house and bridge::eusd) published to Sui testnet. bridge::house has a HOUSE one-time-witness coin for house equity, a shared CollateralVault object, and entry functions tokenize, anchor, lock_and_draw and repay, plus events (HouseTokenized, DocumentAnchored, CollateralLocked, LoanRepaid) so there's a full audit trail. Testnet USDC faucets can't hand out the thousands of dollars a real sinal needs, so we deployed our own stablecoin, eUSD (bridge::eusd), a mintable 6-decimal USD coin whose TreasuryCap the treasury holds. That way disbursements are real full-value transfers, not symbolic amounts.\n\nThe frontend is Next.js 16 (App Router, Turbopack), React 19 and Tailwind v4, reusing our existing explorador design system (Sora font, brand blue, dark mode, pt/en i18n). Every settlement is a programmable transaction block built server-side with @mysten/sui. For example, a disbursement composes lock_and_draw and the eUSD mint in one PTB, and a repayment composes eusd::mint_coin then house::repay to settle the debt and release the collateral in one atomic step.\n\nHere's what the partner tech does and why it's there. Privy gives non-crypto homeowners a Sui embedded wallet straight from an email login (createWallet with chainType 'sui'), which matters a lot for a mainstream product. Walrus and Seal encrypt and store the sensitive property and KYC documents off-chain while the hash lives on Sui, so you get privacy plus an immutable record. World ID proves a unique human in the right country so the treasury only lends against real people. Claude parses the caderneta predial into structured fields and does the treasury agent's reasoning.\n\nA couple of things worth flagging. Sui's official testnet fullnode now returns 404 for JSON-RPC (it's gRPC-only), so we route through an explicit SUI_RPC_URL using Suiscan's endpoint. And because Sui shared objects can't be listed by owner without an indexer, we track loan positions in a small server-side registry and refresh them with live on-chain vault state on every load. A subgraph would replace that in production. Every integration also has a clean demo fallback so the flow always runs, but with keys set every step is a real testnet transaction.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/explorador-pt-35okq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

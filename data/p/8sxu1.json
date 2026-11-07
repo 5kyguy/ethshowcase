@@ -1,0 +1,27 @@
+{
+  "id": "8sxu1",
+  "slug": "vigil",
+  "title": "vigil",
+  "tagline": "Decentralized network of independent nodes that reach consensus when smart money wallets coordinate",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8sxu1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KJdJEyFcvUovcoSowONKX1swvG9U90100azw8Rcc33RbI/high.mp4",
+  "demo_url": "https://vigil-one-hazel.vercel.app/",
+  "source_url": "https://github.com/flamiinngo/predx",
+  "finalist": false,
+  "description": "Vigil is a permissionless, decentralized on-chain intelligence network. Each node independently discovers smart money wallets from Uniswap v3 on-chain activity, watches them for ERC-20 accumulation events, and broadcasts observations over the Gensyn AXL encrypted P2P mesh.\n\nfor now a signal fires when 2+ distinct wallets across any combination of nodes accumulate the same token within a 20 minute window, no central server decides what counts. Independent agreement between autonomous nodes is the signal.\n\nAnyone can run a node, every new operator brings their own independently discovered wallet set and immediately strengthens consensus for the whole network. The more independent nodes confirm a move, the harder it is to fake.",
+  "how_its_made": "Each Vigil node is an autonomous Python agent built on asyncio. On startup it discovers 100 smart money wallets by scanning Uniswap v3 Swap events on-chain and scoring wallets by pool diversity. \n\nIt then subscribes to ERC-20 Transfer events via WebSocket with HTTP polling fallback across 6 public RPC endpoints.\n\nWhen a wallet movement is detected, the observation is broadcast to all peers via Gensyn AXL's local HTTP API (/send). Peers receive observations via /recv polling every 3 seconds. \n\nA consensus engine running on each node fires a signal when 2+ distinct wallets accumulate the same token within 20 minutes.\n\nSignal enrichment uses Uniswap v3 on-chain data directly price from slot0 sqrtPriceX96, liquidity from WETH.balanceOf(pool), 24h volume from DexScreener. Every token is checked against GoPlus Security before surfacing, AI narratives are generated via Groq.\n\nThe live network runs on Railway (Python agent + Gensyn AXL binary in Docker) with a React dashboard deployed on Vercel. Local nodes connect to the same Gensyn bootstrap nodes and route observations through the mesh to the Railway node using a remote peer key discovery mechanism over the Vigil HTTP API.",
+  "auto_summary": "A decentralized Python agent network detects token accumulation patterns from on-chain data and shares observations over an AXL-based peer mesh.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/vigil-8sxu1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "0qd8y",
+  "slug": "arcare",
+  "title": "Arcare",
+  "tagline": "Parametric insurance for DeFi — risk priced by prediction markets, settled instantly in USDC on Arc.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0qd8y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QDlYkhsf023zM57unBrhxAKUdvbHg6O1b8hRUHNGWalw/high.mp4",
+  "demo_url": "https://arcare.vercel.app",
+  "source_url": "https://github.com/Tinaldo/Arcare",
+  "finalist": false,
+  "description": "Arcare is a parametric insurance protocol for DeFi, built on Arc. Users buy YES/NO shares on markets like \"Will DAI depeg in 2026?\" — the market price reflects real-time perceived risk, like a credit default swap on decentralized stablecoins.\nTwo market types: hack protection (admin-resolved) and depeg protection (automatically resolved by Chainlink price feeds on Sepolia via a multi-level severity system — minor depegs require 20 blocks of confirmation, critical depegs resolve in 1 block).\nWhen a depeg is detected, the Chainlink CRE workflow triggers resolution and winners are paid instantly in native USDC on Arc — no forms, no intermediaries, no delays.\nIn March 2023, DAI fell to $0.85 and triggered 3,400 automatic liquidations on Aave. No insurance paid out. InsurArc would have resolved within 3 blocks and distributed USDC to covered users automatically.\nThe AMM prices shares continuously — so the YES token price on any market is a live, on-chain measure of perceived protocol or stablecoin risk. This makes InsurArc not just an insurance protocol, but the first parametric credit risk market for decentralized stablecoins.",
+  "how_its_made": "Arcare is built entirely onchain with Solidity smart contracts deployed on Arc testnet, Circle's stablecoin-native L1. The core InsuranceMarket contract implements an AMM (x*y=k) between YES and NO ERC-1155 tokens, so the share price continuously reflects market-perceived risk without any centralized pricing authority.\nThe most technically interesting component is the DepegResolver — a multi-level severity system that reads Chainlink AggregatorV3Interface price feeds directly onchain. Rather than a simple threshold, resolution speed scales with depeg severity: a minor depeg below $0.97 requires 20 consecutive blocks of confirmation to avoid false positives from market noise, while a critical depeg below $0.80 resolves in a single block — because at that price, liquidations on lending protocols have already started and every block costs users money. The system never downgrades its active severity level, so if DAI drops from $0.95 to $0.88 mid-count, the block requirement tightens immediately.\nFor price data, we read real Chainlink price feeds (DAI/USD, FRAX/USD, LUSD/USD) deployed on Ethereum Sepolia, giving us battle-tested, manipulation-resistant oracle data. We also built a Chainlink CRE workflow in TypeScript that monitors these feeds off-chain and simulates the automated resolution trigger — demonstrating how the system would operate with a fully deployed CRE DON.\nThe frontend is built in TypeScript with React, using Reown AppKit (WalletConnect) for wallet connection — supporting both MetaMask on desktop and WalletConnect on mobile automatically. It features live charts powered by recharts with a multi-resolution cache system: 1-minute granularity for the last hour, scaling up to weekly candles for year-old markets.\nUSDC is the native gas token and settlement currency on Arc — meaning payouts go directly to covered users in USDC with sub-second finality and no FX conversion, which is only possible on Arc's stablecoin-native infrastructure.",
+  "auto_summary": "An onchain prediction-market insurance protocol on Arc uses ERC20 collateral, AMM pricing, and Chainlink CRE-based depeg monitoring.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arcare-0qd8y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

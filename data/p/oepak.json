@@ -1,0 +1,26 @@
+{
+  "id": "oepak",
+  "slug": "mandate-network",
+  "title": "Mandate Network",
+  "tagline": "Autonomous AI keeps infrastructure alive with bounded USDC spending and human escalation.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oepak/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KSQgwlMhbz97OPWXNKNguHl37JM1Qc3hyVujzRJYmlc/high.mp4",
+  "source_url": "https://github.com/altaga/Mandate",
+  "finalist": false,
+  "description": "Mandate gives autonomous AI agents bounded economic authority to keep real services online. In our demo, we deliberately break first-party infrastructure and let the agent recover it on its own: it detects the failure, evaluates available providers using live cost and reputation data, spends USDC to activate a fallback, reroutes traffic, verifies recovery, and stops paying when the original service is healthy again.\n\nThe agent is not simply given a wallet. It operates under a mandate defining its budget, acceptable providers, operating constraints, and escalation rules. If a recovery requires more authority than it has, Mandate stops before funds move and requires a human to approve the escalation.\n\nEvery major step is real and independently verifiable: the infrastructure faults affect actual HTTP callers, provider reputation comes from live onchain data, recovery payments are submitted on Arc Testnet, and the agent’s decisions can be traced through the system.\n\nMandate is a closed-loop control system for autonomous AI: observe, decide, spend, verify, recover, and escalate only when necessary.",
+  "how_its_made": "Mandate is built as an Expo Router / React Native Web application with server API routes and Cloudflare D1 for shared infrastructure-health and fault state. A continuous autonomous loop combines health polling with the agent's own heartbeat, so it can detect failures even when nobody has the Mission Control dashboard open. Fault injection happens server-side through a shared wrapper, meaning a 503, latency spike, or timeout affects real HTTP callers rather than merely changing the UI.\n\nFor settlement, Mandate runs on Arc Testnet with native USDC. We implemented ERC-4337 UserOperations directly with ethers.js and built our own deployed Paymaster to sponsor the agent's gas. The agent reads its real on-chain balance before acting and makes nanopayment-scale service payments—as low as $0.00004 USDC—without human intervention. Every payment resolves to a real Arcscan transaction.\n\nThe Graph is load-bearing. We deployed our own subgraph indexing ERC-4337 UserOperationEvent activity on Arc and aggregate success/failure history into live provider reputation. graph-node could not decode the UserOperation calldata structure we needed, so we built a custom ABI head/tail decoder in AssemblyScript. The resulting reputation directly gates who the agent is willing to pay. We also query The Graph Gateway for live indexer freshness; excessive lag can stop a payment before signing, while the Gateway itself can become a paid liveness fallback during an outage.\n\nWorld ID Selfie Check defines the boundary of autonomy. If a recovery requires more money than the agent is authorized to spend, Mandate halts before moving funds and asks a real human to prove presence before authority can be increased.\n\nCloudflare Workers additionally power our Paymaster and vendor infrastructure. The repository includes AGENTS.md, FEEDBACK.md, live verification endpoints, and reproducible commands so judges can independently verify the faults, Graph data, agent decisions, and on-chain payments instead of trusting the interface.",
+  "auto_summary": "An Expo-based app coordinates an AI agent that monitors service health, pays fallback providers with USDC on Arc, and gates higher-authority actions with World ID.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mandate-network-oepak",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

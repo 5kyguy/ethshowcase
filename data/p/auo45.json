@@ -1,0 +1,27 @@
+{
+  "id": "auo45",
+  "slug": "ledger-grove",
+  "title": "Ledger Grove",
+  "tagline": "Policy control plane for treasury agents: ENS IDs, HTTP APIs, audits, automation.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/auo45/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hlggdUmpo00ICzmqnAJhXNPltWX5hLX39nqmow29efOc/high.mp4",
+  "demo_url": "https://ledger-grove.vercel.app",
+  "source_url": "https://github.com/blockwiz05/Ledger-Grove",
+  "finalist": false,
+  "description": "Ledger Grove is a Next.js control plane for treasury agents: one place to define who owns policy, which agents exist, and what they are allowed to do before anything touches real execution. The product story is ENS as the identity rail and HTTP as the integration rail. An owner sets treasury root and vault inputs (ENS or address), picks a policy profile (balanced / defensive / growth), and the system keeps that as the source of truth for limits and role behavior.\n\nAgents are registered with a display name, role (trader, ops, research, founder), ENS subname or wallet, trigger type, automation flag, and optional runtime URL. The backend resolves names on Ethereum mainnet (forward resolution for *.eth inputs, reverse records for raw addresses) and stores resolved addresses alongside agents so policy and automation can treat identity consistently even when RPC or records are flaky—using sensible fallbacks from stored config when live ENS does not return an address.\n\nThe Agent API surface is real and wired end-to-end: policy check accepts agent context and proposed action parameters and returns allow/deny-style decisions grounded in profile rules; automation run evaluates default and registered agents server-side (e.g. rebalance vs research top-up paths) and emits structured trace and audit events; action report lets a runtime POST outcomes so the Activity view stays aligned with what actually executed. The UI is a guided multi-step flow (Owner → Registry → Automation → API reference panels → Activity) plus a live agent terminal fed from API traces so reviewers can see the same story the server logs.\n\nUniswap is integrated at the quote layer (mainnet quoter contract reads) to illustrate size-aware, policy-bounded execution handoff—links and numbers the UI can show without pretending the server signs transactions for the user. Everything persists in a runtime store backed by project data so a demo survives refresh and can be iterated without a separate database. In one sentence: Ledger Grove is an ENS-aware, policy-first treasury agent hub with concrete HTTP APIs, mainnet resolution, audits, and automation you can run from the browser today.",
+  "how_its_made": "We built Ledger Grove as a Next.js 16 App Router application with React 19 on the client and Route Handlers under app/api/* for all server behavior—no separate Rust service and no MobX; state on the server is read/write JSON via a small runtime store module so agents, owner config, automation settings, audit log, and automation events survive process restarts without standing up Postgres.\n\nOn-chain interaction is viem 2 only: a mainnet createPublicClient with a configurable HTTP RPC drives getEnsAddress and getEnsName after viem/ens normalization, centralized in resolveEnsOrAddress so bootstrap, registration, automation, and the /api/resolve endpoint share one resolution path. The browser connects wallets with createWalletClient + custom from the injected provider, posts the connected address to the server, and the UI surfaces reverse ENS when the chain returns a primary name.\n\nPolicy and demo economics live in lib/config.js—token addresses, profile caps, and role blueprints—while lib/policy.js encodes the decision logic the policy route consumes. lib/chain.js also implements Uniswap V3 Quoter V2 quoteExactInputSingle calls across fee tiers, decodes return data with viem encodeFunctionData / decodeAbiParameters, and picks the best tier so automation can attach a realistic quote to an approved swap plan. The frontend is plain React state and fetch to those APIs; the “hacky but honest” part is keeping the MVP fully file-backed so hackathon judges can clone, run npm run dev, and hit the same APIs the UI uses with curl examples printed in the UI itself.",
+  "auto_summary": "A Next.js app manages treasury agent identities, policies, ENS resolution, automation flows, and Uniswap-based quote fetching via HTTP APIs.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ledger-grove-auo45",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

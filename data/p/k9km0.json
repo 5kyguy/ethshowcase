@@ -1,0 +1,28 @@
+{
+  "id": "k9km0",
+  "slug": "dao-treasury-management-through-discord",
+  "title": "DAO Treasury Management through Discord",
+  "tagline": "A Serverless Discord bot for DAO treasury management. The funds are managed using Enzyme's infrastructure.",
+  "event": {
+    "slug": "ethonline2021",
+    "name": "ETHOnline 2021",
+    "start_time": "2021-09-17T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k9km0/banner/default.jpg",
+  "source_url": "https://github.com/EsteFilipe/discord-dao-treasury-management",
+  "prizes": [
+    {
+      "sponsor": "Enzyme",
+      "sponsor_id": "mwuyw",
+      "placement": "Enzyme - 2nd Place",
+      "title": "Enzyme"
+    }
+  ],
+  "finalist": true,
+  "description": "A tool to manage the Treasury of a DAO through Discord. The tool's capabilities are the following:\r\n\r\n- Attribute a specific Discord role to users who have invested in the DAO's fund. This verification is done using Ethereum Authentication through Discord which I've built for a previous hackathon, but here with the added twist that the users only get authenticated if their address owns shares from the Enzyme vault in which the DAO's Treasury is stored.\r\n- Once a user is assigned the investor role, they become able to call slash commands which give them information about the current state of the Treasury, such as the shares balances of all the other authenticated users.\r\n- Upon authentication, if the address corresponds to that of the owner of the vault (the Treasury manager), the user also gets assigned the manager role on Discord, which enables them to call slash commands to start polls to decide what the DAO's Treasury funds should be allocated to. Only the authenticated investors can vote on these polls and the more shares an investor owns, the more weight their vote has.\r\n- Upon poll expiration, case the result of the poll was to go through with a certain trade, the execution of the trade through the Enzyme vault is triggered.",
+  "how_its_made": "The infrastructure is pretty much all based on AWS Lambda, and so is fully serverless.\n\n\n\nI took this project I had built for a previous Gitcoin hackathon as the starting point: https://github.com/EsteFilipe/discord-ethereum-authentication. It's a bot that gives a Discord user a specific role after they successfully authenticate their Ethereum address. The authentication is done through a nonce sent by the backend to the user, which then the user signs using his address key, and finally the backend verifies if the signature is valid for that nonce.\n\n\n\nOn top of that, for the authentication here I added fetching data from Enzyme to verify that the authenticated address owns shares from the target Enzyme Finance's vault, and whether the address is, or not, the owner of the vault.\n\n\n\nSome more technologies I've used:\n\n- For the creation of the Discord slash commands I used slash-create.\n\n- For the authentication front-end I used scaffold-eth.\n\n- The DB to store the authenticated users' data is DynamoDB.\n\n- All the calculations and data fetching is done using AWS Lambda (with node.js), and the infrastructure templates were built using AWS SAM.\n\n- Scheduling of the poll resolution was done using AWS EventBridge.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dao-treasury-management-through-discord-k9km0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

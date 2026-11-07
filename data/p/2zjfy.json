@@ -1,0 +1,29 @@
+{
+  "id": "2zjfy",
+  "slug": "oss-on-op-directory",
+  "title": "OSS on OP Directory",
+  "tagline": "OSS projects produce many work artifacts (eg, git repos, smart contracts). But it takes inside knowledge to know where to find them.  We created a schema for mapping artifacts to OSS projects. We built an initial directory of 100+ OSS projects on OP. And we deployed it to EAS.",
+  "event": {
+    "slug": "superhack",
+    "name": "Superhack",
+    "start_time": "2023-08-04T19:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2zjfy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Q02O6xUsubTvYN3Tj3HA9heuUKaZMUMU6e9JKgHaXB1c/high.mp4",
+  "source_url": "https://github.com/hypercerts-org/oss-directory",
+  "prizes": [
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "💫  Optimism — 🥇 Best App for RetroPGF, PG, or Impact",
+      "title": "Optimism"
+    }
+  ],
+  "finalist": false,
+  "description": "Open Source Software projects produce many different work artifacts (eg, git repos, smart contracts). But it often takes inside knowledge to know where to find them. It’s hard to link onchain impact to offchain work.\n\nOSS on OP Directory introduces several new tools for addressing this problem.\n\nFirst, we created a schema for mapping artifacts to OSS projects. Next, we built an initial directory of 100+ OSS projects that are building on Optimism. We published the directory on npm. We also deployed a simplified version of the schema to EAS -- and tested it by making 50 attestations from the directory. Last, we built a Dune Dashboard to help track attestations from the community.\n\nIn our repository, you'll find JSON schemas for defining artifacts, projects, and collections and reading them from YAML files. You'll also see automated tests to verify that all data (from us or crowdsourced via a pull request) conforms to the schema. \n\nIn the `./data/projects` directory, you'll see an initial 100+ open source projects populated by our team. We looked at projects that had smart contracts deployed on Optimism and manually mapped them to an associated GitHub repo or GitHub organization. The data is not complete -- and likely never will be as new artifacts are produced everyday.\n\nOn Ethereum Attestation Station, you can view or interact with the schema we created for linking projects to blockchain addresses [here](https://optimism.easscan.org/schema/view/0x739257b1bf8533a29a5c59a6dda5905c50f7c2bf436d709cd9ea7bfabbe5172b). You can view usage trends on [Dune](https://dune.com/os-observer/oss-on-op-attestations), which currently includes 50 attestations for well-known projects like Galxe, sound.xyz, and Zora that are building on Optimism.\n\nGoing forward, we'd love to see the community add more projects, artifacts, and EAS attestations. That way, anyone can track and analyze the impact of an OSS project permissionlessly!",
+  "how_its_made": "This project consists of a number of components that work together to form the directory:\n\n1.  **JSON Schema for specifying projects and collection**: \nWe created a [JSON schema](http://json-schema.org/) for specifying an open source \"project\", as well as a \"collection\" of projects. This current schema includes fields for GitHub organizations, GitHub repositories, npm packages, as well as on-chain contracts. Data is read to and from YAML files that are stored in the `oss-directory` repository.\nSee here for more details: https://github.com/hypercerts-org/oss-directory/tree/main/src/resources/schema\n\n2. **Data for 177 projects currently on Optimism**\nUsing the schema, we collected information for 177 top projects on Optimism and committed them into the repository. This involved indexing on-chain activity using Dune dashboards, as well as manually searching for the associated GitHub organizations.\nSee here for the data: https://github.com/hypercerts-org/oss-directory/tree/main/data\n\n3. **Continuous integration**:\nBecause we expect to receive outside contributions to the data, we created continuous integration scripts that will validate that contributed data conforms to the the specified schema. Below, you'll see where we use `Ajv` to validate read files to the schema. We wrap these utility functions in a command-line tool using `yargs`, which we invoke from GitHub actions.\n- https://github.com/hypercerts-org/oss-directory/blob/main/src/validator/index.ts\n- https://github.com/hypercerts-org/oss-directory/blob/main/.github/workflows/ci-default.yml\n\n4. **JavaScript/TypeScript library for reading the latest data**\nWe published an npm package that makes it easy for anyone to read the latest data. Because we expect this data to be changing frequently, we do not publish the data itself to npm. Instead, the library will clone the repository into a temporary directory, read the latest data from the main branch, and return the data as JSON objects.\n- https://www.npmjs.com/package/oss-directory\n- https://github.com/hypercerts-org/oss-directory/blob/main/src/fetchData.ts\n\n5. **Scripts for publishing to EAS**\nWe then created a script to also transform the data to conform to an EAS schema, and publish attestations on Optimism. These attestations are visible on indexers like Dune and EAS Scan:\n- https://dune.com/os-observer/oss-on-op-attestations\n- https://optimism.easscan.org/schema/view/0x739257b1bf8533a29a5c59a6dda5905c50f7c2bf436d709cd9ea7bfabbe5172b",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/oss-on-op-directory-2zjfy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

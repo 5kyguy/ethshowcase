@@ -1,0 +1,22 @@
+{
+  "id": "nowu4",
+  "slug": "proof-of-artist",
+  "title": "proof-of-artist",
+  "tagline": "Turns an ENS into a verified artist profile with featured works and an ENSIP-25 curator guide.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nowu4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MV9xZuuuLfhDOAwDlGQfBl00PdTjIyEL1cZjm8lIV6hI/high.mp4",
+  "demo_url": "https://proof-of-artist.vercel.app/",
+  "source_url": "https://github.com/0xsugarchan/proof-of-artist",
+  "finalist": false,
+  "description": "Proof of Artist is a Web3-native “artist proof page” generator that turns an ENS name into a public, shareable status page. Instead of acting like a generic portfolio/linktree, it focuses on verifiable identity signals:\n- Who the artist is: ENS name, avatar, wallet address, and key profile text records.\n- What’s official: a curated list of “official” contracts the artist claims.\n- What the work generated: hackathon-friendly onchain-style metrics (sales/collectors/top sale) derived from those contracts (clearly labeled as demo/mocked in the UI).\n- Who represents the artist: a Curator agent page that can answer questions in the artist’s voice.. This curator is specialized with each artist as they named as curator.artistname.eth.\n- Agent identity verification (ENSIP-25 demo): instead of just showing a “curator subname”, the app can display a statement like “Agent #1 claims <name>.eth as its ENS identity”, and optionally mark it verified using the ENSIP‑25 text-record pattern.\nThe overall positioning matches your spec: ENS is identity infrastructure (not only display), and the “AI curator” is a representative with a clear role rather than a generic chatbot.",
+  "how_its_made": "The project is built with Next.js App Router, TypeScript, Tailwind CSS, and Viem for Sepolia ENS resolution. The core flow starts from the Home page, where users enter an ENS name and are routed to the dashboard. The Dashboard resolves the ENS name on Sepolia, then lets the artist add official contracts, a statement, a curator pitch, and an agent ID for the registry demo. These settings are stored locally per ENS name for a fast hackathon demo. The public proof page shows the artist identity, metrics, contracts, curator label, and ENSIP-25 agent claim block. The curator page shows the agent claim block and chat UI. ENS integration creates a Sepolia public client with ENS resolver support, resolves the address and avatar, and reads public text records such as display name and social handles. Demo art metrics are generated from the official contract list, with a UI banner clearly marking them as mock/demo data. The curator chat sends messages and context to an API route, which returns mock replies when no AI provider key is configured, or calls an AI model when a key is available, using a system prompt that includes the artist ENS, statement, contracts, mock metrics, and ENSIP-25 status. ENSIP-25 verification is implemented as a Sepolia demo using the text record format `agent-registration[<registry>][<agentId>]`, where `<registry>` is the ERC-7930 interoperable address of the registry. The implementation encodes the Sepolia registry identifier, constructs the ENSIP-25 text key, checks that the registry record claims the current ENS name, and confirms that the ENS text record is non-empty. The registry record can come from either a deployed testnet registry contract or a local demo registry row. A verification API endpoint exposes this result to the UI, and the agent claim component renders the verification status plus the exact key/value needed to complete verification. This minimal registry setup demonstrates the ENSIP-25 verification mechanics without implementing the full ERC-8004 standard.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/proof-of-artist-nowu4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

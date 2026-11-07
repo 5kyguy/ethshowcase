@@ -1,0 +1,22 @@
+{
+  "id": "zybba",
+  "slug": "chateau",
+  "title": "Chateau",
+  "tagline": "Wallet recovery system replacing seed phrase and standard social recovery with game theory",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zybba/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cwb4013dIrQOl00vY1a9PYwrNydymUDbWTTXGcvVKJJS00/high.mp4",
+  "demo_url": "https://ethglobal-lisbon-blush.vercel.app/",
+  "source_url": "https://github.com/facoleur/ethglobal-lisbon",
+  "finalist": false,
+  "description": "Chateau replaces trusted guardians with an economic game: anyone can attempt wallet recovery, but only by staking collateral and surviving a challenge window where the owner or anonymous watch towers can veto and seize the stake. No third party ever holds custody.During a configurable challenge period, the owner or privacy-preserving watch towers can dispute fraudulent requests (veto), slash the attacker's stake and prevent unauthorized recovery. If no successful veto is submitted before the challenge period expires, the recovery is automatically finalized by rotating the account's authentication key from the old passkey to the new passkey specified by the claimant.",
+  "how_its_made": "Main stack:\n\nFront-end: NextJS, permissionless.js, wagmi\nSmart contract: Solidity, Semaphore v4, ERC-7579 (Kernel as the modular smart account)\n\nHow it's pieced together. The core is an ERC-7579 module plugged into a Kernel smart account, reached via ERC-4337 UserOps through permissionless.js. The recovery flow is commit-reveal: a requester first submits a hidden commitment (keccak256(targetAccount, requesterAddress, salt)), then reveals it to open a challenge window (lockTime) during which the owner or a watch tower can confiscate the staked lockValue. The account only stores a Merkle root of its defensive set — never the watch towers themselves — so the module's on-chain footprint stays uniform across defended and undefended wallets. New signer recovery targets a WebAuthn passkey; we validate the P-256 precompile (RIP-7212) against the target chain with a real UserOp rather than a static eth_call, since some testnets report false positives in read-only calls, with a pure-Solidity WebAuthn validator kept as fallback.\n\nThe hacky part. The thing we made the most hacky was on Semaphore v4. In order to keep the number of watch towers protecting a wallet completely private — not just their identities, but the count itself — we didn't use Semaphore groups the way they're normally used. A group that just grows over time leaks its size to anyone watching the chain, and a group that only ever grows also lets an attacker track exactly when and how often it changes.\n\nSo instead we treat Semaphore groups as disposable: every time the defender set changes (a watch tower added, removed, or just refreshed for hygiene), the whole group is thrown away and rebuilt from scratch — a brand new groupId, always padded with random filler commitments up to a fixed max size, so every wallet's group looks identical in size from the outside no matter how many real watch towers it actually has.\n\nThe other trick that makes this cheap is on the identity side: instead of re-pinging every watch tower each time we rotate the group, each watch tower pre-generates ~100 independent Semaphore identities in one single exchange with the owner at setup time. Those commitments are stored off-chain, and whenever the group gets regenerated, each watch tower just scans the on-chain member list against its own pre-computed batch to find which leaf is theirs. Rotation becomes a pure front-end operation — no synchronous back-and-forth with every defender required after the initial setup.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/chateau-zybba",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,29 @@
+{
+  "id": "myusb",
+  "slug": "abipago",
+  "title": "AbiPago",
+  "tagline": "A payments app that lets merchants charge via NFC or QR and lets users pay from any chain/token",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/myusb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lEL1b2PudiciLTbJA79iLnLAHAvjKMw6PwilU5zIJuQ/high.mp4",
+  "source_url": "https://github.com/danelerr/htm-abipago",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "AbiPago solves a real world crypto payments problem: merchants and users rarely share the same chain or token, and “how to get paid” is often centralized or manual. AbiPago turns a simple NFC/QR invoice into an intent like payment flow backed by portable onchain configuration.\nA merchant uses an ENS name (e.g., cafeteria.eth) and stores a payment profile in ENS text records: desired token, settlement chain, receiver address, and optional settings (expiry, slippage). A payer scans a QR or taps an NFC tag, AbiPago resolves ENS and automatically builds the best route from the payer’s current assets to the merchant’s requested settlement.\nAbiPago executes cross-chain routing using LI.FI Composer (swap, bridge, and optionally contract call). On the destination chain, a PayRouter receives funds, optionally performs a final Uniswap v4 swap (Universal Router) if needed, and pays the merchant, emitting an onchain receipt event",
+  "how_its_made": "AbiPago is a React Native mobile payments app that turns a simple NFC tap or QR scan into an end-to-end onchain payment. Merchants publish a “payment profile” on ENS using text records (pay.chainId, pay.token, pay.receiver, etc.), so the app can resolve human readable names (no 0x) and auto configure settlement without any centralized settings. When a user pays, AbiPago connects via WalletConnect and uses LI.FI Composer routes to swap/bridge from the user’s current chain/token into the merchant’s desired chain/token. On the destination chain we call our Solidity PayRouter contract to finalize settlement; if the incoming asset doesn’t match the merchant’s requested token, PayRouter performs a final swap using Uniswap v4 (via Universal Router) before transferring funds and emitting an onchain receipt event. The “hacky” bit: ENS acts as a portable payments configuration layer, and LI.FI + Uniswap v4 make the entire cross-chain swap-> pay flow feel like a single tap.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/abipago-myusb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

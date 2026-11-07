@@ -1,0 +1,27 @@
+{
+  "id": "xehxv",
+  "slug": "pool-up",
+  "title": "Pool Up",
+  "tagline": "Uniswap v4 pool where your liquidity earns Aave yield automatically. Zero effort, more money.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xehxv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/T00gFcZ7niYerm00Dn6nCtPZ01JZO4HqGf501ojqaYRY8J00/high.mp4",
+  "demo_url": "https://hacakthon-cannes.vercel.app/",
+  "source_url": "https://github.com/CharlesDupouy/hacakthon_cannes",
+  "finalist": false,
+  "description": "PoolUp is a Uniswap v4 Hook deployed on Base Sepolia that makes idle liquidity productive. When a user swaps USDC for USDT or provides liquidity, the hook transparently wraps both tokens into Aave's StaticATokenLM (ERC-4626) vaults before they enter the Uniswap v4 pool. This means every dollar sitting in the pool earns Aave lending yield on top of the standard 0.05% swap fees, with zero extra action from the user.\nThe core problem it solves: in a normal Uniswap stablecoin pool, idle capital earns nothing between swaps. PoolUp fixes this by holding yield bearing representations of USDC and USDT inside the pool itself. We chose StaticATokenLM specifically because regular Aave aTokens rebase (their balance grows over time), which breaks Uniswap's constant product invariant. StaticATokenLM is non rebasing: the share price appreciates instead of the balance, so the AMM math stays intact while value accrues silently underneath.\nOur Foundry fork simulations prove this works at scale: conservative scenarios show 5.06% total APY (4% Aave + 1% fees), scaling up to 7.47% in bull conditions with realistic swap volumes calibrated to actual USDC/USDT pool data. Three on chain mathematical proofs validate every simulation run, verifying Aave index growth, LP yield distribution, and fee accuracy.\nThe Uniswap Trading API is integrated both in a standalone script and in the frontend to fetch real mainnet USDC/USDT quotes before executing swaps on our testnet deployment.",
+  "how_its_made": "The smart contract (PoolUp.sol) is a Uniswap v4 Hook written in Solidity using the v4 core hook interface. It implements beforeSwap and custom addLiquidity/removeLiquidity entry points that intercept raw USDC/USDT, call Aave v3's StaticATokenLM deposit() to wrap them into stataTokens, then forward those into the v4 PoolManager. On the way out, stataTokens are redeemed back via previewRedeem and redeem() so the user only ever touches plain USDC/USDT. Deployment used CREATE2 address mining to satisfy Uniswap v4's hook address flag requirements.\nThe Uniswap Trading API is used in two places. First, scripts/uniswap-api.ts calls the /quote endpoint with a valid API key to fetch a real USDC to USDT route on Ethereum mainnet (chain 1). Testnet tokens aren't indexed by the routing API, so mainnet quotes serve as the reference price. Second, the frontend proxies requests through a Vite dev server (/api/uniswap/* to the Uniswap Trading API) to keep the API key server side and avoid CORS. The quote data (exchange rate, route path, gas estimate) is displayed to the user before they confirm the on chain swap that actually executes through our hook on Base Sepolia.\nThe stack: Foundry for contracts, testing, and deployment scripts. The fork test suite (YieldHookSimulation.t.sol) forks live Base Sepolia state with real Aave v3 and Uniswap v4 contracts, then fast forwards time to simulate years of index growth and swap volume. Frontend is React with wagmi v2 and RainbowKit, including a TypeScript port of Uniswap's LiquidityAmounts.sol for client side position math. We're also computing estimated LP receive values required reading Uniswap v4's feeGrowthInside from raw PoolManager storage slots and combining that with Aave's previewRedeem to convert stataToken shares back to dollar amounts, a chain of on chain reads that we wired up as a single multicall in the frontend.",
+  "auto_summary": "A Uniswap v4 hook wraps stablecoin liquidity into Aave static vaults so pool balances can earn lending yield while supporting swaps and LPing.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pool-up-xehxv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

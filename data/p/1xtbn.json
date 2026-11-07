@@ -1,0 +1,41 @@
+{
+  "id": "1xtbn",
+  "slug": "xswap",
+  "title": "XSwap",
+  "tagline": "One-click Uniswap buys from X cashtags, with scam checks and World ID-verified creator kickbacks",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1xtbn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZuwjkWbcHL9TFNBugPGYnnnzXq5rfowRYYyfbFxdiIQ/high.mp4",
+  "demo_url": "https://xswap-landing-page.vercel.app/",
+  "source_url": "https://github.com/Scannty/eth-blinks",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": " Best Uniswap Stack Contribution"
+    },
+    {
+      "sponsor": "Intercepta",
+      "sponsor_id": "t4hjq",
+      "placement": "Add Payment Screening to Your Agent or x402 Service",
+      "title": "Add Payment Screening to Your Agent or x402 Service"
+    }
+  ],
+  "finalist": true,
+  "description": "XSwap is a Chrome extension that lets you buy a token right from the place you find it: a tweet on X.\n\nWhen a tweet mentions a supported cashtag like $ETH, $UNI or $AERO, X shows a ticker card. XSwap adds a Buy button to that card. Pressing it opens a swap panel inside the card, so you never leave your timeline, open a DEX in another tab or copy-paste a contract address. You pick an amount, get a live quote, and sign the swap with your own browser wallet (e.g. MetaMask). These are real onchain swaps with real funds.\n\nHow it works\n\n- Uniswap swaps: quotes and swaps run through the Uniswap Trading API on Base, Ethereum, Arbitrum, Optimism and Unichain. The extension never holds your keys. Your wallet signs every transaction.\n- Token safety with Intercepta: buying straight from a tweet is exactly where people get scammed. So before you buy, XSwap checks both the token and the swap transaction with Intercepta. Risky tokens get a warning or are blocked outright, and you must confirm before you can continue.\n- Creator kickbacks with World ID: the author of a tweet earns 0.5% of every buy made from the ticker card in their tweet, paid straight to their wallet through Uniswap's integrator fee. This rewards the people whose calls actually drive volume. That reward would invite farming with many X accounts, so authors must first prove with World ID (Proof of Human) that they're a unique human. The backend verifies the proof and stores the nullifier, so one human can earn on only one X account.\n\nArchitecture\n\nThe Manifest V3 extension injects the Buy button and swap panel into X. A bridge script in the page reaches the user's wallet. A small Express backend keeps the Uniswap and Intercepta API keys and the World ID signing key out of the extension. It proxies the Uniswap Trading API, runs the Intercepta checks, and handles World ID verification and the registry of verified authors.\n\nWhy it matters\n\nCrypto discovery happens on X, but buying still means leaving the conversation. XSwap closes that gap and adds a safety layer where it's needed most. It also gives creators a sybil-resistant way to earn from the trades they inspire.",
+  "how_its_made": "XSwap has two parts: a Chrome extension (Manifest V3, plain JavaScript, no build step) and a small Node/Express backend. The backend proxies every partner API, so the Uniswap and Intercepta keys and the World ID signing key never ship in the extension.\n\nThe extension\n\nA content script watches the X timeline for tweets that contain a ticker card and adds a Buy button to each one. The swap panel is rendered in a Shadow DOM, so X's styles and ours don't clash. It reads X's own colors, so it looks native in light, dim and dark mode. Content scripts can't access window.ethereum, so we inject a small bridge script into the page that relays wallet requests and events over postMessage. That way MetaMask or any other injected wallet works without leaving X.\n\nPartner technologies\n\n- Uniswap Trading API: the panel runs the full check_approval → quote → swap flow on Base, Ethereum, Arbitrum, Optimism and Unichain, with Permit2 signatures where needed. We map each cashtag to the right token on each chain (e.g. $BTC is cbBTC on Base, WBTC elsewhere). It gave us good routing across five chains without deploying a contract. Its integratorFees option is also how creator kickbacks are paid, inside the same swap.\n- Intercepta: before a buy we fetch the token's risk verdict (block, warn or info, with reasons), and we simulate the actual swap transaction too. Verdicts are cached on the backend so scrolling past cards doesn't burn credits. Buying straight from a tweet is where people get scammed, so this is what makes the product safe to use.\n- World ID: creators register through a verification page that uses IDKit v4 with Proof of Human. The backend verifies the proof and stores the nullifier with the X handle and wallet. Because the nullifier is the same every time one person proves the same action, one human can earn kickbacks on only one X account.",
+  "auto_summary": "A Chrome extension and Express backend enable token swaps from X ticker cards, with Uniswap routing, Intercepta risk checks, and World ID-gated creator rewards.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/xswap-1xtbn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

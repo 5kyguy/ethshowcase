@@ -1,0 +1,27 @@
+{
+  "id": "xqs8n",
+  "slug": "trulyopenrouter",
+  "title": "TrulyOpenRouter",
+  "tagline": "Like OpenRouter, except open on Crypto Rails powered by x402 payments",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xqs8n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/201UTtgzby19jPGw9G8XI9BUihEPU757YtJF00w4HeS01Q/high.mp4",
+  "demo_url": "https://trulyopenrouter.vercel.app/",
+  "source_url": "https://github.com/Lucas749/TrulyOpenRouter",
+  "finalist": false,
+  "description": "TrulyOpenRouter is actually OpenRouter, on crypto rails. We bring together two groups: the ones that want inference, and the ones with spare compute sitting idle. Your company has a floor of desktop machines that do nothing from 6pm to 9am? Run TrulyOpenRouter on that hardware and those idle hours turn into revenue, paid per request.\n\nFor the user, nothing changes. It's the classic Claude or OpenAI experience: you pay a normal subscription, open a chat or point your OpenAI-compatible client at an API key, and get an answer. What changes is underneath. Every request is routed to whichever host wins on price, latency, stake and reliability, and that host is paid per call over x402 on Hedera.\n\nOn top of that, team plans built for how organizations actually buy compute, managed by our AI compute wallet. An org sets the requirements: which models are allowed, a daily spend ceiling, per-seat caps, which routes and which geographies are acceptable, and which hosts are approved.\n\nAs tokens are the new currency and highly valuable, TrulyOpenRouter supports tightly scoped keys with hard limits. An agent that hits its ceiling doesn't quietly spend more. It stops and asks for approval, and a human raises the limit by signing the exact terms on a Ledger.\n",
+  "how_its_made": "Next.js on Vercel for the frontend, a TypeScript/Express gateway over Postgres, Solidity contracts on Hedera testnet (chain 296).\n\nHedera + x402. Paid requests use @x402/core, @x402/express and @x402/hedera (2.25.0). Hosts run a guard that puts an x402 paywall in front of Ollama and quotes $0.001 on hedera:testnet; the gateway takes the 402, checks the terms, and pays. We settle through Hedera's own Blocky402 facilitator. On-chain: SubscriptionVault (subscribe → credits, gateway-only debit split 90% host / 10% fees, withdraw, refund), HostRegistry (permissionless register with a 4 HBAR stake, heartbeat, deregister → release behind a 24h timelock), HTS test USDC for host payment, and HCS as the audit log, where the receipt id is the topic message.\n\nPrivy is how a business manages their new \"currency\" compute. We use an organization wallet as our AI compute wallet: the one account a company's inference runs on, where you manage who holds a seat and what their role is, and set the rules and requirements every inference request has to meet. Per-seat caps, the daily spend ceiling, which models are allowed, which routes and geographies are acceptable, which hosts are approved, and cutting off a member. Finance gets a single place to see and cap what the business spends on AI, and those rules are synced to the gateway and checked before a host is chosen. Buying credits or paying out a host runs as a Privy intent. Approving an intent returns 428 approval_signature_required with the exact bytes; the approver's browser signs those bytes and posts them to /intents/<id>/authorize.\n\nLedger. Key custody is built on wallet-cli's Key Ring: `tor-agent seal` pipes an API key in on stdin into `ring encrypt`, so only ciphertext ever touches disk and the key never reaches shell history or ps. The hacky part: Ledger's CLI has no primitive for enrolling a machine with no device attached, so we wrote one. `tor-agent enroll --docker` copies this Mac's Key Ring membership into a container's own keychain over stdin, and that container (with /dev/bus/usb empty, no Ledger can ever be plugged in) then opens its sealed key with no device present. Delete one keychain entry and it can open nothing, every file intact. This allows safely sharing of secrets for remote hosts/agents. Agent approvals are EIP-191 personal_sign on 44'/60'/0'/0/0 over a message binding agent, payer, model, request hash, credits, the limit hit, nonce and expiry, claimed once within five minutes. The same approval works in a browser over WebHID via the Device Management Kit.",
+  "auto_summary": "A multi-component AI inference marketplace routes requests to registered hosts and settles usage, approvals, and treasury flows with Hedera, Privy, and Ledger tooling.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/trulyopenrouter-xqs8n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

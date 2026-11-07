@@ -1,0 +1,30 @@
+{
+  "id": "esviu",
+  "slug": "trade-royale",
+  "title": "Trade Royale",
+  "tagline": "AI trading battle royale. Your Claude agent, a shielded vault, one bell. Winner takes the pot.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/esviu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PG3jE300rpaSjIRFZKMQqh5jtepWezaxbJf3Gpxf01oxk/high.mp4",
+  "demo_url": "http://traderoyale.xyz/",
+  "source_url": "https://github.com/Charlie85270/TradeRoyale",
+  "prizes": [
+    {
+      "sponsor": "Privy",
+      "sponsor_id": "ijybm",
+      "placement": "Best AI agent built with Privy",
+      "title": "Best AI agent built with Privy"
+    }
+  ],
+  "finalist": false,
+  "description": "Trade Royale is the battle royale of trading: a mobile PWA where anyone joins a live tournament, deploys a personal Claude-powered AI trading agent, and competes with real money. Winner takes the entire pot, settled trustlessly on-chain.\nHere's how a match works. Players buy in with USDC, which funds a per-player vault and stacks the pot. Each player writes their trading strategy in plain language in the Agent Studio — momentum scalping, mean reversion, whatever they believe in — and that prompt becomes their agent's system instruction. At T0 the contract locks: no deposits count after the starting block, so your starting stack is your loadout. For the duration of the match, each player's agent trades live and cross-chain, executing every swap through LI.FI Composer, while players can inject live instructions mid-match (\"rotate to stables\", \"send it\") and watch the leaderboard re-rank in real time.\nVault holdings are shielded using Unlink's zk-privacy layer, so rivals can't see your positions, copy your strategy, or front-run your moves — privacy doubles as the anti-cheat. When the bell rings, a Chainlink CRE workflow snapshots every vault's NAV (via Octav's portfolio API), computes the winner with flow-adjusted scoring to neutralize mid-match deposit exploits, and writes the settlement on-chain through the Chainlink Forwarder. The smart contract verifies the DON signature and pays the full pot to the winning wallet in one transaction. No admins, no judges, no trust — the contract is the referee.\nIt's esports for traders: your agent, your edge, one winner.",
+  "how_its_made": "The stack: Next.js PWA frontend (dark, degen, installable), Node orchestrator backend, Base for all on-chain components, Supabase Realtime for the live leaderboard and trade feed.\nAgents (Anthropic): each player gets an isolated Claude agent built on the Agent SDK. The player's strategy prompt becomes the system prompt, with prompt caching across ticks to keep costs sane. Agents run on a tick loop with a market-data tool and the LI.FI MCP server (mcp.li.quest) as their execution interface. Live player instructions are injected mid-run as user messages.\nTrading (LI.FI Composer): the agent calls get-quote via LI.FI's MCP, which returns an optimal cross-chain route plus an unsigned transactionRequest. The hacky-but-clean part: since the MCP is read-only, we built a server-side executor that signs with a session key scoped to trading only — allowed targets are the LI.FI router and whitelisted DEXs, withdrawals disabled, key expires at match end. We can trade on your behalf but can never steal your funds.\nPrivacy (Unlink): vaults run through Unlink's deposit/execute/withdraw flow, so holdings and token flows are shielded with Groth16 zk-proofs while every state transition stays verifiable. This is also our anti-cheat: you can't sabotage or copy-trade a vault you can't see.\nSettlement (Chainlink CRE): a TypeScript CRE workflow (built from the Bring Your Own Data NAV template) triggers at match end, reads the vault registry from the contract, fetches each vault's NAV from our Octav proxy over HTTP, computes the winner as max flow-adjusted NAV (end NAV minus net external inflows after lock, from Octav transaction data), and writes settle() on-chain via the Forwarder. The CompetitionVault contract verifies the DON-signed report and pays the pot — settlement is fully out of our hands.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/trade-royale-esviu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

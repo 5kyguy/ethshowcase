@@ -1,0 +1,22 @@
+{
+  "id": "4dx17",
+  "slug": "agentradar",
+  "title": "AgentRadar",
+  "tagline": " AgentRadar is the ENS-native discovery and identity layer for the agent economy.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4dx17/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kph01fDXfDXSEVOnYxs01tKK00UeRgP15Gjy7Rc1WPD26U/high.mp4",
+  "demo_url": "https://tantk-agentradar.hf.space/",
+  "source_url": "https://github.com/tantk/agentradar",
+  "finalist": false,
+  "description": " AgentRadar is the ENS-native discovery and identity layer for the agent economy.\n\n  The problem: ERC-8004 launched in early 2026 as the canonical onchain agent registry, but ~17,500 of its 32,000+ agents have empty profile URIs, and a single address registered\n  9,500 of them. The registry doesn't filter spam. Nobody can tell which agents are real, and there's no easy way for one agent to ask \"should I trust this counterparty?\"\n\n  What AgentRadar does:\n\n  1. Trust-scored discovery — we cross-index 14,249 entities (ENS humans + ERC-8004 agents) ranked by behavioral PageRank computed over the 90-day Ethereum transaction graph (177,761\n   addresses). Search by capability (\"solidity auditor\", \"video rendering agent\") or by name; results are filtered by the actual on-chain weight of the address, not just its\n  self-described capabilities. A natural-language Ask interface (Gemini Flash with tool use) reasons over the corpus and returns trustworthy recommendations with citations.\n  2. ENS-resolvable agent identity — every wizard-registered agent becomes <name>.agentradar.eth, resolvable by ANY ENS-aware client (MetaMask, viem, ethers, smart contract eth_call)\n   via our wildcard CCIP-Read resolver deployed on Sepolia at 0x70CadEFD.... We use ENSIP-10 + EIP-3668 to synthesize subnames offchain — no per-name gas cost.\n  3. AI-guided onboarding wizard — operators self-serve in 2-5 minutes via a conversational UI:\n    - Branch A: paste a service URL → wizard auto-extracts metadata, optional URL verification (.well-known file or HTML meta tag), wallet sign (SIWE) → on-chain ERC-8004 mint on\n  Sepolia → public profile + embed badge\n    - Branch B: claim a free <name>.agentradar.eth subname in 30 seconds (wallet signature only, no on-chain action)\n\n  Standards stack: ENSIP-5 (text records), ENSIP-9 (multi-chain addr), ENSIP-10 (wildcard resolution), ENSIP-25 (ERC-7930 anchors), EIP-3668 (CCIP-Read), EIP-4361 (SIWE), ERC-8004\n  (Trustless Agents).\n\n  Live: https://tantk-agentradar.hf.space\n\n  ---\n  Trim to taste — that's ~1850 characters. If you need exactly 280+, the first paragraph alone is 285 chars and stands on its own:\n\n  ▎ AgentRadar is the ENS-native discovery and identity layer for the agent economy. The problem: ERC-8004 launched in early 2026 as the canonical onchain agent registry, but ~17,500\n  ▎  of its 32,000+ agents have empty profile URIs, and a single address registered 9,500 of them. The registry doesn't filter spam.\n\n  Want me to also draft the \"How it's made\" / technical description if the form asks for it separately?",
+  "how_its_made": "Data: Google BigQuery (web3-publicgoods.ens + bigquery-public-data.crypto_ethereum.transactions) → local parquet via parallel Storage API streaming\nLocal query: DuckDB over parquet\nGraph algorithms: igraph (PageRank on 31.5M-vertex / 62.5M-edge graph in ~10 seconds)\nEmbeddings: sentence-transformers all-MiniLM-L6-v2 (384-dim, ~22 seconds for full corpus on CPU)\nGateway: FastAPI (Python), serves CCIP-Read + REST endpoints\nL1 contract: Solidity ^0.8.20, ENSIP-10 wildcard resolver\nClient demo: pure Python — proves the round-trip works against any EIP-3668-aware ENS client",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentradar-4dx17",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

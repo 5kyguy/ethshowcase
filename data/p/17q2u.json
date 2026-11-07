@@ -1,0 +1,27 @@
+{
+  "id": "17q2u",
+  "slug": "gaussvm",
+  "title": "GaussVM",
+  "tagline": "Gaussian prediction-market liquidity, powered by 1inch Aqua and SwapVM.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/17q2u/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qP17wJJuhsHdQ00CvmaYXbEd8OYnr84PbKf00BY5acDvg/high.mp4",
+  "demo_url": "https://krishna-aga.github.io/gaussvm/",
+  "source_url": "https://github.com/krishna-aga/gaussvm",
+  "finalist": false,
+  "description": "GaussVM brings Gaussian prediction-market liquidity to 1inch Aqua, using SwapVM to turn a research pricing curve into executable onchain trades. It builds on the pm-AMM research by Ciamac Moallemi and Dan Robinson and connects it to a working application where users can trade YES/NO outcome tokens, create liquidity positions, and inspect transaction receipts.\nAqua’s approach to liquidity is central to the project. Makers authorize trading strategies while keeping their outcome tokens in their wallets until a trade executes. A single wallet can support both GaussVM’s static and experimental time-scaled strategies without making separate token deposits for each position. Actual execution still depends on the wallet’s balances and allowances.\nSwapVM provides the other essential piece: programmable execution. GaussVM implements Gaussian pricing as a custom SwapVM instruction, while the surrounding engine handles order validation and settlement through Aqua. Together, these 1inch technologies provide a practical foundation for taking a specialized market-making idea from a paper to a usable trading experience.\nThe live Sepolia demo asks a simple, slightly self-referential question: “Will this project win ETHOnline 2026?” Users can obtain free test tokens, swap between YES and NO, and follow confirmed transactions on an explorer. Liquidity controls support creating and removing positions, while the market contracts handle merging complete sets and redeeming outcomes after resolution.\nGaussVM demonstrates how Aqua and SwapVM can support a pricing model tailored to binary outcomes. It is currently an unaudited testnet prototype with worthless test assets and manual resolution. Its time-scaled mode is an experiment, rather than a claim to reproduce the research paper’s complete economic result.",
+  "how_its_made": "The project is built around two complementary pieces of 1inch infrastructure: Aqua for liquidity accounting and token transfers, and SwapVM for programmable trade execution. GaussVM extends the official SwapVM base with a custom Gaussian instruction, opcode 0x80, and uses an unmodified deployment of official Aqua source.\nWhen a maker creates a position, the application encodes the market, liquidity scale, timestamps, and strategy mode into a SwapVM order and authorizes it through Aqua. During a swap, the custom instruction reads that strategy’s current allocations and calculates how many outcome tokens the trader receives. SwapVM then applies its execution checks and settles the transfer through Aqua. This division lets GaussVM focus its custom logic on prediction-market pricing while using 1inch’s infrastructure for the surrounding execution flow.\nThe mathematical implementation uses signed 18-decimal fixed-point arithmetic, bounded Gaussian cumulative-distribution and density calculations, and a bisection solver with conservative output rounding. One useful optimization computes the density once and shares it between the calculations that need it. Regression tests compare the optimized and earlier implementations, including returned values, rejected inputs, and complete swaps.\nSeparate Solidity contracts provide test collateral, ERC-20 YES/NO tokens, collateral-backed splitting and merging, manual resolution, and timeout cancellation. Positions support either a static liquidity scale or an experimental scale based on the square root of the remaining market lifetime.\nThe frontend uses React, TypeScript, Vite, and viem. It reads balances and allocations, obtains quotes through contract simulation, requests limited token approvals, and links confirmed transactions to Sepolia receipts. Submitted hashes are preserved when confirmation is unavailable so users can recheck the same transaction. The public interface is hosted on GitHub Pages without a hosted backend or database.\nThe repository includes numerical tests, contract integration tests, Playwright browser tests, and a standalone Hardhat lifecycle demo. That demo exercises two Aqua strategies sharing one maker wallet, executes trades, checks actual balance changes and Aqua events, removes the positions, and completes merging and redemption. A separate fork demo runs the same lifecycle against 1inch’s canonical Aqua deployment, with all writes confined to a local Ethereum fork.",
+  "auto_summary": "A Solidity and React application implements Gaussian-priced binary prediction market trading on top of 1inch Aqua and SwapVM.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/gaussvm-17q2u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

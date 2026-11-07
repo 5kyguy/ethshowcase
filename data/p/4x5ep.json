@@ -1,0 +1,27 @@
+{
+  "id": "4x5ep",
+  "slug": "squash",
+  "title": "Squash",
+  "tagline": "One QR splits any bill. Everyone confirms, then one Hedera transaction settles it all.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4x5ep/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UdSvJx41sI7CncZfEH2emGIxrUFH9RhCeSHSyGf01uGQ/high.mp4",
+  "demo_url": "https://squash-pay.vercel.app",
+  "source_url": "https://github.com/ALFA117/squash",
+  "finalist": false,
+  "description": "Squash is a bill-splitting app where nobody pays until everyone says yes. One person pays the tab, creates a bill in pesos or dollars, and shares a QR code. Guests scan it, join with just their name, and see their exact share update live. Each person signs in with their email through Privy, which creates a real Hedera wallet in the background — no seed phrase, no crypto knowledge required. When the organizer asks for confirmation, every share is frozen and converted to dollars at that day's exact exchange rate, so everyone agrees on the same number. Each guest then taps \"Yes, I pay,\" sending the amount from their own wallet. Nothing moves until the very last person confirms — then every transfer executes together, in one shot, and everyone lands at zero at the same time. The same engine that computes a single bill also solves a whole shared trip: given 15 crossed debts between 6 people built up over several days, it finds the provably minimum number of transfers to settle everyone — 3 transfers, an 80% reduction — instead of naively running every individual debt one by one.",
+  "how_its_made": "Squash is a Next.js app on Hedera testnet. The settlement engine is a greedy net-settlement algorithm (net each participant's balance, then repeatedly match the largest creditor with the largest debtor) that finds the minimum number of transfers to zero out a group's debts — for our 6-person, 15-debt sample trip, that's 15 crossed debts collapsed to 3 transfers, an 80% reduction, computed live rather than hardcoded.\n\nThe engine isn't free to call: every settlement plan, including a single bill at the table, is bought over x402. The app receives a 402 Payment Required, pays the facilitator (Blocky402) in HBAR based on the size of the debt graph, and only then gets the plan. Every run's inputs and outputs are hashed and published to Hedera Consensus Service (HCS), so anyone can recompute the plan and verify we didn't fudge the numbers — that HashScan link ships right in the product, not just in a slide.\n\nFor money movement, we use a Hedera fungible token (tUSD, 1 unit = 1 cent) as the settlement currency; the same code path settles in USDC on mainnet. Privy handles identity and custody: signing in with an email creates a real Hedera account with a real balance, so every participant pays from their own wallet, not a shared pool the app controls — that was the trickiest part, since most bill-splitting demos fake this with a single custodial account.\n\nWe also built World ID verification for \"no fake guests, no double seats\" — it's fully implemented against World's SDK, but it's gated behind partner approval that hadn't come through by submission time, so it's present in the code and disabled in the live demo rather than pretending it works on camera.\n\nThe genuinely hacky bit: freezing the FX rate at the moment confirmation is requested (not at bill creation, and not at settlement) so that every participant is cryptographically agreeing to the same dollar figure, without needing an oracle contract on-chain — we treat the rate as an off-chain input that gets hashed into the plan alongside the debts.",
+  "auto_summary": "A Next.js bill-splitting app computes debt settlement plans and coordinates Hedera-based payments among participants using embedded wallets.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/squash-4x5ep",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

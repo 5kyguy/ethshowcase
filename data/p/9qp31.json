@@ -1,0 +1,27 @@
+{
+  "id": "9qp31",
+  "slug": "humanens",
+  "title": "HumanENS",
+  "tagline": "World ID biometrics meet ENS naming: prove you're human on-chain & give your AI agents identity.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9qp31/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fsyQxAv3tpDklBBYML5GH9YVpOK02XhleriZmvDci00xo/high.mp4",
+  "demo_url": "https://humanens.eth.limo",
+  "source_url": "https://github.com/RezaRahemtola/ETHGlobal-Cannes2026",
+  "finalist": false,
+  "description": " HumanENS brings proof of humanity to ENS. Users verify with World ID, then claim a verified .humanens.eth subname linked to their existing .eth name via a bidirectional proof, meaning they keep full ownership of their original name. \n\nAnyone can look up a name and instantly see whether a real person is behind it.\nBut it goes further: once verified, you can create subnames like shopping-agent.alice.humanens.eth for your AI agents. Every agent name traces back to a proven human operator, solving the trust problem of \"Who's behind this agent?\", and bringing your existing onchain reputation to your agents.\n\nThese agents are discoverable through standard ENS resolution, compatible with ERC-8004 Identity Registries via ENSIP-25 backlinks, and can access human-only privileges via World's AgentBook.\n\nOne human, one verified name, unlimited agents, all rooted in biometrics, not just private keys.",
+  "how_its_made": "The core is a custom ENS L2Registrar on World Chain that uses the default L2Registry for subname management but implements fully custom registration logic with dual-signature verification. \n\nWhen a user calls the register function, the contract reverts with an EIP-3668 OffchainLookup. \nThe frontend then orchestrates the CCIP-Read flow to pass the response into the callback function.\nThe gateway is an Express server that reads L1 ENS state via RPC, checking both the NameWrapper and the base ENS registry for ownership, reading the humanens text record to verify the bidirectional link, then signs everything as a structured ownership proof.\n\nWorld ID v4 verification happens through a separate backend that validates proofs and produces EIP-712 typed attestations (nullifier hash + label + timestamp with a 10-minute validity window). This backend is temporary as the World ID v4 verification contracts aren't fully deployed on World Chain mainnet yet, the contract will be able verify proofs directly on-chain when it's done, removing this trust assumption entirely.\n\nThe contract enforces one link per World ID nullifier, and includes a challenge mechanism: if someone removes their L1 text record, anyone can call challenge to revoke the stale L2 subname.\n\nThe frontend is a Next.js app running as both a standard webapp and a World Mini App. MiniKit handles in-app transaction signing inside the World App, wagmi/viem powers standard web3 interactions, and ensjs queries the ENS subgraph to discover which names a user owns.\n\nFor agent subnames, ENSIP-25 text records are used to create bidirectional attestation between the ENS subname and ERC-8004 Identity Registry entries, so an agent's ENS name points to its registry entry, and the registry entry points back to its ENS name, creating a verifiable loop. These agents are then alsocompatible with World's AgentBook for human-only privileges.",
+  "auto_summary": "A World Chain app that verifies humans with World ID and issues ENS subnames plus linked agent identities backed by CCIP-Read proofs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/humanens-9qp31",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "05prd",
+  "slug": "hawkeye",
+  "title": "HAWKEYE",
+  "tagline": "Autonomous trading agent on Telegram. Seven agents with massive on-chain capabilities.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/05prd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tJrG99ZbcACFDFEHW9eBTmcMcWJ0100FCw8fvpyDY01qFk/high.mp4",
+  "source_url": "https://github.com/Iziedking/hawkeye",
+  "finalist": false,
+  "description": "HAWKEYE is a Telegram trading bot powered by seven specialized agents that coordinate through a typed event bus. You interact with it in plain English. Send \"ape this 0xCA...\" and it snipes the token. Send \"swap 0.1 USDC to ETH on Base\" and it routes the trade through Uniswap with MEV protection. Ask \"is this token safe?\" and it pulls data from GoPlus, Honeypot.is, DexScreener, Arkham, and Nansen to score the token before you commit.\nEvery trade follows the same pipeline. The Safety Agent scores the token. The Quote Agent finds the best pair and estimates slippage. The Strategy Agent decides whether to execute based on your trading mode, which can be degen, normal, or careful. The Execution Agent submits through Uniswap's Trading API with Permit2 signing. Mainnet swaps route through KeeperHub for private transaction submission. After entry, the Monitor Agent polls price every 5 seconds and auto-exits at your targets.\n\nWallets are created per user via Privy. Trade intents are written to 0G Storage as an immutable audit trail. Agent identities are registered on 0G Chain. The LLM router falls back through 0G Compute, OpenRouter, and Claude in sequence. The bot runs on EVM chains: Ethereum, Base, Arbitrum, Optimism, Polygon, BSC, and Avalanche.",
+  "how_its_made": "HAWKEYE is a single TypeScript codebase running on Node. no framework. The core is a typed EventEmitter that every agent subscribes to. Each agent is a standalone module that imports only from shared types and the bus. They never call each other directly, which means you can swap, add, or kill any agent without touching the rest.\nThe LLM router classifies every message into one of ten intent categories. Bare contract addresses skip the LLM entirely and hit the bus in under a millisecond, which is the degen shortcut. Everything else goes to the LLM with a system prompt that returns structured JSON. The router tries 0G Compute first, falls back to OpenRouter with Gemini Flash, then Claude, then regex-only if all three are down.\nThe Uniswap integration was the hardest part. It uses the Trading API's three-step flow: check_approval, quote, swap. We had to handle Permit2 vs UniswapX routing types differently, stripping permitData for UniswapX and including it for CLASSIC. Token amounts required correct decimal conversion, 6 for stablecoins and 18 for everything else. Slippage is capped at 5% with a 0.5% floor. KeeperHub wraps mainnet transactions for MEV protection. Privy handles wallet creation and transaction signing.\n0G is wired in three places. Compute handles LLM inference. Storage provides immutable audit trails of every parsed intent. Chain hosts a Solidity contract that registers agent identities and logs trade hashes. The audit trail writes are fire-and-forget so they never block the trade pipeline.\nThe skill system lets each agent's behavior change at runtime. Skills are markdown files with frontmatter. Drop a new file in the directory and agents pick it up on next boot. Users toggle skills per user via /skills in Telegram.",
+  "auto_summary": "A TypeScript Telegram trading bot coordinates multiple agents to analyze tokens, route swaps, and monitor positions across EVM chains.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hawkeye-05prd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

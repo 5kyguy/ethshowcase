@@ -1,0 +1,22 @@
+{
+  "id": "gymbn",
+  "slug": "tashan",
+  "title": "Tashan",
+  "tagline": "The trusted directory for your AI's toolbox — and what agents actually pay for.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gymbn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rqhEvakVuUVeVXEBO6q6W9nZhTk5L4IkUQ4jM3hBYDU/high.mp4",
+  "demo_url": "https://tashan.sh/",
+  "source_url": "https://github.com/FlyingWHR/tashan",
+  "finalist": false,
+  "description": "tashan scores the MCP servers and agent skills you can install into an AI agent, using public\nevidence only. 95,574 tracked, 12,662 with a published measurement: upkeep, freshness, adoption, and OSV advisories checked against the version you'd install today. Every number links to its source.\n\nNobody can buy a rank. A test reads the scorer's source and fails the build if it touches anything that isn't public evidence.\n\nIt also measures what agents actually pay for. Downloads and stars can be faked by the author, a payment can't. x402 makes those payments public, so we read the chain for every payment address in Coinbase's x402 directory — $247,356 settled across 10.4M payments, 998 of 1,079 services paid at least once. That directory publishes no evidence about any of them. A capability page shows whether a tool has ever been paid for, alongside whether it's maintained.\n\n`npx tashan-cli doctor` reads the agent configs on your machine — Claude Code, Desktop, Cursor, VS Code, Windsurf — and flags what's deprecated, archived, abandoned, or running an install script. Nothing uploaded.",
+  "how_its_made": "Python 3 stdlib, no dependencies. SQLite as the source of truth. Static site, no build step, strict\nCSP, on Cloudflare Pages — Functions for the paid endpoints, R2 for the DB cache, KV for licences.\n\nThe Graph, two products: an x402 settlement subgraph on the Network, read through The Graph's Subgraph MCP server. The query is printed on the page so anyone can re-run it. Their documented client is an npx bridge, so we wrote an MCP client over HTTP+SSE in stdlib urllib — ~120 lines, no Node. We also shipped our own subgraph over the same economy: USDC Transfers on Base filtered on the indexed recipient, so graph-node matches at the log level and sync is bounded by the economy, not the chain.\n\nOne query decision: we ask about every listed address in batches instead of ordering by volume and taking the top 1,000. A top-N query drops every service that earned almost nothing, and those rows matter. An address the chain doesn't know is reported as never paid, not omitted.\n\nBazantic: published an OpenAPI spec for our endpoints, registered it as an x402/MPP gateway, and published a Recipe that returns install / caution / do-not-install for anything an agent is about to install.\n\nSecurity findings are not inputs to the score — \"maintained\" and \"nothing known is wrong\" are\ndifferent claims, and merging them hides the package that scores 86 and runs an install script.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tashan-gymbn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

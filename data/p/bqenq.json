@@ -1,0 +1,27 @@
+{
+  "id": "bqenq",
+  "slug": "team-hydra",
+  "title": "Team Hydra",
+  "tagline": "Your Uniswap v4 LP position - watched, rebalanced, and approved by six AI agents, autonomously.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bqenq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IiL2EgHYK5O1WrF7QYbvXRfO01JZOEHM42uZOa00rCJCA/high.mp4",
+  "demo_url": "https://hydra-dashboard-81h.pages.dev",
+  "source_url": "https://github.com/starc007/hydra-agent",
+  "finalist": false,
+  "description": "Hydra is an autonomous Uniswap v4 LP management system built on Cloudflare. You register once: connect your wallet, paste the private key for the wallet that owns your LP NFT, and optionally add a Telegram chat ID. From that point on, six AI agents run continuously, watching your position and acting on your behalf.\n\nFive agents reason via LLM. Price watches the pool every 10 seconds and tracks price movement. Risk computes impermanent loss and checks position health. Strategy reads their signals and recommends whether to hold, rebalance, harvest fees, or exit. Coordinator acts as a safety gate where hard rules filter out bad decisions, with an AI second-opinion for borderline cases. Macro watches broader market conditions. A sixth agent, Execution, stays deliberately deterministic. It builds the transaction, applies slippage protection, and submits it on-chain. Every decision is archived and streamed live to a dashboard via WebSocket.\n\nWhen a decision is borderline, Hydra sends a Telegram message with ✅ / ❌ buttons. One tap approves or overrides from your phone.\n\nAgents get better over time. Every approved decision is scored against what actually happened at 4 hours and 24 hours. Similar past situations are retrieved from a shared vector index and shown to the LLM as examples before it decides. Your personal approve/reject history from Telegram shapes a preference model that nudges the agents toward decisions you tend to accept. Risk thresholds are recalibrated daily based on what has worked historically.\n\nEach registered position runs in complete isolation: its own agents, its own state, its own alarm chain. You set the position once. The agents handle the rest.",
+  "how_its_made": "Hydra runs entirely on Cloudflare's edge infrastructure. The core is a Cloudflare Worker that routes all traffic and a Durable Object per registered position. Each Durable Object is a self-contained world: it holds the agents, an in-process event bus, WebSocket connections, and a self-rescheduling 10-second alarm that drives the whole tick cycle. There is no external orchestrator and no shared state between users.\n\nThe six agents communicate over a typed in-process event bus inside the DO. Five of them call an LLM (Anthropic, Google, or OpenAI via the Vercel AI SDK) to reason about price patterns, impermanent loss, strategy, coordination, and macro context. The sixth agent, Execution, is purely deterministic. It hand-encodes Uniswap v4 modifyLiquidities calldata directly from the periphery source because the v4 SDK does not expose a high-level encoding helper. The action byte constants, per-action ABI tuples, and the unlockData encoding were all reverse-engineered from the periphery contracts.\n\nPool state is read entirely on-chain via the StateView lens contract, getSlot0, getFeeGrowthInside, and getPositionInfo, with no dependency on any hosted Uniswap API. All position metadata including tick bounds comes from decoding a bit-packed uint256 returned by getPoolAndPositionInfo, which the SDK does not decode either.\n\nThe learning loop uses Cloudflare D1 for storing decision contexts, outcomes, preferences, and calibration logs, and Cloudflare Vectorize for a 32-dimension cosine similarity index shared across all users. At decision time a feature vector is built from pool state and queried against Vectorize to retrieve similar past decisions as few-shot examples for the LLM prompt. After 24 hours, each decision is scored against real on-chain outcomes and upserted back into Vectorize so future users benefit.\n\nTelegram escalation runs via webhook mode into the same Worker. Approve and override callbacks carry a UUID that maps back to the Coordinator's in-memory pending map so a real transaction fires on approval, not a simulated one.",
+  "auto_summary": "An edge-hosted system monitors and manages Uniswap v4 liquidity positions with AI-driven decision agents and deterministic on-chain execution.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/team-hydra-bqenq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

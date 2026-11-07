@@ -1,0 +1,21 @@
+{
+  "id": "vsn5d",
+  "slug": "fusioonx",
+  "title": "FusioonX",
+  "tagline": "Trustless cross-chain swaps between Aptos and Base using 1inch",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vsn5d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Q00jw85aARME6XgU8EX00vvFPPHvZBLK8l00Cpt5Q00SluM/high.mp4",
+  "source_url": "https://github.com/DaniiRix/FusionX",
+  "finalist": false,
+  "description": "FusionX is a cross-chain swap protocol that lets users trustlessly exchange tokens between Aptos (a non-EVM, Move-based chain) and Base (an Ethereum L2), using 1inch’s Fusion+ infrastructure.\n\nAt its core, FusionX uses Hashed Timelock Contracts (HTLCs) to ensure both sides of the swap either complete or refund safely. When a user wants to swap tokens (say, from Aptos to Base), they lock their assets in a smart contract with a secret hash. On the other side, the protocol mirrors that intent using 1inch’s escrow contracts. When the secret is revealed, both parties can claim their funds — or get refunded if the time runs out.\n\nWe built a custom HTLC module on Aptos, leveraging Move’s strict resource model, and integrated directly with 1inch’s Limit Order Protocol and Fusion+ contracts on Base. A lightweight relayer coordinates the swap between chains, watching for swap events, propagating secrets, and ensuring both chains stay in sync.\n\nThe whole process is onchain, bidirectional, and designed to be fully trustless — no centralized bridges or middlemen. Our goal with FusionX is to make cross-chain liquidity between EVM and non-EVM ecosystems more accessible, secure, and developer-friendly.",
+  "how_its_made": "FusionX is a cross-chain swap system between Aptos (Move) and Base (EVM), built on top of 1inch Fusion+ and powered by HTLCs, relayers, and resolvers. It’s designed to be modular, fully onchain, and extensible across different ecosystems.\n\n1. Smart Contracts\nAptos Side:\n\nWritten in Move, we built a fully-featured HTLC module (htlc_addr::fusionx) that:\n1. Allows creation of source and destination escrows via resource accounts.\n2. Supports hashlock and timelock enforcement.\n3. Ensures token type safety with TypeInfo.\n4. Handles unlocking with secrets, and cancellation with refund post-expiry.\n5. Uses SignerCapability to securely manage escrow accounts.\n6. Integrated safety deposit mechanism using AptosCoin for both sides.\n7. Exposes get_order_details() and get_latest_order_id() for off-chain consumption.\n\nCustom Token:\n1. We deployed and tested a custom token called FXT on Aptos, used in our swaps.\n\nBase Side (EVM):\n\n1. We used 1inch’s Fusion+ Escrow and Limit Order contracts, specifically:\n\nTrust-minimized, modular, and well-audited contracts that handle the EVM half of the swap.\n\nNo need to reinvent escrow logic, allowing us to focus on cross-chain communication and integration.\n\n\n 2. Relayer & Resolver System\nOur backend is split into two cooperating services:\n\nRelayer:\nUsers send signed swap orders (off-chain) to the Relayer, which:\n\n1. Stores order metadata in a PostgreSQL database.\n2. Listens for onchain events on both Aptos and Base.\n3. Coordinates the secret propagation process.\n4. Confirms escrow creation by checking both chains.\n5. Requests the user to reveal their secret at the right stage.\n\nResolver:\nRuns a custom matching logic engine that:\n\n1. Continuously polls the relayer for new orders.\n2. Applies matching rules (amounts, tokens, deadlines, routes).\n\nOnce a match is found, it:\n1. Creates destination escrows on both Aptos and Base.\n2. Shares escrow addresses with the relayer.\n3. Once the user reveals the secret, the resolver:\n4. Polls for it via relayer.\n5. Withdraws tokens on both chains, atomically completing the swap.\n\nWe wrote Move unit tests to validate the escrow lifecycle:\n1. Order creation, claiming with secrets, refund on expiry.\n2. Token balance checks and address validation.\n3. etc\n\nFor EVM, we tested using Sepolia and 1inch’s public contracts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fusioonx-vsn5d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

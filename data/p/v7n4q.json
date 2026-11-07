@@ -1,0 +1,22 @@
+{
+  "id": "v7n4q",
+  "slug": "gatedpools",
+  "title": "GatedPools",
+  "tagline": "Permissioned UniV4 pools for DAOs—access granted via vLayer email-domain ZK proofs",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v7n4q/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UeWc00oqeiw8LadfG4WTqoq4gF4ZOxjpAw2j4jPGSsXA/high.mp4",
+  "demo_url": "https://gated-pools.vercel.app/",
+  "source_url": "https://github.com/mehdi-loup/gated-pools",
+  "finalist": false,
+  "description": "GatedPools lets DAOs spin up permissioned Uniswap V4 pools that only verified members can access via vLayer ZK proofs created from approved email domain. DAO contributors trade with 0 bps fees and built-in MEV resistance, while the DAO treasury runs its own arbitrage to guarantee the best prices for their organization.\n\nReal-World Example: suppose a DAO pays 2 million $DAO monthly to contributors. By launching a GatedPool (ZK authorizing @dao.org, pairing $DAO/USDC at 0 bps), 100 contributors would swap their tokens fee-free at 4 USDC each—saving ~6,000 $DAO (~24,000 USDC) in fees—while DAO’s treasury arb bot would capture an extra 15,000 USDC in spreads.",
+  "how_its_made": "GatedPools showcases several technical feats: we built a single, shared hook implementation that any Uniswap V4 pool can reference, eliminating per-pool factories. DAOs register approved email domains on‐chain by calling the hook’s updateDomains(bytes32[] domainHashes), and a separate vLayer Verifier contract that dynamically verifies ZK proofs against those hashes.\n\nOn the contributor side, we implemented a one‐step “proof‐and‐swap” flow by packing vLayer’s ZK proof directly into Uniswap V4’s swap hookdata. When the pool’s hook intercepts a trade, it extracts and verifies the proof in beforeSwap(), only allowing execution if the user’s email‐domain hash matches the stored list. This hacky calldata‐packing avoids two‐transaction patterns, enabling atomic, 0 bps swaps that are MEV‐resistant and fully permissioned.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gatedpools-v7n4q",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

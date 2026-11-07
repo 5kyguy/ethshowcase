@@ -1,0 +1,30 @@
+{
+  "id": "9h351",
+  "slug": "delta-zero-hook",
+  "title": "Delta Zero Hook",
+  "tagline": "This hook minimizes impermanent loss by using lending to hedge ETH exposure in a liquidity pool.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9h351/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9rfn6T5JIvjqrfUwOuhCWsc4iCx02MQGUe3noj7nv5BM/high.mp4",
+  "demo_url": "https://www.canva.com/design/DAG0OpR126o/8CoTIxnhjjz15ec8TVN_Hw/edit?utm_content=DAG0OpR126o&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+  "source_url": "https://github.com/Shubham-Rasal/delta-zero-hook",
+  "prizes": [
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "2nd place",
+      "title": "Most Innovative use of Pyth pull oracle (Price Feeds)"
+    }
+  ],
+  "finalist": true,
+  "description": "n decentralized finance (DeFi), liquidity providers face significant risks from price volatility, impermanent loss, and inefficiencies in capital allocation when supplying assets to automated market makers (AMMs). Traditional liquidity provision exposes users to unhedged directional risk, while isolated lending or trading strategies fail to fully capture yield opportunities. Moreover, real-time price data is often delayed or inaccurate, leading to suboptimal rebalancing and increased exposure. The challenge is to design a fully automated, delta-neutral liquidity strategy that efficiently combines lending and concentrated liquidity, dynamically adapts to market movements, and leverages high-fidelity oracle data to maximize yield while minimizing exposure to price swings.",
+  "how_its_made": "We built this project by fusing lending protocols with concentrated liquidity pools and automating the strategy through custom smart contract logic and simulations. The system begins with PYUSD, which is split into two tranches: one is supplied as collateral to a lending protocol to borrow ETH, while the other is reserved to pair with the borrowed ETH inside a Uniswap V4 ETH/PYUSD pool. The borrowed ETH creates a short exposure that offsets the long ETH exposure in the pool, forming a delta-neutral position. This ensures that ETH price swings do not dominate outcomes, leaving Uniswap fees and lending yields as the main sources of return. We designed the position to sit within an adaptive liquidity range, which moves with price and maximizes capital efficiency.\n\nTo improve accuracy in pricing and risk management, we integrated Pyth Network as a decentralized, high-fidelity oracle for real-time market data. Pyth provides low-latency, reliable ETH and PYUSD price feeds that feed directly into our hook's rebalancing logic. This ensures that borrowing, liquidity provision, and dynamic range adjustments are based on precise market conditions, reducing the risk of mispricing and improving overall vault performance.\n\nOn the technical side, the foundation is written in Solidity for the on-chain logic and Python for simulation, testing, and strategy validation. The Python simulation engine models ETH price paths using stochastic processes (with drift and volatility), runs swaps using a constant product AMM formula, and tracks AUM, fees, and impermanent loss over time. We also implemented a ticker-based rebalancing system, which dynamically adjusts liquidity and borrowing whenever price drifts outside a chosen range. This rebalancing is triggered by hooks (inspired by Uniswap’s afterSwap()), ensuring the vault reacts in real time to market activity. One of the hacky but effective pieces was repurposing Uniswap’s math logic for constant product pools and extending it with custom fee tracking to simulate concentrated liquidity payoffs before deploying contracts. The combination of on-chain lending, Uniswap V4 hooks, Pyth price feeds, and off-chain simulation allowed us to stitch together a market-neutral, auto-hedging liquidity hook that demonstrates how DeFi primitives can be composed into something greater than the sum of their parts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/delta-zero-hook-9h351",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

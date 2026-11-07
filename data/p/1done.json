@@ -1,0 +1,22 @@
+{
+  "id": "1done",
+  "slug": "end-credits",
+  "title": "End Credits",
+  "tagline": " Your AI agent voluntarily tips the open-source packages it used, from your budget, scam-checked.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1done/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kI01lAykn2vh8GHrjGU502za2w6uAPqmM8EXyRI58b02lE/high.mp4",
+  "demo_url": "https://end-credits.up.railway.app/landing",
+  "source_url": "https://github.com/zexoverz/end-credits",
+  "finalist": false,
+  "description": "End Credits lets your AI agent tip the open-source packages it used. It is opt-in, not a paywall: packages stay free, and only developers who choose a budget pay.\n\nCoding agents read docs and source instead of visiting project pages, so maintainers lose the traffic that used to bring sponsors.\n\nHow it works: sign in with MetaMask, set a spending limit, connect Claude Code. At the end of each session, End Credits sees which packages the agent actually used, splits your budget between them, and pays each maintainer in USDC over x402.\n\nBefore anything is signed, Intercepta screens every payee:\n- Clean: paid.\n- Sanctioned, scammer or look a like address: refused, nothing sent.\n- Payout address changed recently or medium risk: held in escrow until you approve with your wallet.\n- No wallet yet: reserved until the maintainer claims it.\n\nYour USDC stays in your own wallet. A contract lets your agent spend only up to your limit, and you can revoke it in one transaction.\n\nLive on Base Sepolia, with every payment, refusal, hold and claim linked to its transaction. Dashboard built on Curvegrid MultiBaas.",
+  "how_its_made": "Next.js 16 + React 19 on Railway (web, worker, Postgres with Drizzle), a TypeScript CLI wired into Claude Code hooks plus an MCP server, and Foundry contracts on Base Sepolia.\n\nThe hook records which packages the agent used and uploads only package names and counts, never code. A worker splits the budget, finds each maintainer's published address (Drips FUNDING.json, tea.yaml, npm funding), and checks the repo really publishes that package.\n\nIntercepta: every payee is screened live (quick scan, address-poisoning check, token risks) before anything is signed, and the result picks paid, held or refused. A timeout means hold, never pay. We pay on Base Sepolia but screen the real addresses on Base mainnet, since Intercepta has no testnet.\n\nx402: payments use EIP-3009 through the x402.org facilitator. The hacky part is a hook right before signing that refuses any payment request whose recipient is not the exact address Intercepta screened, which stops a swapped payout address.\n\nContracts: an escrow where held money is released only by the owner's EIP-712 signature, and a budget contract that lets the agent spend from the owner's own wallet up to a limit. Both verified, with invariant and mutation tests.\n\nCurvegrid MultiBaas: deployed both contracts with the Forge plugin, and the whole dashboard runs on saved event queries plus a signed webhook for owner notifications.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/end-credits-1done",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

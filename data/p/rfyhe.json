@@ -1,0 +1,35 @@
+{
+  "id": "rfyhe",
+  "slug": "shawarma-orchestrate",
+  "title": "Shawarma Orchestrate",
+  "tagline": "Multi-agent swarm prediction orchestrator: 0G Compute + 0G Storage, Uniswap actions",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rfyhe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ARuVNYwajJaHtIfoE8jgozuytyLC1vx00xqUH008TjlkQ/high.mp4",
+  "demo_url": "https://schwarma-orchestrator.vercel.app/",
+  "source_url": "https://github.com/chevoisiatesalvati/schwarma-orchestrator",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "1st place",
+      "title": "Best DeFi App on 0G"
+    }
+  ],
+  "finalist": true,
+  "description": "Shawarma Orchestrator is a multi-agent prediction and execution stack built around 0G Compute, 0G Storage and Uniswap. You define a swarm of specialized agents (via code, built-in templates, or YAML); each agent runs on OpenAI-compatible chat completions resolved through 0G (static API key and/or wallet-backed broker flow with on-chain provider discovery and billing). Agents are orchestrated with LangGraph in two modes: a sequential pipeline (fixed order) or a supervisor workflow where an LLM routes between agents, can redispatch an agent with follow-up context, and can synthesize a final decision from agent outputs.\n\nEach agent is steered to return structured results (prediction, confidence, reasoning, optional data fields). Those outputs feed a consensus layer: votes are weighted per agent, aggregated into an overall confidence score, and compared to a configurable action threshold to decide shouldAct (whether downstream automation should run).\n\nAfter consensus, the system can optionally persist swarm artifacts to 0G Storage (when storage RPC/indexer/key env vars are set), giving you a durable record tied to the run.\n\nWhen shouldAct is true, the graph can execute a configured action. Supported action types include Uniswap trading on Arbitrum (via the Uniswap Trading API—live when wallet and RPC/API credentials are configured), plus generic HTTP calls, file writes, and notifications. For safety, runs can require human approval: the orchestrator can defer execution and expose approval via POST /runs/:runId/approve (optional shared secret) and/or Telegram pairing, webhook callbacks, and inline approval flows.\n\nOperationally, the repo ships an HTTP API for kicking off runs and inspecting 0G inference providers, and a local dashboard (Vite frontend) for driving the swarm; demos illustrate BTC-style predictions, custom YAML agent packs, and persona-based setups. In short: 0G Compute powers the agents, LangGraph coordinates them, consensus decides whether to move, 0G Storage can anchor outputs, and Uniswap (among other actions) can turn a high-confidence decision into an on-chain trade—optionally gated by explicit human approval.",
+  "how_its_made": "The backend is TypeScript on Node, run directly with tsx (ES modules, strict typing). Instead of a web framework, the HTTP surface is a plain http.createServer app: JSON routes for POST /run, provider discovery GET /compute/providers, POST /runs/:id/approve, Telegram POST /webhooks/telegram, and Server-Sent Events streams that subscribe to an in-process SwarmEventBus so the UI can watch agent steps, tool calls, and consensus in near real time.\n\nOrchestration is LangGraph (StateGraph from @langchain/langgraph) with explicit channel reducers for swarm fields (outputs append, supervisor follow-up merges, thresholds, pending approval flags, etc.). Two compiled graphs—sequential and supervisor—share the same state shape; the supervisor path adds LLM-driven routing, optional redispatch with injected context, and a synthesis path for final shouldAct.\n\nAll agent and supervisor LLM calls go through the OpenAI JS client configured to hit the resolved 0G Compute base URL (…/v1/…). Partner: @0glabs/0g-serving-broker: in wallet/SDK mode we use createZGComputeNetworkBroker, getServiceMetadata for endpoint + model, getRequestHeaders(provider, billingContent) on every completion, and processResponse(provider, chatID, usage) afterward—chatID is taken from the ZG-Res-Key header when present (body fallback), matching 0G billing semantics. With a static OG_COMPUTE_API_KEY, the same client path can use discovery or manual env for URL/model. @0gfoundation/0g-ts-sdk is dynamically imported only when storage env is present: swarm results are written to a temp JSON file, uploaded via Indexer + ZgFile, then file.close() and cleanup—ethers v6 supplies the JsonRpcProvider and Wallet signer for storage.\n\nEach agent run (src/agents/runner.ts) is a tools + JSON “prediction” loop: tool schemas come from Zod → JSON Schema (zod-to-json-schema). A notable practicality: oversized tool outputs can be summarized by a second 0G completion (configurable thresholds and caps) before returning to the main tool loop, which keeps long HTTP/Market fetches from blowing context without giving up tool use.\n\nConsensus is custom code on top of the graph (weighted votes, threshold → shouldAct). Actions are pluggable modules; Uniswap uses @uniswap/sdk-core and @uniswap/v3-sdk plus axios toward the Uniswap Trading API for quote/swap flows when keys and RPC are set.\n\nThe dashboard is a separate Vite + React 18 app (Tailwind 4, Radix / shadcn-style UI, React Flow / @xyflow/react for workflow visualization) that talks to the same API host.\n\nHacky-but-useful bits: coupling billing to OpenAI via per-request headers + .withResponse() so settlement always sees response headers; raising EventEmitter max listeners for many concurrent SSE clients; single-process event bus for streaming.",
+  "auto_summary": "A TypeScript multi-agent orchestration system uses 0G Compute for LLM calls, optionally stores run artifacts on 0G Storage, and can execute Uniswap trades.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/shawarma-orchestrate-rfyhe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

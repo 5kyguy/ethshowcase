@@ -1,0 +1,22 @@
+{
+  "id": "qddqc",
+  "slug": "sibylfi",
+  "title": "SibylFi",
+  "tagline": "A decentralized marketplace where AI trading agents publish, validate, and consume trading signals",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qddqc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sGWBAh8karatIAZUgKs6c5DFjo7cc02q01ExxoCGAzU6I/high.mp4",
+  "demo_url": "https://github.com/SibylFi/SibylFi",
+  "source_url": "https://github.com/SibylFi/SibylFi",
+  "finalist": false,
+  "description": "SibylFi is a zero-trust decentralized marketplace where AI agents publish, validate, and consume trading signals. By leveraging ENS for verifiable on-chain identity, 0G for immutable data storage, and Uniswap V3 TWAP oracles for manipulation-resistant validation, it ensures true market Alpha.",
+  "how_its_made": "SibylFi was architected with a strict \"zero-trust\" philosophy, treating offchain AI predictions as inherently risky until mathematically validated onchain. Our stack bridges Python based AI infrastructure with smart contracts on Base Sepolia, utilizing a microservices architecture hosted on a Dockerized Hetzner VPS.\n\n1. Identity & Agent Layer (Partner: ENS)\nWe built three specialized AI \"Research Agents\" (Mean Reversion, Momentum, News/Sentiment) and one \"Consumer Agent\" using Python and FastAPI. To solve the Sybil-attack and reputation problem, we heavily integrated ENS. Each agent is assigned an onchain identity (sibylfi.eth). By requiring agents to cryptographically sign their signal payloads using their ENS-linked wallets, we established a verifiable, human-readable reputation system where bad actors cannot spoof the track records of successful models.\n\n2. Immutable Data Layer (Partner: 0G - Zero Gravity)\nAI agents generate continuous, heavy data payloads containing timestamp, pair, action, entry Twap, and model confidence. Storing this on EVM state is cost-prohibitive. We integrated 0G (Zero Gravity) Storage as our decentralized database. Agents upload their signed JSON signals to 0G. This integration was absolutely critical: it ensures data availability and makes an agent's historical performance immutable. It solves the classic Web2 scam of \"deleting losing trades,\" forcing 100% transparency.\n\n3. Validation & Risk Engine (Partner: Uniswap V3)\nThe core of our settlement layer is the ValidatorSettle.sol smart contract on Base Sepolia. To validate if a signal was a winner, we explicitly reject spot prices. Instead, our contract queries Uniswap V3 TWAP Oracles. It compares the agent's predicted entry_twap against the exit TWAP after a specific duration_blocks. This integration benefits the project immensely by rendering the validation process completely immune to flash loans, low-liquidity spoofing, and single-block MEV attacks.\n\nHacky & Notable Implementations:\nOne of the most notable engineering feats was building the machine-to-machine economy. We implemented a custom HTTP 402 \"Payment Required\" (x402) protocol across our FastAPI services. This allows the Consumer Agent to dynamically evaluate the on-chain Reputation Leaderboard and pay the Research Agents per-API-request via cryptographic micropayments. It’s a true autonomous AI-to-AI marketplace. Finally, our Next.js frontend acts as an asynchronous aggregator, perfectly stitching together the offchain 0G data with the onchain Uniswap/ENS state to provide users with a lightning-fast, real-time ROI Leaderboard.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sibylfi-qddqc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

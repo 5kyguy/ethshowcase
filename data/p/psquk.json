@@ -1,0 +1,42 @@
+{
+  "id": "psquk",
+  "slug": "squidl",
+  "title": "SQUIDL",
+  "tagline": "Squidl is a privacy-focused platform that makes managing payments simple and secure. With private static payment links that also work as ENS addresses, you can easily accept crypto or credit card payments while keeping everything untraceable.",
+  "event": {
+    "slug": "singapore2024",
+    "name": "ETHGlobal Singapore",
+    "start_time": "2024-09-20T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/psquk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BEUanmt0100GYnMoMMjqItzAfPxhpXFmu02XrUNcXcBZl8/high.mp4",
+  "demo_url": "https://squidl.me",
+  "source_url": "https://github.com/engowl/squidl",
+  "prizes": [
+    {
+      "sponsor": "Oasis Protocol",
+      "sponsor_id": "1ijf8",
+      "placement": "3rd place",
+      "title": "Best use of Sapphire and/or ROFL"
+    },
+    {
+      "sponsor": "Dynamic",
+      "sponsor_id": "xrzks",
+      "placement": "Best Consumer Crypto Project",
+      "title": "Best Consumer Crypto Project"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Singapore 2024 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Squidl.me is a platform designed to give individuals and businesses total control over their payments and financial transactions. By using stealth addresses, Squidl ensures that every transaction is private and untraceable. With custom static payment links that double as ENS addresses, users can easily receive payments in crypto or fiat without exposing their identities or financial data.\nThe platform offers seamless integration with various blockchain networks, including Ethereum, BSC, Morph, Linea, and Flow EVM, allowing users to accept a wide range of payment options. Additionally, credit card payments are converted to USDC and bridged to BSC, ensuring both convenience and privacy. Squidl also features the ability to bridge funds to the Oasis Sapphire network, where transactions become completely untraceable, adding an extra layer of security.\nSquidl’s flexibility extends to asset transfers as well, supporting the private transfer of NFTs, soulbound tokens, and liquidity tokens. With its easy-to-use interface, unified dashboard, and powerful SDK for developers, Squidl is the go-to platform for anyone looking to manage payments with privacy, flexibility, and control.",
+  "how_its_made": "Our double-blind stealth address system guarantees that no third party, including us as developers, can ever know of the existence of any stealth address, or the financial value stored in these stealth addresses, marking a breakthrough in EVM privacy that rivals Bitcoin’s silent payment wallets.\n\nWe use Sapphire ParaTime to make our stealth address system fully non-custodial. While Vitalik’s stealth addresses offer a lightweight approach to enhanced privacy on Ethereum, they require Elliptic Curve Diffie-Hellman (ECDH), which in other implementations exposes private keys to potentially insecure environments like the user’s device, dApp website, or developer’s server backend, or user’s browser runtime (that time and again have reported vulnerabilities).\n\nBy leveraging Sapphire’s EVM precomputes, we generate entropy and perform elliptic curve operations all within Sapphire’s Trusted Execution Environment (TEE), eliminating the risk of private key theft or exfiltration, especially when used with hardware wallets. We also use Sapphire’s precomputes to derive secp256k1 public keys from ECDH shared secrets, a critical operation for silent payments (BIP 0352 / EIP 5564) that would normally require significant gas without these optimizations, (in fact more that 550,000 gas for just one derivation of a single stealth address).\n\nOur setup enables the creation of simple, reusable payment URLs with no expiration, which encode static meta-addresses for use across multiple transactions. These URLs can generate an unlimited amount of stealth addresses, and are secure against man-in-the-middle attacks, with the only potential risk being the unlikely scenario of a malicious or compromised Sapphire Network RPC provider.\n\nAdditionally, we use Sapphire ROFL to fetch stealth-ephemeralPubKeys announcement pages from off-chain public servers from within attested Sapphire TEEs/SGX, and then scan for on-chain activity of stealth addresses through omni-chain wallet API providers (1inch). Since each visit to our payment link or ENS resolution generates a unique stealth address, many such generated addresses may not be used at all. The ROFL TEE Oracle checks for transactions or ERC-20 transfers linked to each stealth address, before recording announcements (ephemeralPubKeys) permanently on-chain through on-chain event logs (that reveal no address or secrets). This improves upon the previous cumbersome UX within EIP 5562, of requiring the sender or payer to publish an announcement data on-chain, after any transaction to each stealth address.\n\nEIP 5562 also leaks the existence of such stealth addresses through the emitted Announcement event that contains all stealth addresses in plaintext.\nThe way that our smart contracts and oracles are built on top of Sapphire’s technology stack, avoids such an issue, thus guaranteeing that no third party, including us as developers, can ever know of the existence of these stealth addresses, or the financial value stored in these stealth addresses, marking a breakthrough in EVM privacy that rivals Bitcoin’s silent payment wallets.\n\nNoteworthy Hack 1:  Sender privacy is significantly more difficult to achieve than receiver privacy. Receiver privacy means the sender does not know the receiver’s identity, while sender privacy means the recipient does not know the sender’s identity. Achieving sender anonymity for fungible and non-fungible token transfers has been a long-standing challenge in the EVM ecosystem, previously only possible through gas-intensive solutions like Tornado Cash or Railgun, which are vulnerable to international sanctions. With the use of Cellar cBridge, ERC20 tokens can be converted into special Sapphire private wrapped tokens that prevent leakage of recipient balances or sender addresses. By transferring these private wrapped tokens between stealth addresses within Sapphire’s privacy-focused network, all typical ERC20 event logs—such as ERC20.Transfer(from, to)—are concealed, making sender privacy attainable on the EVM. This ensures that third-party observers, including the recipient, cannot identify the sender’s address. Combined with our stealth address system, recipients can create uniquely labeled payment links that do not expose the sender’s identity after the transaction. This solution enables token transfers with full sender privacy and no additional gas overhead (compared to a typical ERC20 Transfer).\n\nNoteworthy Hack 2: All cryptographic operations required for stealth addresses are performed within Sapphire’s EVM. Including signing transactions when spending/sending from stealth addresses. Keys never leave the secure enclave, thus becoming like a HSM in the cloud.\n\nNoteworthy Hack 3: We developed StealthSdk.sol, a contract that can be deployed on any EVM chain supported by Sapphire’s OPL. This allows users to register for our stealth address system by simply calling StealthSdk.register(eip712Auth) on their home network, without needing to acquire ROSE (Sapphire’s gas token) themselves. However, we can only demo this feature after further coordination with Sapphire testnet SGN operators.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/squidl-psquk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

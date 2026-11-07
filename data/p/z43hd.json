@@ -1,0 +1,27 @@
+{
+  "id": "z43hd",
+  "slug": "harvest-world",
+  "title": "Harvest World",
+  "tagline": "The first yield aggregator on World Chain. Auto-compounding rewards for verified humans via an agent",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z43hd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XBF4M6lxyVuGd2iPHK7J9vxs9m01YDIMjG7SDCClIxNQ/high.mp4",
+  "demo_url": "https://harvest-world.vercel.app/",
+  "source_url": "https://github.com/ElliotFriedman/humanproxy",
+  "finalist": false,
+  "description": "World Chain has over $42M in TVL, 25M+ verified humans, and zero yield aggregators. Every dollar sitting in Morpho vaults earns base APY but leaves Merkl WLD rewards unclaimed — because claiming requires individual transactions that cost more in gas than most positions earn.\n\nHarvest fixes this with a shared vault. Deposit USDC, receive hvUSDC shares. An AI agent built on AgentKit runs the strategy: it queries the Uniswap Trading API to quote WLD-to-USDC swap output and verify profitability, then claims pooled WLD rewards from Merkl, swaps them to USDC through Uniswap V3 on-chain, and redeposits into Morpho — compounding yield for every depositor in one transaction. The agent only harvests when the Uniswap API confirms the swap output exceeds gas costs, preventing unprofitable harvests. One smart harvest replaces thousands of individual claims.\n\nEvery deposit is World ID-gated. Orb verification means every wallet in the vault traces back to a unique human. No bots, no sybil farms, no one gaming reward distribution. The vault cryptographically guarantees its depositor set is human, making it safe for future incentive programs and a foundational DeFi primitive on World Chain.\n\nThe agent is registered via AgentKit's AgentBook, which ties the agent wallet to a verified human on-chain. This is human-backed autonomous financial management — the agent makes real economic decisions (when to harvest, whether a swap is profitable) using the Uniswap API as its price intelligence layer, all anchored to a verified human identity.",
+  "how_its_made": "Harvest is three layers: Solidity contracts, a TypeScript harvester agent, and a Next.js 15 World Mini App. Contracts are live on World mainnet.\n\nWe forked Beefy Finance's BeefyVaultV7 (MIT licensed, battle-tested on billions of TVL) and then made modifications so that they fit our unique use case. Users deposit USDC.e into the vault, and receive shares. The StrategyMorphoMerkl contract deposits pooled USDC into Morpho Re7 vault for base yield, then periodically claims WLD rewards from Merkl's distributor (with merkle proofs), swaps them back to USDC via Uniswap V3, and redeposits, auto-compounding for all depositors in a single transaction. No harvest fees yet; all yield goes to depositors.\n\nThe yield harvester is a TypeScript cron using viem. Before executing any harvest, it checks AgentBook (AgentKit's on-chain registry) to verify the agent wallet is human-backed. Then it hits the Merkl v4 API for unclaimed WLD rewards and proofs, submits the claim tx, and calls harvest() on the strategy. One transaction compounds yield for every depositor simultaneously.\n\nIDKit + World ID — Every deposit is World ID–gated. The /api/sign-request endpoint generates RP signatures (nonce + expiry, signed with RP_SIGNING_KEY, never exposed client-side). IDKit runs client-side with Orb preset, sends the proof to /api/verify, which forwards it to the world v4 verification api. Nullifiers prevent replay. We lazy-load IDKit to avoid webview crashes in World App.\n\nMiniKit — The terminal UI (green-on-black, monospace, one screen) runs inside World App. walletAuth for login, IDKit for verification, sendTransaction for deposits. The share price difference before/after harvest is shown live in agent status.\n\nThe hackiest bit: tracking share price delta across the harvest tx to display \"yield generated this harvest\", we snapshot getPricePerFullShare() before and after the on-chain call and compute the diff in the status endpoint.",
+  "auto_summary": "A World Chain vault app pools deposits, verifies human users, and runs an automated harvest-and-redeposit yield strategy.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/harvest-world-z43hd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

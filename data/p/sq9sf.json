@@ -1,0 +1,21 @@
+{
+  "id": "sq9sf",
+  "slug": "mint-to-atst",
+  "title": "mint-to-atst",
+  "tagline": "As soon as a NFT has been minted, issue an attestation in the atst system from OP - the  attestation sender is the deployer of the NFT contract and the receiver is the minter",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sq9sf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qd3hFlVgDnKMwQSPQqFUVRt8H02ZkWm69LkgNJY701xrY/high.mp4",
+  "source_url": "https://github.com/sliponit/mint-to-atst",
+  "finalist": false,
+  "description": "The project allows to issue an attestation from the deployer of a NFT smart contract to the minter of said NFT automatically.\n\nWe use a demo smart contract for NFT from thirweb https://thirdweb.com/thirdweb.eth/OpenEditionERC721\n\nAlchemy is used for listening to the NFT smart contract mints and send a webhook to a cloudflare worker https://www.alchemy.com/custom-webhooks\n\nThe cloudflare worker receives mint events from the alchemy webhook. It does the atst creation from the contract deployer \n\nThe schema for the atst is https://optimism-goerli-bedrock.easscan.org/schema/view/0xedc8a2bf856db87850a0483a7f090abc12cafcb6fa477c3732b5e52b65f4e959. It mainly a string `minted` where we store the transaction hash of the mint.",
+  "how_its_made": "The worker folder is cloudflare worker deployed at https://worker.sliponit9471.workers.dev/ It receives POST from the alchemy webhook listening to mints. First it derivers the minter address and the mint transaction hash from the body of the webhook. Then it sets up the attestation services withthose data, plus a provider, plus a signer 5the contract deployer but could be anything), plus the schema UID. Then the worker issues the attestion and returns\n\nThe frontend folder contains a webpage deployed on cloudflare pages at https://mint-to-atst.pages.dev/ - it is mainly an embed to a thirdweb page to mint\n\nThe eas folder contains a script to issue a attestation; unused, just for debugging",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mint-to-atst-sq9sf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

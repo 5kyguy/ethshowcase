@@ -1,0 +1,27 @@
+{
+  "id": "55ddx",
+  "slug": "gol",
+  "title": "Gol",
+  "tagline": "An agent account that refuses payments outside its mandate and records every refusal on-chain.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/55ddx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ucCFGlkmw47O9FgSF8o2YwFCCiyImmvw102QM4rEBiV00/high.mp4",
+  "demo_url": "https://gol.network",
+  "source_url": "https://github.com/Gol-Network/gol-network",
+  "finalist": false,
+  "description": "An AI agent with a wallet can be talked into paying the wrong person. The keys are not stolen and the contract is not broken. The agent is convinced by the text it reads, and it signs.\n\nGol puts the limit on the chain instead of in the prompt. The owner sets a mandate: how much per transaction, how much in total, who can be paid, and when it expires. The agent works inside it. When the agent tries to go outside, the contract rejects the transaction and emits Refused, carrying the rule that was broken, the amount attempted, and how much room is left.\n\nA rejected transaction normally leaves nothing behind. It reverts and the attempt disappears. Here every refusal is stored as an event and indexed by a subgraph, so the owner can ask in plain English what the agent was refused and why, and get the answer from chain data rather than from the model's account of its own behavior.\n\nThe demo sets a $10 cap, lets the agent pay correctly once, then lets it try $11. The refusal appears in the block explorer with the reason and the remaining headroom, and the same event answers the question in the console thirty seconds later.",
+  "how_its_made": "The mandate contract is Solidity, deployed and verified on Arc testnet. It checks four rules inside the call: a per-transaction cap, a cumulative cap, a recipient allowlist, and an expiry. It emits Executed or Refused(agent, rule, attempted, headroom, reason). The cap is checked against the argument inside the call rather than reconciled against a running total afterwards, so nothing moves before the rejection.\n\nThe agent is a plain script. It takes a goal, builds a USDC transfer on Arc, and submits it through the mandate. It has no separate path around the checks. It gets through inside the bounds and gets rejected outside them.\n\nA subgraph on Subgraph Studio indexes both events from live data with a Studio API key. The query layer turns an English question into GraphQL against that subgraph, so the agent reads its own history off the chain instead of reporting it from context.\n\nThe frontend is one Next.js page. Privy handles sign-in and the owner wallet and carries a policy on the owner account, so creating a mandate and acting inside one are two different permissions.\n\nThe code is AI-assisted and attributed in the README. The repo commits the spec before the code it produces, so /spec holds the prompts and planning files, and the history shows where the spec was wrong and got corrected. Tests cover the edges: exactly at the cap, one unit over, the expiry boundary, and a replayed signature.",
+  "auto_summary": "An onchain mandate account constrains an AI agent’s USDC payments and uses a subgraph-backed query layer to report executed and refused actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/gol-55ddx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "p9p0o",
+  "slug": "sponsored-voting-governor-extension",
+  "title": "Sponsored Voting: Governor Extension",
+  "tagline": "Extending OpenZeppelin Governor contract to sponsor the gas fees of proposal votes",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p9p0o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FiWIetiQubJ3awEhekvCNSWUZbeGmwNnxA01yEYqvDCw/high.mp4",
+  "demo_url": "https://www.tally.xyz/gov/ETHTokyo-Sponsored-Voting-2",
+  "source_url": "https://github.com/wildmolasses/sponsored-voting",
+  "finalist": false,
+  "description": "This governor extension introduces proposal vote sponsorship to DAO governance token holders. This makes it easier for protocol users to participate in governance, which in turn fosters equitability and diversity. It does so by adding ERC-4337 compliant paymaster functionality to the OpenZeppelin governor contract. And because it uses the OpenZeppelin governor, it's interoperable with a bunch of existing UIs and tooling. With this extension, governance token holders with 0 ETH in their wallet can cast votes on DAO proposals! Future work could include:\n- expand the scope of what can be sponsored (e.g. proposal execution)\n- support more vote methods (currently only castVote supported)\n- give governor a way to punish griefing\n- harden paymaster validation logic, include better unit tests\n- helper library for forge users",
+  "how_its_made": "This project is a foundry project written in solidity that imports the @openzeppelin/contracts as well as the Ethereum Foundation's infinitism/account-abstraction contracts. It composes them in a new, original contract called GovernorSponsoredVoting.sol.  Tests are written to prove that token holders with 0 ETH in their wallet can indeed cast their vote on a proposal, with gas paid entirely by the governor contract's new paymaster capabilities. However, there is 1 remaining block.number call (to fix) that prevents the UserOperation from getting included in a goerli bundle.\n\nI cut a whole bunch of corners, for example:\n- only support castVote and not other relevant vote methods\n- only support BasicAccount style `execute` \n- hardcoded paymaster address in trampoline, as currently trampoline wants a paymaster url instead\n- can currently be griefed by malicious account who calls with innocent calldata but whose implementation spends the gas on something irrelevant. See TODO on blacklisting / reverting in 2nd postOp.\nI tried to mark TODOs in appropriate places. Would love to keep working on this!",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sponsored-voting-governor-extension-p9p0o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "xhemc",
+  "slug": "sublink",
+  "title": "SubLink",
+  "tagline": "Anonymous recurring payments for creators. Sender, receiver, and amount stay private.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xhemc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lgkGfNeT901LJIjFLohLUejtzMTVD4jzZxUm7rKxoaI00/high.mp4",
+  "demo_url": "https://sublink.lol",
+  "source_url": "https://github.com/chebykin/SubLink",
+  "finalist": false,
+  "description": "The Problem.\n\nEvery online subscription leaks your identity. Payment processors, merchants, and on-chain observers see exactly who pays whom, how much, and how often. That payment trail gets tied to your reading, viewing, and community habits — forever. Creators carry the other half: they inherit subscriber PII, compliance burden, and can't serve audiences who need to stay anonymous.\n\nOn-chain subscriptions today don't solve this — they just move the leak from Stripe's database to a public ledger.\n\n\nSubLink.\n\nA privacy-preserving subscription protocol. Recurring on-chain payments where sender, receiver, and amount are all private. Creators verify subscriber access without ever learning their identity, wallet, or payment history.\n\nBuilt on Unlink Protocol (private transfers on Base). SubLink turns one-shot private transfers into a full subscription primitive: plans, recurring charges, bearer auth, access verification — end-to-end private.\n\n\nHow It Works.\n\nCreator: connect wallet, create a plan, drop one API call into your site. Return 200 → grant access. Return 402 → show paywall.\n\nSubscriber: connect wallet, sign two messages, fund the dedicated account. Done. The backend handles recurring charges via Unlink's private rails.\n\nWhat the creator learns: \"auth key 0xabc… has an active subscription.\" Nothing else. Not the wallet. Not the amount. Not the history.\n\n\nDesign Choices.\n\n- Per-plan isolated accounts. Each subscription gets its own deterministic Unlink account. Cancel one by withdrawing — the rest are untouched.\n- Auth key ≠ payment key. Bearer tokens sign with a separate secp256k1 key. Leaked tokens can't touch funds. (Don't use your bank PIN as your website password.)\n- Zero server-side token storage. Tokens are subId.expiry.signature — server recovers the signer via ECDSA per request. No session table, no revocation list.\n- HTTP 402 as discovery. Unauth'd verify requests return plan metadata + API URL embedded — frontends inline the paywall with no out-of-band config.\n\n\nHonest Tradeoffs.\n\nThis is a hackathon build, not a production protocol. SubLink runs a backend that holds subscribers' dedicated payment keys so it can charge on schedule — users trust it to only charge according to plan terms. Future paths that could remove this trust: TEE execution so keys are never exposed to the operator, and smart wallet session keys so the backend only ever holds a scoped delegation instead of raw account keys. For now: it works, it's private end-to-end, and the tradeoff is explicit rather than hidden.\n\n\nWho Needs This.\n\nNewsletter creators who don't want to hand Substack a reader list. Paywalled journalism in hostile jurisdictions. Adult platforms where subscriber privacy is a safety issue. Any gated community where membership itself is sensitive.",
+  "how_its_made": "Stack: Bun monorepo (workspaces for frontend, backend, ops, mock sites). Frontend: Vue 3 + Vite, Reown AppKit + wagmi/vue for wallet connection, viem for signing. Backend: Bun + Hono, SQLite via Bun's  native driver, in-process cron loop for recurring charges.\n\nPartner tech: Unlink Protocol (@unlink-xyz/sdk): powers every private transfer on Base Sepolia. Backend uses the SDK to create Unlink accounts, fund them, and fire recurring charges. It's the core  primitive — without it, the privacy guarantee doesn't exist.\n\nCrypto plumbing: viem handles everything — message signing, Keccak256, secp256k1 derivation, ECDSA pubkey recovery. No JWT lib: bearer tokens are subscriptionId.expiry.signature and the server recovers the signer directly, so zero token storage server-side.",
+  "auto_summary": "A Bun monorepo implementing private subscription payments, creator access checks, and recurring charge operations using Unlink on Base Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sublink-xhemc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

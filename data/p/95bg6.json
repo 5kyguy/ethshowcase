@@ -1,0 +1,29 @@
+{
+  "id": "95bg6",
+  "slug": "scaling-crypto-social-media",
+  "title": "Scaling Crypto Social Media",
+  "tagline": "Developed better Scaffold-Eth2-Subgraph then used new knowledge of TheGraph to develop the cheapest possible on chain twitter clone using Token Factories and TheGraph",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/95bg6/banner/default.jpg",
+  "demo_url": "https://q.ddaemon.org",
+  "source_url": "https://github.com/dentropy/nft-comments-sugraph",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🥈 The Graph — Best New Subgraph",
+      "title": "The Graph"
+    }
+  ],
+  "finalist": false,
+  "description": "So the Question is, can TheGraph and Blockchain turn into the next generation of Social Media? \n\nWell let's start with something simple. Comments on ERC721 Tokens that can be queried from a raw Ethereum Node, not the graph, using indexed events. That's simple enough I can write that in 23 lines of solidity, and did, I even have the tests written that verify the events can be looked up. But indexed events are expensive so that's not going to scale.\n\nAt this hackathon I learned TheGraph can take raw transaction data sent at a contract and parse it however you like, therefore TheGraph can index everything rather than relying on the Ethereum node. But everyone dumping the same data to the same spot doesn't allow for meaningfully generated context. So I took the data dumping smart contract and put it in a contract factory. This allows for each deployment of the message relaying contract to parse data differently via its Subgraph. Everything up to this point I have demonstrated at this hackathon, so how do we go from simple POC to next generation of social media?\n\nThe roots of communities start on chain with contracts and messages that are parsed by TheGraph. But how does this scale off chain? Well what if communities were managed using white listed NFT's. White Lists that can be fed into Merkel Tree Proof's, more on this later. You sign data from the key that controls the NFT and it can be integrated into the graph. We can then build huge merkel trees and dump 100's or even 1000000's of messages to the Blockchain at regular time periods, say 10 minutes, so that everything is timestamped. We can have a multitude of organizations doing this 24/7. I want to build this, I need your help to do so. We need to \"contextually\" hash as much of the internet as possible and get it on chain before the Artificial Super Intelligence starts rewriting history. And yes this is a genuine fear I have.",
+  "how_its_made": "Firstly I had to fix the tooling so I could build anything. scaffold-eth/scaffold-eth-2 at subgraph-package[1] doesn't work nicely because it required you to run the EVM simulated blockchain on your local machine and all TheGraph infastrucutre inside docker. I added Ganache to docker-compose and then Ganache would crash. So I ended up dockerizing Anvil manually because I could not find a docker contianer out there, added the anvil container to docker-compose and ended up with my own scaffold-eth-2 subgraph package that actually works reliably.[2] This was just getting our tooling working so we could do something and that took half the hackathon.\n\nOnce I had working tooling I went forth developing a blockchain commenting system. Wouldn't it be cool if you could put comments on ERC721 tokens. Well it's pretty easy actually you just need a event that has 3 values indexed, tx.origin, TokenAddress, and TokenID with the message also within the executed event so people can see it. What is interesting about this approach is that you can use the GraphQL API built into Ethereum nodes itself, not TheGraph to query who is posting comments on what NFT's. But I did not stop there an event with that much indexed information is far too expensive I wanted to see if I could do things cheaper by indexing everything using TheGraph.\n\nTurns out you can send raw data at a 7 line smart contract then parse it using TheGraph into various different fields using Web Assembly. I quickly realized that everyone having a single place to dump data reduced the \"context\" people could produce. So I ended up creating a token factory that can deploy the 7 line smart contracts so all deployments can be easily looked up on chain and each one can have a separate subgraph that can parsed the data dumped to it differently.\n\nOnce I had these proof of concepts running on my machine it was time to deploy things publically. I got some polygon tokens and then ran my `npx hardhat deploy` and a couple scripts to generate some initial metadata. I then went to about writing a frontend so people could read the comments already put up on the blockchain and add some of their own.... and ran out of time before I could get it all running\n\n\n1. https://github.com/scaffold-eth/scaffold-eth-2/tree/subgraph-package\n2. https://github.com/dentropy/scaffold-eth-subgraph",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/scaling-crypto-social-media-95bg6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

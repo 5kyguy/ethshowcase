@@ -1,0 +1,35 @@
+{
+  "id": "rn3nc",
+  "slug": "omamoris",
+  "title": "Omamoris",
+  "tagline": "Give your AI agent a budget, not your keys. It shops on its own, only for what you asked.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rn3nc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pMSf02701hnlWfNbGIamnDOcLXD7CUiC00vp6yg8Taw021s/high.mp4",
+  "demo_url": "https://omamorisan-site-074960-91-98-199-240.sslip.io/",
+  "source_url": "https://github.com/juanmaagd/yakusoku",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Tokyo 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "AI agents can finally shop, but nobody can safely let them. Checkout inside a chat makes you confirm every purchase, and a wallet with a spending cap can be talked into paying for anything inside the cap: a clean address, within budget, for something you never asked for.\n\nOmamori gives your agent a budget, not your keys. Your agent (Claude, or any MCP client) asks for an intent: what it may buy, where, how much and until when. You approve it once with one tap in World App, which also proves a real person said yes. The first time, it also creates your account, and a setup link deploys your own smart account on Base Sepolia, which you own and fund with USDC. From then on the agent shops on its own, paying x402 merchants from your account without ever holding a key.\n\nEvery payment is checked against your intent before anything is signed, and the pipeline fails closed: idempotency, policy (budget, expiry, network), merchant binding, account funding, provenance, Intercepta address and token screening, a calibrated semantic intent check with TypeSafe Jev, and a fresh World ID approval whenever something is doubtful. A retry never pays twice, a second purchase needs an explicit purchase reference, and a new plan replaces the intent only after you approve it. You see every receipt with its reason, get gift card codes in your dashboard, and can revoke any intent.\n\nProof: 49/49 end-to-end scenarios pass; Jev refused the key attack (matches_intent 0.02) while the legitimate purchase paid; one approval covered two real purchases on-chain; a World ID approval produced a payment bound by a StepUp attestation; and an independent verifier found no payment from the firewall wallet without a matching pay receipt. Testnet only.",
+  "how_its_made": "A bun + TypeScript monorepo with a firewall, an MCP server, an x402 store, a site, a demo agent and a Foundry contracts package.\n\nThe firewall (Hono) runs the pre-signature pipeline. The agent never signs: it forwards the store's 402, the firewall re-fetches the merchant's own 402, runs every check, and only then builds the x402 payment payload (@x402 2.27, public facilitator, Base Sepolia USDC). The MCP server (official SDK, stdio and Streamable HTTP) exposes tools like request_promise, list_promises, pay_x402 and check_approval; the agent's credential stays in the server and is never returned to the model. Two Agent Skills packages on skills.sh (omamori-setup, omamori-purchase) teach any agent to connect and buy.\n\nOmamorisanAccount is a per-user smart account deployed with CREATE2 from a factory, owned by the user's wallet, with on-chain recipient and payment limits. It pays x402 through the unmodified public facilitator: USDC's EIP-3009 authorization is validated through the account's EIP-1271 signature check.\n\nPartners: World ID for Agents through the sandbox OIDC device flow (ID token verified with jose + JWKS and auth_time freshness), plus a signed StepUp attestation that binds each approval to its exact payment. Intercepta's Web3 Antivirus API screens the payee and token live before signing (its data is mainnet-only, so we map Base Sepolia USDC to Base mainnet USDC for token scans). TypeSafe Jev (jev-1.13.0) answers calibrated questions about whether a payment matches the intent, including over untrusted page text. The demo agent uses the AI SDK through Vercel AI Gateway; the store runs three x402 merchants (gift cards, data & APIs, cloud credits) with a promo-copy trap; the site is Astro + Tailwind with React islands, viem and SIWE.\n\nTested with 49 end-to-end scenarios against the real Jev API and World ID sandbox, plus an independent verifier CLI; deployed with Docker Compose on Dokploy.\n\nHacky bits: telling a retry from a deliberate repeat purchase without letting a refused payment be re-rolled (refusals are cached on the base payment identifier, purchases on base + purchaseRef), and settling x402 from a smart-contract payer through the public facilitator.",
+  "auto_summary": "A TypeScript monorepo for policy-checked AI-agent purchases using x402 payments, a smart-account firewall, and step-up World ID approval.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/omamoris-rn3nc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

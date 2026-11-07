@@ -1,0 +1,21 @@
+{
+  "id": "i8dd0",
+  "slug": "suilotto",
+  "title": "SuiLotto",
+  "tagline": "A decentralized multi-winner lottery on the Sui blockchain. ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i8dd0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/z9tBooYza9ii2OSS028rHZ007cYWf8aIm9oXbxaAnl6jY/high.mp4",
+  "source_url": "https://github.com/Allen-Saji/sui-lotto-frontend",
+  "finalist": false,
+  "description": "SuiLotto is a decentralized, multi-winner lottery protocol\nbuilt on the Sui blockchain. Players connect their Sui\nwallet and purchase tickets by depositing SUI tokens into\na shared on-chain prize pool. Each ticket purchase is\nrecorded as a separate entry, and players can buy as many\ntickets as they want to increase their odds of winning.\nAn admin creates lottery rounds by setting a ticket price\nand a deadline. While the lottery is active, anyone can\nbuy tickets. Once the deadline passes and there are at\nleast 2 participants, the admin triggers a draw. Winners\nare selected using Sui's native random module, which\nprovides cryptographically verifiable on-chain randomness\nthat no one, including the admin, can manipulate.\n\nThe number of winners scales dynamically based on\nparticipation. With 2 to 5 tickets sold, there's 1 winner\nwho takes the entire prize. With 6 to 9 tickets, 2 winners\nsplit it evenly. At 10 to 99 tickets, 3 winners share the\npool, and at 100 or more tickets, 5 winners each receive\nan equal share. The same address can win multiple times if\nit holds multiple tickets, since each ticket is an\nindependent entry in the draw.\n\n98% of the total prize pool goes directly to the winners,\nsplit equally among them. The remaining 2% goes to the\nprotocol as an admin fee.\n\nIf a lottery round expires without reaching the minimum of\n2 participants, there is no draw. Instead, participants\ncan claim a full refund of their SUI directly from the\nlotteries page.",
+  "how_its_made": "The smart contract is written in Sui Move, leveraging Sui's\nobject-centric model where each lottery round is a shared\nobject that anyone can interact with permissionlessly. Admin\npermissions are enforced through an owned AdminCap capability\ntoken. The critical piece is winner selection — we use Sui's\nnative sui::random module for on-chain VRF (Verifiable Random\nFunction), which gives us cryptographically provable fairness\nthat no party can manipulate. The draw_winner function is\ndeliberately marked as entry rather than public to prevent\ncomposition attacks where a malicious contract could wrap the\ncall and retry until it gets a favorable random outcome.\n\nThe frontend is built with Next.js (App Router), React 19,\nand TypeScript, styled entirely with Tailwind CSS v4. Wallet\nconnectivity is handled through Mysten's @mysten/dapp-kit,\nwhich provides React hooks and providers for Sui wallet\nintegration. We use the Slush wallet adapter with\nWalletProvider's slushWallet config for a branded connection\nexperience. The provider stack layers QueryClientProvider\n(TanStack React Query) > SuiClientProvider > WalletProvider >\nLotteryProvider, giving every component access to chain data,\nwallet state, and lottery context.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/suilotto-i8dd0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

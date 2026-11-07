@@ -1,0 +1,27 @@
+{
+  "id": "9as6i",
+  "slug": "gantry",
+  "title": "Gantry",
+  "tagline": "A Uniswap v4 hook that prices every swap by the caller's on-chain behaviour. Nobody gets blocked.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9as6i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/if4SrVI14Y9900AFjSe8g8GbNbdSs01rduhUfoJdA5Sic/high.mp4",
+  "demo_url": "https://www.gantryhook.xyz",
+  "source_url": "https://github.com/wildanrhmn/gantry",
+  "finalist": false,
+  "description": "A sandwich bot waits for your trade, buys in front of it, sells right after, and pockets the difference. As far as the pool is concerned that bot is just another customer paying exactly the same fee as you. Gantry changes that. \n\nGantry is a Uniswap v4 hook that prices each swap by the behaviour of the address actually paying for it. A clean wallet pays 0.05%. An address nobody has scored pays 0.30%. Something that looks like it is extracting pays 0.60%, and a confirmed sandwicher pays 1.00%. Nobody is ever blocked and nothing is blacklisted. If you want to sandwich the pool you still can, you just pay twenty times what a clean wallet pays for the privilege, and that extra goes to the liquidity providers you took it from. \n\nTiers are not something we assign by hand. An off-chain scorer reads real Ethereum mainnet behaviour, the scoring itself runs inside a Chainlink confidential workflow, and the result reaches the chain as a DON-signed report. The contract holding tiers only accepts writes from the Chainlink receiver address, so the deployer cannot set anyone's tier. \n\nOne design detail worth calling out: shared infrastructure is protected. Uniswap's own router reverts more often than almost anything else we measured, which on raw numbers reads as extraction. But thousands of ordinary people trade through that router, so charging it would charge all of them. Any address marked as shared gets clamped back to the default tier no matter what it scores. \n\nIt is live on Sepolia. The site shows every swap the pool has priced so far, including one wallet that paid 1.00%, then 0.30%, then 0.05% on the same pool at the same size, because its tier moved between trades.",
+  "how_its_made": "Contracts are Solidity and Foundry. The hook implements beforeSwap and returns a fee with Uniswap's OVERRIDE_FEE_FLAG set, so the pool charges what the hook says instead of its own static fee. v4 reads a hook's permissions out of its address, so the deploy salt was mined with CREATE2 until the address ended in 0080, whose low 14 bits are exactly the BEFORE_SWAP permission bit. \n\nThe hard part of v4 is that inside beforeSwap, sender is the router, not the trader. Every trade arriving through a router looks identical. We solved it with an EIP-712 attestation: the frontend has you sign a free off-chain message, passes it through as hookData, and the hook recovers the signer and spends a nonce so the same signature cannot be replayed. No signature just means you pay the default tier, so the hook never depends on our frontend to stay correct. \n\nThe Graph does the reading. Two subgraphs, one on Sepolia for the hook's own events and one on mainnet for behaviour, plus nine published Substreams modules written in Rust and compiled to WASM. Substreams is doing something a subgraph structurally cannot. A reverted transaction emits no logs, so it is invisible to any event-based indexer, and yet a failed sandwich attempt is one of the strongest signals there is. Substreams reads transaction traces, which carry status, and that has surfaced over 12,000 reverted attempts that no subgraph could ever see. To keep this live rather than a committed snapshot we run substreams sink postgres as a systemd service on our own VPS, following the chain head into Postgres, with a small Node API in front that both the site and the Chainlink workflow read. \n\nChainlink CRE does the scoring. The workflow runs with handlerInTee, so it executes inside a TEE, and it pulls the tier thresholds from runtime.getSecrets() rather than from source. That matters: the rules are public, but a published threshold is just a number for a bot to park itself underneath. Results leave as a DON-signed report through EVMClient.writeReport() into TierReportReceiver, which verifies the workflow id, name and owner before it is allowed to touch TierOracle. \n\nFrontend is Next.js on Vercel. The swap page quotes you from the oracle before you sign anything, so the price you are promised is the price the hook actually reads. \n\nThe hacky part worth mentioning: The Graph's rules say static datasets do not qualify, and the textbook fix, a Substreams-powered subgraph, turns out to be dead for EVM chains now. The error text says so outright. Rather than ship a snapshot and call it live, we stood the real sink up ourselves. It runs in 24MB of RAM with a 20MB API next to it, and the committed snapshot survives only as a fallback for when the box is unreachable.",
+  "auto_summary": "A Uniswap v4 hook applies behavior-based swap fees using offchain scoring, Graph indexing, and Chainlink CRE report delivery.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/gantry-9as6i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

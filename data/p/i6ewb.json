@@ -1,0 +1,27 @@
+{
+  "id": "i6ewb",
+  "slug": "explorechem",
+  "title": "ExploreChem",
+  "tagline": "Confidential traceability for critical mineral and rare earth supply chains that protects trade data",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i6ewb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Z6zM5Debxl1JgWkcvnhz01BqupTG1rEBdJELrT29bcB4/high.mp4",
+  "demo_url": "https://armanfm.github.io/ExplorerChem/",
+  "source_url": "https://github.com/armanfm/ExplorerChem",
+  "finalist": false,
+  "description": "Project: ExploreChem — a confidential traceability infrastructure for critical mineral and rare earth supply chains designed to prevent the leakage of commercial or intellectual property, developed for ETHOnline 2026.\n\nPurpose: To enhance energy and economic security. Key project stakeholders encompass supply chain participants—including miners, carriers, laboratories, refiners/processors, manufacturers, and recyclers—alongside platform operators, read-only public clients, and external auditors (compliant with EU Digital Product Passport requirements, including battery regulations).\n\nHow It Works: It separates public proof from private operational data using anchored commitments, keeping sensitive documents and company details off-chain while guaranteeing verifiable chain-of-custody tracking. It achieves this by combining private document storage, on-chain evidence commitments on Ethereum Sepolia, and a pairwise mass-checking Chainlink CRE workflow executed securely inside a TEE (Trusted Execution Environment), with Supabase handling private indexing. \nThe MVP we built demonstrates the feasibility of the project.",
+  "how_its_made": "ExploreChem MVP combines a Solidity registry on Ethereum Sepolia, two Chainlink CRE (Chainlink Runtime Environment) workflows in TypeScript and a static frontend with Supabase as private storage. The chain holds commitments and state transitions, never business data.\n\nCONTRACT. ExploreChemRegistry.sol implements the CRE IReceiver interface. It stores opaque actor IDs with authorized wallets, evidence records (file hash, status, timestamp) and result commitments linked by previousResultId, so revisions append instead of overwriting. No lot, mass, assay or company name goes on-chain. onReport only accepts the Chainlink forwarder and checks the workflow ID in the metadata. One static report struct with reportType moves evidence to MATCHED (1), anchors a pairwise result (2) or applies VERIFIED/DIVERGENT (3). \n\nWORKFLOW 1. Cron trigger, handlerInTee targeting a Nitro enclave. Inside it: fetches the storage credential via CRE secrets, reads getNextPending(), downloads the document, recomputes its hash and rejects any mismatch with the on-chain anchor. A handoff is accepted only if lotId matches and origin/destination agree both ways; names in documents are resolved through the private actor directory. Masses become integer milligrams (half-up rounding) and are compared as a signed delta. Only fingerprints, a result hash and statuses leave the enclave.\n\nWORKFLOW 2. Separate auditor, also in handlerInTee. Re-derives the anchored result hash, re-verifies both documents and applies a provisional 2% tolerance on outgoing mass before the audit report. An optional per-element path (dry basis at 105 C, loss-on-ignition, MUF - Material Unaccounted For) exists but is not in the demo.\n\nWHY CRE. One workflow joins a contract read, authenticated storage calls, secrets and a forwarder-delivered report; counterparties' masses are compared inside the TEE (Trusted Execution Environment) handler and the contract trusts workflow identities, not a backend key. Run with cre workflow simulate --broadcast (the simulator is not a real TEE). \n\nFRONTEND. Static index.html with ethers v6 and supabase-js; hashes files locally before submitting and re-checks originals against the on-chain hash via signed URLs (Uniform Resource Locators).\n\nLIMITS. Single EOA (Externally Owned Account) owner can swap forwarder and workflow IDs; no revocation; DIVERGENT is terminal; name resolution depends on the off-chain directory; one handoff is checked, not a global mass balance.",
+  "auto_summary": "A Solidity registry, Chainlink CRE workflows, and a static frontend provide confidential supply-chain evidence attestation with private document verification.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/explorechem-i6ewb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "ztcwe",
+  "slug": "pulse",
+  "title": "Pulse",
+  "tagline": "Cross-chain prediction markets: bet from any chain, any token. Positions on Base.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ztcwe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hWazmbKqpJQ9UEl7eZqY71CxrJ72T8Mmzomh3HklBRg/high.mp4",
+  "source_url": "https://github.com/cryoneth/Pulse",
+  "finalist": false,
+  "description": "Pulse is an intelligence-first prediction market platform that removes the biggest UX friction in DeFi prediction markets: cross-chain liquidity fragmentation. Markets live on Base mainnet (8 markets deployed), but users can open positions using funds from any of 7 EVM chains (Base, Ethereum, Polygon, Arbitrum, Optimism, Avalanche, BSC) and 24+ token sources (USDC/USDT/DAI/ETH/WETH/AVAX/BNB/POL). Instead of forcing users to manually bridge, swap, approve, then trade, Pulse auto-detects the best funding source across chains, quotes the optimal route in real time, and executes the full journey. For trades ≥ $10, Pulse uses LI.FI Contract Calls to bundle bridge + swap + market interaction into one atomic, one-signature flow, minting YES/NO shares directly to the user on Base via a LI.FI-compatible buyFor() entrypoint. The result is “pay with USDC on Polygon → receive YES shares on Base” as a single guided experience with step-by-step progress, transaction links, and on-chain verification that shares were received.",
+  "how_its_made": "Frontend is a mobile-first web app built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS 4. Wallet connectivity uses wagmi + viem with a multi-chain config across the 7 supported networks (public RPCs) plus WalletConnect v2 and injected wallets (EIP-6963). Server/async state is handled with TanStack React Query; UI state uses React hooks. Core UX is a bottom-sheet “PositionFlow” that covers quoting → confirming → executing → verifying → success/error, and a portfolio FAB that batch-reads token balances to display open positions and enable quick sells. \n\nThe cross-chain engine is LI.FI SDK (@lifi/sdk). On page load, Pulse scans balances across all 7 chains in parallel for a curated list of source tokens, then scores candidates to auto-select the cheapest/cleanest funding source (preference: Base USDC → Base stable → other-chain USDC → other stables → cross-chain non-stables). Amount input is debounced to avoid spamming quotes. Pulse supports two execution modes: (A) standard getRoutes() for swap/bridge routes, and (B) getContractCallsQuote() for atomic “swap+bridge+contract call” trades (≥ $10) where the quote includes encoded calldata for Market.buyFor(amount, side, recipient). Execution uses executeRoute() with updateRouteHook for real-time step tracking in the UI (pending/done, tx hashes). After completion, Pulse verifies the position by polling Base for the user’s YES/NO token balance increase (up to 10 attempts). Transaction history and onboarding completion are persisted in localStorage for a smooth hackathon demo experience.\n\nSmart contracts are Solidity 0.8.24 (Hardhat + OpenZeppelin). Each Market holds Base USDC and mints paired YES and NO ERC20 tokens 1:1 per USDC deposited; users receive the side they buy. The key “hacky/notable” integration point is buyFor(), which lets a LI.FI solver (or any caller) pay USDC and mint shares directly to the end user as recipient—this is what makes LI.FI contract-call bundling possible for one-signature cross-chain trades. Contracts are deployed to Base mainnet (MarketFactory + 8 markets). ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pulse-ztcwe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

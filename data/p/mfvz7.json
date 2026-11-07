@@ -1,0 +1,35 @@
+{
+  "id": "mfvz7",
+  "slug": "smile",
+  "title": "Smile",
+  "tagline": "Standard options market potentially as popular as Robinhood, decentralized as Polymarket.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mfvz7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/N4JBr1J49AGbRckP02w3U502k6sB72sBFYDfZghwOwQOk/high.mp4",
+  "demo_url": "https://smile-frontend-omega.vercel.app/",
+  "source_url": "https://github.com/oslinin/Smile",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "2nd place",
+      "title": "Build an Aqua App - Continuity Track"
+    }
+  ],
+  "finalist": true,
+  "description": "Smile is a non-custodial marketplace for fixed-expiry, cash-settled European options on ETH — and, on Circle's Arc chain, on any USDC-quoted pair. Every option sold is backed by collateral a liquidity provider (LP) has committed through 1inch Aqua, a shared-liquidity layer where a maker's tokens stay in the maker's own wallet until a trade actually needs them: collateral is pulled just-in-time at fill, never parked in advance. Pricing runs inside 1inch SwapVM, a small on-chain virtual machine that executes a maker's strategy as a program of opcodes; Smile adds one custom opcode that prices an option from its strike, tenor and volatility.\n\nFor the EthOnline 2026 Continuation Track, Smile adds three capital-efficient sibling vaults so LPs can make markets for options sellers without locking the full notional:\n\n• SpreadVault — defined-risk credit spreads. A short put is hedged by a long put, so the vault escrows only the spread's true worst-case loss (the strike width) instead of the whole strike. The same holds for call spreads and iron condors: because European options settle at one price, only one side can finish in-the-money, so the escrow is the larger wing, not the sum.\n\n• MarginVault — partially-collateralized (naked) puts: sell a put on ETH without posting a full ETH of collateral. A six-stage margin-and-liquidation process — open, buy, under-margin on a price crash, a one-hour grace window then auction, a waterfall (writer's margin → auction bidder → backstop pool → insurance fund), then cash settlement at expiry — stands behind every position and is traceable end-to-end with ./script/margin-lifecycle.sh. These are Arc's programmable-money flows made concrete.\n\n• RfqVault — request-for-quote fills agains\nt LP-signed EIP-712 quotes, for sizes and strikes off the standard grid.\n\nThe Graph indexes the vault's liquidity ranges and fills, replacing the brute-force RPC scan that went blind past 50 authorizations. The Subgraph MCP feeds an AI copilot live liquidity, open interest and trade opportunities which — alongside news, social and quant MCPs plus packaged trader skills regarding smile and their portfolio — give traders an edge.\n\nCircle Arc makes the whole book stablecoin-native: because Arc settles in USDC, both calls and puts are collateralized in USDC, rather than calls in ETH and puts in USDC. The margin-vault treasury runs with no private key in the repository — Circle Gateway bridges USDC from any chain to top up the insurance fund, and a Circle developer-controlled wallet, signed through Circle's API, funds the backstop pool. Every top-up lands as an on-chain receipt shown in the app.",
+  "how_its_made": "please note the continuation submission is not on main branch, but EthOnline2026_continuation_track.\n\nTechnologies. Solidity contracts (Foundry, via_ir) on the official 1inch Aqua + SwapVM, vendored and unmodified; a Next.js 16 frontend with Wagmi/Viem, recharts and a TradingView price chart; The Graph for indexing; and an AI copilot on the Vercel AI SDK (Anthropic/OpenAI/Google/OpenRouter). Expiry settlement reads Chainlink.\n\nHow it's pieced together. An LP authorizes a price range and ships it to a vault; the vault is an Aqua app, so at buy time Aqua pulls the LP's collateral just-in-time and SwapVM prices the premium on-chain via a custom opcode. Fills emit events that The Graph indexes; the frontend and the copilot read that index instead of scanning the chain. On Circle Arc the same stack settles in native USDC.\n\nWhat the partners bought us.\n1inch Aqua — collateral stays in LP wallets and is pulled at fill, so we added three capital-efficient vaults (defined-risk spreads, partially-margined puts with a liquidation waterfall, RFQ against LP-signed quotes) as sibling Aqua apps without touching the audited main vault.\nThe Graph — its index replaced a brute-force RPC scan that went blind past 50 authorizations, and via the Subgraph MCP it became a live data source the copilot reasons over.\nCircle Arc + Gateway — Arc settles in USDC, so calls and puts are both USDC-collateralized; Gateway and a developer-controlled wallet top up the margin tier's safety funds, so the treasury runs with no private key in the repo.\n\nHackiest part. Not the contracts but the last-mile UI — keeping an options frontend honest about the async, just-in-time chain state it doesn't directly own (write-before-read races, and stale ranges that had to be gated so they couldn't look actionable).\n\n",
+  "auto_summary": "A non-custodial options marketplace using 1inch Aqua/SwapVM, onchain Solidity vaults, a Next.js frontend, and indexed market data for trading and copilot features.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/smile-mfvz7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

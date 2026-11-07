@@ -1,0 +1,26 @@
+{
+  "id": "w3xf3",
+  "slug": "sknydipping",
+  "title": "SKNYDipping",
+  "tagline": "Live on-chain risk scoring for DeFi pools — concentration and cross-chain fragmentation.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w3xf3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cGlcBrMbNaXfaj01ZwwAPzh1Ql5gnGux1H9rZLpA01q00s/high.mp4",
+  "source_url": "https://github.com/stevenegoavil/ETHGlobal2026",
+  "finalist": false,
+  "description": "DeFi developers and depositors deal with a real, unsolved problem: security and risk of pool and token ownership. When liquidity is concentrated in few wallets — or spread thin across chains — a pool can look deep on a dashboard and still be fragile in practice. SKNYDipping measures the two signals that expose this.\n\n1. Concentration — the Herfindahl-Hirschman Index applied to LP positions. An HHI of 0.33 means a pool behaves like it's owned by about 3 equal-sized people, even if 40 wallets technically hold a balance. If one of those three withdraws, the market moves.\n\n2. Fragmentation — the same HHI formula applied across chains. A token's liquidity is often scattered across Ethereum, Arbitrum, and Optimism in uneven slices, so \"deep liquidity\" on mainnet can coexist with a thin, fragile market elsewhere.\n\nEvery score is computed live from The Graph's Messari-standardized subgraphs and comes with a one-sentence AI explanation of what the number means in practice. Connect a wallet, pick a protocol, and get a real risk report.",
+  "how_its_made": "Frontend is Vite + React 19 with Tailwind and shadcn/ui components, React Router for the /info explainer page, and Dynamic Labs for wallet connection. Serverless functions in Vercel (api/*.js) proxy all data queries so the Graph API key never touches the browser.\n\nData comes from The Graph's Messari-standardized subgraphs for Uniswap v3, Curve Finance, and Balancer v2. Every HHI computation runs on live on-chain LP positions pulled at request time — no mocks, no cached datasets. The fragmentation layer reuses the exact same HHI function but feeds it per-chain TVL instead of per-LP balance, which is why one query pattern spans both protocols and chains.\n\nThe AI explanation layer uses Gemini 3.6 Flash. It receives the raw computed numbers (HHI, LP count, chain breakdown) and returns a short plain-language sentence about the practical implication for a depositor. The AI is a reasoning layer on top of live Graph data, not a template generator.\n\nNotable hacky bits: every subgraph query rejects implausible values (like $0 or >$1B TVL on a single USDC/WETH pool) rather than silently returning corrupted sentinel data — this caught real bugs during development. Curve pools need manual token ordering because their subgraph doesn't return tokens in a standardized order, which is why custom pool input is disabled for that protocol.",
+  "auto_summary": "This project calculates DeFi pool concentration and cross-chain liquidity fragmentation scores from live subgraph data and explains the results with AI.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sknydipping-w3xf3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

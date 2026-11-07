@@ -1,0 +1,21 @@
+{
+  "id": "2jo15",
+  "slug": "moveit",
+  "title": "MoveIt",
+  "tagline": "Fusion+ implementation on sui and aptos with native integrations",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2jo15/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01HKZ7TF6dHf1BEaZ01j1V02R01g5q1X4lPV01g9qSqEY1tM/high.mp4",
+  "source_url": "https://github.com/Shubham-Rasal/fusion_plus",
+  "finalist": false,
+  "description": "Aptos\n\nThe protocol uses hash-time-locked contracts (HTLC) with escrow accounts to enable secure cross-chain token swaps.\n\nProtocol Flow\n\nOrder Announcement: Maker deposits tokens into Aptos escrow with secret hash\nDestination Funding: Resolver funds the destination escrow on the target EVM chain\nClaim: Resolver reveals the secret to claim makers' tokens from Aptos escrow\nCompletion: Maker claims resolver's tokens from EVM escrow using the revealed secret\n\nCore Functions\n\ninitialize_swap_ledger: Setup swap ledger resource account\nannounce_order: Create swap order and escrow account\nfund_dst_escrow: Fund destination escrow (resolver operation)\nclaim_funds: Claim funds using revealed secret\ncancel_swap: Cancel expired order and return funds\n\nSui\nSetup\nFor local testing, setup a sui node with RUST_LOG=\"off,sui_node=info\" sui start --with-faucet --force-regenesis\nAlso run npm i ts-node @mysten/sui dotenv, for testing purposes\nhttps://dev.to/goodylili/how-to-use-the-sui-typescript-sdk-2dep - Reference for local Sui node setup, with TS SDK\nImplementation\nFirst on the EVM chain you have Alice making an escrow account, and putting the token in chain A and locking it -> Not done by SUI\n\nThen Bob creates an escrow account on chain B and locks the token in chain B there -> This will be done by the createEscrow function, and this resolver will manage that\n\nAfter that Alice can claim the token on chain B and Bob can claim the token on chain A -> After the escrow account is created, the resolver does the claiming on behalf of Alice",
+  "how_its_made": "MoveIt\n\nAPTOS Implementation\n\nThe Aptos Fusion+ implementation uses a hash-time-locked contract (HTLC) pattern with resource accounts for secure cross-chain swaps. The process begins when a maker creates an order by depositing tokens into an Aptos escrow account and providing a secret hash. A resolver then funds a destination escrow on the target EVM chain with corresponding tokens. Once both escrows are funded, the resolver reveals the secret to claim the maker's tokens from the Aptos escrow, while the maker can claim the resolver's tokens from the EVM escrow using the same revealed secret. The protocol ensures atomicity through the shared secret hash and uses resource accounts with signer capabilities for secure fund management.\n\nSui\n\nThen Bob creates an escrow account on chain B and locks the token in chain B there -> This will be done by the createEscrow function, and this resolver will manage that\n\nAfter that Alice can claim the token on chain B and Bob can claim the token on chain A -> After the escrow account is created, the resolver does the claiming on behalf of Alice\n\nThe Sui Fusion+ implementation follows a similar HTLC pattern but operates differently in the cross-chain coordination. Unlike Aptos, Sui doesn't handle the initial EVM escrow creation - that's managed on the EVM side. The Sui implementation focuses on the destination chain role, where a resolver creates an escrow account on Sui and locks tokens there. The resolver then manages the claiming process on behalf of users, handling the coordination between the EVM source escrow and the Sui destination escrow. The protocol uses Sui's object model and transaction capabilities to ensure secure token transfers and proper escrow management across the two chains.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/moveit-2jo15",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

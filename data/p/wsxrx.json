@@ -1,0 +1,29 @@
+{
+  "id": "wsxrx",
+  "slug": "ledgerflow",
+  "title": "LedgerFlow",
+  "tagline": "Improved Ledger TX signing UX with multi-chain explorer support and doc feedback",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wsxrx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3eeOmyLz4P3T7bckLvXFDf6G87zoCnLyDsaM9Ah0001004/high.mp4",
+  "source_url": "https://github.com/Spoyte/LedgerFlow",
+  "prizes": [
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "2nd place",
+      "title": "[L] HARDWARE INTEGRATIONS"
+    }
+  ],
+  "finalist": true,
+  "description": "LedgerFlow is a set of contributions made to the Ledger developer ecosystem to improve both user experience and developer experience. Our work spans two tracks of the ETHGlobal hackathon:\n\n🔧 Hardware Integrations Track\n\nWe contributed a improvement to the app-ethereum for Ledger Stax and Ledger Nano devices by enhancing the clear signing feature with multi-chain explorer support.\n\nPreviously, when a user signed an Ethereum transaction on a Ledger device, the QR code displayed during the clear signing process only pointed to an Etherscan URL for Ethereum mainnet transactions. This experience was limited and confusing for users transacting on Layer 2s or other Ethereum-compatible chains.\n\nWe extended this functionality by:\n\t•\tIntroducing a new explorer mapping system that maps EVM chain IDs to the correct block explorer base URL.\n\t•\tDynamically generating QR code links based on the transaction’s chain ID, ensuring accurate and chain-specific explorer links.\n\t•\tUpdating the Ledger app UI text to be more network-agnostic (e.g., “Scan to view on explorer” instead of “Scan to view on Etherscan”).\n\nThis change improves user trust and clarity, as users can now scan a QR code and be redirected to a valid URL for their specific network (e.g., Arbiscan for Arbitrum, Basescan for Base, etc.). It also adds more transparency for users validating transactions on non-mainnet networks.\n\n➡️ Pull Request: https://github.com/LedgerHQ/app-ethereum/pull/835\n\n\n📄 Documentation Improvement Track\n\nIn parallel, we provided detailed feedback to improve Ledger’s developer documentation, particularly around:\n\t•\tThe Device Management Kit (DMK) and its current developer onboarding experience\n\t•\tGaps and confusion in existing examples\n\t•\tSuggestions for clearer explanations and better navigation\n\nWe proposed actionable ways to improve the documentation, including more beginner-friendly code samples, clearer explanation of flows, and improvements to structure and discoverability.\n\nThis project with the goal of making Ledger integration more seamless for both end users and developers building with Ethereum and its L2 ecosystem.",
+  "how_its_made": "This project involved working directly with Ledger’s open-source codebase, specifically the app-ethereum repository, which is written in C. All the main logic changes to enable multi-chain block explorer support were implemented in C, modifying the app’s user interface and transaction handling code to dynamically generate the correct explorer URLs based on the transaction’s chain ID.\n\nTo verify and simulate the changes, we worked with the Ledger testing stack using:\n\t•\tRagger – a Python testing framework for Ledger apps. We explored and modified test files to understand how the UI navigation works and attempted to add test coverage for the feature.\n\t•\tSpeculos – a Ledger device emulator used to run the app in a test environment.\n\t•\tDocker – all tests were executed inside a Docker container to replicate the exact test environment used by Ledger. This ensures reproducibility and compatibility.\n\nWe encountered limitations in the current testing stack: Ragger’s navigator module does not yet support simulating navigation through arrow clicks (e.g., scrolling through UI elements), which made it challenging to test the specific flow for clear signing and QR code generation. This is a known limitation and we referenced the relevant source files to document this constraint in our PR.\n\nWhile the core logic was straightforward, integrating the changes in a secure, UX-conscious way required an understanding of how chain IDs, explorer URLs, and the Ledger UI interact during signing flows.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ledgerflow-wsxrx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

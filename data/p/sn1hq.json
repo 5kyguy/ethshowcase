@@ -1,0 +1,30 @@
+{
+  "id": "sn1hq",
+  "slug": "seedy",
+  "title": "Seedy",
+  "tagline": "On-chain VDF verifier enabling trustless, tamper-resistant randomness on EVM.",
+  "event": {
+    "slug": "taipei",
+    "name": "ETHGlobal Taipei",
+    "start_time": "2025-04-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sn1hq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xV9nQz7mOJ44U00v42R7SNOEDyXLXEOUMpr1uAPSykR4/high.mp4",
+  "demo_url": "https://seedy.me",
+  "source_url": "https://github.com/shadmau/seedy",
+  "prizes": [
+    {
+      "sponsor": "Celo",
+      "sponsor_id": "inotq",
+      "placement": "Celo L2 Pool Prize",
+      "title": "Celo L2 Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Seedy provides secure, unpredictable, and highly tamper-resistant randomness for smart contracts. Current on-chain randomness methods often rely on manipulable blockhashes or trusted/costly oracles. Seedy leverages Verifiable Delay Functions (VDFs), specifically the Pietrzak scheme optimized for EVM based on Lee et al.'s research.\n\nHow it works:\nAn off-chain prover computes the VDF output (y) and proof (pi) over a time delay T, using an on-chain derived seed (x).\nAn on-chain SeedyVerifier contract that efficiently verifies the submitted proof pi against x, y, T, and delta using the ModExp precompile and cryptographic hashing.\n\nAn on-chain SeedyCoordinator manages requests and provides the final random number (derived from hashing the verified y) to consuming applications like the demo Raffle contract.\n\nSeedy is based on trustless on-chain verification – the smart contract itself validates the VDF computation, ensuring fairness and resistance to manipulation without external dependencies for the proof check.",
+  "how_its_made": "Smart Contracts (Solidity):\n\nSeedyVerifier.sol: Implements the Pietrzak VDF verification logic (Algorithm 4 from Lee et al.), including the recursive steps and the final y == x^(2^(2^delta)) mod N check using repeated squaring.\nI heavily utilized the EIP-198 ModExp precompile via a custom assembly wrapper (_modExp) for crucial modular exponentiation steps.\n\nSeedyCoordinator.sol: Manages randomness requests, calls the Verifier, computes/stores the final random hash (keccak256(verified_y)). Conceptually uses blockhash for seeding via computeSeed.\n\nRaffle.sol: Example application consuming the randomness from the Coordinator.\nBig Numbers: Utilized the provided BigNumbers.sol library for handling arithmetic operations (init, mul) on numbers larger than 256 bits required by the VDF modulus (N).\n\nOff-Chain Prover (TypeScript): A script using Node.js and BigInt (with libraries like bigint-crypto-utils for modPow) to perform the VDF evaluation (evaluateVDF) and generate the proof elements (generateProof).\n\n\nChallenges:\nLibrary Workaround: The BigNumbers.sol library had critical internal bugs (e.g., faulty zero-trimming in its _modexp return value) breaking its mod and modmul functions. I bypassed this by using the library's mul (which seemed to work for plain multiplication) combined with my own direct _modExp call (using exponent 1) to perform the necessary modular multiplications within the verifier (_calculate_new_xi/_yi).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/seedy-sn1hq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

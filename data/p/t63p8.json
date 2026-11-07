@@ -1,0 +1,21 @@
+{
+  "id": "t63p8",
+  "slug": "muxpay",
+  "title": "MuxPay",
+  "tagline": "Instant, gasless tipping for creators using Yellow state channels. Web2 speed, Web3 security. ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/t63p8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SjBKEHk2AXPzIskMLUwcbJfskhTsrGswhX5ys6QCzMA/high.mp4",
+  "source_url": "https://github.com/kuldeepyeware/muxpay",
+  "finalist": false,
+  "description": "MuxPay - Instant Crypto Tipping Powered by Yellow Network\n\nMuxPay is a gas-free, instant tipping platform built on Yellow Network's Nitrolite protocol. Content creators can receive micro-tips from fans in real-time without waiting for blockchain confirmations or paying transaction fees per tip.\n\nHow It Works:\n\nUsers deposit USDC into a secure on-chain Vault. When they visit a creator's profile, they start a tipping session powered by Yellow's state channel technology. Every tip ($1, $5, $10) happens instantly off-chain - no gas, no delays, just Web2-speed transactions with Web3 security. When the session ends, the cumulative tip amount is settled on-chain in a single transaction.\n\nThe Problem We Solve:\n\nTraditional on-chain tipping requires one transaction per tip, making micro-tipping expensive and slow. A fan wanting to tip $1 might pay more in gas fees. With Yellow state channels, we lock funds once, process unlimited tips off-chain, and settle once - reducing costs by 95%+.\n\nWhy Yellow Network:\n\nYellow's state channel approach is perfect for high-frequency, low-value transactions like tipping. Users get instant feedback (\"Tip sent!\") while maintaining full blockchain security for final settlement.\n\nFuture Vision:\n\nMuxPay will evolve into a universal crypto payment gateway where developers can integrate a simple SDK, accept payments from any token on any chain, and receive settlement in USDC on their preferred chain - making crypto payments as simple as Stripe.",
+  "how_its_made": "Tech Stack & Architecture:\n\nFrontend: Built with Next.js 14 (App Router) and TypeScript. Wallet connection handled by wagmi + RainbowKit. The UI uses custom glassmorphic components with Framer Motion animations for a premium feel.\n\nBackend: Express.js server with Prisma ORM connected to PostgreSQL. Handles creator registration, session state management, and settlement orchestration.\n\nSmart Contract: Solidity Vault contract deployed on Arc Testnet. Uses OpenZeppelin's EIP-712 for typed signature verification, ReentrancyGuard for security, and IERC20 for USDC interactions. The contract holds user deposits and only settles when presented with valid cumulative tip signatures.\n\nYellow Network Integration (Partner Technology):\n\nThis was the core innovation. We integrated @erc7824/nitrolite SDK to connect to Yellow's ClearNode via WebSocket. The SDK handles session creation (createAppSessionMessage) and message signing.\n\nHacky Notable Thing: The Yellow SDK's createEIP712AuthMessageSigner only works for auth methods. We had to create a custom  createWalletMessageSigner that manually converts RPC payloads to hex-encoded JSON and signs with the wallet's raw message signer - mimicking the SDK's internal ECDSA signer but for external wallets. This unlocked signing for create_app_session and other methods.\n\nHybrid Settlement Flow: We implemented a unique pattern where Yellow handles the instant off-chain UX (WebSocket session, real-time tips), while our backend maintains the authoritative EIP-712 signed state for final on-chain settlement via our Vault contract. This gives us Yellow's speed with our own settlement security.\n\nThe Pieces Together: Frontend → Yellow ClearNode (instant tips) + Backend API (signed state buffer) → Backend triggers Vault.settleSession() on Arc → Funds transfer from user to creator atomically.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/muxpay-t63p8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

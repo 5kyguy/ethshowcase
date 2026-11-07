@@ -1,0 +1,27 @@
+{
+  "id": "bjzai",
+  "slug": "sybil",
+  "title": "Sybil",
+  "tagline": "AI agent immune system: P2P poison detection, onchain slashing & collective memory via Gensyn + 0G",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bjzai/banner/default.jpg",
+  "video_url": "https://stream.mux.com/I2vuR01qTr5DMFaH00LIhxPwy7nAKpxPcd8IfsLhtjiRg/high.mp4",
+  "demo_url": "http://github.com/Amentinho/sybil",
+  "source_url": "https://github.com/Amentinho/sybil",
+  "finalist": false,
+  "description": "SYBIL is a decentralized immune system for AI agent networks. When one agent detects a prompt injection attack over the Gensyn AXL P2P mesh, it broadcasts a cryptographically signed Proof of Attack to validator agents. They vote via ed25519 signatures — if consensus is reached (3/5), the attacker is slashed onchain via Ethereum smart contracts. The threat is permanently recorded on 0G Storage and in the ThreatLedger contract. New agents bootstrap with zero prior knowledge by reading this collective memory — immediately knowing who the attackers are before their first interaction. This is institutional memory for machines. All three smart contracts are deployed and verified on Ethereum Sepolia with real ETH stakes. The ThreatLedger contract has live onchain threat records readable by any new agent. The full stack runs in GitHub Codespaces.",
+  "how_its_made": "SYBIL is built on three layers. At the network layer, three agents communicate over Gensyn's AXL P2P mesh using real TCP connections — not simulated. Each agent holds an ed25519 keypair and signs every vote cryptographically. At the consensus layer, when a victim detects poison in an incoming AXL message, it broadcasts a Proof of Attack hash to validators who cast signed YES/NO votes; 3/5 majority triggers slashing. At the smart contract layer, three Solidity contracts handle the cryptoeconomics: SYBILRegistry (agent registration with ENS names + AXL public keys + ETH stake), SlashingVault (holds 0.01 ETH per agent, executes slash and distributes 30% rewards to validators), and ThreatLedger (immutable onchain threat history with trust scores). Threat records are also mirrored to 0G Storage testnet with real TX hashes. A Python Flask dashboard visualizes the live network. Agent4 cold bootstrap demos collective memory: a new agent reads ThreatLedger.getBootstrapData() and immediately blacklists known attackers before its first message. The contract_bridge.py module connects Python consensus to Ethereum in real time — after every AXL vote, SlashingVault.slash() and ThreatLedger.recordThreat() fire live Sepolia transactions. All 5 agents have unique Ethereum addresses registered onchain with 0.01 ETH stakes each. The bootstrap module reads ThreatLedger.getBootstrapData() from Sepolia plus the local 0G mirror, builds a reputation map, and pre-blocks blacklisted agents before their first message. Novel attacks are generated using template-based semantic mutation across 15 attack categories. The entire stack runs in GitHub Codespaces with a devcontainer that auto-builds the Go AXL binary from source.",
+  "auto_summary": "A multi-agent security system detects malicious messages over Gensyn AXL, reaches validator consensus, and records slashing outcomes on Ethereum and 0G Storage.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sybil-bjzai",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

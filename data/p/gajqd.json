@@ -1,0 +1,22 @@
+{
+  "id": "gajqd",
+  "slug": "futarchy",
+  "title": "Futarchy",
+  "tagline": "AI traders forecast both branches independently and trade through a constant-product AMM.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gajqd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ydbi7jknqvRSD8jiwJSLYDAoHgYQ3tt00nY1mIHqm00jQ/high.mp4",
+  "demo_url": "https://github.com/Semenka/futarchy/tree/main",
+  "source_url": "https://github.com/Semenka/futarchy",
+  "finalist": false,
+  "description": "Problem\nDAO governance today is voting. Token holders cast yes/no on proposals based on opinion, lobbying, and tribal alignment. Markets, by contrast, aggregate dispersed information into a single price. Governance leaves that price-discovery on the table.\n\nVitalik's Nov 2024 From prediction markets to info finance makes the case that conditional prediction markets — where each branch prices a measurable outcome — should drive treasury decisions. MetaDAO runs futarchy on Solana. Nothing production-grade exists on Ethereum.\n\nSolution\nEvery proposal spawns two scalar prediction markets:\n\nIF-pass — what will the KPI (e.g., treasury balance after N blocks) be if this proposal executes?\nIF-fail — what will it be if it doesn't?\nAI traders — Claude, Gemini, GPT, whatever — forecast both branches independently and trade through a constant-product AMM. When the trading window closes, whichever branch's TWAP priced the KPI higher wins. That branch's calldata enters an OpenZeppelin TimelockController and executes on chain. No human votes; the market decides.\n\nAfter execution, an oracle reads the actual KPI value and pays out the winning market at the realized normalized score. The losing branch voids at half collateral. Brier scores against realized outcomes rank the traders.",
+  "how_its_made": "Tech stack\nSolidity 0.8.26 + OpenZeppelin v5 (Timelock, ERC1155, ERC20, ReentrancyGuard, AccessControl)\nFoundry for build, fuzz, and broadcast\nTypeScript + viem + Bun for the trading agent\nGoogle Gemini 2.5 Flash with structured-output schema for forecasts\nNext.js 15 + Tailwind for the frontend\nEthereum Sepolia as the live target",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/futarchy-gajqd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,29 @@
+{
+  "id": "hcfms",
+  "slug": "merkle-math-find-log-and-power-with-merkle-tree",
+  "title": "Merkle Math: find log and power with merkle tree",
+  "tagline": "A gas efficient library to find logarithm and power on chain, inspired by elementary school log tables. Lookup off-chain, prove on-chain. Almost a 50% improvement over ABDK math on gas use.",
+  "event": {
+    "slug": "ethindia2022",
+    "name": "ETHIndia 2022",
+    "start_time": "2022-12-02T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hcfms/banner/default.jpg",
+  "demo_url": "https://bafybeibpvvligahpsxkqfwkamowtpenpdzojwapjbrxir7qn2t2i75xa4m.ipfs.gateway.valist.io/",
+  "source_url": "https://github.com/secretshardul/merkle-math",
+  "prizes": [
+    {
+      "sponsor": "Valist",
+      "sponsor_id": "xefox",
+      "placement": "🏊 Valist — Prize Pool",
+      "title": "Valist"
+    }
+  ],
+  "finalist": false,
+  "description": "- DeFi protocols often have math operations involving logarithm and exponent. Prominent examples are Uniswap and Balancer. They handle millions of dollars' TVL and trading volume.\n- 3rd party libraries like ABDK were developed because Solidity lacks native log and exponent function.\n- Existing libraries use a combination of iteration, bit shifting and 'magic numbers'. However they're complex gas intensive. Here's Uniswap's log function 🤯\n\n```solidity\n    function getTickAtSqrtRatio(uint160 sqrtPriceX96) internal pure returns (int24 tick) {\n        // second inequality must be < because the price can never reach the price at the max tick\n        require(sqrtPriceX96 >= MIN_SQRT_RATIO && sqrtPriceX96 < MAX_SQRT_RATIO, 'R');\n        uint256 ratio = uint256(sqrtPriceX96) << 32;\n\n        uint256 r = ratio;\n        uint256 msb = 0;\n\n        assembly {\n            let f := shl(7, gt(r, 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF))\n            msb := or(msb, f)\n            r := shr(f, r)\n        }\n        assembly {\n            let f := shl(6, gt(r, 0xFFFFFFFFFFFFFFFF))\n            msb := or(msb, f)\n            r := shr(f, r)\n        }\n        assembly {\n            let f := shl(5, gt(r, 0xFFFFFFFF))\n            msb := or(msb, f)\n            r := shr(f, r)\n        }\n        assembly {\n            let f := shl(4, gt(r, 0xFFFF))\n            msb := or(msb, f)\n            r := shr(f, r)\n        }\n// lot more code\n```\n\n- Enter Napier's bones or log tables. Popular in elementary school math, you lookup values in the table instead of calculating.\n- Napier's bones meets merkle tree. I built a merkle tree of the log10 table and stored its root on chain.\n- Now we can look up log off-chain and pass it to the smart contract with a proof. Merkle tree ensures that the log is cryptographically valid.\n\nThe result is around 50% improvement in gas over ABDK, a significant improvement.",
+  "how_its_made": "1. There's a trade-off between gas and percision. Merkle math gives results accurate upto 4 decimal places, ABDK gives more.\n2. Log values must be found client side, before calling the contract. The value provided corresponds to some state variables in the contract. If these state variables change before our transaction is mined, the provided log will become invalid and the transaction revert. For example Uniswap uses logarithm for tick calculations. A frontrunning trade will produce a tick shift, invalidating our computed log.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/merkle-math-find-log-and-power-with-merkle-tree-hcfms",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "1dmqe",
+  "slug": "whetstone",
+  "title": "whetstone",
+  "tagline": "AI rewrites Solidity to save gas. Whetstone checks it's still correct and puts a receipt on-chain.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1dmqe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01NNIbAB02KO006h5O4yrJMxw501nUn9GADT3e1H01D4nXnU/high.mp4",
+  "source_url": "https://github.com/lzmrd/whetstone",
+  "finalist": false,
+  "description": "An LLM says it made your Solidity function 11,000 gas cheaper. Should you believe it? Usually there is no way to tell: the patch might not compute the same thing, the number might not reproduce, and the model may just be reciting code it memorised.\n\nWhetstone turns each of those doubts into something you can check.\n\nOpen-weight models are paid per call to optimise a well-known library function that has been deliberately mutated, so the memorised answer is now the wrong one. Every patch is compiled, checked for equivalence against the original (a formal proof where the solver finishes, a declared fuzz campaign where it does not) and measured under a pinned compiler and a fixed input scenario.\n\nEvery attempt, failures included, publishes a receipt to Hedera Consensus Service, with a pointer on Base Sepolia indexed by a subgraph. The leaderboard is a static page that queries that index from your browser, and any gas figure can be recomputed from the committed bundle with one command.\n\nSo far: 141 paid attempts, 9 models, 4 tasks, $2.31 at list price. 78 produced a valid patch: 37 formally proved, 41 fuzzed.\n\nPointed at Uniswap v4-periphery, it found that VanityAddressLib.score can be made 79% cheaper (2,110 gas per call on a realistic workload) while computing exactly the same score. The full write-up is in FEEDBACK.md.\n\nWhat it is not: a model ranking. Four tasks and a handful of seeds are enough to demonstrate the method, not to crown a winner.\n",
+  "how_its_made": "Four parts, each with one job.\n\n1. The agent loop (Node.js). Fixed prompt, temperature, token ceiling and round limit. The model only ever sees mechanical feedback (compiler errors and checker verdicts), never hints. Models are served through OpenRouter and Groq.\n\n2. Paid inference with x402 on Hedera testnet. Every model call goes through our own x402 gateway: without a valid X-PAYMENT header it answers 402, so payment is verified and settled before the provider key is ever used. The price is metered per call on the request's declared upper bound (prompt + max_tokens). Because that overcharges, each receipt keeps the HBAR that actually moved separate from tokens used × a pinned public price list. Built on @x402/hedera and @hashgraph/sdk.\n\n3. Verification with Foundry. solc 0.8.35 pinned, EVM target Osaka. Equivalence is checked with hevm 0.58 symbolic execution and bitwuzla, inside a 6 GB systemd cgroup: on loop-heavy functions the solver will otherwise happily take the whole desktop down with it. When the prover cannot finish, the patch is fuzz-compared on return data and revert data (20,000 runs, pinned seed) and labelled FUZZED, never passed off as proved. Gas is a forge test over a committed input scenario. Two controls exist in order to fail: a cosmetic mutation that the admission gate must reject, and a \"trivial floor\" (the task with one word deleted) that a patch has to beat before its saving means anything.\n\n4. Receipts and index. Each receipt (patch, task and baseline hashes, toolchain, guarantee, cost, payment tx ids) is written to Hedera Consensus Service, read back and hash-checked. A permissionless RunRegistry contract on Base Sepolia then stores a pointer to it and its content hash, and a subgraph on The Graph indexes those rows. Two things read that index: the static leaderboard, and the budget allocator that decides which model gets paid next. The allocator is deliberately not an LLM: a fixed policy picks the best gas per dollar and sets a model aside after two undecided proofs or two failed attempts in a row, streaks the subgraph maintains as rows arrive.\n\nThe notable surprise: we wrote down in advance that the first task would show no saving. Models beat the expert baseline anyway, because some patches used Osaka's new CLZ opcode, which the pinned reference library predates. We recorded the broken prediction and the reason in the decision log instead of quietly fixing the baseline.\n",
+  "auto_summary": "A benchmarking system that pays LLMs to optimize mutated Solidity functions, verifies equivalence, measures gas, and records receipts on Hedera with Base-indexed querying.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/whetstone-1dmqe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

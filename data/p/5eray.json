@@ -1,0 +1,27 @@
+{
+  "id": "5eray",
+  "slug": "safety",
+  "title": "safety",
+  "tagline": "ERC-4337 smart wallet owned by a passkey; scoped session keys enable zero-popup transactions",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5eray/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Hi0101esVrUG02AwdubBT01li01BEjXWnDNrSRN56YGTkhTs/high.mp4",
+  "demo_url": "https://safety-app.vercel.app/cover",
+  "source_url": "https://github.com/ev4mrz/Safety",
+  "finalist": false,
+  "description": "Every wallet interaction today means a signature prompt, which is fine for a rare high-value transfer but kills UX for anything interactive: games, trading bots, subscriptions. This project is a smart contract wallet (ERC-4337 account abstraction) owned by a passkey (Face ID / Touch ID / Windows Hello) instead of a seed phrase or browser extension. The owner can grant a scoped, time-boxed session key: a lightweight keypair generated in the browser that is only allowed to call one specific contract function, until a set expiry, up to a set number of times. Once granted, the dApp can send a burst of transactions signed by that session key with zero further wallet prompts. We demo this with a tiny on-chain clicker game: create your passkey wallet once, grant a session key once (one more Face ID prompt), then click away with no interruptions, exactly like a Web2 app, while every action is still a real, independently-authorized on-chain transaction.",
+  "how_its_made": "Built from scratch on top of eth-infinitism's reference ERC-4337 EntryPoint/BaseAccount (v0.6) in Foundry. SmartAccount.sol implements a single IAccount whose signature is a mode byte plus payload: mode 0 verifies a WebAuthn/secp256r1 assertion against the owner passkey public key using base-org/webauthn-sol (RIP-7212 precompile with a FreshCryptoLib fallback); mode 1 checks a plain ECDSA signature from a session key against an on-chain SessionKeyPermission struct (target contract, function selector, validUntil, maxUses) so a session key can never be used outside its granted scope. SmartAccountFactory.sol deploys accounts via CREATE2 for deterministic addresses. A GameContract.sol clicker is the demo target. Four Foundry tests drive the whole flow end-to-end through EntryPoint.handleOps: grant, click, hit the usage cap, reject an out-of-scope call, and revoke. The frontend (Next.js + viem + @simplewebauthn/browser) creates the passkey client-side, parses the COSE public key and DER signature manually to build the on-chain WebAuthnAuth struct, and signs UserOperations with either the passkey (owner actions) or a locally generated session key (gameplay). For demo reliability we relay signed UserOperations straight to EntryPoint.handleOps from a Next.js API route acting as a mock bundler against a local Anvil node, rather than depending on a live bundler network.",
+  "auto_summary": "A passkey-controlled ERC-4337 smart account delegates limited session keys for repeated on-chain actions without repeated wallet prompts.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/safety-5eray",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

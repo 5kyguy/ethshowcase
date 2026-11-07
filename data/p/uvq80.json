@@ -1,0 +1,27 @@
+{
+  "id": "uvq80",
+  "slug": "lockens",
+  "title": "LockENS",
+  "tagline": "ENSv2-powered NFC access passes with wallet proofs and resource-level authorization.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uvq80/banner/default.jpg",
+  "video_url": "https://stream.mux.com/l00nTAStcbhoikVIOyKWGGIW01l004ZglLkct02NsgCPIHM/high.mp4",
+  "demo_url": "https://github.com/nodeXbit/ethonline-2026",
+  "source_url": "https://github.com/nodeXbit/ethonline-2026",
+  "finalist": false,
+  "description": "LockENS turns wallet-held ENSv2 identities into access credentials that can be presented over NFC. The final demo uses one Android holder and three Android gate stands representing a Front Door, Lab and Server Room.\n\nA user selects a pass in the LockENS Android app and presents it through Android HCE/NFC. The holder signs a fresh proof with a Privy embedded wallet. A local verifier checks holder control offchain and reads the current credential state and resource permissions from ENSv2 on Sepolia before returning ALLOW or DENY.\n\nThis means the same credential can remain owned by the same wallet while its global access, validity or permissions for individual resources change independently. The demo shows real NFC grant and denial flows, wallet switching, suspended credentials and resource-specific authorization. The gates are virtual interfaces rather than physical lock actuators.\n",
+  "how_its_made": "LockENS is built as an Android + NFC + Node.js authorization stack backed by ENSv2 on Sepolia.\n\nThe holder app is written in Kotlin and uses Android Host Card Emulation to present the selected credential over NFC. Privy provides embedded wallets and signs a fresh resource-bound EIP-712 holder proof. On the gate side, Android devices act as persistent NFC Gate Stands for the Front Door, Lab and Server Room.\n\nA local Node.js verifier uses viem to validate the holder proof offchain and then reads the current ENSv2 state on Sepolia. ENSv2 UserRegistry establishes registration and ownership, while PermissionedResolver data provides global access and resource-level policy. The verifier only returns ALLOW when holder control and the current ENSv2 policy both pass; errors and denials fail closed.\n\nFor the final four-device demo, each Android gate reaches the same local verifier through ADB reverse. We also built and validated an experimental ESP32-S3 + PN532 route during development, but the final submission uses the more reliable Android gate architecture.\n\nThe notable part is that NFC presentation, wallet control and ENSv2 authorization are separate layers: possession of the phone or credential alone is not enough to open a gate. The verifier evaluates fresh holder proof plus current onchain policy for the specific resource being requested.\n",
+  "auto_summary": "An Android and Node.js system uses NFC-presented wallet proofs and ENSv2 state on Sepolia to make offchain access decisions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lockens-uvq80",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

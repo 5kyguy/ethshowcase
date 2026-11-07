@@ -1,0 +1,27 @@
+{
+  "id": "4qbe6",
+  "slug": "scope402",
+  "title": "scope402",
+  "tagline": "Payment is not Auth. x402 proves an agent paid. Scope402 proves what that payment lets the agent do.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4qbe6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EpOq5Sy4gDX68GdYUur5DgBmbjlMYPMOnAb26n01trEo/high.mp4",
+  "demo_url": "https://scope402.onrender.com",
+  "source_url": "https://github.com/0xshobha/scope402",
+  "finalist": false,
+  "description": "Payment is not authorization.\n\nx402 gives AI agents a native way to pay for services, but successful payment still leaves an important question unanswered: what exactly did the agent buy permission to do?\n\nGiving an autonomous agent a reusable API key or broad credential after payment creates unnecessary authority—especially when that agent can make repeated calls or delegate work to other agents.\n\nScope402 turns an x402 payment into bounded permission.\n\nBefore paying, the agent can inspect the exact authority being offered: the resource, allowed actions, call budget, expiry, and agent identity. After settlement, it receives a signed capability enforcing those limits.\n\nThe agent can use that capability itself or delegate a strictly smaller capability to another worker without sharing its wallet or root credential.\n\nWe built two proofs of the same primitive:\n\nAuditLab lets an agent pay for repository analysis and receive limited follow-up access.\n\nTessera lets a principal agent purchase a region of a shared world and delegate a smaller region to another agent. Valid actions succeed; wrong-key, replayed, expired, and out-of-scope actions are rejected.\n\nOur thesis is simple:\n\nx402 can be the payment layer for agent commerce. Scope402 adds the permission layer that comes after payment.",
+  "how_its_made": "Scope402 uses x402 v2 with real native HBAR settlement on Hedera testnet through Blocky402.\n\nThe key design choice is that the payment terms and permission terms are bound before the agent signs.\n\nA merchant first returns an HTTP 402 quote containing the payment requirement plus a Scope402 policy describing the exact subject, resource, tools, call budget, expiry, and policy hash.\n\nThe agent validates those terms and explicitly approves payment. Once Hedera settlement succeeds, the merchant issues a signed capability carrying the same payment and policy lineage.\n\nEvery later protected action is independently signed by the agent. Our authorization kernel checks the subject key, resource, tool, arguments, expiry, replay counter, remaining budget, and original payment lineage before allowing the underlying operation.\n\nAuthorization and the merchant action are committed atomically in PostgreSQL, so failed or unauthorized requests cannot partially mutate the resource or incorrectly consume permission.\n\nWe also implemented capability delegation. A principal agent can sign authority for a different P-256 worker key, but the child capability must remain inside the parent's resource, tool set, lifetime, and remaining call budget. Delegation can reduce authority, never expand it.\n\nAuditLab and Tessera both use this same authorization kernel, demonstrating that Scope402 is infrastructure rather than application-specific access control.\n\nExternal agents can integrate through the TypeScript reference client or documented HTTP/OpenAPI interface: inspect resources, prepare a quote without spending, approve payment, perform authorized work, and delegate narrower authority to another worker.\n\nThe browser is only an inspection surface; payment keys and capability signing keys remain outside it.",
+  "auto_summary": "Scope402 binds x402 Hedera payments to signed, delegated capability-based permissions for paid API access and shared-world actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/scope402-4qbe6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "pdcoc",
+  "slug": "unirange",
+  "title": "UniRange",
+  "tagline": "A resilient rebalancing vault for Uniswap LPs to stay in range and keep earning fees 24/7",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pdcoc/banner/default.jpg",
+  "demo_url": "http://localhost:8123",
+  "source_url": "https://github.com/Marco75116/uni-api-x-chainlink-cre",
+  "finalist": false,
+  "description": "Providing liquidity on Uniswap V3 can be highly profitable — but only if your position stays in range. The moment the market moves away from your price range, you stop earning fees entirely. Most liquidity providers either watch their positions around the clock or simply accept the lost yield. We built a vault that solves this problem.\n\nYou deposit your tokens into a RebalancerVault deployed on a specific Uniswap V3 pool that we’ve identified as a strong fee-generating opportunity. From there, everything is automated. The vault monitors every swap that happens on the pool, and as soon as the price moves outside your position’s range, it triggers a rebalance: it withdraws your liquidity, rebalances your token ratio, and opens a new position centered around the current price — all in a single transaction.\n\nThe key advantage is uptime. Instead of sitting out of range for hours or days while fees accumulate for others, the vault keeps your capital actively earning. And because the rebalancing infrastructure runs on Chainlink CRE — a decentralized and resilient execution environment — you don’t have to trust a single server or a bot on someone’s laptop. The system runs on decentralized infrastructure, meaning your position is managed reliably regardless of downtime, crashes, or single points of failure.\n\nIn short: you pick a pool, deposit into the vault, and let decentralized automation keep you earning.",
+  "how_its_made": "The system revolves around three main components: the RebalancerVault, the Chainlink CRE workflow, and the Uniswap Trading API.\n\nThe Uniswap V3 Pool emits a Swap event every time a trade occurs. This event acts as the trigger for the CRE workflow, which picks it up and begins evaluating whether the vault’s LP position has gone out of range.\n\nWhen a rebalance is needed, the CRE workflow calls the Uniswap API via a POST /swap request to obtain the optimal swap route and the corresponding calldata. It then acts as the operator and sends a transaction to the RebalancerVault, calling its rebalance() function with the swap data as input.\n\nThe RebalancerVault holds the LP position and executes the rebalance atomically: it withdraws liquidity, performs the swap using the provided calldata, and mints a new centered position — all interacting directly with the Uniswap V3 Pool.\n\nIn short: the pool triggers the workflow, the workflow fetches the swap plan from the API, and the vault executes it on-chain — forming a closed automation loop.",
+  "auto_summary": "This project builds a Solidity vault and Chainlink CRE workflow to automate Uniswap V3 liquidity position rebalancing on pool price movements.",
+  "scores": {
+    "originality": 5,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/unirange-pdcoc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

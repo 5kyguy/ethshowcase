@@ -1,0 +1,27 @@
+{
+  "id": "02vw5",
+  "slug": "agent-911",
+  "title": "Agent-911",
+  "tagline": "A 911 for crashed AI agents. Watchdogs prove failure onchain, rescue funds.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/02vw5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/F8o57hDgGtzKfEwNybFrC6gtSVSQs6MZgF4T3Cz500FA/high.mp4",
+  "demo_url": "https://youtu.be/PDzeF6g_goc",
+  "source_url": "https://github.com/mgnlia/agent-911",
+  "finalist": false,
+  "description": "40% of onchain transactions now come from AI agents. When the agent crashes — OOM, hangs, network partition — the funds it was managing get stranded in positions that were only safe while the agent was healthy. Existing tools (Coinbase, Openfort, Human.tech, Safe modules) solve the intent problem with spending caps and whitelists. They watch the user. None watch the agent.\n\nAgent-911 is the first onchain failure oracle for autonomous agents. Three independent watchdogs run on separate Gensyn AXL nodes — same-host watchdogs would die with the agent, so isolation is definitional. They sign EIP-712 attestations when they observe a stale heartbeat, route them through the AXL mesh, and a coordinator bundles them into a single confirmFailure transaction on 0G testnet. The contract recovers signers and emits FailureConfirmed — a composable event any downstream protocol can react to.\n\nThe rescue is a separate concern. Agent911Vault.rescue() is permissionless but gated on quorum.isFailed(). It reads the destination from Agent911PolicyNFT (an ERC-7857 iNFT) — transferring the NFT redirects every future rescue without any contract change. The safe address itself is resolved at rescue time from safe.agent-911.eth on Ethereum mainnet ENS, making the ENS integration load-bearing.\n\nLive on 0G Testnet (Galileo, chain 16602). Kill-to-safe: ~13s anvil, ~20s on real 0G. Every transaction verifiable on chainscan-galileo.",
+  "how_its_made": "Smart contracts in Solidity 0.8.28 (Foundry + OpenZeppelin v5.2.0): WatchdogQuorum (EIP-712 m-of-n oracle with signer recovery + replay protection), Agent911PolicyNFT (ERC-7857-flavored iNFT holding the encrypted runbook commitment), Agent911Vault (rescue-gated ERC20 vault), Agent911UniswapExecutor (optional v3 exactInputSingle route), AgentIdentityRegistry (ERC-8004 identity + reputation). 25 unit + invariant fuzz tests over 256K calls. Hardened: one-shot rescue per policyId, registerPolicy gated on policyNFT.ownerOf, rescueWithSwap restricted to NFT owner.\n\nOff-chain stack: TypeScript on Node 22 + ethers v6. Three watchdog processes observe a file-backed heartbeat; the EIP-712 typehashes match the contract byte-for-byte. They route attestations through the Gensyn AXL mesh — 3 axl-node binaries on ports 9101/9102/9103 with distinct ed25519 PEM keys. Yggdrasil derives the IPv6 from the pubkey, so peer identity is the network address (no CA, no DNS). The coordinator polls /recv, collects 2-of-3, fires confirmFailure + rescue on 0G.\n\nStorage: rescue runbook encrypted with AES-256-GCM under a per-policy key derived from (masterKey || policyId). metadataHash = keccak256(ciphertext) is committed onchain in mintPolicy() and registerPolicy() — anyone can verify the rescue ran against the committed runbook regardless of where bytes are stored.\n\nFrontend: SSE event-bus on :4000 with inline HTML dashboard. Tri-pane layout (Agent / Watchdog Quorum / Funds) plus chain-strip (0G TESTNET, live block) and iNFT strip (ERC-7857 tokenId, owner, runbook hash, controlled ENS). Every tx hash links to chainscan-galileo. Deployed live on 0G Galileo testnet.\n",
+  "auto_summary": "An onchain failure-oracle system detects unhealthy AI agents and permissionlessly rescues managed funds to a policy-controlled safe.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agent-911-02vw5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

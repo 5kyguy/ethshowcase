@@ -1,0 +1,35 @@
+{
+  "id": "ri9mx",
+  "slug": "pricefeeder-xyz",
+  "title": "PriceFeeder.xyz",
+  "tagline": "The world's first permissionless no-code tool for launching on-chain price oracles for NFT collection stats.",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ri9mx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XYeH029iRzhSpMjluCYOXoJJgB1ANPp8VlfA4lz4z6UE/high.mp4",
+  "source_url": "https://github.com/Mimicry-Protocol/PriceFeeder-Hosted-Node",
+  "prizes": [
+    {
+      "sponsor": "Dune",
+      "sponsor_id": "juzwo",
+      "placement": "🥇 Dune — Best Use",
+      "title": "Dune"
+    },
+    {
+      "sponsor": "Tellor",
+      "sponsor_id": "x6m3m",
+      "placement": "🥇 Tellor — Best Use",
+      "title": "Tellor"
+    }
+  ],
+  "finalist": false,
+  "description": "PROBLEM:\nIt is extremely difficult to build prediction markets for NFT collections because (a) there is no robust oracle solution addressing this use case, (b) the few blue-chip NFT collection price feeds that do exist only report on floor price, which is very easy for a bad actor to manipulate. \n\nSOLUTION:\nWe've created the world's most user-friendly, fraud-resistant, and robust solution for launching new NFT collection price oracles.\n\nHOW IT WORKS:\nIn less than 60 seconds anyone in the world who wants to sponsor a new NFT collection price feed can (a) visit pricefeeder.xyz, (b) connect their wallet, (c) search for an NFT collection by name, (d) select Market Cap or Time Adjust Market Index as the collection stat, (e) identify how much TRB token they'd like to offer data reporters, and (f) sign a transaction.",
+  "how_its_made": "In order to describe how this project is made we will walk you through the journey from the moment you'd visit pricefeeder.xyz, to the moment you'd consume an NFT collection price feed into your application.\n\nThe pricefeeder.xyz website GUI was build with NextJS and Chakra UI. The site leverages RainbowKit for the wallet connection.\n\nWhen you submit the form to sponsor a new price feed, your data will be sent to the price-feeder smart contract on Polygon Mumbai, along with a few opinionated constants that describe how the funding mechanism for data reports is meant to work. If a record does not exist that matches your feed's query parameters (chainId, nftCollectionContractAddress, statType), then we create one. Our contract uses Tellor, so any committed TRB token is passed to their autoPay contract.\n\nWhen our contract runs, it emits events. These events are indexed in a custom subgraph. This subgraph is used on our web site to display a list of all active Price Feeder feeds. \n\nOnce a feed is sponsored, data reporters will be incentivized to begin to write the price feed data on-chain in order to earn tips in TRB. We've made it extremely easy for reporters to get the necessary collection stats by creating an open-source API endpoint. This way reporters can either run their own instance, or use our free hosted version. \n\nOur hosted API also uses the subgraph to known which collections to backfill NFT sales history for. The sales history is used every time a data reporter might want to check a collection's Market Cap or Time Adjusted Market Index, which could be once per minute or more. You see, data reporters make money by being the first to report a value, so they race against each other to identify when to write new data on-chain. In our use case, this would be when the reference price they are monitoring changes by 0.5%, or when 60 minutes have passed since the last on-chain write, whichever comes first.\n\nSpeaking of data, we wrote a custom Dune query that leverages the NFT_Trades spell in order to streamline the process of populating the MongoDB database connected to the hosted price feeder API. \n\nWe leveraged Reservoir protocol for NFT collection metadata and the auto-complete search field on the form where someone would sponsor a feed. \n\nOur Market Cap calculation also leverages Reservoir to get collection floor price in USDC, and we've modeled the Market Cap algorithm after NFTGo's published spec. \n\nWe've leveraged an existing NPM module to calculate the Time Adjusted Market Index, which is a modified market cap that is more resistant to fraud than the Market Cap spec published by NFTGo.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pricefeeder-xyz-ri9mx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

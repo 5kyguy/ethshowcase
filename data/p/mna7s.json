@@ -1,0 +1,22 @@
+{
+  "id": "mna7s",
+  "slug": "fanticket",
+  "title": "FanTicket",
+  "tagline": "App to reserve seats for a sports event by staking Fan Tokens using the Chiliz L1 blockchain.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mna7s/banner/default.jpg",
+  "video_url": "https://stream.mux.com/A02fX4avCLzwurTcH00iw02BezWHoKGDL01F100FCjs8KXIw/high.mp4",
+  "demo_url": "https://fanticket-zeta.vercel.app/",
+  "source_url": "https://github.com/Luquitasjeffrey/fanticket",
+  "finalist": false,
+  "description": "FanTicket is essentially a ticketing app for sports fans who are already using Chiliz or have Fan Tokens on their wallets. This gives them early access to reserve seats to a sports event from their favorite club (or sports team). They select the match where their team is participating, and then access a page that includes the match of the stadium (or venue) where the match will take place. From this page they can select their desired seat on the map and reserve it by staking a certain amount of Fan Tokens. Once their ticket (seat) is reserved they get redirected to a page where the user can see all their active reservations and decide if they want to complete the purchase or cancel the reservation.\n\nIn short, the user can choose to which match he want to assist, reserve any seat on the stadium, stake Fan Tokens to proceed with the reservation, and later decide to complete the purchase or cancel the reservation.",
+  "how_its_made": "The frontend of this project was created using NextJS, TypeScript and TailwindCSS for the styles. We created a dashboard to visualize all upcoming matches. There is a seat reservation page where you have a map of the stadium and can choose any of the seats. For this to be possible we integrated Seats.io, drew a custom map for the stadium added the seats and connected this map to our frontend and smart contract (more on that further ahead).\n\nWe also have a database in Supabase where we store the event about the matches. These events include things like the teams playing, venue, date, time, price... We get the data from Supabase and display it on the frontend, and use an event_id to link the match to the api of Seats.io so the event gets the correct stadium and availability for the seats.\n\nFor the smart contracts development we used Hardhat V3 and deployed the contracts using Remix IDE.\nThe smart contract \"FanTicket\" contains a set of functions that provide the functionality of staking an ERC20 token (a Fan Token is an ERC20 token) for being able to reserve a seat in an event. The owner of the contract can call the createMatch method for creating a new logical match in the blockchain and it can configure: \n- Which ERC20 Token users must lock in the contract for being able to reserve a seat\n- How many tokens they should lock for being able to reserve the seat\n- Deadlines setting the maximum timestamp they can attempt to reserve a seat, and how much time the user have to pay for the seat after it gets reserverd.\n\nThe users call reserve() method for starting the reservation process and locking the seat in such a way that no other one can access the same seat.\n\nUsers can only reserve  a ticket if: no one attempted to lock the exact same seat, and the reservation deadline isn't over yet and the match didn't finished.\n\nAfter the match finishes the user calls withdrawStake, and they withdraw all of their stake for a specific match, which returns all of the Fan Tokens they staked back to the users.\n\nOnly the contract owner can call the finishMatch method, which marks the match as finished and users can have their stake back.\n\nUsers can cancel their reservation at any time and their stake will be returned. It's not in the code right now, but in the case the dApp goes productive, users will be punished for canceling a reservation, like retaining some percentage of the Fan Tokens being locked.\n\nFinally, the project is fully deployed and working in Vercel. Also, the contracts are deployed on the Chiliz Testnet.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fanticket-mna7s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

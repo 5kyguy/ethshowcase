@@ -1,0 +1,27 @@
+{
+  "id": "0qu1k",
+  "slug": "ascii-onboarding-sim",
+  "title": "ASCII Onboarding Sim",
+  "tagline": "A walkable ASCII world where an wizard teaches you ETH, ENS, then you trade on Uniswap for real.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0qu1k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Q600o02s36pTXHcm8yHx2zZYw01kZXP4ND00FjmXD9adGCY/high.mp4",
+  "demo_url": "https://asciiex.netlify.app/",
+  "source_url": "https://github.com/AorakiRangerNZ/QuantumKittyDimension",
+  "finalist": false,
+  "description": "ASCIIEX is a little 3D world drawn entirely in text characters. You spawn on a moonlit New Zealand bush track, with glowworms in the ferns, possums crossing the path and a violet ETH-diamond moon overhead, and you walk it in first person like any game.\n\nHalfway down the track a Magic Internet Money wizard is waiting for you. He hands you a practice wallet and explains what an address is, why names beat 42 characters of hex, and why your twelve words are the whole game. Then a goblin blocks the path demanding a toll, and the wizard pays him with a real transaction on Sepolia. You watch it get signed, broadcast, sit in the mempool and land in a block, then click through to Etherscan and see it's actually there.\n\nFurther on, a shifty stranger asks if you've got something to write on. The only paper in your pocket is the one with your recovery phrase. You hand it over, he laughs, the world bleeds red and drips down the screen, then goes black. A machine elf comes through a doorway of light to tell you what nobody told most of us: no one legit will ever ask for those words, and a transaction can't be undone.\n\nAt the village, the practice is over. You connect MetaMask, and the wizard mints you a real ENSv2 name, yourname.asciiex.eth, owned by your own wallet. Then you walk into the market to the Grand Exchange, a RuneScape-style trade window, and swap tokens through a real Uniswap v3 pool.\n\nThe idea is simple. Most crypto onboarding is a wall of warnings people skip. We wanted the lessons to actually stick, so you live through them instead: you pay a toll, you get robbed, you get a name, and you trade.",
+  "how_its_made": "The whole world is a single WebGL fragment shader. It raymarches signed distance fields for every tree, fern, character and effect, then a second pass turns each screen cell into a glyph based on brightness and material, so the output is pure text but the scene is real 3D. The wizard, goblin, scammer and elf are all hand-built SDFs with their own shading and expressions. The elf's doorway is a small volume of light marched ray by ray: three gyroscope rings tumbling on their own axes, a crystal heart, orbiting orbs and a kaleidoscope.\n\nThere's no build step and no server. It's plain ES modules served as a static site, with viem pulled from esm.sh at runtime, so it can live on IPFS or Netlify as-is.\n\nUniswap: the Grand Exchange quotes live from QuoterV2 (quoteExactInputSingle, simulated so it costs no gas) and swaps through SwapRouter02 exactInputSingle after an ERC-20 approve. It runs against our own TKA/TKB v3 pool on Sepolia, which we created and seeded with a Foundry script through the NonfungiblePositionManager.\n\nENSv2: asciiex.eth has its own PermissionedRegistry on Sepolia. Using Enhanced Access Control, the registry grants one role, ROLE_REGISTRAR, to the wizard's wallet. When you claim a name, the wizard calls register() and mints yourname.asciiex.eth straight to your address, with your own roles over it (set resolver, set subregistry, renew) and a 90-day expiry. You don't need gas or a signature, because the wizard pays.\n\nThe hacky bits: the wizard has a throwaway Sepolia key that lives right in the page. It's public on purpose and only ever holds a few cents of test ETH. That's what lets him pay the goblin's toll and mint names without the player needing a funded wallet. We also hit a wall on the ENSv2 beta resolver on Sepolia: even a name's owner can't write address or text records to it yet. So the player's saved character goes to our own AsciiexCharacter contract, which only the game can write to, rather than an ENS text record.\n\nBuilt by two people working in parallel lanes, front end and backend, with a small agreed interface between them. We used Claude Code throughout, and every meaningful AI contribution is logged in AI_USAGE.md.",
+  "auto_summary": "A browser-based ASCII 3D game teaches wallet safety, mints ENSv2 subnames, and performs Sepolia token swaps through a Uniswap v3 pool.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ascii-onboarding-sim-0qu1k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

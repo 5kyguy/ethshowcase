@@ -1,0 +1,27 @@
+{
+  "id": "m3ak1",
+  "slug": "plimsol",
+  "title": "Plimsol",
+  "tagline": "Proof of enough, not proof of how much: a confidential credit check for autonomous agents.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m3ak1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01zlcRlC01XE3RfvuDUG00fYIF2yP1i7323tCQmiDk1EWU/high.mp4",
+  "demo_url": "https://plimsol-xi.vercel.app/",
+  "source_url": "https://github.com/AaravAtGit/Plimsoll",
+  "finalist": false,
+  "description": "Two agents want to do a deal on credit. The buyer wants the goods now and will pay later. The seller has to decide whether the buyer is good for it. Right now the buyer has two ways to answer, and both are bad. It can show its whole balance sheet, in which case the seller knows exactly how hard to squeeze it. Or it can say \"trust me\", which is worth nothing.\n\nPlimsoll is a third option. The seller pays a few cents to ask one question, \"is this agent above the line?\", and gets back one signed bit on chain. We call that a Mark. It says ABOVE, BELOW, or INDETERMINATE, plus a timestamp and an expiry. That's it. No balance, no amounts, no price. Not even the reason if it failed.\n\nThe reading happens inside a Chainlink CRE Confidential Workflow running in an AWS Nitro enclave. The enclave fetches the buyer's private holdings with a key only it can see, prices them at Chainlink, applies a haircut, and compares to the threshold. Only the verdict comes back out.\n\nThe privacy comes from the structure, not from asking nicely. The buyer decides in advance which thresholds it's willing to be asked about (we call that the ladder). Nobody can ask anything finer, so the most you can ever learn is \"somewhere between two rungs\", and the buyer picked the rungs. Requests are rate-limited per counterparty so you can't just ask every rung. And because a \"no\" leaks more than a \"yes\", publishing a no is opt in per rung. One good answer can be faked with a flash loan, so lenders look for Standing: three yeses spread over a day.\n\nBazantic is how an agent actually uses this. Two live gateways and a published Recipe that an agent calls as one tool: price the deal at Chainlink, pick the rung, ask, read the Mark, decide. The Recipe also carries the rule that matters most: if the answer is no, don't ask again at a lower rung.\n\nEverything is live on Sepolia. Real Marks have been posted by the workflow, and the dashboard lets anyone request one and watch it land.\n",
+  "how_its_made": "We started with the contracts. PlimsollRegistry (Foundry, Sepolia) holds subjects, their ladders, survey requests and Marks. It's a CRE receiver, so the Forwarder calls onReport and the contract decodes the six fields and checks them the same way it would a hand posted Mark. Lines are stored as structs rather than hashes so one Mark can serve any counterparty whose exposure it covers. CreditDesk is the reference lender and won't pay out without Standing. 42 tests.\n\nThe Survey is a CRE workflow in TypeScript. An EVM log trigger fires on SurveyRequested and the handler is registered with handlerInTee, so it runs inside AWS Nitro. In there it pulls the Hold credential from the Vault DON, makes three HTTP calls (the ladder, the Chainlink price, and the buyer's holdings), does the valuation in plain integer math, and crosses back to the DON with only the verdict and its provenance. Debug logging is off in every shipped config because logs leave the enclave too. We simulated it with the CRE CLI against real Sepolia transactions, then left it running in listen mode so new requests get answered on their own. The transcripts are in the repo.\n\nThe API is a Next.js app on Vercel with route handlers for price, line derivation, ladder, requests, Marks and Standing, all reading the chain with viem. The Hold adapter lives there too, behind a shared key that only the enclave presents, and it's deliberately missing from every public spec.\n\nFor Bazantic we served two OpenAPI specs, registered two gateways with x402 settlement (sandbox, test USDC on Base Sepolia), and published two Recipes from JSON definitions with Claude Sonnet as the model. We ran the composed Recipe end to end with paid calls.\n",
+  "auto_summary": "This project issues onchain binary credit attestations from confidential offchain portfolio checks and exposes related APIs and agent recipes.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/plimsol-m3ak1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

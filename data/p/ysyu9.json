@@ -1,0 +1,27 @@
+{
+  "id": "ysyu9",
+  "slug": "sleepmask",
+  "title": "sleepmask",
+  "tagline": "pay in crypto without showing off how much you are rich are broke",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ysyu9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5xoyDeUvwuoun33HlbnX8NyVSnzARz3EyNtr018rfe7s/high.mp4",
+  "demo_url": "https://we.tl/t-6OezED7h4HQBmscf",
+  "source_url": "https://github.com/RasJojo/sleepmask",
+  "finalist": false,
+  "description": "today paying iin cryto is begining to become something mainstream, but the problem with crypto payment is that everything is transparent so, imagin paying your food and and show off to people how much your bank account is worth that what we do cause everyone can see what is in your adress account.",
+  "how_its_made": "Sleepmask is a privacy-focused peer-to-peer payment app that uses ephemeral burner addresses for secure, anonymous transactions. Built as a full-stack solution, it combines on-chain smart contracts with off-chain account management to enable seamless payments without exposing user identities.\n\nTechnologies Used:\nBackend: Node.js with Express.js for the API server, handling routes for payment creation, balance checks, deposits, and receives. Viem.js for Ethereum interactions Watchers and pollers monitor blockchain events in real-time.\nSmart Contracts: Solidity with Hardhat for development and testing. Deployed on Base Sepolia testnet using CREATE2 for deterministic burner addresses. Includes event-driven logic for payment states (Pending → Paid).\nOff-Chain Accounts: @unlink-xyz/sdk for confidential, zero-knowledge account management. Handles deposits, transfers, and withdrawals without on-chain exposure.\nFrontend/Mobile: React Native with Expo for cross-platform mobile app. Generates QR codes for payment requests and integrates with wallet scanners.\nInfrastructure: Docker for containerization, PostgreSQL for potential data persistence (though in-memory for hackathon), and environment-based config for keys and RPCs.\nHow It's Pieced Together:\nThe flow starts with the mobile app: users create a payment request via POST /api/receive/create, generating a QR code with a requestId and burner address. The backend deploys a one-shot EVM account deterministically (using keccak256(masterKey + requestId)) and registers it on-chain. When funds arrive (detected by ERC20 watchers), they're swept to a relayer account, deposited into Unlink, transferred to the recipient's Unlink address, and marked as paid on-chain. The mobile app polls /api/receive/status for updates.\n\nPartner Technologies:\n\nBase Sepolia: Provided fast, low-cost testnet transactions, enabling real-time event watching without mainnet fees. Benefited scalability testing and reduced dev friction.\nUnlink: Enabled ZK-based privacy for accounts and transfers. Simplified off-chain logic, allowing focus on on-chain mechanics while ensuring funds remain confidential.\nNotable Hacks:\n\nDeterministic Burners: Used CREATE2 and mnemonic derivation (SHA256 + BIP39) for one-shot addresses without storage—secure and gas-efficient.\nHybrid On/Off-Chain: Mixed viem watchers with Unlink SDK for seamless bridging; hacky but effective for privacy without full ZK rollup.\n",
+  "auto_summary": "A mobile and backend payment app that combines Base Sepolia smart contracts, burner addresses, and Unlink private transfers for privacy-preserving payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sleepmask-ysyu9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

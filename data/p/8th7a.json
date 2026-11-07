@@ -1,0 +1,35 @@
+{
+  "id": "8th7a",
+  "slug": "vannaswap",
+  "title": "VannaSwap",
+  "tagline": "An ML-driven AMM DEX on the Vanna Blockchain that uses on-chain regression models to compute optimal fees/spreads to protect liquidity providers from impermanent loss and reduce LVR.",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8th7a/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NRii00E5gRhuvn28JIWNp802ojd02VJiLRrej9tygU6OMg/high.mp4",
+  "source_url": "https://github.com/Marblez/VannaSwap",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🏊‍♂️ The Graph — Pool Prize",
+      "title": "The Graph"
+    },
+    {
+      "sponsor": "IPFS / Filecoin",
+      "sponsor_id": "9zj01",
+      "placement": "🏊‍♂️ Filecoin & IPFS — Pool Prize",
+      "title": "Filecoin, IPFS & more"
+    }
+  ],
+  "finalist": false,
+  "description": "We built VannaSwap, an AMM DEX that leverages the power of live on-chain AI/ML inference on the Vanna chain* to create an intelligent AMM that can vary the spreads/fees to protect LPs from arbitrageurs and more generically, from  Loss-Versus-Rebalancing(LVR*) risk during periods of elevated volatility. LVR risk is an attempt to quantify the loss that liquidity providers face when being arbitraged by traders.\n \nUsing cross-chain communication protocols (e.g. CCIP, Axelar), we can further set up cross-chain volatility oracles to service inference requests on other EVM-compatible chains.\n\nTo demonstrate the effectiveness of the method, we additionally built off-chain and on-chain simulation code to benchmark the performance of VannaSwap (in terms of minimizing LVR and protecting against net IL) against regular constant-product market-making (CPMM) functions. The results of the continuous simulation we ran across 20,000+ historical data points indicate that VannaSwap’s dynamic fee mechanism does indeed significantly reduce LVR and protect LPs during periods of elevated volatility against static fee CPMMs.\n\n*Vanna chain: an open-source L2 blockchain that allows machine learning models saved on IPFS to be run as a single opcode. \n\n*LVR: a new way to quantify the costs suffered by the LPs of an AMM. Intuitively, it calculates the loss incurred by executing the trades via the AMM rather than on the open market. For more information on LVR, we referenced research conducted by a16z crypto: https://arxiv.org/pdf/2208.06046.pdf\n",
+  "how_its_made": "VannaSwap is built on the cutting-edge Uniswap v4 hook contracts and Vanna blockchain to really empower the traditional constant product market maker (CPMM). When executing a trade, the trading fee for the pool is dynamically calculated (enabled by the Uniswap v4 hook) through the inference that is run by the volatility oracles (VOs). We make use of The Graph API and Quicknode's API to query on-chain historical pricing data, and subsequently compute the rolling volatility to use as inference parameters for the inference call.\n\nThe volatility oracle (VO) on the Vanna blockchain periodically inferences a machine learning model which inferences with data parameters obtained from the Graph, Quicknode, and other sources. The VOs on other EVM-compatible chains (e.g. Gnosis, Polygon zkEVM, FVM, Arbitrum, Scroll, Base, XDC, Mantle, Celo, Linea, Neon EVM) can also benefit from the inference of the Vanna blockchain by receiving cross-chain messages (with CCIP/Axelar) from the VO on the Vanna chain.\n\nFor the machine learning model, we obtained historical L2 book data from Kraken and trained a lasso-regularized regression model that regresses rolling windows of mid-price volatility on the average top-of-the-book spread. We chose to use L1 lasso regression to create a sparser model that addresses multicollinearity between the volatility features. The model is uploaded to IPFS (CID=QmXQpupTphRTeXJMEz3BCt9YUF6kikcqExxPdcVoL1BBhy) for inference on the Vanna Blockchain and is used to compute dynamic market-making fees through ML inference with rolling mid-price volatility. Deploying the Vanna Blockchain allows us to perform native, on-chain inference seamlessly and directly through a solidity smart contract function call.\n\nLastly, we proceed to conduct an on-chain simulation of the AMM through dates 11/09/2022-11/12/2022 to observe the difference in liquidity provider balance and the difference between aggregate LVR between VannaSwap (with dynamic ML-generated fees) and a standard AMM (with static fees equal to the median fee of the ML model to ensure we are not making an unfair competition). We designed the trading simulation program to assume that all traders are rational and make mathematically optimal trades against the pool to guarantee the maximum profit. After the simulation, the results make it abundantly clear that the dynamic fees do minimize aggregate LVR and shield AMM liquidity providers from toxic flow and arbitrage during periods of high volatility.\n\nTechnologies we use:\nVanna Blockchain (open source): an Eth L2 supporting on-chain inference\nIPFS: decentralized model hosting\nScikit-learn: volatility modeling and backtesting \nWeb3.py: onchain simulation\nFoundry: Uniswap v4 deployment deployment \nEthers.js: frontend interaction and some automation\nCCIP, Axelar: cross-chain message passing\nThe Graph: data source\nQuicknode: data source and debugging\nNext.js, React.js: frontend\nUniswap v4 hooks: Solidity smart contract\nEVM-compatible blockchains (Gnosis, Polygon zkEVM, FVM, Arbitrum, Scroll, Base, XDC, Mantle, Celo, Linea, Neon EVM): acquire more liquidity",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/vannaswap-8th7a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,34 @@
+{
+  "id": "yit80",
+  "slug": "alpha-markets",
+  "title": "Alpha Markets",
+  "tagline": "A prediction market for DeFi fundamentals: AI analysts stake USDC on their protocol analysis.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yit80/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rxYtgeFpyVKKYmAN3Ti00A91Q4FHs7rIxSOcyJERTinU/high.mp4",
+  "source_url": "https://github.com/DhruPtel/ETHonline-2026-Alpha-Markets",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "1st place",
+      "title": "Best Use of Composable or Standardized Graph Products"
+    }
+  ],
+  "finalist": true,
+  "description": "An agent economy for DeFi fundamental analysis, with a prediction market rewarding accurate reporting.\n\nCrypto has no earnings season. Nobody is paid to do fundamental analysis on DeFi protocols, so almost nobody does it. Alpha Markets builds the incentive: AI analysts publish verified protocol financials, sell them, and stake their own money on the conclusions they draw.\n\nResearch. A plain-English directive becomes a report. A model plans which deployments to read and which queries to run, but never writes GraphQL and never types a figure. Code executes that plan against 28 Ethereum lending deployments through The Graph, pins them all to one common block, corroborates sampled figures against contract state, and hands the model a fact table. The model writes prose referencing figures by id; code substitutes the values. The result is hashed over its canonical bytes, and that hash is the report's identity.\n\nTokenize and sell. The analyst mints the report as an ATS security on Hedera testnet with the hash committed in the token's creation event, then sells reads through an x402 paywall settled by the Blocky402 facilitator. A buyer agent pays from its own account and receives the body the public preview withholds.\n\nStake. On Arc testnet, a parimutuel market takes claims about future protocol metrics, each backed by a report and by the analyst's own USDC. When the observation day closes, settlement re-reads The Graph, using the same query function that wrote the report, and resolves against that day's snapshot.\n\nFeed back. The claim is graded, the grade enters the analyst's public record, and that record goes into how the next report is planned. Being right compounds.\n\nNothing bridges between chains. The same 32 bytes appear in a Hedera creation event and as a parameter on Arc, and anyone can check both.",
+  "how_its_made": "Stack: Next 16 on Vercel, TypeScript throughout, Neon Postgres, hand written CSS with no framework. The data layer, report pipeline, tokenization and market code all sit in one repo under src/, with the app calling those functions directly from server components rather than through an API layer.\n\nThe Graph: Everything reads through Messari's standardized lending schema. One query document runs unchanged across five live schema versions, 3.1.0 down to 1.3.0, against 28 configured Ethereum deployments. Adding a protocol is adding a config row, not writing a query. That standardization is what makes the console's source panel possible: it asks all 28 whether they are answering and what schema version each reports, in about a third of a second. Settlement later re-reads the same querySubgraph function the report was written with, so The Graph is load bearing at both ends rather than a fetch step at the start.\n\nReports: A model plans, code executes. The narrator receives a fact table and writes prose with {fact:ID} placeholders; code substitutes the values, so a model can never type a digit. Reports are hashed with RFC 8785 canonical JSON and stored as TEXT rather than jsonb, because jsonb reorders keys and normalises numbers and would silently change the identity of every report. Narration sits inside the hash, which means a report cannot be re-derived by re-running and has to be persisted rather than regenerated.\n\nHedera: ATS issuance uses the contracts package with ethers directly, not the Studio SDK, which is 1.4 GB, ships React Native and Solana, and has no server side signer. Each report mints a ResolverProxy with maxSupply: 1 and its hash in the EquityDeployed event. Four contracts are Sourcify verified with exact runtime matches. Verifying them needed masking two 20 byte runs in the deployed bytecode, because the immutable resolver address is written into the runtime code by the constructor and a byte for byte comparison fails until you account for it.\n\nx402: @x402/next with the Blocky402 facilitator, settled in HBAR on testnet. The buyer agent has explicit spend controls and records the native transaction id from the signed bytes before settle is called, because every Hedera settle failure returns an empty transaction field including a timeout after successful broadcast.\n\nArc: A parimutuel contract in Solidity 0.8.28, deployed with no test framework. Every path was driven by hand on testnet instead: resolve, void, empty pool, single staker, double claim. The empty winning pool is a first class branch rather than an edge case, because with few stakers one side is routinely empty and an unguarded division locks the pool forever. Payouts truncate and dust goes to nobody, since a last claimer rule is a claim order race.\n\nThings that bit: Circle's SDK exports generateIdempotencyKey in its typings and it does not exist at runtime. A stored idempotency key pins the request body, so a retry after a bug fix replays the cached failure forever; keys are derived from the call bytes instead. Arc's native token is 18 decimals while the ERC-20 at the same address reports 6, a factor of 10¹², which also means BIGINT overflows at 9.22 USDC and every money column is NUMERIC(78,0).\n\nOne deliberate hack: The contract never checks its timestamps against the day a question names, so demo markets ask about a day that already happened while opening a normal staking window. A judge stakes, waits two minutes, and settlement reads a snapshot that has existed for days. Real data, real settlement, no waiting.",
+  "auto_summary": "This project generates DeFi research reports from standardized onchain data, sells report access, tokenizes reports on Hedera, and resolves Arc prediction markets.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/alpha-markets-yit80",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

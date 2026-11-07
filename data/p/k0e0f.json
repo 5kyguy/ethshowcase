@@ -1,0 +1,26 @@
+{
+  "id": "k0e0f",
+  "slug": "payloop",
+  "title": "PayLoop",
+  "tagline": "A Buy Now Pay Later system that allow merchants to capture payments in recurring way from users",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k0e0f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/001LGqp02Hpwymab01ZEceFHcfFTzGCxhtaOgavLn01F7t00/high.mp4",
+  "source_url": "https://github.com/asghaier76/HackMoney2026",
+  "finalist": false,
+  "description": "PayLoop is a recurring payment protocol that allows uses cases like subscriptions, Buy Now Pay Later, and recurring dividends distributions. PayLoop utilizes Merkle Proofs to provide a trustless approach to allow payments collections. In this submission we build a BNPL smart contract and necessary backend and SDK and Widget that allow easy integration into any eCommerce website and be the Klarna equivalent of Web3. PayLoop offers gasless and easy onboarding and UX/UI using Circle Wallets as users need only an email address to join as either merchants or end users. The contracts are deployed through a Factory contract deployed on Arc Testnet allows also for merhcants to deploy their BNPL contract for their eCommerce store in gasless way. Our solution is chain agnostic and can be deployed on any chain and users can send and receive their funds on any chain. The protocol is drafted as an ERC that will be submitted for review that defines the interface and main motivation and required functionlity.",
+  "how_its_made": "PayLoop is built as a Turborepo monorepo with pnpm workspaces, containing 6 interconnected packages designed for seamless eCommerce integration.\nSmart Contract Architecture (Built using Solidity 0.8.24 in Hardhat)\nFactory Pattern: We implemented BNPLFactory.sol that deploys individual MerchantBNPL.sol contracts for each merchant. This ensures complete isolation as each merchant's BNPL payments are secured in their own contract, enabling independent upgrades and simplified auditing. The contracts are deployed on Arc L1 Testnet.\nGas-Optimized Recurring Payments: The MerchantBNPL contract handles automated recurring installment collection with a carefully designed architecture:\n  - Struct Packing: The Order struct fits in just 2 storage slots by using uint96 for amounts, uint32 for timestamps, and uint8 for installment counts\nContracts enable trustless automated collection while maintaining merchant fund security\n  - Custom Errors: We use custom errors (InsufficientBalance, PaymentNotDue) instead of require strings for additional gas savings\n  Merkle-Verified Payment Schedules (ERC Draft): We designed IMerkleVerifiedSchedule — an interface for trustless recurring payments where the entire payment schedule is committed on-chain as a Merkle root. Each payment is verified via Merkle proof, ensuring:\n  - Tamper-proof schedules: Neither party can modify agreed payment amounts/dates\n  - Gas efficiency: Only the root is stored on-chain; individual payments verified via ~3 hashes\n  - Dispute resolution: Any party can prove the exact committed schedule\n  - Flexible extensions: Subscriptions can be extended with new Merkle roots while preserving history\n  Backend & Credit Scoring (NestJS v10 + MongoDB)\n  The API implements a state mirroring pattern — blockchain is source of truth, MongoDB mirrors for fast queries. We integrated a 3rd Party Credit Scoring API from Blockchain Bureau's on-chain credit scoring to assess creditworthiness before BNPL enrollment, with the backend fetching scores based on wallet transaction history.\n\nWidget SDK: 3-Line Integration\nThe PayLoop widget makes integration trivially easy for any e-commerce site:\n\n  import { PayLoopWidget } from '@payloop/widget';\n\n  <PayLoopWidget\n    merchantId=\"your-merchant-id\"\n    amount={9999}  // $99.99 in cents\n    onSuccess={(orderId, txHash) => console.log('Paid!', orderId)}\n  />\n\n  That's it — 3 lines of code to add BNPL to any website. The widget handles:\n  - Payment plan selection (Pay in 2, 3, 4, or 6)\n  - Wallet connection (MetaMask or Circle Passkeys)\n  - USDC approval and order creation\n  - Transaction confirmation and callbacks\n\nUsing Circle Modular Wallets Integration: Users can pay with just email + fingerprint/Face ID — no MetaMask required (even though we have it integrated). The SDK abstracts wallet types behind a unified WalletAdapter interface, enabling gasless transactions via Circle's Smart Accounts with Passkey authentication.\n\nTypeScript SDK for Custom Integrations, we have built an easy to integrate SDK:\n  const client = new PayLoopClient({ merchantId: 'xxx' });\n  await client.connect();\n  const order = await client.createOrder({ amount: 100_000000n, installments: 4 });\n\n  The SDK provides full programmatic control for developers who need custom checkout flows.\n",
+  "auto_summary": "A monorepo for a BNPL protocol with Solidity contracts, a NestJS API, a TypeScript SDK, a widget, and demo merchant apps.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/payloop-k0e0f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

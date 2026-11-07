@@ -1,0 +1,21 @@
+{
+  "id": "ko53z",
+  "slug": "fusionflow",
+  "title": "FusionFlow",
+  "tagline": "1inch Fusion+ Cross-chain swap, with bidirectional Ethereum-Polkadot token swap via hashlocks",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ko53z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yEY00AESNcVkLT7SBEG396sKTnfKFwoHEJ6vVE5vPJIY/high.mp4",
+  "source_url": "https://github.com/Princeby/defi-copilot",
+  "finalist": false,
+  "description": "This project extends 1inch's Fusion+ cross-chain swap protocol to enable seamless, secure, and bidirectional token swaps between Ethereum and Polkadot ecosystems. By integrating Polkadot’s Substrate-based blockchain with Ethereum’s EVM environment, we preserve the core hashlock and timelock mechanisms of Fusion+ for trustless swaps. The implementation supports both single and partial fills, ensuring flexibility for users. \n\nOn the Polkadot side, a custom Ink! smart contract (intent_escrow) handles order creation, resolution, and settlement, while Ethereum leverages the existing Fusion+ infrastructure with enhancements for Polkadot compatibility. The system supports USDC swaps (e.g., Ethereum USDC ↔ Polkadot USDC) and includes a relayer and resolver system for efficient cross-chain coordination. \n\nA demo on testnets (Ethereum Local Node and Polkadot Shibuya testnet)  seeks to showcase on-chain token transfers, with optional partial fill support. Stretch goals like partial fills and resolver integration are implemented, ensuring robust functionality. The project ensures security through cryptographic hashlocks, timelocks, and audited contract logic, making cross-chain DeFi more accessible and interoperable.",
+  "how_its_made": "This project was built by integrating Polkadot’s Substrate framework with Ethereum’s EVM-based 1inch Fusion+ protocol, leveraging a combination of Rust (for Polkadot) and TypeScript/Solidity (for Ethereum). Below are the key components and technologies used:\n\nPolkadot Smart Contract (Ink!):\n\nWe developed an intent_escrow smart contract in Ink! (Rust) for Polkadot, as shown in the provided code. This contract manages cross-chain swap orders, supporting functionalities like order creation (submit_fusion_intent), resolver assignment (assign_resolver), swap execution (execute_swap), and refunds (refund_order).\nThe contract uses hashlocks (Blake2x256) and timelocks to ensure secure, trustless swaps, mirroring Fusion+’s Ethereum implementation.\nIt supports partial fills through the PartiallyFilled status and PartialFill event, allowing incremental swap execution.\nStorage uses Mapping for orders and HTLCs, with safety checks for arithmetic overflows, unauthorized access, and timelock expirations.\n\n\nEthereum Integration:\n\nThe Ethereum side leverages the 1inch Fusion+ SDK (@1inch/cross-chain-sdk) and existing contracts (EscrowFactory, Resolver). We extended the Resolver class to interact with Polkadot’s intent_escrow contract by mapping Ethereum’s hashlock/timelock data to Polkadot’s format.\nThe Wallet class handles token approvals, transfers, and order signing, with ETH used for testing.\nThe EscrowFactory class retrieves deployment events (SrcEscrowCreated) to coordinate cross-chain escrow addresses.\n\n\nCross-Chain Coordination:\n\nA relayer system bridges Ethereum and Polkadot by monitoring events (e.g., FusionOrderCreated, ResolverAssigned) and relaying them across chains. The relayer utilises the relayer_coordinator in the Polkadot contract to ensure that only authorised resolvers process orders.\nThe Resolver class supports deploySrc, deployDst, withdraw, and cancel operations, ensuring bidirectional swap functionality.\nHashlocks are generated using HashLock, with secrets securely shared after destination chain validation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fusionflow-ko53z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

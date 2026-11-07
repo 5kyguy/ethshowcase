@@ -1,0 +1,27 @@
+{
+  "id": "eb3ht",
+  "slug": "laminaa",
+  "title": "Laminaa",
+  "tagline": "AI Orchestrator for lifecycle management of Tokenized Assets.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/eb3ht/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DwzZzFk55BrlsR01OwlQmScFn02014JEGEBifaRduErm7s/high.mp4",
+  "demo_url": "https://laminaa.com/",
+  "source_url": "https://github.com/Ni8crawler18/lamina",
+  "finalist": false,
+  "description": "Laminaa is an autonomous AI agent that runs a tokenized real-world asset's entire lifecycle - issuance, KYC/OFAC compliance, transfer enforcement, stablecoin distributions, valuation updates, and redemption - with zero manual touchpoints after issuance. A fund manager gives one natural-language instruction and the agent handles the rest, on whichever chain the asset lives on: Hedera (native HTS token issuance with on-token KYC and freeze keys, audited via HCS), Arc, Arbitrum, Base, Avalanche, Ethereum, Polygon, Robinhood Chain, Solana, and Sui, all through one chain-agnostic engine. Three interfaces sit on the same tool layer: a web chat agent, an authenticated MCP server for agent-to-agent access, and a Telegram bot.",
+  "how_its_made": "A FastAPI backend orchestrates the whole lifecycle through an AI agent (Claude) that turns one instruction into the right sequence of calls: KYC/OFAC screening, compliance-gated transfer, stablecoin payout, valuation update, audit write. Every chain sits behind one ChainAdapter interface, so the core compliance and audit logic never changes per chain, only the adapter does.\n\nOn Hedera, assets are deployed as native Hedera Token Service (HTS) tokens via TokenCreateTransaction, with a freeze key and a KYC key set at creation, so investor whitelisting and transfer freezing are enforced by the token itself at the protocol level, not by custom contract logic (hiero-sdk-python, TokenGrantKycTransaction / TokenFreezeTransaction for compliance actions). A companion Hedera Consensus Service (HCS) topic is opened per asset via TopicCreateTransaction, and every lifecycle action is submitted to it via TopicMessageSubmitTransaction, forming a tamper-evident on-chain audit log mirrored into Postgres. USDC distributions are paid out as HTS token transfers.\n\nOn Arc, Circle's stablecoin-native L1, USDC is both the settlement asset and the gas token, which fits the same payout logic with no separate bridging step. Seven EVM testnets (Arbitrum, Base, Avalanche, Ethereum, Polygon, Robinhood Chain, Arc) share one adapter parametrized per chain via web3.py; Solana uses Token-2022 with on-chain KYC/freeze extensions; Sui uses a closed-loop Move package. Same agent, same compliance model, ten settlement layers.",
+  "auto_summary": "An AI-driven multi-chain asset lifecycle system issues and manages tokenized real-world assets with compliance, payouts, and audit logging.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/laminaa-eb3ht",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

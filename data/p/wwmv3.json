@@ -1,0 +1,22 @@
+{
+  "id": "wwmv3",
+  "slug": "blindpool",
+  "title": "BlindPool",
+  "tagline": "BlindPool is a privacy-preserving fork of Uniswap CCA enabling sealed-bid token auctions onchain.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wwmv3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7QGmv7j2Xi901z00VKF00d02CzuqvoKo5uf01202H8lfOkTcI/high.mp4",
+  "demo_url": "https://blind-pool.vercel.app/",
+  "source_url": "https://github.com/ayushsingh82/BlindPool",
+  "finalist": false,
+  "description": "BlindPool is a privacy-preserving fork of Uniswap’s Continuous Clearing Auction (CCA) that introduces sealed-bid auctions onchain using Zama’s fhEVM (Fully Homomorphic Encryption). It runs on the Sepolia testnet and demonstrates how confidential compute can eliminate MEV and information leakage during token launch auctions.\n\nWhat BlindPool Does\n\nUniswap’s Continuous Clearing Auction (CCA) enables fair, continuous price discovery for bootstrapping liquidity into Uniswap pools. However, in standard CCA deployments, bid prices, bid sizes, and bidder behavior are visible onchain during the auction, allowing MEV bots and strategic participants to front-run, snipe, or infer market intent.\n\nBlindPool solves this by encrypting bids at submission time. During the auction, bid prices and amounts are stored onchain as ciphertexts, unreadable by validators, searchers, or other bidders. Only after the auction’s blind phase ends are bids revealed and forwarded into the standard Uniswap CCA flow for settlement and liquidity seeding.\n\nWhy This Matters\n\n- Eliminates bid sniping and front-running — No reactive bidding based on leaked price signals\n-MEV-resistant by design — Validators and bots cannot observe or exploit bid data\n-Fairer token launches — All participants bid under the same information conditions\n-Onchain and verifiable — Privacy is enforced cryptographically, not by trust\n-BlindPool bridges the gap between traditional sealed-bid auctions and onchain DeFi primitives.\n\nHow BlindPool Works\nPhase 1: Blind Bidding (Auction Open)\n\n-User submits a bid from the frontend\n-Bid price and amount are encrypted in the browser using @zama-fhe/relayer-sdk\n-Encrypted values are stored onchain as euint64 ciphertexts\n-No party can read bid prices or amounts during the auction\n\nPhase 2: Reveal (After Blind Deadline)\n\n-requestReveal() marks encrypted bids as publicly decryptable\n-Zama’s KMS authorizes decryption\n-Decryption proofs ensure correctness and integrity\n\nPhase 3: Forward & Settle\n\n-Decrypted bids are forwarded to the Uniswap CCA contract\n-Standard CCA logic computes the clearing price\n-Liquidity is seeded into Uniswap and users claim allocations normally\n\nWhy BlindPool Is Important\n\nBlindPool demonstrates that confidential compute can meaningfully improve DeFi market structure without breaking composability. It shows how existing primitives like Uniswap CCA can be upgraded with privacy guarantees while preserving permissionless settlement and liquidity bootstrapping.\n\nThis approach opens the door to:\n\n-Private auctions\n-Confidential orderflow\n-MEV-resistant market designs\n-Fairer token launches on public blockchains",
+  "how_its_made": "BlindPool was built by forking Uniswap’s Continuous Clearing Auction (CCA) contracts and layering a sealed-bid privacy system on top using Zama’s fhEVM. On the frontend (Next.js + Wagmi + RainbowKit), bid prices and amounts are encrypted in the browser via @zama-fhe/relayer-sdk before submission. Onchain, the BlindPool contracts store these values as euint64 ciphertexts, so neither validators, MEV bots, nor other bidders can read them during the auction.\n\nAfter the blind phase, we trigger Zama’s KMS to allow public decryption with verifiable proofs. The decrypted bids are then forwarded into the original Uniswap CCA contracts, preserving the standard clearing price logic and liquidity seeding. Foundry was used for scripting and testing on Sepolia. The hacky part was adapting CCA’s time-sensitive flow to work with encrypted state and delayed reveal, proving that confidential compute can plug into existing DeFi primitives without breaking settlement or composability.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/blindpool-wwmv3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

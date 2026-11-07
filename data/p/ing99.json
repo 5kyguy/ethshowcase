@@ -1,0 +1,48 @@
+{
+  "id": "ing99",
+  "slug": "proof-of-baguette",
+  "title": "Proof of Baguette",
+  "tagline": "Proof of Baguette mints you a Soulbound Token if you are a holder of a passport.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ing99/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PmpWrLJAI9ZT9wOpiYR02wRAQgW02XSkGcTZG5mYVe3gw/high.mp4",
+  "demo_url": "https://passport-sbt.vercel.app/",
+  "source_url": "https://github.com/yssf-io/passport-sbt",
+  "prizes": [
+    {
+      "sponsor": "WalletConnect",
+      "sponsor_id": "46q4i",
+      "placement": "🔟 WalletConnect — Top 10",
+      "title": "WalletConnect"
+    },
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "🥇 Gnosis Chain — Best Use",
+      "title": "Gnosis Chain"
+    },
+    {
+      "sponsor": "Ethereum Foundation",
+      "sponsor_id": "362vt",
+      "placement": "🔓 Ethereum Foundation — Open Track",
+      "title": "Ethereum Foundation"
+    },
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🏊 Neon EVM — Pool Prize",
+      "title": "Neon EVM"
+    }
+  ],
+  "finalist": false,
+  "description": "Proof of Baguette fetches the cryptographic signature of a user's passport (leveraging electronic passport NFC chips) through our Android app and verifies that it was indeed signed by the issuing government. If so, the phone app sends the signature to our Web frontend.\n\nThe user can go to that frontend and input their passport number; after which they'll be able to mint the Soulbound Token (SBT).\n\nWe are able to verify the signature onchain through a ZK SNARK verifier contract that we generated from a custom circuit. That custom circuit takes the passport data and the signature privately and verifies them with the public key associated with the passport (owned by a government). If the verification goes through, the SBT is minted.\n\nThe signature is verified with RSA and SHA256.",
+  "how_its_made": "This project forks two other projects in order to build on top of them. The first one is an Android app (written in Kotlin), called passport-reader, that scans the passport. We modified it in order to extract the signature and send it to our Next.js server.\n\nThe second one is zkrsa, which contains a circuit to verify RSA signatures and a frontend to generate proofs. We modified the circuit to allow for private data (it was all public) and to bind the verification to an address (to avoid mempool frontrunning) and then generated the corresponding Solidity verifier contract. We also modified the (Next.js) frontend in order to, firstly implement an API that can store/retrieve temporary passport data (for the verification) and secondly add the functionality to actually mint the SBT. We also had to do heavy work to make all formats work together between the Kotlin code, the circuit and the Typescript which all had various ByteArray and hexadecimal implementations.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/proof-of-baguette-ing99",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

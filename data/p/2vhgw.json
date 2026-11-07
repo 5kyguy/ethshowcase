@@ -1,0 +1,34 @@
+{
+  "id": "2vhgw",
+  "slug": "junto-ai-scheduler",
+  "title": "Junto - AI scheduler",
+  "tagline": "Events & RSVPs as native ENS names — no database, ENS records are the data layer",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2vhgw/banner/default.jpg",
+  "demo_url": "https://exp0nge.github.io/junto/",
+  "source_url": "https://github.com/exp0nge/junto",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Junto is Luma/Meetup rebuilt entirely on ENS. An event is an ENS subname (e.g. ethny.juntoevents.eth) and every RSVP/ticket is an on-chain subname minted under it (alice.ethny.juntoevents.eth). There is no off-chain database — ENS resolver records are the data layer, and nothing is hard-coded.\n \nAn EventManager smart contract uses the ENS NameWrapper to mint event subnames and writes metadata (title, location, capacity) into the PublicResolver as text records under a custom xyz.junto.* namespace.\n\nRSVPing mints a ticket subname carrying xyz.junto.status=going, transfers it to the attendee, and enforces capacity on-chain.\n \nThe headline experience is agent-to-agent: an ENS-named agent representing a person discovers an event purely through ENS resolution, reads its records, RSVPs on the owner's behalf, then re-resolves the freshly minted ticket subname to confirm attendance. ENS becomes both the identity layer (events, attendees, agents are all names) and the discovery layer — giving free, human-readable, globally resolvable structure that a plain database never could. The roadmap extends this with AI-personalized event curation (reading a person's ENS profile to match events to their interests) and soulbound ticket fuses.",
+  "how_its_made": "Tech stack & how it's pieced together:\n\n- Smart contract (EventManager.sol, Solidity 0.8.25, Foundry). createEvent calls the ENS NameWrapper's setSubnodeRecord to mint an event subname (e.g. ethny.juntoevents.eth) owned by the contract, then writes metadata into the PublicResolver as text records under a custom xyz.junto.* namespace (title, location, capacity). rsvp mints a ticket subname (alice.ethny.juntoevents.eth), sets xyz.junto.status=going, and transfers it to the attendee — with on-chain capacity enforcement.\n\n- A notable hacky-but-necessary detail: the PublicResolver only lets the node's controller write records. So rsvp mints the ticket to the contract first, sets the status record while it still has authority, then safeTransferFroms the ERC-1155 wrapped token to the attendee. Authorization-order workaround that makes the whole flow possible in one tx.\n\n- Deployment uses NameWrapper setApprovalForAll so the EventManager can create subnodes under the host's parent name without owning it outright.\n    \n- Agent client (TypeScript + viem). An ENS-named agent resolves an event purely by name, reads its records, calls rsvp, then re-resolves the freshly minted ticket subname to verify status=going — proving the round-trip works through real ENS resolution, not internal state. Partner tech (ENS): ENS NameWrapper + PublicResolver on Sepolia are the entire backbone — subnames give us free hierarchical data structure (parent→event→ticket) and globally resolvable, human-readable identity for both events and attendees, which a plain mapping never could.\n\nTesting: \n\n6 Foundry tests using mock NameWrapper/Resolver contracts validate mint, record-writes, ticket transfer, and capacity reverts without needing a fork; live validation runs against Sepolia ENS deployments.",
+  "auto_summary": "An ENS-based event system where events and RSVPs are represented as ENS subnames with metadata stored in resolver records.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/junto-ai-scheduler-2vhgw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

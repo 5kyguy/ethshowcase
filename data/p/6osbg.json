@@ -1,0 +1,27 @@
+{
+  "id": "6osbg",
+  "slug": "suijin",
+  "title": "SUIJIN",
+  "tagline": "A shared liquidity on Sui that stays in your wallet until a trade settles.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6osbg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KeLb027kYVmvt5yq00j901azt76kqltXbhD1oeXzHdu20200/high.mp4",
+  "demo_url": "https://suijin-app.pages.dev",
+  "source_url": "https://github.com/xfajarr/SUIJIN",
+  "finalist": false,
+  "description": "Suijin is a shared liquidity layer native to Sui. One self-custodial wallet balance can back several markets at once, and funds stay in the provider's own address until a trade actually settles.\n\nToday, putting tokens to work on-chain means depositing them into an AMM pool, an order book or a vault. Each deposit locks a separate slice of your balance, hands custody to a contract, and sits idle whenever that venue is quiet. Liquidity ends up thin and fragmented.\n\nSuijin replaces the deposit with a permission. Using Sui's new address balances and native Allowances, a provider grants one bounded, revocable, app-bound Allowance: a spend cap and an expiry that only the Suijin Move package can use. They then point several pricing strategies (fixed rate and a virtual constant-product curve) at that same Allowance. Each strategy advertises the full balance, so 1,000,000 tJPY backing two strategies shows a Shared Liquidity Ratio of 2.0x. That is not leverage: every fill draws on the same real balance and the same cap, so no combination of fills can spend more than exists.\n\nA trader signs once to create an order with an exact cap payment Allowance. A resolver finds the best executable quote across all strategies, and an executor settles both sides in a single PTB that pulls from the provider's and the trader's Allowances. The executor chooses when to settle, never what: Move recomputes every price, amount and recipient, and the whole PTB reverts if anything is off. The provider can revoke at any time, and every later fill fails.\n\nThe web app covers Swap, Pay (send an exact amount paid in another coin), Earn (provide liquidity from your wallet), Limit orders and a Portfolio view. Everything runs live on Sui testnet with tUSD/tJPY test coins.",
+  "how_its_made": "Contracts: two Move 2024 packages on Sui testnet. suijin has five modules: app binds Allowances to the package witness and is the only place a spend permit can be minted; math holds fixed-rate and virtual-curve pricing in u128; strategy stores pricing and limits per provider; order holds the trader's SwapOrder; settlement::fill is the atomic swap. mock_coins ships tUSD and tJPY (6 decimals) with open faucets. 26 Move tests cover every abort path.\n\nThe core is sui::allowance with address balances, which are only enabled on testnet and devnet right now. We use propose_for_app so each Allowance is app-bound: it can only be spent through our package, so our Move rules gate every withdrawal, while the Sui framework enforces the cap, expiry and real balance. settlement::fill takes two tx.withdrawal inputs from allowances in one PTB, one for the provider's tJPY and one for the trader's tUSD, recomputes the output, checks the withdrawn balances match exactly, then sends funds to both sides.\n\nHacky bits: allowance::issue returns nothing, so an order cannot reference the payment Allowance it creates in the same transaction. Instead, fill binds it by funder = trader, cap = exact quote amount, and expiry = order expiry. Curve math rounds the new base reserve up so rounding dust always stays with the provider, and the TypeScript SDK mirrors the Move math byte for byte with shared test vectors. The executor prices and settles from fresh fullnode state, and retries briefly because a fill request can race the order transaction to a different fullnode replica.\n\nOff-chain: a TypeScript SDK (@mysten/sui 2.33) builds every transaction and reads state, using GraphQL for objects and gRPC for balances and execution, since public JSON-RPC is off. One Bun server is both resolver (POST /v1/quote, any direction, exact input or output) and executor (POST /v1/orders/:id/fill); it holds the only spender key. The dApp is React 19 + Vite with dApp Kit v2 (@mysten/dapp-kit-react), deployed on Cloudflare. The landing page is TanStack Start on Cloudflare Workers, with a three.js particle scene (a water dragon rising from a pool, sampled from our logo) and GSAP ScrollTrigger animations.",
+  "auto_summary": "A Sui-based application and SDK for shared-liquidity trading, payments, and settlement using Move contracts and a TypeScript frontend/backend.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/suijin-6osbg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

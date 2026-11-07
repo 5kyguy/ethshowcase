@@ -1,0 +1,35 @@
+{
+  "id": "5qssg",
+  "slug": "leekdiyhardwarewallet",
+  "title": "LeekDIYHardwareWallet",
+  "tagline": "Open-source ESP32 hardware wallet with on-device verification and refuse-by-default signing.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5qssg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kd79vw00su1WoSrZlLGtlKY902QPsA01sUSmkKvUCZlMMM/high.mp4",
+  "demo_url": "https://leekwallet.0xoucanproject.xyz/",
+  "source_url": "https://github.com/0xOucan/LeekWallet",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "LeekWallet is an open-source, low-cost hardware wallet built around the ESP32-S3. It is designed around one rule: the device decides, the host asks, and anything the device cannot display clearly is refused.\n\nPrivate keys and seed phrases remain on the hardware while transactions are decoded, re-serialized, hashed, displayed, and approved directly on the device before signing. LeekWallet supports BIP39/BIP32/BIP44 wallets, multiple encrypted seed phrases, BIP39 passphrases, temporary stateless seeds, physical-dice entropy, QR address display, USB and BLE connectivity, and EVM transaction signing.\n\nInstead of blindly trusting a connected computer or phone, the device recognizes a deliberately limited set of contract interactions such as ERC-20 transfers and approvals, Permit2, NFTs, Aave operations, WETH, and selected mint calls. Unknown calldata and contract creation are refused unless the user explicitly enables blind signing on the device.\n\nA Tauri companion app for desktop and Android connects LeekWallet to WalletConnect v2, allowing ordinary EVM dapps to request signatures while the final decision and transaction verification remain on the hardware.\n\nThe project is intentionally transparent about its current limits: it is a proof of concept intended for testnets, has not received an independent security audit, and does not yet enable secure boot or flash encryption.\n",
+  "how_its_made": "LeekWallet is primarily C firmware running on an ESP32-S3 with a 128×64 SSD1306 OLED and four physical buttons. The wallet core implements BIP39 seed generation/import, BIP32/BIP44 derivation, secp256k1 ECDSA signing with RFC6979, and encrypted multi-wallet storage using PBKDF2-HMAC-SHA512 and AES-256-GCM.\n\nEntropy combines the ESP32 hardware RNG with mandatory user-generated button timing and optional physical dice. RNG output passes through fail-closed health checks before it can be used for key generation.\n\nFor signing, the ESP32 does not simply receive a digest from the host. EIP-1559 transactions are parsed, re-serialized, hashed on-device, rendered page by page on the OLED, and signed only after physical confirmation. Contract calls use a built-in signature table whose selectors are independently recomputed with keccak256. Supported calls are decoded into human-readable fields; unsupported calls are rejected by default.\n\nCommunication works over either native USB CDC or BLE GATT, never both simultaneously. Sessions use X25519 key agreement, HKDF, a commit/reveal handshake with a passkey verified on the wallet's own display, and ChaCha20-Poly1305 encrypted frames.\n\nThe companion application is built with Tauri v2, Rust, TypeScript and viem and runs on Linux, macOS, Windows and Android. WalletConnect v2 allows existing EVM dapps to communicate with LeekWallet without requiring an embedded dapp browser.\n\nA particularly important part of the project is its testing architecture. Most firmware logic is compiled natively on a desktop and exercised through 19 host-side test suites, including crash-injected PIN changes, entropy tests, transaction encoding, calldata decoding, protocol conformance, BLE chunking and device wiping. Additional testing uses sanitizers and QEMU's ESP32-S3 emulation, including emulated eFuses. Builds are reproducible and releases include SHA-256 hashes and GPG signatures.\n\nThe same firmware source also targets the Firefly Pixie ESP32-C3. Rather than rewriting the UI, I implemented a display compatibility shim that maps the wallet's existing monochrome 128×64 framebuffer onto the Pixie's 240×240 display, letting the same wallet logic and security flows run on a second inexpensive hardware platform.\n",
+  "auto_summary": "An ESP32-based hardware wallet with a Tauri companion app that adds clear-signing flows for several EVM-oriented mini-apps.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/leekdiyhardwarewallet-5qssg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

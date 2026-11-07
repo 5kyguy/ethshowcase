@@ -1,0 +1,30 @@
+{
+  "id": "8dt2j",
+  "slug": "block-visualizer",
+  "title": "Block Visualizer",
+  "tagline": "A block visualizer that creates an artistic expression of the block data. In future it will have a mint feature that will create an NFT of any desired block.",
+  "event": {
+    "slug": "starkhack",
+    "name": "StarkHack",
+    "start_time": "2024-06-13T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8dt2j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dgQEMtnHc36GrHUeokZeGMLuK3QMSW2f016EjUxAozcU/high.mp4",
+  "demo_url": "https://gorgeous-sfogliatella-91c5d8.netlify.app/",
+  "source_url": "https://github.com/adamsmith33/blockvisV0.5",
+  "prizes": [
+    {
+      "sponsor": "Voyager",
+      "sponsor_id": "qctg9",
+      "placement": "Voyager API",
+      "title": "Voyager API"
+    }
+  ],
+  "finalist": false,
+  "description": "My project is a blockchain visualizer that takes block information and interprets it into a procedurally generated dynamic art piece. The idea for my project came from the notion that a blockchain is like a living organism, and blocks are unique cells that grow the organism and age over time. I wanted to create something that captured this idea by using variable visual elements with the intent that someone without blockchain knowledge could better interpret what a block is and how it works. \n\nThe program accepts a block hash, which the Voyager API then interprets to provide several metrics from the given block. Transaction count determines the size of the artwork to visualize how transaction loads can differ. The timestamp determines the color palette of the artwork to express time of day when it was logged. The opacity of the artwork is based on how many confirmations it has, illustrating the idea that a block becomes more \"real\" when it has been validated more and more. Finally, the amplitude of the motion is a product of transaction count and confirmations. This was based on the thought that more confirmations over a greater number of transactions has an impact on a larger set of users. The pattern of movement for each block was determined by a noise generator, which was seeded by the block hash. Every movement pattern is randomly generated, but unique to each block.\n\nI had started working on the NFT element of the project as well. I was able to complete the ERC721 contract and deploy it on Sepolia here: 0x1ab03880585d9d45ccd11b5d181f782c24882fa85f392fb064dacf22416cf38\n\nI was unable to develop a front end in time for submission to use my contract, but I intend to learn how to use Scaffold-Stark 2 in order to complete my vision for this project.",
+  "how_its_made": "The core part of my project was the block visualizer. This was made using HTML/Javascript, leveraging the P5.js creative coding library and the Voyager API.  Interacting with the API was what inspired my idea for the project, so it was integral to developing the program.\n\nIn terms of use of the Voyager API, I used it to retrieve the block details from any given hash, then extracted the txn count, confirmations, and hours from the timestamp to use in my functions that created the visuals.\n\nIn terms of the use of P5.js, I used a function to create a grid of boxes based on the number of transactions in the block using nested for loops. This was done in webGL-mode in order to get the 3D effect. I then set the opacity and color based on the number of confirmations and time of day, respectively. To calculate the noise amplitude, I multiplied the txn count by the confirmations, then divided it by 500 in order to make it a more reasonable number. I also had to set high and low limits on all of these values to prevent it from becoming unruly. \n\nTo generate the movement, I first used the noiseSeed() function in P5.js, which would then ensure consistent but random results from the noise() function. Using the results from the noise() function and an amp value, I set the amplitude of each box every frame. The amp value was influenced by the number of confirmations multiplied by the number of txns.\n\nFor the NFT minter, A lot of my time was spent learning Cairo. I wrote the contract in Cairo, following an older ERC721 standard I found in a tutorial from Argent. The tutorial needed to be adapted to the latest syntax of Cairo, especially the included libraries referenced as well as the way in which the interface was defined in the program.\n\nAlthough I didn't finish my front end, this was what I had planned to get it working. I was going to use the \"dataToURL()\" function in Javascript to create a base64 screenshot of the canvas the art was generated on. This value would then be used when the token was minted to fill in the image field of the token URI.\n\nIn terms of front end, I attempted to make a UI in Vue.js, and again with Scaffold-Stark 2. However, I was unable to work with the documentation fast enough to create something that would work for my project.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/block-visualizer-8dt2j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,25 @@
+{
+  "id": "sorbi",
+  "slug": "andre8004",
+  "title": "andre8004",
+  "tagline": "a high-performance reputation routing & trust verification engine for agents ",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sorbi/banner/default.jpg",
+  "source_url": "https://github.com/vadimcastro/andre8004",
+  "finalist": false,
+  "description": "andre8004 is a trustless, high-performance reputation routing and gasless payment engine designed specifically for the emerging AgentFi economy. In a decentralized web of millions of autonomous AI agents, networks suffer from the Agent Trust Dilemma: How does Agent A know if Agent B is reliable, online, and Sybil-resistant before sending a payment? Standard directories rely on centralized Web2 APIs, while storing complete interaction histories directly on-chain is too expensive and slow.\n\nandre8004 solves this by bridging off-chain analytical speed with on-chain cryptographic consensus. The system ingests feedback logs from the ERC-8004 reputation standard on Circle Arc L1, computes real-time rating adjustments, and compiles the active directory into an optimized Merkle Tree. The cryptographic root is updated on-chain via Chainlink Functions, allowing routing clients to perform instant, free, read-only EVM calls to verify a target agent's reputation. Once verified, the client's Privy server-wallet signs an EIP-712 ERC-3009 (USDC) payload, allowing the target agent to receive gasless payments directly over HTTP headers and execute commands seamlessly.",
+  "how_its_made": "We (Gemini & I) built andre8004 using TypeScript powered by the Bun runtime for high-performance script execution.\n\nData and Analytics Tier: A daemon poller streams events directly from the Circle Arc L1 RPC into a local SQLite database (using bun:sqlite) configured in WAL mode. We implement two core algorithms: TWMA (Time-Weighted Moving Average) which exponentially decays historical ratings to prioritize recent behavior, and CCI (Concentrated Co-interaction Index), a graph-slashing penalty that discounts scores of agents receiving reviews from tight, collusive cliques of clients.\n\nMerkle Factory: To optimize gas, our factory filters out zero-feedback agents entirely. This reduced our Merkle tree size by 67 percent (from 5,800+ nodes to 1,915 active nodes), decreasing proof sizes from 13 to 11 hashes and significantly lowering EVM validation costs.\n\nSmart Contracts: The contract andre8004.sol was authored in Solidity and deployed to Circle Arc Testnet at 0x76236322b4c099b7ab35da2961d41a72d329a25a. It validates proofs and updates historical state roots dynamically via Chainlink Functions consensus queries.\n\nPrivy and Gasless Loops: We integrated the Privy Server-Auth SDK for server-controlled embedded wallets, signing EIP-712 ERC-3009 typed payloads so client agents can transmit gasless USDC authorizations to service agents over X-PAYMENT HTTP headers.\n\nDecentralized Backups: We periodically compile database snapshots into flat JSON files and archive them onto Sui's Walrus Protocol decentralized storage network (proven live with Blob ID s5B5ihZOw1DXkgfN-GIwTRSEtj8vsiiXNDO8h1eGKzw).\n\nNotable/Hacky details: During local macOS development under Bun v1.3.x, the Privy SDK's transitive ESM dependency on @noble/hashes threw a compiler export syntax error. We bypassed this by upgrading @noble/hashes to v2.2.0 in the workspace, while building a modular EIP-712 KMS-signer (kms-signer.ts) that implements custom Viem adapters. This allows agents to seamlessly switch between local cryptographic mocks (for fast, free local testing) and live AWS KMS hardware keys in production.\n",
+  "auto_summary": "A Bun/TypeScript and Solidity project that computes offchain agent reputation roots, verifies them onchain, and signs gasless USDC payment authorizations.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/andre8004-sorbi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

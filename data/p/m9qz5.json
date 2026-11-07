@@ -1,0 +1,41 @@
+{
+  "id": "m9qz5",
+  "slug": "stream-vaults",
+  "title": "Stream Vaults",
+  "tagline": "Stream USDC to a Ledger-signed DCA agent that buys ETH/BTC, bounded to hours of flow, not TVL.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m9qz5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/J8j1EKmo0129gz02p5fpP2Mo11nxyBM01asm7nr7t8S9Vw/high.mp4",
+  "demo_url": "https://streams-vault.vercel.app",
+  "source_url": "https://github.com/JulioMCruz/Streams",
+  "prizes": [
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "4th place",
+      "title": "AI Agents x Ledger"
+    },
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": "Best Uniswap API Integration"
+    }
+  ],
+  "finalist": true,
+  "description": "StreamBot was built for the purpose of making automated DeFi strategies safer to use. For on-chain \nstrategies — DCA, yield, hedging — to be adopted widely, users shouldn't have to lock all their capital \nupfront and stay 100% exposed from day one. StreamBot was built with the same goal: it replaces \ndeposit-and-pray with capital-on-demand. You stream your capital to an autonomous bot while you use it, so \nyour exposure is measured in hours of flow, not your full balance. Not only does it bound risk, but it also \nlets developers build any streaming vault — yield routing, rebalancing, hedging — on top of the same \nStreamVaults primitive. \n\nStreamBot is divided into three different parts: \n\nStream => Lets the user fund the strategy by opening a continuous Superfluid USDC stream toward a per-user \nsmart account (deployed as an EIP-1167 minimal-proxy clone). The protocol only ever guards what you have \nalready flowed in, and the user can cut the stream on the next block. \n\nExecute => An autonomous executor — either a Node.js bot or a Chainlink CRE workflow — DCAs the streamed \ncapital into BTC/ETH using the Uniswap Trading API, and settles the output straight back to the user's \nwallet, so the smart account trends to zero balance between purchases. Swaps run through executeSwap, behind \nrouter and token whitelists. \n\nControl => The user authorizes the entire setup from their Ledger in a single hardware-signed EIP-7702 \ntransaction, made readable on-device via ERC-7730 clear signing, and keeps 4 independent kill switches \n(pause the stream, revoke permissions, withdraw, downgrade USDCx → USDC). The Ledger is the agent's trust \nboundary; the bot never holds the user's key. \n\nOn-chain interface the executor drives, per smart account -> executeSwap to run a DCA buy -> \ncloseStreamIfLow to pre-emptively protect the Superfluid buffer -> onReport to land Chainlink CRE's \nDON-attested reports (gated to config.bot(), dispatched by 4-byte selector to the same saved internal \nlogic).",
+  "how_its_made": " The Frontend is built on top of a Next.js 16 application (App Router + Turbopack), with design built with\n  HTML, Tailwind CSS 4, and React 19 for the best User Experience and a clean, interactive interface.\n\n  TypeScript & React are used for building the core logic of the platform to enable a type-safe and smooth\n  experience.\n\n  The Solc compiler (via Hardhat) is used for compiling the contract code in Solidity. viem + wagmi facilitate\n  contract deployment and interaction with the blockchain. Reown AppKit (WalletConnect) plus the Ledger \n  Device Management Kit over WebHID enable wallet connection — including a hardware-signed EIP-7702 onboarding\n  path — on Base mainnet.\n\n  The user's capital is streamed on-chain via Superfluid (USDC ↔ USDCx) to a per-user smart account deployed\n  as an EIP-1167 minimal-proxy clone by the StreamVaults gateway. Each smart account is tracked in a\n  SmartAccountRegistry contract deployed on Base mainnet (chainId 8453), which is also used for discovery\n  later on. From there, an autonomous executor — either a Node.js bot or a Chainlink CRE workflow — drives the\n  DCA strategy, pulling swap calldata from the Uniswap Trading API and settling BTC/ETH back to the user via\n  StreamVaults.executeSwap / onReport.",
+  "auto_summary": "A DeFi system that streams user funds into per-user smart accounts and executes constrained DCA swaps through bot or Chainlink-driven workflows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/stream-vaults-m9qz5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

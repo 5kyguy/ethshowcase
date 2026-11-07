@@ -1,0 +1,30 @@
+{
+  "id": "n0417",
+  "slug": "sos-wallet",
+  "title": "SOS Wallet",
+  "tagline": "SOS wallet – Decentralized Wallet with SMS + Blockchain Transfers",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n0417/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WC2PQHIknW8Xhdo7vZcvI2KzRlJnBWxEUX4N02hVU00g8/high.mp4",
+  "demo_url": "https://v0-sos-wallet.vercel.app/",
+  "source_url": "https://github.com/navy0110/SOS-wallet",
+  "prizes": [
+    {
+      "sponsor": "EVVM",
+      "sponsor_id": "gatm1",
+      "placement": "Feedback on EVVM or MATE Metaprotocol",
+      "title": "Feedback on EVVM or MATE Metaprotocol"
+    }
+  ],
+  "finalist": false,
+  "description": "SOS Wallet is a powerful open-source decentralized wallet designed to maximize accessibility, scalability, and cross-chain interoperability. It combines a robust software architecture with an SMS-based transfer layer, enabling users to perform blockchain transactions even in low-connectivity environments.\nIts most recent and significant feature is the integration of the Fisher Capture mechanism, focused on the validation and secure submission of advanced transactions to the EVVM network.",
+  "how_its_made": "SOS Wallet was built as a proof-of-concept (PoC) to solve the problem of accessibility in low-connectivity areas, primarily by bridging the ubiquitous SMS network with the decentralized blockchain space.\nThe Architecture: Piecing It Together\nThe architecture is cleanly separated into two main domains: the SMS Transaction Layer and the Blockchain Core Layer, orchestrated by the API/Router.\n\nA. The SMS Transaction Layer (The \"Hack\")\nThis layer is where the core innovation and the \"hacky\" complexity reside:\n\nWebhook Listener: A dedicated /sms/inbound API endpoint (an Express route) listens for incoming messages from the Twilio/Vonage webhook.\n\nMessage Parser: The sms-service/ module takes the raw message body (e.g., SEND 10 ETH to 0x123...) and parses it using RegEx into structured commands ({ action: 'SEND', amount: 10, token: 'ETH', recipient: '0x...'}).\n\nAuthentication and Validation:\n\nThe sender's phone number is mapped to a pre-registered Public Key/Wallet Address stored in the PostgreSQL metadata table.\n\nA rate limit (managed by Redis) is applied to prevent spam or DoS attacks via SMS.\n\nTransaction Builder: The structured command is passed to the transactions/ module, which fetches the nonce, estimates gas via Ethers.js, and builds the raw, unsigned transaction payload.\n\nThe \"Hacky\" Signing Challenge: You cannot sign a transaction securely via SMS.\nOur Solution (The PoC \"Hack\"): For the PoC, we employed an off-chain signing server (isolated). The SMS module passes the hash of the transaction to this dedicated server via a secure, one-time endpoint. This server signs the transaction using a Hot Wallet Private Key (stored in a strictly secure, non-public environment) and returns the signed transaction back to the main API for broadcasting.\nThe Fisher Capture component is built into the Next.js frontend and leverages the fisher-utils.ts module: EIP-191 Message Generation: fisher-utils.ts uses the keccak256 hashing function (available in Ethers.js utils) to construct the precise message digest, prefixed as per EIP-191/EIP-712 standards for structured data signing.$$\\text{EIP-191 Message} = \\text{keccak256}(\\text{0x19} || \\text{0x00} || \\text{domainSeparator} || \\text{messageHash})$$Wallet Simulation: Since we cannot use a real external wallet like MetaMask inside the PoC, the Simulated Wallet Company Integration is a React hook that mimics a Web3 provider (window.ethereum) to call an internal signing function using a development private key (only available in the local environment) to demonstrate the signing flow.Direct EVVM Submission: Once the client-side component receives the valid signature, the transaction is bundled and sent to a dedicated API endpoint (/api/evvm/submit), which uses our configured Alchemy/QuickNode RPC provider specifically linked to the EVVM network to call provider.sendTransaction(signedTx).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sos-wallet-n0417",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

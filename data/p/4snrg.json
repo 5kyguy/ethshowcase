@@ -1,0 +1,41 @@
+{
+  "id": "4snrg",
+  "slug": "secret-fans",
+  "title": "Secret Fans",
+  "tagline": "Secretfans lets you be a top fan of content creators and download their exclusive NFTs and make money from the subscriptions share market",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4snrg/banner/default.jpg",
+  "demo_url": "https://youtu.be/eJ2IuN6pq4k",
+  "source_url": "https://github.com/secretfans-eth/secretfans",
+  "prizes": [
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "Deploy on Scroll",
+      "title": "Deploy on Scroll"
+    },
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "MetaMask",
+      "sponsor_id": "4pn9u",
+      "placement": "Runner Up",
+      "title": "Best Metamask Snap"
+    }
+  ],
+  "finalist": false,
+  "description": "Create Private NFTs (DMs)\nSend\nConnect wallet\nUse Web3Modal V3\nCreate random encryption key (from now on refered as content encryption key or CEK) (arnau: go back to prvious research, to get encryption schema)\nUpload content to be encrypted\nEncrypt content\nUpload encrypted content to IPFS using NFT Storage\nshould qualify for IPFS challenge\nSpecify destination public key. NOTE that public key != ethereum addr, but the public key can be deducted from an Ethereum tx. Ideally, the frontend should be able to ask user for Ethereum address or ENS, and find the public key on it’s own. But, just in case let’s give the option to manually input public key\nUse ENS to get address, potentially qualify for ENS challenge\nEncrypt the CEK for the destination address (from now on refered as encrypted content encryptopn key or ECEK)\nCreate NFT: owner destination address, link to IPFS for the encrypted content and the ECEK + image of a vault to be displayed by default NFT explorers, in the message description specify that the NFT is encrypted and that they need to go to projectName.ens to decrypt (helps qualifying for ENS challenge)\nDeploy on [Gnosis, Linea, Scroll, Base] to qualify for their respective challanges (is it posible to deploy on many chains and win all challenges? If so, maybe explore cross-chai features?)\n(optional) use Push Protocol to send notifications for the receivers?\n(optional) use Web3Inbox to send a message of the NFT link to be downloaded?\nReceive\nConnect wallet\nFrontend queries events of NFTs minted / transfered to this address\nList encrypted NFTs with decrypt button\nOn decrypt:\nDownload encrypted file from IPFS\nBuild or use MM snap to decrypt the ECEK and obtain the CEK\nDecrypt the file using the CEK\nDownload the file on the users machine\nTransfer\nConnect wallet\nFrontend queries events of NFTs minted / transfered to this address\nList encrypted NFTs with send button\nOn send:\nSpecify receiver (… needs public key)\nBuild or use MM snap to decrypt the ECEK and obtain the CEK\nEncrypt the CEK for the destination public key (generate new ECEK)\nBuild a ZKP that demonstrates that both the new and the old ECEKs devrypt to the same CEK\nMint / Transfer the NFT to the destination address, after verifying ZKP\nTrading / auction\nNeeds research on how the transfer / sell interfaces work for NFTs. Following section describes a potential flow that may NOT fit actual standards for ERC721 and ERC1155. Also would be nice to research how NFTs are traded on LENS\n\nBidder\nConnect wallet\nInput ID of the NFT that wants to buy\nThis should be easy to acheive by learning the ID / link from other NFT exchanges\nGenerate links that can be posted on social media and others for owners to promote their NFTs\nLocks some amount of ERC20 tokens ==> emit offer event\nUse Unlimit Crypto for fiat payments\n(Also needs to implement feature to cancel the bid and unlock tokens)\n\nSeller\nConnect wallet\nFrontend queries events of NFTs minted / transfered to this address\nList encrypted NFTs with sell button\nOn sell:\nList received bids\nPress sell on a specific bid, and get public key of the bidder\nBuild or use MM snap to decrypt the ECEK and obtain the CEK\nEncrypt the CEK for the destination public key (generate new ECEK)\nBuild a ZKP that demonstrates that both the new and the old ECEKs devrypt to the same CEK\nMint / Transfer the NFT to the destination address, after verifying ZKP\nPUB / SUB (OnlyFans)\nSubscribe\nNFTs that represents a subscription to the content published from a specific Ethereum address. All the value of buying a subscription NFT will be locked by the publisher to collect, when it publishes content, except a % buyerFee defined by governance, that will tax part of the sells to fund a protocol treassury\n\nRegister: in order to be able to subscribe, each account will need to register a public key (mapping addr => pubKey)\nSubscription can only happen through our SC. This NFTs can not be transferred by any other means that the ones explained here\nOnly buy w/ETH (or native token)\nFixed supply per address per (1 publisher : N subs). N defiened by governance\nMinPrice defined by governance: minimum price to pay to mint a sunscription NFT\nOnce all minted, a buyer can buy a specific subscription NFT, without the agreement of the holder, as long as it pays more money than the value left on the subscription (more on this later). The previous holder will be compensated by the amount of money left + % sellerFee defined by governance\nPublish\nEncrypted content distributed in the form of NFTs that the publisher (identified by an Ethereum addr) will publish, and will be accessible to their subscribers\n\nCreate NFT\nMint NFTs for all the subscribers\nSend ECEKs in the calldata, verify that all the subs have it\nWhen doing a post collect `% publisherFee defined by governance\n",
+  "how_its_made": "framework : scaffold eth, nextjs frontend, smart contracts solidity.\nWe implemented some metamask snaps to encrypt and decrypt the NFT content. We also wrote an algorithm for ZKP using noir. We also added a proof of personhood functionality using worldcoin which gives content creators and subscribers the option to prove that they are not bots. We also deployed the smart contract on scroll, base, gnosis, sepolia, and goerli. We also created channels on push protocol to send notifications of new NFT releases to subscribers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/secret-fans-4snrg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

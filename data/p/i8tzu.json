@@ -1,0 +1,35 @@
+{
+  "id": "i8tzu",
+  "slug": "tortoise-registry",
+  "title": "Tortoise Registry",
+  "tagline": "The Tortoise Rights Registry allows indie musicians to license their music for AI training. ",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i8tzu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/irxD02Xdv82BG88hKrymJ02aBLeN9rpdDcxJJGMjs1q6w/high.mp4",
+  "demo_url": "https://tortoise-rights-registry.vercel.app/song/licensetest5",
+  "source_url": "https://github.com/mtple/tortoise-rights-registry",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Major labels are signing multimillion-dollar deals to license their catalogs for AI training. The Tortoise Rights Registry gives indie artists a way to opt in: when an artist uploads a song to Tortoise, they can grant AI-training licenses for it. Model developers buy those licenses in USDC, and every step, the artist's consent, the license terms, the purchase, is recorded so anyone can verify it independently, without trusting Tortoise or any other party. The audio and a consent manifest live on Walrus, each licensed song gets a human-readable name via an ENS subname under tortmusic.eth, and a standalone verification script lets anyone confirm every claim onchain. It ships as an open-source feature on top of Tortoise, a live music platform with 500+ artists and 1,800+ songs.\n\nThe current version focuses on individual songs, but the final version will focus on license packages. AI companies want to license a lot of music at once, so the goal is to build a catalog that can be sold, attributed, and compensated properly. ",
+  "how_its_made": "Since the Tortoise app repo is closed source, this feature was built in an entirely separate repo using data from the main app. This is why you must paste the song slug into the app. The production version would be an option to opt in to licensing when uploading in the Tortoise app. \n\nI integrated Walrus, Arc, and ENS technologies. Walrus provides decentralized storaged for the license manifest and the audio file. This is great for the manifest as a place to store that can be trusted. The audio file being stored there is an experiment to see how walrus handles audio being stored, since I am looking for options to move away from IPFS for music storage. Each song that has licenses available gets an ens subdomain songtitle.tortmusic.eth, which points to the license. The ens name acts as a human readable namespace that allows music licenses to be more discoverable. License purchases happen on Arc in USDC.\n\nThe app has a three-layer architecture, no database. (1) Contracts (Foundry/Solidity): TortoiseRightsRegistry records EIP-712 consent and sells per-song USDC licenses via portable ERC-20 approve→transferFrom; consent is verified on-chain with OpenZeppelin SignatureChecker (ERC-1271-aware, so smart wallets work). (2) Storage: audio + a consent manifest go to Walrus, content-addressed so the bytes can't be altered. (3) Naming: ENS subnames via a Durin L2Registry on Base (Durin's CCIP-Read can't prove a non-rollup L1, so ENS deliberately stays on Base). Canonical state lives on-chain + Walrus + ENS — no DB — which is exactly what makes every claim independently verifiable by a zero-dependency (viem-only) script.",
+  "auto_summary": "A Next.js and Foundry project records artist consent, stores license artifacts on Walrus, mints ENS subnames, and sells song licenses in USDC.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tortoise-registry-i8tzu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

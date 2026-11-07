@@ -1,0 +1,27 @@
+{
+  "id": "f69m7",
+  "slug": "onvo",
+  "title": "Onvo",
+  "tagline": "On-chain verified invoicing: create, hash & pay B2B invoices in stablecoins with World ID proof.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f69m7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/GkC5AzSvBsIxtv3iVr9C3S02V3siGj1BDCdxQOAlWCjQ/high.mp4",
+  "demo_url": "https://onvo-umber.vercel.app/",
+  "source_url": "https://github.com/Aytorex/onvo",
+  "finalist": false,
+  "description": "Onvo is a B2B invoicing platform where freelancers and businesses issue certified invoices anchored on-chain. Every invoice PDF is hashed with SHA-256 and its fingerprint is permanently recorded on Circle's Arc testnet, making it tamper-proof and publicly auditable. Emitters must verify their humanity through World ID 4.0 before they can create any invoice — the smart contract enforces this by requiring on-chain emitter registration tied to a unique nullifier hash. The creation flow is seamless: a split-screen mega-form with real-time HTML preview generates a professional PDF (with optional Factur-X XML for EU e-invoicing compliance), computes its hash, and submits a transaction to the InvoiceRegistry contract — all in one click. Clients receive a unique payment link, connect their wallet, and pay directly in EURC or USDC on Arc. Invoice statuses (PENDING, PAID, CANCELLED) live entirely on-chain, giving both parties a single source of truth with no intermediary. The dashboard lets emitters track, cancel, and export invoices at any time. Onvo turns invoicing from a trust-based paper process into a cryptographically verified, stablecoin-native workflow.",
+  "how_its_made": "We built Onvo as a Bun workspace monorepo with two packages: a Next.js 16 frontend (React 19, App Router) and a Hardhat 3 + Foundry backend for smart contract development. The InvoiceRegistry.sol contract is deployed on Arc testnet (chain 5042002) and handles the full invoice lifecycle — creation with PDF hash storage, stablecoin payment with configurable commission splits via safeTransferFrom, and cancellation. Invoice IDs use a custom packing scheme: 160 bits derived from the World ID nullifier hash, plus year, month, and a 40-bit sequence counter, all encoded into a single uint256 for gas-efficient on-chain indexing.\n\nWorld ID 4.0 integration runs through IDKit on the client and server-side proof verification against World's v4 API via Next.js route handlers. A trusted verifier pattern bridges off-chain identity to on-chain access: our backend wallet calls registerEmitter() after successful proof validation, binding a wallet address to its nullifier hash. The contract then enforces that only verified emitters can create invoices — no proof, no invoice.\n\nPDF generation uses pdf-lib entirely client-side, producing A4 documents with embedded Factur-X XML attachments for EU e-invoicing standards. The SHA-256 hash is computed in-browser before the on-chain transaction fires. We use wagmi + viem for all contract interactions, with the injected() connector supporting Rabby, MetaMask, and hardware wallets. For Ledger support, we integrated the ERC-7730 v2 Clear Signing descriptor so transaction fields display human-readable labels on device screens. The frontend stores invoice metadata and PDF blobs in localStorage keyed by wallet + nullifier — a deliberate choice to avoid centralized storage while keeping the chain as the authoritative status layer. Arc's EVM compatibility let us deploy standard Solidity with zero modifications, and ArcScan integration gives full contract verification and transaction tracing out of the box.",
+  "auto_summary": "A monorepo for creating, hashing, registering, and paying on-chain invoices with World ID-gated emitters on Arc testnet.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/onvo-f69m7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "wbxma",
+  "slug": "arcflow",
+  "title": "ArcFlow",
+  "tagline": "Cross-chain intent protocol — interact with Arc DeFi from any EVM chain, no bridging needed.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wbxma/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9nblwz9w56twOyWXYztyC21Xk7pjfV8o5z1e02O45xXg/high.mp4",
+  "demo_url": "https://eth-global-online-2026.vercel.app/",
+  "source_url": "https://github.com/marotipatre/ETHGlobal-Online-2026",
+  "finalist": false,
+  "description": "ArcFlow is a cross-chain intent forwarding protocol that lets users interact with Arc-native DeFi applications directly from any supported EVM chain — Somnia, Base Sepolia, Monad Testnet — without bridging or switching networks.\n\nUsers sign a single transaction on their preferred source chain. ArcGateway emits an intent event, a permissioned relayer picks it up and executes it on Arc Testnet via ArcExecutor, which maps each external wallet to a Universal Arc Account. The result is seamless cross-chain DeFi: one wallet, any chain, instant execution.\n\nThe primary feature is an Arc-native Stablecoin Vault — users can deposit, withdraw, and harvest yield on Arc USDC through intents submitted from any supported source chain. Counter and Todo demos are included as live testable examples of the intent pipeline in action.\n",
+  "how_its_made": "ArcFlow is built on a three-layer architecture: source chain contracts, an off-chain relayer, and Arc Testnet execution contracts.\n\nOn the source side, ArcGateway.sol (deployed on Somnia, Base Sepolia, and Monad Testnet) accepts user-signed intent transactions and emits IntentForwarded events with nonce-based replay protection. No state is stored — it's a pure event emitter.\n\nThe relayer is a TypeScript/Node.js service that polls source chains for events, validates intent targets against an allowlist, and submits execution transactions to Arc Testnet via ArcExecutor.sol. It handles retries, duplicate protection, health reporting, and writes intent history to a JSON endpoint consumed by the frontend.\n\nOn Arc, ArcExecutor.sol verifies relayer authorization, maps each external wallet address to a deterministic Universal Arc Account, and calls the target contract — Vault, Counter, or Todo — with a try/catch wrapper so failures are handled gracefully.\n\nThe frontend is built with Next.js 15, wagmi v2, RainbowKit, and TailwindCSS v4. Multi-source chain selection, intent submission, real-time status polling, and history are all handled through custom React hooks (useIntent, useVaultIntent, IntentFlowContext). The dark/lime RemitStar visual system is applied throughout.\n",
+  "auto_summary": "A Next.js and Hardhat project forwards user intents from several EVM testnets to Arc contracts for vault and demo app actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arcflow-wbxma",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

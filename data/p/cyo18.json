@@ -1,0 +1,30 @@
+{
+  "id": "cyo18",
+  "slug": "iwitness",
+  "title": "iWitness",
+  "tagline": "Combating AI fakes with hardware-attested stereo depth. A cryptographic Proof-of-IRL primitive.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cyo18/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xKEMfwwQxP02PyfEOdqtiR2SzmERwAw5RSi00Tq6JaHP00/high.mp4",
+  "demo_url": "https://i-witness-verify.vercel.app",
+  "source_url": "https://github.com/fabianferno/i-witness",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "2nd place",
+      "title": "Most creative use of ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "The Problem: The Dead Internet & The Erosion of Truth We are entering an era where seeing is no longer believing. Generative AI can synthesize photorealistic events that never happened, and \"KFC-bucket\" style exploits allow attackers to bypass biometric checks by holding photos of photos. Current solutions rely on metadata (easily forged) or centralized attestations (easily corrupted). We need a way to cryptographically prove that a captured image corresponds to a physical reality, not a digital fabrication.\n\nThe Solution: iWitness iWitness is a Proof-of-IRL (In Real Life) primitive. It is a hardware-software stack that combines stereoscopic physics with cryptographic hardware attestation to verify reality.\n\nUnlike standard cameras, our device uses dual-camera parallax to generate a real-time depth map of the scene. AI generation and 2D photos-of-screens fail this depth test because they are mathematically flat. We cryptographically bind this depth data to the image using a Secure Enclave, creating a signed \"Moment of Truth\" that is impossible to fake without the physical hardware.\n\nHow It Built It (The Architecture)\n\nTrusted Hardware: We built a custom rig using a Raspberry Pi 4 connected to two synchronized cameras.\n\nStereo Vision Logic: The device captures simultaneous left/right frames and computes a disparity map to generate a 3D depth representation of the scene.\n\nHardware Attestation: The raw frames and depth map are hashed together. This hash is signed inside the Pi’s Secure Enclave, ensuring the data originated from our specific hardware device and hasn't been tampered with.\n\nDecentralized Identity (ENS): We use ENS as our Public Key Infrastructure (PKI). Each valid camera device is issued a subname (e.g., cam01.iwitness.eth). The verification client checks if the signer’s address holds a valid subname to confirm it is a trusted device.\n\nStorage: The signed payload (Images + Depth Map + Signature) is pinned to IPFS/Filecoin for immutable, censorship-resistant storage.\n\nVerification: A client-side web app fetches the IPFS CID, recovers the signer address, verifies the ENS subname ownership, and validates that the depth map contains sufficient 3D variance to pass the \"Liveness\" threshold.\n\nWhy This Matters iWitness creates a new standard for trust. It can be used for citizen journalism in conflict zones, verifiable supply chain tracking, and fraud-proof insurance claims. We are moving verification from \"Trust me, I saw it\" to \"Trust the Physics, here is the signed depth map.\"",
+  "how_its_made": "We built iWitness by bridging the gap between embedded hardware and the Ethereum state.\n\nThe Hardware & Physics The core is a Raspberry Pi 4 interfaced with two synchronized cameras. We wrote a Python script using OpenCV to capture simultaneous frames. The \"hackiest\" part was tuning the StereoBM (Block Matching) algorithm to calculate the disparity map in real-time on the Pi’s limited CPU. This generates a grayscale depth map where pixel intensity represents distance—our cryptographic proof that the scene has physical volume and isn't a flat screen.\n\nThe Cryptography & Identity (ENS) Instead of building a centralized registry for our hardware, we hacked ENS to serve as our Public Key Infrastructure (PKI). We deploy a \"Hardware Registry\" logic where the iwitness.eth controller issues subnames (e.g., cam01.iwitness.eth) to the specific Ethereum addresses generated securely on the devices. On the device side, we use Web3.py to hash the raw image, the depth map, and the metadata, then sign it with the device's private key. This creates a non-repudiable link between the physical data and the on-chain identity.\n\nStorage & Verification We utilize IPFS (via Filecoin) to store the heavy payloads (the raw stereo images and the depth map). This ensures the evidence is immutable and decentralized. The frontend verification client is built with React and Wagmi. It fetches the IPFS data, recovers the signer's address from the signature, and performs a Reverse ENS Lookup. If the address resolves to a valid *.iwitness.eth subname, and the depth map data shows sufficient variance (passing our \"flatness threshold\"), the capture is marked as Verified IRL.\n\nPartner Technologies\n\nENS: Used as a decentralized Certificate Authority for hardware devices.\n\nIPFS/Filecoin: Used for censorship-resistant storage of the photographic evidence.\n\nPolygon/Base (Optional if you deployed there): Used for low-cost subname management transactions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/iwitness-cyo18",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,47 @@
+{
+  "id": "twp2a",
+  "slug": "arcbook",
+  "title": "ArcBook",
+  "tagline": "An onchain order book where makers publish executable curves instead of fixed-price orders.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/twp2a/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AOlXOKGIAShf9hwu00rEHFprAytGOmJyrrfefsvJVTkg/high.mp4",
+  "demo_url": "https://arcbook-nu.vercel.app",
+  "source_url": "https://github.com/Ryad2/liquid_OB",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "1st place",
+      "title": "Build an Aqua App"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "2nd place",
+      "title": "Best AI Tooling for The Graph"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Lisbon 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Traditional order books force market makers to split liquidity across many independent price-and-size levels, while conventional AMMs place everyone inside a shared pool curve. ArcBook introduces a functional order book in which every maker position is itself a bounded, executable pricing curve.\nA maker independently configures buy and sell inventory, starting and ending prices, and an alpha parameter that continuously shapes how liquidity is distributed through the range. Equal endpoint prices reduce to an ordinary fixed-price limit order, so the classical order book is a special case. As one side executes, the assets received are automatically recycled into the opposite side while preserving its current marginal price. Makers therefore express an entire execution policy with one position instead of continuously cancelling and replacing a ladder of orders.\nArcBook indexes every active position, reconstructs its live marginal state, and lets a deterministic solver split exact-input or exact-output trades across multiple makers. The selected fills settle atomically on Base Sepolia, so a route either completes within its aggregate limit or fully reverts. The live application supports publishing positions, visualizing their shapes, obtaining quotes, executing multi-maker routes, following activity, and docking liquidity",
+  "how_its_made": "ArcBook is a TypeScript and Solidity monorepo. The onchain system uses Solidity 0.8.30 and Foundry. A fixed-point curve kernel compiles each maker’s start price, end price, alpha, and reserve into direction-normalized SwapVM state. It handles the general power branch, the exact alpha-zero geometric limit, other singular analytical paths, and the equal-price flat-order extension.\nWe use the official 1inch Aqua contracts as the shared-liquidity and settlement layer. Makers publish immutable encoded strategies with Aqua.ship; tokens remain under maker ownership and Aqua allowances settle fills when the ArcBook router executes them. A custom SwapVM instruction performs exact-input and exact-output fills, updates runtime state, and atomically recycles incoming inventory into the position’s opposite curve without moving its marginal price.\nA native The Graph Subgraph indexes positions, curve sides, runtime updates, fills, atomic routes, markets, makers, and lifecycle events. The stateless solver API pins GraphQL reads to one indexed block, checks freshness against Base Sepolia, refreshes executable state through the Lens and Quoter contracts, ranks available curves, and returns bounded multi-maker calldata for the BatchExecutor. A public MCP server also exposes position discovery, ArcBook quotes, simulated candidate routes, and executable-liquidity comparisons.\nThe interface uses React, Vite, TypeScript, viem, and wallet-driven transaction plans. Vercel hosts the frontend, solver API, and MCP endpoints; The Graph hosts the live Subgraph; all contracts are deployed on Base Sepolia. Testing includes Foundry unit, integration, security and fuzz tests, Vitest coverage, an independent high-precision Python reference model, generated ABI checks, and a public zero-localhost release verifier.",
+  "auto_summary": "ArcBook is a monorepo for an onchain functional order book with custom Aqua/SwapVM settlement, a native The Graph subgraph, solver APIs, and an MCP service.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arcbook-twp2a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

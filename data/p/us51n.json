@@ -1,0 +1,35 @@
+{
+  "id": "us51n",
+  "slug": "pista",
+  "title": "Pista",
+  "tagline": "Real time Blockchain scanner that aims to mitigate fraud and malicious activities leveraging AI",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/us51n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/baaPz8tMpb5aSNJHAsl01EuHRIgrILBxEoSsOmW1QSzo/high.mp4",
+  "demo_url": "https://pavesini.github.io/pista/app.html",
+  "source_url": "https://github.com/pavesini/pista",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "1st place",
+      "title": "Best AI Tooling for The Graph"
+    }
+  ],
+  "finalist": true,
+  "description": "Smart contracts are blind. They can check who is calling and when, but they have zero awareness of context: a wallet's history across protocols, abnormal market conditions, or a slow-drain attack that's only visible once you zoom out. Coding that kind of detection logic into Solidity is slow, rigid, and expensive, and by the time you've upgraded the contract, the attacker has already moved on.\n\nhttps://pavesini.github.io/pista/\n\nPISTA fixes this by giving smart contracts a brain outside the EVM. It's an off-chain intelligence layer that watches on-chain activity in near real time and fires back on-chain action the moment something looks wrong. A Substream, built with The Graph's substream-devs tooling, streams every block into ClickHouse, an AI/LLM-native database built for real-time analytics and queryable in plain SQL. An AI agent continuously scores that data against adaptive behavioral baselines, and when it flags a deviation, PISTA can react pausing a contract, blacklisting an address, moving or trading funds, freezing a card, or firing an alert, on-chain or off, depending on what the situation calls for.\n\nWhat sets it apart is that it requires zero integration from protocol teams, since it can monitor contracts it doesn't own or control. Its rules aren't static: they can be changed though time and adapts as conditions shift, so a bull market and a bear market are judged differently. Because it flags deviation from baseline rather than matching known attack signatures, it may flag novel fraud patterns that rule-based systems miss entirely. All the heavy computation happens off-chain, so gas is only ever spent on the final action, and because a single instance can watch multiple contracts and protocols at once, it correlates signals no individual contract could ever see on its own. The response window between detection and action is measured in seconds, not the days or weeks a governance vote would take.\n\nReal-world applications range from AML enforcement for exchanges and MiCA compliance to stopping novel protocol exploits and outsourcing complex, evolving risk logic that would be impractical or impossible to bake directly into a smart contract.\n\nThe demo ships with a working end-to-end pipeline: a local Substreams is fed into ClickHouse, alongside a sample pausable contract, and a documented path to run the same stack live against Ethereum Sepolia.",
+  "how_its_made": "PISTA is built as a pipeline that turns raw blockchain activity into actionable, near-real-time risk decisions, split across three layers: data extraction and aggregation, storage/analytics, and AI-driven decisioning.\n\nData layer (The Graph Substreams): We wrote a custom Substreams module in Rust that subscribes to Ethereum block data, parsing, transforming and aggregating it into a FraudData protobuf message per block: gas utilization, failed/reverted transaction ratios, dust and stablecoin transfer signals, priority fees, and contract-creation/delegation activity. We used The Graph's substream-devs skill to accelerate writing the Substreams module and protobuf schema, and deployed it via The Graph Market's Hosted Services. This gave us high-throughput, parallelized indexing without running our own archive node.\n\nStorage layer (ClickHouse): Output is piped via substreams-sink-sql into ClickHouse, using its from-proto mode. Table DDL is auto-generated directly from schema.table/clickhouse_table_options annotations in our .proto file, no hand-written SQL schema. ClickHouse was chosen specifically because it's built for LLM/agent querying and real-time analytics in plain SQL.\n\nDecision layer (0g agent): A query script pulls the relevant aggregated data from ClickHouse, builds a prompt from it, and calls 0g to evaluate the data against adaptive behavioral baselines (not static rules). When 0g flags suspicious activity, the script triggers the corresponding on-chain actions (pausing a contract, blacklisting an address, moving funds) or off-chain actions (alerts, locking a card).",
+  "auto_summary": "A monitoring pipeline streams Ethereum block data into ClickHouse, applies AI-based anomaly checks, and can trigger smart-contract pause actions.",
+  "scores": {
+    "originality": 6,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pista-us51n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

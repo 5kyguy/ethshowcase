@@ -1,0 +1,27 @@
+{
+  "id": "qttea",
+  "slug": "tearrubr",
+  "title": "tearrubr",
+  "tagline": "Make it possible to verify a physical product without having to trust the seller.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qttea/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wDnSrLDSRzK02ZzmVrbfuT00B5Bc4EBJqm02zU6CMN02IDA/high.mp4",
+  "demo_url": "https://tearrubr.vercel.app/",
+  "source_url": "https://github.com/primidac/tearrubr",
+  "finalist": false,
+  "description": "TearRubr is a product authentication platform that gives physical products a verifiable digital identity.\n\nManufacturers register products with TearRubr and associate each product with a unique identifier. When a customer purchases an item, they can scan its TearRubr code and verify whether the product corresponds to a legitimate record.\n\nThe goal is simple:\n\nMake it possible to verify a physical product without having to trust the seller.\n\nTearRubr uses blockchain as a public, tamper-resistant verification layer while keeping application data and user-facing functionality in conventional infrastructure.",
+  "how_its_made": "TearRubr is built as an end-to-end physical product authentication platform that bridges industrial manufacturing lines with the Ethereum blockchain.\n\nArchitecture & Tech Stack:\n\nSmart Contracts & Blockchain: We authored and compiled the TearRubr.sol registry contract in Solidity using Hardhat and deployed it live to the Ethereum Sepolia testnet (0xa34C7D37BB2bf41f73e562075878E86eFc7Ed05B). Transactions are signed and broadcast server-side using Ethers.js v6 connected via Alchemy's Sepolia RPC API.\nFrontend & UX: Built with SvelteKit (leveraging Svelte 5 runes for reactive state) and custom Tailwind CSS.\nBackend & Storage: SvelteKit server endpoints handle on-chain transactions, supply-chain verification APIs, and persist local metadata with Drizzle ORM and SQLite (better-sqlite3).\nNotable Technical Solution (The Scalability Problem): High-volume FMCG goods (like Coca-Cola bottles) cannot afford an individual on-chain transaction for millions of units. To solve this, we engineered an industrial Batch Merkle Rollup engine:\n\nThe factory inputs batch parameters, and the system generates thousands of unique serialized product twins ([PREFIX]-[BATCH]-[INDEX]).\nWe compute a deterministic Merkle Tree Root across all serial hashes.\nOnly the single 32-byte Merkle root is committed on-chain in one transaction, making high-throughput production cost-effective.\nThe platform exports a factory-ready CSV print manifest directly compatible with industrial packaging laser coders (Videojet/Domino).\n",
+  "auto_summary": "A SvelteKit application and Solidity registry for registering and verifying physical products using Sepolia, SQLite, Privy authentication, and a custom The Graph subgraph.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tearrubr-qttea",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

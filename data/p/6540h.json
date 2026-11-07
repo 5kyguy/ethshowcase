@@ -1,0 +1,27 @@
+{
+  "id": "6540h",
+  "slug": "stage",
+  "title": "Stage",
+  "tagline": "Creator challenges that actually pay out - real Hedera tokens, gated by proof you're a human.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6540h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/gzz2xtjS6fEeZPCalY5oU4P01HMYuw8zd5ZE3O6his5w/high.mp4",
+  "demo_url": "https://github.com/BitterZluka/Stage",
+  "source_url": "https://github.com/BitterZluka/Stage",
+  "finalist": false,
+  "description": "STAGE is a place for creators to run challenges for their community and actually pay out in tokens that live on Hedera, not points in a spreadsheet. A creator spins up their own fungible token, posts a challenge (submit a video, a drawing, whatever), fans send in their entries, and once one gets accepted the reward moves on-chain automatically. Before any reward goes out we check the person is a real human with World's Selfie Check, so the whole thing can't get farmed by bots or alt accounts. Every important step - token creation, submission, reward, perk claim - also gets logged to Hedera Consensus Service, so there's a public, tamper-proof trail of what happened without exposing anyone's private info.",
+  "how_its_made": "It's a pnpm monorepo: Next.js on the frontend, NestJS on Fastify for the API, Postgres/Prisma as the source of truth, and a separate BullMQ worker that's the only thing actually talking to Hedera. A DB write and a Hedera transaction can't be atomic, so every blockchain action goes through an outbox table first - the API commits the intent in the same transaction as the domain change, then the worker picks it up and executes it idempotently through our HederaProvider abstraction, which wraps the Hedera SDK for HTS token create/mint/transfer and HCS message submission. Balance reads go through Mirror Node with retries since indexing lags a few seconds. On the wallet side we support Hedera WalletConnect (HashPack, etc.) for native signing, plus a MetaMask path - for token association specifically we call the IHRC-719 facade contract directly (the associate() selector) so EVM wallets can associate an HTS token without ever touching the Hedera SDK. World ID's Selfie Check gates reward payouts to stop sybil farming. No Solidity anywhere, everything runs on native Hedera services.",
+  "auto_summary": "A monorepo for creator challenges that issues Hedera tokens, records audit events on HCS, and gates rewards with World Selfie Check.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/stage-6540h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

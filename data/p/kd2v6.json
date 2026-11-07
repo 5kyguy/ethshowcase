@@ -1,0 +1,22 @@
+{
+  "id": "kd2v6",
+  "slug": "glide",
+  "title": "Glide",
+  "tagline": "Self custodial glide path liquidity on 1inch Aqua, reachable through a Uniswap v4 hook.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kd2v6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CK9oKS6YSXvw34022Ca9eTrUohBFDWz02wJPn1yGXg51Q/high.mp4",
+  "demo_url": "https://glide-blush.vercel.app",
+  "source_url": "https://github.com/prkpndy/glide",
+  "finalist": false,
+  "description": "Glide lets a wallet rebalance itself without ever depositing into a pool. The maker keeps tokens in their own wallet and publishes a glide path: the value split now, the split they want, and a time window. Glide prices the wallet like a weighted AMM whose weights slide along that path. Whenever the market moves, an arbitrageur can profit by trading against the position, and every such trade walks the wallet toward the target while paying the maker a fee. Instead of paying slippage to sell at once or fees to a bot, the maker collects fees. It is a liquidity bootstrapping pool for a single wallet, with no pool contract holding the money. Positions live on 1inch Aqua, so tokens are pulled only when a trade executes.\nA Uniswap v4 pool with a custom hook forwards any Uniswap swap into the position, so routers and aggregators reach it while the pool itself holds no liquidity. Paths can be linear or any piecewise schedule: ease-in, S-curve, hold-then-move. The demo ships a USDC/WETH position on a Unichain fork, an arbitrage loop keeps the pool at the reference price, and the maker's value share tracks the path while fees accrue in their wallet.",
+  "how_its_made": "Glide is two new SwapVM instructions in a redeployed router, settling through the official 1inch Aqua registry on Unichain. GlideSwap moves the token A weight in a straight line between two endpoints; GlideSwapPiecewise follows a schedule of up to 20 segments. Both apply a weighted constant-mean curve modelled on Balancer V2 math, using solady's powWad with an upward error bump so every rounding step favours the maker. Schedule and curve had to live in one instruction, because SwapVM instructions can only talk to each other through the four swap registers. In Aqua mode the program is stateless: balances come from Aqua on every quote, and fees land as tokenIn in the maker's own wallet.\n\nThe Uniswap side is a v4 hook using beforeSwap custom accounting. It takes the swapper's input from the PoolManager, fills against the Aqua order through the router, settles the output back, and returns a delta that consumes the whole specified amount. Liquidity adds are refused, so the pool never holds tokens.\n\nTests: fuzz against an unrounded reference, 1inch's CoreInvariants suite at fixed, extreme and mid-glide weights, hook tests on a fresh PoolManager, and a fork test against the real Aqua and PoolManager. 47 green.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/glide-kd2v6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

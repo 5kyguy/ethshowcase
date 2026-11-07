@@ -1,0 +1,22 @@
+{
+  "id": "wwzc2",
+  "slug": "tatkal60",
+  "title": "Tatkal60",
+  "tagline": "60-second price game on Hedera with Pyth BTC feed + CCIP cross-chain funding.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wwzc2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SxJpJQ6Kn00yaFr00uupkkyKUZUo6pSSjDPYDwgIrjsA00/high.mp4",
+  "demo_url": "https://tatkal60.onrender.com",
+  "source_url": "https://github.com/nigsdev/Tatkal60",
+  "finalist": false,
+  "description": "Tatkal60 is a fast, fair, on-chain micro-market built on Hedera EVM. Every 60 seconds a round opens where users bet UP/DOWN on BTC/USD. Prices are secured by Pyth Network and pushed on-chain right before resolve to prevent stale data. Funding is native HBAR today, with a built-in Chainlink CCIP Receiver to accept deposits from Ethereum (Sepolia) → Hedera for cross-chain onboarding.\n\nWhy it matters\n- Brings sub-minute prediction gameplay to Hedera with verifiable settlement.\n- Eliminates oracle games: rounds resolve only after a fresh Pyth update is posted.\n- Cross-chain UX: users on Ethereum can fund play on Hedera via CCIP (receiver live in contracts).\n\nHow it works\n1. EscrowGame.sol manages 60s rounds, pools, fees, and pro-rata payouts (or refunds on flat outcomes).\n2. OracleAdapter.sol reads BTC/USD from Pyth; UI can “Refresh Pyth” (Hermes → on-chain) to ensure a fresh update.\n3. CCIPReceiver.sol listens for approved CCIP messages (Sepolia) and credits the user on Hedera, enabling cross-chain funding.\n4. Frontend (React + Tailwind) shows live on-chain price with Hermes fallback, wallet balance, rounds list, and 1-click bet/claim with Hashscan links.\n\nTech & integrations\n- Hedera EVM + optional HTS usage.\n- Pyth BTC/USD feed (Hermes updates posted on-chain; freshness window set to 75s for 60s rounds).\n- Chainlink CCIP (Sepolia → Hedera) for cross-chain deposits via our CCIP Receiver contract.\n- Wallets: MetaMask (MVP).\n\nRoadmap\n- Enable CCIP withdrawals (Hedera → Sepolia) and multi-asset markets.\n- Add native Hedera wallets (HashPack/Kabila) and MetaMask Snap.\n- Expand to more Pyth symbols and HTS-hybrid rewards.",
+  "how_its_made": "We built Tatkal60 on Hedera EVM with a small set of Solidity contracts:\n- EscrowGame.sol – manages 60-second rounds, pools, fees, and pro-rata payouts (or refunds on flat outcomes).\n- OracleAdapter.sol – reads BTC/USD from Pyth. We post fresh updates via Hermes → updatePriceFeeds before resolve so the read is never stale.\n- CCIPReceiver.sol – Chainlink CCIP entrypoint to accept cross-chain deposits (Sepolia → Hedera) for funding rounds. (Receiver live; sender flow documented for next iteration.)\n\nFrontend is React + Vite + Tailwind with ethers v6 and Zustand for a tiny wallet store (MetaMask for MVP). The UI shows a live on-chain price (fallback to Hermes if stale), wallet balance, round list, \nand one-click bet/resolve/claim with toasts and Hashscan links.\n\nDev notes / hacks that helped:\n- Hedera requires non-zero msg.value ≥ 1 tinybar; our Pyth helper auto-bumps the fee to pass node validation.\n- We tuned a freshness window = 75s (60s round + buffer) and made it env-configurable.\n- Read model loads nextRoundId() and getRound(id); if unavailable it reconstructs from events as a fallback.\n- All addresses/ABIs are chain-scoped via env (e.g., _296 for testnet), which kept deploys painless\n\nStack: Hedera EVM (+ HTS ready), Solidity/Hardhat, Pyth (Hermes + on-chain program), Chainlink CCIP, React/TypeScript, Tailwind, Vite, ethers v6.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tatkal60-wwzc2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

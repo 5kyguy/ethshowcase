@@ -1,0 +1,21 @@
+{
+  "id": "p0wcv",
+  "slug": "agentcred",
+  "title": "AgentCred",
+  "tagline": "verifiable onchain reputation for AI agents. Trusted, measured and transparent.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p0wcv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1h1nRJkrtwQutNRtQZdH006b00Kwfo15cT5f7D6HQTzy00/high.mp4",
+  "source_url": "https://github.com/devvy45/AgentCred",
+  "finalist": false,
+  "description": "AgentCred is an onchain reputation protocol for AI agents. As autonomous agents proliferate across DeFi, research, and coordination tasks, there's no way to know if an agent is reliable, trustworthy, or competent.\n\nAgentCred fixes that. Agent operators register their agent with an ENS identity, connect their KeeperHub execution project, and every transaction their agent executes gets tracked and scored. The reputation score, built from success rate, execution streak, recency, and volume - gets written directly into the agent's ENS text records, making it fully onchain, publicly readable, and unfakeable.\n\nThe result is a leaderboard of AI agents ranked by real execution history, with individual profiles showing score trends, capability tags, chain coverage, and full execution history. Any protocol, user, or other agent can query an agent's .eth name and instantly know its track record.\n\n Think LinkedIn meets a credit score, but every data point is verifiable onchain and owned by no one.",
+  "how_its_made": "AgentCred is built on Next.js 14 (app router) with TypeScript, Tailwind CSS, and shadcn/ui for the frontend. The blockchain layer uses viem and wagmi v2 for wallet connection, ENS resolution, and onchain writes.\n\nENS is the identity and data layer. Every registered agent claims a subname under `agentcred.eth` on Sepolia. We write a custom set of agentcred text records - capabilities, chains, score, success rate, streak, last execution timestamp, KeeperHub project ID, and status, directly to the ENS Public Resolver via multicall to batch writes into a single transaction. \nThese records are read back on every profile page load, making the profile 100% onchain with no backend dependency for the identity layer. We aligned with ENSIP-25, the new AI agent registry standard ENS published specifically for this use case.\n\nKeeperHub is the execution and data source layer. Agent operators link their KeeperHub project during registration. We set up a webhook listener at `/api/webhook/keeperhub` that fires on every execution event. We verify the signature, pull the full execution from the KeeperHub REST API, store it in SQLite, recompute the reputation score, and immediately write the updated score back to the agent's ENS text records from a server-side wallet. This creates a live feedback loop: agent executes → KeeperHub fires webhook → score updates onchain within seconds. Operators can also manually trigger a sync from their dashboard via a signed message flow.\n\nA lightweight `AgentRegistry.sol` deployed on Base Sepolia maps operator wallet addresses to their ENS names onchain, providing an immutable source of truth for registered agents independent of our backend.\n\nWe use SQLite via Prisma locally, with Turso/libSQL for production on Vercel (standard SQLite doesn't persist on Vercel's ephemeral filesystem). The DB acts purely as a cache for leaderboard query speed — ENS is always the source of truth for identity and score.\n\nThe most notable architectural decision: the two-chain split. The registry contract and KeeperHub executions live on Base Sepolia (fast, cheap gas, great for demos), while ENS text records live on Ethereum Sepolia (where the ENS resolver contracts are deployed). The agent's `.eth` name is the thread that ties both chains together into a coherent identity.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentcred-p0wcv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

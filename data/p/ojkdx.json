@@ -1,0 +1,27 @@
+{
+  "id": "ojkdx",
+  "slug": "nanoaffliate",
+  "title": "NanoAffliate",
+  "tagline": "Affiliate payouts by the second, not the month — verified human, settled on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ojkdx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2ZabK8YQLGY6UsaT8kPiEoCasQtPxUjAgi0100Q6l7AU8/high.mp4",
+  "demo_url": "https://nanoaffliate.vercel.app/",
+  "source_url": "https://github.com/dumprahul/NanoAffliate",
+  "finalist": false,
+  "description": "NanoAffiliate is a pay-per-second affiliate marketing platform built natively on Hedera. Instead of the usual pay-per-click model — where creators wait 30–90 days for commissions and sellers pay for traffic that's often fraudulent — we meter and pay out real, verified human attention in 5-second intervals, settled instantly on-chain.\n\nAt the center is our Attention Trust Oracle: a real x402-gated service on Hedera that scores every 5-second interval of a reader's session — tab activity, interaction patterns, scroll behavior, device signals, and cross-session diversity — and returns a trust verdict. Our Hedera Agent calls it autonomously, pays for every call via x402, and when a session is verified, pays the creator directly through a native Hedera transfer from the seller's on-chain escrow. Sessions that stay ambiguous get escalated to a Selfie Check, a biometric liveness proof that also unlocks a premium, verified-attention pricing tier.\n\nEvery affiliate link is its own dedicated Hedera Consensus Service topic — the same identifier a creator shares as a link is the identifier anyone can paste into a public Hedera explorer to see that link's complete, tamper-proof history of clicks, attention ticks, and trust decisions. Both the Oracle and the Agent carry portable HCS-14 identities, so the service relationship being paid for is provably real, not just an account number paying another account number.\n\nThe result: creators get paid in real time instead of months later, sellers only pay for attention that's actually verified rather than guessed at, and the entire system is independently auditable by anyone — not because we ask you to trust our dashboard, but because you don't have to.",
+  "how_its_made": "NanoAffiliate is built entirely on Hedera's native services, deliberately avoiding smart contracts since none of the logic requires on-chain computation — the Consensus, Account, Crypto Transfer, and Schedule services do everything needed.\n\nThe core loop: every affiliate link is its own dedicated HCS topic, created at link-generation time — the topic ID doubles as the shareable URL, so pasting a link into a browser redirects to the product, and pasting the same ID into HashScan shows that exact link's full, tamper-proof click/attention/trust history. Every 5 seconds a reader is on the page, our Hedera Agent (built on Hedera Agent Kit, running autonomously) calls our Attention Trust Oracle — a stateless Express service scoring tab state, interaction recency, scroll naturalness, device fingerprinting, and cross-session diversity. That call is gated by @x402/hedera, settled through the Blocky402 testnet facilitator — a real, metered, pay-per-call service, not a free internal function dressed up as one. When a tick passes, the Agent fires a separate, plain Hedera TransferTransaction from the seller's escrow to the creator — deliberately not x402, since there's no resource being gated on a push payment, just a payer and a payee.\n\nIdentity: the Oracle and Agent each carry an HCS-14 UAID — a SHA-384 hash of six canonical fields (registry, name, version, protocol, native Hedera account ID, skills), deterministic and independently recomputable by anyone, with HCS-11 profile documents published to a shared identity-registry topic.\n\nEscrow: every seller gets their own distinct Hedera account, but all of them share one key — the Agent's own — so payouts need no per-seller secret lookup, while balances stay individually verifiable on Mirror Node.\n\nPartner tech: Blocky402 for x402 settlement, World ID's Selfie Check for the one fraud signal that's a genuine hard stop rather than a heuristic — a bot farm can defeat IP diversity with rotated residential proxies, but it can't hold a real face to a camera. Redis + BullMQ drive the 5-second tick scheduler and a rolling session-diversity aggregate.\n\nThe hacky bit worth admitting: for the hackathon build, Amazon products are supported via manually-entered product data rather than the Product Advertising API, since PA-API now requires 10 qualifying sales in a trailing 30 days just to keep access — impossible for a fresh project. Purchase confirmation for those links is honestly self-reported, not webhook-verified, because Amazon exposes no real-time conversion API to third-party affiliates at all — a platform limitation, not one we could engineer around.",
+  "auto_summary": "A Hedera-based affiliate platform verifies user attention in timed intervals and pays creators through on-chain micropayout and audit flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nanoaffliate-ojkdx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

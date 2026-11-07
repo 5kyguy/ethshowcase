@@ -1,0 +1,27 @@
+{
+  "id": "oso1m",
+  "slug": "agenttether",
+  "title": "AgentTether",
+  "tagline": "x402-metered event webhooks for AI agents on Substreams, billed per processed block; oneshot pull.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oso1m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HeKMXM801KUO97Wrr5iFWEFmfsj01SltiegRnLeEjLH58/high.mp4",
+  "demo_url": "https://agenttether.cc/",
+  "source_url": "https://github.com/roderickhodgson/AgentTether",
+  "finalist": false,
+  "description": "AgentTether lets autonomous AI agents provision and pay for conditional, asynchronous webhooks for future blockchain events — priced per block, escrow-free, and settled pro-rata. It is application-layer middleware bridging the x402 HTTP payment standard with The Graph's Substreams: instead of locking capital in smart contracts, agents sign a single Permit2 upto voucher whose ceiling is the quoted cost of their monitoring window; the backend holds it until the condition fires or the window expires — then settles exactly the blocks it processed.",
+  "how_its_made": "One Node/TypeScript process streams Ethereum mainnet through a sha256-pinned Substreams package (the vendored Pinax ERC-20 spkg), resuming from a persisted cursor with undo-aware reorg handling; metering, capture and cursor commit atomically per block. A single Postgres row enforces single-writer streaming, and the supervisor retries until a dead holder's lease goes stale. The Python/LangGraph agent sleeps at interrupt() until the webhook thread resumes it; its narration renders as agent rows on static flow-charts. Hedera payments ride Blocky402's facilitator, which co-signs our partially-signed TransferTransaction, with the rails discovered live via /supported.\n\nPayment mechanics are deferred, not upfront: at watch creation the facilitator verifies the upto voucher (balance, allowance, ceiling match, Permit2 deadline ≥ TTL + 120s buffer) but deliberately does not settle. The voucher's authorized amount is held server-side while the stream meters blocks, and settlement happens at window end via the hosted facilitator's upto proxy, which pulls exactly the blocks-processed amount from the agent. The facilitator absorbs transient rejections (nonce staleness, congestion) and retries inside the voucher's validity window; only structural rejections go terminal, though a drained wallet yields an honest SETTLE_FAILED with nothing delivered, since the webhook is fail-closed. Permitted amounts are single-use (the Permit2 nonce is consumed on settle), which is why the agent's continuity path is its own re-issue loop: decide to keep listening, sign a fresh voucher.",
+  "auto_summary": "A TypeScript backend and LangGraph-based Python agent sell blockchain event monitoring and webhook delivery using deferred x402 payments and The Graph Substreams.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agenttether-oso1m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,25 @@
+{
+  "id": "xi3s6",
+  "slug": "40x",
+  "title": "40x",
+  "tagline": "NYC Rentals shouldn't cost you your privacy - prove you qualify without oversharing.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xi3s6/banner/default.jpg",
+  "source_url": "https://github.com/jcc-kh/40x",
+  "finalist": false,
+  "description": "Every NYC rental application asks tenants to hand over their passport, full bank statements, and pay stubs — to strangers who may never become their landlord.\n\n40x lets tenants prove they qualify without revealing the documents that prove it. Landlords get pass/fail screening conclusions — income range, employment stability, document consistency. Tenants upload once, own the result forever, and never hand over raw financial identity again.\n\n40x lets tenants prove they qualify without revealing the documents that prove it. Using Chainlink's Confidential AI Attester — a hardware-isolated enclave where even we can't see the inputs — documents are analyzed privately: does income meet the threshold, do identity documents match financial records, is employment stable? This way, the sensitive documents never gets revealed.\n\nThe verified credential lives on the tenant's ENS name — portable, wallet-owned, reusable across any future application. And because World ID binds one credential to exactly one real person, it can't be faked, copied, or generated at scale across multiple wallets.",
+  "how_its_made": "The core challenge: how do you analyze someone's private documents without anyone — including us — seeing them? The answer was Chainlink's Confidential AI Attester. We ship the PDFs into a hardware-isolated TEE via their inference API, the model checks income thresholds, document consistency, and employment stability, and only the conclusions come back out. No raw data exits the enclave. Every result comes with a cryptographic attestation hash we store onchain — proof the analysis happened without re-exposing what was analyzed. That's the hack that makes the whole thing work.\n\nFrom there, we needed somewhere to put the credential that the tenant actually owns. We used viem to write structured text records directly to a subname on ENS (screening.alice.eth) — skipping any abstraction layer so we control exactly what gets written. To make sure someone can't show up claiming a credential that isn't theirs, we implemented Sign-In with Ethereum: recover the signing address, check it against the ENS registry, proceed only if they match.\n\nWorld ID was the last piece — and the scrappiest integration. Web3 is anonymous by design, which means without it someone could spin up fifty wallets and generate fifty \"verified\" credentials. World ID's nullifier hash gives each human a unique fingerprint per app, checked in our Node.js backend before any document touches the TEE.\n\nStack: Next.js, Node.js, viem, Chainlink Confidential AI sandbox, World ID React SDK, SIWE. PDFs are processed server-side before TEE submission. Everything's on GitHub.\n\n",
+  "auto_summary": "A Next.js app that privately screens rental applicants, stores screening results on ENS text records, and verifies uniqueness with World ID.",
+  "scores": {
+    "originality": 7,
+    "practicality": 9,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/40x-xi3s6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

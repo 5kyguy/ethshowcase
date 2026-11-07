@@ -1,0 +1,22 @@
+{
+  "id": "7sqz7",
+  "slug": "p2pai",
+  "title": "P2PAI",
+  "tagline": "Agentic P2P crypto-fiat market using Tempo Virtual Addresses as hub-and-spoke USDC escrow.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7sqz7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CdaTKGrxkVGy3gYO2HWV02oeyBQDCSvBY5su01mWQB98k/high.mp4",
+  "demo_url": "https://appp2pai.vercel.app/",
+  "source_url": "https://github.com/wmb81321/onix",
+  "finalist": false,
+  "description": "p2pai is an agentic peer-to-peer exchange where unknown counterparties can trade USDC against fiat (Zelle, Venmo, CashApp, bank transfer, wire) without trusting each other or a custodian.\n\nThe architecture uses Tempo's TIP-20 Virtual Addresses as a hub-and-spoke escrow model: the agent holds a single master wallet (the hub), and each order gets its own deterministically derived virtual deposit address (a spoke). When a seller deposits USDC to their spoke address, Tempo auto-forwards it to the hub — so the agent always holds escrow without ever deploying a smart contract.\n\nSettlement flow: seller posts a SELL order paying a 0.1 USDC maker fee via MPP (x402). A buyer matches, paying a 0.1 USDC taker fee. The seller deposits USDC to their order's virtual address. The buyer pays fiat directly to the seller off-platform, then marks payment sent with method, reference, and optional screenshot proof. The seller confirms receipt in the app — the agent immediately releases USDC on-chain to the buyer. Both parties rate each other. Mutual cancellation is supported at any step, with on-chain USDC refund if the seller had already deposited.\n\nThe system is AI-native: a published MCP server (`p2pai-mcp`, 8 tools) lets any Claude agent place orders, match trades, mark payments, and confirm receipt autonomously — fully agentic settlement without a UI.",
+  "how_its_made": "**Tempo** is the core infrastructure partner. Three Tempo primitives carry the entire project:\n\n1. **Virtual Addresses (TIP-20)** — hub-and-spoke escrow without any custom Solidity. `VirtualAddress.from({ masterId, userTag: orderId })` derives a unique deposit address per order off-chain in O(1). The on-chain auto-forward from spoke to hub triggers a `Transfer` event we watch with viem's `watchContractEvent` — never `balanceOf`, which always reads zero on virtual addresses. This was the key insight: no escrow contract, no multisig, no TEE — just deterministic address derivation and event watching.\n\n2. **MPP / mppx (x402)** — `POST /orders` and `POST /trades` are public endpoints gated by a 0.1 USDC HTTP 402 charge via `mppx`. The browser pays the maker fee using `Mppx.create` with `mode: 'push'` — critical because Tempo passkey wallets always attach a `feePayerSignature` via their internal fee payer service, and pull mode's `signTransaction` path produces ECDSA-incompatible signatures that Revm cannot verify. Discovering this edge case and switching to push mode was the hairiest debugging session of the project.\n\n3. **Tempo Wallet** — `tempoWallet()` wagmi connector (passkey-based). The in-app deposit button uses `Hooks.token.useTransferSync` from `wagmi/tempo` — a single hook call that handles passkey signing and gas sponsorship, letting sellers deposit USDC to the virtual address without copy-pasting an address.\n\n**Agent runtime** — TypeScript on Railway (persistent server, not serverless). Needed for the deposit monitor and on-chain signing; Vercel functions time out and can't hold state. All Supabase state is written before every on-chain side-effect for crash recovery.\n\n**Frontend** — Next.js 15 App Router on Vercel. Server-side proxy routes forward to Railway so the service-role Supabase key never hits the browser. Supabase Realtime powers the live order book (with a gotcha: ENUM filters in `postgres_changes` silently drop INSERT events — we filter client-side instead).\n\n**MCP server** — `p2pai-mcp` npm package, stdio transport, 8 tools. Any Claude agent can add it to `mcp.json` and trade autonomously. The agent-native path uses the same HTTP endpoints as the UI — no separate protocol.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/p2pai-7sqz7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

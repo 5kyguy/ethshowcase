@@ -1,0 +1,35 @@
+{
+  "id": "am7ya",
+  "slug": "ensign",
+  "title": "ENSign",
+  "tagline": "ENS as a wallet. Subnames are passkey-signed smart accounts on ENSv2. Connect any dApp via ENS",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/am7ya/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7HfooJkSZ6dABS8Jd2DHHBzCDagjOpJLynsrDEcHexc/high.mp4",
+  "demo_url": "https://ens-ign.vercel.app/",
+  "source_url": "https://github.com/LeoFranklin015/ENSign",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "1st place",
+      "title": "Most Creative Use of ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "ENSign turns your ENS name into your wallet. Pick a subname like leo.ensign.eth and one click later you have an account secured by your passkey. No seed phrase, no browser extension, no gas. Your name is the address.\n\nSign in to any dApp the same way: type your name, approve with Face ID, you're in. Aave, Uniswap, anything. Your ENS name carries you through, and the dApp sees a real wallet that can sign and send.\n\nYou can also spawn AI agents as sub-subnames/ 4TLD like bot.leo.ensign.eth or trader.leo.ensign.eth, each scoped to a permission you set: which contract it can call, how much it can spend per day, when its authority expires. Revoke any agent by name. Burn the parent name and every agent under it loses authority in one transaction.\n\nYour name is your identity, your wallet, and your permission tree.",
+  "how_its_made": "Contracts: Two ENSv2 PermissionedRegistry-derived contracts deployed on Sepolia: ENSignRegistry (the wrapper under ensign.eth) and ENSignAgentRegistry (per-user agent permission ledger).\n\nAtomic register and deploy: Claiming a name is one transaction. It mints the subname, deploys a fresh ERC-4337 v0.8 smart account at a deterministic address derived from the name itself, wires the resolver records (addr to account, text to passkey credential), and hands the subname over to the account, so the name is the wallet, atomically. The platform is the registrar and sponsors the claim; the user pays nothing on sign-up.\n\nSmart account: Each subname owns an ERC-4337 v0.8 account secured by a WebAuthn passkey. Solady's WebAuthn library handles on-chain P-256 verification; the browser parses the DER assertion and packs it into the userOp signature. The credential lives inside the account's owner storage. The registry doesn't keep a copy.\n\nPer-user agent registry:  Granting the first permission deploys a fresh ENSignAgentRegistry clone as the subregistry of <user>.ensign.eth. It mints <agent>.<user>.ensign.eth and stores the structured Permission (target, 4-byte selector, spend cap, period, expiry, parentTokenId) in the agent's resolver text record. Runtime enforcement reads parent.ownerOf(parentTokenId) on every call, so revocation is governed by ENS hierarchy itself. Burn the parent name and every agent under it loses authority in the same block, no separate revocation tx, no off-chain coordination.\n\nSign-in iframe and bookmarklet: A hosted iframe at /embed runs the WebAuthn ceremony in a controlled origin so passkeys are bound to one credential boundary across every dApp. A drag-to-bookmark bookmarklet injects that iframe plus an EIP-1193 provider shim into any page; Aave, Uniswap testnet, any dApp that calls window.ethereum sees a normal EVM signer: the user's ENSign smart account, signing userOps with their passkey and broadcasting through Pimlico.",
+  "auto_summary": "A smart-contract and web app project that maps ENS subnames to passkey-controlled smart accounts and nested agent permissions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ensign-am7ya",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

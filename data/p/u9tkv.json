@@ -1,0 +1,42 @@
+{
+  "id": "u9tkv",
+  "slug": "mblob",
+  "title": "μBlob",
+  "tagline": "μBlob is an efficient market platform optimizing Ethereum blob data storage by merging small data pieces (μBlobs) into DA Blobs.",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/u9tkv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/P9lMxFsUOpnGx6LbAbBqTj4gbgbLbstgqHiZroZh021I/high.mp4",
+  "demo_url": "https://holesky.ublob.net",
+  "source_url": "https://github.com/loicttn/ublob",
+  "prizes": [
+    {
+      "sponsor": "Chiliz",
+      "sponsor_id": "pj01t",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Qualifying Arbitrum Submissions",
+      "title": "Qualifying Arbitrum Submissions"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal London Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "This platform enables anyone to submit μBlobs to a public auction in order to fill DA Blobs. The goal is to propose a new innovative infrastructure to maximize blobspace efficiency and enable a thousand rollup future and democratize DA access for NFT, and gaming projects!\n\nAn example flow:\n1. Project wants to use Ethereum blob as a DA, and requires only 10kb of data\n2. Project sends ETH to uBlob smart contract to gain credit points (0xdfBA2a12477B8AE3Ad99C98B7D902EA63C09D247 on holesky)\n3. Project creates a μBlob by submitting data, signature of the data with the credited wallet and a wei_per_gas_fee\n4. An auction based on the wei_per_gas_fee is in progress until the platform can create a Blob and submit it on Ethereum DA\n5. Once blob is submitted, anyone can check the composition of the submitted blob (which μBlobs, in which order are in the Blob). All the senders of the successful μBlobs credits are reduced by μBlob_size * wei_per_gas_fee. If sender does not have enough credit, its μBlob was not included in the Blob. If Blob submission fails, the Blob tx is updated until it is included by the Ethereum network.\n\nProject contract, apis and frontend are deployed on Holesky testnet on https://ublob.net\n\nSubmitted Blob data format detail:\n- a Blob is made of a list of μBlobs put one after the other with the following format: ` header + μBlob data`  where:\n    - header is `` size + signature`  where size is uint32 (4 bytes) and signature (65 bytes)\n    - ```` μBlob data`  is the content of the μBlob\n\nNext improvements:\n- Support multiple DA engine (Ethereum mainnet, Celestia, Avail etc.) and propose μBlob creators to select their DA target(s). Each DA would have its own independent μBlob auction.\n- Decentralize the project by creating a network of validators performing the auctions in a permissionless manner (with shared mempool of μBlob and consensus on auction and verification of blob submissions)\n- Allow crediting in ERC20.\n- Deploy to mainnet.\n\n",
+  "how_its_made": "μBlob is made of several components:\n\n1. Golang backend made of 2 services\n\n- exposing a REST API to handle μBlobs CRUD operations\n- managing the μBlobs auction \n- crafting the Blob by merging μBlobs\n- managing the Blobs submissions, or submission updates if necessary\n- indexing the crediting operations made to the credit contract for accounting\n\n2. A react ts frontend available at https://ublob.net:\n\n- displays the current auction state, with live animations to render bidding updates and creations \n- displays the list of submitted blobs and their completion\n- displays the blobs data\n- displays the blobs' μBlobs with easy to use widgets\n\n3. An orchestrator service, creating many random μBlobs to simulate activity on testnet\n\n4. A credit Solidity smart contract, that emits Crediting event when receiving ETH and forwards the ETH value to the project address. \n\n5. Documentation on the project README.md \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mblob-u9tkv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

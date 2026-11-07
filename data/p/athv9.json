@@ -1,0 +1,22 @@
+{
+  "id": "athv9",
+  "slug": "flexsub-sdk",
+  "title": "FlexSub SDK",
+  "tagline": "Cross-chain subscription SDK: Pay from any chain, settle in USDC, instant micropayments.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/athv9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/txEpgOP4NE78RY02R4gmnm7fkrgnzhu3jN5fS8H2cHkQ/high.mp4",
+  "demo_url": "https://flexsub-demo.vercel.app/unified-demo",
+  "source_url": "https://github.com/UranusLin/flexsub",
+  "finalist": false,
+  "description": "FlexSub is a TypeScript SDK that enables developers to add flexible subscription payments to any Web3 application.\n\nThe Problem: Today's Web3 subscription experience is fragmented. Users have assets scattered across multiple chains, every payment incurs gas fees, and merchants want to receive stablecoins while users hold various tokens.\n\nOur Solution: FlexSub SDK integrates three protocols to solve this:\n\nArc/Circle USDC - All subscriptions settle in USDC on-chain via Circle's official contracts, giving merchants predictable revenue.\nLI.FI Cross-Chain - Users can subscribe using any token from any chain. LI.FI handles bridging and swapping automatically.\nYellow Network Micropayments - State channels enable instant, gas-less payments perfect for pay-per-use models.\nTechnical Implementation:\n\nSmart contracts deployed on Arbitrum Sepolia\nReal WebSocket connection to Yellow Network ClearNode\nReal-time quotes from LI.FI SDK\nFull TypeScript SDK with modular architecture\nFlexSub makes Web3 subscriptions as simple as Web2, while preserving the benefits of decentralization.",
+  "how_its_made": "Tech Stack:\n\nSmart Contracts: Solidity + Foundry, deployed on Arbitrum Sepolia\nSDK: TypeScript with modular architecture\nDemo: Next.js 14, React, Wagmi, RainbowKit, Tailwind CSS v4\nBlockchain: viem for low-level interactions\nPartner Technology Integrations:\n\n1. Circle/Arc (USDC Settlement) The core subscription logic lives in FlexSubManager.sol. Users approve USDC via Circle's official testnet contract, then call subscribe() to create on-chain subscriptions. We use viem's writeContract and waitForTransactionReceipt for transaction management with custom timeout handling for RPC stability.\n\n2. Yellow Network (Micropayments) We integrated @erc7824/nitrolite SDK to establish real WebSocket connections to Yellow's ClearNode (wss://clearnet-sandbox.yellow.com/ws). The SDK manages state channel lifecycle: connect → open channel → send instant payments → close channel. This enables gas-less micropayments perfect for pay-per-use subscriptions.\n\n3. LI.FI (Cross-Chain) Using @lifi/sdk, we fetch real-time quotes for cross-chain swaps. Users can pay with any token from Polygon, Optimism, or Base, and LI.FI calculates the optimal bridge route to deliver USDC on Arbitrum.\n\nNotable Hacks:\n\nImplemented timeout wrappers around waitForTransactionReceipt to handle MetaMask RPC instability\nUsed mainnet LI.FI quotes for accurate pricing while simulating execution on testnet\nBuilt a unified payment abstraction that normalizes three completely different payment paradigms into one consistent API",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/flexsub-sdk-athv9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

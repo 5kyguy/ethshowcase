@@ -1,0 +1,29 @@
+{
+  "id": "fantq",
+  "slug": "ghostwater",
+  "title": "Ghostwater",
+  "tagline": "An open-source mobile app that brings DeFi protocols to emerging markets having mostly phone users.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fantq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lRTQDl1CQKrgwHTLMuSKVCHqw9oo8EmyrmC00wWrWMvo/high.mp4",
+  "source_url": "https://github.com/sunosuporno/Ghostwater",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Ghostwater is an open-source mobile app that brings DeFi to users who are primarily on phones. Users sign in with Google (via Privy), get an embedded EVM and Sui wallet, and can: \n(1) Claim a free, immutable ENS-style subdomain on Base (e.g. alice.ghostwater.eth) through a custom Solidity registrar that stores their address and optional preferences (preferred chain, token, Sui address) as ENS L2 records. \n(2) Send and bridge assets across chains (Base, Arbitrum, Ethereum, Sui) using LI.FI for quotes and execution—send to a 0x address or to a Ghostwater name, which resolves to the recipient’s preferred chain and token. \n(3) Swap and bridge from the Swap tab (Base or Sui as source). \n(4) Stake on Base via the LST tab, leveraging Lifi Composer (ETH or USDC or any other token on Base → Lido wstETH on Ethereum). \n(5) Trade on Sui with margin via DeepBook: create margin managers, deposit/withdraw collateral, place long/short orders, set take-profit and stop-loss, and view live prices and TradingView charts. On Base, the Deepbook tab lets users deposit from Base into Sui margin pools (bridge-to-margin). \nThe app is built for mobile-first and low-end devices: heavy work (Sui tx construction, DeepBook state) is offloaded to a small Node backend that prepares transaction bytes; the app only signs and submits, keeping the client light and reliable.",
+  "how_its_made": "The app is an Expo (React Native) project with expo-router, TypeScript, and Privy for auth and embedded wallets (EVM + Sui). EVM/Base flows use viem. A custom GhostwaterRegistrar contract (Solidity, Foundry) is deployed on Base and integrates with Durin’s L2 ENS registry (IL2Registry/IL2Resolver) for free subdomains and text-record preferences. Cross-chain is powered by LI.FI’s REST API (quote and status at li.quest/v1) for quotes, execution, and bridge tracking; the LST flow (Base → Lido wstETH on Ethereum) uses LiFi Composer for the route and execution. Sui and DeepBook margin trading use the Mysten SDK only on the backend: a Node/Express service (deployed on Render) runs @mysten/sui and @mysten/deepbook-v3 to prepare transfer and margin-manager transaction bytes and to read margin state via devInspectTransactionBlock; the mobile client sends payloads to the backend and only signs and submits the returned bytes. That keeps the React Native bundle small and avoids running the full Sui RPC/SDK on low-end phones. Charts use TradingView lightweight charts in a WebView. The backend also exposes a margin-manager-state endpoint that aggregates multiple DeepBook SDK reads and decodes devInspect results so the app gets one JSON payload per margin manager. iOS builds and TestFlight submission use EAS Build; sensitive env vars (e.g. api keys) are in EAS env, not in the repo.\n\n\nHacky / notable: I wanted Sui and DeepBook execution completely in the app, but the Mysten SDK kept failing on React Native and I couldn’t fix it. So I moved all transaction building and state reads to a Node backend and had the app only sign and submit the bytes it gets back. I also tried expo-barcode-scanner for reading ENS QR codes and hit heavy iOS build errors, so I dropped the in-app scanner and put ENS/pay data in ghostwater:// URLs instead; the system camera scans the QR and the OS opens Ghostwater via the custom scheme.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ghostwater-fantq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

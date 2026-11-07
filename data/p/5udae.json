@@ -1,0 +1,22 @@
+{
+  "id": "5udae",
+  "slug": "smstx",
+  "title": "SmsTx",
+  "tagline": "SMS-only crypto wallet with secure MPC keys, no app, no internet required.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5udae/banner/default.jpg",
+  "video_url": "https://stream.mux.com/M9J3tHFXaRRguKlCtFKuyftXLjpMMsm7Jeb5U8IOVOM/high.mp4",
+  "demo_url": "https://github.com/SauravKanchan/sms-tx",
+  "source_url": "https://github.com/SauravKanchan/sms-tx",
+  "finalist": false,
+  "description": "Users interact with the wallet by sending plain texts to a common service number (SEC). On first contact, the platform runs a t-of-n DKG ceremony to generate a shared key for the sender’s phone number; the key is split across independent nodes. Subsequent messages like “send $10 to Himang” trigger a malicious-secure MPC-ECDSA signing flow: nodes verify the command is authorized by the sender’s number, jointly produce a valid (r,s,v) over secp256k1, and broadcast the transaction.\nIf the recipient (e.g., Himang) isn’t onboarded yet, the system auto-onboards them by running DKG for their number before transferring, so value can be pushed to anyone reachable by SMS. The private key never exists in one place, eliminating a single point of compromise, while UX stays as simple as texting",
+  "how_its_made": "Identity & Auth\n\nPrimary identifier: phone number bound to a DKG-generated key.\nAuthorization: messages from that number are the only ones allowed to initiate signatures for that key.\n\nCrypto Core\nDKG (Feldman VSS) to derive per-user key shares and a group public key.\nMPC-ECDSA (GG18/GG20/CGGMP-class) to sign without secret reconstruction.\nEthereum compatibility: keccak256, low-S (EIP-2), correct v via recovery.\nMessaging Layer\nIngests SMS from the SEC number, parses intents (send, check balance, etc.).\nStateless commands; idempotency tokens and replay protection baked in.\n\nOrchestration\nCoordinator dispatches to DKG/TSS nodes; nodes exchange commitments, ZK proofs, partials.\nAggregator computes final (r, s); derives v matching the user’s group pubkey.\nSecurity\nNo secret reconstruction, secure nonce generation, ZK correctness proofs.\nRate-limits, per-number spend caps, allowlists/denylists, and optional PIN/OTP step-up.\nAudit logs with message digests",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/smstx-5udae",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

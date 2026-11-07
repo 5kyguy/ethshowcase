@@ -1,0 +1,41 @@
+{
+  "id": "49c6e",
+  "slug": "lortnoc-tahc",
+  "title": "Lortnoc Tahc",
+  "tagline": "Private conversations in public places. Natural language encryption for any comment box.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/49c6e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SgVUneBzehRYA00bnYfmIYGHBp3CC9QQA9We006I4oQ008/high.mp4",
+  "demo_url": "https://lortnoctahc.com/everywhere",
+  "source_url": "https://github.com/forever8896/lortnoc_tahc",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "2nd place",
+      "title": "Best Integration of ENSv2 into an Existing Project"
+    },
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "[Cont] Best IDKit Use Case",
+      "title": "[Cont] Best IDKit Use Case"
+    }
+  ],
+  "finalist": true,
+  "description": "Public conversations are mass-surveilled. Manipulation campaigns sway public chatter, and when they don't like what you say, you become a target. Leaving the commons means losing your people.\n\nLortnoc Tahc Everywhere lets you create a private commons within the public commons with natural language encryption. It is a browser extension: write anywhere on the internet, and you decide who reads it. Your message is encrypted, then turned into an ordinary post. To anyone scrolling past, it is people talking about the weather. Readers who pass the gate see the real conversation, decoded inline, and the site never sees it.\n\nBuild a gate from any rule that can be proven. Two work out of the box: ENS v2 subnames for communities, and World ID for verified nationality. Readers prove they qualify without revealing who they are. Gates combine with passphrases and dates.\n\nA Space is a real ENS v2 name, bought on Ethereum mainnet, whose records hold its NFT collection and its bans. We created ethglobalhackers.space.lortnoctahc.eth for ETHGlobal Hacker Pack holders: every attendee can post there and read what is posted after one free wallet signature.",
+  "how_its_made": "Sealed posts. The message is encrypted with AES-SIV. Its key is split into XOR shares, one per rule, so rules combine as \"this or that, and something else\". The rule itself sits inside the ciphertext: a post carries no marker and no readable policy, and a reader's extension simply tries the keys it holds. Passphrases go through Argon2id.\n\nNatural language encryption. The ciphertext becomes cover text through our own reversible coder over a local GPT-2: at each step the model's top tokens form bins, and ciphertext bits pick among them. Decoding runs the same model backwards, byte for byte. The codec runs on Fly.io and only ever sees ciphertext.\n\nThe gate (Node, Fly.io) holds key shares for rules that must be proven and releases them, sealed to a one-time X25519 key, only to readers who qualify.\n\nWorld ID: World's IDKit 4.3 widget runs in an extension tab, and readers connect once. The gate checks every proof twice, with World's v4 verify API and the WorldIDVerifier contract on World Chain (two of three RPCs must agree). Passport nationality works through Identity Check, including its World ID 3.0 fallback.\n\nENS v2: every Space is a subname under space.lortnoctahc.eth with its own PermissionedResolver, deployed from ENS's VerifiableFactory. In one transaction our registrar writes the records, grants every role to the owner and revokes its own. The gate reads the collection and ban records through ENS's UniversalResolver and fails closed. Spaces are bought on Ethereum mainnet (the early bird is enforced in the contract), and a relayer issues the name. NFT holder checks read Ethereum, Base and Optimism.\n\nThe extension is MV3 (Vite, CRXJS), released from public CI with a SHA-256 and build provenance. Every ENS record can be checked with curl on our ENS page.",
+  "auto_summary": "A browser-extension-based system that hides encrypted conversations inside ordinary public posts using World ID and ENS-gated access controls.",
+  "scores": {
+    "originality": 9,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lortnoc-tahc-49c6e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

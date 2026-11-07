@@ -1,0 +1,22 @@
+{
+  "id": "500x9",
+  "slug": "blobchan",
+  "title": "Blobchan",
+  "tagline": "On-chain 4chan — posts live in EIP-4844 blobs. Immutable, Censorship-resistant, Permissionless.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/500x9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/14WHndzZXClXHIzYbHdz5Sen0099GLZDyVusBHwrg9tw/high.mp4",
+  "demo_url": "https://blobchan.org/",
+  "source_url": "https://github.com/holyfuchs/blobchan",
+  "finalist": false,
+  "description": "Blobchan is a fully decentralized image board. You connect with WalletConnect, generate a burner posting key, fund it with testnet ETH, and start posting. Every thread and reply is a 128 KB blob transaction on Sepolia — the on-chain imageboard. Posts are publicly readable by anyone.",
+  "how_its_made": "\n### Posting (browser → blob)\n\n1. User connects their wallet, generates a dedicated burner posting key, and funds it with ETH. This key is required because no browser wallets support signing EIP-4844 (blob) transactions directly.\n2. User writes a post (text + optional WebP image, compressed to ~60 KB)\n3. Browser computes a **KZG commitment and proof** over the 128 KB blob using `kzg-wasm` (C-KZG compiled to WebAssembly)\n4. Viem constructs and signs a **Type 3 (EIP-4844) transaction** with the blob sidecar using the burner key, then sends it to a fixed marker address (`0x...b10b`)\n5. Post structure: first 2048 bytes = JSON metadata (board, threadId, name, content, timestamp), remaining bytes = hex-encoded image\n6. Gas cost: ~0.0001 ETH per post on Sepolia\n\n### Reading (blockchain → browser)\n\n1. **Etherscan V2 API** lists all transactions sent to the marker address\n2. For each uncached tx, **eth_getBlockByHash** retrieves the `parentBeaconBlockRoot`\n3. **Beacon API** (`ethereum-sepolia-beacon-api.publicnode.com`) looks up the beacon header by root, gets the slot, fetches blob sidecars\n4. Blob hex is decoded: null-terminated JSON header at offset 0, hex image at offset 2048\n5. Posts are cached in IndexedDB — cached tx hashes are skipped on subsequent refreshes to save API credits\n6. Polls every 30 seconds for new content\n\n### Stack\n\n- **SvelteKit** + static adapter → Cloudflare Pages\n- **WalletConnect** via @reown/appkit + wagmi adapter\n- **Viem** for all chain interactions (send, sign, query)\n- **kzg-wasm** for KZG commitments (required by EIP-4844)\n- **Public RPC & Beacon API** (publicnode.com) — no paid infrastructure\n- **Etherscan V2 API** (free tier) for transaction discovery",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/blobchan-500x9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

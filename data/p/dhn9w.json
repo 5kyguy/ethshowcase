@@ -1,0 +1,26 @@
+{
+  "id": "dhn9w",
+  "slug": "vaultradar",
+  "title": "VaultRadar",
+  "tagline": "Cross-protocol vault risk, sold per request to autonomous agents over x402",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dhn9w/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tHmhAYHeW8e8dRqXp2joCZ0200DrDMW78YK9Tzd7urwdU/high.mp4",
+  "source_url": "https://github.com/rahuljaguste/vault-radar",
+  "finalist": false,
+  "description": "VaultRadar is a machine-payable, cross-protocol vault-risk service. One standardized Graph query template per schema family runs across every Messari-schema deployment in its registry: fifteen registrations over ten protocols and five chains. Alongside it is a new ERC-4626 Substreams module written in Rust, composed from Pinax's erc4626 package and shipped to two chains from one WASM binary.\nRisk reports are sold per request over x402, on Hedera through Blocky402 and on Arc through Circle Gateway's batcher. An autonomous agent finds the service, checks its signing key against the ERC-8004 registry on chain, seals its request with a hybrid post-quantum KEM, pays, and verifies every signature before it acts. Nothing on the path learns which vaults were asked about. Every receipt and every per-vault attestation is signed with ML-DSA-65, and the receipt hash is committed to Hedera Consensus Service, so a decision stays auditable long afterwards. When the underlying data is older than the policy allows, the service refuses to answer instead of guessing. A verdict of \"no data\" is a real answer, and it names the source, the block and the age so it can be checked.",
+  "how_its_made": "Built with Claude Code under human direction, using a spec-driven subagent workflow, a written spec, a written plan, one implementer per task working from a written brief, an independent reviewer for each task's diff, and a whole-branch review with a fix wave at the end. Every artifact of that process ships in the repository under docs/ai-workflow/, including the prompts in sequence, the decision ledger, the per-task briefs and reports, and the review findings. The human contribution was direction, scope cuts, and every account and key.\nThe service is TypeScript on Bun. Data comes from two GraphQL queries against Messari standardized subgraphs through The Graph's gateway. Each deployment is pinned by its deployment id, so a re-point cannot silently change the data underneath a risk verdict. A verification gate reads each deployment's _meta and records how fresh it is. The ERC-4626 metrics come from a Substreams module written in Rust that imports Pinax's erc4626 events package instead of scanning logs, and a sink in the same project feeds the Postgres the service reads.\n\nThe post-quantum layer is @noble/post-quantum: ML-KEM-768 combined with X25519, through HKDF-SHA-256 into AES-256-GCM for sealing requests and replies, and ML-DSA-65 for receipts and per-vault attestations. Payments run on two rails that settle in different orders. Blocky402 verifies before the handler and settles after it. Circle's Gateway settles before the handler ever runs. The code handles both explicitly instead of pretending they behave alike. Both rails have settled real payments on testnet, and the dashboard verifies a receipt in the browser against the key hash pinned on chain.",
+  "auto_summary": "A Bun-based service sells signed vault risk reports using standardized Graph data, a Rust Substreams pipeline, and x402 payments on Hedera and Arc.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/vaultradar-dhn9w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

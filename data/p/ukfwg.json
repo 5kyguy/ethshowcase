@@ -1,0 +1,29 @@
+{
+  "id": "ukfwg",
+  "slug": "paralend",
+  "title": "Paralend",
+  "tagline": "Paralend: extremely fast DeFi lending via parallel execution & netting on Arcology",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ukfwg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zitswRfaeraJDQqKOnh00nYcH73LnKlgmmy5sErkaWnY/high.mp4",
+  "source_url": "https://github.com/prkpndy/paralend",
+  "prizes": [
+    {
+      "sponsor": "Arcology ",
+      "sponsor_id": "nzsrv",
+      "placement": "1st place",
+      "title": "The Best Parallel Contracts"
+    }
+  ],
+  "finalist": true,
+  "description": "Paralend is a high-performance DeFi lending protocol that achieves 100-500x throughput improvement over traditional protocols like Compound and Aave. Built on Arcology Network, it leverages parallel execution to process thousands of lending operations simultaneously.\n\nThe core innovation is netting optimization: instead of updating global state (totalSupply, totalBorrows) for every single transaction, Paralend collects operations in parallel during Phase 1, then in Phase 2 calculates net flows (deposits minus withdraws, borrows minus repays) and updates state just once. This reduces state writes by 99% for large batches.\n\nParalend forks Compound V2's battle-tested lending logic and wraps it in a parallel batching layer using Arcology's concurrent primitives (Runtime.defer, U256Cumulative, Multiprocess). It also accrues interest once per market instead of per transaction, and enables parallel liquidations that prevent death spirals during market crashes.\n\nThe protocol includes full collateral management, safe borrowing checks, liquidation system, and comprehensive benchmarking scripts demonstrating scalability from 10 to 1000+ parallel\noperations.",
+  "how_its_made": "Paralend is built on Solidity 0.7.6 to maintain compatibility with Compound V2, which we forked for proven lending logic. The architecture has three layers:\n1. Batching Layer (LendingEngine.sol): Uses Arcology's Runtime.defer() to register deferred execution callbacks, U256Cumulative for conflict-free parallel accumulation of totals, BytesOrderedSet for tracking active markets, and Multiprocess(20) to spawn 20 parallel threads for processing multiple markets simultaneously.\n2. Netting Layer (LendingCore.sol): Implements the core innovation - calculating net flows and updating global state once instead of per operation. Uses optimized functions that separate global state updates from user balance updates.\n3. Core Layer (CToken.sol): Extended Compound V2's CToken with new functions like applyNetSupply() and applyNetBorrows() that accept signed integers for net changes, plus user only update functions that skip global state writes.\n\nNotable hack: We pack borrower address and repayAmount into a single uint256 for liquidations (upper 160 bits + lower 96 bits) to fit into the concurrent container structure, avoiding complex nested mappings.\n\nTesting uses Hardhat with @arcologynetwork/frontend-util for generating parallel transactions and batch processing simulation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/paralend-ukfwg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

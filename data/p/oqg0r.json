@@ -1,0 +1,21 @@
+{
+  "id": "oqg0r",
+  "slug": "aether-credit",
+  "title": "Aether Credit",
+  "tagline": "Evidence-aware AI treasury for policy-constrained USDC payments on Arc.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oqg0r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tQi3uFqb61011LcEI9AM3JBw9qBtos9mMvZWjxWEjZ01s/high.mp4",
+  "demo_url": "https://aether.credit",
+  "finalist": false,
+  "description": "Aether Credit is an agent-native treasury platform that helps organizations manage USDC spending without surrendering control to an AI model. Employees submit expenses, managers approve an exact immutable version, and an evidence-aware analyst compares lending markets using The Graph. The agent can recommend, abstain, or require review, but it can never authorize a transfer. Every payment must independently pass deterministic rules covering recipients, per-payment limits, cumulative budgets, reserves, expiry, pause state, approvals, and replay protection. Eligible payments are executed through Circle Agent Stack against a customer-owned vault on Arc and reconciled into an inspectable audit trail. Privy provides organization authentication, wallets, role-bound approvals, and constrained funding controls.",
+  "how_its_made": "Aether Credit is a TypeScript monorepo with separate Next.js consumer and admin applications, a Fastify API, PostgreSQL and Drizzle ORM, and durable analysis and payment workers backed by pg-boss. Shared Zod contracts keep validation consistent across the browser, API, and workers. The analyst is a typed Vercel AI SDK harness that queries standardized lending data through The Graph, records deployment IDs, query parameters, freshness, block height, response hashes, citations, calculations, model metadata, and failure states, and fails closed when its evidence is stale or incompatible.\nPrivy authenticates three organization roles, binds users to wallets, captures exact EIP-712 approvals, and constrains treasury funding with a deposit-only signer policy. Payments are submitted by Circle Agent Stack on Arc Testnet to a non-upgradeable Solidity vault whose customer wallet is the immutable owner. The vault rechecks allowlists, caps, budgets, reserves, expiry, pause state, signatures, and replay protection onchain. The payment worker uses idempotency keys and independently reconciles transaction receipts and decoded events, treating timeouts as unknown outcomes instead of blindly retrying.\nOne particularly hacky integration detail came from Circle Agent Stack CLI 1.0.0 rejecting the vault’s original nested-tuple ABI before broadcast. We added scalar contract entry points while preserving the same policy checks, then covered the adapter with regression tests. The result is deliberately split between probabilistic advice and deterministic authority: AI explains what should happen, while application and contract policy decide what is permitted to happen.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aether-credit-oqg0r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

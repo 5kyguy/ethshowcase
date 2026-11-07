@@ -1,0 +1,22 @@
+{
+  "id": "5xkrv",
+  "slug": "recibo",
+  "title": "Recibo",
+  "tagline": "Escrow and proof-of-delivery for x402 agent payments, with an on-chain audit trail on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5xkrv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xQ02IT76GmbQtGwVMIVmoqwAwkP1JyI4m6PoOf02Mw9IE/high.mp4",
+  "demo_url": "https://hashscan.io/testnet/topic/0.0.10485281",
+  "source_url": "https://github.com/robertointech/recibo",
+  "finalist": false,
+  "description": "x402 gives AI agents a clean rail for machine-to-machine micropayments. What it does not give them is a receipt.\n\nOnce an x402 payment settles, it settles. If the service took the money and never responded, the paying agent has no reversal path, no on-chain record of what was actually delivered, and no audit trail of what it spent. At one payment per API call, an agent making thousands of calls a day is running blind. The ecosystem is building the payment rail. Nobody is building the receipt.\n\nRecibo puts escrow between the agent and the provider. The x402 payment settles into an escrow account rather than going straight to the provider. The provider then has to prove delivery: Recibo computes a sha256 hash of the response body and anchors it on Hedera Consensus Service. Only then are the funds released. If the provider fails to deliver, the escrow reverses itself and the payer is refunded automatically, with the failure reason recorded on-chain.\n\nEvery state transition — HELD, DELIVERED, RELEASED, REFUNDED — is anchored as an immutable message on a public HCS topic before the response is returned. The audit trail can be independently verified at hashscan.io without trusting our server.\n\nThe refund path is not an edge case here. It is the product. A payment protocol without a reversal path is incomplete, and Recibo is the layer that completes it.",
+  "how_its_made": "Node/Express server using @x402/express with the ExactHederaScheme, settling through the Blocky402 facilitator on Hedera testnet. Client side uses @x402/fetch. Ledger interaction is via @hiero-ledger/sdk (the Hiero rebrand of the Hedera SDK — worth noting, since most tutorials still reference @hashgraph/sdk and the import silently fails).\n\nThree Hedera testnet accounts: payer, provider, and an escrow account that holds funds between payment and delivery. The x402 payment requirement's payTo points at the escrow account rather than the provider, which is the single change that makes reversal possible.\n\nThe escrow core exposes four operations — hold, proveDelivery, release, refund — with enforced one-way state transitions. Any invalid transition throws. \"Verifiable delivery\" is deliberately narrow: sha256 of the response body and nothing else. No arbitration, no voting, no LLM judgment. That constraint kept the design honest and shippable in a weekend.\n\nEvery transition anchors a message on HCS via TopicMessageSubmitTransaction. consensusTimestamp comes from getRecord() rather than getReceipt() — a non-obvious detail that costs an hour if you get it wrong. The HCS sequence number, not the local clock, is the canonical ordering of events.\n\nRead-only dashboard in Next.js 15 with 3-second polling, showing live escrow state, event timelines, and HashScan links per transaction.\n\nTwo Hedera-specific things made this viable. First, gas is sponsored by the Blocky402 facilitator, so the paying agent never needs HBAR for fees. Second, a refund costs roughly $0.0001 — on an expensive L1, reversing a micropayment would cost more than the payment itself, and the product simply would not exist.\n\nKnown scope limits, documented rather than hidden: escrow state is in-memory and resets on restart, there is no automatic timeout sweep, and allowedAssets restricts which asset can be paid but not the amount.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/recibo-5xkrv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

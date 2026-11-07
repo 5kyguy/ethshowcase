@@ -1,0 +1,35 @@
+{
+  "id": "5xps5",
+  "slug": "lens-collect-auctions",
+  "title": "Lens Collect Auctions",
+  "tagline": "Run Dutch (decreasing) & English (increasing bids) auctions for collecting Lens posts",
+  "event": {
+    "slug": "lfgrow",
+    "name": "LFGrow",
+    "start_time": "2022-03-18T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5xps5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CDWEVcZS6sNBcRL7bE9CNIZ02NTf3btxXp7O46ClYxlg/high.mp4",
+  "source_url": "https://github.com/mathijs81/lens-hack",
+  "prizes": [
+    {
+      "sponsor": "Lens Protocol",
+      "sponsor_id": "vxwti",
+      "placement": "🥇 Lens Protocol — Best use of Collect Module",
+      "title": "Lens Protocol"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 LFGrow Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "After posting something, other users can collect those posts as NFTs.\n\n\n\nThis hack implements a Dutch auction for those collects (the price starts at certain level and keeps decreasing over time. The first user to collect wins the auction and pays the price at that point for the collect NFT), as well as an English auction (users can make increasing bids during the time of the auction, and at the end the highest bidder wins the collect NFT).",
+  "how_its_made": "I built two solidity Lens collect modules: Dutch & English auction with basic tests. To showcase how it works I also built a Vue frontend in Polygon Finity style that shows some example posts and interacts with the contracts locally to show the bidding and collecting in action.\n\n\n\nThe Dutch auction is a relatively straightforward modification of existing fixed-fee modules. Instead of the fixed fee, the contract calculatse the current price according to the auction logic and then charge that price instead.\n\n\n\nThe English auction is more complicated. First, the bidding calls itself need to be done outside the Lens API. At the end of the auction time period an actual collect() should be allowed. If only the winner can call collect() then funds can be locked up for very long if he never gets back and both the post creator and treasury can't get the funds.\n\nI therefore implemented it so that collect() can only be called by the English auction module itself. It will then temporarily become the owner of the collect NFT and then passes it on to the actual auction winner. This means that any user can trigger the auction result to be processed and that as a post creator you don't have to wait for the highest bidder to collect if you want to get the funds.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lens-collect-auctions-5xps5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

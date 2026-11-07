@@ -1,0 +1,53 @@
+{
+  "id": "ob574",
+  "slug": "roll-a-mate",
+  "title": "Roll a Mate",
+  "tagline": "Send money on Ethereum Mainnet with transfers costing from zero to 4 cents",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ob574/banner/default.jpg",
+  "demo_url": "https://github.com/ArturVargas/Mate-contracts",
+  "source_url": "https://github.com/ArturVargas/Mate-contracts",
+  "prizes": [
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "🥈 Gnosis Chain — Best Use",
+      "title": "Gnosis Chain"
+    },
+    {
+      "sponsor": "UMA",
+      "sponsor_id": "fp1x1",
+      "placement": "🥈 UMA — Best Use",
+      "title": "UMA"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🥇 The Graph — Best New Subgraph",
+      "title": "The Graph"
+    },
+    {
+      "sponsor": "XMTP",
+      "sponsor_id": "nbyyv",
+      "placement": "🥉 XMTP — Best Use",
+      "title": "XMTP"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Waterloo 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Our Ethereum Mainnet's mempool-based payment rollups allow users to send and receive ETH for transaction costs ranging from zero to 4 cents. This protocol, dubbed \"Roll a Mate\", was conceived to address the user and business demand for frictionless onboarding onto the Ethereum ecosystem and affordable transactions to cover everyday expenses. Whether buying a meal, paying for a taxi ride, or just grabbing a drink at a bar, high transaction costs shouldn't be a disincentive.\n\nAs highlighted by Vitalik Buterin at Pragma Waterloo and the ETH Waterloo opening, it's unreasonable to pay a $5 transaction fee for a $15 bill. This predicament has driven crypto businesses to use centralized exchanges like Binance, which offer free or very low transaction fees but do not truly align with the development ideals of the ecosystem.\n\nThis challenge, of providing competitive transaction costs on Ethereum Mainnet, the most user-friendly chain to adopt, was really tricky to figure out. However, we successfully accomplished this by leveraging the functionality and flexibility of the mempool.\n\nThe Ethereum Mainnet mempool offers a broadcasting channel just for verified potential transactions under certain circumstances, accessible to any node and through them, several graph services.\n\nAnyone can broadcast valid transactions, but must meet the following conditions:\n\n1. Valid structure, encoding, and signature.\n2. Enough balance to cover the gas cost, at least 21,000 gas units.\n3. Valid nonce.\n\nHigh transaction costs are a direct result of high gas prices, which often turn simple transactions that could cost 4 cents into $5 transactions. This inflation renders any system based on Ethereum Mainnet payments counterproductive or pointless.\n\nBy manipulating the mempool to validate and broadcast low gas transactions, which are then included into sidechain orderbook rollups (without user interaction with it) and then likely to be dropped (at zero cost), Ethereum Mainnet users can send and receive payments at zero to 4 cents costs, even faster than the Mainnet transaction completion time.\n\nUsers of the Roll a Mate payment protocol are required to pay gas in only two scenarios:\n\n1. Depositing ETH to spend, a cheap transaction that doesn't even require events.\n2. Withdrawals, which triggers the orderbook to build the rollup for order validation.\n\nIn conclusion, using the Roll a Mate payment protocol, an Ethereum Mainnet user can deposit 1 ETH, paying for gas just once, and use this balance \"over a year for 100 transactions\", paying at most 4 cents on average per transaction. Merchants, on the other hand, can receive and accumulate as many transactions as they want, paying for gas only once when withdrawing funds, considering that they can also transact (send) from these accumulated funds without needing to withdraw them.",
+  "how_its_made": "We've deployed a Smart Contract on the Ethereum Mainnet to accept direct deposits from users. This contract doesn't emit any event (to save a bit more gas), and the deposit is captured later when necessary using a The Graph Substream -> Subgraph.\n\nSubsequently, balance transfers (a.k.a ETH transfers) are sent to the Ethereum Mainnet mempool via a simple dApp interface that consistently sets the gas at the minimum and uses a custom data to store the transfer amount. This ensures the transactions are broadcasted but not processed. If a wallet sends more transactions before the previous one is dropped, the gas must be increased according to the standard and the nonce replaced by the same. This is the only way to send a \"new transaction\" to the mempool from a repeat sender. If this behavior is repetitive, it's possible that a transaction could incur a fee after 20 or 30 transfers (be processed), averaging about 4 cents (at today's June 2023 gas price) for all the transactions since las dropped one for same the same spender. However, if the rhythm of transactions isn't high, there's always the possibility to avoid paying any gas, resulting in zero cost for all transactions.\n\nIn our current implementation, we aim to save at least 95% on transaction costs. Therefore, we're using a sidechain to store balances and capturing and verifying the mempool transactions to make the rollups using UMA Oracle with The Graph for deposits, and UMA Oracle with BlockNative for the mempool transactions. In the future, to avoid using BlockNative it makes sense to deploy a specially configured Ethereum Mainnet Node that retains all the mempool transactions that are part of our interest (Roll a Mate payment protocol) and give access to it trough an API, which would be open source for auditing and replication. This Node should be listening the network relayed transactions and must not be directly used as RPC, ensuring redundancy and reliability but storing only the transactions of our interest for memory optimization.\n\nTo demonstrate the protocol's use by \"merchants\", we're utilizing a Telegram bot that creates web3 accounts (addresses) just by sending a message by consuming Lit Protocol . It immediately replies to the new \"merchant\" a QR code that let him start accepting crypto payments at zero cost. This happens using the simple dApp to accept payments (transfers). All this happens and is handled by natural language by the \"merchant\" using simple requests on Telegram. The transaction related commands are processed by Airstack, and communication with web3 users/customers is handled by XMTP, all within the Telegram interface, so the \"merchant\" can use XMTP through Telegram and the web3 user through the XMTP Dashboard or preferred interface.\n\nOn the other hand, web3 users can Deposit, Withdraw, and Pay using the dApp, which has a very straightforward interface.\n\nFor this PoC implementation, and because we're still exploring the mempool behavior (and are positively impressed), we decided to use a sentinel that will update the sidechain balance mapping after every transaction. However, as mentioned before, this wouldn't be necessary if we simply deployed a standard node with our specific mempool configuration and an open API.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/roll-a-mate-ob574",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

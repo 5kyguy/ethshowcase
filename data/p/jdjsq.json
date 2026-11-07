@@ -1,0 +1,27 @@
+{
+  "id": "jdjsq",
+  "slug": "fan-fare",
+  "title": "Fan Fare",
+  "tagline": "Scalper-proof RWA merch drops: a fan raffle + Vickrey auction where winners pay the 2nd-highest bid",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jdjsq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/oOtLnd7C3cDj5XmiKMWx7nOhMkg9oMKrOVN5pkFvdFY/high.mp4",
+  "demo_url": "https://fanfare-drop.vercel.app/",
+  "source_url": "https://github.com/TheGreatFellow/fan-fare-eth-tokyo",
+  "finalist": false,
+  "description": "Fanfare makes limited drops of physical merch scalper-proof. Limited anime goods, designer toys and collabs are priced at retail (定価 in Japan) and sell out in seconds, mostly to bots and multi-account buyers, then reappear on resale sites at 5–10x the price. The gap between retail and what fans will really pay goes to scalpers, not to the brand or the fans.\n\nFanfare runs each drop as a sealed-bid auction built as a Uniswap v4 hook, using a mechanism we call Fan-First Vickrey:\n\n1. One sealed bid per human. Only verified humans can bid: World ID proof of human is required, so bots can't enter at all. Each bid is a hidden commitment backed by a deposit, so nobody can see anyone else's bid.\n2. Fans first. A share of the units is raffled at retail among everyone who bid at least retail. Bidding more doesn't improve your raffle odds.\n3. One fair price for the rest. The remaining units go to the highest bids, and every winner pays the same price: the highest losing bid. This is the multi-unit version of a Vickrey (second-price) auction, where your bid decides whether you win but never what you pay. \nBidding low doesn't lower the price; it only means you can lose an item you'd happily have paid the winning price for. Overbidding just to win is a gamble: if the runner-up also bids high, you pay their bid, which can be more than the item is worth to you. So bidding your true value is the best strategy. That only holds when each person wants one unit, and one-bid-per-human guarantees it.\n\nThe result: fans still get retail-price units, the brand earns the gap between retail and the market price, and anyone who wins has already paid the market price, so there's nothing left to flip.\n\nEvery bid is a real Uniswap v4 swap: bidders swap ETH into the drop's pool through the standard Universal Router, and the hook turns that swap into a sealed, escrowed bid. Winners get an on-chain receipt the brand redeems by shipping the item. Live on Sepolia with a pitch page, a bidder page and a brand console.",
+  "how_its_made": "Uniswap v4 is the core. The entire auction is a v4 hook (AuctionDrop) built on OpenZeppelin's uniswap-hooks BaseAsyncSwap. A bid is an exact-input ETH swap sent through the stock Universal Router (V4_SWAP with SWAP_EXACT_IN_SINGLE + SETTLE_ALL). No custom bidding contract or router is needed, so any client that can build a v4 swap can bid.\n\nIn beforeSwap, the hook:\n- reads an EIP-712 voucher and a sealed commitment from hookData;\n- checks the voucher and records the bidder's World ID nullifier;\n- keeps the whole swap input as ERC-6909 claims (the deposit);\n- returns a delta that nets the swap to zero.\n\nbeforeInitialize binds the hook to its one pool, and beforeAddLiquidity blocks outside liquidity, so ordinary swaps and LPs can't touch the drop. Deposits never leave the PoolManager until someone is paid: claims, refunds and the brand's withdrawal burn ERC-6909 claims and take ETH inside unlockCallback. The hook address is mined with HookMiner and deployed through CREATE2, so its low bits encode exactly these permissions.\n\nHacky bits:\n- The pool pairs ETH with the hook contract itself as the second currency, since nothing is ever paid out on that side. That lets the route skip the usual TAKE step entirely.\n- Because the router, not the bidder, is the swap sender, the voucher is bound to tx.origin.\n- Settlement raffles fan units first with a partial Fisher-Yates shuffle, then clears the auction in one pass at the highest losing bid. Unrevealed bids forfeit their deposit.\n\nWorld ID 4.0 (IDKit 4.3) handles personhood. Proofs are verified server-side with World's v4 endpoint, using proof_of_human, a server-signed RP request, a pinned environment, and the proof's signal bound to the bidder's wallet so it can't be replayed for another wallet. The backend then signs the voucher with the person's nullifier, and the hook enforces one bid per nullifier on-chain. The demo runs in World's sandbox environment. For multi-bidder testing as a solo builder, a flag-gated test mode can issue vouchers without World ID; it is unavailable when World ID runs in production mode.\n\nFrontend: Next.js 16, wagmi v3, viem, Tailwind v4 and Motion. Bid secrets stay in the bidder's browser until reveal. Other people's bids show only as sealed until settlement. A multi-account picker makes live demos easy, and reads fall back across RPC providers.",
+  "auto_summary": "This project implements a World ID-gated merchandise drop and sealed-bid auction using a Uniswap v4 hook and a Next.js frontend.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/fan-fare-jdjsq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

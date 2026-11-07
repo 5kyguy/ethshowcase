@@ -1,0 +1,27 @@
+{
+  "id": "rgu6v",
+  "slug": "mandate-run",
+  "title": "Mandate Run",
+  "tagline": "Give your agent a mandate, not a credit card. It refuses what it can't justify.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rgu6v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vtlpI9bdMqU7mN6RxBp4z9mYAZ3mlF9xb9AEIchcTp8/high.mp4",
+  "demo_url": "https://mandate-run.github.io/mandate/",
+  "source_url": "https://github.com/mandate-run/mandate",
+  "finalist": false,
+  "description": "An agent handed a wallet will spend it. Mandate is the layer that decides whether a purchase is worth making at all.\n\nGive it a purpose, a budget, and hard constraints. It sends each x402 seller the real request to collect a live 402 quote, then competes three plans over the remaining work: staged evidence, a hybrid, or one bundle. It picks the lowest expected cost among plans whose worst case still fits the budget at full coverage, reserves the final step so it can always finish, and pays one signed Hedera transfer per purchase.\n\nWhen no plan can guarantee coverage, it refuses before spending a cent and says what completion would have cost. That refusal is the product, not a failure mode.\n\nThe worked example investigates Uniswap v3 liquidity. It screens five pools, finds the one that moved, buys transaction-level evidence for that pool alone, and writes an explanation in which every number is checked back against purchased facts. A model only writes prose; the runtime computes every claim itself.\n\nSettlement is proven from the Hedera mirror node's records for the runtime's own transaction id, never from an HTTP response. A lost response is recovered with the original signed payment rather than a second one. A crash costs at most one attempt. Every decision writes a receipt to Hedera Consensus Service.\n\nPayment behavior is verified by Proctor, a harness in the same repo. Its task contracts have two halves: one reads the buyer's own report, the other reads what Proctor measured independently from the seller's journal and the buyer's ledger. A check passes only when both agree, because an application is never its own oracle. Proctor caught a real double-payment bug during development from the journal, not from anything the buyer said about itself.",
+  "how_its_made": "The buyer runtime is Rust, edition 2024 on 1.98.1, with its own x402 types and an exact-scheme Hedera signer built on the Hedera Rust SDK. State lives in SQLite as a recovery ledger: signed payment bytes are persisted before anything leaves the process, so a crash or a dropped response never costs a second payment. A single ledger invariant (settled + outstanding + held <= budget) is enforced on every transition and tested across 200 randomly interleaved operations.\n\nThe sellers are TypeScript on Node 24: four x402-gated endpoints with published tariffs, priced per pool, per pool-window, and per input KB rather than a flat rate. They serve evidence from the Uniswap v3 subgraph on The Graph Network (5zvR82QoaXYFyDEKLZ9t6v9adgnptxYpKpSbxtgVENFV) through the gateway with a Subgraph Studio key, reading token-denominated TVL at the window's two observation blocks, hourly volume, and the largest events above a materiality threshold. Every response states its block range, coverage, truncation, and indexing status, so the buyer can tell thin data from no data.\n\nPayments settle on Hedera testnet through the Blocky402 facilitator, which acts as fee payer and co-signs. The asset is a field of the mandate, so one code path settles HBAR and any fee-free fungible HTS token. Circle's testnet faucet never delivered USDC to us after four attempts, so rather than fake it we made the runtime mint its own HTS token and proved settlement in that instead.\n\nTwo things worth calling out. First, HTS custom fees: a token can carry a fee schedule that debits the payer beyond the payment, so the runtime checks mirror-node token metadata before signing and settlement reconciliation independently rejects any extra debit. Second, the harness. Proctor reads a SQLite ledger and a JSON-lines journal as plain files and links to nothing, so it tests any service that writes those two artifacts. Its bounded agent loop hands failing checks to a coding agent and retries, but never while a payment is unresolved: with money neither spent nor free, editing code and re-running could sign a second payment against the first, which is exactly the failure the harness exists to catch.\n\nThe whole thing runs from a clean clone with one setup script that creates its own HCS topic, pins the served manifest hash into the example mandates, and starts the sellers with canned Graph facts so no API keys are needed. Verified end to end on testnet: 175 Rust tests, 83 seller tests, 10 Python tests, 87% coverage.",
+  "auto_summary": "A Rust and TypeScript system that budgets, purchases, verifies, and audits x402-gated blockchain data requests settled on Hedera.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mandate-run-rgu6v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

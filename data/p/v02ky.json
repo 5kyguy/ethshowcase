@@ -1,0 +1,22 @@
+{
+  "id": "v02ky",
+  "slug": "phulax",
+  "title": "Phulax",
+  "tagline": "Your defi Guardian agent that never sleeps. Protect. Detect. Withdraw.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v02ky/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YApaEa01YZSyzu1tIQmK9PjyWOH00Z4QjU9M3ryJRgZPg/high.mp4",
+  "demo_url": "https://46.225.141.153/",
+  "source_url": "https://github.com/Dev43/phulax",
+  "finalist": false,
+  "description": "This project is meant to safeguard users in yield protocol. I myself have been victim of defi hacks on various yield protocols and so I wanted to build something that can help that.\n\nWhat I built is a guardian that watches over every transaction that hit the pool you are in.\n\nYou deposit through `PhulaxAccount, a smart contract  where the agent key can call exactly one function withdraw(adapter)` and funds are hard-coded to return to you.  This is fine as worst case, the agent gets compromised and forces an exit.\n\nA Keeperhub worflow has most of the steps, it fetches the latest transactions, runs it through a detection pipeine which checks for invariants, oracle deviation, vector similarity against historical exploits, and a  classifier we fine-tuned. If risk crosses the threshold, the keeperhub workflow is set to withdraw the funds and append a log to 0g. The guardian is also an iNFT so it can be monetized and transferrable.\n\nHere is the demo:\n- https://46.225.141.153/web/what-is-it -> explains the project\n- https://46.225.141.153/ -> a fork of keeperhub with 0g integration and my custom workflow. To Sign in using username: patrick@bytalabs.com and password: password. You will find 2 workflows, one is to show the 0g nodes crearted, the other one \"Phulax Guardian\" is the one I'm talking about\n- https://46.225.141.153/web -> frontend to see what the agent is doing\n",
+  "how_its_made": "I combined the power and extensibility of Keeperhub. First I added 0g as a first class citizen workflow into Keeperhub (which I will make a PR for) so we can do inference/kv get and puts and append logs to 0g. This was useful for my use case. Tech used: Keeperhub, nodejs, 0g cli and docs\n\nThen I created a library of past defi attacks, stored those on 0g storage,  used 0g to fine tune a model on those attacks (using Qwen 2.5). Because 0g doesn't allow yet to run inference on the fine tuned model I had to spin up a server for that inference step, otherwise this would be on-chain (or on network). Tech used: Python, FastAPI, uvicorn, transformers, PEFT, PyTorch, Pydantic v2\n\nThen I created the smart contracts that were needed for this, a fake lending pool, the Phulax smart contract and a fake token with scripts to send transactions to them. Also created the iNFT contract. Tech used: Solidity, foundry, iNFT\n\nThen I wired everything together using Keeperhub which was very easy as it's simply drag and drop. I had to fine tune some steps to ensure that the agent doesn't by default withdraw, it was a lot of fine tuning on the different detection tiers. But I've always thought it's better to be safe than sorry (forego a few cents of APY to keep your principle!) \n\nI created a nextjs frontend to visualize it all, along with SSE events so we can understand what the whole flow is doing.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/phulax-v02ky",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

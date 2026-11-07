@@ -1,0 +1,30 @@
+{
+  "id": "ax5y5",
+  "slug": "zapvault",
+  "title": "ZapVault",
+  "tagline": "Cross-chain automated LP on Uniswap v4. Deposit from any chain, AI rebalances your liquidity.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ax5y5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Sg72v2h00MMfHOac61zbJtZJFZ01zS9VVYB45ocsIgVc00/high.mp4",
+  "demo_url": "https://www.zapvault.me/",
+  "source_url": "https://github.com/joaoolucas/zapvault",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "ZapVault is a cross-chain automated liquidity provision protocol built on Uniswap v4. Users deposit any token from any EVM chain (Ethereum, Arbitrum, Polygon, or Base) and ZapVault automatically provisions concentrated ETH/USDC liquidity on Base, all in a single transaction.\n\nThe protocol uses a standalone vault architecture that implements Uniswap v4's `IUnlockCallback` to interact directly with the singleton PoolManager. There's no custom hook needed, ZapVault works with the existing hookless ETH/USDC pool on Base. When a user deposits USDC, the vault reads the Chainlink ETH/USD oracle to center a tick range, swaps a portion of USDC to ETH at the optimal ratio, and provisions concentrated liquidity, all atomically inside a single `unlock` callback using v4's flash accounting.\n\nAn AI keeper powered by Claude Opus 4.6 runs on a cron schedule, monitoring every active position. When the ETH price drifts beyond a user's configured threshold, the keeper calls `rebalance()` to remove the old position, re-center on the current oracle price, and re-provision liquidity. Users can customize their strategy (range width, rebalance threshold, slippage) via ENS text records, and anyone can follow a strategist's published config when depositing.\n\nWithdrawals convert everything back to USDC-only, making it trivial to bridge back to any origin chain.",
+  "how_its_made": "The smart contracts are written in Solidity 0.8.26 targeting the Cancun EVM with `via_ir=true`, built and tested with Foundry. The core is `ZapVault.sol`, a standalone contract implementing `IUnlockCallback`, it calls `poolManager.unlock()` and performs swaps + `modifyLiquidity` inside the callback, settling all deltas atomically via v4's flash accounting. A separate `ZapVaultRouter.sol` handles USDC transfers and is designed to be LI.FI Composer-compatible: its `deposit(user, amount, ...)` signature lets the LI.FI Composer contract call it directly as the final step of a cross-chain bridge, so users on Ethereum/Arbitrum/Polygon get a seamless one-click deposit without ever touching Base manually.\n\nChainlink's ETH/USD price feed on Base centers the LP range, the oracle determines range boundaries while the pool's actual `sqrtPriceX96` is used for liquidity math. This avoids the manipulation risks of using pool price for ranging while still calculating accurate token ratios.\n\nThe AI keeper is a Vercel Cron serverless function that calls Claude Opus 4.6 with on-chain context. It reads `needsRebalance()` for each depositor and executes rebalance transactions when positions drift out of range. The keeper is non-custodial — if it goes down, positions stay active in the pool and users can withdraw at any time.\n\nENS integration stores strategy configs as three text records (`vault.range`, `vault.rebalance`, `vault.slippage`). The frontend reads these on-chain via wagmi, letting users follow any strategist's ENS name to auto-fill deposit parameters. This creates a social layer where experienced LPs can publish strategies for others to copy.\n\nThe frontend is Next.js 16 with wagmi v3, RainbowKit for wallet connection, and Tailwind CSS. Cross-chain deposits use LI.FI's SDK to quote and execute bridge+swap routes, with the Composer integration delivering USDC directly to the router contract on Base. One notably hacky thing: since `forge script` had persistent socket errors in our dev environment, all contract deployments were done via raw `cast send --create` with manually encoded constructor args from a temp directory, unconventional but it worked reliably.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zapvault-ax5y5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

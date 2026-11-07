@@ -1,0 +1,27 @@
+{
+  "id": "ke33e",
+  "slug": "ratespace",
+  "title": "RateSpace",
+  "tagline": "Swap any staked-ETH token on 1inch Aqua at its live oracle rate, from one shared ETH balance.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ke33e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LYTTsk8Z98o6my8dFKmw7gxZgH427yIpJV4kFA5gbMc/high.mp4",
+  "demo_url": "https://ratespace-rust.vercel.app",
+  "source_url": "https://github.com/AaronTan11/ratespace",
+  "finalist": false,
+  "description": "RateSpace is a moving-peg market maker built on 1inch Aqua and SwapVM. Staked-ETH tokens like wstETH, rETH and weETH are pegged to ETH, but the peg drifts every day as staking rewards accrue. 1inch's own docs say PeggedSwap is \"not suitable for pairs where the peg ratio drifts over time (e.g. WETH/wstETH)\". RateSpace fixes exactly that where the swap price is read from the token's own on-chain rate (Lido's stEthPerToken, Rocket Pool's getExchangeRate, EtherFi's getRate) at trade time, so the quote follows the oracle with no re-posting. One shared ETH balance in Aqua backs every staked-ETH market at once; the maker never splits liquidity into separate pools. A guard band (500 bps around the reference rate, hard cap 1000 bps) and a 0.05% fee protect the maker from a bad or stale report. In our mainnet fork test, a real Lido rebase moved our price 0.003 bps off the oracle while the frozen PeggedSwap was 0.617 bps off. It is live on Sepolia through 1inch's official AquaSwapVMRouter, and the same pricing also ships as our own SwapVM opcode.",
+  "how_its_made": "Contracts are Foundry, built on 1inch's swap-vm. The pricing lives in two forms with identical maths, MovingPegSwap, a new SwapVM instruction (opcode 0x59) for our own router, and MovingPegExtruction, an Extruction target (opcode 0x20) that runs unchanged inside 1inch's deployed AquaSwapVMRouter v1.0.2, so no fork of the official router is needed. Rate providers wrap Lido, Rocket Pool and EtherFi behind one IRateProvider.rate() interface. An on-chain RateSpaceOrderBuilder encodes the program bytes, so the app never hand-builds orders. Aqua ship/pull/push moves tokens at fill time; one wallet is promised to many strategies and the wallet balance is the limit. Hacky bit, 1inch's live router only exposes Extruction, so we shipped the exact same maths as a plug-in for it instead of asking anyone to upgrade.",
+  "auto_summary": "A Foundry-based DeFi project that builds a moving-peg market maker on 1inch Aqua and SwapVM for staked-ETH pairs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ratespace-ke33e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

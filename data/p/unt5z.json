@@ -1,0 +1,26 @@
+{
+  "id": "unt5z",
+  "slug": "siu",
+  "title": "Siu",
+  "tagline": "SIU is an overcollateralized USD stablecoin backed exclusively by hBTC",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/unt5z/banner/default.jpg",
+  "demo_url": "https://suiiii-ecru.vercel.app/",
+  "source_url": "https://github.com/IlPi21/SIU",
+  "finalist": false,
+  "description": "SIU is an overcollateralized USD stablecoin backed exclusively by hBTC — native Bitcoin bridged trustlessly to Sui via Hashi. MakerDAO mechanics, Liquity minimalism: one collateral, no governance token, no custodians, and a mint authority that is sealed inside the protocol object so no key can ever inflate the supply.",
+  "how_its_made": "One Move package on Sui testnet: a shared Protocol<phantom C> object holding the CDP engine, the PSM and the Earn pool, with the TreasuryCap<SIU> sealed inside — only CDP logic can mint, no key can inflate the supply. Interest drips per-millisecond through a Maker-style rate accumulator; the frontend (React + Vite + @mysten/dapp-kit) reads everything via gasless devInspect. The protocol is generic over the collateral type: I developed against a mock coin, then instantiated it with real Hashi hBTC changing zero lines.\n\nPartner tech: Hashi — I bridged actual sats from Bitcoin Signet during the hackathon, and hBTC is the only collateral. Pyth — permissionless BTC/USD updates, verified on-chain (feed id + freshness). Circle USDC backs the PSM. The USDC→hBTC swap route chains psm_swap_in + redeem in a single PTB — aggregator-style routing for free, thanks to Sui composability.\n\nHacky bits: Pyth's Move packages wouldn't resolve on testnet, so I vendored them and rewired the Move.toml by hand. My redeploy script couldn't close a vault sitting at min-debt, so it withdraws one satoshi to force an interest settlement first — dumb, effective. A testnet-only oracle override lets me crash BTC on demand to demo liquidations.\n\nI built this solo with Claude Code and the sui-pilot plugin skills: Move LSP diagnostics while writing the contracts, /move-code-review before deploying, and Claude verified its own UI work by screenshotting every tab with Playwright and fixing what it saw. 9/9 Move unit tests, plus a full on-chain E2E that exercises every public function live — including a liquidation under a simulated price crash.",
+  "auto_summary": "A Sui-based overcollateralized stablecoin protocol uses Move contracts, a React frontend, and external oracle and bridge integrations.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/siu-unt5z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

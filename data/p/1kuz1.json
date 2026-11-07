@@ -1,0 +1,30 @@
+{
+  "id": "1kuz1",
+  "slug": "everyaid",
+  "title": "EveryAid",
+  "tagline": "Direct aid. Zero fees. A transparent lifeline from heart to hand.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1kuz1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OUO18dWcez9LOM14iLK3iTOgGB01xZymw9iObqsXWjCM/high.mp4",
+  "demo_url": "https://everyaid-app.vercel.app",
+  "source_url": "https://github.com/marvelcn015/everyaid-app",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Today, while millions of refugees are forced to flee conflict and injustice, individual giving has plummeted to a ten-year low. This isn't because people stop caring—it's because they've lost faith in a system where high fees erode over 30% of every donation and a lack of transparency leaves donors in the dark. EveryAid reclaims this trust by building a \"Decentralized Lifeline\" through two strategic pillars:\n\n1. Frictionless Real-Time Support: \nWe empower survivors to broadcast their urgent needs through live streams, allowing donors to witness the tangible impact of their support as it happens. Leveraging Yellow Network’s state channels, we enable a seamless \"one-tap\" donation experience. Within an open channel, donors can contribute instantly and repeatedly without complex transactions. All contributions are bundled and settled off-chain, achieving gas-free instant transactions through Nitrolite sessions, ensuring that every dollar is delivered with zero loss the moment the stream ends.\n\n2. Verified Digital Identity: \nTo ensure every dollar reaches the right hands, EveryAid utilizes ENS-based digital identities to verify the authenticity of every broadcaster. Each survivor is equipped with a unique, verifiable on-chain profile—functioning like a digital passport—to prevent impersonation and fraud. By providing a traceable record for every transaction, we close the trust gap, allowing donors to see exactly who they are supporting and how lives are being transformed.\n\nEveryAid is a transparent infrastructure ensuring that in every crisis, every aid truly matters, and no one is left behind.",
+  "how_its_made": "Yellow Network / Nitrolite SDK is the core of our donation pipeline. \nWe built two custom React hooks — useNitrolite (donor-side) and useHostNitrolite (broadcaster-side) — that manage the full state channel lifecycle over WebSocket. \n\nThe donor flow: connect to ClearNode, generate an ephemeral session key via generatePrivateKey(), authenticate through an EIP-712 challenge/verify handshake (createAuthRequestMessage → createEIP712AuthMessageSigner → createAuthVerifyMessage), then send donations instantly via createTransferMessage — all off-chain with zero gas fees. \n\nOn the broadcaster side, ClearNode pushes real-time TransferNotification messages over WebSocket so donations appear the moment they arrive. When ready, the broadcaster claims all funds by closing channels with createCloseChannelMessage — settling everything on-chain in a single transaction. This means thousands of micro-donations only cost one on-chain tx.\n\nENS serves as a portable digital identity layer. We built a standalone mainnet viem publicClient (lib/ens.ts) separate from wagmi's config, a useEnsName hook that performs real getEnsName() reverse resolution with React Query caching, and a reusable EnsName component with a verified badge. ENS names are resolved across 6+ surfaces: stream cards, donation feed, live chat, tip panel, host dashboard, and broadcaster profile. For displaced people, this ENS identity becomes an unforgeable, borderless credential that persists even when physical documents are lost.\n\nWebRTC handles peer-to-peer live video streaming (host → viewers), with signaling done entirely through Supabase Realtime broadcast channels — no extra signaling server needed. Supabase also powers our database (JSONB document store), real-time chat, and authentication.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/everyaid-1kuz1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

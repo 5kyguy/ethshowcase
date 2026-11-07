@@ -1,0 +1,33 @@
+{
+  "id": "63ywx",
+  "slug": "vouch",
+  "title": "Vouch",
+  "tagline": "Proof before payout: Vouch verifies sensor data before DePIN rewards are released.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/63ywx/banner/default.jpg",
+  "source_url": "https://github.com/fac3m4n/vouch",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "AI & Agentic Payments on Hedera",
+      "title": "AI & Agentic Payments on Hedera"
+    }
+  ],
+  "finalist": false,
+  "description": "Vouch is a quality oracle for DePIN networks that need to reward useful real-world data without blindly trusting every device. In our demo, three iPhones capture the same motion with their accelerometers and gyroscopes while one can inject a replay, freeze, bias, or timing fault. Vouch checks app identity, freshness, signal quality, and agreement between nearby devices, then creates a privacy-safe evidence record and an explainable verdict. Healthy devices receive a precommitted Hedera testnet reward; failed or ambiguous devices do not. The result is “proof before payout”: a reusable verification layer that can sit between physical sensors and an existing DePIN reward engine, without exposing raw sensor streams publicly.",
+  "how_its_made": "Vouch is an Expo / React Native app backed by Node.js, Fastify, TypeScript and Zod. Three physical iPhones sample accelerometer and gyroscope data at ~50 Hz for four seconds. Apple App Attest binds each signed batch to a legitimate app instance. The server runs deterministic freshness, replay, flatline, range and timestamp checks, then uses robust peer correlation to detect a device that disagrees with the group. Those checks always win: an AI model can explain or deny a result, but can never override a hard failure.\nWe canonicalize only derived features and hashes as RFC 8785 JSON, excluding raw readings and private attestation data. The exact bytes are uploaded to 0G Storage, downloaded again with Merkle-proof verification, re-hashed, and only that verified payload is sent to a 0G Compute provider. Its structured verdict must echo the same storage root and manifest hash, and we verify the provider response before proceeding.\nOn Hedera, we create one Scheduled Transaction per device before capture from a 2-of-2 reward vault. The treasury pre-signs it, but Vouch’s settlement agent withholds the second signature until a custom Hedera Agent Kit policy reconstructs a matching CHALLENGE → EVIDENCE → VERDICT chain from HCS through a Mirror Node and sees a root-bound ALLOW. Passing schedules execute an HBAR testnet payment; denied schedules expire unsigned. An Expo web dashboard displays the full proof trail and explorer links.\nThe hacky part is binding evidence that does not exist yet to a reward committed before measurement: the schedule is committed to the challenge and nonce first, HCS later binds that schedule to the 0G Merkle root, and the verified 0G verdict echoes the root before Hedera releases payment.",
+  "auto_summary": "A mobile and server system verifies multi-device sensor evidence, stores hashed manifests on 0G, and conditionally releases Hedera testnet rewards.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/vouch-63ywx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

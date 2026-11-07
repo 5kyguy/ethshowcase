@@ -1,0 +1,35 @@
+{
+  "id": "7sijq",
+  "slug": "lplens",
+  "title": "LPlens",
+  "tagline": "Autonomous 0G agent that diagnoses bleeding Uniswap LP positions and migrates them via Permit2.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7sijq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qljcWocdA02nmntAq45Cv400GPf58gv6baaM1t1xrQwLY/high.mp4",
+  "demo_url": "https://github.com/JeanBaptisteDurand/Open_Agent_2026",
+  "source_url": "https://github.com/JeanBaptisteDurand/Open_Agent_2026",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Open Agents 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "49.5 % of Uniswap V3 LPs end net-negative vs HODL. They have no tool that explains why.\n\nLPLens is an autonomous agent on the full 0G stack that reads any Uniswap V3 or V4 position, decomposes impermanent loss from the tick range and current sqrtPriceX96 (closed-form, Uniswap whitepaper), classifies the pool's regime (mean-reverting, trending, JIT-toxic, high-toxic), discovers candidate V4 hooks via the V4 subgraph, replays the pool's last 1 000 mainnet swaps swap-by-swap through SwapMath.computeSwapStep with and without each candidate hook installed (acceptance test AT-2 anchors this at 0 bps drift vs on-chain post-swap state), and proposes a one-click Permit2 migration to the best fit.\n\nEvery numeric value carries an honesty label (VERIFIED / COMPUTED / ESTIMATED / EMULATED / LABELED). The verdict is synthesized inside a 0G Compute TEE-attested enclave; an inline hallucination guard masks any LLM number that doesn't trace back to the structured report payload before anchoring. The signed report is pinned to 0G Storage, the rootHash is anchored on 0G Chain via a public registry, and 5 text records are published under the agent's own ENS name on Sepolia. Five independent verification surfaces, no LPLens server in the trust path.\n\nLPLens also exposes a Model Context Protocol server. Other agents (Claude, Cursor, custom orchestrators) call lplens.diagnose / preflight / migrate / lookupReport / lookupReportOnChain / resolveEnsRecord over stdio, paying via on-chain mintLicense (royalty splits 80 / 20 between iNFT owner and protocol treasury). Same engine: consumer browser app for LPs, MCP API for agents.\n",
+  "how_its_made": "The agent runs as a 10-phase pipeline streamed over SSE: position resolution (V3 subgraph + on-chain V4 PositionManager reads) → IL reconstruction (closed-form via SqrtPriceMath, Uniswap whitepaper eq. 6.29 / 6.30) → regime classification (realized vol / Hurst / linreg + JIT and sandwich proxies) → V4 hook discovery (V4 subgraph + 14-bit permission bitmap decoder → 7-family classifier) → hook scoring (1 000-swap replay, AT-2 anchored at 0 bps drift) → migration preview (Uniswap Trading API quote + Permit2 EIP-712 bundle) → verdict synthesis (0G Compute TEE-attested qwen-2.5-7b-instruct, with the AT-4 hallucination guard inline) → 0G Storage upload → 0G Chain anchor → ENS publish. Every tool call streams a typed event so the user watches the diagnosis happen on a live ReactFlow graph.\n\nStack: TypeScript pnpm monorepo. Frontend: Vite + React 18 + TailwindCSS + Radix + ReactFlow + wagmi + viem. Backend: Express + Prisma + Postgres + pgvector + Redis + BullMQ. The verdict orchestration uses LangChain over the 0G Compute broker; the AT-4 guard is regex-extracted number checking against the structured report (no separate LLM call). Pool indexing uses OpenAI embeddings stored in pgvector for the corpus side.\n\n0G integration: agent inference runs on 0G Compute (TEE-attested broker, qwen-2.5-7b-instruct provider 0xa48f0128…2E67836); reports are pinned to 0G Storage and the rootHash is anchored on 0G Chain through a deployed LPLensReports registry; the agent itself is minted as an ERC-7857-style iNFT (LPLensAgent tokenId 1 on 0G Newton, chain ID 16602) whose memoryRoot, reputation, and migrationsTriggered counters advance on every diagnose / signed migration.\n\nUniswap integration: V3 + V4 subgraphs, on-chain reads on the V4 PositionManager, the Trading API for the swap leg quote, and Permit2 EIP-712 PermitSingle for single-signature migration bundles (close V3 → swap → mint V4 in the chosen hook). After the user signs, the digest is posted back so LPLensAgent.recordMigration(tokenId, digest) increments migrationsTriggered on chain — proof the diagnosis led to a real signed user action. AT-2 (1 000-swap replay at 0 bps drift) is the technical wedge.\n\nENS integration: the agent's iNFT identity resolves to lplensagent.eth on Sepolia. Each diagnose publishes 5 text records keyed lplens.<tokenId>.{rootHash, storageUrl, anchorTx, chainId, verdict} so any external agent can resolve the parent name and enumerate every report this agent has produced, indexed by Uniswap position tokenId. The MCP tool lplens.resolveEnsRecord exposes that lookup over stdio with no LPLens API in the trust path.\n\nMCP server: standalone @modelcontextprotocol/sdk binary exposing 6 tools (diagnose, preflight, migrate, lookupReport, lookupReportOnChain, resolveEnsRecord). The diagnose tool gates on LPLensAgent.isLicensed(tokenId, caller) read directly from 0G RPC before the API call — unlicensed callers get a paymentRequired payload with the contract address, ABI fragment, and suggested price. License payments settle in OG (native 0G token) via mintLicense{value:…}, with the contract atomically splitting the payment 80 % to the iNFT owner and 20 % to the protocol treasury (configurable at deploy). USDC-via-x402 is a documented follow-up.\n",
+  "auto_summary": "A monorepo for analyzing Uniswap LP positions, generating reports, anchoring them on 0G, and exposing the workflow via web and MCP interfaces.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lplens-7sijq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "9wx5k",
+  "slug": "swap-pay-invoice",
+  "title": "Swap-Pay Invoice",
+  "tagline": "Billing module accepting token swap payment for merchants.       ",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9wx5k/banner/default.jpg",
+  "demo_url": "https://eth-tokyo2026.vercel.app/",
+  "source_url": "https://github.com/kfujita0520/EthTokyo2026",
+  "finalist": false,
+  "description": "Swap-Pay Invoice lets one merchant bill in native ETH or an accepted ERC-20. The merchant chooses which tokens to accept, then creates an invoice for a fixed amount, with an optional due date and an optional payer. If no payer is set, anyone may pay. The merchant sees each invoice’s amount, asset, due date, and status. A payer can settle a pending invoice before the due date, either in the invoice currency or by spending another accepted token that is exchanged into that currency in the same payment. The merchant receives the funds, and the invoice is marked paid.\n\nThe same billing flow can be offered through an API as part of a digital asset management service. The merchant creates an invoice through the API and receives a link to the payment page. When payment completes, a webhook notifies the merchant’s existing system so the payment can be reconciled with the matching account or invoice.",
+  "how_its_made": "# Uniswap\nThe app builds Uniswap v4 Universal Router calldata off-chain (V4Planner and RoutePlanner). The contract does not choose the pool. It pulls the payer's tokenIn through Permit2, calls Universal Router, and checks the result. Unspent tokenIn is refunded, and the Permit2 allowance is cleared before the call returns.\nLocal tests run against an Anvil mainnet fork so the script can use live v4 pool liquidity. \n\n# MultiBaas\nTested on Sepolia, as MultiBaas works with live testnets and does not support a local mainnet fork. On Sepolia, the invoice and accepted-token lists are retrieved through MultiBaas event queries rather than eth_getLogs, which helps overcome the limitations imposed by RPC providers on eth_getLogs.\nMultiBaas makes it easier to query and retrieve data that would otherwise be difficult to access efficiently due to the limitations of smart contract data structures.\n\n\n",
+  "auto_summary": "A merchant invoice app with Solidity contracts and a Next.js frontend supports direct token payments or single-transaction swaps into invoice assets.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/swap-pay-invoice-9wx5k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

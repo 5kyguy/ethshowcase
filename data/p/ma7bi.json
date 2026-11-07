@@ -1,0 +1,33 @@
+{
+  "id": "ma7bi",
+  "slug": "alba",
+  "title": "Alba",
+  "tagline": "On-chain revolving credit that settles itself. No keepers, no bots - just Alba.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ma7bi/banner/default.jpg",
+  "source_url": "https://github.com/acollette/alba",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Cross-Chain Automation Hub — Hedera Schedule Service + Axelar",
+      "title": "Cross-Chain Automation Hub — Hedera Schedule Service + Axelar"
+    }
+  ],
+  "finalist": false,
+  "description": "Alba is on-chain revolving credit that settles itself - no keepers, no bots. Lenders publish committed USDC facilities against cbBTC as 1inch SwapVM programs (3 custom opcodes) backed by Aqua pull-rights; borrowers draw on demand. Each maturity is a Hedera scheduled transaction that fires an Axelar GMP message to settle on Base - signature-free via Aqua mode. Defaults trigger partial Dutch-auction liquidation. Rates price off Morpho Midnight's live curve plus a floating band via The Graph's standardized lending subgraphs.",
+  "how_its_made": "Stack: Solidity/Foundry on a Base fork, Next.js frontend, Hedera testnet, Axelar GMP.\n\nHow it's pieced together: Our TermRouter inherits 1inch's AquaSwapVMRouter and overrides _instructions() to add three custom opcodes: _notBefore (maturity gate), _onlyTaker (settlement only via our Axelar executor), and _stopWhenCovered (caps facility draws AND halts liquidation auctions the moment the lender is made whole — one opcode, two products). Lender capital and repayments are Aqua pull-rights; collateral sits in an escrow contract that itself becomes an Aqua maker to run the Dutch-auction liquidation. Each draw registers a native Hedera scheduled transaction; on fire, it dispatches an Axelar GMP message to our AxelarExecutable on Base, which settles via swap().\n\nThe key unlock: Aqua's useAquaInsteadOfSignature — authorization is balance state, not an EIP-712 signature, so a machine can settle months later with nobody awake. That single flag is why keeper-free scheduled credit is possible at all.\n\nHackiest bit: Aqua indexes strategies by hash, so one byte of drift between ship() calldata and the executed order fails as a cryptic \"insufficient balance.\" We built a single ProgramBuilder deriving both from one source of truth — our first Foundry test is the ship→execute round trip. Rates panel pulls Morpho Midnight's live curve plus one Messari standardized Graph query across Aave/Morpho/Compound — same query, three protocols, zero per-protocol code.",
+  "auto_summary": "An on-chain credit system uses custom 1inch SwapVM/Aqua flows, Hedera scheduled transactions, and Axelar messages to automate lending settlement and liquidation.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/alba-ma7bi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

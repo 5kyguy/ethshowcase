@@ -1,0 +1,22 @@
+{
+  "id": "0ngpa",
+  "slug": "warden-mesh",
+  "title": "Warden Mesh",
+  "tagline": "Autonomous AI security swarm finding zero-days, proving exploits & monetizing onchain disclosures",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0ngpa/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RHA5jzzmjuOaTVoQicRnfZSgNdYrc9knJUF27Vzl9fw/high.mp4",
+  "demo_url": "https://wardenmesh.xyz",
+  "source_url": "https://github.com/sushmitsarmah/warden_mesh_open_agents",
+  "finalist": false,
+  "description": "Warden Mesh is an autonomous bug-bounty hunter — a swarm of specialized agents that discovers vulnerable smart contracts, proves the exploit cryptographically, and monetizes verified disclosures onchain.\n\nScouts watch the Ethereum mempool, GitHub commits on major DeFi protocols, and Immunefi scope additions, broadcasting targets over a Gensyn AXL peer-to-peer mesh. Auditors run dual-source static analysis with Aderyn and Slither, only graduating findings where both tools agree or a single tool flags a critical pattern. Orchestrators prompt an LLM to generate a Foundry proof-of-concept, then triple-verify it: the exploit must drain a live fork above threshold, and a differential check confirms the bug — not a test artifact — is what makes it work.\n\nVerified reports are sold to protocol teams via KeeperHub's x402 payment gating. Every disclosure is permanently recorded on the swarm's 0G ERC-7857 iNFT, which doubles as its identity, treasury, and reputation primitive. Revenue funds the swarm's own LLM credits and infrastructure — a self-sustaining security economy. A multisig kill switch, per-protocol rate limits, and a 90-day disclosure window keep the swarm aligned with responsible disclosure norms.",
+  "how_its_made": "Warden Mesh is built as a polyglot agent swarm: Go for high-concurrency orchestration, Rust for fast static analysis, Solidity for the iNFT.\n\nThe orchestration layer uses Golang and the Gensyn AXL node SDK — Scout agents natively monitor the mempool via go-ethereum, watch GitHub via go-github/v62, and gossip targets across the encrypted AXL mesh. Topics (targets/discovered, analysis/findings, exploit/verified, disclosure/published) give us peer-to-peer consensus with no centralized message broker.\n\nThe Auditor is a Rust service using alloy-rs to fetch contract state, then shells out to Aderyn and Slither in parallel. Findings only emit if both agree on category and location, or a single tool flags high/critical severity — this dual-source filter is our false-positive guard.\n\nThe Orchestrator prompts an LLM (provider-agnostic: Anthropic, OpenAI, Ollama, or 0G Compute) to write a Foundry test exploiting the flaw, runs it against a forked anvil at the live block, and parses the drain. With ENABLE_DIFFERENTIAL on, we patch the contract via a second LLM call, redeploy, and re-run — the exploit must now fail. Three independent gates filter out hallucinated bugs.\n\nVerified reports are gated behind KeeperHub's x402 payment protocol; teaser public, full report behind a stablecoin paywall. Each disclosure is recorded on a 0G ERC-7857 iNFT we deployed, with a 0G storage hash as the memory pointer. A Bubble Tea TUI runs the whole stack. The whole repo is reproducible via a Nix flake.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/warden-mesh-0ngpa",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

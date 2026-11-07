@@ -1,0 +1,22 @@
+{
+  "id": "cscxk",
+  "slug": "vela",
+  "title": "Vela",
+  "tagline": "A spending mandate in a Ledger's Secure Element: one tap per envelope, not one per transaction.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cscxk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2eBa4SPgmply2z6bKRKwJ8HtkjSO9sCPOEfHqeUe02y8/high.mp4",
+  "demo_url": "https://vela-console.vercel.app/",
+  "source_url": "https://github.com/edenbd1/vela",
+  "finalist": false,
+  "description": "An agent that spends money needs a credential on whatever machine it runs on, and every guardrail then runs inside the process being attacked: a spend cap in the same memory a prompt injection just reached, an allowlist in a file that process can edit. Hardware custody solves the adjacent problem. It proves you approved, one tap per transaction, and enforces no limit at all. Both assume something an autonomous agent cannot have.\n\nVela moves the decision instead of the human. A native BOLOS app for the Ledger Flex holds a mandate in the Secure Element: this agent, this budget, this ceiling per payment, these payees, these contracts, this many draws an hour. A human grants it once with a tap. After that the agent runs unattended on a machine with no key on it, and every payment is checked inside a chip no host can read or edit. One tap per envelope, not one per transaction.\n\nThen the refusal nothing on a host can make. A transfer names its payee in the transaction body, so any software policy can read it. A contract call names only the contract; where the value lands is an ABI argument the body never interprets, and under prompt injection that argument is exactly what an attacker rewrites. The chip reads that word out of the calldata it is about to sign and compares it with its own account. On a host, the attacker is already inside the thing doing the checking.\n\nAll four agents run on GitHub runners with no USB bus, no seed and no envelope. Each paid inside its own ceiling and was refused above it. Every draw is anchored on Hedera with a 29-byte statement the chip signed, so anyone can check the log from the mirror node in their own browser.",
+  "how_its_made": "The Secure Element app is about 5,400 lines of C on BOLOS for the Ledger Flex: NVRAM mandate storage for eight agents, an on-chip Hedera protobuf serialiser so the chip builds the transaction body itself rather than signing bytes it was handed, and ordered refusals on expiry, payee, ceiling, budget, rate, and the recipient argument inside contract calldata.\n\nPayments are x402 over Hedera, signed on-device and settled on testnet. Every draw is anchored to an HCS topic carrying the chip's own signed statement. A Node verifier and a browser verifier both read that log from the mirror node and nothing else, held in step by a parity suite: one that agrees with itself in a terminal and disagrees in a browser would be the worst possible failure for a claim like this.\n\nAn agent's toolset is derived from the mandate the chip published, so one whose envelope allows no contract calls is never told that swapping exists. Its capabilities come from a broker whose secrets are sealed under the Ledger Key Ring Protocol, so a host holds a membership rather than an API key. A Chainlink CRE workflow in an AWS Nitro enclave can narrow a mandate and is provably unable to widen it.\n\nThe console talks to the Flex over WebHID with nothing installed. macOS gives the HID interface to one process, so the tab lends the device back on the bridge's own port and the gateway never learns a browser is at the other end. The deployed copy has no gateway and still reads your chip, walking the slots itself with a parser pinned field by field against the gateway's.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/vela-cscxk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

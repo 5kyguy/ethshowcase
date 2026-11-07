@@ -1,0 +1,35 @@
+{
+  "id": "pj6re",
+  "slug": "ens-subname-manager",
+  "title": "ENS Subname Manager",
+  "tagline": "Onboard anyone to ENS by email; orgs issue, manage, and revoke member subnames at scale.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pj6re/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5K87rNuSeJR32JHtiQtaTEF00VbBkAqG6WZGJDZmxuXw/high.mp4",
+  "demo_url": "https://ensv2-subname-manager.vercel.app/",
+  "source_url": "https://github.com/ItsBreaker/ensv2-subname-manager",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "1st place",
+      "title": "Most Creative Use of ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "ENS Subname Manager is identity infrastructure that lets any organization issue ENS subnames to its members and manage them from a single dashboard.\n\nIssuing a subname isn't the hard part; the gap is everything around it. A user with no crypto experience signs in with their email, gets a wallet provisioned silently, and claims a name like alice.myclub.eth without ever learning what a wallet or ENS is. Eligibility is decided by their verified email domain: if it matches an enrolled organization, they can claim a name under that org's parent. Every control in the interface carries a plain-language info tooltip, so an admin can manage a namespace without a tutorial.\n\nThe result is an asset the member owns and keeps across apps: a portable identity and membership credential, not a username locked inside one database. For the organization it's a single surface to issue, edit, group, and revoke member identities on-chain at any scale. Admins can split their namespace into subgroups (for example eng.acme.eth) each with its own delegated manager, bulk-invite members by CSV, revoke names on-chain, and watch a live chart of members joining. An organization can register a fresh name through the platform or bring an ENS name it already owns, and members can receive their name in the wallet created for them or one they connect themselves. It's built on ENSv2's new per-name registries and role-based permissions, with a clear path from a small community today to a large user base later.",
+  "how_its_made": "The app is a Next.js and TypeScript frontend using wagmi and viem for all chain interaction, on Ethereum Sepolia, backed by a server-only Supabase database for enrollment and indexing that the browser never touches.\n\nOnboarding runs through Privy: email login provisions an embedded wallet silently, so users new to crypto never touch a seed phrase. Authorization is enforced server-side, never trusted from the client. An API route verifies the caller's Privy token, derives their verified email domain, matches it to an enrolled organization, and only then has the platform's issuer key mint the subname to the member's wallet. The model is \"email = eligibility, wallet = administration\", so receiving a name and governing an organization are deliberately separate powers.\n\nNaming is built on the new ENSv2 contracts on Sepolia, using the Permissioned Registry and its Enhanced Access Control role model: each parent issues through its own UserRegistry subregistry deployed via a VerifiableFactory, and roles such as ROLE_REGISTRAR are granted per resource. That turns a rule like \"this manager can issue under eng.acme.eth but not the organization root, and cannot transfer the parent\" into a protocol-level guarantee instead of a database check. Subgroups are the same pattern one level deeper: a nested name with its own registry and its own delegated manager. Parent registration follows the v2 registrar's commit-and-reveal flow with ERC-20 payment, with the exact contract calls and ABIs adapted from the official ENS CLI (gskril/ens-cli) as reference. Admins can also bring a name they already own: they connect the owning wallet, the server verifies on-chain that it holds the name, and the admin grants the platform issuance rights with their own signature. Issuance sits behind one pluggable interface; the onchain path is implemented, with a self-hosted CCIP-Read gateway designed as the offchain option for future gasless onboarding.\n\nFor verifiable trust at scale, a Chainlink CRE workflow handles organization domain verification. Each node on the decentralized oracle network fetches the domain's DNS TXT record over DNS-over-HTTPS, the network reaches consensus on the result, and that result is written on-chain to a receiver contract; the app reads the contract to decide whether an organization's domain is proven, so admin authority doesn't rest on a single backend. The workflow is demonstrated end-to-end with the CRE CLI simulation broadcasting the on-chain write. Every value in the system, from domains to names to recipient wallets, is dynamic, with no hard-coded names or addresses anywhere in the flows.",
+  "auto_summary": "A Next.js app issues and manages ENSv2 subnames for organization members using email-based eligibility and onchain role-controlled registries.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ens-subname-manager-pj6re",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

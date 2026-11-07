@@ -1,0 +1,60 @@
+{
+  "id": "rpcws",
+  "slug": "guardian-oracle-keeper-protocol",
+  "title": "Guardian Oracle-Keeper Protocol",
+  "tagline": "Novel on-chain Keeper protocol which reacts upon price actions immediately, within the same transaction.",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rpcws/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NSGpYfr8IrA1qVGcyVWF6Jdo01EtRWaxyZ5qeOZG7nVg/high.mp4",
+  "demo_url": "https://github.com/jordan-public/guardian-oracle-keeper/demo/README.md",
+  "source_url": "https://github.com/jordan-public/guardian-oracle-keeper",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊 Polygon — Build on Polygon",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "🛠️ Uniswap Foundation — Best Developer Tooling",
+      "title": "Uniswap Foundation"
+    },
+    {
+      "sponsor": "Aave Grants DAO",
+      "sponsor_id": "oiv32",
+      "placement": "5️⃣ Aave Grants DAO — Built with GHO",
+      "title": "Aave Grants DAO"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Deploy a Smart Contract",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🥈 Neon Foundation - Best Use",
+      "title": "Neon Foundation"
+    },
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "🥇 Mantle — Best Use",
+      "title": "Mantle"
+    }
+  ],
+  "finalist": false,
+  "description": "A novel on-chain Keeper protocol which reacts upon price actions immediately, within the same transaction.\n\nDeFi protocols have suffered issues from latent Oracles and slow reaction by the Liquidation Keepers. No more! This protocol allows DeFi protocols to immediately react to price actions, as soon as they occur on-chain.\n\nThe protocol mechanism is implemented as a pair of Guardian Tokens which can wrap any pair of ERC20 tokens and deploy them at one or more Automated Market Maker DEXes. These tokens intercept the \"transfer\" functions and reverse-calculate the price as soon as transactions occur, and immediately call registered callbacks. These callbacks are typically liquidation or rebalancing operations performed by the DeFi protocols utilizing the Guardian Oracle-Keeper Protocol.",
+  "how_its_made": "The contracts are written in Solidity using the Foundry toolkit for building, testing and simulation.\n\nThe Guardian Tokens are ERC20 tokens issued in pairs which we call Friends. They wrap existing ERC20 tokens and provide additional functionality. In a way, they are indistinguishable to the liquidity pool from any other tokens, thus acting as Trojan Horses.\n\nFor example, we have a protocol in need of liquidations based on the ETH/USDC pricing. The function \"liquidate(uint256 price)\" has to be called when the price crosses the specified value.\n\nOur protocol creates a pair of Guardian Tokens called gWETH and gUSDC, each wrapping WETH (wrapped 1-to-1 ETH) and USDC respectively. Note that these new tokens are Friends, effectively aware of each other. Each one of them is tracking its total supply (well, the supply owned bu authorized DEXes to be precise as this is discussed below in the Safety section). Upon each transfer, the ratio of the total supplies is calculated, which determines their relative price.\n\nOutside protocols can subscribe to one-time function callbacks for a fee. If the callback function would be responsible for re-subscribing again, which makes the process simple and flexible.\n\nWhen the price changes, the tokens go through the list of subscriptions and call the relevant callbacks with the price as parameter. More on the efficient data structures for this below.\n\nNow this pair of Guardian Tokens can be deployed as liquidity on any DEX. As traders trade these tokens, they call the callbacks and perform liquidations on various protocols.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/guardian-oracle-keeper-protocol-rpcws",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

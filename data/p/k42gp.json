@@ -1,0 +1,29 @@
+{
+  "id": "k42gp",
+  "slug": "blobscriptions",
+  "title": "BlobScriptions",
+  "tagline": "Blob Scriptions allows users to inscribe fungible tokens to the 4844 blob space and transfer inscribed tokens. It's largely inspired by BRC20",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k42gp/banner/default.jpg",
+  "demo_url": "https://blobscriptions-frontend.vercel.app/",
+  "source_url": "https://github.com/Dex-C/blobscription",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal London Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "What is Blob Scriptions?\n\nBlob Scriptions (BS) is inspired by Bitcoin Inscriptions and BRC-20 standard. BS uses the Ethereum transaction blobspace for recording token mint and transfer events with its own BS-20 standard.\n\nAren't blobspace ephemeral?\n\nYes, and it is a feature for BS-20, not a bug. An address' BS-20 token balance will be wiped after 4090 epochs if no activity. BS-20 meme coins behave just like genes, and the natural selection process makes sure only the most viral meme survives.",
+  "how_its_made": "1. Implementation\n\nBlob Scriptions is current composed of three components:\n\n*Indexer Backend\nIndexer is responsible for listening to 4844 blob transactions, filter for BS-20 blobs, decode the blob data as json object and store the json object to a centralized database, MongoDB Atlas being used here. The json object here is inspired by the BRC-20 standard, where two methods \"mint\" and \"transfer\" are possible. For mint transactions, the ticker must be unique and never used before. For transfer transactions, the transfer amount must greater than the sender balance. Those checks are performed by the indexer. It is assumed that anyone can run indexer.\n\n*Blob-posting Backend\nBecause browser-based wallets do not support sending 4844 blob transactions (which is very much expected), we have implemented a back-end that uses geth to send 4844 blob transactions. The caveat is that user have to transmit their private key to us. We understand this is not safe for a production environment, and the current design is purely for demonstration purposes.\n\n*Front-end\nThe front-end is the website that you are currently visiting. It has a serverless function for querying the balances of the address and facilitating token mint and transfer operations.\n\n2. TODOs\n\nWe are having issues with 4844 blob transactions. Many attempts were made and the transactions are sent to the mempool. However, it seems the transaction is not being included on-chain. Therefore, we resorted to fill the database with dummy data.\nA balance calculation bug in the indexer needs to be ironed out. As blob transactions can only last 4096 epochs, if an address received X amount of tokens and partially spent the Y amount of the tokens, as the transaction adding X tokens being purged, the address's balance can go to negative, as the transaction spending Y tokens are not purged.\nHowever, this might also be viewed as a feature. A user has to spend all the tokens within 4096 epochs of receiving it, otherwise it's gone forever. It's notable that a user could create a new address and transfer to the own address to circumvent, however, it's also possible to use sybil-resistance solutions such as Worldcoin to prevent this.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/blobscriptions-k42gp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

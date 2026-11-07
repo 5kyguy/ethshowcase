@@ -1,0 +1,36 @@
+{
+  "id": "k5atd",
+  "slug": "metacert",
+  "title": "MetaCert",
+  "tagline": "Loyalty program that reward certified users for past activity and current knowledge",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k5atd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bRdQYPXowjflHhEJudxr6MI02GGkzJCY147jvXaL7HyM/high.mp4",
+  "demo_url": "https://www.canva.com/design/DAFmyTT9VxM/ObLuKJM5D85a_rrHE33bGA/edit?utm_content=DAFmyTT9VxM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+  "source_url": "https://github.com/peopledrivemecrazy/certkit-waterloo2023",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🆔 Polygon — Best use of Polygon ID",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊‍♂️ Polygon — Pool Prize",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "MetaCert is a loyalty program that incentivizes verified users to participate in on-chain and off-chain activities, gain knowledge & unlock rewards.\n\nIt has four components: \n\n-Identity Verification - we issue an NFT certificate based on authentication using WorldID and Metamask.\n\n-Prove Activity- users are incentivized to participate in on-chain or off-chain activities (Protocol interactions, Token Holdings, etc.)\n\n-Knowledge Validation- we created a system that leverages AI to generate on-demand tests on any topic and issue an on-chain certificate.\n\n-Gifting Awards- (Carbon credits, Discounts, Airdrops, etc.)\n\n",
+  "how_its_made": "The user-facing front end was built in React, starting from WAGMI scaffolding. (See: github.com/peopledrivemecrazy/certkit-waterloo2023). This was an immediate challenge since our language of choice and greatest expertise is Svelte. Having to work in React slowed things down considerably and limited artistic creativity. It uses login with Worldcoin to prove personhood and then with Metamask to establish an account. With both in place, the system can issue a 6551 MetaCert to own this person's credentials.\n\nThe credentials come from various sources, notably from passing AI-generated assessments. The NFT contracts are in github.com/peopledrivemecrazy/metacert-metaid721-contract). This includes the MetaID 721 (certificates), and the token bound 6551 MetaCert, which inspired our name. See github.com/peopledrivemecrazy/metaid-issuer-express for the server that issued IDs and certificates and associated tests with accounts.\n\nSee github.com/endymionjkb/waterloo-test-server for the administrative front end that allows creating tests, and monitoring users (logging, etc.) Its main feature is creating new tests, which it does from topic prompts and constraints. For instance, you can ask it to generate a multiple-choice test (with an answer key) on any topic (e.g., particular DeFi protocols), specifying the number of questions and difficulty level. This uses the openAI API.\n\nAnother source of certifications is Polygon ID and \"proof of on-chain activity/holdings.\" In our specific case, we issue a credential for carbon credit balance (from multiple on-chain sources), gathered on mainnet: and propagated to L2s (Polygon zkEVM testnet and Avalanche), so that front ends can operate on L2s that have full knowledge of the user's L1 balances.\n\nThis was an enormous time sink; we ran into multiple issues with Hyperlane, starting with the fact that it isn't deployed on zkEVM mainnet, and the zkEVM testnet deployment (done at a hackathon) seems to be defective. It eventually worked on Avalanche!\n\nThe calculator and receiver contracts are at github.com/endymionjkb/carbon-credit-calculator. CarbonCreditCalculator transaction on Polygon: https://polygonscan.com/address/0xA56fc8d6383E392da2e35e709C58cBf353cfaC2a#events\nCarbonCreditsReceived on Avalanche: https://snowtrace.io/address/0x0f44820F59d631974b12540D7C03309a0a30D29F#events\n\nThe Polygon ID verifier is at github.com/endymionjkb/polygon-id. We ran into many logistical issues there, starting with the version of the node, other system incompatibilities, etc. We were initially planning on running an issuer node, but the final approach was simply shoe-horning the age verification (which has a numeric credential as well), and using the result of the CarbonCreditReceiver. The real issuer would have read this from the L1 or L2 chain (which gives the same results thanks to Hyperlane), and issued the credential. The verifier then had a numeric comparator, ensuring an adequate carbon credit balance.\n\nIn the end, we had a front end where a guaranteed person logs in with Worldcoin, authenticates with Metamask, and is issued a token-bound identity account. This then holds \"certification\" IDs, obtained through passing AI-generated tests or holding VCs from issuers. The idea is a protocol with a bounty, or a college offering a scholarship, or a DAO offering membership, wants to ensure the awardee is: 1) human; 2) has holdings or relevant transactions; and 3) has relevant knowledge, enough to pass a test (like a topical captcha).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/metacert-k5atd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

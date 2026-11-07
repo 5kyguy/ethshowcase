@@ -1,0 +1,27 @@
+{
+  "id": "gry0x",
+  "slug": "credibleexec",
+  "title": "CredibleExec",
+  "tagline": "CredibleExec puts agent collateral behind financial promises with deterministic onchain slashing.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gry0x/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KKQFEBcpkMHFd82rVajChNWCs1pDGoW5VA8zjf400VTQ/high.mp4",
+  "demo_url": "https://credibleexec.vercel.app/",
+  "source_url": "https://github.com/hari-ramsss/Credibleexec",
+  "finalist": false,
+  "description": "CredibleExec is an economic accountability protocol that puts real skin in the game for autonomous AI financial execution.\n\nToday, financial AI agents operate under a fundamental trust gap: users grant execution permissions, but absorb 100% of the financial risk while the AI agent risks zero. Loose natural language promises (such as \"receive at least 0.48 ETH\") dissolve the moment raw transaction calldata is submitted.\n\nCredibleExec solves this by enforcing strict economic accountability onchain:\n\nSeparation of Funds: User principal ($1,000 USDC) and Agent collateral ($100 USDC) are strictly separated. The user's money is never used to satisfy the agent's bond.\nCollateral Locking: Before execution begins, the AI agent must deposit $100 USDC of its own collateral into our OpenZeppelin-backed CredibleExecBond.sol smart contract.\nImmutable Mandate Hash: The user's intent is compiled into four immutable financial conditions (Max Spend, Min Output, Recipient, Deadline) and hashed onchain (keccak256).\nAuthorization & Orchestration: Bazantic Recipes orchestrate the multi-phase workflow (Compile → Fund → Settle), while Privy Embedded Wallets handle user transaction authorization. 1inch supplies decoded DEX swap routes.\nDeterministic Verification: Post-execution, our deterministic verifier evaluates block receipts, ERC-20 log transfers, and native ETH call traces.\nThe Key Innovation — Transaction Success ≠ Commitment Success: A transaction can execute successfully on a DEX, but if it fails to satisfy the user's approved financial conditions, CredibleExec evaluates MIN_OUTPUT_NOT_MET and triggers automated onchain slashing. The agent's $100 USDC collateral is seized and transferred directly to the user's wallet as compensation.\n\nCredibleExec bridges the gap between natural language user intent and onchain economic guarantees, scaling from single-token DEX swaps to automated corporate treasury management and open agent marketplaces.",
+  "how_its_made": "CredibleExec was built as a monorepo workspace using pnpm, TypeScript, Next.js App Router, Viem, Solidity, and OpenZeppelin v5.\n\n1. Smart Contract Architecture (contracts/src/CredibleExecBond.sol)\nThe collateral custody layer is written in Solidity 0.8.24 utilizing OpenZeppelin’s SafeERC20, ReentrancyGuard, and Ownable2Step. It strictly enforces the separation of User Principal from Agent Collateral. The contract locks agent-deposited ERC-20 collateral (depositBond), activates commitments (activateCommitment), and executes one-way deterministic settlement: settleSuccess releases collateral to the agent, while settleFailure slashes collateral to the user.\n\n2. Domain & Mandate Packages (packages/)\n@credibleexec/domain: Defines wire types, Zod schemas, and keccak256 canonical JSON hashing (hashMandate) ensuring mandate conditions cannot be mutated after activation.\n@credibleexec/mandate: Handles exact decimal arithmetic (6-decimal USDC and 18-decimal ETH) avoiding floating-point precision loss.\n@credibleexec/verifier: A pure, deterministic verification engine evaluating actualSpend <= maxSpend, actualOutput >= minOutput, recipient, and deadline.\n3. Sponsor Integrations & Execution Pipeline\nPrivy (@privy-io/react-auth): Handles embedded wallet creation, JWT token verification, and presents Privy's transaction confirmation UI for bounded USDC allowances and swaps.\nBazantic (@modelcontextprotocol/sdk & @bazantic/cli): Orchestrates the multi-phase agent workflow (Compile → Fund → Settle) via custom Bazantic MCP tools.\n1inch Classic Swap v6.1: Provides DEX routing. We built a custom calldata decoder that inspects raw V6 swap calldata to verify routers, assets, amounts, and recipients before Privy authorization.\n4. Backend & Evidence Engine (app/lib/server/)\nThe backend is built on Next.js with SQLite WAL for durable transaction journaling and nonce locks. Evidence collection uses Viem RPC clients to inspect transaction receipts, ERC-20 transfer logs, and native ETH call traces (debug_traceTransaction with callTracer).\n\n5. Notable Technical Feats\nNative ETH Trace Parsing: Because native ETH transfers do not emit ERC-20 events, we built an RPC call-tracer parser that extracts net internal ETH transfers while ignoring reverted subtrees.\nDual Execution Architecture: Created a loopback EVM development chain (pnpm local:chain & pnpm local:demo) allowing complete end-to-end HTTP-to-blockchain testing with automated success & slashing proofs without requiring mainnet funds.",
+  "auto_summary": "An onchain accountability system that bonds AI agents’ collateral against user-defined execution conditions for financial transactions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/credibleexec-gry0x",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

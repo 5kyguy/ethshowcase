@@ -1,0 +1,48 @@
+{
+  "id": "s8ew9",
+  "slug": "tanuki",
+  "title": "Tanuki",
+  "tagline": "Tanuki is a trustless wallet scoring protocol. It uses ZKP’s to trustlessly read historical on-chain activity to calculate wallet scores. Wallet scores are modular enabling use cases like paymasters with loyalty-based subsidies and lending protocols with variable rates.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s8ew9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2zA7Aj01IHnGNScIWNmKWBWIoY22O9yHSPTw8W1V0201l8/high.mp4",
+  "demo_url": "https://eth-tokyo-23-k13265zsi-konradmgnat-gmailcom.vercel.app",
+  "source_url": "https://github.com/AlexCheema/eth-tokyo-23",
+  "prizes": [
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "📜 Scroll — Just Deploy",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊‍♂️ Polygon — Pool Prize",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "🥉 Mantle — Build Use",
+      "title": "Mantle"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Tokyo Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Many protocols require a scoring metric for wallets interacting with them. Examples include 1) credit score protocols, which offer different terms to users based on their scores, 2) NFT pricing models that consider the wallets' past interactions with the NFT to accurately estimate price, and 3) paymasters that determine the amount of gas fee reimbursement for each user. Currently, these methods are performed off-chain, resulting in centralized, less transparent, and trust-dependent systems.\n\nTanuki offers a solution to these problems by utilizing Axiom, a ZK coprocessor, to read and aggregate historical on-chain data in a trustless manner. This enables each protocol to compute relevant metrics fairly and transparently, fostering trustless interactions. Tanuki provides infrastructure code for seamless integration into protocols.\n\nWhile Tanuki's approach is broadly applicable, we demonstrate its effectiveness through two use cases. First, we explore paymasters which typically promise users to pay for or subsidize their gas fees without on-chain enforcement. Second, we showcase a lending protocol with custom loan terms, offering variable terms based on wallet scores. By leveraging Tanuki's solution, both use cases benefit from enhanced transparency, fairness, and trustless operations.",
+  "how_its_made": "The guiding principle in building Tanuki was to have the wallet scoring done in a trustless and decentralized way. For this reason we chose to use Axiom, a ZK coprocessor, to support flexible aggregations of historical on-chain data to derive a score in a trustless way and expose this via a smart contract. The score itself is just a uint256 and protocols can choose how to interpret this score e.g. a service offering gas subsidies may choose to interpret this as the percentage of the gas spent to subsidize.\n\nWe wrote a simple interface in Solidity called IScoreProvider which is the interface for the smart contract that protocols interface with when integrating with Tanuki. This interface has a single function viewScore which takes a wallet address and returns a score for that wallet address (defaulting to 0 for uninitialized addresses).\n\nFor the circuits that calculate the wallet scores, we use axiom's libraries over halo2, a high-performance zk-SNARK proof system written in Rust.\n\nSince Tanuki is an almost fully on-chain protocol (with the exception of the ZK coprocessor which runs off-chain), our tech stack is actually quite simple – no complicated centralized infra to run – once deployed it runs in a fully-managed way on-chain with 100% uptime.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tanuki-s8ew9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

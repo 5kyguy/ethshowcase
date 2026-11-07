@@ -1,0 +1,21 @@
+{
+  "id": "9movz",
+  "slug": "cautious-palm-tree",
+  "title": "cautious-palm-tree",
+  "tagline": "Autonomous agent that rebalances Uniswap v4 LP positions to maximize fees and minimize risk.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9movz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/GjT00XPZvfm01LJDVwoT4rlla2EsEtB9PdsAmS7NND3do/high.mp4",
+  "source_url": "https://github.com/claudioussamuel/cautious-palm-tree",
+  "finalist": false,
+  "description": "This project is an autonomous liquidity management agent built on Uniswap v4 that helps LPs maximize returns while reducing risk. The agent continuously monitors LP positions across multiple v4 pools, tracking key performance metrics such as fee APY, impermanent loss, price range utilization, volatility, and liquidity competition. Using these signals, it makes deterministic, transparent decisions to rebalance positions by adjusting price ranges, migrating liquidity between pools, or reallocating capital when better opportunities exist.\n\nBy leveraging Uniswap v4’s singleton architecture and flash accounting, the agent can rebalance liquidity across multiple pools atomically and with significantly lower gas costs than traditional approaches. Optional v4 hooks are used to observe swaps and liquidity changes, enabling real-time performance tracking and onchain transparency without embedding complex strategy logic onchain. LPs can choose different risk profiles (conservative, balanced, aggressive), while all rebalancing actions are logged onchain with clear reasoning, making the system efficient, composable, and trust-minimized.",
+  "how_its_made": "This project is built as a hybrid onchain/offchain system designed to showcase Uniswap v4’s new primitives while keeping strategy logic flexible and gas-efficient.\n\nOnchain, we use Uniswap v4 hooks and the PoolManager singleton to observe swaps, liquidity changes, and fee generation across multiple pools. A custom hook contract tracks LP position updates and pool-level performance signals, while rebalancing execution uses v4’s flash accounting to atomically remove liquidity from underperforming pools and redeploy it into better opportunities in a single transaction with minimal token transfers and gas overhead. All actions are guarded by strict authorization, slippage limits, and safety checks to ensure LP funds are never moved without consent.\n\nOffchain, a Chainlink CRE-powered agent acts as the decision engine. It continuously analyzes indexed onchain data to compute fee APY, impermanent loss, volatility, price-range utilization, and gas-adjusted expected returns. The agent selects optimal rebalancing actions based on LP risk profiles and only triggers execution when the projected improvement outweighs costs. Envio is used to index Uniswap v4 events and hook emissions in real time, enabling fast and reliable analytics without expensive onchain reads. Gemini is integrated to provide secure offchain computation and orchestration for the agent, improving reliability and separation between execution and strategy logic.\n\nA notable “hacky” optimization is the use of v4’s singleton + flash accounting to rebalance liquidity across multiple pools in one atomic transaction, something that would normally require multiple approvals, swaps, and transactions in earlier Uniswap versions. This design dramatically reduces gas, improves capital efficiency, and makes true portfolio-level LP management possible onchain.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cautious-palm-tree-9movz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

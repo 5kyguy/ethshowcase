@@ -1,0 +1,35 @@
+{
+  "id": "enbkh",
+  "slug": "zw-arm",
+  "title": "ZW.ARM",
+  "tagline": "Agents that scan DeFi yields, decide the best move, and execute it on your wallet via KeeperHub.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/enbkh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uNGySWAEcPUkeXU00FOkkHQnRydpSa3DAjGi5WsR6NMI/high.mp4",
+  "demo_url": "https://zw-arm.vercel.app/",
+  "source_url": "https://github.com/chrsnikhil/ZW.ARM",
+  "prizes": [
+    {
+      "sponsor": "KeeperHub",
+      "sponsor_id": "8exbf",
+      "placement": "3rd place",
+      "title": "Best Use of KeeperHub"
+    }
+  ],
+  "finalist": true,
+  "description": "Zwarm is a small team of autonomous AI agents that manages stablecoin (USDC) deposits on Base mainnet so you don't have to. The goal is simple: stablecoin lending rates on Aave, Compound and Morpho move constantly, and most people miss the best yields because they aren't watching 24/7. Zwarm watches for you, with real money, and rebalances automatically.\n\nThere are three agents and each has a clear job:\n\nAlpha is the trader. Every 30 seconds it checks the live yield on each protocol, runs the numbers through a small AI model running inside a secure enclave (so the decision is provably tamper-proof), and if there's a better yield somewhere else it physically moves the USDC on-chain. Every decision it makes is recorded permanently and the entire history is auditable.\n\nBeta is a subscriber. Anyone can publish their own trading strategy as an NFT on a marketplace, and beta agents can subscribe to it. When beta earns yield using someone else's strategy, 80% stays with beta and 20% goes back to the strategy creator as a royalty. So good strategies become a small income stream for whoever wrote them.\n\nGamma is the critic. It watches everything alpha and beta do and rates each decision, giving the swarm a constant feedback loop so it learns what worked and what didn't.\n\nThe whole system has been running for almost a week on real funds. The three agents have together completed over 12,500 decision cycles, sent 450 transactions on Base mainnet, and chosen the optimal protocol 98.4% of the time, beating every passive strategy on the same money.\n\nIn short: Zwarm is autonomous yield optimization that you can verify, subscribe to, and earn from.",
+  "how_its_made": "The stack is a Next.js 16 app deployed to Vercel with MongoDB Atlas as the cycles + events store, fronted by NextAuth and Privy for wallet auth. \n\nThe actual swarm runs on an Azure VM (Ubuntu, 4 PM2 processes: alpha, beta, gamma, scheduler) so cycles tick on a 30 second cadence independent of Vercel function lifetimes. The dashboard polls a Mongo-backed events feed every 1.5 seconds, which we built after Server-Sent Events kept dying on Vercel's serverless recycles.\n\nEach agent is a TypeScript process. Alpha reads live USDC APYs from Aave, Compound and Morpho on Base via KeeperHub workflows (web3 read-contract plus native plugins), packages them with the wallet's current position into a prompt, and sends that prompt to a Qwen-2.5-7B model running inside a TEE on 0G Compute. \n\nThe TEE attestation is verified, the model returns a \"rebalance to X\" or \"hold\" decision, and if it's a rebalance, alpha calls a second KeeperHub workflow that executes the on-chain redeem and supply transactions. Every decision (inputs, reasoning, action, attestation) is content-addressed and uploaded to 0G Storage, and the rootHash is stored alongside the cycle in Mongo. So the entire history is replayable from the chain side and verifiable from the storage side.\n\nBeta is the subscriber. Strategies are minted as ERC-7857 iNFTs on 0G Chain, with the encrypted prompt and guardrails living on 0G Storage and the iNFT carrying the rootHash. Beta discovers iNFTs broadcast over the AXL peer-to-peer mesh, fetches the strategy from 0G Storage, runs it on its own wallet, and on every yield cycle splits the proceeds 80% to itself, 20% as a royalty back to the curator's wallet. The split settles on-chain.\n\nGamma is the critic. It listens on the AXL mesh, pulls each new alpha and beta decision, runs a separate LLM pass on it, and broadcasts a structured rating back over AXL. So the swarm gets an independent quality signal without any agent trusting another.\n\nA few notable hacks: the agents originally communicated over SSE which silently broke whenever a Vercel function recycled, so we rewrote the event feed as a stateless polling endpoint with an in-memory ring on the function side and a Mongo durable backing store, which heals through any cold start. \n\nThe 0G storage uploader was racing on the same nonce when two cycles fired within five seconds, so we wrapped it in a process-level mutex and bumped the gas tip 3x at the signer level so any replacement attempt clears the chain's \"+10% bump\" rule. The yields cache was also pinning degraded responses (when KeeperHub returned only one protocol due to a flaky upstream) for the full 60 second TTL, so we tagged degraded responses with a backdated timestamp that triggers an immediate background refresh on the next request.\n\nLive on Base mainnet (chain 8453), the swarm has run for 6.9 days on real USDC. Alpha alone has fired 3,973 decision cycles and pushed 450 confirmed transactions through Base, with beta and gamma adding another 8,586 cycles between them for a total of 12,559 across the swarm. Alpha picked the optimal protocol on 98.4% of rebalances, holds a 5.07% time-weighted APY against 4.75% (Compound), 4.07% (Morpho) and 3.40% (Aave) baselines, and the single best capture so far was a morpho to compound rotation at 4.04% to 10.19%, a 6.15pp jump locked in the same minute it appeared on-chain.",
+  "auto_summary": "A Next.js and TypeScript system runs autonomous yield-allocation agents, records decisions, and connects on-chain strategy NFTs with storage and execution services.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/zw-arm-enbkh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

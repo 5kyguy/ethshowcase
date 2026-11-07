@@ -1,0 +1,28 @@
+{
+  "id": "9buqu",
+  "slug": "symbio-hooks",
+  "title": "Symbio Hooks",
+  "tagline": "Enabling the best hooks and the most successful pools to come together, again and again",
+  "event": {
+    "slug": "singapore2024",
+    "name": "ETHGlobal Singapore",
+    "start_time": "2024-09-20T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9buqu/banner/default.jpg",
+  "source_url": "https://github.com/jeffishjeff/SymbioHook",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Hooks, Hooks, and Hooks"
+    }
+  ],
+  "finalist": true,
+  "description": "Typically, a pool is \"soul-bonded\" to a hook at its creation, this forced coupling will inevitably lead to mismatch and sub-optimal pairing. For example, a useful hook may not find sufficient liquidity / volume to bring out its value, and highly used pool may be stuck with an outdated hook.\n\nSymbio Hooks solve this problem by introducing a host/symbiont hooks system that allows multiple hooks to be attached/detached to a pool at anytime:\n- Pools can be initialized with the host hook, entirely following current Uniswap v4 flow\n- Symbiont hooks can attach themselves to one or multiple receptors (pool + hook selector pair), resulting in a many-to-many relationship between pools and hooks\n- Symbiont hook can attach/detach themselves anytime, or be removed by host hook for failing to meet criteria\n- Host hook will forward hook calls to all respectively attached symbiont hooks\n- Host hook can also execute its own logic, such as charge commission or auction off calling priorities",
+  "how_its_made": "This project is built on Foundry with a dependency on the Uniswap v4 Core repository, 100% pure Solidity.\n\nExtra attention is given to keep part of Symbio Hooks loosely coupled. Besides that a pool can have multiple hooks attached and a hook can attach to multiple pools, a symbiont hook can further specify which hook call (function selector) it want to respond to for each pool.\n\nUser security and fairness is another area of consideration. For this purpose, beforeSwap and beforeDonate are not supported at host hook level, to prevent sandwich attack and just in time liquidity exploit respectively.\n\nSymbion hooks will reimburse caller for the gas they consume (and hopefully more). Symbiont hooks that don't have sufficient balance or result in failure will be promptly removed from host hook to save resource. Also reverts from inside symbiont hooks are swallowed by the host hook and not re-thrown, so successful symbionts are not affected, and again failed ones will be removed.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/symbio-hooks-9buqu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

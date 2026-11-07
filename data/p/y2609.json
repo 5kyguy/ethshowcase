@@ -1,0 +1,26 @@
+{
+  "id": "y2609",
+  "slug": "clean-endpoints",
+  "title": "Clean Endpoints",
+  "tagline": "Effortless, safe, and efficient non-custodial DEFI portfolio management.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y2609/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FJOfTLBcROCEJcAYEJb6w61MaXPP02pdkTRhfY9YM538/high.mp4",
+  "source_url": "https://github.com/jaimebarrancos/agent-endpoints",
+  "finalist": false,
+  "description": "Clean, safe, and efficient non-custodial engine for managing DeFi positions.\n\nThis project is a headless, specialized execution engine (accessible via x402 payments) that handles complex DeFi blockchain math and interactions, volatility monitoring, and transaction bundling.\n\nInstead of asking users to lock funds into risky third-party vaults or relying on hallucination-prone LLMs to craft raw transactions, this microservice acts as an off-chain calculation layer. It monitors on-chain data using The Graph and outputs, signable transaction bundles that an autonomous AI agent, bot or user wallet signs directly.\n\nExisting problems:\n- LLM Unreliability: AI agents struggle with coding complex blockchain interactions, and are not trustworthy to manage money directly.\n- Manual UI Rebalancing: Using Web UIs is slow, error-prone, and causes missed yield when it matters (during high-volatility spikes).\n- Vaults and bots: Depositing funds into automated vault contracts adds middlemen and transfers asset custody away from the user.\n\nHow Clean Endpoints solves them:\n- Offload complex work: Clean Endpoints handles heavy data aggregation, precise calculations, and multi-step transaction routing off-chain. This eliminates manual UI errors and unreliable AI math, turning complex operations into single, optimized execution payloads.\n\n- Trustable code: You retain total control of your assets without locking tokens in risky vault contracts or sharing private keys. The service never holds funds—it simply generates safe, pre-calculated transaction bundles that you or your agent verify and sign directly.\n\n- Easy-to-use: It's a lightweight microservice that connects seamlessly to AI agents, custom scripts, or frontends via x402. Its pay-per-use architecture removes subscriptions and setup friction, letting any client trigger actions on demand.\n\nFuture:\nThe future of DeFi is setting up automated scripts and AI agents. With Clean Endpoints, a simple bot can automatically jump into higher-yield pools, copy top traders' moves in real time, or protect your positions before you get liquidated—paying fractions of a cent per request while your funds stay safely in your own wallet.\n\nAs more protocols and networks get added, this microservice becomes a plug-and-play utility belt for crypto automation. It lets any developer launch fast, hands-off financial tools without having to write complicated smart contract math or risk user funds.\n",
+  "how_its_made": "Clean Endpoints connects an autonomous client script (running Node.js or Python) to a headless Express microservice using the x402 micropayment protocol. When an agent requests a health check, x402 handles a $0.10 USDC fee directly over HTTP headers, bypassing traditional API keys. The backend then uses The Graph to batch-query all wallet LP NFTs at once. If a position drops out of range, the server leverages the Uniswap V3 SDK to calculate optimal tick boundaries and the Uniswap API to compute a 50/50 rebalancing swap. Viem then encodes the full sequence—withdrawal, swap, and re-mint—into a raw calldata payload returned to the agent wallet for signing.\n\nIt is currently deployed in local environment. It interacts with a base-mainnet fork and a local The Graph node for complex data retrieval.\n\nA highlight is its zero-custody design: instead of deploying a smart contract vault that takes custody of user tokens, Viem packages multi-step contract calls into a single signable bundle off-chain. This creates a deterministic \"math wall\" that protects against LLM hallucinations while keeping assets entirely in the user's control.",
+  "auto_summary": "A paid Express microservice queries Uniswap position data and returns encoded transaction bundles for LP management without taking custody.",
+  "scores": {
+    "originality": 6,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/clean-endpoints-y2609",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

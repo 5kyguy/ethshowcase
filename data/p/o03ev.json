@@ -1,0 +1,27 @@
+{
+  "id": "o03ev",
+  "slug": "swapper",
+  "title": "Swapper",
+  "tagline": "Swapper: one-command safe token swaps for agents via CLI. Request - x402 - Handoff",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o03ev/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cYpDtWbzvAbbavgRxWDybswp9PWw9LIe54BGhW7bOOg/high.mp4",
+  "demo_url": "https://agentpay-router-zeta.vercel.app",
+  "source_url": "https://github.com/baseddesigner/swapper",
+  "finalist": false,
+  "description": "Swapper is a CLI for agents that need to perform token swaps safely from one command. An agent requests a swap quote, receives an HTTP 402 payment challenge, pays for the request, gets live Base market data, and prepares a policy-checked KeeperHub handoff. The project focuses on the execution boundary: agents should not blindly trade or hold unsafe signing power. Swapper validates the paid quote, checks token allowlists, max notional, chain, and slippage policy, then returns a deterministic handoff receipt and audit summary. For the demo, USDC → cbBTC on Base uses the real cbBTC contract and live market data, while final execution stops at a safe KeeperHub payload preview instead of pretending to submit a live transaction.",
+  "how_its_made": "Swapper is built as a TypeScript/Hono API deployed on Vercel, with a small CLI demo that acts as the agent. The flow starts with an unpaid /quote request returning HTTP 402, then retries with a demo x402-style payment header to unlock a live quote. Quotes use DexScreener market data on Base, with USDC → cbBTC as the main example using the real cbBTC contract. The backend validates paid quote objects with Zod, applies policy checks for chain, token allowlist, notional size, and slippage, then creates a KeeperHub handoff preview. The hacky-but-useful part is the deterministic handoffHash: it looks like a transaction hash for demo clarity, but is explicitly not an onchain tx. It is a receipt proving the paid quote, policy checks, and payload preview all match. The project also includes OpenAPI docs, automated tests, live Vercel smoke checks, and a concise landing page.",
+  "auto_summary": "A TypeScript Hono API and CLI that gates swap quotes behind x402 payments, applies policy checks, and outputs a KeeperHub execution handoff preview.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/swapper-o03ev",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

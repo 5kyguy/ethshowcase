@@ -1,0 +1,21 @@
+{
+  "id": "vo3o1",
+  "slug": "solo-staking-agent",
+  "title": "solo staking agent",
+  "tagline": "Autonomous on-call agent for Ethereum validators. Deploy, monitor, auto-heal, alert via Telegram. ",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vo3o1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/J2boDIjZcDhydiYWOBK4NiX3SayZjzv0200O8U7iMgF5o/high.mp4",
+  "source_url": "https://github.com/HeliosLz/staker-agent",
+  "finalist": false,
+  "description": "Running an Ethereum validator means watching dashboards at 3 AM. Staker Agent is the on-call engineer that does it for you.\nOne process, two loops. A deterministic Monitor Loop watches your node every 60 seconds — it restarts crashed containers, tracks sync progress, and pings you on Telegram only when something actually needs your attention. An LLM-driven Chat Loop lets you manage the validator in plain language: \"deploy on Holesky with Lighthouse,\" \"how's the node?\", \"show me the logs.\"\nFull lifecycle support: environment checks, eth-docker setup, key generation, multi-network (Mainnet/Holesky/Hoodi/Sepolia), multi-client, Lido CSM, remote SSH deploy. CLI, Web UI, and Telegram all backed by the same core engine. Open source, MIT.",
+  "how_its_made": "The whole project is one bet: that you can build a useful operations agent without making the LLM responsible for things it shouldn't be responsible for.\nTwo loops, one tool registry. The Monitor Loop is a 60-second deterministic rule engine — pure Python, no LLM, no surprises. It checks Docker container health and beacon RPC sync status, auto-restarts crashed containers with backoff, and pushes alerts into a shared notification queue. The Chat Loop is LLM-driven (OpenRouter, swappable model) and uses the same tool registry — 12 tools covering deploy, configure, keys, status, logs. When the user asks something on Telegram, we drain the monitor's queue into the LLM's context first, so it answers from fresh ground truth instead of hallucinating health data.\nThe hacky parts. (1) We use a TodoWrite pattern for multi-step deployment — the LLM writes a checklist, executes against it, and ticks items off, which prevents step loss in long conversations. (2) Micro-compaction: old tool results get summarized inline so the context window stays usable across hours of operations. (3) The Telegram bot, Web UI, and CLI all share core/ — adding a new tool means it instantly works in all three frontends.\nStack. Python, Flask, Socket.IO, React/Vite/Tailwind, python-telegram-bot, eth-docker, Ansible.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/solo-staking-agent-vo3o1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

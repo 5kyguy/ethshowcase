@@ -1,0 +1,27 @@
+{
+  "id": "8c4cx",
+  "slug": "veri",
+  "title": "Veri",
+  "tagline": "Veri gives every AI agent a human-verified identity and a scoped, revocable set of permissions.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8c4cx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/r013mKPAWiK4twU8vh87pmjj7NKzOP005rFibtJA01uVlQ/high.mp4",
+  "demo_url": "https://veri-agent-registry.vercel.app/",
+  "source_url": "https://github.com/Gundeti-Anil/veri",
+  "finalist": false,
+  "description": " Veri is a permission and reputation layer for AI agents backed by a verified human. A person proves personhood once with World ID, then issues named agents under an ENSv2 subname registry they control ,each agent gets a scoped, revocable set of rights (read, transact, update its own endpoint, spin up sub-agents) via ENSv2 Enhanced Access Control, not a single binary trusted\" flag. Every registration, grant, and revocation is indexed by a live subgraph, so any third-party service or agent can check, before transacting, exactly what another agent is allowed to do and whether a real human stands behind it.\n",
+  "how_its_made": "Contracts (Foundry, Solidity, Sepolia): VeriRegistrar wraps ENSv2's IPermissionedRegistry and IPermissionedResolver rather than reimplementing name management ,it issues agent subnames (<label>.veri.eth), enforces a 5-agents-per-human cap, and maps capability grants directly onto ENSv2's Enhanced Access Control role bits on each subname's resolver. One non-obvious decision: agents are keyed by labelHash, not token ID — ENSv2 token IDs can mutate across renewals, so token ID isn't a stable identifier for an agent's identity the way it would be in ERC-721/1155; labelHash is.\n\n  The Graph subgraph: AssemblyScript mappings listen to VeriRegistrar and the underlying ENSv2 UserRegistry events and build a queryable graph of humans, agents, capabilities, and their full grant/revoke history ,including revoked capabilities, so an agent's past permissions stay visible even after a right is pulled.\n\n  Backend (Express): the only component holding private keys. It verifies a World ID proof, derives humanId = keccak256(abi.encode(nullifier)) so the raw nullifier never touches the chain or the subgraph, enforces nullifier replay protection itself (World's API only checks proof validity, not reuse), and signs an EIP-712 attestation binding humanId to userAddress that the register contract checks on-chain, bridging an off-chain identity proof into an on-chain trust primitive without ever exposing the signing key to the client.\n\n  Frontend (TanStack Start + wagmi): a directory of agents filterable by capability, a three-step registration flow (verify , choose label/capabilities , sign), and a per-agent page showing live capability status and history pulled straight from the subgraph via the backend.\n",
+  "auto_summary": "A multi-component app that links World ID-verified humans to ENSv2 agent subnames and indexes permissions history with a custom subgraph.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/veri-8c4cx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

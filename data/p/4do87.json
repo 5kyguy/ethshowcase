@@ -1,0 +1,22 @@
+{
+  "id": "4do87",
+  "slug": "zlob",
+  "title": "ZLOB",
+  "tagline": "Private zkCLOB Exchange with Client-Side Proofs + Self.xyz zkIdentity KYC",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4do87/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Le824l6bi1RcQPBtY01E5DGgl00Hln5d01EPfwgyQCby48/high.mp4",
+  "demo_url": "https://placeholder-sbt.vercel.app/",
+  "source_url": "https://github.com/single-instruction/placeholder",
+  "finalist": false,
+  "description": "We aimed to build a private zkCLOB with client side proofs and KYC to participate in trading. The original idea was to build a rollup with an in-protocol orderbook. Also use MoPro for fast proofs on mobile for traders.\n\nMany market makers want to place limit orders for their algorithms in ways that dont expose their balances and/or their orders placed and matched. We use circom circuits to hide who is sending the orders that are being matched. We also operate similar to a centralized exchange and also hide client balances by only posting the state roots for the accounts tree.\n\nWe use circom and snarkjs on web to generate the proofs for each order. The proof generation takes around 2 to 3 seconds with wasm.\n\nWe also wanted to provide verifiable price-time priority and batch orders into blocks and post proofs onto ETH L1 using the OP stack but ran into time constraints.\n",
+  "how_its_made": "To make this product, we used a bunch of zero-knowledge products\nUndermining our product are\n\n- Mopro: Orders are proved valid client-side and submitted as opaque, unlinkable messages. Anyone can verify the validity of the transaction execution without needing to know the sender’s identity.\n- CLOB execution engine: A price-time priority matching engine produces canonical fills and a new state root(custom Rust impl)\n- Succient ZkVM1: The CLOB transition function runs inside SP1 zkVM; the resulting proof attests “given inputs X, the engine produced state Y by running program P.”\n- Self.xyz supplies attestations and selective-disclosure ZK proofs without revealing PII while using government-issued identities. \n\nClient\n\nTypeScript + WASM bindings for prover libraries. It integrates Self.xyz\ncircuits in Circom and compiled them with SnarkJS\n\nSequencer\n\n- Built with Rust + Axum \n- tokio + RwLock for lightweight mempool management.\n- Runs a CLOB engine (inspired by Hyperliquid) written in Rust, deterministic and replayable.\n- The sequencer only verifies proofs and enqueues orders; it does not need to know the sender identity.\n\nRollup + zkVM\n\n- SP1 zkVM runs the order-matching engine deterministically and outputs a succinct proof of state transition.\nEach batch produces:\n- A StateDelta (who traded what, fees, balances).\n- A new StateRoot.\n- An SP1 proof binding input orders to the state update.\n\nIdentity / Policy Layer\n\n- Self.xyz was critical: it allowed us to require proofs like “user is jurisdiction X, not sanctioned” without storing or revealing any raw KYC data.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zlob-4do87",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

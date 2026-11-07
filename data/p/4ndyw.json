@@ -1,0 +1,22 @@
+{
+  "id": "4ndyw",
+  "slug": "credit3",
+  "title": "Credit3",
+  "tagline": "Unsecured lending vaults using Bloom, Molecule, and Aave",
+  "event": {
+    "slug": "marketmake",
+    "name": "MarketMake",
+    "start_time": "2021-01-15T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4ndyw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MQqvj1W8zCY16mJyfLqVZmvmuDnJaojIiQW7PlZ7Orw/high.mp4",
+  "demo_url": "https://docs.google.com/presentation/d/1LQZW1Kzd4AFqp4dvDbm7Q5AMh_scXh2rxzGrkCzoYJY/edit?usp=sharing",
+  "source_url": "https://github.com/ipatka/MarketMake",
+  "finalist": false,
+  "description": "This project combines Bloom data on-ramps, Molecule NFTs, and Aave credit delegation v2 to create a novel unsecured lending application, known as an Unsecured Lending Vault. The vault enables investors to deposit any Aave supported asset into a lending pool controlled by the vault smart contract. The vault then opens unsecured credit lines to qualified borrowers that meet qualifications set by accredited risk assessors. Accredited risk assessors indicate their approval of a borrower by minting an NFT to an individual that has passed their off-chain, proprietary risk assessment process, and has entered into a traditional lending agreement with the lender.\r\n\r\nThis diagram shows the basic entities & functionalities of the unsecured lending vault.\r\nhttps://static.swimlanes.io/485ba9985991ca2ccb96e83eee97dd81.png\r\n\r\nThe risk assessor and lender can be separate entities, but often lenders will have in-house risk assessors.\r\n\r\nInvestors can trade their liquidity provider positions with other investors which allows them to exit from their positions before lockup periods are complete. This also gives other investors exposure to the qualified borrowers of the accredited risk assessors.\r\n\r\n\r\nBorrowers complete KYC & Credit checks in the Bloom app, then share their information with the data on-ramp. the on-ramp evaluates the creditworthiness of the borrower and mints an NFT if they meet the specified requirements.\r\n\r\nThe contract allows for multiple NFT contracts to represent different interest rate & credit limit terms",
+  "how_its_made": "The contract is based on Aave's v2 credit delegation vault example. We added accounting for multiple investors and a ratio based system for tracking rewards and balances for investors. We added an NFT based system to qualify borrowers. NFT token IDs can only be used once. Different NFT addresses represent different borrowing terms.\n\n\n\nhttps://github.com/ipatka/MarketMake/blob/main/contracts/contracts/LendingVault.sol\n\n\n\nBorrowers completed KYC & Credit checks in the Bloom app (credit available in US only for now). Borrowers share information with a web page which checks the borrower's data against the risk assessor terms. If they qualify, the appropriate NFT is minted.\n\n\n\nThe contract collects premium interest on top of the lending pool base interest. Premium interest is configured as a multiplier of base interest. The contract calculates the principal and total balance of the borrower in the lending pool, calculates the base interest, then multiplies it by the configured multiplier.\n\n\n\nBorrowers repay the loan via the lending vault contract so premium interest can be extracted and accounted for.\n\n\n\nLimitations\n\nThe contract stores investor positions as a mapping that tracks the ratio of their investment to the total investment. In the future this should be replaced by an ERC20 liquidity provider token so they can trade their position.\n\n\n\nThe contract can currently be gamed using flash loans to temporarily inflate the liquidity provider's ratio and claim outsized rewards. This should be mitigated by tracking block times of deposits and adding lockup periods for rewards.\n\n\n\nPremium interest rates are deposited into the lending pool and distributed via ratios to liquidity providers. It may be useful to track rewards separately from underlying asset pools so investors can draw rewards but leave initial capital in place.\n\n\n\nNFT minting is not fully hooked up.\n\n\n\nThe contract is susceptible to manipulation by repaying the loan on the lending pool without going through the contract. The contract will revert if manipulation is detected, but it would still cause headaches and require manual intervention.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/credit3-4ndyw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

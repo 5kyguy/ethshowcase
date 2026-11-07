@@ -1,0 +1,22 @@
+{
+  "id": "9e086",
+  "slug": "transvia",
+  "title": "Transvia",
+  "tagline": "Cross-border payments for humans and AI agents — USDC in, local currency out, onchain in seconds.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9e086/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SBizVe01YpMjV1BQwAbBwO02fTX7bh02IpaERWIem8hero/high.mp4",
+  "demo_url": "https://www.transvia.xyz/",
+  "source_url": "https://github.com/proskairos/transvia",
+  "finalist": false,
+  "description": "Transvia is a cross-border payments platform on Arc, Circle’s stablecoin L1 where USDC is the gas token. Anyone holding USDC can send value to 11 destination currencies — EUR, GBP, MXN, BRL, PHP, NGN, AED, SGD, CAD, AUD, and INR — at a flat 0.50% fee shown upfront, with no hidden spread.\n\nFunds are locked in TransviaEscrow, an open-source, zero-dependency Solidity contract. Settlement executes three atomic onchain legs — FX, payout, and fee split — while recipients claim funds using a gasless EIP-712 signature from an embedded wallet created through email login with Privy. This removes seed phrases and gas-token friction from the receive flow.\n\nThe same payment rail is machine-native. Transvia exposes a REST API, TypeScript SDK, MCP server at /api/mcp with six tools for AI assistants such as Claude, and an x402 HTTP payment layer where software pays 0.01 USDC per quote using EIP-3009 signatures.\n\nAutomation agents monitor every transfer and record every decision. They purchase FX feeds through x402, apply compliance rules including holds above 5,000 USDC, and can trigger timeout refunds through the escrow contract’s agentFallback. The live system runs on Arc Testnet with real USDC, Neon Postgres persistence, and Vercel hosting. Every transfer has a complete, auditable trail including state transitions, agent decisions, and Arc explorer transaction hashes.",
+  "how_its_made": "Transvia uses hexagonal architecture: a framework-free core built from pure TypeScript domain logic, ports, and adapters, wired through a single composition root. The Next.js 16 application, REST routes, MCP server, and TypeScript SDK all call the same underlying services rather than maintaining separate implementations.\n\nArc’s USDC-as-gas model eliminates the need for users and agents to acquire a separate gas token. Privy handles identity and embedded wallets: email login creates the recipient wallet, which signs the EIP-712 claim. Sessions are automatically restored on page load, with a browser-local demo wallet fallback when Privy is unavailable so the receive flow remains usable.\n\nSettlement is enforced by TransviaEscrow, an MIT-licensed, zero-dependency Solidity contract built without OpenZeppelin. We hand-rolled EIP-712 verification and a 20 Gwei gas floor. We also added AlreadySettled reconciliation after identifying and fixing a double-settlement race between concurrent state-machine advancers.\n\nFor x402, we implemented the verification layer ourselves: EIP-3009 TransferWithAuthorization signatures are recovered with viem, checked against the payer, and recorded in a payments ledger. We validated the implementation with an independent client and confirmed that tampered signatures are rejected.\n\nA few deliberately hacky reliability features make the rail resilient: it self-heals the escrow’s maximum USDC allowance when approval drifts, while polling endpoints also advance in-flight transfers, effectively making GET requests part of the settlement state machine. This allows transfers to continue progressing without requiring a separate worker process.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/transvia-9e086",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

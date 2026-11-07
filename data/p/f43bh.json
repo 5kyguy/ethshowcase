@@ -1,0 +1,26 @@
+{
+  "id": "f43bh",
+  "slug": "agripinaa",
+  "title": "Agripinaa",
+  "tagline": "An ERC-8004 agent marketplace on BNB Chain where every agent's track record is provable on-chain",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f43bh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uy8tnQSbrYG6waHtqXD7Uy1YWuqJpZguYjBpKMS26Z00/high.mp4",
+  "source_url": "https://github.com/san-npm/agripinaa",
+  "finalist": false,
+  "description": "Agripinaa is an open-source marketplace for AI agents registered under ERC-8004 on BNB Smart Chain. You browse agents by category, read a track record you can check on-chain, and hire one with a scoped, revocable session key. No seed phrase: activation runs on a passkey smart account, and you can revoke from the dashboard at any time.\n\nI run eight agents on BSC mainnet myself so every category has a live reference: two grids, two liquidation guardians (Aave and Venus), two yield rotators, a range manager and a rebalancer. Their swaps clear through Ophis batch auctions, and each profile shows the settlement, the surplus against the signed limit and a downloadable receipt. Execution data, not self-reported stats.\n\nThis is a Continuity project. The marketplace, the agents and the session-key flow were built for BNB Chain's Build the Era hackathon. What I added during ETHOnline (PRs #26 to #31):\n\n- The Graph: Agent0's ERC-8004 subgraph is now the first lane of the agent index in production, and the yield agents ask Messari's lending subgraphs for a second opinion before they move funds.\n- Uniswap: Ranger manages its own capital on Uniswap v3 on BNB Chain. Live since 13 September, position 2745250.\n- Bazantic: two gateways and two recipes, so any MCP client can find, vet and hire an agent without reading my docs.\n- World AgentKit: a free-trial door for human-backed callers on the paid status endpoint. Built and tested, but my agents are not registered in AgentBook because that needs an Orb scan, which I declined.",
+  "how_its_made": "TypeScript monorepo (pnpm workspaces). The marketplace is Next.js 16 on Vercel. The eight agents run in one Node runner on an Aleph Cloud VM under systemd, exposed through a Cloudflare tunnel. Each agent has an ERC-8004 identity on BSC, sells its status over x402, and swaps through Ophis, the intent-based DEX aggregator I run. Users activate an agent with an Altana passkey smart account and a fail-closed session scope. For the yield agents, funds go through a small router contract where every beneficiary is hardcoded to the calling account, so a stolen session key cannot send funds to anyone else.\n\nThe Graph. The agent index merges several sources. I added Agent0's ERC-8004 subgraph as the first lane, with 8004scan and a committed snapshot behind it. It pages newest-first with an agentId cursor instead of skip, so there is no skip cap, and production answers with source \"the-graph\" today. Second Graph product: the Harvester and the Steward read Venus and Aave V3 supply rates from Messari's standardized lending subgraphs, one query shape for both protocols. The Graph can veto a rotation the chain justified, never trigger one, and after 3 vetoes in a row the chain decides alone, so a lagging subgraph can only delay a move. The hacky bit: Messari annualizes Venus with 3-second BSC blocks, and BSC has not produced 3-second blocks since Lorentz/Maxwell, so I rescale their number by the block time the runner measures before comparing anything.\n\nUniswap. Ranger's venue is one record in lp-venues.ts: position manager and factory, each address probed on-chain before use. At runtime it picks the deepest WBNB/USDT pool across the four fee tiers. Once the venue existed, moving production from PancakeSwap V3 to Uniswap v3 was one env variable: 40 seconds from restart to a minted position, with the inventory swap cleared through Ophis first. Along the way I found that slot0 decodes the same on both even though PancakeSwap declares feeProtocol as uint32 and Uniswap as uint8 (ABI words are padded), so one ABI serves both.\n\nBazantic. I published OpenAPI specs for the agent index and for the Ophis Rebates API, made them two paid gateways (1 cent per call in USDC), and wrote two recipes: hire the best agent in a category by measured execution, and vet a wallet. A recorded recipe run picks the agent and returns the settlement tx of its latest fill.\n\nWorld AgentKit. My x402 server is plain node:http, not Hono, so I rebuilt the AgentKit hook by hand, including the challenge nonce and issuedAt that declareAgentkitExtension leaves out.\n\nThe Graph lending check is in the code, but I didn't check that the key is set on the VM. The text never calls it live, so it's safe either way. If you know it isn't set, tell me and I'll soften that line.",
+  "auto_summary": "A monorepo for an on-chain AI-agent marketplace with passkey-based activation, agent indexing, execution proofs, and managed DeFi strategies on BNB Chain.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agripinaa-f43bh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

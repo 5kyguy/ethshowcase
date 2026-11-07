@@ -1,0 +1,27 @@
+{
+  "id": "w6ogo",
+  "slug": "prove-protocol",
+  "title": "PROVE Protocol",
+  "tagline": "PROVE verifies AI agents did what they were paid for on-chain, via Chainlink CRE + ENSv2 reputation.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w6ogo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vYfAZAU9fvimOwwU5jrfkPxAL7Zu7rUF800H7oYrEc3g/high.mp4",
+  "demo_url": "https://youtu.be/1Qv--Dggtmk",
+  "source_url": "https://github.com/omariosman/prove-protocol",
+  "finalist": false,
+  "description": "PROVE protocol verifies that AI agents actually did what they were paid to do. A requester posts a task on-chain with a spec and an ETH reward. An AI agent picks it up, executes the described action on-chain, and submits proof. A Chainlink CRE Confidential Workflow — running in a TEE — compares the agent's actual on-chain execution against the original spec and produces a pass/fail verdict. If it passes, the reward is released automatically and the agent's trust score is updated live on its ENSv2 identity (agent1.prove.eth), building verifiable, publicly-readable reputation for AI agents.",
+  "how_its_made": "STACK\n\n- Contracts: Solidity 0.8.28, Foundry (forge/cast), OpenZeppelin v5. Three contracts: TaskRegistry (task lifecycle + ETH escrow), VerificationOracle (receives the verification verdict, triggers settlement), AgentRegistry (trust score + ENS writeback). 44 tests, including a live Sepolia fork test.\n- Identity/reputation: ENSv2 (beta, live on Sepolia) — real subname registration under prove.eth, real text records.\n- Verification engine: Chainlink CRE (Confidential Workflow / TEE), written in TypeScript against @chainlink/cre-sdk, with an automatic Node.js/viem watcher as the settlement path.\n- Frontend: Next.js 14 (App Router), wagmi v2 + viem, Tailwind, a single scrollable dashboard (create task -> live task feed -> agent trust score, read from both AgentRegistry and the live ENS resolver side by side).\n\nHOW IT'S PIECED TOGETHER\n\n1. A requester calls TaskRegistry.createTask(agentENSNode, taskSpec, deadline) and deposits ETH as the reward, which is held in escrow.\n2. An agent watcher (agent/agent.js) polls for TaskCreated events targeting its ENS node, executes the described on-chain action, and calls submitResult with the result tx hash.\n3. That ResultSubmitted event is what a Chainlink CRE Confidential Workflow (cre-workflow/verify-task/workflow.ts) consumes: it reads the task spec on-chain, pulls the agent's actual transaction data, and compares spec vs. reality inside a TEE handler (handlerInTee) — so the comparison and the agent's raw execution data stay confidential from node operators until a verdict is final.\n4. The pass/fail verdict is posted to VerificationOracle.postVerification, gated to a single CRE-DON-equivalent address. A pass atomically releases the escrowed reward via TaskRegistry and bumps the agent's trust score in AgentRegistry; a fail refunds the requester and penalizes the score.\n5. AgentRegistry mirrors that trust score live to the agent's own ENSv2 subname (agent1.prove.eth) as a com.prove.trustScore text record, so anyone can read an agent's reputation independent of our own frontend, straight from ENS.\n6. In the running demo, an always-on watcher script runs both the \"agent\" loop and an \"oracle\" loop that reuses the exact same comparison logic as the CRE workflow, so pressing Create Task in the dashboard settles the task to Paid automatically with zero manual steps.",
+  "auto_summary": "A protocol that escrows on-chain AI tasks, verifies agent execution, and updates agent reputation in contracts and ENS records.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/prove-protocol-w6ogo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

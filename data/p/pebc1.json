@@ -1,0 +1,29 @@
+{
+  "id": "pebc1",
+  "slug": "gaspass",
+  "title": "GasPass",
+  "tagline": "ERC-3525 gas card enabling automatic cross-chain refueling via Avail XCS and Lit Vincent Agent",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pebc1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eO1kXNCJBv8nqGX1M00dMHJhE918UO9XXSWPy9iGLWdA/high.mp4",
+  "source_url": "https://github.com/qwe638853/GasPass",
+  "prizes": [
+    {
+      "sponsor": "Avail",
+      "sponsor_id": "910t9",
+      "placement": "4th place",
+      "title": "Best DeFi or Payments app with Avail Nexus SDK"
+    }
+  ],
+  "finalist": false,
+  "description": "GasPass is a programmable ERC-3525 gas card that automates and streamlines cross-chain gas refueling through Lit Protocol’s Vincent Agent and Bungee. Users mint a GasPass by depositing USDC, which is locked in an ERC-3525 contract on Arbitrum. Each card defines a custom refuel policy — including target chain, refill amount, and trigger threshold. When a wallet’s gas balance drops below its threshold, the Vincent Agent securely calls autoRefill() on-chain, triggering a signed Bungee execution that converts stored USDC into native gas on the target chain.  \n\nAll on-chain interactions in GasPass — minting, setting policies, and refueling — are gasless for the user, authorized via EIP-712 typed-data signatures that delegate transaction execution to trusted agents.  \nAutomated and delegated refuels are handled by the Vincent Agent, which performs contract calls using Lit PKP session signatures, ensuring secure, decentralized signing.  \nGasPass also supports manual top-ups: users can refill instantly via the Avail Nexus SDK, which bridges USDC into native gas for those who prefer direct, card-free refueling.  \n\nBy combining ERC-3525 tokenization, EIP-712 authorization, Lit’s delegated signing, and Bungee’s cross-chain liquidity routing, GasPass ensures wallets across chains always stay fueled — programmable, auditable, and fully gasless.  ",
+  "how_its_made": "GasPass was built as a modular cross-chain gas management protocol combining programmable ERC-3525 smart contracts, delegated execution via Lit Protocol’s Vincent Agent, and cross-chain refueling through Bungee and Avail Nexus SDK.\n\nAt its core, the GasPass.sol contract extends Solv Protocol’s ERC-3525 standard, representing each gas card as a semi-fungible token that locks user-deposited USDC. The contract defines on-chain logic for mintWithSig(), setRefuelPolicyWithSig() and so on, all authorized by EIP-712 typed-data signatures for user-side gasless interactions.\nThe Vincent Agent (powered by Lit PKP session keys) executes these authorized actions on-chain — calling autoRefuel() or manualRefuel() when a monitored wallet’s gas balance drops below its threshold. Each refuel event triggers a Bungee Inbox request, which bridges the locked USDC into native gas on the destination chain.\n\nThe backend, built with Node.js (Express + Ethers.js), monitors wallet balances across supported chains, checks policy thresholds, and coordinates Vincent executions. The frontend, built in Vue 3 + Vuetify, allows users to mint GasPass cards, define refuel policies, and visualize cross-chain gas levels in real time.\nPartner integrations made this architecture possible:\n\nLit Protocol (Vincent) provides decentralized, PKP-based delegated signing for secure on-chain execution.\n\nBungee handles reliable cross-chain swapping and delivery of native gas.\n\nAvail Nexus SDK enables direct, user-initiated refueling for those who prefer one-time gas top-ups instead of stored cards.\n\nA particularly interesting technical challenge was handling Vincent’s own transaction broadcasting.\nBecause the Vincent Agent itself requires native gas to submit transactions, we implemented a sponsored transaction layer using Alchemy’s Gas Manager to pay gas on its behalf. However, the official Vincent SDK only supported sponsorship for limited operations (like approve()), so we built a custom integration layer that extended the Vincent SDK — enabling sponsored execution of full contract interactions such as autoRefuel().\nThis solution made GasPass effectively gasless for end users, while keeping all automation logic decentralized and verifiable on-chain.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gaspass-pebc1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

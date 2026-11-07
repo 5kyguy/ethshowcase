@@ -1,0 +1,35 @@
+{
+  "id": "r11zz",
+  "slug": "autovoyage",
+  "title": "AutoVoyage",
+  "tagline": "AI agent plans and books full travel itineraries, paying per-query in HBAR via x402 on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/r11zz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JITpx2vgJuKTR6F3WSEtBKBNAxmUcfX5kaaT92oBKOM/high.mp4",
+  "demo_url": "https://rayban-cyan.vercel.app/",
+  "source_url": "https://github.com/SyuraMoons/ETHOnline-AutonomousTravelAgent",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "AI & Agentic Payments on Hedera",
+      "title": "AI & Agentic Payments on Hedera"
+    }
+  ],
+  "finalist": false,
+  "description": "Our AI travel agent plans and books full trip itineraries end-to-end, autonomously paying for real flight data over Hedera's x402 payment protocol. Instead of API keys or subscriptions, the agent pays per-query in native HBAR through a self-hosted x402 facilitator that verifies and settles each payment on Hedera testnet in real time.\n\nThe user authorizes once — setting a spending budget and approving a HIP-336 HBAR allowance in their HashPack wallet. From there, the agent searches and pays for flight (and stay/activity) data autonomously from the user's own account, with every payment checked against on-chain spending ceilings before it settles — non-custodial and revocable at any time.\n\nBefore booking, the agent requires an explicit human confirmation bound to the exact itinerary hash, preventing any bait-and-switch between what was quoted and what gets booked. Every payment, approval, booking, and refusal is written as a plaintext event to a public Hedera Consensus Service (HCS) topic, giving a fully auditable trail anyone can verify on HashScan — no black box, no trust required.\n\nThe paid flight-data supplier is a real, live x402 service (not a mock) with metered per-result pricing, and it also self-registers on an HCS-based agent registry with a signed identity claim, so other agents can discover it and verify who they're paying without a hardcoded endpoint.",
+  "how_its_made": "The stack is a monorepo: a Next.js frontend (the planner/agent), an Express-based supplier service (the paid flight-data API), and a self-hosted x402 facilitator, all wired for Hedera testnet.\n\nPayments (x402 + HBAR): The supplier gates its search routes with HTTP 402 — each request returns a price, the agent signs an HBAR transfer, and the facilitator verifies + settles on-chain before the real data is returned. Pricing is metered per result (not a flat fee), using a quote cache keyed by a canonical hash of the query so the unpaid 402 price and the paid response always agree.\n\nAutonomous, non-custodial payment: Rather than the agent holding user funds, we use Hedera's HIP-336 HBAR allowance. The user signs once in HashPack to grant a spending allowance; the agent then pays the supplier directly from the user's account using its own server-held key, with every payment checked against on-chain spending ceilings before settling. This took real HAPI-level probing to get right — Hedera requires the spender (our agent), not the fee-payer or facilitator, to own the transaction ID for an allowance-debited transfer, a rule that's undocumented for HBAR (only stated for NFTs in the protobufs) and had to be discovered empirically with test transactions.\n\nAuditability (HCS): Every payment, human approval, booking, and refusal is written as a plaintext JSON event to a Hedera Consensus Service topic, readable live via Mirror Node — a public, tamper-evident audit trail with no local cache. The supplier also self-registers on a second HCS topic with a signed identity claim (Ed25519), so other agents can discover and verify it without a hardcoded URL or trusted middleman.\n\nBooking safety: Before any booking executes, the agent re-derives a SHA-256 hash of the exact itinerary (flights, prices, passenger count) server-side and requires it to match a human-confirmed session — preventing a stale or swapped itinerary from being booked without consent.\n\nThe honest hack — flight data: Real flight-search APIs (Amadeus, Duffel, etc.) are paid and gated behind commercial contracts we couldn't get for a hackathon timeline, and scraping live fares isn't something we were willing to do. So the \"supplier\" is a real, live x402-gated service — the payment, pricing, and settlement are 100% real on-chain — but the flight inventory it serves is a curated dummy dataset rather than a live GDS feed. Every dollar (well, tinybar) spent buying that data is a genuine Hedera testnet transaction; the data itself is fixtures. We were explicit about this boundary throughout the build rather than dressing it up as real.",
+  "auto_summary": "A monorepo travel-planning app uses Hedera-based x402 payments, HBAR allowances, and HCS audit logging to buy metered supplier data.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/autovoyage-r11zz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

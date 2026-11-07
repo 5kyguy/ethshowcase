@@ -1,0 +1,35 @@
+{
+  "id": "63d0m",
+  "slug": "namegate",
+  "title": "NameGate",
+  "tagline": "Tokenized bond on Hedera using ENSv2 subnames (roles, expiry, resolver records) as its KYC layer",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/63d0m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UDNepK8m6eKwhaYGqTfHfeRfcuvmoIfBGtEapPKfhA8/high.mp4",
+  "demo_url": "https://namegate.vercel.app",
+  "source_url": "https://github.com/altf4-games/namegate",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Tokenization of Anything",
+      "title": "Tokenization of Anything"
+    }
+  ],
+  "finalist": false,
+  "description": "NameGate is a tokenized bond on Hedera where an investor's ENS name is the compliance layer, not a database entry. Each investor holds a subname on ENSv2, Sepolia. The issuer writes their KYC status, jurisdiction, accreditation expiry, and lock-up date onto that name as permission-scoped resolver records, not plain text anyone could edit. A permissionless beacon contract reads the name on-chain and ships the state to Hedera over Chainlink CCIP, where the bond's control list checks it before every transfer and coupon payout.\n\nInvestor A gets paid. Investor B's transfer reverts with a reason string pulled straight from their ENS record, so you can point at the name and see exactly why. The issuer can't forge either side: they hold exactly one key on the name, the investor holds the rest, and one investor's KYC field is permanently locked against the issuer to prove that actually holds.\n\nKeeping compliance data outside the token isn't new; ERC-3643 and ONCHAINID already do versions of it. What's different here is the identity substrate: a human-readable, user-held name with role-scoped write access instead of an opaque identity contract, checkable by anyone who knows how to read an ENS record.",
+  "how_its_made": "Identity lives on ENSv2 (Sepolia): a custom UserRegistry issues non-transferable investor subnames pointing at a Permissioned Resolver, with Enhanced Access Control scoping exactly who can write which field. authorizeTextRoles grants the issuer a per-key role instead of a blanket write role, and ROLE_SET_RESOLVER is withheld so an investor can't repoint their own name to forge a record.\n\nA permissionless beacon contract on Sepolia reads the resolver's text records on-chain and forwards them to Hedera in the same transaction over Chainlink CCIP, so there's no off-chain relayer asserting what a record says. On Hedera, a Mirror contract implements Asset Tokenization Studio's own IExternalControlList extension point, plugged into the bond through its factory, not a fork.\n\nATS's bond can declare and calculate a coupon but has no payout function at all, so we wrote a roughly 60-line CouponDistributor gated by the same control list the bond checks for transfers, plus a Hedera Schedule Service integration (ScheduleCreateTransaction with waitForExpiry) so a coupon can settle itself with no keeper.\n\nPrivy runs the operational side: investors connect through embedded wallets with no seed phrase, and the issuer's own automation runs through an organization wallet whose policy restricts it to exactly two contract addresses, backed by a 2-of-3 key quorum in front of it.\n\nThe most notable hacky bit: HBAR is 8-decimal tinybar inside the EVM, not the 18-decimal weibar the JSON-RPC relay reports externally, a documented 10^10 gap a local Hardhat network can't reproduce. Our first live payout reverted because of it; we now assert that exact gap in a regression test. Two more real bugs turned up the same way: an orphaned control list from a prior redeploy that silently blocked every transfer, and a stale per-key grant that survived a lock/unlock cycle. 194 tests total, 49 of them running live against Sepolia and Hedera testnet.",
+  "auto_summary": "A cross-chain bond compliance system stores investor status on ENSv2 subnames and enforces transfers and coupon payouts on Hedera.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/namegate-63d0m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

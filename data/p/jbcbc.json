@@ -1,0 +1,27 @@
+{
+  "id": "jbcbc",
+  "slug": "maat-jev-gate",
+  "title": "Maat JEV Gate",
+  "tagline": "The pre-signing gate for AI agents that pay and trade. Unclear cases go to a World ID human.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jbcbc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ihRwIG3x01hRD5kPc5k00TM2aOh4oiZneOKBDX5LctPB4/high.mp4",
+  "demo_url": "https://demo.maat-jev-gate.online/",
+  "source_url": "https://github.com/maat-jev-gate/maat-gateway",
+  "finalist": false,
+  "description": "Maat is a gateway for AI agents that request paid resources or propose token swaps without holding a treasury key. The Agent sends an authenticated intent to the Gateway. For x402 payments, the Gateway reads the Merchant's payment requirements, screens the recipient and token with Intercepta, and uses JEV to compare the proposed payment with the Agent's task. It blocks unsafe requests, signs and settles approved Base Sepolia USDC payments, or asks a human to confirm through World ID. For swaps, Maat gathers live Ethereum mainnet quotes and risk evidence, then returns an allow, block, or escalate decision. Swap decisions are analysis only: this demo does not sign or broadcast trades.",
+  "how_its_made": "Maat is written in TypeScript with React and Vite interfaces, Fastify services for the Agent, Gateway, and x402 Merchant, and a Next.js Swap Guard. The Agent service submits fixed payment and swap scenarios to the Gateway with server-side credentials. On payments, the Merchant supplies an HTTP 402 quote; the Gateway checks Intercepta and JEV, then signs an EIP-712 USDC authorization with a server-only key. The Merchant sends the payload to an x402 facilitator for Base Sepolia verification and settlement. On swaps, the Gateway calls Swap Guard, which gets a Uniswap quote, reads Ethereum mainnet and explorer data, runs Intercepta scans and deployer forensics, applies risk rules, and asks JEV when needed. World ID's Sandbox OIDC flow verifies human approval before a pending payment proceeds; the callback goes to the Gateway, never to the Agent.\n\nNotable hacks: we implemented the x402 flow directly instead of using @x402/fetch. Payments settle on Base Sepolia through the public x402 test facilitator, while Intercepta screens Base mainnet USDC as a risk-data proxy for the testnet token. Swaps use live Ethereum mainnet quotes but are analysis only. If JEV is unavailable, Swap Guard falls back to labeled local rules. The blocked-recipient scene uses a known-risk address shared in Intercepta's ETHGlobal channel.",
+  "auto_summary": "A TypeScript multi-service app gates agent payment signing and swap approval using risk checks, human verification, and external quote data.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/maat-jev-gate-jbcbc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

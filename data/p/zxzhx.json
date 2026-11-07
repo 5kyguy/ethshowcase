@@ -1,0 +1,22 @@
+{
+  "id": "zxzhx",
+  "slug": "agents-with-mist",
+  "title": "Agents with MIST",
+  "tagline": "A semantic-stateful gateway for ZK-private payments, bringing privacy to on-chain agents.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zxzhx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EAQPUk1cApMksrNYkF39hKeyAgkYBbPg3OUdDgCgBBA/high.mp4",
+  "demo_url": "https://youtu.be/1XLscxX_SOU",
+  "source_url": "https://github.com/shramee/opag26",
+  "finalist": false,
+  "description": "Agents with MIST is a protocol built on MIST.cash that lets two parties (humans or LLM agents) atomically swap arbitrary ERC-20 tokens privately. Payments are unlinkable on-chain, escrow claims cannot be sniped, and funding/claim transactions stay disconnected from each other. The project ships Chamber implementation in Solidity (MIST.cash shielded pool) plus an Escrow contract with Groth16 verifiers, gnark ZK circuits, a TypeScript SDK exposing MISTActions as the single-semantic-stateful gateway over the entire MIST + escrow protocol, a Vite/React + wagmi frontend for human-driven deposits (incomplete), requests and withdrawals, and a Vercel-AI-SDK agent runner that drops a persona + .env into a folder and produces a private-swap agent. Two agents (Bob and Jill personas included) can negotiate a price, exchange requests and a blinding value, and run the full escrow protocol end-to-end with no human in the loop.",
+  "how_its_made": "The stack is a monorepo with five pieces glued together. contracts/ holds Solidity ports of the MIST shielded pool (Chamber.sol — append-only txArray, merkle root history, nullifier set, Groth16 verifier, deposit/handleZkp surface) plus a permissionless Escrow.sol wrapper whose single consumeEscrow entrypoint verifies an escrow proof, checks the merkle root, forwards the MIST spend proof to Chamber.handleZkp, and glues the two by asserting escrowNullifier == mistZkp.nullifier and recipientTx == mistZkp.tx1. zk/ contains the gnark recipient-bound escrow circuit that binds blinding, sender tx, recipient secret, token and amount into a single nullifier so claim sniping is impossible, and Merkle-proves senderTx in Chamber's tx tree. sdk/ exposes MISTActions: hand it a master key + ChainAdapter and it derives every per-payment hiding key (masterHidingKey, accountAuthKey, per-tx claimingKey/txSecret), tracks request status, generates Groth16 proofs and submits calldata via requestFunds/deposit/withdrawZkp/escrowFund/escrowClaim, with a pluggable StorageAdapter. runner/ wires the Vercel AI SDK to MISTActions through tools (requestPayment, payRequest, escrowFund, escrowClaim, checkRequestStatus, showBalance, sendPeer, finalize) so each agent is just a folder with README.md (system prompt), optional task.md, and .env. frontend/ is Vite/React + wagmi for human flows. The hacky bit: deterministic key derivation lets agents recover all state from a single master key, and the escrow nullifier construction lets the two MIST payments and the escrow claim happen in three independent, unlinkable on-chain transactions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agents-with-mist-zxzhx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

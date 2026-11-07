@@ -1,0 +1,35 @@
+{
+  "id": "65r78",
+  "slug": "mandate-app",
+  "title": "Mandate-app",
+  "tagline": "Programmable authority for autonomous execution without transferring treasury custody.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/65r78/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bpurfvv1IUhJ4SziZFXaI6m787i11MaIQMTrvZE6vyg/high.mp4",
+  "demo_url": "https://mandate-cyan.vercel.app/",
+  "source_url": "https://github.com/febrinirwana/mandate",
+  "prizes": [
+    {
+      "sponsor": "Bazantic",
+      "sponsor_id": "qf93t",
+      "placement": "2nd place",
+      "title": "Best Recipe that uses EthGlobal Hackathon Sponsor APIs"
+    }
+  ],
+  "finalist": true,
+  "description": "I started Mandate with a simple question: how can an AI agent act for a treasury without receiving its private key or taking custody of its funds?\n\nAt the core is MandateAquaApp, a Solidity contract that turns the owner's instructions into hard onchain limits: who may execute, which tokens and venue may be used, the minimum rate, spending caps, and expiry. 1inch Aqua keeps the funds in the owner's strategy balance. When a valid call arrives, Mandate pulls only the approved input, performs the swap, and sends the measured output straight back to the owner. If any check fails, the whole transaction reverts.\n\nI use ENSv2 as a real permission layer, not just a profile name. Every execution checks that agent.mandate-test.eth is still active and still owned by and resolved to the dedicated gas-only agent. The owner can immediately stop that agent by revoking the mandate, docking the Aqua strategy, or changing the ENS identity.\n\nThe app is built with Next.js, React, and TypeScript. Privy provides the owner smart wallet, Alchemy sponsors the Sepolia setup calls, and viem/wagmi handle typed contract interactions. A separate authenticated agent service holds the dedicated signer. Hono powers the public API, while a worker and Supabase PostgreSQL store confirmed receipt evidence. The web app runs on Vercel; the API, worker, and agent run in isolated Docker services behind Caddy.\n\nThe trickiest part was proving the 1inch integration honestly. 1inch Classic is not available on Sepolia, so the live demo uses official Aqua and ENSv2 with a clearly labeled fixed test venue. Separately, a Foundry test captures a real 1inch mainnet route at a pinned block and runs the same production contract against forked mainnet liquidity.\n\nI also published a Bazantic Recipe that first asks 1inch for a route, then asks Mandate to independently check that route against the authority. It returns PASS, FAIL, or UNKNOWN; 1inch supplies the route, but only Mandate decides whether the agent is allowed to use it.",
+  "how_its_made": "Mandate is an onchain authorization firewall for autonomous agents. We encoded each authority as an immutable StrategyV1 and built MandateAquaApp in Solidity 0.8.30. The strategy fixes the chain, app, maker, dedicated agent, token pair, venue target and selector, rate floor, per-call and total spend caps, and validity window. On every execution, the contract rechecks the strategy hash, live limits, and the agent's current ENSv2 identity before moving any token.\n\n1inch Aqua is the settlement and accounting layer. The treasury owner keeps custody between executions while Aqua provides strategy-scoped virtual balances. During an approved execution, Mandate pulls only the exact input through Aqua, grants the venue an exact temporary allowance, measures the real ERC-20 balance delta rather than trusting a return value, clears the allowance, and pushes the measured output directly back to the owner. Any failed identity, cap, route, rate, accounting, allowance, or residue check reverts the entire transaction atomically.\n\nENSv2 is load-bearing authorization, not a profile badge. MandateAquaApp reads the Permissioned Registry and resolver during every call, checking that the name is active and that both its current owner and resolved address match the dedicated gas-only agent. The owner can therefore stop execution through Mandate revocation, Aqua docking, or an ENS identity change.\n\nThe owner experience is a Next.js and React application written in TypeScript. Privy provides the owner smart wallet, Alchemy sponsors the Sepolia setup transactions, and viem plus wagmi handle typed calldata, simulation, block-bound reads, and transaction state. A narrowly scoped agent signer runs separately from the browser and public API. Hono exposes validated inspection, simulation, receipt-audit, and route-assessment endpoints; a worker confirms receipts and handles reorg reconciliation; Supabase PostgreSQL and Drizzle store evidence without ever becoming the source of authority. The web app runs on Vercel, while the API, worker, and authenticated agent run as isolated Docker Compose services behind Caddy.\n\nOur Bazantic Recipe, mandate-1inch-route-assurance, composes two services in sequence: 1inch getClassicSwapRoute obtains a live Ethereum route, then Mandate assessOneInchRoute independently decodes the calldata and checks it against the immutable policy. The result is deterministic PASS, FAIL, or UNKNOWN; a route-provider response alone can never produce PASS. Bazantic provides the MCP gateway, Recipe orchestration, and x402/MPP payment rails.\n\nOne notable engineering compromise was handling network reality honestly. 1inch Classic does not advertise Sepolia, so we did not disguise a test contract as live liquidity. The public Sepolia flow combines official Aqua, live ENSv2 authorization, and a clearly labeled fixed venue for deterministic execution. A separate reproducible Foundry proof captures a real 1inch mainnet route at a pinned block and executes the same production Mandate contract against official Aqua and forked mainnet liquidity. Foundry unit, fuzz, invariant, integration, and fork tests cover the contract boundary, while Vitest and Playwright cover the typed services and browser flow. Token amounts remain bigint or decimal strings end to end, incomplete evidence fails closed, and neither the app nor the agent retains strategy tokens after settlement.",
+  "auto_summary": "A monorepo implementing a Solidity-based authorization layer for agent-driven token swaps using 1inch Aqua, ENSv2 checks, and supporting web/API services.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mandate-app-65r78",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

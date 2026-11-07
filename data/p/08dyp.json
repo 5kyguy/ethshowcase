@@ -1,0 +1,36 @@
+{
+  "id": "08dyp",
+  "slug": "proverx",
+  "title": "ProverX",
+  "tagline": "ProverX connects AI agents to on-demand ZK proofs, giving them a fast, reliable proving service.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/08dyp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3RpD97ZGYo3Z7N01252HCG9OY007edlMednmt01XhdoTFU/high.mp4",
+  "demo_url": "https://zkp-service-frontend.vercel.app/",
+  "source_url": "https://github.com/naz3eh/zkp-service",
+  "prizes": [
+    {
+      "sponsor": "EVVM",
+      "sponsor_id": "gatm1",
+      "placement": "Use the MATE Metaprotocol",
+      "title": "Use the MATE Metaprotocol"
+    },
+    {
+      "sponsor": "Hardhat",
+      "sponsor_id": "ya99k",
+      "placement": "Best projects built using Hardhat 3",
+      "title": "Best projects built using Hardhat 3"
+    }
+  ],
+  "finalist": false,
+  "description": "This project delivers a fully on-demand Zero-Knowledge proof generation service designed for AI agents that need to outsource heavy cryptographic computation. Instead of requiring agents to run proving circuits locally; which is slow, resource-intensive, and often infeasible, we allow them to securely delegate the entire proving workflow to our backend.\n\nAI agents interact with the system through Coinbase’s x402 payment standard, enabling a seamless, pay-per-proof interaction model. When an agent needs a proof, it submits encrypted inputs along with a reference to a public repository that contains the circuit or computation to be proven. No raw private data is ever exposed; only encrypted payloads enter the system.\n\nTo compute the proof, our backend launches a Trusted Execution Environment (TEE) on the Oasis Network, leveraging its confidential compute environment to process encrypted inputs and generate the ZK proof inside a hardware secured enclave. The TEE loads the circuit, performs witness generation and execution, and returns an attested proof to the requester. Oasis’s x402-enabled facilitator ensures that payment validation and secure proof delivery work hand-in-hand with the enclave’s confidentiality guarantees.\n\nOn the on-chain side, we integrate with the EVVM ecosystem by implementing ERC-8004 smart contracts on the Sepolia testnet. These contracts register AI agents and connect them to the MATE protocol, enabling our proving service to function as an EVVMcompatible module. The x402 merchant server plays the role of the “fisher,” orchestrating agent registration, payment verification, and off-chain proof generation in coordination with EVVM standards.\n\nBecause proving is computationally expensive, the entire service is automatically metered through x402. Clients receive a 402 Payment Required challenge, attach the appropriate on-chain payment payload, and once verified, the system returns the final ZK proof. No accounts, API keys, or pre-funding are needed—just frictionless, pay-as-you-go proving.\n\nIn summary, this project combines Oasis TEEs, EVVM via ERC-8004 + MATE, and x402 micropayments into a unified platform where AI agents can securely request, pay for, and receive Zero-Knowledge proofs on demand. It eliminates local proving overhead, preserves privacy through confidential compute, and demonstrates a full end-to-end integration of privacy, verification, and payment infrastructure.",
+  "how_its_made": "This project integrates several technologies to deliver on-demand ZK proof generation for AI agents. For payments, we rely on Coinbase’s x402 framework, which our merchant server implements end-to-end to handle 402 challenges, verification, and settlement. The frontend is built using Shadcn UI and Vite.js, providing a fast interface for submitting encrypted inputs and monitoring proof jobs.\n\nFor proof computation, we deploy a Trusted Execution Environment (TEE) on the Oasis Network. The enclave securely processes encrypted user inputs, runs the proving workload inside a confidential runtime, and returns attested results. Using Oasis’s x402-enabled facilitator, we can enforce pay-per-proof access while preserving full data confidentiality, perfectly suited for AI agents that must outsource private computation.\n\nTo integrate with the EVVM ecosystem, we implemented ERC-8004 smart contracts on the sepolia testnet, leveraging the MATE protocol to register AI agents and allow them to interact with External EVM Verification Modules. Our x402 merchant server functions as the “fisher,” orchestrating registration, payment validation, and interactions with the EVVM runtime. This showcases how off-chain proving and EVVM can work together.\n\nAll on-chain logic is built and deployed using Hardhat 3, with 100% test coverage across the ERC-8004 flows, MATE interactions, and x402 integration points. Hardhat’s new tooling and network plugins allowed us to rapidly iterate on contract deployment, debugging, and local testing before pushing to Sepolia.\n\nOverall, the stack brings together TEEs on Oasis, EVVM via ERC-8004, x402 micropayments, and a fully tested Hardhat-based smart contract suite, thereby creating a unified system where AI agents can request, pay for, and retrieve ZK proofs securely and programmatically.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/proverx-08dyp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

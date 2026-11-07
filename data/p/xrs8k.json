@@ -1,0 +1,26 @@
+{
+  "id": "xrs8k",
+  "slug": "copywrite",
+  "title": "Copywrite",
+  "tagline": "Prove you made it first, backed by a verified human and ENSv2.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xrs8k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7qjnuDvnGe3SIw412UR6w3LN1G2YhnjgcBtuIRdll3g/high.mp4",
+  "source_url": "https://github.com/rynelvelinor/copywrite",
+  "finalist": false,
+  "description": "Copywrite is a creator authenticity registry: prove you made a piece of content first, as a real unique human. Social platforms have no portable way to attribute who created media first. Copies are easy — AI tools can recompress or lightly edit files to dodge naive duplicate filters — and any registry without identity gating is sybil-gamed by bots racing to claim content.\n\nCopywrite combines two sponsor primitives:\n1) World ID Selfie Check :- registration stays locked until the creator verifies as a real, unique human, so disposable wallets cannot mass-claim media.\n2) ENSv2-style naming :- creators get a portable identity like alice.copywrite.eth; each registered file gets a content subname (post-<hash>.alice.copywrite.eth) with perceptual hash, timestamp, origin URL, and license. Claims are non-transferable and owner-revocable.\n\nAnyone can use the public Authenticity Checker to upload an image or paste a URL and see whether it is already claimed, by whom, and when. Near-duplicates are blocked via perceptual hashing (Hamming distance), so lightly edited copies cannot sneak in as “new” content.",
+  "how_its_made": "Copywrite is a Next.js 16 (App Router) + TypeScript + Tailwind app with a Foundry/Solidity claims layer.\n\nIdentity / World: We integrate @worldcoin/idkit Selfie Check on the creator dashboard. The client prepares a signed RP request via POST /api/worldid/sign, the user completes Selfie Check in IDKit, and POST /api/worldid/verify forwards the proof to World’s verify API. A server-side HMAC cookie gates registration so unverified wallets cannot claim. Optionally POST /api/operator/sync-verified marks the wallet verified on-chain.\n\nENS / claims: ContentProofClaims.sol (Solidity 0.8.24, Foundry tests) models creator labels and content claims mirroring ENSv2 hierarchy (alice.copywrite.eth / post-<hash>.alice.copywrite.eth): unique labels, non-transferable claims, owner-only revoke, and a verified-human gate. The frontend uses wagmi/viem + RainbowKit on Sepolia; @ensdomains/ensjs is in the stack for ENS naming. Naming and access-control semantics are designed for ENSv2 Permissioned Registry / Resolver wiring.\n\nDetection: Uploads are fingerprinted with sharp + blockhash-core (perceptual hash). POST /api/check finds near-matches (Hamming ≤ 10). POST /api/register rejects duplicates after the World gate, then upserts Prisma/Postgres; POST /api/revoke is owner-only. The checker UI is public; the dashboard lists claims and supports revoke.",
+  "auto_summary": "A web app and Solidity registry for human-verified creator claims on media using perceptual hashing and ENS-like naming.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/copywrite-xrs8k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

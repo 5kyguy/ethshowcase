@@ -1,0 +1,27 @@
+{
+  "id": "p2zh8",
+  "slug": "star-wallet",
+  "title": "Star Wallet",
+  "tagline": "Kids earn USDC-backed Stars while parents save through 1inch Aqua, SwapVM and The Graph.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p2zh8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sJQn00vCP9D02mNVeCUdP01WnySVQerlu6uanWCY01WDWO8/high.mp4",
+  "demo_url": "https://star-frontend-mu.vercel.app/onboarding",
+  "source_url": "https://github.com/chboey/star-wallet",
+  "finalist": false,
+  "description": "Star Wallet helps families turn kids' completed tasks into onchain savings: parents award Stars backed by matching USDC deposits, then manage those savings through 1inch Aqua and SwapVM.\n\nThe child sees Stars, quests and goals. A device passkey can sign only those actions; it cannot transfer tokens, withdraw savings, trade assets or call arbitrary contracts. The parent uses a normal Ethereum wallet and retains control over USDC, WETH, savings positions and financial approvals.\n\nWhen a parent awards five Stars, the same transaction contributes five USDC to the family vault and issues five STAR to the child. If the USDC transfer fails, the STAR issuance also fails.\n\nSTAR is a zero-decimal, non-transferable reward token. It is not a stablecoin, a claim on one USDC or a share of the vault. After issuance, the reward and savings ledgers are independent. A child can spend Stars while the original savings remain invested, change in value or are withdrawn by the parent.\n\nParents can keep the contributed USDC in the family vault or combine it with WETH in a programmable savings position powered by 1inch Aqua and SwapVM. Aqua tracks the position's balances, SwapVM handles exchanges between USDC and WETH, and the vault applies Chainlink-based price and safety checks before any position is opened or changed.\n\nThe Graph turns the protocol's Sepolia events into the family data shown throughout Star Wallet, including children, Star balances, quests, goals, requests, savings positions and activity history. Live blockchain reads are still used whenever current balances, permissions or transaction status must be confirmed.",
+  "how_its_made": "Star Wallet runs on Ethereum Sepolia. Its Solidity contracts separate the system into family registration, child accounts, quests, goals, STAR accounting and one isolated savings vault per family. STAR is a zero-decimal, non-transferable ERC-20. Issuing a reward atomically deposits one USDC of principal into the family vault, so the deposit and reward either both succeed or both fail.\n\nParents sign financial actions with their Ethereum wallets and always retain custody. Children use WebAuthn P-256 passkeys through deterministic ERC-4337 smart accounts. Each child operation travels through Alchemy’s Bundler and Paymaster to EntryPoint v0.8. Gas sponsorship gives children a wallet-free experience, while the smart account’s onchain allowlist prevents transfers, withdrawals, arbitrary contract calls and other actions outside Star Wallet.\n\nThe savings system integrates 1inch Aqua’s virtual-balance accounting with SwapVM’s programmable execution. The family vault remains the maker and allocates its available USDC and WETH to a concentrated-liquidity strategy. We built an SDK-free viem encoder that reproduces canonical token ordering, maker traits, strategy hashes and SwapVM instruction bytes. Before accepting a position, the vault independently decodes and verifies the maker, token pair, fee, salt, deadline and program structure. Chainlink feeds enforce fresh prices, bounded ranges and maximum USDC/WETH exposure. Positions can be opened, topped up, replaced, safely closed, paused and recovered during emergencies.\n\nThe Graph is the system’s read layer. Custom AssemblyScript mappings index Star Registry, STAR, Goals, Quests, family-vault, Aqua and SwapVM events. Dynamic data-source templates start indexing each new family vault and quest contract as it is deployed. Aqua events can occur before the corresponding vault position event within the same transaction, so we queue and replay those events in log order using the maker and strategy hash as the position identity. Subgraph responses are pinned to the expected deployment and verified against Sepolia RPC block state.\n\nENSv2 provides commit-reveal family namespaces and permissioned child subdomains that resolve to each child’s deterministic smart account. The application is built with Next.js, TypeScript, wagmi and viem, with a Fastify service that verifies deployments, prepares transaction intents and Aqua strategies, validates live protocol state and constrains sponsored RPC requests. Together, these components keep parents in control of funds, limit children to safe family actions and provide responsive indexed data without replacing live onchain verification.",
+  "auto_summary": "A Sepolia family wallet app that links child rewards to USDC savings, indexed with a custom subgraph and managed through ENSv2 and 1inch Aqua.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/star-wallet-p2zh8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

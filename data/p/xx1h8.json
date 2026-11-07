@@ -1,0 +1,36 @@
+{
+  "id": "xx1h8",
+  "slug": "takeaway",
+  "title": "Takeaway",
+  "tagline": "Receive from anychain to your favorite chain {chain}.yourname.eth.Just send to ENS name,no bridge UI",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xx1h8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/H3bbpmRk02bd5hFyEwBT3bMBKG31Ku2VBp4i00o4cbo5Q/high.mp4",
+  "demo_url": "https://takeaway-mbg8.onrender.com/",
+  "source_url": "https://github.com/FaezehShakouri/ENS2Go",
+  "prizes": [
+    {
+      "sponsor": "LI.FI",
+      "sponsor_id": "1nz66",
+      "placement": "3rd place",
+      "title": "Best LI.FI-Powered DeFi Integration"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Most creative use of ENS for DeFi",
+      "title": "Most creative use of ENS for DeFi"
+    }
+  ],
+  "finalist": true,
+  "description": "Takeaway lets you create chain-specific ENS subnames (e.g. arbitrum.yourname.eth, base.yourname.eth). You send funds to the subname from any chain; a relayer detects the deposit, reads your destination chain and address from ENS text records, and bridges to your chosen chain and address via Li.Fi. No bridge UI, no extra signing after the one-time setup.",
+  "how_its_made": "How it works:\n1. Setup (one-time)\nYou own an ENS name (e.g. alice.eth). In the app you pick a destination chain (e.g. Arbitrum) and your receiving address. The app:\n- Deploys a TakeawayDeposit contract on the chain where Takeaway is deployed (via TakeawayFactory).\n - Creates an ENS subname arbitrum.alice.eth on Ethereum mainnet and sets:\n  - Address record: the new deposit contract address (so “send to arbitrum.alice.eth” resolves to that receive contract).\n  - Text records: io.takeaway.destinationChainId and io.takeaway.destinationAddress so the relayer knows where to bridge.\n\n2. Sending\nAnyone sends ETH to arbitrum.alice.eth from any chain. The resolver returns the deposit contract address, so the payment goes to that receive contract.\n\n3. Relayer\nThe relayer watches for Deposit events on known deposit contracts. For each deposit it:\n- Asks the Registry for the subdomain namehash linked to that contract.\n- Reads ENS text records (by namehash) to get destination chain and address.\n- Calls withdrawTo(relayer) on the deposit contract, then bridges the funds to the destination via Li.Fi.\n\nTechnologies: \n- Frontend: Next.js app to connect wallet, configure ENS subnames, and show deposit addresses.\n- Contracts: TakeawayRegistry, TakeawayFactory, TakeawayDeposit (Solidity, Foundry) on a supported chain (e.g. Base).\n- Relayer: Watches for deposits, looks up destination from ENS, withdraws and bridges via Li.Fi.\n\nHow we build it:\nWe use ENS as the source of truth: each subname’s address record points to a deposit contract, and its text records (io.takeaway.destinationChainId, io.takeaway.destinationAddress) store where to bridge the funds. That keeps the relayer stateless—it only reads from ENS. Bridging is done via Li.Fi (quote + transactionRequest), so we don’t maintain routes ourselves. In effect, we turned ENS subnames into a chain selector: users can bridge without any UI by simply sending to a name from any chain.\n\nFeature work / roadmap:\n- Source from all chains — Receive from every supported chain; multicoin ENS resolution so one subname works from any chain.\n- Trustless relayer — Withdraw only to verified bridges or use slashing/commit-reveal so the relayer cannot take funds.\n- ERC-20 support — Accept and bridge approved tokens to the same ENS subname (no separate UI).\n- Non-EVM support — Support non-EVM destinations (e.g. Solana).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/takeaway-xx1h8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

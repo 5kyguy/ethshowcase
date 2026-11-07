@@ -1,0 +1,29 @@
+{
+  "id": "a420a",
+  "slug": "zk-sunade",
+  "title": "zk-sunade",
+  "tagline": "Optimized groth16 verifier using Arbitrum Stylus",
+  "event": {
+    "slug": "ethindia2023",
+    "name": "ETHIndia 2023",
+    "start_time": "2023-12-08T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a420a/banner/default.jpg",
+  "demo_url": "https://github.com/supernovahs/zk-sunade",
+  "source_url": "https://github.com/supernovahs/zk-sunade",
+  "prizes": [
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "🥇  Winner",
+      "title": "Best Technology"
+    }
+  ],
+  "finalist": true,
+  "description": "There is a considerable cost associated with verifying zk proofs on the EVM. Arbitrum Stylus allows writing smart contracts in Rust, hence we wrote a groth16 verifier contract in Rust and deployed it on the Stylus testnet.\n\n**Links**\n- [https://stylus-testnet-explorer.arbitrum.io/address/0x921541EeE40927601E66DbF1cD20eFA2476A97D0/contracts#address-tabs](https://stylus-testnet-explorer.arbitrum.io/address/0x921541EeE40927601E66DbF1cD20eFA2476A97D0/contracts#address-tabs)",
+  "how_its_made": "- Initially, we were very ambitious and wanted to verify zkEVM circuits written in Halo2. However, we quickly ran into the issue that everyone else ran into, i.e. the bytecode size limit as it was taking about 190 kb after compression. So we understood that importing any rust crate is not going to work and we have to write as much code we can to be able to optimize on the bytecode size.\n- So we thought of writing the halo2 verifier code by hand but that's a lot for a weekend hackathon. So we reduced the scope to writing groth16 verifier. One of the most popular privacy application TornadoCash uses the groth16 zk scheme and its verifier is written in Solidity. We rewrote the verifier in Rust. \n- We found that our groth16 verifier exceeded the bytecode size limit! It was a very scary situation but then we tried to figure out multiple tricks to optimize the bytecode size.\n- It was very difficult to test our code and debug issues in our implementation since we cannot use frameworks like Foundry or Hardhat or anything else. We had to continuously send transactions to the live stylus testnet and wait for our tx to work.\n- Since there aren't any tools that display error stack trace or display execution trace similar to tenderly, it was very difficult to pinpoint bugs in our implementation and we spent a lot of time binary searching in our code.\n- We also found that some AbiEncoderV2 features are not implemented in stylus SDK yet.\nEventually, we made it work.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zk-sunade-a420a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

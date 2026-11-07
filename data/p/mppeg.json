@@ -1,0 +1,42 @@
+{
+  "id": "mppeg",
+  "slug": "detox-hook",
+  "title": "Detox-Hook",
+  "tagline": "DetoxHook transforms MEV extraction into LP earnings via Uniswap V4 hooks and Pyth real-time oracles",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mppeg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3I3SHKM01Wg3jRAob00I4EP01sM6TrkFc3KAPsY9D6kuRM/high.mp4",
+  "demo_url": "https://arbitrum-sepolia.blockscout.com/address/0x444F320aA27e73e1E293c14B22EfBDCbce0e0088?tab=index",
+  "source_url": "https://github.com/hamiha70/detox-hook",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Big Blockscout Explorer Pool Prize",
+      "title": "Big Blockscout Explorer Pool Prize"
+    },
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "1st place",
+      "title": "Most Innovative use of Pyth pull oracle (Price Feeds)"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Prague 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "DETOX HOOK – a revolutionary Uniswap V4 Hook that transforms toxic arbitrage extraction into sustainable LP earnings, creating the first on-chain MEV protection system that benefits liquidity providers instead of sophisticated bots.\n\nTHE PROBLEM: MEV bots extract $1B+ annually from Uniswap pools while LPs suffer impermanent loss. When pools become mispriced vs global markets, sophisticated arbitrageurs capture profits, leaving LPs with depleted reserves.\n\nOUR SOLUTION: DetoxHook monitors every swap against real-time Pyth Network oracle prices. When traders attempt swaps at prices significantly better than global market rates (indicating arbitrage extraction), the hook intelligently intervenes to:\n\n• Capture 70% of arbitrage profit through dynamic fee adjustment\n• Instantly donate 80% of captured value to LPs via PoolManager.donate()\n• Allow normal swaps unaffected – only opportunistic arbitrage pays the toll\n• Maintain fair pricing without off-chain intervention\n\nPERMISSIONLESS ACCESS: Every liquidity provider in the Uniswap V4 ecosystem can initialize a pool attaching DetoxHook and thereby reap its benefits. No gatekeeping, no special permissions – just deploy a pool with our hook address and start earning from MEV instead of losing to it.\n\nTHE PYTH ADVANTAGE: This system is only possible with Pyth's unique capabilities:\n🔥 Real-time data queried within the same transaction (400ms updates)\n🔥 Confidence intervals ensuring price reliability before triggering fees\n🔥 Freshness validation preventing stale data from creating false arbitrage\n🔥 Institutional-grade data from 90+ first-party providers\n\nLIVE RESULTS: Deployed on Arbitrum Sepolia at 0x444F320aA27e73e1E293c14B22EfBDCbce0e0088 with 2 active ETH/USDC pools. Real Pyth integration working with <500ms oracle latency.\n\nGame theory aligned: arbitrageurs still profit (30% of opportunity), LPs get boosted returns (15-25% increase), protocols capture sustainable revenue, and regular traders enjoy fairer prices with reduced sandwich risk.\n\nThis represents the future of fair DeFi – where advanced oracle technology enables MEV protection that benefits everyone, not just the bots.",
+  "how_its_made": "Architecture: DetoxHook leverages Uniswap V4's revolutionary hook system, deploying a custom contract attached to pools at creation. The UniSwap V4 PoolManager triggers our callbacks at critical moments during each swap.\n\nPYTH ORACLE INTEGRATION (Core Innovation):\nDetoxHook utilizes Pyth's revolutionary \"pull\" oracle model, which provides fresh data exactly when needed rather than continuously pushing stale updates. In beforeSwap(), we fetch live prices from Pyth Network for both tokens. This real-time data access within the same transaction is what makes MEV detection possible:\n\n```solidity\nfunction beforeSwap(...) external override returns (...) {\n    // Fetch live prices WITHIN the swap transaction using Pyth's pull model\n    PythStructs.Price memory ethPrice = pyth.getPriceUnsafe(ethPriceId);\n    PythStructs.Price memory usdcPrice = pyth.getPriceUnsafe(usdcPriceId);\n    \n    // Validate confidence and freshness\n    require(block.timestamp - ethPrice.publishTime < 30, \"Price too stale\");\n    uint256 confidenceRatio = (ethPrice.conf * 10000) / uint256(ethPrice.price);\n    require(confidenceRatio < 100, \"Price confidence too wide\");\n    \n    // Calculate real-time market rate\n    uint256 marketPrice = (ethPrice.price * 1e18) / usdcPrice.price;\n}\n```\n\nArbitrage Detection Algorithm: We calculate the execution price from Uniswap's swap parameters and compare against Pyth's real-time market price. If a trader would get ETH at $1700 when Pyth reports market price at $1800 (5.5% arbitrage opportunity), our threshold triggers.\n\nDynamic Fee Mechanics: Instead of blocking trades, we apply intelligent fee scaling:\n```solidity\nuint256 arbProfit = calculateArbProfit(marketPrice, poolPrice, swapAmount);\nuint256 captureRate = 70; // Capture 70% of arb profit  \nuint256 dynamicFee = (arbProfit * captureRate) / 100;\n// Trader gets 1.65% benefit, hook captures 3.85% for LPs\n```\n\nValue Distribution: Captured fees are split 80% to LPs via PoolManager.donate() (distributed pro-rata) and 20% to protocol. This creates sustainable tokenomics while maximizing LP benefits.\n\nWHY PYTH'S PULL MODEL IS ESSENTIAL:\n• Traditional push oracles continuously update on-chain (expensive, often stale)\n• Pyth's pull model provides fresh data exactly when needed for each transaction\n• 400ms updates and pull-based architecture provide fresh data exactly when needed\n• Confidence intervals prevent false positives that could harm legitimate traders\n• Cross-chain availability means same protection on all supported networks\n\nTechnical Stack: Built with Foundry for smart contracts, integrated with Pyth Network for price feeds, deployed on Arbitrum Sepolia for L2 efficiency. Our hook uses BEFORE_SWAP_FLAG and BEFORE_SWAP_RETURNS_DELTA_FLAG permissions for maximum control.\n\nProduction Deployment: Live at 0x444F320aA27e73e1E293c14B22EfBDCbce0e0088 with 2 active ETH/USDC pools, comprehensive testing suite (37/37 tests passing), and modular deployment scripts. Gas optimized: 188k deployment, 21k operations.\n\nInnovation: This is the first production MEV protection hook for Uniswap V4, proving that real-time oracle-powered MEV capture and redistribution is not only possible but economically sustainable.\n```",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/detox-hook-mppeg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "heoyb",
+  "slug": "galactic-kitties",
+  "title": "Galactic Kitties",
+  "tagline": "Omnichain NFTs bridged via LayerZero with decentralized Filecoin storage & metadata",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/heoyb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/STKI2dFwDTGjkbW01htvFi700NK536W202fHQUPOyZYyKs/high.mp4",
+  "demo_url": "https://galactickitties.xyz/",
+  "source_url": "https://github.com/LibruaryNFT/GalacticKitties",
+  "finalist": false,
+  "description": "Galactic Kitties lets you bridge NFTs between Base and Flow using LayerZero while storing all the images and metadata on Filecoin.\n\nWe built this to solve two problems: moving NFTs across chains and making sure the actual files (images, metadata) stay accessible no matter what. The NFT collection lives on Base Sepolia, and you can bridge any NFT to Flow EVM testnet with a single transaction.\n\nAll the NFT images and metadata files are stored on Filecoin Onchain Cloud, not on centralized servers. Each file gets a unique identifier (PieceCID) that proves the data hasn't been tampered with. This means your NFT's image and info will always be there, even if a website goes down.\n\nWhen you bridge an NFT, it gets locked on Base and a wrapped version is minted on Flow with the same token ID. You keep ownership the whole time, and the Filecoin-stored metadata works on both chains.",
+  "how_its_made": "We used Foundry and Hardhat to write and deploy the smart contracts. The main contracts are GalacticKitties (the original NFT on Base), an adapter that wraps NFTs for bridging, and a wrapped version on Flow that receives them.\n\nFor the cross-chain bridge, we integrated LayerZero V2's ONFT protocol. We had to configure the peer connections between Base (chain ID 40245) and Flow (40351), set gas limits for the destination chain, and handle the bridge fees. The contracts talk to each other through LayerZero's messaging layer.\n\nFor storage, we used Filecoin's Synapse SDK to upload all the images and metadata. Each file gets its own PieceCID instead of being in a folder, which caused some headaches. Normal NFTs use a base URL + token ID pattern, but Filecoin gives each file a unique hash. We had to add custom functions to the contracts so each token could have its own unique URI.\n\nThe trickiest part was handling metadata after bridging. Since each Filecoin file has a different CID, we built a script that copies the metadata URIs from Base to Flow after you bridge. We also made the viewer smart enough to always pull metadata from the Base contract, so there's one source of truth even though the NFT exists on multiple chains.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/galactic-kitties-heoyb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

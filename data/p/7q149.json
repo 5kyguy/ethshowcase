@@ -1,0 +1,27 @@
+{
+  "id": "7q149",
+  "slug": "cryptowill",
+  "title": "CryptoWill",
+  "tagline": "A dead man's switch for crypto inheritance: prove you're alive with World ID, or your heir inherits.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7q149/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6gMGtP8ScXvkcGJR701fBEqMD2WMYz8oZwp02l5RYe00vQ/high.mp4",
+  "demo_url": "https://cryptowill-web.vercel.app/",
+  "source_url": "https://github.com/party1168/cryptowill",
+  "finalist": false,
+  "description": "When a self-custody holder dies, their crypto usually dies with them. The alternatives all require trust: hand over your seed phrase, give your funds to a custodian, or rely on a dead man's switch that only checks whether someone still holds a key.\n\nCryptoWill replaces \"holds a key\" with \"is a living human\". You lock funds in a will and name an heir by their World ID — only an anonymous identifier is stored on-chain, no name or wallet. You then check in with World ID on your own schedule. If you stop, the will moves through a grace period into a claimable state; your heir verifies with World ID and names a payout address. A final challenge period lets you cancel the claim with a single check-in if you're still here. After that, anyone can finalize and the funds go to the heir.\n\nThere is no custodian, no admin key and no keeper: every rule is enforced by the contract, the phase is derived from timestamps, and every World ID proof is verified on-chain.",
+  "how_its_made": "The contract is written in Solidity with Foundry and deployed on World Chain Sepolia. It verifies World ID proofs on-chain through the WorldIDRouter (Orb group), using two actions: one for the owner's liveness checks and one for the heir's claim.\n\nThe usual World ID pattern treats a nullifier as a one-time ticket. We use it as an identity instead: the owner's nullifier is stored at creation and compared on every check-in without ever being consumed, which is what makes repeated proof-of-life possible. One-time claims are enforced by each will's state machine, so the same person can inherit from several wills. Proof signals bind the owner's proof to their wallet and the heir's proof to the payout address, so claims can be relayed by anyone but never redirected. Heirs have no address on-chain, so the contract keeps an index from heir nullifier to will IDs, letting heirs find their wills with a single scan.\n\nThe frontend is Next.js 16 with wagmi and viem. It uses IDKit 4 with legacy proofs, plus a small serverless route that signs World ID requests so the RP key never reaches the browser. Before every transaction the app checks the proof's signal hash and simulates the call, so users never sign a transaction that would revert. Besides unit tests, we run fork tests against the real WorldIDRouter with real proofs generated in the World ID simulator.",
+  "auto_summary": "CryptoWill is an onchain inheritance contract and web app that uses World ID proofs for owner check-ins and heir claims.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cryptowill-7q149",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

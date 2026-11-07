@@ -1,0 +1,22 @@
+{
+  "id": "t4eai",
+  "slug": "gomigo",
+  "title": "GomiGo",
+  "tagline": "Tokyo has no public bins. GomiGo unlocks private dumpsters via World ID proof + ENSv2 registry.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/t4eai/banner/default.jpg",
+  "video_url": "https://stream.mux.com/m2NThyA8GxjZt938nR7RIqAvzKVv9X9ODHJzh7pWP0200/high.mp4",
+  "demo_url": "https://gomigo-woad.vercel.app/",
+  "source_url": "https://github.com/Raksha001/gomigo",
+  "finalist": false,
+  "description": "Tokyo streets have almost no public trash cans, convenience stores and apartment mansions restrict their dumpsters to prevent illegal dumping (fuhō-tōki). GomiGo turns those restricted private bins into a trustless public utility.\n\nHosts register their bin as a hierarchical ENSv2 subname on Sepolia (e.g. bin-01-shibuya.gomigo.eth) with text records for capacity, hours, and accepted waste types. Tourists and commuters prove humanity once per ward per day using World ID (NFC Passport or Device credential) via IDKit, then receive a 10-minute dynamic access PIN, used to open a smart padlock, enter a keypad gate, or show to staff depending on the bin type. A ward-scoped nullifier cache on the server enforces the Sybil limit without storing any identity data.",
+  "how_its_made": "Built with Next.js 14 App Router, TypeScript, and Tailwind CSS.\n\nENSv2 (Sepolia): We own gomigo.eth registered via ENSv2 ETHRegistrar using commit-reveal. A custom subregistry contract is deployed and wired via setSubregistry, enabling hierarchical wildcard resolution, each bin gets its own tokenized subname. A custom resolver stores bin-status, capacity, hours, and accepted-types as on-chain text records. Scoped roles from ENSv2 Enhanced Access Control restrict write permissions to the registered host address only; disposers get read-only resolution.\n\nWorld ID (IDKit v4): IDKitWidget runs verification_level \"device\" so NFC Passport credentials work without an Orb. Proofs POST to /api/dropoff/verify which calls the World v2 developer API. A ward-scoped in-memory nullifier Set enforces 1-pass-per-ward-per-day, duplicate nullifiers return HTTP 429 with an explicit rejection message. The viem library handles all Sepolia contract interactions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gomigo-t4eai",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

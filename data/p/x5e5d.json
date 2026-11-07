@@ -1,0 +1,21 @@
+{
+  "id": "x5e5d",
+  "slug": "sympod",
+  "title": "Sympod",
+  "tagline": "Enhancement of the Symbiotic protocol by allowing the staking of native ETH on the Beacon Chain. It is thus possible to restake ETH on Symbiotic and maximize the investment yield.",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x5e5d/banner/default.jpg",
+  "demo_url": "https://www.canva.com/design/DAGWryG_Xig/KVLK-XotRz9NxTr6sIItzg/edit?utm_content=DAGWryG_Xig&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+  "source_url": "https://github.com/asanson1404/SymPod",
+  "finalist": false,
+  "description": "Symbiotic Protocol does not currently support the restaking native ETH directly. To benefit from both Beacon Chain PoS rewards and additional AVS rewards, a restaker must first stake their ETH with a liquid staking provider (like Lido) to receive an LST (e.g., stETH). They can then restake the synthetic token on Symbiotic (any kind of ERC20 token).\n\nThis process is not user-friendly, as it fragments liquidity and incurs additional transaction costs.\n\nThis is where the SymPod comes in.\n\nThe SymPod is a smart contract that enables the restaking of native ETH directly on Symbiotic. With just one transaction for the staker, he can stake his ETH on the Beacon Chain and restake it on the any Symbiotic Vault. The SymPod indeed delegates the collateral to a predefined Symbiotic Vault. This maximizes the staker's investment yield by combining Ethereum PoS rewards (approximately 3.4% safe APY) with additional rewards from the Symbiotic decentralized network. Moreover, stakers retain the flexibility to withdraw their initial deposit at any time.\n\nAnother key advantage of the SymPod is its support for decentralizing Ethereum node operators. It allows any node operator to run Ethereum consensus and execution clients backed by staker deposits. The only requirement for node operators is to prove that their withdrawal address corresponds to the SymPod's contract address.",
+  "how_its_made": "We use the Brevis network, an EigenLayer AVS and a zk-coprocessor. It enables off-chain computation of complex calculations and submits a proof of their validity on-chain. In this context, we use Brevis to generate a proof of a validator’s withdrawal credentials (data retrievable only on the Beacon Chain).\n\nWe use a Beacon Client, written in Go, to access from a Brevis circuit the Beacon Chain data. We also verify the data, especially the withdrawal address using the Brevis API. From this data, we can easily extract validator details at a specific point in time. After some processing, the validator's key details, such as their effective balance and withdrawal address, are identified and proved. It is also easily possible to generate a Merkle Proof for a specific validator knowing that we have access the full state any Beacon block!\n\nFor simplicity, Merkle Proof verification is not fully implemented here. However, it would be advisable to integrate in your API a function to verify a Merkle proofs, within a Brevis zk-circuit.\n\nThe entire process relies on the Brevis API and SDK to generate the validity proof, which is then submitted on-chain via Brevis contracts.\n\nThe tech stack includes three main components:\n\nA module written in Go: This handles the circuit logic, from fetching Beacon Chain data to verifying the withdrawal credentials of a specific validator. We have also coded from scratch in go a Beacon Chain client to access Beacon Chain data.\n\nA TypeScript application: This app triggers proof generation when needed, specifing which withdrawal address is required to restake. It continuously listens for a specific event emitted by the SymPod.\n\nA smart contract: It requires the off-chain proof to mint the corresponding LST (spETH) and delegate it to a Symbiotic Vault.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sympod-x5e5d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

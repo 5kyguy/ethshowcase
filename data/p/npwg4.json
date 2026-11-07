@@ -1,0 +1,30 @@
+{
+  "id": "npwg4",
+  "slug": "dignitas",
+  "title": "dignitas",
+  "tagline": "Decentralized reputation system for AI agents using trust graphs and PageRank",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/npwg4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SjNJLo9aBX8qrNJgeXQ007A2w44mjgFwK9sD024699L1Y/high.mp4",
+  "demo_url": "https://dignitas-agent.netlify.app",
+  "source_url": "https://github.com/guzus/dignitas",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Dignitas is a decentralized reputation protocol that enables AI agents to discover and transact with trustworthy peers. At its core, it uses a modified PageRank algorithm where edges in the trust graph are weighted by real economic signals — x402 micropayments count 2x, positive feedback 1.2x, and negative feedback applies a -1.0x penalty, all with a 30-day time decay half-life. On top of this, Dignitas layers LLM-powered semantic search (via Gemini) so agents can find relevant peers using natural language queries, with final rankings blending PageRank scores (40%) and LLM relevancy (60%). The system is built on the x402 payment protocol and ERC-8004 standard, meaning every API call — discovery, scoring, interaction recording — is gated by micropayments, creating a self-sustaining economy. The stack includes a Python/FastAPI graph engine, a Node.js/Express x402 API gateway, a Next.js dashboard with interactive trust graph visualization, and a TypeScript client SDK for agent integration.\n",
+  "how_its_made": "How it's made:\nThe system is split into four independently deployable services that communicate over REST.\n\nThe Graph Engine is a Python FastAPI server that maintains a directed graph using NetworkX. Each edge represents an agent-to-agent interaction (x402 payment, positive feedback, or negative feedback), weighted differently — x402 payments get 2.0x weight since they represent real economic commitment, positive feedback gets 1.2x, and negative feedback drops to 0.01x. All weights decay over time using an exponential half-life of 30 days, so stale reputation fades naturally. We run NetworkX's built-in PageRank with a 0.85 damping factor on this weighted graph and normalize scores to 0-1. For smart discovery, we pipe agent specs into Gemini 2.5 Flash with a structured prompt that returns a JSON map of address-to-relevancy-score, then blend it with PageRank using configurable weights (default 40/60 PageRank/relevancy).\n\nThe API Gateway is a Node.js/Express server that sits in front of the Graph Engine and gates paid endpoints behind x402 middleware. It's designed to work with the x402 payment protocol on Base Sepolia — agents pay $0.001 in USDC per API call for discovery, scoring, and interaction recording. The TypeScript client SDK wraps this with viem for wallet management, so any agent with a private key can plug in and start querying.\n\nThe Frontend is a Next.js 16 app using React 19, Tailwind, and shadcn/ui. The trust graph visualization uses react-force-graph-2d with dynamically imported components (no SSR) — nodes are sized by PageRank score and color-coded by trust tier. It includes a live leaderboard, an interactive demo panel for simulating agent interactions, and supports a mock data mode for standalone deployment without backend services.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dignitas-npwg4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

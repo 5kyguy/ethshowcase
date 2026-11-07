@@ -1,0 +1,35 @@
+{
+  "id": "fye2n",
+  "slug": "pastel",
+  "title": "Pastel",
+  "tagline": "A private agentic marketplace that plans purchases, bids in auctions, and settles atomically.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fye2n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/C42YJu2Sb6mONIO53IFiOHNz2LOHeSR00KbGhYlOfkQY/high.mp4",
+  "demo_url": "https://pastel-de-nata-production.up.railway.app/",
+  "source_url": "https://github.com/lucadonnoh/pasteldenata",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "\"No Solidity Allowed\" — Build with Hedera SDKs",
+      "title": "\"No Solidity Allowed\" — Build with Hedera SDKs"
+    }
+  ],
+  "finalist": false,
+  "description": "Pastel is a private agentic marketplace where users describe an outcome in natural language, such as “organize a date in Lisbon tomorrow for under $200”, without publicly revealing the underlying intent. The request is processed confidentially by an LLM running inside a TEE through 0G’s private inference network. The model receives the available marketplace inventory and produces a structured plan that divides the budget into category-specific mandates, such as dinner, cinema, flowers, and transport. Pastel then creates an isolated buyer subagent for each mandate. Every subagent receives only the information and funds required for its category: it does not see the original prompt, the complete budget, or the other agents’ instructions. Sellers and public observers see only scoped Hedera accounts and their bids, rather than the buyer’s complete intent. The subagents compete in English auctions against other buyers’ agents. Each listing has its own public Hedera Consensus Service log, making bids, auction ordering, closures, forfeitures, and settlements auditable. Winning purchases settle atomically: the buyer pays only if the seller simultaneously transfers a claim NFT representing the reservation, ticket, or service. Sellers can protect scarce inventory with a one-per-human World ID policy. If the winning bidder does not settle before its deadline, it is forfeited and the next bidder can claim the item. If the seller refuses to confirm, the transaction is never completed and the buyer keeps its funds.",
+  "how_its_made": "Pastel is built with Next.js and TypeScript and combines 0G confidential inference, Hedera HCS and HTS, and World ID AgentKit. The user’s natural-language request and the public marketplace catalog are sent through 0G’s private TeeML route. The LLM returns a schema-validated JSON plan containing category allocations, requirements, and maximum budgets. We retain and independently verify the signed 0G TEE receipt, allowing the interface to show that the plan came from the confidential provider rather than from mocked local inference. Each allocation starts an isolated child process with its own Hedera testnet account, private key, and limited balance. These subagents never receive the raw prompt or global budget. Mock sellers and rival buyers provide the demo’s economic activity, but their accounts, bids, HCS messages, tokens, and settlements are real Hedera testnet operations. We implemented the auctions without a smart contract. Every scarce listing gets a dedicated HCS topic that acts as an event-sourced order book. Bids are ordered by Hedera consensus time, and the declared bidder must match the transaction payer. Agents read topics through Mirror Node, increment the current price, respect their wallet-enforced mandates, and select listings according to price, quality, and the private plan’s requirements. The auction remains open for a minimum period, extends after recent bids, and then publishes an authenticated close. The ranking keeps each bidder’s highest bid and uses HCS sequence order for tie-breaking. Winners receive a settlement window; if they fail to act, a FORFEITED event promotes the next bidder. Settlement uses one jointly signed HTS transfer: NATA payment tokens move from buyer to seller while a claim NFT moves from seller to buyer. Hedera executes both transfers atomically or neither. Before signing, the seller replays the HCS result and verifies the exact buyer, price, token, and NFT. For protected listings, World AgentKit resolves whether the buyer is human-backed. A gateway creates a signed, short-lived pass bound to one auction and one subagent wallet. Auction-scoped nullifiers enforce one allocation per human while preventing sellers from correlating the same person across different auctions.\n\n  A notable optimization is our prewarmed Hedera “market kit”: accounts and HCS topics for the next run are prepared after the previous demo, then consumed when a new intent arrives. This keeps the live demo fast while preserving real on-chain execution and explorer-verifiable evidence.",
+  "auto_summary": "A Next.js app that privately plans purchase requests with 0G and executes auditable multi-agent auctions and settlements on Hedera.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pastel-fye2n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

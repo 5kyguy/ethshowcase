@@ -1,0 +1,41 @@
+{
+  "id": "ez5rr",
+  "slug": "flow-broker",
+  "title": "Flow Broker",
+  "tagline": "Autonomous AI brokers that pay per intelligence call via Arc, trades via Uniswap, run by CRE.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ez5rr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AYx3v021lSpQGFylDzAltWaB2P8Ab003l4oHAUm02gJcqM/high.mp4",
+  "demo_url": "https://flowbroker.netlify.app",
+  "source_url": "https://github.com/JulioMCruz/Flow-Broker",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": "Best Uniswap API Integration "
+    },
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Best workflow with Chainlink CRE",
+      "title": "Best workflow with Chainlink CRE"
+    }
+  ],
+  "finalist": true,
+  "description": "FlowBroker gives anyone an autonomous AI broker that manages their crypto investments — no charts, no jargon, no manual trades.\n\nUsers answer 5 questions, get matched to a broker agent (Conservative, Balanced, or Alpha), fund their wallet with USDC, and let the agent run.\n\nEvery 60 seconds, Chainlink CRE triggers a new cycle. The broker agent purchases exactly the intelligence it needs — market data from CoinGecko and Kaiko, on-chain signals from Dune, Nansen and Glassnode, sentiment from X and Reddit — paying per call in USDC via Arc x402 nanopayments. Sub-cent. Gas-free. No subscriptions. An LLM analysis costs $0.015. Market data costs $0.000002. The agent pays only for what it uses, only when it needs it.\n\nWhen signals align and confidence crosses the threshold, the agent executes a real trade via the Uniswap Trading API — ETH/USDC swaps on Sepolia with verifiable transaction hashes on-chain.\n\nThe result: the intelligence of a Bloomberg Terminal at $0.031 per decision instead of $2,000 per month. 200+ micropayments settle as 1 transaction. The user gets a report — what the agent bought, why, and what the intelligence cost.\n\nUsers never touch a chart. They choose a strategy. The agent does the rest.\n\nPresentation -> https://canva.link/v3q9jh2nubalzox",
+  "how_its_made": "FlowBroker is a full-stack autonomous agent economy built across three partner technologies working together.\n\nArc x402 (Circle): 8 broker agents make hundreds of gas-free x402 nanopayments to 10 intelligence providers on Arc Testnet using @circle-fin/x402-batching. Each payment signs an EIP-3009 authorization off-chain, the seller verifies and serves data immediately, and Circle Gateway batches all authorizations into a single on-chain settlement — 200+ micropayments settle as 1 transaction, saving ~$60 in gas. Payments range from $0.000002 for market data to $0.015 for LLM streaming analysis.\n\nChainlink CRE: Three TypeScript→WASM workflows orchestrate the economy: Health Monitor pings agents every 5 minutes, Dynamic Pricing fetches ETH/USD and writes to PricingOracle on-chain via writeReport(), and Settlement Monitor uses a Log Trigger on PaymentThresholdReached events. All simulated successfully with cre workflow simulate --broadcast, generating real Arc Testnet transactions. CRE is the heartbeat of the system — not a cosmetic integration, but the trigger for every broker cycle.\n\nUniswap Trading API: Every 5 intelligence cycles, brokers aggregate signals. When confidence exceeds threshold and decision is EXECUTE_BUY, agents call the Uniswap Trading API (/quote → /swap) and execute real ETH→USDC swaps on Sepolia with verifiable transaction hashes. The trade is the output of the intelligence purchased in that cycle.\n\nHacky bit: CRE cannot run on Netlify, so the backend simulates the same workflow logic and broadcasts logs via WebSocket. For judges, ./chainlink/run-demo.sh runs all 3 real CRE workflows with --broadcast. Results are cached in JSON so Netlify shows real data without the CLI dependency.\n\nThe full stack: Next.js frontend on Netlify, TypeScript agent runtime, Arc Testnet for payments, Chainlink CRE for orchestration, Uniswap Sepolia for trade execution. Repository: github.com/JulioMCruz/Flow-Broker.",
+  "auto_summary": "An autonomous agent platform that buys paid market intelligence, updates agent configuration through ENS, and executes automated onchain actions and settlements.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/flow-broker-ez5rr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

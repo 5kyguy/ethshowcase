@@ -1,0 +1,22 @@
+{
+  "id": "iti6y",
+  "slug": "held",
+  "title": "Held",
+  "tagline": "x402 payments that land in escrow, not the seller, until the buyer has read what they bought.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iti6y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/74moP01aYRjcAsce01K23TB7wPYSWt9iL3tgy900s7MOuk/high.mp4",
+  "demo_url": "https://heldprotocol.xyz/",
+  "source_url": "https://github.com/Yonkoo11/held",
+  "finalist": false,
+  "description": "x402 pays the seller the moment a request is served. For a weather API that is fine. For agent work it is backwards: you find out whether you got anything useful only after the money has gone, and your only recourse is a support email.\n\nHeld keeps the x402 flow exactly as it is and changes one field. payTo points at an escrow account instead of the seller. You pay, you get the deliverable immediately, and then you decide. Approve and the seller is paid. Reject and you are refunded. Say nothing and a Hedera scheduled transaction pays the seller when the review window expires, so silence is not a veto and a seller cannot have their money trapped by a buyer who never looks.\n\nThat last ending is the one people do not expect. A card authorisation that nobody captures expires backwards, and the payer keeps the money. This expires forwards.\n\nEverything that happened is appended to a Hedera Consensus Service topic: what was asked, which build of the agent answered, the hash of what it produced, and what the buyer decided. Anyone can read it from the mirror node without trusting either party.\n\nThree real paid requests settled on Hedera testnet, one for each ending. The transaction ids are in the repo and on HashScan.",
+  "how_its_made": "The service is an ordinary x402 resource server built on @x402/core, @x402/fetch and @x402/hedera at v2.25.0, with Blocky402 as the facilitator on testnet. A client that already speaks x402 needs no changes to buy from it.\n\nThe escrow is a plain Hedera account rather than a contract. Settlement happens immediately and irreversibly, so the seller knows the money is real, but it lands somewhere neither party can unilaterally take it from. Release is a separate, later transfer.\n\nThe deadline is a Hedera scheduled transaction armed at payment time, with the review deadline as its expiry and waitForExpiry set true. When nobody decides, Hedera executes it and the service only observes the result. The sweeper watches rather than transfers, which is what stops a job being paid out twice.\n\nI tried the deferred x402 flow first. The Hedera scheme declares authorization as its default, so on paper settlement can be deferred past the request. It cannot be deferred far enough: the payload is a partially signed Hedera transaction and those expire in minutes, while a review window runs for hours. So Held holds money in an account rather than holding a signature.\n\nThe agent's version id is a hash of its prompt template, its model and its own source, because that is what a buyer is really approving. Not some agent, a specific identifiable build.\n\nThe proof page reads Hedera's mirror node from the visitor's own browser, with no server of ours in the path, so it keeps working whether or not the service is running.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/held-iti6y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

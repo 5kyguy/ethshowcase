@@ -1,0 +1,53 @@
+{
+  "id": "rrbfb",
+  "slug": "taake-five",
+  "title": "tAAke Five",
+  "tagline": "tAAke five, an Interactive DeFi platform, dramatically improves DeFi investment UX. We empower users to make smarter, easier choices to invest. Liquidity Providers can execute multiple complex transactions in a SINGE CLICK to invest in UniswapV3 using Account Abstraction.",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rrbfb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iCtE6wSju42024sJpCcCxKk600BRDIShg9Ixyu6dwnik4/high.mp4",
+  "source_url": "https://github.com/swimmiee/ethnewyork-taake-five",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🏊‍♂️ The Graph — Pool Prize",
+      "title": "The Graph"
+    },
+    {
+      "sponsor": "Biconomy",
+      "sponsor_id": "ke9sy",
+      "placement": "💹 Biconomy — Best DeFi Recipe",
+      "title": "Biconomy"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊‍♂️ Scroll — Pool Prize",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "🏊‍♂️ Arbitrum — Pool Prize",
+      "title": "Arbitrum"
+    },
+    {
+      "sponsor": "MetaMask",
+      "sponsor_id": "4pn9u",
+      "placement": "🌎 Linea — Best Account Abstraction Dapp ",
+      "title": "MetaMask & Linea"
+    }
+  ],
+  "finalist": false,
+  "description": "tAAke Five is a platform that recommends the best DeFi investments for you, regardless of your knowledge of DeFi, and makes it easy and simple to execute. It reduces the multiple transactions required to invest in a pool to a single transaction and pays for the gas, alleviating many of the difficulties users face when investing. This not only solves the inconvenience of those who have already invested in DeFi, but also breaks down the psychological barriers of those who have been hesitant or wary of investing in DeFi due to uncomfortable UX, and helps them to invest easily and comfortably through a consistent UI from recommendation to investment.\n\nBy asking a few questions, Uniswap V3 provides users with personalized investment recommendations from the pools that exist in Uniswap, while leveraging Biconomy's account abstraction to handle all transactions with a single click. This not only makes the complex and difficult simple and easy, but also gives you a sensible direction to start envisioning your own investments.\n\nAlso, through the telegram-bot which keeps track of your investment and gives you notifications, you do not need waste time on constantly tracking your position manually.\n\n1. Users log into tAAke Five and answer questions to determine their risk appetite.\n2. tAAke Five identifies your risk appetite and presents you with chains to choose from.\n3. We then present the user with a pool that matches both their risk preference and their preferred chain to personalize their investment.\n4. After selecting the pool they want to invest in, user can set a price range based on their preferences, or we recommend the best price ranges based on monthly historical data.\n5. User can select any token they have (regardless of whether the token is included in the UniswapV3 pool).\n6. Click the GO button and the investment will be completed in a single transaction as set in 1-5, without having to go through the process of approvals, swap, and adding liquidity. It routes all the necessary transactions, including token swaps, and matching the ratio of two tokens required by UniswapV3.\n7. After the investment is done, the user can connect to a telegram-bot that tracks the investment and notifies when the position is out of balance.\n\nTo give a simple example, if a risk-averse user selects the Arbitrum chain, Uniswap V3 will present a pool of Arbitrum-based stablecoins. After selecting the USDT-USDC pool and setting the price range, the user selects the $ARB they have and presses Invest to complete the investment as set by the user without any token authorization or swap transaction.\n\nIn conclusion, tAAke Five reduces the time spent learning, investing, managing DeFi investments through personalized recommendations and account abstraction to complete the investment process with a single click, a bot to automatically track your investment, making it easy for anyone, whether they are new or familiar to DeFi to invest in DeFi efficiently and at their own pace. We believe that tAAke Five will serve as a UX solution that makes investing in a decentralized space as comfortable as investing in stocks.",
+  "how_its_made": "We supported @UniswapV3 as the protocol to implement the features mentioned above, and account abstraction via @Biconomy to maximize the convenience of the investment process. We supported five chains in this process: Ethereum, @Arbitrum, @Polygon, @Base, and @Gnosis. We collected and calculated UniswapV3 pool metadata (such as APR, TVL, Volumes) by using @TheGraph 's historical data. We implemented the telegram-bot which keeps tracking the onchain data of the user's investments through @TheGraph, Serverless framework.\n\nFor UniswapV3, Liquidity Providers suffer from three major problems:   \n\n[ 1. Too many transactions before investing ]. \n\nInvesting in UniswapV3 requires at least 4~5 transactions. \n1. Swap one token to another token (including approval tx)\n2. Approve both tokens to NonfungiblePositionManager\n3. IncreaseLiquidity\n\nThis poses a significant entry barrier for newcomers to DeFi and it's a point of discomfort for many DeFi users. So we've introduced Account Abstraction provided by the biconomy SDK, enabling the batching of multiple transactions in a single userOperation tx. Additionally, we've incorporated the use of Paymasters to facilitate gas fee coverage, further lowering the entry barriers for DeFi newcomers.\n\n[ 2. Prepare a pair of tokens with exact ratio required by UniswapV3 ]. \n\nTo optimize investment, users have to calculate the exact amounts required by UniswapV3 and then swap one token to another token. However, since token prices change every second, the optimal ratio is non-deterministic. So, the only way to prepare the exact ratio of tokens is to execute 3 tasks in a single transaction: Calculate, Swap, and Invest(increaseLiquidity).\n\nCalculating the optimal ratio was quite difficult because UniswapV3 has a very complex formula, so we used heuristic methods : Binary Search. We iterated through binary search 96 times to estimate the optimal swap amount. As a result, we were able to get the optimal value with an error of less than 10^-12.\n\n[ 3. Too many options ]. \n\nDeFi newcomers often find themselves overwhelmed by the myriad options offered by Uniswap V3. We aim to alleviate this confusion by presenting all choices interactively and recommending investment options tailored to the user's risk preferences. To achieve this, we need to calculate metadata such as APR and TVL for each pool. Particularly challenging in UniswapV3 is that each position has its unique price range, leading to varying APRs. To address this, we utilized historical data from The Graph to conduct investment simulations, allowing us to calculate APRs for specific price ranges.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/taake-five-rrbfb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

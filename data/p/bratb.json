@@ -1,0 +1,21 @@
+{
+  "id": "bratb",
+  "slug": "sway1inch",
+  "title": "Sway1INCH",
+  "tagline": "Configure and deploy onchain limit order strategies using time or price triggers with 1inch Protocol",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bratb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xNXGYh2G6w900nZK01l5W0002m3tid9Tjk6bVzFJcbXIwCY/high.mp4",
+  "source_url": "https://github.com/juwonlee1020/unitedefi-1inch-lop-extension",
+  "finalist": false,
+  "description": "🌀 Sway: Smarter, Multi-Phase On-Chain Trade Execution\nSway is a decentralized trading application that empowers users to execute complex, customizable strategies on-chain. Rather than locking into a single execution style—like TWAP, Dutch auction, or fixed price—Sway enables users to define multi-phase execution plans that can adapt over time or based on real-time market conditions.\n\n🎯 Example Execution Strategy\nLet’s say a user wants to sell 10,000 DAI for WETH. They configure the following execution phases:\n\nPhase 1 (TWAP): Over the first 20 minutes, the order is split into smaller chunks and filled gradually to reduce market impact.\n\nPhase 2 (Dutch Auction): If there’s leftover inventory, the price starts decreasing over 10 minutes to increase urgency.\n\nPhase 3 (OTC): If unfilled after the auction, the remainder is offered at a fixed discount to a pre-approved list of OTC dealers.\n\nEach phase can be customized through parameters (e.g., chunk size, discount rate, minimum fill quantity).\n\n🖥️ User Experience\nUsers configure and preview their execution strategy through a React + Vite frontend, with a streamlined interface for selecting phases and tuning parameters. Once ready, clicking “Execute Strategy”:\n\nBuilds a makerTraits object with the encoded MultiPhaseAmountCalculator logic,\n\nSigns the order using the connected wallet,\n\n(In production) would submit it to the 1inch Limit Order API—currently disabled per hackathon rules.\n\nThe app also includes an Execution Monitor Panel, a visual dashboard to track order fills in real time. Users can inspect:\n\nFill chart: Tracks time-series fills, prices, and quantities.\n\nHover insights: Show which strategy calculated the fill price, enabling post-trade analysis and transparency.\n\n",
+  "how_its_made": "🔧 How It Works: The Smart Contract Architecture\nAt the heart of Sway is a custom smart contract extension to the 1inch Limit Order Protocol, called the MultiPhaseAmountCalculator. This contract implements the IAmountGetter interface and orchestrates a sequence of modular pricing strategies, or phases, each defined by:\n- A start and end condition (either time-based or market condition-based),\n- An amount calculator (e.g., TWAP, Dutch auction, or fixed-price OTC),\n- And configurable parameters for fine-tuned control.\n\nWhen a taker attempts to fill the order, MultiPhaseAmountCalculator determines which phase is currently active (getCurrentPhase function in MultiPhaseAmountCalculator) and applies the appropriate logic to calculate the order's price or amount.\n\nSway currently supports three custom calculators:\n- TWAPCalculator (TWAPCalculator.sol) – slices the order into small, time-weighted chunks, fillPrice determined by price oracle at the time the fill is made.\n- DutchAuctionCalculator (DutchAuctionCalculator.sol) – progressively reduces the price to increase urgency.\n- PrenegotiatedCalculator (PrenegotiatedCalculator.sol) – settles remaining quantity at a fixed price for trusted OTC participants.\n\nFor an example of how these are put together into building an order, please refer to MultiPhaseAmountCalculator.js in test directory of the limit-order-protocol directory.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sway1inch-bratb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

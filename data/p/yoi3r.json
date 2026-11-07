@@ -1,0 +1,36 @@
+{
+  "id": "yoi3r",
+  "slug": "tollbooth",
+  "title": "Tollbooth",
+  "tagline": "Tollbooth: charge bots micro-fees instead of blocking them with captchas",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yoi3r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PrmAyk7Hz7o4EVB01GNfR130200WuHwOq2ZtAT9SEXRmm4/high.mp4",
+  "demo_url": "https://tollbooth-dashboard.vercel.app/",
+  "source_url": "https://github.com/kgelpes/tollbooth",
+  "prizes": [
+    {
+      "sponsor": "Flow",
+      "sponsor_id": "fjaae",
+      "placement": "2nd place",
+      "title": "Best Use of Actions & Agents on Flow"
+    },
+    {
+      "sponsor": "Flow",
+      "sponsor_id": "fjaae",
+      "placement": "Flow Builder Pool Prize",
+      "title": "Flow Builder Pool Prize"
+    }
+  ],
+  "finalist": true,
+  "description": "# Tollbooth: Pay-Per-Crawl Access Control\n\nMost websites today defend against bots with captchas or outright blocking. That frustrates AI agents, crawlers, and automation tools that want legitimate access. With **Tollbooth**, site owners don’t have to choose between “let everyone in” or “block them all.” Instead, they can charge a small fee for automated traffic.\n\n---\n\n## How It Works\n\n1. **Bot requests a page**\n   If the site requires payment, it responds with `HTTP 402 Payment Required`, including the cost in headers.\n\n2. **Bot pays with X402**\n   The agent automatically uses its wallet (managed via X402) to confirm payment intent.\n\n3. **Site grants access**\n   Once payment is verified, the site returns normal content—no captchas, no friction.\n\n4. **On Flow: Subscriptions**\n   Instead of paying per request, sites can configure recurring access windows (e.g., 30 seconds, 1 day, or a custom interval). This is implemented via Flow’s scheduled callbacks, which automatically handle subscription renewals.\n\n---\n\n## Why It’s Better\n\n* **For sites & publishers**\n  Earn revenue from automated traffic instead of wasting resources on captchas or blocking.\n  *(Coming soon: split payments between stakeholders like website owners and journalists.)*\n\n* **For bots & agents**\n  No more captcha-solving farms, OCR hacks, or blocked sessions. Just pay a micro-fee or subscribe for seamless browsing.\n\n---\n\n## Features at a Glance\n\n* **Pay-per-crawl access** with X402\n* **Subscription-based access** powered by Flow\n* **Expiration support** (access ends when time runs out unless renewed)\n* **Captcha fallback** for humans\n* **Planned: Revenue splitting** to automatically share fees across multiple parties\n",
+  "how_its_made": "## How It’s Made\n\nWe built a lightweight edge proxy that routes all traffic through a **gate page**. Humans can pass through by solving a captcha, while bots are offered the option to pay a small fee using **Coinbase X402**. Once either path succeeds, the backend issues a **short-lived access token** that grants entry to the requested resource.\n\nPayments are processed via **X402 intents and webhooks**, with all verification handled in a minimal Node/TypeScript backend. On the subscription side, we used **Flow’s scheduled callbacks** to implement recurring access windows, so agents can pay once and continue browsing for the duration of their subscription.\n\nThe stack is intentionally simple:\n\n* **Cloudflare Workers** → edge gate & traffic routing\n* **Node/TypeScript** → token issuance & payment verification\n* **Coinbase AgentKit** → wallet and payment abstraction\n* **Flow** → subscription scheduling and expiration handling\n\nWe’ve kept the design hack-friendly and modular—no heavy bot-detection heuristics, just a clear binary choice: *solve a captcha or pay*.\n\n👉 **Coming soon:** split-payment support, so revenue can be automatically shared between multiple parties (e.g. site owner and journalist).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tollbooth-yoi3r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

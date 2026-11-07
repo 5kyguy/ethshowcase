@@ -1,0 +1,21 @@
+{
+  "id": "gqd2a",
+  "slug": "adme",
+  "title": "AdMe",
+  "tagline": "A social media app that rewards users through GHO tokens for paying attention and engaging with advertisements.",
+  "event": {
+    "slug": "lfgho",
+    "name": "LFGHO",
+    "start_time": "2024-01-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gqd2a/banner/default.jpg",
+  "video_url": "https://stream.mux.com/58R2rwRE2401KERSO1mOuJGtghPjsEv9lnymxLHRu11M/high.mp4",
+  "source_url": "https://github.com/HarishPrasannaV/AdMe-LFGHO",
+  "finalist": false,
+  "description": "AdMe is a social media app that rewards users through GHO tokens for paying attention and engaging with advertisements.\n- We aim to create a fair social media platform where no one has a monopoly over advertiser revenue and ensure that users get paid a fair share for the attention they pay.\n- Advertisers can publish their adverts by depositing a specific amount of GHO tokens and all the   necessary details, such as an image/video URL. \n- For each token of GHO token deposited, an internal share called \"Rewards\" gets minted.\n- An attention score is calculated based on the time the advert is visible on the user's screen and how they interact.\n- Shares get internally allocated to users based on the attention score they've received for that particular instance of the advert.\n- Once users have accumulated enough \"Rewards\" above the withdrawal threshold, they can withdraw them as GHO tokens to their account, and their corresponding internal shares get burned.",
+  "how_its_made": "Backend:\n- The leading smart contract behind the dApp is a vault smart contract which mints shares based on the amount advertisers deposit and burns shares when users choose to withdraw.\n- When advertisers publish, the advert details are stored in a struct with all the details. Each advert has a unique ID called \"adId\", and it's used to retrieve the advert from a mapping.\n- When users register with the dApp, their details get stored in a struct called \"User\", and they get a unique ID called \"userID.\"\n- Once a user is registered with the dApp, they'll be eligible to earn rewards.\n- Each advert has a reward reserve, representing how many rewards that particular advert has to dispense. Once the reserve runs below the amount of rewards that the advert allocated to a single user, the display status is set to false, and the advert will no longer be displayed.\n- The attention score for a user for a particular instance of an advert is calculated using the \"calculateAttention\" function.\n- The dispense reward function is called when the user scrolls over the advert for the first time.\n- A message containing details of the user's interaction with the advert is signed with a private key stored in an environment variable. The signature is passed along with the dispense reward function, which will then be verified on the smart contract before allocating the shares to the user.\n- This is done to ensure that no one can call the function externally to dispense rewards to themselves without actually viewing the advert, and only the dApp can call the function on behalf of the user with a valid signature.\n- A mapping counts the number of times a user has interacted with a particular advert, and the count is included in the message that the dApp signs. This is done to prevent replay attacks.\nWe have used ConnectKit to connect users' wallets and GHO tokens as a stable coin for app payments.\nFrontend:\n- We have used Next. js,shadcn/ui and tailwind css for developing the frontend.\n \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/adme-gqd2a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

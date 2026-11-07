@@ -1,0 +1,34 @@
+{
+  "id": "7gjip",
+  "slug": "willowone",
+  "title": "WillowOne",
+  "tagline": "WillowOne — a Polymarket oracle that kills tab-switching. One screen, live signals, auto-resolves.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7gjip/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hrQ01ql3phyZA6wv02N6FQhT1l7c02fqvnv7iKw8tHdDXE/high.mp4",
+  "source_url": "https://github.com/BMeridian/WillowOne",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Connect the World with Chainlink",
+      "title": "Connect the World with Chainlink"
+    }
+  ],
+  "finalist": false,
+  "description": "1. Data Stream\n\nPolymarket's fragmented UX forces traders to tab-switch across open markets, bleeding time and missing entries at the worst moments. WillowOne eliminates this by piping BTC/ETH prices directly from Chainlink Data Streams — the same oracle Polymarket relies on internally — via persistent WebSocket connection. Raw ticks are aggregated in real-time into 5m/15m/1h/4h candles, with a continuous SMA-based directional signal model running across all timeframes simultaneously. No switching, no lag, no missed signals — everything computed and surfaced in one unified feed.\n2. TUI & Trigger\n\nA Textual TUI consolidates live price feeds, candle state, and signal tracking across all active timeframes into a single terminal screen. Each candle close emits a toast notification and a detailed console log entry — giving granular, per-timeframe visibility into signal transitions as they happen in real time. When you need a sanity check, a single test button fires 1 share through the live 5m market resolution pipeline, confirming the full stack — WebSocket, signal model, and chain writer — is correctly wired before committing to a real resolution.\n3. CRE Workflow\n\nOn window expiration, a Chainlink Runtime Environment workflow kicks off — fetching verified price data, evaluating directional conditions, and determining the winning side. As a controlled demo, WillowOne mocks 10 shares on the winning trade while deliberately bypassing the losing position, routing the winning side through the complete resolution pipeline. The outcome is written on-chain to a custom MarketResolutionConsumer contract deployed on Polygon Amoy via direct EOA transaction. Every step is logged and traceable — providing verifiable, end-to-end proof of live chain interaction and a clear picture of how real resolutions will execute at scale.",
+  "how_its_made": "1. Data Stream\n\nBuilt in Python with an asyncio event loop, WillowOne maintains a persistent WebSocket connection to Chainlink Data Streams. Incoming BTC/ETH ticks are decoded from Chainlink's signed report schema and fed into a custom in-memory candle engine maintaining rolling 5m/15m/1h/4h OHLC state. On startup, historical gaps are backfilled via the Coinbase REST API to seed prior window state. A SMA crossover model evaluates directional signals on every candle close across all timeframes — event-driven, zero polling.\n2. TUI & Trigger\n\nDashboard built on Textual, rendering live price feeds, OHLC state, SMA values, and signal flags in a structured terminal layout. Each candle close fires a Textual toast and a structured console log capturing OHLC, SMA delta, and signal direction per timeframe. A single test button submits 1 share against the live 5m Polymarket market via programmatic API — an end-to-end integration check across the WebSocket, signal model, and chain-write layer.\n3. CRE Workflow\n\nOn window expiration, WillowOne dispatches a Chainlink Runtime Environment job — a serverless JavaScript workflow executing across the Chainlink DON. Contracts developed and tested in Foundry — compiled with forge, deployed via forge script, verified on Polygon Amoy. Resolution written to a custom MarketResolutionConsumer contract via EOA transaction signed with ethers.js, funded with testnet POL. Transaction hash and block confirmation logged end-to-end — cryptographic proof of live chain interaction.",
+  "auto_summary": "A Python and TypeScript project streams market data, computes trading signals, and runs a Chainlink CRE workflow to resolve markets on Polygon Amoy.",
+  "scores": {
+    "originality": 6,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/willowone-7gjip",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

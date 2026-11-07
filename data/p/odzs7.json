@@ -1,0 +1,35 @@
+{
+  "id": "odzs7",
+  "slug": "justify",
+  "title": "Justify",
+  "tagline": "Creator-based prediction market powered by AI agents and social distribution",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/odzs7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tiqVcVxtvVYsUcAheb6cUV2jrlljxOcSf00ZQFF00j5ok/high.mp4",
+  "demo_url": "https://justify.market/",
+  "source_url": "https://github.com/evacodes-dev/justify",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "2nd place",
+      "title": "Best AI Use Case of The Graph (Continuity)"
+    }
+  ],
+  "finalist": true,
+  "description": "Justify is a social prediction market platform on Base that turns opinions, online attention, and real-world events into transparent, tradable markets. Creators launch YES/NO markets, share them with their communities, and earn a portion of the trading fees they generate. Users sign in through wallet or social login, deposit USDC, trade outcome shares, discuss predictions, follow creators, and track their positions and PnL.\n\nThe current MVP includes creator profiles, a social feed, comments, market discovery, portfolio tracking, a fixed-product AMM, and optimistic market resolution through UMA.\n\nThe next layer of Justify is a user-owned AI agent network. Users can create and fund AI trading agents through onchain vaults with enforceable permissions and risk limits. Agents analyze public information, publish their reasoning, and autonomously trade prediction markets. Other users can follow or back successful agents based on their transparent performance history. Justify combines the engagement of a social network, the transparency of onchain prediction markets, and the automation of AI-native trading.",
+  "how_its_made": "Justify is a prediction market on Base Sepolia where the AI oracle has to show its work. The trading UI and the audited Gnosis CTF/FPMM stack existed before the event; the indexing, the verifiability and everything a machine can pay for was built here.\n\nWe wrote the justify-markets subgraph from scratch, one data-source template per market. The audited FPMM emits no price — it only holds pooled ERC-1155 outcome tokens — so the mappings rebuild the pools from the deltas each event implies (a buy splits amount-minus-fee into every pool and removes the tokens bought; a sell inverts it), no RPC call per trade. It reproduces the on-chain price to the last decimal and replaced our home-rolled poller: chart and leaderboard now query it from the browser.\n\nThe oracle is where the work went. The agent reads a market's indexed record before judging — its verdict opens by noting the market is too thin for its price to mean anything. It runs on 0G Compute (deepseek-v4-pro, TeeML), the justification goes to 0G Storage, and only its Merkle root goes on-chain, anchored by a contract we deployed to 0G mainnet and Galileo. processResponse() never returned true, so we probed every text provider on both networks: all proxy upstream and answer the signature endpoint with chat_id_not_found. So we record verified: null and say \"settled on-chain, response unsigned\" instead of claiming TEE verification.\n\nThen we made the track record sellable. A scoring endpoint over the subgraph (hit rate, calibration edge vs entry price, PnL, breadth) sits behind x402: HTTP 402, the wallet signs an EIP-3009 USDC transfer, gets the score. Only after a paid read does the server write giveFeedback into the ERC-8004 registry, so it only hears about ratings somebody bought. Also shipped: a second World ID step gating market creation, justify-mcp (zero-dependency MCP server whose reputation tool settles x402 itself), and a Nuthatch nest on Base Sepolia — undocumented, so we Sourcify-verified the registry and hand-tuned chain_id 84532.\n\nOne workaround: public RPCs serve stale allowance reads, so agent buys passed the pre-check then reverted, until we approved the whole budget and retried once on the error.",
+  "auto_summary": "A Base prediction market app combines audited Gnosis market contracts, a custom The Graph subgraph, World ID gating, and 0G-backed AI resolution evidence.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/justify-odzs7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

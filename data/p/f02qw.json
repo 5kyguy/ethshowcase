@@ -1,0 +1,22 @@
+{
+  "id": "f02qw",
+  "slug": "usance",
+  "title": "Usance",
+  "tagline": "Policy-controlled capital operations for tokenized assets, including live collateral replacement.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f02qw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/239QOXp4nJdTOC02yK5bTgiDpfDCexQ9sK009q7QG015j00/high.mp4",
+  "demo_url": "https://usance.xyz/institutional",
+  "source_url": "https://github.com/winsznx/usance",
+  "finalist": false,
+  "description": "Usance is a capital operations layer for organizations holding tokenized real-world assets. It lets them finance, move, govern and settle those assets from one policy-controlled capital account.\n\nFor ETHOnline, we built an institutional collateral-replacement workflow around one hard problem: how can an organization replace tokenized collateral without closing an active financing facility?\n\nThe live testnet flow secures the replacement asset first, verifies organizational authority and lender policy, checks current valuation and facility safety, and only then releases the previous collateral. We completed a real Series A → Series B replacement with 150,000 replacement units secured while the facility remained ACTIVE and financing remained OPEN.\n\nThe workflow combines Hedera ATS for tokenized-security lifecycle, ENS for delegated organizational authority, Privy for organization approval, and Chainlink CRE for confidential lender-policy evaluation. Every step is preserved as evidence and recoverable through durable orchestration.\n\nUsance also includes Ask Usance, a live read-only explanation layer powered by 0G Compute Router. It can explain facility state and safety events, but it has no wallet, signer, or financial write authority.\n\nUsance existed before ETHOnline. This submission is continuity work: the institutional facility, collateral-substitution lifecycle, sponsor integrations, durable recovery flow, live proof, receipt UI, and related product surfaces were developed during ETHOnline 2026.",
+  "how_its_made": "Usance is a TypeScript/Solidity monorepo with a Next.js 15 frontend deployed on Cloudflare Workers, Postgres-backed durable orchestration, and smart-contract infrastructure for institutional secured credit.\n\nThe ETHOnline flow centers on a separate InstitutionalFacility. Hedera Asset Tokenization Studio represents and controls the tokenized securities: replacement collateral is committed through ATS before the old collateral can be released. ENSv2 on Sepolia provides delegated organization-role evidence. Privy provides organization approval using a 2-of-2 quorum-backed signing flow. Chainlink CRE evaluates lender policy and returns a bounded ALLOW/ELIGIBLE verdict; the facility still performs the final financial-safety checks itself.\n\nThe orchestration layer persists every operation before external effects, reconciles uncertain outcomes instead of treating timeouts as failures, and blocks release when authority, policy, settlement pricing, collateral pricing, or coverage is stale or invalid. This was exercised against real testnet state, including stale-price blocks and a gas-execution recovery, before the final successful collateral release.\n\nThe product also uses 0G Compute Router for Ask Usance, a live read-only explanation surface. The server sends a bounded context packet containing only already-visible facility state. Obvious financial-action requests are refused before inference, and the feature has no signer or state-changing code path.\n\nThe frontend, institutional receipt, evidence timeline, status surfaces, and responsive product UI are all deployed at usance.xyz.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/usance-f02qw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

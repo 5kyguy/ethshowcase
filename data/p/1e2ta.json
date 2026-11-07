@@ -1,0 +1,22 @@
+{
+  "id": "1e2ta",
+  "slug": "kineticflow-mppi",
+  "title": "KineticFlow MPPI",
+  "tagline": "Optimizing Uniswap v4 liquidity via MPPI: High-performance rebalancing for the next gen of DeFi.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1e2ta/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zS01zO6a1SnVB6ctu00Y5FMO72WrexPtVq56O300zuRiOU/high.mp4",
+  "demo_url": "https://youtu.be/WbSvjjo0nMw",
+  "source_url": "https://github.com/yugo0822/v4-kineticflow",
+  "finalist": false,
+  "description": "This project introduces a sophisticated liquidity management solution for Uniswap v4 by integrating Model Predictive Path Integral (MPPI) control. Traditional Automated Market Makers (AMMs) and liquidity providers often struggle with inefficient capital allocation and \"just-in-time\" liquidity risks due to static or simple rule-based rebalancing strategies. Our solution leverages the flexibility of Uniswap v4 Hooks to implement a proactive rebalancing mechanism.\n\nAt its core, the project applies MPPI—a stochastic control algorithm—to optimize liquidity distribution across specified price ranges. By simulating numerous potential price trajectories and evaluating them against a defined cost function (considering factors like volatility, slippage, and impermanent loss), the hook can dynamically determine the optimal liquidity concentration. This allows the pool to adapt to market shifts in real-time, maximizing fee collection efficiency while mitigating risks for liquidity providers.\n\nThe implementation focuses on bridging advanced control theory with decentralized finance (DeFi). By utilizing a custom Hook, we enable the vault to trigger rebalancing logic during key lifecycle events without compromising the core protocol's permissionless nature. This project aims to transition from a theoretical model to a practical, industrial-grade tool that brings high-performance optimization to the Uniswap ecosystem, ensuring more robust and adaptive market-making in volatile environments.",
+  "how_its_made": "We built v4-KineticFlow by connecting an off-chain MPPI controller to Uniswap v4 on Base Sepolia. The off-chain stack runs in Docker: Python with PyTorch for the MPPI engine (10k+ sampled control sequences, tick-space dynamics, jump-diffusion price model), Web3.py for the bot that calls PositionManager.modifyLiquidities with the optimal range (burn then mint in one unlock), and Streamlit plus SQLite for the dashboard and event storage—all containerized for reproducible runs. On-chain: Foundry deploys the v4 core, periphery, and a minimal Hook (Counter.sol) to Base Sepolia. The main design choice was formulating the whole problem in ticks (state and control) so we never convert to price inside MPPI. We use a custom stage cost and receding-horizon control; an arbitrage bot keeps the pool price close to an external oracle. No proof/signature verification in the Hook yet; the MPPI wallet is the trusted executor. Partner tech: Uniswap v4 and Base Sepolia.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/kineticflow-mppi-1e2ta",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

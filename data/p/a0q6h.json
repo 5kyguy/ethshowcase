@@ -1,0 +1,22 @@
+{
+  "id": "a0q6h",
+  "slug": "usury-protocol",
+  "title": "Usury Protocol",
+  "tagline": "Protocol to tokenize future cash-flow rights, trading them for immediate liquidity.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a0q6h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6HPi91x5JSXJVVa800QWAYjcLqDDfR8lgyEWmvUdtabY/high.mp4",
+  "demo_url": "https://usuryprotocol.vercel.app/",
+  "source_url": "https://github.com/zevictordantas/UsuryPay",
+  "finalist": false,
+  "description": "Usury Protocol is the name of our project submission.\nThe protocol defines a primitive for expected cashflows: future payments that are not guaranteed, but can be represented, priced, and traded on-chain.\n\nIt is composed of two components:\n- ECVault:\nA contract where a payer is expected to deposit funds in the future.\nIt tracks solvency, payment behavior, and defaults.\n\n- ECToken (ERC-1155):\nA token representing entitlement and allowance to claim future cashflows from an ECVault.\n\nThe primitive intentionally carries default risk, making it explicit:\n- Solvent vaults signal creditworthiness.\n- Risky EC tokens may trade at large discounts.\n\nBecause default risk exists, both sides are incentivized to operate on-chain:\n\nPayers (the source of future cashflows):\n- Defaults make their EC tokens unattractive or worthless. Nobody will buy tokens from unreliable vaults. \n- Trustworthiness becomes an asset for them.\n- Predictable future cashflows unlock present liquidity.\n\nInvestors (providers of instant liquidity):\n- Higher risk implies deeper discounts and higher potential returns.\n- Lower risk implies smaller discounts and safer exposure.\n- They value on-chain signals because they are verifiable and trustless.\n\nBoth actors value the same signals: creditworthiness, default history, and payment behavior.\nAll of them are recorded on-chain, and reputation becomes the bridge between future promises and present liquidity.\n\nWith that at the core of our project, the best way to show viability was through examples:\n\n- Usury Pay is a DeFi payroll dApp that leverages our primitive to offer employees the option to get paid in advance without requiring them to pay for it.\n\n- Usury Marketplace is a market to trade ECTokens. It allows users to get good deals on ECTokens, and the market signals indicate good or bad risk pricing.\n\nWhy usury? Well… nobody is going to assume default risk for free 😉.\nBut accessing liquidity now can increase future returns. And all of this pushes toward better on-chain reputation.",
+  "how_its_made": "Built with Next.js 16, React 19, and Foundry for the smart contract layer. The frontend uses Wagmi v3 + Viem v2 for type-safe blockchain interactions, with @reown/appkit for wallet connections and TanStack Query for caching. Smart contracts are written in Solidity 0.8+ using OpenZeppelin's ERC-1155 implementation.\nArchitecture highlight: The EC primitive uses a two-component design — ECVault (escrow) + ECToken (ERC-1155 claims). We implemented a registry-based default system instead of boolean flags, allowing multiple partial defaults and settlements to be tracked over time. This is critical for secondary market pricing.\nNotable hack: We made the entire dApp work without any backend or indexer — all data comes from view functions. The tokensOfOwner() enumeration pattern lets us enumerate user holdings on-chain, avoiding TheGraph dependency.\nWagmi CLI codegen generates fully typed React hooks from contract ABIs, with deployment addresses imported from deployments.json — eliminating manual address management across chains.\nCross-chain ready: While MVP is Sepolia-only, the architecture separates USDC routing (Arc/CCTP integration) from custody. EC tokens stay on one chain; only stablecoins move cross-chain.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/usury-protocol-a0q6h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

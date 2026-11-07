@@ -1,0 +1,35 @@
+{
+  "id": "yj9wd",
+  "slug": "x402-flash",
+  "title": "x402-flash",
+  "tagline": "Supporting x402 micropayments with zero settlement latency overhead.",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yj9wd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YcF2NHJk1p6s7wN2qTGPMFY5VskTNmP6g8FqSNTqOuw/high.mp4",
+  "source_url": "https://github.com/sleepysort/x402-flash",
+  "prizes": [
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "Build a Great Onchain App Using CDP",
+      "title": "Build a Great Onchain App Using CDP"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New York 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "The Problem “Flash” Solves:\nAs much as we dream of the day we each have a personal AI agent butler, today’s AI agents are seldom more than a combination of algorithmically automated tasks. And presently, these real world usage tasks are commonly high-frequency trading or data streaming that require continuous calling of API servers in order to execute effectively. \n\nWhile Web2 subscription models suffice for legacy solutions, the sub-global digital payments market – projected to reach “a market volume of over $16 trillion US dollars by 2028” (Stripe) of micropayments is where traditional rails fail consumers due to credit card fees. The x402 standard was created to corner this market, doing away with sign ups, bank interchange, and sharing personal information across the web. Yet…now another issue arises in the form of latency. API providers do not want to respond to an API call until payment has settled on-chain; the client may cheat. As a result, clients suffer higher latency that is insufficient for current on-chain micropayment uses. The current EXACT model therefore chains itself away from adoption by the exact pioneers needed to spread its technology.\nOur team is introducing FLASH, a new scheme to eliminate latency, opening clients to a new plethora of x402 expressions. The Flash schema works by using an escrow smart contract to guarantee providers their payment while enabling clients access to near-instant API responses, only limited by the amount locked into escrow. Benefits will flow to both the creators of x402 - a flourishing ecosystem brought upon by new use cases, and to the end users - the ability to micro transact at scale, only limited by the funds in their self-custodied wallets.\n\nOne day we may all find ourselves living as the spoiled humans shown in Disney’s “WALL-E” or we may be versions of Marvel’s “Iron-Man” with J.A.R.V.I.S. assistants that speak natural language. The common denominator is that these - True - Ai agents will communicate by accessing hundreds of API tools in a single instant and transact with other entities using the wallets in their custody. And that future cannot be achieved without every single person in this room and the contributions we each have and will continue to make toward that reality.",
+  "how_its_made": "Background:\nx402 specifies a standard for using the dormant 402 Payment Required HTTP status code to attach cryptocurrency payments to HTTP requests. This enables a wide variety of applications including micropayments and pay-per-use APIs.\nWhile x402 technically supports different payment schemes, the only scheme currently in use is the exact scheme, where the client transfers the exact amount of the requested payment for each request. This means that the API cannot respond to the request until the corresponding payment transaction is settled on the underlying blockchain without risking non-payment. The current de facto settlement layer for x402 is the Coinbase Developer Platform’s Facilitator service, which boasts 200ms settlement times. However, a latency cost of 200ms (which also does not account for additional time on the wire due to round trips from the facilitator) is unsuitable for many critical use cases such as high frequency trading and data streaming.\nIn order to support these high-value use cases, a new x402 scheme that does not require blocking on transaction settlement is required.\nDesign:\nOverview:\nThe flash scheme involves the usage of a Settlement Contract that will proxy transfers of the payment token. This smart contract has two key responsibilities:\nHold funds in an escrow account for the client and server. The client that wishes to send x402 requests to the server must lock up some token balance proportional to the desired transaction throughput prior to sending requests to the server using the flash scheme.\nProxy the token transfers from the client to the server to settle the payment. If the token transfer fails, then the smart contract will instead withdraw the payment amount from escrow and transfer it to the server’s wallet.\nThis escrow account serves as a buffer that ensures that the server can receive payment for fulfilled requests, even in the case the client wallet doesn’t have enough remaining token balance. As a result, the server can safely fulfil requests without needing to wait for the transaction to settle on the blockchain.\n\nTech Stack: \nX402 - micropayment standard extended to allow for double digit ms settlement latency.\nCDP Wallets - Allows clients to sign our custom payment scheme.\nCDP onRamp - Allows clients to easily top up their CDP wallet with fiat\nCoinbase onChainKit - Simplifies development on base\nCircle Paymaster - lets client pay for gas with USDC for a better UX, given that the main token on x402 is USDC.\nSolidity - Escrow contract developed on solidity.\nFoundry - Testing smart contract.\nNora - Auditing final version of smart contract\nExpressJS - to run local server (+ custom facilitator technically)\nNextJS - Front end\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/x402-flash-yj9wd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

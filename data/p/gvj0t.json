@@ -1,0 +1,48 @@
+{
+  "id": "gvj0t",
+  "slug": "ethpark-qr",
+  "title": "ETHPark-QR",
+  "tagline": "Allows to settle QR Parking tickets (and beyond) on-chain with various options. Also settle QR payments without owning Local Thai Bank Account",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gvj0t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qcbU41021meqRpBGeR6wAreoCgixdVgGlaD00eYvGjlyg/high.mp4",
+  "demo_url": "https://vitalik.sh/",
+  "source_url": "https://github.com/vm06007/eth-park-qr",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Blockscout Explorer Big Pool Prize",
+      "title": "Blockscout Explorer Big Pool Prize"
+    },
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "Checkout component pool prize",
+      "title": "Checkout component pool prize"
+    },
+    {
+      "sponsor": "Bitkub",
+      "sponsor_id": "z9n70",
+      "placement": "1st place",
+      "title": "Best KUB Coin Utilization"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Bangkok 2024 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "This project removes the gap between QR payments and cryptographic currencies. Imagine you're coming to Thailand and you do not have Thai Bank account, but everything around very often requires QR payments to settle, especially parking in malls. Fortunately they don't care WHO settles it.\n\nWe allow to use cryptocurrencies (POL, Bitkub, CoinBase Checkout, Arbitrum etc) to request a settle service broadcast for unsettled QR codes on the blockchain. After the crypto is received the application can settle it in 2 ways, either internally with a bot, or it gives the ability for anyone publicly settle actual QR for user in exchange for the deposited crypto. \n\nThis means that we are building on top of local companies , similar to PromptPay, in order to allow services on top of the traditional layer. The volunteer also does not need to do any KYC ,like e.g. on centralized exchanges, to get some blockchain assets, by offering requesters to settle their QR payments. \nThis concept is called Coincidence of Wants and is also utilized in the crypto space by Cow Dao for trading. The advantage here for the crypto space lies in the fact that crypto does not get sold on the open market like it would with vanilla \"crypto\" credit cards thereby decreasing the value of the overall crypto market.\n",
+  "how_its_made": "First we scan the local QR code to figure out if it comes from a supported entity or the venue. Then we need to query the QR providers data center in order to figure out the outstanding balance that QR holder needs to pay. \nSince we parse API calls to parking centers, we receive the outstanding balance in THB currency (Thai Baht) - with that in mind we are using a Chainlink-Price-Oracle to convert THB amount to USD (https://data.chain.link/feeds/polygon/mainnet/thb-usd) \n\nOnce we the have conversion rate we need to make one more hop through a Chainlink oracle to query second currency from USD to POL (Matic) or USD to KUB or other settlement assets that can be charged on chain. \nThis is done on the smart-contract side and the feed already mentioned above. Since we support multiple chains we use Layer0 to pass pricing information to other chains (because THB/USD feed from Chainlink is only available on Polygon).\nAll oracle calls also happen on chain. For off-chain prices we query Bitkub API to get the rates and compare them for UI to display.\n\nOnce a user is ready to make a transaction to our smart-contract this creates a charge on-chain and stores all necessary information for either our bot or any Volunteer to come front and settle actual payment. Our application then re-checks with data-provider the outstanding balance to figure if it should release payments to the correct Volunteer or to keep it internally if our bot settles the payment. We use also the CoinBase Checkout tool to allow seamless payments even if users do not have other wallets. \n\nWe use Privy for similar matter to connect users with generated address by simply using their Email Account. For communicating price between different contracts on different chains we use Layer0: \nWe have layer0 contracts which publicly store the latest information about the oracle. If the oracle\non polygon does an update a friendly bot then sends a message through layer0 with the newest oracle information to the other chains and updates a smart contract which mirrors the polygon oracle. \nThis allows us to theoretically offer any token which has a chainlink usd oracle on any chain.  \n \nHere are known deployed contracts (also verified on Blockscout) \nhttps://polygon.blockscout.com/address/0x1fC490c7FD8716A9d20232B6871951e674841b4a?tab=contract\n\nWe also use this contract as Oracle HUB for pricing: \nhttps://polygon.blockscout.com/address/0xD3c0E09Ae6D1BAA7e171C9c2Cfd1e12f9853f026?tab=contract\n\nRest is done by Layer0 + Chainlink + Coinbase to settle payments + backendAPI to release payments to Volunteer depending on the matched chain.\n\nMultiBass was also briefly used: https://j4kvg556rbaspaammrbt6lniqi.multibaas.com/\nPrivy is used in combination with Rainbow wallet and custom wallet. \n\nPayments can also be settled on Mainnet using Bitkub token.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ethpark-qr-gvj0t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,29 @@
+{
+  "id": "6hr91",
+  "slug": "megablobs",
+  "title": "MegaBlobs",
+  "tagline": "MegaBlobs Improve L2 UX by smoothening blob fees via a restaked relay!",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6hr91/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DHlK9YVQQga80223GQtngacK5uyKaBrUlQlKsih4JQYM/high.mp4",
+  "source_url": "https://github.com/Blobbersss/MegaBlobs",
+  "prizes": [
+    {
+      "sponsor": "Nethermind",
+      "sponsor_id": "bk5qx",
+      "placement": "1st place",
+      "title": "Preconfirmations Innovation"
+    }
+  ],
+  "finalist": true,
+  "description": "Megablobs is a restaked relay that faciliates smooth blob pricing for L2's.  We add blobs to blocks we receive from the builders by making a verifiable and slashable commitment on EigenLayer that block modification only changes type3 transactions. Block builders can focus on the MEV rich blocks while the relay includes these L2 blobs and smoothens the blob gas for L2's. It does so using two mechanisms. 1) Paying the proposer a small tip . 2) Timing the blob gas fees. This mechanism helps smoothen the gas spikes that results in bad l2 UX for users.  Rollups can use us as insurance for choppy blob fees. ",
+  "how_its_made": "We use Kurtosis for our infra, the MEV package gives us an Ethereum validator, block builder, relay environment, so we modified Flashbots relay to add our blobs to the block that's being proposed.  We also built UI using react  and foundry for smart contracts. Since we are modifying the block, the block root has to be re-calculated at the relay level. this is on our to-do-list.\n\nMegaBlobs work by creating a specialized relay that appends (and sometimes replaces) blob transactions within blocks sent to it by builders. The goal of the relay is a) give preferential blobspace to buyers of MegaBlobs bandwidth and b) to provide a TWAPed smoothed blob price to bandwidth buyers. It does this through the following mechanism: \n- MegaBlobs *buyers* stake into an on-chain contract. This entitles them, depending on their staking preference, to access blob \"bandwidth\" in the form of access to a `n` number of blobs per period of time `t`.\n- MegaBlobs Relay receives completed blocks from all connected builders. MegaBlobs Relay also receives *private blob flow* from bandwidth buyers.\n-  At this point, the relay modifies the block it received, specifically changing out type-3 (blob-carrying) transactions as follows:\n    - MegaBlobs Relay preferentially picks the blob transactions that come from buyers of bandwidth. If there is remaining blob space within the block, fill it from the public mempool.\n    - MegaBlobs Relay tries to ensure that it produces *the most profitable block possible* vs other blocks it's seen from other builders and relays. Ideally, simply having the private blob flow is enough to do this. If it's not the MegaBlobs relay will use a small amount of funds from the user stake (or its own capital) to increase the proposer payment (`feeRecipient`) such that it is the winning block. It does this to ensure that proposers will choose its block. In theory, this should require beating out the next best block by as little as 1 wei. This payment will be appended to the end of the block as a transfer to the `feeRecipient` for that block.\n- If the block pays the proposer the most then the MegaBlobs relay modified block will be chosen by the proposer.\n- Periodically, (say once an hour) the Megablobs relay will compute the net payment of all bandwidth users and send batched refunds. These refunds give them the net cashflows that of TWAP gas pricing.\n- Importantly, if a bandwidth purchaser does not use the slot within their allotted bandwidth they lose the payment to the MegaBlobs Relay. This mechanism is how the MegaBlobs Relay makes money and can justify paying a surplus to the proposer to consistently win blocks.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/megablobs-6hr91",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

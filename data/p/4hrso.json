@@ -1,0 +1,36 @@
+{
+  "id": "4hrso",
+  "slug": "private-fhe-intents",
+  "title": "Private FHE Intents",
+  "tagline": "We Solved The $700M MEV Problem Using Math That Breaks Wall Street's Playbook ",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4hrso/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uiuP6ewCB9nnYOafUCwrTR00qCdNPq7m01ixN1bXMdDdc/high.mp4",
+  "demo_url": "https://screen.studio/share/zPrWlRSn?state=uploading",
+  "source_url": "https://github.com/tomi204/Private-v4-Hooks",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": "Uniswap v4 Volatile-Pairs Hooks"
+    },
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "5th place",
+      "title": " Most Innovative use of Pyth pull price Feeds"
+    }
+  ],
+  "finalist": true,
+  "description": "PrivacyPoolHook implements a privacy-preserving Uniswap V4 hook enabling encrypted swaps through FHE (Fully Homomorphic Encryption) and intent-based matching. Users deposit ERC20 tokens to receive ERC7984 encrypted pool tokens with hidden balances, then submit encrypted intents where both amounts (euint64) and directions (euint8) are completely hidden on-chain. An authorized relayer matches opposite intents off-chain using FHE permissions and settles\n  them in batches: matched pairs execute as internal encrypted transfers with zero slippage and no AMM fees, while unmatched volume routes through a single net Uniswap V4 swap.\n\nThe hook integrates Pyth Network oracles for delta-neutral strategies and SimpleLending protocol for capital efficiency - idle liquidity earns yield through beforeSwap/afterSwap hooks that shuttle funds between lending and the AMM just-in-time. This architecture provides complete MEV resistance (searchers cannot see trade sizes or directions), capital efficiency (majority of trades settle without touching AMM), and verifiable fair pricing via cryptographically signed Pyth price feeds, all while maintaining end-to-end encryption of sensitive trading data.\n\n  Deployed on Sepolia with full testing suite covering encrypted deposits, intent matching, batch settlement, oracle integration, and lending shuttling.",
+  "how_its_made": " Built on Uniswap V4's hook system using Zama's FHEVM for encryption and Pyth Network for oracle pricing. Core components: PrivacyPoolHook contract (0x80B8...40C0 on Sepolia) manages encrypted intents and settlement with beforeSwap/afterSwap lifecycle hooks; PoolEncryptedToken implements ERC7984 confidential token standard with euint64 encrypted balances backed 1:1 by ERC20 reserves; SettlementLib (external library) handles AMM swaps and output distribution; SimpleLending protocol enables yield generation on idle liquidity; DeltaZeroStrategy executes optional rebalancing using Pyth price feeds.\n\n Technical stack: Hardhat (FHEVM doesn't support Foundry), OpenZeppelin confidential contracts, Uniswap V4 periphery, Pyth SDK, and Zama TFHE encryption. The hook uses beforeSwap() to withdraw liquidity from lending just-in-time and afterSwap() to redeposit idle balances - creating a capital-efficient liquidity shuttle pattern. Settlement flow: relayer fetches Pyth price update from Hermes API → calls settleBatch() with encrypted transfer instructions → contract calls pyth.updatePriceFeeds() with cryptographic proof → consumes fresh price via getPriceNoOlderThan() → executes matched pairs as hookTransfer() calls (no AMM) → routes unmatched net volume through single poolManager.swap() triggering both hooks → optionally executes deltaZeroStrategy.executeRebalance() for LP protection.\n\n  All amounts remain encrypted end-to-end using euint64 (trade amounts) and euint8 (trade directions: 0=swap0→1, 1=swap1→0) types. Privacy guarantees: even the contract cannot decrypt values - only authorized addresses with FHE permissions can perform encrypted operations. Compiler: Solidity 0.8.27 with Via IR for stack depth optimization, optimizer runs=1 to minimize deployment size (24KB hook limit), external library pattern for settlement logic to\n  reduce bytecode.\n\n  Verified on-chain: Hook deployment (7.4M gas), pool initialization, liquidity addition (1.9M gas), direct swap with lending hooks (211k gas), encrypted deposits, intent submissions with euint64/euint8 ciphertexts, batch finalization, and settlement with Pyth price consumption - all transactions include links in documentation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/private-fhe-intents-4hrso",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

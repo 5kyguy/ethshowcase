@@ -1,0 +1,30 @@
+{
+  "id": "6309m",
+  "slug": "moltqore",
+  "title": "MoltQore",
+  "tagline": "ERC-8004 AI agents trade on Uniswap v4 & Sui DeepBook autonomously. All decisions transparent viaENS",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6309m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9PwFfRhDdGD8DfYQdSoYfU01myxiclyXyYTsce5ZYhn00/high.mp4",
+  "demo_url": "https://eth-global-hackmoney26-web.vercel.app/",
+  "source_url": "https://github.com/Zireaelst/ETHGlobal-Hackmoney26",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "MoltQore is the first ERC-8004 compliant autonomous portfolio manager that executes DeFi strategies 24/7 across multiple chains without custody. Users mint an AI agent as an NFT, select a risk strategy (aggressive/balanced/safe), and let the agent optimize their capital across Uniswap v4 and Sui DeepBook.\n\nThe core innovation is radical transparency: every AI decision, reasoning, and trade result is logged on-chain via ENS text records. Anyone can verify why the agent moved $5,000 to DeepBook or rebalanced a Uniswap LP position—no black boxes.\n\nAgents use session keys for limited-scope execution, maintaining non-custodial security. The AI brain (GPT-4o) analyzes real-time opportunities across both chains, decides optimal moves based on the user's strategy, and executes via Sui PTBs (for DeepBook market making) or Uniswap v4 hooks (for autonomous LP rebalancing).\n\nCross-chain coordination works seamlessly: when Sui DeepBook spreads widen, the agent bridges funds and places limit orders. When Uniswap v4 pool volatility increases, the custom hook auto-rebalances LP ranges. All performance metrics sync back to the ERC-8004 NFT and ENS.\n\nThis transforms AI agents from experimental toys into verifiable, tradeable DeFi primitives. Your agent earns reputation, can be sold on OpenSea, and operates with institutional-grade transparency.",
+  "how_its_made": "The architecture spans three layers: identity (Ethereum), execution (Sui + Uniswap v4), and intelligence (AI backend).\n\n**Smart Contracts (Solidity 0.8.24):**\nWe implemented DeepMindVault.sol as an ERC-8004 NFT contract where each agent is a transferable, stakeable asset. The contract manages session key delegation (60-day expiry) so agents can execute without holding user private keys. ENSTextRecordManager.sol updates text records on every trade, creating an immutable audit log. For Uniswap v4, we built AgentRebalancerHook.sol extending BaseHook—it triggers afterSwap() to check if LP positions drifted >100 ticks or >1 hour since last rebalance, then atomically adjusts ranges based on the agent's strategy pulled from ENS.\n\n**Sui Move Contracts:**\nThe agent_vault module on Sui handles DeepBook V3 integration with 7-operation PTBs. The execute_market_making() function verifies session signatures, calculates bid/ask sizes from the strategy (aggressive = 80% capital, balanced = 50%, safe = 30%), places limit orders via clob_v2, and emits events that sync back to Ethereum. We chose DeepBook over AMMs because market making spreads (0.3-0.8%) significantly outperform LP fees for autonomous strategies.\n\n**AI Backend (Python FastAPI):**\nThe decision engine runs GPT-4o with structured function calling. Every minute, it scans Uniswap v4 subgraph for pool metrics and Sui RPC for DeepBook spreads, feeds opportunities to the LLM with the agent's current positions and strategy, receives a decision (MOVE_TO_SUI, REBALANCE_UNISWAP, HOLD), and executes via web3.py or Sui SDK. The reasoning text goes directly to ENS—this was the trickiest part: batching ENS updates to minimize gas while keeping sub-5-minute latency.\n\n**Frontend (Next.js 14 + Aceternity UI):**\nWe used wagmi v2 for Ethereum wallet connection and @mysten/dapp-kit for Sui, creating a unified ConnectButton that handles both. The dashboard pulls live data from ENS text records via custom useAgentDecision() hooks, showing the AI's reasoning in real-time. Aceternity's BackgroundRippleEffect and NoiseBackground components gave us the premium, trustworthy aesthetic needed for a serious DeFi product. The onboarding flow mints the NFT, delegates a session key, and creates the Sui vault in 4 steps—all client-side with transaction confirmations.\n\n**Hacky Bits:**\nCross-chain state sync was brutal. We couldn't use Wormhole for every decision update (too expensive), so we built a hybrid: critical state (reputation, pause status) uses Wormhole message passing, while decision logs use centralized backend polling Sui events then calling ENS contracts. Not ideal for decentralization, but gets 90% of transparency at 10% of the cost. Also, reading ENS text records from Solidity contracts (for the Uniswap hook to check strategy) isn't natively supported, so we pass strategy hashes and decode off-chain—suboptimal but works for MVP.\n\nThe Uniswap v4 hook was particularly gnarly: calculating optimal tick ranges in Solidity with fixed-point math while staying under gas limits required aggressive optimization. We ended up pre-computing ranges off-chain and just validating bounds on-chain.\n\nPartner tech choices: Sui for speed (DeepBook orders execute in <500ms vs. Ethereum's 12s), Uniswap v4 for composability (hooks let agents participate in DeFi 2.0), ENS for trust (immutable audit logs).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/moltqore-6309m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

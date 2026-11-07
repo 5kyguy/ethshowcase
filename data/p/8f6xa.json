@@ -1,0 +1,27 @@
+{
+  "id": "8f6xa",
+  "slug": "executor",
+  "title": "Executor",
+  "tagline": "Receivership for autonomous agents. Same ENS name, redirected revenue.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8f6xa/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZHHY1rTNqRb01dCBN5DQwkvtWvBW7eo027smJrMGx5zdA/high.mp4",
+  "demo_url": "https://executor-dashboard.vercel.app",
+  "source_url": "https://github.com/unspecifiedcoder/executor",
+  "finalist": false,
+  "description": "Autonomous agents are beginning to hold assets, earn revenue, make payments, and enter into economic relationships. But when an agent stops operating, there is no standard way to resolve what it leaves behind.\n\nExecutor is a programmable resolution protocol for autonomous economic agents.\n\nBefore operating, an agent can commit to a resolution plan that defines what should happen if it becomes inactive or unable to continue operating. When predefined failure conditions are met, Executor transitions the agent into a deterministic resolution process.\n\nThe protocol can freeze further activity, account for assets and obligations, process pending settlements, collect available receivables, and distribute assets according to predefined priority rules.\n\nExecutor separates an agent's execution process from its economic state. A running agent may fail, but assets, obligations, pending transactions, and contractual relationships can still require resolution.\n\nWe are exploring a missing primitive for the emerging agent economy: what happens when autonomous software can no longer fulfill its economic responsibilities?\n\nExecutor makes that outcome programmable, transparent, and deterministic.\n",
+  "how_its_made": "ExecutorRegistry is a Solidity state machine on Sepolia (0x2946B46c2EB5Ec53\n2093877223Ef043b13729e39), built with Foundry. Agent identity is keccak256 of\nthe label; a plan is locked at registration and the four authorities are checked\nto be distinct. getPaymentDestination(bytes32) is a pure view over state —\ncheap enough to sit in any payment path.\n\nENS is what makes the redirect invisible to the payer. We deployed\nExecutorResolver against the ENSv2 beta PermissionedRegistry on Sepolia, using\nthe new role model: ROLE_SET_RESOLVER and ROLE_SET_RESOLVER_ADMIN. The resolver\nanswers addr() by calling straight into the registry, so the name resolves to\nthe treasury or the estate depending on live on-chain state, with no record\nupdate and no key held by anyone. bindNode is one-way and deliberately so —\nonce a name is bound to an agent, nobody can quietly point it somewhere else.\nENSv2's per-role permissions are what let us hand out resolver control without\nhanding out the name.\n\nHedera carries the money. The agent pays for model calls over x402 v2 through\nthe Blocky402 facilitator on Hedera testnet. Our DynamicPayTo hook resolves the\n402 challenge's payTo field at request time out of the registry, so the paywall\ncharges 0.01 HBAR (1,000,000 tinybars) and settles it to whichever address the\nagent's liveness currently dictates. Hedera's fixed, sub-cent fees are the\nreason this works: destination-switching per request is only sane when the\nsettlement cost doesn't dominate the payment.\n\nThe Graph is the dashboard's only data source — there is no RPC fallback\nanywhere in the app, which we consider the honest test of a subgraph. Subgraph\nv0.1.2 indexes registrations, heartbeats, state transitions, plan approvals and\nplan executions, and uses dynamic data source templates with DataSourceContext\nso each agent's estate contract gets indexed from the block it's created,without a hardcoded address list. PlanApproved and PlanExecuted are joined by\nplanHash, which is how the UI shows approval and execution as one story.\n\nThe frontend is Next.js 14 App Router with viem and ISR, deployed on Vercel.\nRegistration is a real wallet transaction in the browser; the demo video signs\nit with MetaMask on camera rather than scripting it.\n\nThe hacky bit worth admitting: making the agent flippable inside a single\nrecording take. We register with a 30-second heartbeat interval and a\n15-second grace period, which means the agent becomes eligible for\nadministration 45 seconds later — inside the same video. Getting that reliable\nmeant reading eligibility from the chain's own block.timestamp with a safety\nmargin rather than from the recorder's wall clock, because the two disagree by\nenough to cause TooEarly() reverts.",
+  "auto_summary": "A multi-package project that manages autonomous agent failure states, redirects payments via ENS-backed resolution, and exposes indexed status data in a dashboard.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/executor-8f6xa",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

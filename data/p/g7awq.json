@@ -1,0 +1,21 @@
+{
+  "id": "g7awq",
+  "slug": "mini-jackpot",
+  "title": "Mini Jackpot",
+  "tagline": "Decentralized MiniJackpot using Pyth Entropy for secure, verifiable random winner selection.",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/g7awq/banner/default.jpg",
+  "demo_url": "https://pyth-mini-jackpot.vercel.app/",
+  "source_url": "https://github.com/zytfo/pyth-mini-jackpot",
+  "finalist": false,
+  "description": "MiniJackpot — Decentralized Secure Lottery Using Pyth Entropy\n\nThis project is a smart contract-based decentralized lottery game built on Ethereum-compatible blockchains. It leverages the Pyth Network's Entropy SDK to obtain secure, unbiased, and verifiable randomness for fair winner selection. The key goal is to create a transparent and trustless jackpot system where users can participate by sending a small entry fee and potentially win the entire jackpot pool.\n\nHow It Works:\n1. User Participation: \n- Users call the play function, sending a random number generated off-chain and paying a fee that covers the entropy provider's cost.\n- The contract accumulates the entry fees (minus the fee paid to the entropy provider) into a jackpot pool.\n\n2. Requesting Secure Randomness:\n- The contract requests a random number from the Pyth Entropy service, passing along the user's random number as input.\n- Pyth Entropy acts as an oracle providing unbiased random values with cryptographic guarantees.\n\n3. Entropy Callback:\n- Once Pyth Entropy generates a random number, it calls back the contract's entropyCallback method, providing the random value.\n- The contract maps the callback to the player who initiated the request.\n\n4. Determining the Winner:\n- The contract calculates a simple probabilistic condition to decide if the player won:\n\nbool won = (uint256(randomNumber) % 100) < 5;\n\nThis means there is a 5% chance to win, determined fairly and securely by the entropy random number.\n- If the player wins, they receive the entire jackpot pool amount, and the pool resets to zero.\n- If the player loses, the pool grows with more entries, increasing the prize for future players.\n\n5. Events and Transparency:\n- The contract emits events for each play and result, including the raw random number used to decide the outcome. This makes all results transparent and auditable on-chain.\n- Anyone can verify the fairness of the game by checking the emitted random numbers and outcomes.\n\n6. Why Use Pyth Entropy?\n- Traditional on-chain randomness (like blockhash or timestamp) is susceptible to manipulation or prediction by miners/validators.\n- Pyth Entropy provides verifiable randomness from off-chain sources with cryptographic proofs, ensuring fairness and security.\n- Using Entropy decouples randomness generation from the contract, reducing complexity and gas costs.\n\n7. Key Features:\n- Decentralized and Trustless: No single party controls the outcome; randomness is provided by a trusted oracle.\n- Fairness: Secure, unbiased random numbers determine winners.\n- Transparency: Events log every request and outcome.\n- Gas Efficiency: Minimal on-chain computation; heavy work is offloaded to Entropy.\n- Simple UX: Users only need to provide a random seed and pay a small fee to participate.",
+  "how_its_made": "We developed the MiniJackpot smart contract in Solidity using Foundry (Forge) for fast testing and deployment. The contract integrates with Pyth Entropy SDK to securely request and receive verifiable random numbers for fair jackpot draws.\n\nThe frontend is built with React and deployed on Vercel for a smooth user experience and quick updates. Users connect their wallets to play by submitting a random seed and paying the required fee.\n\nWe use Blockscout to verify contract transactions and events on-chain, ensuring transparency and easy auditing of jackpot entries and results.\n\nKey features include secure entropy callbacks, dynamic fee handling, and gas-efficient state management. The project combines trusted randomness, seamless user interaction, and full on-chain transparency.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mini-jackpot-g7awq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

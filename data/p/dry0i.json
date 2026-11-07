@@ -1,0 +1,21 @@
+{
+  "id": "dry0i",
+  "slug": "fusion-sui",
+  "title": "fusion-sui",
+  "tagline": "Extending the fusion plus to support the sui network which enables cross-chain swap",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dry0i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5US3blOkcuEt02QDfZrACfd2J2JQ008IEgSvS1aBYXJgQ/high.mp4",
+  "source_url": "https://github.com/raj210809/unite-defi",
+  "finalist": false,
+  "description": "This project implements a secure and decentralized order-matching protocol using a Hash Time-Locked Contract (HTLC) model on Ethereum. It enables users to create and sign trade orders off-chain using the EIP-712 standard, reducing on-chain gas costs and improving scalability. The system leverages the Limit Order Protocol to verify the maker’s intent through off-chain signatures, ensuring robust and standardized signature validation. Orders are cryptographically signed by the maker and include essential trade parameters such as asset addresses, trade amounts, hashlocks, and timelocks. Once validated, the contract enforces hashlock conditions and locks the maker's assets in escrow until the taker fulfills the order with the correct preimage (secret) before the timelock expires. To facilitate atomic cross-chain swaps, escrow contracts are deployed on both source and destination chains, allowing for synchronized execution and settlement. This architecture ensures trustless, gas-efficient interactions and is highly suitable for cross-chain DeFi protocols and secure token exchanges.",
+  "how_its_made": "This project is built around a decentralized protocol using the Ethereum Virtual Machine (EVM), with Solidity as the primary smart contract language. At its core, it uses Hash Time-Locked Contracts (HTLCs) to enforce secure, time-bound conditions for transferring tokens between participants. The EIP-712 standard is used to enable structured data signing off-chain, allowing the maker to sign orders without incurring gas fees. These signed orders are later verified on-chain using the Limit Order Protocol-style signature verification, which guarantees both security and gas efficiency.\n\nThe architecture is designed to support cross-chain atomic swaps. For this, identical escrow contracts are deployed on multiple EVM-compatible chains. Orders can be created and signed off-chain on one chain (e.g., Base Sepolia), while the corresponding claims can be fulfilled on another chain (e.g., Sui or Polygon), using the same hashlock and secret mechanism.\n\nThe backend includes TypeScript/Node.js scripts that simulate user actions: generating EIP-712-compliant domain structures, signing the orders using the maker’s private key, and sending signed payloads to the smart contract. The off-chain signer is manually managed using ethers.js for signature creation, and this setup is tightly integrated with the on-chain verifier logic in Solidity.\n\nA particularly hacky but clever part was mimicking the Limit Order Protocol’s signature scheme without depending on their full library — manually constructing the typed data hash and replicating its verification logic inside the smart contract. This allowed full control over the escrow logic while maintaining signature compatibility.\n\nOverall, the combination of off-chain signing, on-chain HTLC enforcement, cross-chain escrow deployment, and signature verification using EIP-712 provides a robust, modular, and gas-optimized trading flow ideal for cross-chain DeFi applications.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fusion-sui-dry0i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

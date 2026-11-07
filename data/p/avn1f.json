@@ -1,0 +1,27 @@
+{
+  "id": "avn1f",
+  "slug": "hako-xiang",
+  "title": "Hako 箱",
+  "tagline": "Every automation is an ENS name. The contract only pays when the name says so.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/avn1f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FFr02a00e00Y02hJ01aENLElgEy01gRJrq9AGhiLdcMlnGlbI/high.mp4",
+  "demo_url": "https://hako.lenoteddy.com/",
+  "source_url": "https://github.com/lenoteddy/hako",
+  "finalist": false,
+  "description": "Hako turns recurring token payments into ENSv2 names. Each user gets their own name like alice.hako-箱.eth, and every automation becomes a subname under it, like rent.alice.hako-箱.eth. The task's settings (token, amount, recipient, interval, status) live in the name's text records, its end date is the name's expiry, and deleting the task unregisters the name.\n\nA shared executor contract reads the name onchain before every payment, so a paused, expired or deleted task can never move money, no matter who calls it. Anyone can open a user's name and see exactly what's running on their behalf, with no backend or database. Users own their names, registries and resolvers, so their automations are theirs, not the app's.",
+  "how_its_made": "Built on the ENSv2 beta on Sepolia. hako-箱.eth points to its own UserRegistry, deployed through ENS's Verifiable Factory, and a registrar (adapted from the ENS contract-developer tutorial) issues user names. At sign-up, each user's wallet deploys its own registry and Permissioned Resolver and links them with setSubregistry, so the user holds every role and Hako holds none.\n\nTasks are registered as subnames in the user's registry, and their settings are written to the resolver with multicall(setText). A hako.tasks record on the user's name indexes their tasks, so the React dashboard (viem + RainbowKit) reads everything straight from ENS.\n\nTaskExecutor (Solidity, Foundry) is callable by anyone. It checks that the user name and task name exist, that the task's owner is the user name's owner, and reads each setting via resolve(name, text(node, key)). Then it checks the status and interval before calling transferFrom. A small Node worker simulates execute for every task each minute and only sends when the simulation passes, so it has no power over funds.\n\nThe hardest part: the Sepolia Permissioned Resolver writes with setText(bytes name, …) but only answers reads through ENSIP-10 resolve(); direct text() calls revert. We found this by tracing calls with cast and rebuilt the executor around resolve().",
+  "auto_summary": "A recurring token payment system that stores task configuration and enforcement state in ENSv2 names on Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hako-xiang-avn1f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

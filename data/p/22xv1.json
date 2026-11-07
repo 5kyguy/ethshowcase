@@ -1,0 +1,22 @@
+{
+  "id": "22xv1",
+  "slug": "shadowswap",
+  "title": "Shadowswap",
+  "tagline": "MEV-Resistant Intents: Agentic Matching via Yellow Channels + Uniswap v4 Privacy Hooks",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/22xv1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MDomZBH79Z5YYR98hTvhDF8tnCCof00j2EaX8KBhGwfo/high.mp4",
+  "demo_url": "https://shadowswap-phi.vercel.app/",
+  "source_url": "https://github.com/shreyas-sovani/shadowswap",
+  "finalist": false,
+  "description": "ShadowSwap delivers a next-generation MEV-resistant trading primitive that protects retail users from front-running and sandwich attacks—attacks that extract hundreds of millions in value yearly. Users submit encrypted swap intents privately (\"swap 100 SHADOW → ETH at min output X\"). An autonomous agent matches opposing intents peer-to-peer using Yellow Network's Nitrolite state channels for gasless, instant off-chain coordination and balance synchronization. Matched trades settle atomically on-chain via a custom Uniswap v4 hook that enforces solver-only execution, drastically reducing on-chain information leakage and improving execution resilience. Settlement proofs are immutably recorded in ENS text records for transparent, decentralized auditability. Deployed live on Sepolia, ShadowSwap demonstrates composable privacy: netting opposing flows (e.g., ETH buy vs sell) minimizes market impact and slippage in practice. This foundation unlocks fairer, more private DeFi markets with extensibility to multi-chain via Yellow's EVM compatibility.",
+  "how_its_made": "ShadowSwap was engineered in an intense sprint with a clean, layered architecture optimized for MEV resistance and sponsor depth. Core smart contracts (Solidity 0.8.26, Foundry, Cancun EVM) extend Uniswap v4: ShadowHook implements a strict guard restricting swaps to our whitelisted ShadowRouter, which uses IUnlockCallback + transferFrom to pull user funds and settle via PoolManager—leveraging transient storage for gas-efficient private execution. This hook integration meaningfully enhances privacy by eliminating public mempool exposure during coordination. Off-chain, the autonomous agent orchestrates intent matching with price-aware heuristics (5% tolerance, 1 ETH = 1000 SHADOW baseline) and coordinates via @erc7824/nitrolite SDK over Clearnode WebSocket: ephemeral session keys enable secure, gasless state updates in channels, with final on-chain settlement preserving security. \nFrontend (React/Vite/TS, wagmi/viem, Tailwind) delivers AES-GCM encryption via Web Crypto API, token approvals, and real-time SSE-driven UX (event streaming for every step: matching → tx submission → ENS recording). \nHacky highlights: CREATE2 salt mining for deterministic hook addresses; custom OrderBook with tolerance logic for robust matching; ENS text records as an immutable audit trail for settlement hashes—turning ENS into a DeFi verifiability layer. All synced via shared config.json; 7/7 passing Foundry tests enforce invariants. Yellow's channels provide Web2-like speed and composability; Uniswap v4 extensibility enables custom privacy logic—together forming a powerful, verifiable MEV-mitigation stack.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/shadowswap-22xv1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,41 @@
+{
+  "id": "aeihd",
+  "slug": "npmguard",
+  "title": "npmguard",
+  "tagline": "NpmGuard: AI agents audit npm packages for malicious code, publish verifiable results on-chain.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/aeihd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Q6N0102ZHzLu7IDzfrC3TZpxn6IG7KA005FCPgs02IiyHxg/high.mp4",
+  "demo_url": "http://209.38.42.28:3000",
+  "source_url": "https://github.com/kryczkal/EthCannes2026",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "3rd place",
+      "title": "Most Creative Use of ENS"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Cannes 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "NpmGuard is an autonomous security platform that protects developers from malicious npm packages. When a new package version is published on npm, our system automatically fetches it, runs it through a multi-step AI audit pipeline (structural analysis, LLM risk scoring, agentic investigation, and sandboxed exploit testing), then publishes the verdict, score, and full report on-chain using ENS subnames on Sepolia and IPFS via Pinata.\n\nDevelopers can check any package before installing it. Simply query the ENS registry (e.g. axios.npmguard.eth) to see if the package is safe, what its risk score is, and read the detailed report stored on IPFS.\n\nThe platform has two entry points. Monitored packages are audited for free through a Chainlink CRE cron job that checks npm every five minutes. For any other package, developers can trigger an audit on demand through the CLI by paying a small fee (0.01 0G) on the 0G Galileo testnet, either with a private key or by scanning a WalletConnect QR code from their mobile wallet.\n\nBoth paths feed into the same audit engine: a TypeScript pipeline running inventory analysis, LLM-powered static analysis with Gemini 2.5 Flash, dynamic exploit generation, and Docker-sandboxed execution. The result is a trust layer for the entire npm ecosystem that any developer or AI agent can query before installing a dependency.\n",
+  "how_its_made": "NpmGuard is built as a modular system where each component handles one responsibility and communicates through simple HTTP calls and on-chain reads.\n\nThe audit engine is a TypeScript server powered by Hono, exposed as a REST API. When it receives an audit request, it runs the package through four phases. Phase 0 (Inventory) downloads the tarball and performs structural triage, extracting metadata, install scripts, and dependency trees. Phase 1a (Triage) sends the code to Gemini 2.5 Flash via an OpenAI-compatible API to produce a risk score. If the score is high, Phase 1b (Investigation) uses an agentic LLM flow to deeply analyze suspicious patterns, and Phase 1c generates exploit test code. Phase 2 (Sandbox) spins up a Docker container to execute the generated tests in isolation, catching runtime behaviors like unauthorized network calls or filesystem access.\n\nOnce the verdict is produced, the engine publishes everything to IPFS through Pinata and writes structured ENS text records on Sepolia. Each audited package gets an ENS subname (e.g. 1-14-0.axios.npmguard.eth) storing the verdict, score, capabilities, report CID, and source CID.\n\nThe CLI (npmguard-cli, published on npm) wraps the entire flow for developers. It reads ENS on-chain to check if an audit exists, and if not, handles payment on the 0G Galileo testnet through either a raw transaction or WalletConnect v2 QR code, then triggers the engine and streams results back.\n\nFor automated monitoring, we built a Chainlink CRE workflow that runs on the Decentralized Oracle Network. A cron trigger fires every five minutes, fetches the npm registry for monitored packages, reads ENS using the EVMClient (trustless, no RPC dependency), and calls the audit engine for any unaudited version. This means no single server needs to stay online for monitoring to work.\n\nThe frontend is a React and Vite dashboard styled with Tailwind CSS. It connects to the engine via Server-Sent Events to stream audit progress in real time, showing each phase as it completes.\n\nOn the smart contract side, we wrote a Solidity contract deployed on 0G Galileo a deploy and verify scripts. The contract handles audit payments and emits events that the engine can listen to.\n\nOne notably hacky piece is the sandbox system. Instead of statically analyzing what a package might do, we actually generate Vitest exploit tests tailored to each package and run them inside Docker. This catches real runtime malicious behavior that static analysis would miss, like a package that only phones home during postinstall.",
+  "auto_summary": "An npm package security system that audits package versions, stores reports on IPFS, and publishes lookup records through ENS and on-chain workflows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/npmguard-aeihd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

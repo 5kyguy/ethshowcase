@@ -1,0 +1,27 @@
+{
+  "id": "nmpfg",
+  "slug": "event-seal",
+  "title": "Event Seal",
+  "tagline": "Fail-closed verification for onchain events before relayers, agents, or backends act.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nmpfg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HmTaX7ETE82sc6ZXckYHAQ63X2o99Dsd01YHs02rCNqtA/high.mp4",
+  "demo_url": "https://eventseal-rho.vercel.app/",
+  "source_url": "https://github.com/abhigyan1102/event-seal",
+  "finalist": false,
+  "description": "Solana programs can emit convincing logs even when the surrounding transaction fails. A backend that trusts a webhook or decoded log too early can release a reward, grant access, or update a ledger for state that never committed.\nEventSeal gives relayers, indexers, agents, and application backends a fail-closed checkpoint before they act. A developer submits a transaction signature and network, then separately supplies the expected program ID and Anchor event discriminator from a trusted source. EventSeal fetches finalized transaction evidence, confirms execution succeeded, reconstructs the active program invocation frames, and checks that the event came from the intended program. Missing or ambiguous evidence is never presented as success.\nThe live demo makes the failure visible using two Solana devnet transactions that emit the same event shape. The successful transaction verifies and receives a deterministic public receipt. The failed transaction returns TX_FAILED and receives no receipt. Duplicate deliveries of the same verified event resolve to the same receipt identity, giving downstream systems a stable basis for idempotent processing.\nContinuity disclosure: EventSeal’s core SDK, hosted verifier, and Anchor devnet demonstration existed before ETHOnline 2026. Work completed during the event window includes stronger receipt-identity integrity, public receipt pages, an authenticated saved-receipt dashboard, hardened browser-to-function authentication, automated release tests, a public product homepage, developer documentation, and a redesigned verification workflow. The public Git history separates this work from the pre-event foundation.",
+  "how_its_made": "EventSeal is a TypeScript monorepo containing a verification SDK, Next.js web application, InsForge edge functions, PostgreSQL receipt storage, and an Anchor program written in Rust for adversarial testing.\nThe core @eventseal/sdk reads Solana JSON-RPC using finalized commitment. It requires complete transaction metadata and meta.err === null, reconstructs nested program invocation frames, matches the expected eight-byte Anchor discriminator, and attributes the event to the expected active program. It returns an explicit verified, rejected, or indeterminate result. Missing, malformed, truncated, or unavailable evidence fails closed.\nThe browser first calls POST /api/inspect using only the signature and network. Inspection reports transaction facts and untrusted event candidates, but cannot authorize an event or create a receipt. Verification begins only after the caller independently provides the trusted program ID and discriminator through POST /api/verify. The Next.js server attaches the internal function credential, keeping backend credentials out of the browser.\nVerified results are stored as immutable v2 receipts in PostgreSQL. Each receipt ID binds the network, finalized commitment, signature, trusted program, discriminator, event position, emitter, and event-data hash. Row-level security keeps writes server-only while permitting public evidence lookup.\nThe Anchor devnet program exposes emit_success and emit_then_fail. Both emit the same event bytes, but the second deliberately aborts. This matched pair proves EventSeal’s central claim: observing the expected log is insufficient; the complete transaction must have succeeded.",
+  "auto_summary": "A TypeScript monorepo verifies finalized Solana transaction events and issues immutable receipts only for confirmed successful executions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/event-seal-nmpfg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

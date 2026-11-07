@@ -1,0 +1,22 @@
+{
+  "id": "f7hhf",
+  "slug": "alphascanner",
+  "title": "AlphaScanner",
+  "tagline": "Explainable Uniswap v4 pool checks for agents: PASS, REJECT, or UNKNOWN.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f7hhf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2Jw63YjQpoE73VRLgNgfCA23AStXSuJEuXFRMBr8p1M/high.mp4",
+  "demo_url": "https://github.com/saturn012/v4-pool-index/blob/main/docs/evidence/2026-09-11_paid-run.md",
+  "source_url": "https://github.com/saturn012/v4-pool-index",
+  "finalist": false,
+  "description": "AlphaScanner is an existing product that collects crypto calls, scores token candidates, and delivers cards. Its separate execution layer can trade on BNB Smart Chain. Neither private system is part of this public submission.\n\nFor ETHOnline, I built v4-pool-index: a new open-source module that asks a different question before a signal or execution decision: what do we actually know about a Uniswap v4 pool? It captures pool identity from Initialize events, then uses deterministic checks and available token metadata to return PASS, REJECT, or UNKNOWN with a reason for every result. Nonzero hooks are rejected because creation-event data cannot bound their behaviour. Missing volume stays UNKNOWN, not \"no market.\" The new module is not yet integrated into AlphaScanner, and that boundary is explicit in the repository.",
+  "how_its_made": "The project is built around a Rust Substreams producer that emits typed Uniswap v4 pool identity: pool ID, currencies, raw fee, tick spacing, and hooks. The same module is configured per network through its manifest. A second published Substreams package imports the producer by registry name instead of copying the decoder. This proves the module can be reused as a component, not only run as one application.\n\nA separate Node.js assessment path enriches Base token data with the Pinax Token API and applies explicit rules for hooks, fees, tick spacing, metadata, and missing fields. It is available through local MCP tools and a loopback-only x402 HTTP endpoint. A recorded Base Sepolia run shows the full HTTP 402, payment, HTTP 200, and returned verdict path. The rules are deterministic: an LLM does not decide whether a pool passes.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/alphascanner-f7hhf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

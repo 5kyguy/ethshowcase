@@ -1,0 +1,22 @@
+{
+  "id": "5ygxb",
+  "slug": "swarmfi",
+  "title": "SwarmFi",
+  "tagline": "A multi-agent DeFi swarm where autonomous agents communicate peer-to-peer",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5ygxb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lkxiFK02GFq4IAAfP8YvecX01tLfTGoI93X1rVHTQT8CQ/high.mp4",
+  "demo_url": "http://x4vnym7g6kg0tfi2pboyrxt4.158.220.112.103.sslip.io/",
+  "source_url": "https://github.com/sejoroajose/swarmfi",
+  "finalist": false,
+  "description": "SwarmFi is an autonomous DeFi swarm where a researcher agent scans live markets, a risk agent scores opportunities on 0G Compute (sealed inference), and an executor agent commits decisions through KeeperHub with full audit trails on 0G Storage. Agents communicate peer-to-peer via Gensyn AXL and identify themselves through ENS.",
+  "how_its_made": "SwarmFi is a three-agent autonomous DeFi swarm composed entirely of sponsor primitives, glued together with FastAPI on Python 3.12 and a tiny Node.js sidecar.\n\nEach cycle, a researcher sweeps four Base bluechip pairs (ETH/USDC, ETH/USDT, WETH/USDC, cbBTC/USDC) and ranks them on a transparent composite edge profile (40% momentum, 25% bluechip, 20% spread, 15% size-fit) — inspired by Carver's Systematic Trading. The top pair becomes the signal. A risk agent sends that signal to 0G Compute for sealed AI inference (qwen3-plus / GLM-FP8) which scores it 0–10 against a structured rubric. An executor consults the Uniswap Trading API as a live price oracle (quote, route, gas estimate), then settles the swarm's commitment on Sepolia via KeeperHub /api/execute/transfer — which gives us a real on-chain tx hash per cycle. 0G Storage snapshots the entire cycle (signal, decision, tx) as one Merkle root committed via a flow tx.\n\nIdentity is ENS end-to-end: researcher/risk/executor.swarmfi.eth are real Sepolia subnames; the dashboard never hardcodes addresses, it resolves through ENS at runtime and updates swarmfi.role / status / last / tx / snapshot text records every cycle. Agents talk peer-to-peer over Gensyn AXL — three nodes (9002/9012/9022), pubkey-derived IPv6 routing.\n\nNotably hacky bits: KeeperHub's /execute/contract-call endpoint silently ignores the calldata field and strips msg.value, causing Universal Router reverts (InsufficientETH() = 0x6a12f104). We pivoted to /execute/transfer and used the Uniswap quote as price intelligence rather than full swap execution — documented thoroughly for KH's Builder Feedback bounty. We also wrote a buffered 0G Storage layer that batches every per-event write into one consolidated on-chain snapshot per cycle (60–90s flow-tx latency × 12 writes/cycle was unworkable). Frontend is single-file vanilla HTML + GSAP via CDN — no build step, no bundler, ships in a Docker image alongside the backend.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/swarmfi-5ygxb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

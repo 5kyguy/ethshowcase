@@ -1,0 +1,30 @@
+{
+  "id": "ywv7j",
+  "slug": "common-os",
+  "title": "Common OS",
+  "tagline": "Deploy and run agent swarms with each agent having their own dedicated runtime and filesystem",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ywv7j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/l6DObnF8F3inQsCLrwm17OAsSorfoDqXhkq01KXWBiCE/high.mp4",
+  "demo_url": "https://common-os-web.vercel.app/",
+  "source_url": "https://github.com/Arttribute/common-os",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Open Agents 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "AI agents are getting more powerful, but most still do not have a real place to work.\n\nThey can reason, plan, and use tools, but they often run as temporary processes inside a user’s workspace. That works for simple tasks, but it breaks when agents need persistent state, durable files, scoped permissions, identity, and safe collaboration.\n\nThis becomes even more problematic with agent fleets. A single agent sharing a workspace is already risky, but a fleet introduces many agents with different roles, tools, permissions, and responsibilities. A researcher agent, coding agent, monitoring agent, or onchain agent should not all share the same files, credentials, runtime, and state. Without separation, agents can interfere with the user’s environment, overwrite each other’s work, leak state across tasks, or lose progress when a process stops.\n\nCommonOS solves this by giving every agent in a fleet its own isolated runtime, persistent workspace, identity, and live presence. Each agent can work in its own environment without sharing files, credentials, or state with the user or with other agents.\n\nWith CommonOS, developers can deploy agents, assign work, watch them operate in real time, and let them communicate directly without forcing every agent to share the same workspace",
+  "how_its_made": "CommonOS is built in three layers: a provisioning layer that gives each agent its own computer, a control plane that manages those computers, and a live interface that shows what the fleet is doing in real time.\n\nWhen a user deploys an agent, CommonOS first registers that agent through the Agent Commons API and creates its identity and wallet. It then provisions a virtual machine on AWS or GCP. Each virtual machine runs Ubuntu and starts with a boot script that installs the agent runtime, starts a background daemon, and connects the agent to the Gensyn AXL network. The agent’s ID, token, and configuration are injected at startup. From that moment, the machine becomes the agent’s own persistent environment. Its files remain there between tasks, its process keeps running, and its runtime is separate from every other agent.\n\nA central control plane, built with Hono, manages the full lifecycle of these agent machines. It handles deployment, sends startup scripts to the cloud provider, tracks the status of every agent, routes tasks to the correct machine, receives events back from running agents, and streams those events live to the web interface. Authentication follows a two-key model. Users manage fleets through a cos_live_ API key, while each agent machine uses a scoped cos_agent_ token that only allows it to report its own events and fetch its own tasks. This limits the damage if a machine is ever compromised.\n\nAgents on separate machines communicate directly with each other through AXL, Gensyn’s encrypted peer-to-peer communication layer. Each machine runs its own AXL node. Messages go directly from one agent machine to another, without relying on a central broker. The control plane keeps a peer directory in Redis so agents can discover the other members of their fleet.\n\nOn the frontend, CommonOS provides a live visual interface built with Next.js and Phaser. It renders a 2.5D isometric environment where agents appear as characters in shared spaces such as offices or workrooms. When the page loads, it fetches the current fleet state and then opens a WebSocket connection for live updates. Agent events are mapped to visible actions. For example, writing code triggers a working animation, messages appear as movement and speech bubbles, and completed tasks cause brief visual highlights. This interface is not just decorative. It is a live view of real agent machines, real events, and real work happening across the fleet.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/common-os-ywv7j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

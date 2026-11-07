@@ -1,0 +1,41 @@
+{
+  "id": "5xkf2",
+  "slug": "lunave",
+  "title": "Lunave",
+  "tagline": "AI-managed private USDC yield, custodied by your Ledger — keys never leave the Secure Element",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5xkf2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tMYZIv01P8TLi02ba95ZPPutiTEuHeUYzwEwXBLO5u302M/high.mp4",
+  "demo_url": "https://github.com/edenbd1/lunave",
+  "source_url": "https://github.com/edenbd1/lunave",
+  "prizes": [
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "1st place",
+      "title": "AI Agents x Ledger"
+    },
+    {
+      "sponsor": "Unlink",
+      "sponsor_id": "itd29",
+      "placement": "Best Unlink Integration into a Major Open-Source App",
+      "title": "Best Unlink Integration into a Major Open-Source App"
+    }
+  ],
+  "finalist": true,
+  "description": "Lunave is private, AI-managed DeFi yield custodied by your Ledger. A yield co-pilot proposes a diversified USDC strategy across real protocols (Aave, Spark, Moonwell, Fluid, Euler, Morpho), your Ledger validates it, and an autonomous agent then maintains that allocation on its own. The Unlink spending key is generated and used inside the Ledger's Secure Element and never leaves the chip, so balances, transfers and DeFi moves stay private and every signature happens on-device. The AI decision is attested by Chainlink Confidential AI and bound on-chain through a Chainlink CRE workflow, so the agent can only act within an allocation your physical device approved — autonomy with hardware-enforced bounds.",
+  "how_its_made": "The core is a native BOLOS app on the Ledger (Apex P) that signs Unlink's EdDSA-Poseidon over BabyJubJub directly in the Secure Element. We implemented Poseidon (t=6) and a fixed-base comb on the SE's cx_bn hardware bignum to bring signing down to ~26s, working around cx_bn reduction/in-place quirks. A host bridge exposes the device as the Unlink SDK signer, so shields (Permit2 via the Ethereum app), private transfers, and pool→Execution-Account→vault deposits are all device-signed. The AI co-pilot's allocation runs through the Chainlink Confidential AI Attester (TEE inference returning SHA-256 provenance digests); a Chainlink CRE workflow (TypeScript SDK, simulated via the CRE CLI) binds the response digest as a transcriptHash and writes a DON-signed report to an AllocationGate contract on Base Sepolia, which the Execution Account is gated against. OpenPGP makes the rules hardware-custodied: the strategy is encrypted to the Ledger's OpenPGP key and must be decrypted on the device (PIN) before any deposit. Stack: Ledger BOLOS/NBGL (C), Unlink SDK, Chainlink CRE + Confidential AI, viem, React/Vite/Tailwind, Hono, Mistral. Honest note: the TEE inference runs through a local stand-in exposing the identical /v1/inference contract (one env var swaps to the real sandbox), and the on-chain report is written via a forwarder stand-in pending CRE deploy access — the data contract is unchanged.",
+  "auto_summary": "A Ledger-based app combines private Unlink account operations with AI-generated yield allocations and Chainlink-gated onchain execution.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lunave-5xkf2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

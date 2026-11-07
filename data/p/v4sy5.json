@@ -1,0 +1,35 @@
+{
+  "id": "v4sy5",
+  "slug": "smolkol",
+  "title": "SmolKOL",
+  "tagline": "A transparent LLM-powered attention marketplace for Twitter.",
+  "event": {
+    "slug": "sanfrancisco2024",
+    "name": "ETHGlobal San Francisco",
+    "start_time": "2024-10-18T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v4sy5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SyAC1GYOlwZdQPkDKB2tizrllxHgYLHkmWclCA76rZs/high.mp4",
+  "source_url": "https://github.com/stanleyjzheng/smolkol",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "EVM Starter Bounty",
+      "title": "EVM Starter Bounty"
+    },
+    {
+      "sponsor": "AirDAO",
+      "sponsor_id": "1kchc",
+      "placement": "2nd place",
+      "title": "Attention Economy"
+    }
+  ],
+  "finalist": true,
+  "description": "# SmolKOL: A Transparent Attention Marketplace\n\nI would encourage you watch the pitch!\n\n### Overview\n\nSmolKOL is an attention marketplace that connects indie Twitter accounts and companies through performance-based bounties. It allows companies or individuals to create bounties for social media engagement, and shitposters to earn rewards based on how well their content performs. The platform ensures that payments are tied to measurable outcomes such as likes or views, providing transparency and efficiency.\n\n### Problem\n\nCurrent \"KOL\" marketing models involve paying influencers upfront, often with no clear correlation between the payment and the actual results achieved. This creates inefficiency for brands and limits opportunities for smaller content creators to participate. There is a lack of transparency in how much value brands are getting for the money spent.\n\n### Solution\n\nSmolKOL addresses this by allowing companies/individuals to offer bounties based on specific performance metrics. Poasters submit content that aligns with these criteria, and payments are only made if the content meets the required level of engagement. This ensures that compensation is based on actual performance rather than follower count or reputation.\n\n### How SmolKOL Works\n\nSmolKOL operates as a bounty board where bounties are posted in natural language. Companies or individuals specify the type of engagement they want (e.g., likes, views) and the reward for meeting these targets.\n\n#### Example Use Case:\n\n1. **Creating a Bounty:** A brand wants to increase awareness about a new product. They create a bounty for tweets that receive over 100 likes, offering 0.01 ETH for each tweet that meets this condition.\n    \n2. **Submitting a Tweet:** A user with a relevant story or comment about the product tweets and submits their post to SmolKOL once it hits 100 likes.\n    \n3. **Verification:** SmolKOL uses GPT-4O to verify that the tweet meets the bounty’s criteria, including relevance to the prompt and engagement level. If the tweet is approved, the user receives the reward.\n    \n4. **Rejection Example:** If the tweet does not meet the requirements or is irrelevant, GPT-4O provides natural language feedback explaining why it was rejected.\n    \n\n### Applications\n\n- **Micro KOL Campaigns:** Offer bounties for content promotion, paying based on actual engagement rather than upfront fees; allowing smaller accounts to participate (Monad has many smaller \"influencers\", while Polkadot has fewer larger ones. Which one has more mindshare?)\n- **Research & Technical Dissemination:** Researchers or projects can create bounties to spread awareness of technical content or important updates, compensating based on how widely the information is shared and engaged with rather than purely how intellectually interesting a problem is.\n- **Community Engagement:** Organizations can incentivize participation by paying for tweets that foster discussion or engagement within a specific community.\n\n### Benefits\n\n- **For Companies:** SmolKOL provides a more efficient way to allocate marketing budgets by paying only for content that delivers measurable engagement.\n- **For Creators:** Smaller accounts can participate and earn money based on the quality and engagement of their content, without needing a large follower base. Direct payments from bounty creators is much more than they would have earned from ads (eg. before 2024, Twitter paid $0 in ads).\n\n### Example Flow\n\n1. **Create a Bounty:** Specify the content and engagement criteria (e.g., a positive tweet about a product with over 100 likes).\n2. **Submit Content:** Users submit their content that meets the criteria.\n3. **Verify & Payout:** GPT-4O verifies that the submission meets the requirements, and the creator is paid if the criteria are met.\n4. **On-chain verification of OpenAI outputs:** Walrus stores the OpenAI API response on-chain for open verification.",
+  "how_its_made": "SmolKOL has a few multiple parts:\n- Rust transaction listener to verify payments\n- Next.js/node frontend/backend for... most things\n- Postgres as our database\n\nMore specifically:\n- OpenAI API for adjudicating whether the bounty conditions were fulfilled by the tweet\n- Dynamic for connecting wallets\n- Twitter's internal GraphQL API, which we reverse engineered\n\nAnd some weirdness in between (docker for postgres)\n\nIt's practically my first time building frontend, especially with Next. I was way more comfortable in Rust, so I used it where I can, but it's certainly an odd mix of tech.\n\nI also didn't expect to be exploring prompt engineering before the hackathon; but realized that the new OpenAI beta feature for structured JSON output could be super useful to adjudicate whether a given tweet was valid or not. As such, I spent some time writing a system prompt which pleased me (https://github.com/stanleyjzheng/smolkol/blob/master/openai.md). \n\nBy far the most annoying part of it was the Twitter API. There's so many oddities; it just said my auth was wrong. It turns out, for the free tier, Twitter API is WRITE ONLY. I've never remotely heard of that; you can create tweets, but not read? Despite all docs saying that 1500 tweets/month could still be read, it's straight up wrong, and one only finds out via forms. Else, it was $100/mo. Therefore, I decided to scrape twitter using my own account's bearer token, which oddly worked much better. Other oddities were that the callback url can't be localhost (but it allows you to set it as localhost?) so localhost:3000 doesn't work, but 127.0.0.1:3000 works fine. Why???? Truly bizzare. But whatever, some makeshift scraping did the job, so it's hard to complain in the end.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/smolkol-v4sy5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

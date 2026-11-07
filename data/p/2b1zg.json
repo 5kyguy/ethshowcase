@@ -1,0 +1,27 @@
+{
+  "id": "2b1zg",
+  "slug": "counterweight",
+  "title": "Counterweight",
+  "tagline": "Self-custodial liquidity management with inventory-aware quotes and restricted treasury operations",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2b1zg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fgqQhemZIpCSBpBUxfSc3z02QaJP1ys6eqpZM02BGzWOY/high.mp4",
+  "demo_url": "https://github.com/ginger-sesame/counterweight",
+  "source_url": "https://github.com/ginger-sesame/counterweight",
+  "finalist": false,
+  "description": "Counterweight helps a treasury offer WETH/USDC liquidity while controlling the inventory allocated to its strategy. Assets remain in the maker wallet through Aqua's allocation model. Quotes encourage trades toward a target allocation, and an execution-time guard rejects trades that would exceed immutable exposure limits.\n\nWe implement a custom SwapVM router with two custom instructions and a small patch to the pinned SwapVM base contract. It uses Aqua for strategy allocation accounting and actual token settlement. The custom logic combines inventory-seeking quotes with mandatory execution-time exposure checks.",
+  "how_its_made": "The pricing library values allocated WETH and USDC using the epoch's fixed reference price. It computes WETH weight in basis points, compares it with the target, and scales the difference by tuning intensity:\n\nskewBps = clamp((wethWeightBps - targetWethBps) × intensityBps / 10,000, -200, +200)\n\nThe implementation uses integer arithmetic and applies the resulting price shift plus a directional spread to calculate exact-input output amounts. When the maker holds excess WETH, the quotes encourage traders to buy WETH from the maker, reducing its WETH allocation. This encourages movement toward the target.\n\nWe use Solidity to implement the immutable epoch controller, custom SwapVM skew/guard instructions and guarded Aqua settlement. The modified upstream SwapVM retains its transfer path while adding entry and post-settlement checks. A Node.js pipeline applies the DEX-AMM query and normalization to two distinct deployments, validates identity/freshness and maps completed-day activity to bounded intensity/spread. Live standardized Graph observations from Uniswap and SushiSwap tune only bounded quote parameters. Privy provides the organization wallet, owner quorum, restricted updater and emergency signer.",
+  "auto_summary": "A Solidity and Node.js project implementing an Aqua/SwapVM treasury liquidity strategy with inventory-skewed quotes, exposure guards, and external market-data tuning.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/counterweight-2b1zg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

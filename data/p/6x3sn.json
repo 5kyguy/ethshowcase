@@ -1,0 +1,21 @@
+{
+  "id": "6x3sn",
+  "slug": "loophole",
+  "title": "Loophole",
+  "tagline": "Loophole is an agent that monitors your position health and saves you from getting rekt",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6x3sn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ED2zBoVWwbZCPneOfQH1iExuXxN9qZA300Lfs7X00C300I/high.mp4",
+  "source_url": "https://github.com/SidharthK2/liquidity-guardian",
+  "finalist": false,
+  "description": "Loophole\nUnwind recursive Aave leverage positions before liquidation.\n\nLoophole is an AI agent that monitors your Aave position health, simulates flash-loan-powered unwinds, and executes them atomically — all through a Telegram bot.\n\nThe Problem\nDeFi users create recursive leverage positions (deposit stETH -> borrow WETH -> deposit again -> repeat). When prices drop, these positions face liquidation with a ~5% penalty. Unwinding manually requires multiple transactions and capital you might not have.\n\nThe Solution\nLoophole uses Aave V3 flash loans to atomically unwind your entire looped position in a single transaction:\n\nFlash loan the debt asset\nRepay all debt loops (iteratively, auto-detects loop count)\nPull aTokens from user, withdraw collateral\nSwap via Uniswap v4 (unlock/callback pattern)\nRepay flash loan + premium\nReturn remainder as USDC\nAn AI agent (powered by Gemini) monitors your position, simulates outcomes, and recommends when to unwind — all accessible via Telegram.",
+  "how_its_made": "Loophole has two packages: a Solidity contract and a TypeScript agent.\n\nContract (Loophole.sol) — Deployed on Base at 0x0d0AAC9595152fA9c2Ad80fcc86d4B9bf35F5f99. Takes an Aave V3 flash loan, iteratively repays user debt and withdraws collateral, swaps via Uniswap v4 using the unlock/callback pattern with flash accounting (settle + take), and returns USDC to the user. All in one atomic transaction. Protected by ReentrancyGuard, custom errors, and slippage checks. Fork-tested against real Aave V3 state.\n\nAgent — Built with ADK-TS (Gemini 2.5 Flash) and grammY for Telegram. Six tools: get_position fetches Aave V3 data, get_price pulls from Stork oracle, simulate_unwind estimates output and fees, estimate_liquidation stress-tests under price drops, optimize_unwind generates a risk report, and execute_unwind builds unsigned transaction calldata with EIP-681 QR codes so the user can scan and sign from their mobile wallet.\n\nUniswap v4 — The contract implements IUnlockCallback. Swaps go through PoolManager using unlock() → unlockCallback() → settle() + take(). No direct swap() calls.\n\nStork (Arc) — Agent uses the Stork REST API for real-time price feeds to calculate health factor, liquidation distance, and unwind economics. USDC settlement.\n\nStack — Foundry, viem, ADK-TS agent framework, Base chain.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/loophole-6x3sn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

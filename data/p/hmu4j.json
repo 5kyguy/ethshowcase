@@ -1,0 +1,41 @@
+{
+  "id": "hmu4j",
+  "slug": "doom-arena",
+  "title": "Doom Arena",
+  "tagline": "Distributed DApp for managing and creating contests around the Doom Games.",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hmu4j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aABdlBGz62AtCFvEP4ONiL02NJKcpCWYasHfrZbuRXkU/high.mp4",
+  "source_url": "https://github.com/felipefg/doom-arena",
+  "prizes": [
+    {
+      "sponsor": "ApeCoin",
+      "sponsor_id": "t3zyt",
+      "placement": "🥇 ApeCoin DAO — Best Integration",
+      "title": "ApeCoin DAO"
+    },
+    {
+      "sponsor": "WalletConnect",
+      "sponsor_id": "46q4i",
+      "placement": "💭 WalletConnect — 🥉 Most Innovative",
+      "title": "WalletConnect"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New York 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "This project introduces a novel approach to hosting gaming contests using the Original Doom Game as an example. These contests are fully on-chain and decentralized, creating a new avenue for the game developers economy. Game developers and influencers can initiate contests with their games, offering enticing prize pools to incentivize participation.\n\nWith millions of games released annually, game developers need unique ways to attract players. This project offers a solution by allowing developers to host contests, providing incentives for players and generating revenue for developers. \n\nThe host initiates the contest by funding the initial prize pool of APE Tokens. Players will log in using their ENS Profile and pay a ticket in APE price to enter the contest. With 90% of this amount contributing to the prize pool, while 10% goes to the host. On average, after 100 players join a contest by paying the ticket price, the host breaks even.\n\nIn summary, this project creates a decentralized platform for hosting gaming contests, offering an innovative way for game developers to promote their games and engage players while creating a sustainable economic model for game promotion. Anyone can initiate or participate in a contest, contributing to a vibrant gaming ecosystem.\n\nIn order for the host to launch a contest they will need to determine the following parameters.\n- Name of Contest \n- Initial Prize Pool Offered by Host\n- Ticket Price to join contest\n- Difficulty for the gameplay\n- Level of Doom players play on\n- Duration of Play Period\n- Duration of Game Play submission\n\nAfter the contest is launched players will purchase a ticket to play the game, by purchasing a ticket they will increase the prize pool incentivising more players to participate in the tournament. When players finish the game, they will submit the hash of their game, and can view other participants via their ENS Addresses but will be unable to see their scores. After the time limit is over, players will submit the final log of their game to verify the score they got, this will also allow everyone to view the game play of other players to verify their score if they would like to do so. \n\nWhen the rewards are distributed, each player will get 0.5% of the previous player's prize until all players are paid out. If there is any remainder it will go to the host of the game. Then we wait for the next host to launch a contest and play all over again!",
+  "how_its_made": "The project involves both the management of contests and prizes, and the deterministic verification of the score based on the gameplay. To handle the complex logic, we utilize the Cartesi machine, which is capable of executing large computations of code made in Python and C++.\n\nA user can create a contest by submitting a Layer 1 transaction calling the depositERC20Tokens on the DApp contract, depositing the initial prize pool, and sending a JSON object containing the parameters for this contest. This user then becomes the host of the contest, and is ready to start publicizing it and inviting players to participate.\n\nPlayers will be able to launch the game in the web browser, using the level and difficulty stipulated by the host, and do their best to score the highest. The game runs inside a specially prepared Cartesi machine that is compiled to Web Assembly, and has keyboard input, and video and audio outputs, and retains the characteristic of being deterministic. The virtual machine keeps a log of all inputs that will later be sent to the DApp for verification. Once the player has done his best score, they will be able to join the contest by initiating a transaction to the same depositERC20Tokens contract, paying the ticket fee and specifying in the JSON data the identifier of the contest and the SHA256 hash for their gameplay log file. Neither the log itself nor the score will be revealed at this time, to keep this information private and avoid problems like replay attacks. The ticket fee will be used to further incentivize new players and the host. 90% of the fee will be used to increase the prize pool, and the remaining 10% will be sent as a reward to the host.\n\nThe contest has a limited time for players to join and commit their gameplay. Once this time is up, no more new players will be accepted, and existing players must now submit the full log for their gameplay. This submission is done by calling the addInput function for our Cartesi DApp contract, sending another JSON object containing the identifier of the contest and the full gameplay file. The DApp will first generate the SHA256 hash for the submitted file and compare with the one submitted in the previous phase. If these hashes don't match, the player is immediately disqualified. If they do match, the DApp will now run the game logic passing this log file as input, in order to generate the score. Since the Cartesi Machine is devoid of entropy, the score obtained by the DApp will be the same as the one obtained by the user running it in the web interface. The resulting score is then stored in order to rank the player in the leaderboard.\n\nOnce the time for gameplay submission is done, the contest can be finalized. In this process, every user who has provided a valid gameplay file will be ranked according to their score. The prize pool will then be allocated to the players, in such a way that each player will receive half the amount that the player ranked above them has received. Vouchers will then be generated to transfer the prizes to both the players and the host. As this contest is marked as finalized, a new one can be created, repeating the cycle.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/doom-arena-hmu4j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

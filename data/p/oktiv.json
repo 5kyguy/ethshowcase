@@ -1,0 +1,26 @@
+{
+  "id": "oktiv",
+  "slug": "redflag-trail",
+  "title": "RedFlag_Trail",
+  "tagline": "See what AI agents spend on x402 — and block risky payments in the wallet before they're signed.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oktiv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/67ZPmlrXm4Zp717zaq6LPzoHm7RChHGRTAhLKjdnO94/high.mp4",
+  "source_url": "https://github.com/Kal-MrNobody/ERCsign",
+  "finalist": false,
+  "description": "RedFlag_Trail is built as a live pipeline across three partner integrations.\n\nThe Graph: a Substreams package (\"papertrail\") composes the official x402 module with erc20-tokens, streaming live Base mainnet payments into a Postgres ledger via substreams-sink-sql. Token decimals are sourced by batched eth_call since no prebuilt package carries them. Vendors are enriched against the live ERC-8004/Agent0 subgraph on Base to check registry status.\n\nPrivy: wallet policies are default-deny, with an explicit ALLOW scoped to Base (chainId 8453) plus a DENY rule per flagged vendor, keyed on the EIP-3009 `to` field inside eth_signTypedData_v4's typed-data message — never on tx.from or eth_sendTransaction, since the agent never calls the latter. Human approval is a real 2-of-2 Privy key quorum: we implemented the full authorization-signature spec by hand (RFC 8785 canonical JSON → SHA-256 → ECDSA P-256 → DER → base64), since Privy's docs don't give a worked example. Privy itself refuses unsigned and 1-of-2-signed policy changes — the quorum is enforced server-side, not by our app.\n\nBazantic: we published a Recipe (\"agent-spend-audit\") on a gateway serving live x402 402-challenges, and ran a controlled A/B test — same model, same tools, the Recipe as the only variable — showing it drives the agent to cite 13 verifiable transaction hashes versus zero, and add honesty guardrails (nothing-enforced disclosure, human-quorum requirement, unpriced≠zero, heuristic confidence) that the raw API spec alone doesn't produce.\n\nA backtest engine (lib/backtest.mjs) replays any proposed rule over indexed history before it can be approved, flagging vendors with many independent payers as false positives. An MCP server exposes 5 tools (spend_summary, vendor_risk, list_findings, backtest_rule, propose_enforcement) so any agent framework can call the same audit. A review console and REST API sit on top for human operators. Everything is reproducible end-to-end with one command: `node scripts/e2e-demo.mjs`.",
+  "how_its_made": "RedFlag_Trail is built as a live pipeline across three partner integrations.\n\nThe Graph: a Substreams package (\"papertrail\") composes the official x402 module with erc20-tokens, streaming live Base mainnet payments into a Postgres ledger via substreams-sink-sql. Token decimals are sourced by batched eth_call since no prebuilt package carries them. Vendors are enriched against the live ERC-8004/Agent0 subgraph on Base to check registry status.\n\nPrivy: wallet policies are default-deny, with an explicit ALLOW scoped to Base (chainId 8453) plus a DENY rule per flagged vendor, keyed on the EIP-3009 `to` field inside eth_signTypedData_v4's typed-data message — never on tx.from or eth_sendTransaction, since the agent never calls the latter. Human approval is a real 2-of-2 Privy key quorum: we implemented the full authorization-signature spec by hand (RFC 8785 canonical JSON → SHA-256 → ECDSA P-256 → DER → base64), since Privy's docs don't give a worked example. Privy itself refuses unsigned and 1-of-2-signed policy changes — the quorum is enforced server-side, not by our app.\n\nBazantic: we published a Recipe (\"agent-spend-audit\") on a gateway serving live x402 402-challenges, and ran a controlled A/B test — same model, same tools, the Recipe as the only variable — showing it drives the agent to cite 13 verifiable transaction hashes versus zero, and add honesty guardrails (nothing-enforced disclosure, human-quorum requirement, unpriced≠zero, heuristic confidence) that the raw API spec alone doesn't produce.\n\nA backtest engine (lib/backtest.mjs) replays any proposed rule over indexed history before it can be approved, flagging vendors with many independent payers as false positives. An MCP server exposes 5 tools (spend_summary, vendor_risk, list_findings, backtest_rule, propose_enforcement) so any agent framework can call the same audit. A review console and REST API sit on top for human operators. Everything is reproducible end-to-end with one command: `node scripts/e2e-demo.mjs`.",
+  "auto_summary": "A spend-audit system that streams Base x402 payments, enriches vendor data, backtests enforcement rules, and exposes review and MCP interfaces.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/redflag-trail-oktiv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

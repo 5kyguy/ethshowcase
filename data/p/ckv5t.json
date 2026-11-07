@@ -1,0 +1,22 @@
+{
+  "id": "ckv5t",
+  "slug": "deport-the-dip",
+  "title": "Deport The Dip",
+  "tagline": "Telegram bot + mini-app for one-click DeFi copy-trading with delegated wallets using Privy",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ckv5t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PK8uzKNYf01fraTZKUcgnbX2UgKwI46b2KYiO00uUNWo00/high.mp4",
+  "demo_url": "https://trading-tears.vercel.app/",
+  "source_url": "https://github.com/reymom/deport-the-dip",
+  "finalist": false,
+  "description": "Deport-the-Dip turns a Telegram chat into a full-stack copy-trading platform:\n1. On-ramp – Users launch the bot, deep-link into a Telegram Mini-App, and connect any EVM wallet.\n2. Trade once, copy many – When the leader swaps tokens, followers’ wallets reproduce the exact swap seconds later, gas-adjusted.\n3. Real-time feedback – Both leader and followers receive instant DM confirmations with BscScan links plus a live leaderboard.\n\nBehind the scenes a Next.js UI handles approvals/swaps, a gRPC DeFi server builds & (optionally) broadcasts raw PancakeSwap transactions, and a Telegraf bot stitches the flow together. Because signing is delegated to Privy server-auth, followers never expose their private keys yet still trade in lock-step with the leader. The result: social trading that feels as simple as pressing “Copy-trade ✅” in chat.",
+  "how_its_made": "Telegram Bot: Bun + Express + Telegraf => Sets webhooks via ngrok, pipes swap events back to chat; mirrors Mini-App state changes.\nMini-App: Next.js 14, React-Server Components, shadcn/ui => Runs inside Telegram Web Apps. Uses Privy React hooks for wallet connect, streams tx status with SSE.\nDeFi gRPC Server: Bun runtime, TypeScript, protobuf-gRPC => Two services: TransactionService (build/submit raw tx) and SwapService.ExecuteSwap (delegated copy). PancakeSwap router ABIs loaded at runtime.\nPersistence: Supabase Postgres and The Graph => Stores users & follower graph; row-level security locks each bot instance.\nIndexing / Stats: The Graph => not finished\n\nNotable hacks & optimisations:\n- Allowance Helper auto-detects “already known” nonce-0 dup-tx errors, fires a self-transfer to consume the stuck nonce, bumps gas, then retries—zero manual babysitting.\n- Privy delegated wallets let followers sign server-side; we wrap it in getDelegatedSigner() so the same swap path works for both self-signed and copy-signed flows.\n- gRPC over Unix domain sockets inside the Bun process eliminates JSON encoding overhead between server handlers.\n- Cloudflared tunnels the Mini-App locally while preserving Telegram’s origin check—no need to deploy just for the demo.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/deport-the-dip-ckv5t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

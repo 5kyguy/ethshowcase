@@ -1,0 +1,34 @@
+{
+  "id": "429qs",
+  "slug": "trustless-l2-ens-registry-rollup-solution",
+  "title": "Trustless L2 ENS Registry Rollup Solution",
+  "tagline": "This project built out a POC for a rollup centric scaling solution for ENS (specifically the ENS registry). The project used CCIP (EIP-3668) & CCWP (EIP-5559) to build an L1 “gateway/settlement” contract & L2 execution contract, via trustless state proofs.",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/429qs/banner/default.jpg",
+  "source_url": "https://github.com/0xpaulio/eth-sf-ens-rr",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🥈 ENS — Best Use",
+      "title": "ENS"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🛠 Optimism — Best Developer Infra/Tooling",
+      "title": "Optimism "
+    }
+  ],
+  "finalist": false,
+  "description": "This project explores the use of the use of rollups to scale application specific logic. More specifically, we built an ENS Registry contract that used the cross-chain interface protocol (CCIP) & the write deferral protocol (CCWP) to decrease the gas fees required to manage an ENS name on ETH Mainnet.\nThis works by separating the settlement and execution layers associated with the registry contract across the L1 & L2. All data can be read and used via the L1 contract, as it settles to the ETH network, but the actual storage, modification, and management of the data occurs on the L2, optimism.\nBy utilizing the CCIP standard, with the ability to generate state proofs of data existing in the L2, the smart contract & the gateway server can perform a trustless “read” of data from optimism & instruct the user on how to manage their data & mutate various records.\nThis is significant as it allows a scalable path to which protocols can move transaction processing and DA to a rollup, while preserving the security guarantees of mainnet.\nThis project is an initial step towards a version of ENS that uses rollups to help scale ENS registrars & resolvers.\n\nThis works by separating the settlement and execution layers across the L1 & L2. ",
+  "how_its_made": "This project uses ENS standards and contracts to create a compliant cross-chain ENS registry. It also uses the optimism L2 SDK to build and verify state proofs. \nThis project also implements two key EIPs, 3668 & 5559 to enable for trustless cross-chain reads & async cross chain mutations. \n\nThere are 4 different components to this project:\n1. The smart contracts (written using foundry)\n2. The frontend (a react based frontend that uses Ethers for on-chain transactions & queries)\n3. The Go backend for decoding and handling CCIP requests\n4. The TS backend for generating state proofs \nEach component plays an important role in the ability to read and use a rollup for cheaper transaction management and storage.\n\nThe system works in this general order:\n[Reading Data]\n- The user (on the frontend) clicks on the owner() function \n- The owner function triggers a query against the L1 \"gateway\" contract\n- The L1 contract reverts with a CCIP request\n- The CCIP request is caught by the frontend and ethers library then makes a GET request to the gateway server\n- The gateway server decodes the request & calculates the SLO offset for the corresponding variable\n- The gateway server hits the node service and requests a stateProof to be generated\n- The gateway receives the stateProof and abi encodes the data\n- The gateway returns the data to the client\n- The client then hits the callback function with the data from the gateway server and the extra data param provided in the original reversion\n- The contract verifies the state proof, by calculating the SLO, verifying the stateRootHeader,  & accessing the data\n- The verified data is then returned to the user\n\n[Writing Data]\n-\tThe client sends a write request, but the transaction reverts in preflighting with the CCWDP\n-\tThe client catches the write deferral request and prompts the user to switch chains\n-\tThe client then sends a new transaction on the L2 (optimism) network\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/trustless-l2-ens-registry-rollup-solution-429qs",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

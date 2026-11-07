@@ -1,0 +1,22 @@
+{
+  "id": "0q30d",
+  "slug": "nitrolink",
+  "title": "NitroLink",
+  "tagline": "NitroLink⚡️: Zap funds from any chain, stream them instantly, and settle globally. Trust Solved!",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0q30d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ma6OU8VfJOTz901tfVi4Ctr7KFLl8y2MeTeWAPMfEn5Q/high.mp4",
+  "demo_url": "https://nitrolink-web.vercel.app/",
+  "source_url": "https://github.com/Sriramkashyapks/nitrolink",
+  "finalist": false,
+  "description": "NitroLink is an Intent-Based Liquidity Engine that abstracts away the fragmented mess of modern crypto. We got tired of asking friends, \"Which chain are you on?\" or \"Do you have gas?\" just to send $20. So, we built a protocol that handles the infrastructure so users can focus on the outcome.\n\nAt its core, NitroLink solves two massive UX problems:\n\nCross-Chain Friction (The \"Zap\"): Powered by LI.FI, this feature lets you teleport assets instantly. You can send ETH from Sepolia and the recipient gets USDC on Base Sepolia in one click. We don't just \"link\" to a bridge; we abstract it entirely.\n\nReal-Time Value Transfer (The \"Flash Stream\"): Inspired by Yellow Network's state channel architecture, this allows for high-frequency payment streaming. Instead of one lump sum, you can stream a salary or subscription by the second (e.g., $0.00001/tick). It accrues off-chain via WebSockets and settles on-chain only when necessary.\n\nOn top of this, we integrated ENS (Ethereum Name Service) deeply into the UI. No more 0x addresses, we support full resolution for names and subdomains (like thatcheriq.uni.eth), making payments feel as social and simple as that, but fully decentralized.",
+  "how_its_made": "NitroLink is engineered as a high-performance monorepo using \"NEXT.JS\" 15 for the frontend and \"NEST.JS\" for the backend, designed to mimic a production-grade intent solver from day one.\n\nWe deliberately choose NOT to use the standard pre-built widget. To achieve our custom aesthetic UI and UX experience, we integrated the \"LI.FI Core SDK\" (`@lifi/sdk`) directly into our components.\n\n- We implemented a custom hook that calls `getQuote()` to aggregate real-time routes across testnet bridges.\n- We utilize `executeRoute()` to bundle gas estimation, approval, and the swap transaction into a single, atomic wallet interaction.\n- This allows us to strip away all the \"bridge complexity\" UI and present the user with a simple \"Zap\" button, while LI.FI handles the heavy lifting of route optimization in the background.\n\nTo emulate the high-frequency trading capabilities of \"YELLOW NETWORK\", we architected a custom WebSocket Gateway in NestJS.\n\n- When a user initiates a \"Flash Stream\" we open a dedicated socket connection that \"ticks\" value updates every 100ms.\n- This mimics a \"STATE CHANNEL\", where value accrues off-chain (zero gas) and only settles on-chain (Base Sepolia) when the session closes.\n- We use MONGODB to persist the state of these channels, ensuring that even if the browser refreshes, the stream history and accumulated value are preserved.\n\nA key challenge was solving the 'Testnet Identity Problem\" Since the ENS Registry lives on Ethereum Mainnet, standard Wagmi hooks often fail to resolve names when the app is connected to a Testnet like Sepolia.\n\n- To solve this, we architected a \"Dual-Chain Resolution Strategy\"\n- We injected a \"Read-Only Mainnet Transport\" into our configuration that queries Mainnet for ENS avatars and text records, while simultaneously keeping the user's wallet connected to Base Sepolia for transactions. This creates a seamless experience where users keep their \"Real Identity\" even in a sandbox environment.\n\nWe believe that financial interactions should feel tangible, so every successful Zap triggers a satisfying \"Cha-Ching\" sound and haptic visual feedback to confirm the intent was executed.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nitrolink-0q30d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

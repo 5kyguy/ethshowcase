@@ -1,0 +1,20 @@
+{
+  "id": "8obhq",
+  "slug": "shadow-guardians",
+  "title": "Shadow Guardians",
+  "tagline": "Wallets can be recovered privately using a 2-of-N guardian system, keeping participant's privacy",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8obhq/banner/default.jpg",
+  "source_url": "https://github.com/FavioSauto/shadow-guardian",
+  "finalist": false,
+  "description": "Privacy-preserving social recovery for Aztec wallets. Enables wallet recovery using a threshold of guardians (2-of-N) without revealing which guardians participated.\nCore functionality:\nGuardian-based recovery: requires 2 distinct guardians from a committed set to authorize recovery\nPrivacy-preserving proofs: uses zero-knowledge proofs to verify guardian signatures and Merkle membership without revealing identities\nSignature collection: web interface to select guardians, collect ECDSA signatures, and submit recovery proofs\nOn-chain verification: smart contract verifies proofs and emits recovery signals when the threshold is met\nHow it works:\nGuardians are organized in a Merkle tree (root committed on-chain)\nTo recover, collect signatures from 2 guardians on a recovery message\nGenerate a ZK proof that verifies: the signatures are valid, both guardians are in the tree, and they are distinct\nSubmit the proof to the contract, which verifies it and signals successful recovery\nThe frontend provides a step-by-step interface for orchestrating this process, from selecting guardians to submitting the final proof.",
+  "how_its_made": "Shadow Guardians is a monorepo with a Noir ZK circuit (Aztec Protocol v3) and a Next.js 15 frontend. The circuit uses Poseidon2 for Merkle hashing and ECDSA secp256k1 for signature verification, compiled with Nargo and generating TypeScript bindings via Aztec's codegen. The frontend uses React 18, Tailwind CSS, Material-UI, and Aztec.js to connect to PXE (Private eXecution Environment) nodes, with RainbowKit/Wagmi for L1 wallet connections. The deployment script (Bun) generates deterministic guardian key pairs, builds Merkle trees, and creates fixture files. Recovery flows through Next.js API routes that create ephemeral test wallets, convert hex data to byte arrays for circuit inputs, and submit private function calls. The architecture separates the ZK circuit (Noir) from the application layer (TypeScript/React), enabling privacy-preserving 2-of-N guardian recovery while keeping the frontend straightforward.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/shadow-guardians-8obhq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

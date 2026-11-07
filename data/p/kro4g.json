@@ -1,0 +1,35 @@
+{
+  "id": "kro4g",
+  "slug": "shadowens",
+  "title": "ShadowENS",
+  "tagline": "ENS-native AI agent search, reputation, risk gating, and private checkout",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kro4g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4luqqMXxEOM5SCVfEiZD6KFue018aq5Hq4iM8ko00UwQ8/high.mp4",
+  "demo_url": "https://shadowens.vercel.app/",
+  "source_url": "https://github.com/Lindsey-cyber/shadowens",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "ShadowENS turns ENS names into checkout identities for AI agents. Users can search for agents by reputation feedback tags such as audit, security, safety, or agent-evaluation. The backend queries real ERC-8004 ReputationRegistry feedback logs through Google BigQuery, then resolves the selected agent’s ENS records to read agent metadata, endpoint information, payment policy, heartbeat status, ERC-8004 agentId, and ENSIP-25 registration proof.\n\nThe app combines ENS policy, live reputation, and heartbeat status into a clear checkout mode: direct private checkout, review required, or blocked. In the demo, audit.shadowens-demo.eth is the successful path, debug.shadowens-demo.eth shows an agent with insufficient reputation, and stale.shadowens-demo.eth shows a high-reputation agent that is blocked because its heartbeat expired.\n\nWhen checkout is allowed, ShadowENS creates a one-time payment intent with a fresh payment address and an ENS-style checkout name such as abc123.checkout.audit.shadowens-demo.eth. The current demo verifies payment to the one-time checkout address. The next production step is to upgrade this app-internal checkout name resolution into real ENS CCIP Read, and to replace the one-time EOA with a smart account or escrow that settles funds to the agent treasury without exposing the agent’s permanent receiving wallet.",
+  "how_its_made": "ShadowENS is built with Next.js App Router, TypeScript, ENS, Ethereum Mainnet, ERC-8004, ENSIP-25/ERC-7930, Google BigQuery, wagmi, viem, ethers, TanStack Query, and Vercel.\n\nENS is used as the product logic layer, not just a display name. Each agent ENS name stores text records for agent context, endpoint information, payment policy, heartbeat status, key epoch, and ERC-8004 binding. The resolver API reads these ENS records through a mainnet RPC, parses the agentId, constructs the ENSIP-25 agent-registration key, checks that the agent is registered, computes heartbeat status, queries reputation, and produces the final checkout mode.\n\nThe reputation layer uses Google BigQuery to query real Ethereum Mainnet logs from the ERC-8004 ReputationRegistry. We decode NewFeedback events with viem/ethers and aggregate average score, unique client count, feedback count, tags, endpoints, feedbackURI, and feedbackHash. The search page uses these decoded logs as the discovery source, so searches like audit, security, safety, and agent-evaluation return agents based on real onchain feedback rather than a local list.\n\nThe frontend uses wagmi v2 and TanStack Query for wallet connection, account checks, and chain checks. The checkout API only creates an intent when the agent passes ENS registration, reputation, heartbeat, and policy checks. Each successful checkout creates a fresh one-time payment address and an ENS-style checkoutName such as <id>.checkout.audit.shadowens-demo.eth. A payment verification flow checks the buyer’s payment to that one-time address.\n\nThe most hacky part was using BigQuery as a live reputation index for ERC-8004 feedback logs, then decoding and filtering logs in the app layer because some searchable fields are inside event data rather than indexed topics. The current prototype proves ENS-based agent discovery, risk-gated checkout, one-time private payment addresses, and payment verification. The production design upgrades checkoutName resolution into a real CCIP Read resolver and replaces the random one-time EOA with a smart account or escrow that can settle funds to the agent treasury.",
+  "auto_summary": "A Next.js app that uses ENS records and Ethereum reputation logs to discover agents and gate checkout/payment flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/shadowens-kro4g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

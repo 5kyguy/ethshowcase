@@ -1,0 +1,35 @@
+{
+  "id": "wogh8",
+  "slug": "rwa-outlet",
+  "title": "RWA Outlet",
+  "tagline": "Instant RWA liquidity through 1inch Aqua, Uniswap v4, and ERC-7540 queues",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wogh8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PiV9Kh1GkhR1uVI6ZoET2Z9j2XnGPCfFQijcGikCYi4/high.mp4",
+  "demo_url": "https://rwaoutlet.club",
+  "source_url": "https://github.com/rwa-outlets/rwa-outlets-redemption_queue_simulation",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": "Best Uniswap API Integration"
+    }
+  ],
+  "finalist": true,
+  "description": "RWA Outlets is an instant-liquidity market for tokenized real-world assets. Tokenized T-bills and private credit (~$33B) redeem on issuer timelines — T+2 up to 180 days — so holders needing cash either wait or dump at unpredictable discounts.\n\nWith RWA Outlets, holders exit to USDC in one transaction through three risk-tiered pools built as 1inch Aqua strategies with SwapVM programs: Express (NAV minus 5–25 bps), Patient (onchain Dutch-decay auction that discovers the fair discount), and Market (two-sided AMM, so buyers can enter too). Pricing plugs into the unmodified official 1inch router via a custom NavExtruction instruction; KYC is a soulbound NFT checked by stock opcodes. Patient holders instead queue through an ERC-7540 redemption vault and collect full NAV plus accrued yield. That instant-vs-patient gap (~2.5%) is the profit motor: makers buy below NAV and redeem at NAV.\n\nRetail LPs deposit USDC into ERC-4626 curator vaults run by an AI agent that reads only our live Graph subgraph and logs every decision as query → reasoning → transaction. A Uniswap v4 lane (custom compliance + TWAP hook) provides fallback routing and price sanity, and the router always executes the user's best quote. Live on Sepolia: contracts, subgraph, faucet, app, and agent.",
+  "how_its_made": "CONTRACTS (Foundry, Solidity 0.8.30 + 0.8.26)\n- The swap engine is the official 1inch stack: Aqua + AquaSwapVMRouter vendored and redeployed to Sepolia as untouched bytecode — never reimplemented. Settlement safety (per-order reentrancy lock, pull/push verification) is inherited from 1inch's audited router, not our code.\n- Custom pricing enters through the one official extension point: NavExtruction implements the IExtruction/IStaticExtruction duals as a single function branching on isStaticContext, so quote() and swap() return identical amounts. Three modes: fixed NAV spread (Express), Dutch decay (Patient — onchain replacement for RFQ bidding), NAV band post-check on the xyc AMM (Market). Handles exactIn/exactOut, both directions, 18d/6d decimal scaling, maker-favoring rounding.\n- Each pool is an Aqua strategy: an order template with useAquaInsteadOfSignature, so shipped virtual balances replace EIP-712 signatures — which is exactly what lets our ERC-4626 CuratorVault be a *contract* maker. Fills are hard-capped by shipped balances (no invalidators needed); one USDC treasury concurrently backs every pool it ships to.\n- RedemptionQueue: ERC-7540 + ERC-7575 async vault with an external share — share() returns the RWA token itself, the vault mints nothing, deposits are disabled, requestId = issuer batch epoch, FIFO claims, solvency structural (pays only from received settlement cash).\n- CuratorVault: sync 4626 deposits, async 7540 exit epochs (closes the classic stale-price 4626 arb), mandate-scoped createPool()/recycle() for the AI curator.\n- Uniswap v4 lane: RWAGateHook (CREATE2-mined address) gates swaps/liquidity on a soulbound KYC NFT with the real user forwarded via hookData, and doubles as a cumulative-price TWAP oracle in afterSwap. V4Venue settles swaps in its own unlockCallback and quotes through the official V4Quoter (revert-simulation, called via eth_call). OutletRouter arbitrates Aqua pools vs v4 and enforces a TWAP sanity band on program quotes.\n- KYC is a soulbound ERC-721 checked by *stock* SwapVM opcodes — no custom compliance opcode needed.\n- 93 forge tests (unit/fuzz/invariant, incl. the quote==swap duals against the real vendored router), plus a standalone Foundry simulation repo: 180-day time-warped queue lifecycle, CSV → matplotlib PnL report, and an anvil demo where the issuer window is enforced onchain at compressed timescale (60 s ≙ T+90d — provable, not narrated).\n\nTHE GRAPH\n- graph-cli/AssemblyScript subgraph indexing both the official Aqua/router events and ours: strategies with decoded pool params, per-pool virtual balances, queue/vault epochs, NAV history, TWAP observations, day rollups. Published to Studio and the decentralized network.\n- Hacky: the hook ABI carries two ObservationRecorded signatures so pre- and post-upgrade hooks index together, and a Legacy router data source keeps pre-migration swap history after a state-carrying router redeploy.\n\nAI CURATOR AGENT (Node 22 + Express + MongoDB)\n- An OpenAI-compatible /v1/chat/completions facade; behind it an LLM (Groq or Claude) runs a tool-use loop against an in-process MCP server (in-memory transport, no extra process) exposing get_subgraph_schema + query_subgraph. The subgraph is the agent's ONLY chain view — every curator decision is logged as query → reasoning → tx. The MCP server also runs standalone over stdio for Claude Desktop.\n\nFRONTEND (React 18 + Vite, wagmi v3 + viem, TanStack Query, Framer Motion)\n- Live reads of the Sepolia contracts (NAV oracle, Aqua shipped balances, router best-of quotes incl. v4, queue epochs).\n- Uniswap Trading API as the secondary execution rail: check_approval → quote → swap with CLASSIC vs UniswapX (Dutch v2/v3, gasless) response normalization and EIP-712 permitData signing. Each demo RWA maps to a mainnet twin (rwaTBILL→USDY, rwaCREDIT→USDe) and every trade is priced against the Uniswap route side-by-side, in bps.\n- Hacky: the API has no CORS, so a same-origin proxy injects x-api-key server-side — the key never reaches the browser.\n\nONBOARDING & INFRA\n- Faucet dApp (React + viem + Foundry) whose drip() mints demo tokens AND the soulbound KYC NFT in one tx — one click to become a compliant demo user.\n- Terraform on DigitalOcean App Platform; Dockerized frontend/backend, secrets injected as TF vars.",
+  "auto_summary": "A multi-repo RWA trading system combining Solidity liquidity venues, a Graph-indexed data layer, an AI curator backend, and frontend trade execution.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/rwa-outlet-wogh8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

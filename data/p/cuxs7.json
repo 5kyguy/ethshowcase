@@ -1,0 +1,27 @@
+{
+  "id": "cuxs7",
+  "slug": "agentindex",
+  "title": "AgentIndex",
+  "tagline": "AgentIndex shows AI agents which paid services are honest and which scam, with proof on-chain.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cuxs7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zNhDSqpsKOk6xrM6Lw4t43R02GRUoL23UsxGwI00LE8e00/high.mp4",
+  "demo_url": "https://agentindex.craftyour.site",
+  "source_url": "https://github.com/cognivis/AgentIndex",
+  "finalist": false,
+  "description": "AgentIndex is a trust layer for AI agents that pay APIs over x402.\n\nAgentIndex becomes the customer first. An autonomous prober discovers a service, pays it like a normal user, checks the response, and records the result on-chain. Each probe measures whether the service delivered usable data, matched its published promise, and responded on time. These probes build a public trust score that another agent can check before paying.\n\nFor example, weatherpro costs slightly more but consistently returns the fields it promises. scamco is a controlled bad provider that accepts payment but returns missing or unusable data. AgentIndex recommends weatherpro, puts scamco in the avoid list, and shows the payment receipts and attestations behind that decision. Price, popularity, and call count alone do not prove that a service is honest.\n\nFor objective data such as token prices, valid JSON is not enough—it may still contain the wrong number. AgentIndex compares price claims with The Graph Token API and peer-provider consensus.\n\nWe tested this against TickersFeed, a real third-party x402 provider. AgentIndex paid it $0.002 USDC on Base for a Bitcoin price. Its response differed from The Graph oracle by only 9 basis points, passing our 2% tolerance and peer consensus. The Base payment, Sepolia attestation, and resulting 94.87 trust score are public.\n\nEvery service has a revocable ENSv2 identity containing its endpoint, price, method, and promised response format. Our seeded services receive real HBAR x402 payments on Hedera, while our subgraph turns the attestation history into trust scores.\n\nAgentIndex is available as a public MCP server that any compatible AI agent can connect to. Its four tools let agents discover services, inspect trust reports, choose who to pay or avoid, and request verified data with payment evidence. In our demo, Claude connects to AgentIndex through MCP and uses these tools before choosing a weather provider.\n\nDiscovery tells an agent what services exist. AgentIndex tells it which service deserves its money.\n\nTrust from receipts, not reviews.",
+  "how_its_made": "AgentIndex is built as a TypeScript and Solidity monorepo that connects service identity, real payments, verification, on-chain evidence, and agent access.\n\nEach service receives a revocable subname under agentindex.eth using @ENS. We deployed a custom subname registrar and permissioned resolver using ENSv2 interfaces. The service endpoint, HTTP method, x402 price, description, and promised response fields are stored as ENS text records. The prober reads these records directly, so ENS is the live service registry—not just a readable name. A dishonest service can also be delisted by revoking its subname on-chain.\n\nThe autonomous prober then calls each service as a normal customer. For our seeded services, it makes real HBAR payments over x402 on @Hedera using the Blocky402 facilitator. We use separate payer and payee accounts, an asset allowlist, and a one-HBAR per-request limit to protect the prober wallet. AgentIndex’s own trust API is also protected by the same payment flow.\n\nAfter payment, the prober checks whether the response was delivered, contains the fields promised in ENS, and arrived on time. For token prices, it also compares the returned value with @TheGraph Token API. Because the Token API does not provide a direct spot-price endpoint, we derive the reference price from the latest OHLC value of curated token–USDC pools. We also compare matching providers against peer consensus.\n\nEvery result is written to our AttestationRegistry contract on Sepolia. Our @TheGraph subgraph indexes these attestations and calculates delivery, honesty, latency, and the final trust score. Invalid auditor attempts remain visible as valid=false, but they do not unfairly reduce a provider’s score.\n\nTo prove the system works outside our controlled services, AgentIndex paid the third-party TickersFeed API using $0.002 USDC on Base through @x402, checked its Bitcoin price against @TheGraph, reached a consensus verdict, and published the payment and attestation as public evidence.\n\nFinally, we exposed the index through a public MCP server with four tools. Any compatible AI agent can connect to it, discover services, compare trust, avoid unsafe providers, and retrieve verified data together with the receipt behind the recommendation.",
+  "auto_summary": "A monorepo for probing x402-paid APIs, verifying responses against reference data, attesting results on-chain, and exposing trust scores via web and MCP.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentindex-cuxs7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

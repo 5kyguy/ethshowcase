@@ -1,0 +1,28 @@
+{
+  "id": "9p80j",
+  "slug": "aztec-semaphore",
+  "title": "Aztec Semaphore",
+  "tagline": "Implementation of the well-known Semaphore protocol on the Aztec Network!",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9p80j/banner/default.jpg",
+  "source_url": "https://github.com/hashcloak/humanvoting",
+  "prizes": [
+    {
+      "sponsor": "Aztec",
+      "sponsor_id": "nhs1x",
+      "placement": "Identity Infrastructure",
+      "title": "Identity Infrastructure"
+    }
+  ],
+  "finalist": false,
+  "description": "Semaphore Protocol is a generic privacy layer enabling anonymous interactions. Groups can be created and members of the group are able to send a \"signal\" for a certain \"scope\". An example is voting or sending anonymous messages. Currently Semaphore works with a zk proof generation off-chain and verification off- and on-chain. \n\nImplementing Semaphore in Aztec brings this mechanism to the Aztec network. By using the unique private functionality available in Aztec smart contracts, the checks that are normally done in the circuit, are now done in the private function in the smart contract. By combining the private and public functionality we can have publicly available groups, but private membership checks when members want to send a signal.  \n\nTo showcase the use of Aztec Semaphore, we made a demo application called humanvoting. This is a privacy-preserving voting system implemented in the Aztec Network, in which you can do voting without while protecting your identity. To be able to vote, you need to register as a \"human\" by verifying yourself with zkPassport. Once added to the group, you can participate in voting in a private way. \n\nhumanvoting has two user-friendly steps:\n\n1. Register: The user scans a QR code with ZKPassport to validate that they have a valid passport. Then the voting interface is enabled in case that the user is validated correctly and has not voted before.\n2. Vote: The user chooses their candidate and submits the vote anonymously.",
+  "how_its_made": "For this hackathon we made 2 things:\n1. Implementation of Semaphore for the Aztec Network. For this we implemented an Aztec smart contract with a mix of private (zk) and public functions. \n2. Example of how Aztec Semaphore can be used in the demo \"humanvoting\". This allows the group of humans to vote on candidates, and you can be added to the group of humans if you a verified using zkPassport. \n\nDetails:\n(1) Aztec Semaphore consists of 2 smart contracts: LeanIMT and Semaphore. In the first one we added the basic functionality to support usage of a LeanIMT (the specialized tree used in the Semaphore Protocol). In the Semaphore contract we have the basic functionality for group creation and management; this is all public. Additionally, the function \"verify_proof\" is a private function that allows a member to privately share a signal for a scope (for example a vote for an election). The checks in the private part of the function get verified against the public storage of the smart contract. \n\n(2) The demo is made in Vue and uses the zkPassport sdk to verify a human. It has a simple interface as explained above. After verifying the user with zkPassport, they can be registered in the group of humans with the unique identifier. However, we encountered some problems deploying smart contracts on devnet.5 and unfortunately couldn't complete this part. We needed to deploy the LeanIMT, Semaphore and Vote contract. After registration, the private function for voting could be called, which then would add the vote of the human to the public storage of the Vote contract. Like mentioned this part is missing from the demo *sad face*. It was difficult to figure out how to setup the pxe and wallet correctly for deployment on devnet.5. We tried to use examples of devnet.4, older nightly versions (both of which we worked on and found an example of), as well as check the documentation, but we really couldn't figure it out. \nWhat we did manage to get working and was kind of hacky was the zkPassport sdk in combination with the bb.js and aztec.js versions since they did not align (zkPassport uses v2, while we were aiming for v3 devnet.5). ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aztec-semaphore-9p80j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

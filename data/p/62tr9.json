@@ -1,0 +1,21 @@
+{
+  "id": "62tr9",
+  "slug": "shadowswap",
+  "title": "ShadowSwap",
+  "tagline": "Anti-MEV dark pool using commit-reveal batch swaps, built as a Uniswap v4 hook on Sepolia",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/62tr9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SrkMFAD8502HF6oaJiaNSjViby018sqHkQyREi3voesRo/high.mp4",
+  "source_url": "https://github.com/davidrodr1guez/shadowswap",
+  "finalist": false,
+  "description": "ShadowSwap is an anti-MEV dark pool built as a Uniswap v4 hook. It uses a commit-reveal batch scheme to protect traders from frontrunning and sandwich attacks.\n\nWhen you swap on a DEX, your transaction is visible in the mempool before execution. MEV bots exploit this by buying before you (driving the price up) and selling after. This costs DeFi users billions annually.\n\nShadowSwap solves this in three phases:\nCOMMIT: Traders deposit tokens and submit only a keccak256 hash. The destination token and slippage are completely hidden on-chain.\nREVEAL: After the commit window closes, traders reveal their swap parameters. The contract verifies each reveal matches the original hash.\nEXECUTE: All revealed swaps execute together in a single atomic batch through Uniswap v4 — no preferred ordering, no MEV extraction possible.\n\nThe beforeSwap hook enforces that all swaps must go through the batch mechanism. Direct swaps are blocked at the protocol level.",
+  "how_its_made": "Smart Contract: 520-line Solidity contract implementing IHooks from Uniswap v4-core. Uses beforeSwap hook to enforce commit-reveal batching. Built with Foundry, OpenZeppelin ReentrancyGuard and SafeERC20. 23 tests passing including fuzz tests.\n\nFrontend: React + Wagmi v2 + Viem. Real-time countdown timer, localStorage commit tracking with cross-component sync, automatic Etherscan links for every transaction.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/shadowswap-62tr9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

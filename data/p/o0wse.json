@@ -1,0 +1,22 @@
+{
+  "id": "o0wse",
+  "slug": "rumble",
+  "title": "Rumble",
+  "tagline": "Autonomous Uniswap agents for trading & liquidity with a visual builder",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o0wse/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5caIxPleGghWYNgyPIvDB00ppOfqQ1YqwKgxwDF2YYbA/high.mp4",
+  "demo_url": "https://rumblezz.vercel.app/",
+  "source_url": "https://github.com/Belloabraham121/rumble",
+  "finalist": false,
+  "description": "Rumble is a web application for designing, running, and monitoring autonomous agents that interact with Uniswap—primarily swaps and liquidity (LP) workflows on Base (testnet-first, with a path to mainnet). Users get a dashboard where they can configure agents (chains, pools, risk knobs, and strategy-style “price boxes”), watch activity and metrics, and inspect transactions as quotes turn into signed broadcasts. An arena / leaderboard layer surfaces competitive or comparative performance across pools and ranges. A Liquidity Lab complements the main product with a more experimental, wallet-connected surface for exploring v4-style pool behavior and LP flows alongside RPC-backed reads. Under the hood, the product is built around server-authoritative state: agents, runs, trading attempts, receipts, and user-scoped data are persisted so the UI is not the only source of truth. The goal is to make “always-on DeFi automation” approachable: a clear path from simulation-style configuration to live execution, with guardrails around execution (for example, runtime flags for quote-only vs broadcast), optional model-assisted decisioning for agent ticks, and integrations that mirror how production Uniswap apps call Trading and Liquidity APIs. Rumble is aimed at builders and power users who want repeatable, observable agent behavior rather than one-off manual swaps.",
+  "how_its_made": "The app is a Next.js 16 project on the App Router, with React 19 and TypeScript on the client and Route Handlers for APIs. Styling uses Tailwind CSS with Radix UI primitives and shadcn-style patterns for accessible components; charts use Recharts, and toasts use Sonner. MongoDB (via the official Node driver) stores users, agents, agent runs, metrics rollups, trading audit rows, on-chain receipts, lab pools, and related documents; a session model gates access so APIs scope reads and writes to the signed-in user. Privy is integrated on the server (@privy-io/node) to provision and control per-agent embedded wallets using an authorization private key and optional policy IDs, with a configurable wallet model (agent-dedicated wallets vs user-scoped signer style). Uniswap Labs integrations use the Trading API and Liquidity API behind a shared HTTP layer with stable error codes, throttling/retries, and consistent headers (including Universal Router version alignment between quote and swap). viem and wagmi power on-chain reads and signing flows where a user wallet is required; RainbowKit plus a WalletConnect / Reown project id drive the Liquidity Lab wallet UX. Background work uses Vercel cron–style routes (with optional shared-secret headers) for agent ticks, pool polling, and arena rebuilds. JSON-RPC calls support receipt polling and Chainlink-style spot anchors when subgraph data is thin. Environment configuration is validated with Zod in a single server env module. One notable pragmatic fix in next.config.mjs pins Turbopack’s workspace root so Next does not accidentally treat a stray lockfile higher in the filesystem as the monorepo root (which otherwise produces broken chunk URLs and router noise in dev). OpenAI keys enable an LLM path for price-box selection during ticks, still bounded by the same guardrails as rule-based execution.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/rumble-o0wse",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

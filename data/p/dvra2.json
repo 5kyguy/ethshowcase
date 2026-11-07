@@ -1,0 +1,27 @@
+{
+  "id": "dvra2",
+  "slug": "common",
+  "title": "Common",
+  "tagline": "Shared spending memory for AI agents: pay once via x402 on Hedera, every agent reuses the evidence.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dvra2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XQXtJTupvrXu4wSz01TtFDib7OMlfOSny4DjZDUtJPCE/high.mp4",
+  "demo_url": "https://common.34.71.68.115.sslip.io/#overview",
+  "source_url": "https://github.com/RudraBhaskar9439/common",
+  "finalist": false,
+  "description": "Common is a shared spending memory for AI agents: one agent pays for an open-model evaluation, every later agent reuses the result instead of paying again.\n\nHow it works: an agent sends a goal and a budget. Common checks memory for a matching, fresh report. If one exists, it's returned with no payment. If not, Common reserves budget on a Hedera smart contract, pays the evaluation service 0.5 HBAR via x402, runs two open Qwen models through five browser tasks on a controlled support-desk app (each task checked against the final page state), and stores the report. If the budget is below the price, the agent rejects the purchase.\n\nEvery decision buy, reuse, wait, reject is published to a Hedera Consensus Service topic with the agent's reasoning, and every payment carries a HashScan-verifiable transaction id.",
+  "how_its_made": "TypeScript monorepo: orchestrator (API + dashboard), paid evaluation service, Playwright runner, Solidity contract, vanilla-JS frontend. Models run locally via Ollama (Qwen3 1.7B/4B).\n\nPayments use x402 on Hedera: the service answers 402, the orchestrator signs a partially-signed HBAR transfer, and the Blocky402 facilitator settles it. Agents never hold keys; one payment module signs, only against a matching on-chain reservation.\n\nThe CommonBudget contract is a ledger, not a vault: one purchase per evaluation configuration, claimed atomically, with payment and delivery recorded separately - a paid job whose report fails is never silently repurchased, and unclear settlements are reconciled against the mirror node, never retried blindly. Decisions are published to HCS.\n\nThe buyer agent is gpt-4o-mini choosing only among actions the orchestrator permits; a deterministic policy takes over if it's unavailable, so the money path never depends on an LLM.",
+  "auto_summary": "A TypeScript monorepo for shared AI evaluation results with Hedera-based payment reservations, x402-gated service access, and HCS decision logging.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/common-dvra2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

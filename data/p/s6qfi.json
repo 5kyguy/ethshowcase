@@ -1,0 +1,30 @@
+{
+  "id": "s6qfi",
+  "slug": "snapthentic",
+  "title": "Snapthentic",
+  "tagline": "Snaptenthic lets anyone prove photos are real humans using World ID. Snap, verify, earn.",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s6qfi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/U6JzfR6trDrm4l7oV5S9ZxXwuXiuGSk2FVlBiavlrXU/high.mp4",
+  "demo_url": "https://www.loom.com/share/de7ef79549ee452d94e388162dc2b5c6?sid=9ee0f3da-9f03-48d5-b249-58583280007d",
+  "source_url": "https://github.com/DraconID-Labs/snapthentic-demo",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "World Pool Prize",
+      "title": "World Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "We are running out of content on the internet to train new AI models — and at the same time, we need to ensure that new data sources are legitimate and not entirely AI-generated. World ID, although created to help solve this problem, is still underutilized.\n\nSnaptenthic is the answer.\nIt allows anyone to take photos via the World App interface, ensuring that the images are captured by real humans — verified at the app level + onchain. It also enables verification of those photos, even when shared through messengers and other channels (though support for all is still in progress due to time constraints).\n\nAdditionally, Snaptenthic lets us target others to take specific photos for AI companies via contests, enabling them to earn money (voting with World ID) while requiring only minimal fees to sustain the app. Finally, it allows those photos to be shared publicly — for example, on Twitter — solving the problem of promoting World ID through normal users, without relying on major capital from the Foundation or TFH. \n\nIn short words - it can keep World ID users really engaged and create social virality, while also solving problems of giant corporations via mass gamification.",
+  "how_its_made": "Monorepo structure using Turborepo. The stack centers around Next.js with TypeScript, tRPC APIs, and Tailwind for styling.\nFrontend: React with server-side rendering, using MiniKit (wink wink) for wallet authentication.\nUsers authenticate via wallet signatures. To create a profile, user performs incognito action - later verified in the backed.\nBackend: tRPC provides end-to-end type safety. Drizzle ORM manages a PostgreSQL database. NextAuth handles the wallet-based authentication flow.\nBlockchain: Custom Solidity smart contracts deployed on Worldchain Sepolia act as an immutable registry. Viem is used for blockchain interactions, automatically registering each verified photo on-chain.\nStorage: Supabase handles image storage with public URLs.\n\nThe particularly hacky parts:\nCustom Steganography Package: A custom implementation that embeds cryptographic signatures directly into image pixels using LSB (Least Significant Bit) manipulation. When users take a photo, the app:\n- compresses the image (maintaining quality),\n- generates a SHA-256 hash of the image data,\n- creates a wallet signature of that hash,\n- embeds the signature and metadata invisibly into the image pixels,\n- registers the signature on-chain,\n- if someone wants to verify the authenticity of a snap, we reverse the process: extract the embedded data using LSB steganography, verify the signature, and so on.\n\nEven though the current implementation is far from ideal, I feel like it’s promising with a few polishments.\n\nFlow Summary:\n- login with your wallet,\n- to create a profile, you must verify yourself via the incognito create-snapthentic-profile action,\n- once your profile is set, you can post snaps and participate in contests,\n- you can like, follow, and share snaps.\n- when snapping a photo, we generate a hash of the image and ask the user to sign it.\n- the photo, hash, and signature are sent to the backend.\n- the backend verifies the signature. If valid, we proceed to post the data (signature version, address, hash, and signature) on-chain to a dedicated dummy smart contract.\n- once the transaction is confirmed, we embed the transaction hash and related metadata into the photo using LSB steganography.\n\nThat’s it - the photo is now live and visible to others.\nWhile filling in the snap details, you can choose to enter it into a contest, making it subject to public voting.\n\nThe best snap in a given contest wins a predefined prize. To participate, users must pay a fixed entry fee - although payment isn’t implemented yet, so everything is free for now.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/snapthentic-s6qfi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

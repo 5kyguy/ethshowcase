@@ -1,0 +1,30 @@
+{
+  "id": "bmgxr",
+  "slug": "saving-circles",
+  "title": "Saving Circles",
+  "tagline": "Onchain saving circles (ROSCAs) with fair VRF draws and liquid positions.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bmgxr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iieAd00AWKr3zvThSMklrZEeFYve1fR9rD1dsPoQfrzc/high.mp4",
+  "demo_url": "https://savingcircles.vercel.app/",
+  "source_url": "https://github.com/1uizeth/front-savingcircles",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Connect the World with Chainlink",
+      "title": "Connect the World with Chainlink"
+    }
+  ],
+  "finalist": false,
+  "description": "Around the world, hundreds of millions of people still rely on informal savings groups because traditional finance either excludes them, charges too much, or simply doesn’t work for their reality. In Brazil this is the consórcio, in Mexico the tanda, in Kenya the chama, and in many countries a ROSCA. These groups help people buy essential things they otherwise could not afford, but they come with problems: opaque selection, fragile trust, no liquidity, and no protection when someone stops paying.\n\nSaving Circles is an onchain version of these rotating savings groups. A fixed group of people commit to contributing the same amount of stablecoin every round. Each round, everyone deposits their installment and can optionally add a small bid in the protocol token to increase their chance of winning that cycle. A provably fair Chainlink VRF draw selects one winner, who receives the entire pot for that round. Once someone wins, they leave the pool and the next rounds continue until all participants have received a payout once.\n\nSeats are represented as NFTs, meaning your position in the circle is a liquid asset you can trade or mortgage. If life changes mid-circle, you have options instead of being locked in. All draws are verifiable, all payouts are automated, and no central organizer can manipulate anything.\n\nThe result is a simple, transparent and fair ROSCA primitive that mirrors how people already save in the real world but with onchain guarantees, programmable rules, and optional liquidity that was never possible before.",
+  "how_its_made": "Saving Circles is built as a modular onchain ROSCA primitive using Chainlink. The core of the protocol is the SavingCircle contract, which manages participants, installment deposits, bid weighting, and the payout logic. Each participant receives a seat represented as an ERC721 NFT, implemented in SavingCircleNft. This NFT tracks the original user identity while allowing the current ownership of the seat to change, so people can transfer or sell their position without breaking the math or the fairness of the circle.\n\nWeighted randomness is handled through Chainlink VRF. We deployed a DirectFundingConsumer contract that requests a verifiable random number for each round and calls the circle’s raffle function once the VRF fulfills. This ensures the winner selection cannot be manipulated, and it qualifies the project for Chainlink’s prize tracks since Chainlink randomness directly triggers an onchain state change.\n\nNew circles are deployed through a SavingCircleFactory, which standardizes configuration and pre-funds the protocol token rewards for all rounds. This gives every circle a predictable structure and removes the need for a manual admin role. \n\nAll contracts were written and tested with Foundry, including full-flow tests that simulate registrations, deposits, multiple rounds of bidding, and winner selection across a 3 user, 3 round configuration.\n\nFor orchestration, we built a minimal Node.js backend using ethers.js. Scripts automate deployments, test user registrations, per-round installment payments, and VRF requests. These scripts allowed us to simulate the full lifecycle of a circle on Sepolia, including verifying VRF callbacks and validating that payouts and NFT transfers behaved correctly.\n\nThe hackiest part was getting weighted randomness and ownership syncing to work elegantly together. We designed the system so that all payment logic uses the original seat owner for identity and the current NFT holder for payouts, which allowed the protocol to remain mathematically correct even when seats move between addresses. This combination of NFT-based liquidity, weighted bidding, and VRF-driven fairness is what makes the implementation unique.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/saving-circles-bmgxr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

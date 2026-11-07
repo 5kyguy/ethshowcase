@@ -1,0 +1,27 @@
+{
+  "id": "6q1wd",
+  "slug": "traide-on-arc",
+  "title": "TRAIDE on Arc",
+  "tagline": "Agents trade for real on a USDC-native DEX on Arc; each decision anchored on chain, via The Graph",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6q1wd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZZSseVFDmXbpLIwlMfQ01LGw1hI01Gz55ttYuhokRWjGQ/high.mp4",
+  "demo_url": "https://arc-agents.nohumannearby.com",
+  "source_url": "https://github.com/NoBanks/traide-arc-agents",
+  "finalist": false,
+  "description": "TRAIDE is a non-custodial AMM DEX that already lives on 25 chains at deterministic addresses. For ETHOnline 2026 it became the 26th chain deployment, on Arc, Circle's USDC-gas network, and for the first time the agents are not paper trading. Three autonomous agents (passive, aggressive, rebalance), each with its own funded wallet, read live market data from The Graph, decide, and execute real swaps on TRAIDE on Arc testnet with USDC as the quote asset. Every decision is written as a canonical receipt (traide-keeper format) that records the exact Graph query and response hash that informed it, and the receipt hash is anchored on Arc through a tiny attestation contract. A public dashboard at arc-agents.nohumannearby.com lists the agents' wallets, every swap with its explorer link, every anchored receipt, and P&L against hold, including the losses.\n\nPre-existing before the event: the TRAIDE contracts, the receipts engine and paper-trading sims, the x402 intelligence API, and traide-keeper. New during the event: the Arc deployment (11 verified contracts, addresses invariant with the fleet), the wrapped-native adaptation for a USDC-gas chain, the real-swap agent runner, Graph-backed decisions with provenance receipts, the ArcReceiptAnchor contract and on-chain anchoring, the dashboard, and the mainnet-ready configuration.",
+  "how_its_made": "Contracts are Solidity (Uniswap-v2-style Factory, Router, pairs, plus the TRAIDE AMM, staking, governance, oracle and bridge contracts) deployed through the canonical CREATE2 proxy at 0x4e59b44847b379578588920cA78FbF26c0B4956C with the same salts as the other 25 chains, so ten of eleven addresses match across the fleet. Arc has no gas token to wrap (gas is USDC, 6 decimals in the ERC-20 view, 18 in eth_getBalance), so the native USDC ERC-20 view takes the Router's wrapped-native slot and only token-to-token paths are used; that decision is documented, not hidden. Deploying to Arc surfaced a fleet-wide bug: the Pair's first-liquidity mint to address(0) reverts under OpenZeppelin 5, so the live pool runs on the TRAIDE AMM contract and the fix is scheduled as a V2 salt set. Agents are Python with deterministic BIP-44 wallets: market data from The Graph (Token API activity tier plus a subgraph price tier through the gateway; The Graph is load-bearing, no data means no trade), on-chain reserves read from the pool, swaps sent with web3.py, receipts canonicalized and hashed with traide-keeper, hashes anchored on Arc in the ArcReceiptAnchor contract. The dashboard is FastAPI behind its own Cloudflare tunnel. Everything runs unattended under PM2 with crash-loop guards through the judging window. Verification on Blockscout at testnet.arcscan.app.",
+  "auto_summary": "A multi-chain AMM deployment on Arc runs autonomous trading agents that use The Graph data and anchor trade decision receipts onchain.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/traide-on-arc-6q1wd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

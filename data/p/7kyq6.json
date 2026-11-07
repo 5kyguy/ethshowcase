@@ -1,0 +1,35 @@
+{
+  "id": "7kyq6",
+  "slug": "budal",
+  "title": "Budal",
+  "tagline": "A budget allocating system using Circle API and ENS to provide a seamless experience with crypto-currency money transfer inside an organiosation.",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7kyq6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SFgRJYHotZnQPFbFfuqBtnkX4Br8DsjDaCc5zTs8hQE/high.mp4",
+  "source_url": "https://github.com/quartz-technology/eth-london-2K24",
+  "prizes": [
+    {
+      "sponsor": "Circle",
+      "sponsor_id": "x3xey",
+      "placement": "2nd place",
+      "title": "Best Applications for Emerging Use Cases with Circle Products"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "3rd place",
+      "title": "Best use of ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "This project implements a budget allocating system like we can find in traditional banking system such as Qonto with their Digital Card features.\nThis is super useful to control the company's cash flow and set precise rules regarding spending policies.\n\nBudAl is a Web3 implementation of this system, giving a seamless experience to allocate cryptocurrency for buying goods and services.\nUsing a simple UI, you can create an organisation managing different groups with specific budget allocation, permissions and spending limits.\nUsing Circle API gives a simple abstraction around wallets so you can perform secure and verified actions on the blockchain in few clicks.\nBudal manage wallets for the user but also ENS domains to simplify the tree structure inside the organisation. For example, an organisation named \"acme\" will have an ENS \"acme.budal.eth\" and its group will be prefix by the organisation ENS (e.g., \"marketing.acme.budal.eth\").\nThis also allow users to validate action performed on a smart contract using a simple PIN code.\n\nThen you can interact with your organisation following a graph view and add different people to it.\nEach member of the organisation can be include into a group to be able to claim part of the budget. \nAs we said before, when you create a group, you can define different settings such as the amount of token allocated, the spending rate and limits.\nTo ensure the respect of the limits, everything is defined in a smart contrain on chain that we developed and the Budal backend serves as a proxy to hide complexity.\n\nWhen a member of a group want to use the money, he can simply apply for a claim and he'll receive the money on its registered address (an user managed account of Circle API) after approval.\n\nThe BudAl WebApp also use the Nouns DAO to display member's profile picture, we planned to add an evolution process depending on the role and budget used but we didn't had time unfortunately.\n\nIn short, Budal is an accessible solution to democratize cryptocurrency usage around businesses and mostly target B2B customers.",
+  "how_its_made": "The project is composed of 3 different part:\n- The WebApp: a simple React frontend to manage budget allocation.\n- The Backend: an Express TypeScript application to handle the logic.\n- The Smart Contract: an ERC 20 contract to store allocation on chain.\n\nThe WebApp uses the Tailwind component library to display elegant components and Next to run the application. For request caching we use RTK.\nWe also used the Circle Web SDK to setup user controlled wallet pin creation, providing a nice and secure way to create a wallet without directly dealing with web3.\n\nThe Backend is done in TypeScript and runs on Node using tsx.\nIt exposes a REST API that handle the logic inside its endpoints (user creation, authentication, organisation and groups management, operations on chain...).\nWe use redis to store user sessions, prisma/sqlite to store permanent data that we don't want to store on chain and zod for input validation.\nThe backend also implements a wrapper around the Circle User SDK to perform create the user, initializes its wallet and get user's related information stored by Circle.\nOn top of that, we extended the existing Circle SDK to perform contract execution, unfortunately, this feature wasn't implement in the SDK so we create our own called ContractSDK. This is in charge of the interaction with our deployed smart contract that store and manage an organisation.\nWe also added a wrapper around the ENS client to verify and create subdomains for organisation and group. It uses the viem library and @ensdomain to interact with the ens contract.\n\nThe Smart contract is responsible of the management and allocation of the differents groups and budget inside an organisation.\nIt stores datas sent by the Budal backend (ENS, wallet address...).\nThere are multiples methods such as budget allocation, the spending rate and its limits (e.g a budget of 1ETH with a spending rate of 0.1ETH by day).\n\nSome hacky things we did to make things works:\n- We had to some type of the Circle User SDK that were not exported (specially enumerations like ContractType and Blockchain)\n- We needed to implement our own ENS registration logic that directly interact with the contract and we met big difficulties dealing with permissions and ownership. That's why we actually create a domain budal.eth and then added organisation and groups as subdomain of this domain because it didn't required to wait 60 seconds for the domain approval and deals with complex permission issue.\n- Some methods and logic were missing in the Circle API so we grouped some calls and extended the API when needed using fetch.\nWe also needed to use fetch and not axios because it brokes for an unknown reason.\n- We had an issue when registering sub ENS domain (mygroup.orga.budal.eth), it seems we needed to wait a certain amount of time (3-5 minutes) before being able to create them. During that time, we were hitting a unknown error thrown by the contract without more details.\n- We struggle finding what we should store on chain and what we should store in our database, it was hard to make an efficient mapping. Having a sort of SQL store on chain would have been perfect!\n- Because every operation on chain processed with a Circle user controlled wallet requires a signature with a pincode, we couldn't create unit test nor integration tests on the backend side. That would have been much better if we had a way to bypass the verification for testing the logic of the backend automatically.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/budal-7kyq6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

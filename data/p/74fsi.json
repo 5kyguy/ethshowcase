@@ -1,0 +1,22 @@
+{
+  "id": "74fsi",
+  "slug": "omikuji-hub",
+  "title": "Omikuji Hub",
+  "tagline": "AI fortune oracle: pull a Japanese omikuji, get paid in USDC on-chain via KeeperHub.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/74fsi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4GptBsKsOPwHBApi41oklj7AtS6Z01WSaMN8sJw00DRGE/high.mp4",
+  "demo_url": "https://github.com/Masashi-Ono0611/open-agents-2026",
+  "source_url": "https://github.com/Masashi-Ono0611/open-agents-2026",
+  "finalist": false,
+  "description": "Omikuji Hub is a Claude Code Skill that turns one English prompt into a real on-chain USDC payout on Base Sepolia. You ask the agent to pull today's fortune for a wallet address. The Skill draws a Japanese-style omikuji (Daikichi, Kichi, Suekichi, Kyō, or Daikyō) from a deterministic hash of the latest Base Sepolia block, your wallet, and today's UTC date. Then it pays you in USDC. The amount depends on the tier — Daikichi pays the most, Daikyō pays a small consolation prize, but every pull produces a real BaseScan transaction. Even bad luck pays.\n\nStrip the omikuji theme and you have a generic primitive: an AI agent decides which tier a user qualifies for, then  pays the matching amount via KeeperHub. The same shape ships quiz prizes, onboarding bonuses, retention drops, and tiered referral payouts. The folk-game framing is a Trojan horse for production agentic-payout infrastructure.    \n                                                                          \nThere is no frontend, no backend, no custom contract, and no user-side keys. The Claude Code Skill is the entire product, and the KeeperHub agentic wallet is the entire execution layer.",
+  "how_its_made": " The whole project is two files inside a Claude Code Skill: SKILL.md (the procedure) and an examples folder with verified live runs. No app to deploy, no server to host.                                                           \n  \n  Phase 1 — the fortune draw — is pure read-side. The Skill calls eth_getBlockByNumber(\"latest\") on https://sepolia.base.org via plain JSON-RPC, then computes keccak256(blockHash + askerAddress + utcDate) using viem in a one-line bun -e script. It takes the first byte of the hash and maps it into one of five tiers using a fixed lookup table. No oracle, no VRF — the determinism is the point, because anyone can reproduce the fortune from any wallet without trusting the agent.             \n                                                          \nPhase 2 — the payout — is two MCP tool calls. The Skill calls mcp__keeperhub__execute_transfer with the recipient, the tier amount, and Circle's official Base Sepolia USDC address (0x036CbD53842c5426634e7929541eC2318f3dCF7e), then polls mcp__keeperhub__get_direct_execution_status until the transaction hash is back. End-to-end wall time is about 9 seconds. The KeeperHub agentic wallet at 0x8F31fF5eaae3A1036839c503248e9f42479C81FD signs and submits the transfer; I never touch a private key.         \n                                                          \nThe whole stack: Claude Code (Opus 4.7) as the runtime, KeeperHub remote MCP attached over OAuth (one claude mcp add line), bun + viem for the keccak, vanilla USDC transfer on Base Sepolia. No Hardhat, no Next.js, no Vercel — KeeperHub is literally the entire backend, and the Skill is the entire frontend.                                   \n \n  The hacky part worth mentioning: I deliberately decided that every fortune tier should pay something on-chain, not  just the lucky ones. Most demo skills only fire a transaction on the happy path, so judges who hit the unhappy path see nothing. By making the amount the discriminator instead of a boolean, every judge who pulls the Skill sees a real BaseScan transaction. It also doubles as anti-disappointment: the rarest tier (Daikyō, \"great curse\") still pays 0.00005 USDC. Even bad luck pays.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/omikuji-hub-74fsi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

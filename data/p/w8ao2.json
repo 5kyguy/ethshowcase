@@ -1,0 +1,27 @@
+{
+  "id": "w8ao2",
+  "slug": "bridle",
+  "title": "Bridle",
+  "tagline": "x402 payment gateway for AI agents on Hedera. Blocks overspend, logs proof to HCS.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w8ao2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6Sa4jVGyaapDoqiaDXQNzFUt8T84PTcJh8mLw02cIFXY/high.mp4",
+  "demo_url": "https://hashscan.io/testnet/topic/0.0.10474223",
+  "source_url": "https://github.com/nyaks1/Bridle",
+  "finalist": false,
+  "description": "Bridle is a deterministic policy firewall and hardware-confirmed trust layer designed to eliminate the \"Soft Guardrail Fallacy\" in autonomous agent payments. As LLMs gain the autonomy to procure compute, data, and APIs using crypto wallets, existing security models rely on system prompts like \"do not spend over $10\" or unconstrained private keys stored in .env files. These approaches fail when faced with prompt injection, context drift, or recursive loops. Bridle resolves this through a dual-rail economic architecture. Micro-payments of 1.0 HBAR or less settle autonomously at machine speed using the x402 protocol and the Blocky402 facilitator, enabling sub-cent, sub-second API access without pre-funded subscriptions. Whenever an agent attempts a high-value payment exceeding 1.0 HBAR, execution is instantly paused by hardcoded Python logic rather than probabilistic LLM prompts. The transaction parameters are routed to a Ledger hardware wallet—emulated via Speculos—requiring physical operator confirmation on the OLED screen before any funds move. Every operational decision, whether settled autonomously, signed via hardware, or vetoed by an operator, is immutably recorded to Hedera Consensus Service Topic 0.0.10474223 for verifiable auditability.  ",
+  "how_its_made": "Bridle is built across five interconnected layers spanning Python, Solidity, and Hedera native services. The cognitive engine runs on Google's Gemini 3.6 Flash within a Python agent that discovers endpoints, evaluates task relevance, and responds to standard HTTP 402 Payment Required challenges served by a FastAPI gateway. Rather than delegating spending guardrails to prompt engineering, the gateway and agent enforce spending limits strictly in Python runtime logic. For transactions exceeding 1.0 HBAR, execution is suspended and handed off to our custom Speculos emulator bridge (server/ledger_client.py and server/speculos_emulator.py), which exposes an interactive Web GUI and REST endpoints on port 5000 that emulate the Ledger Nano S+ chassis, OLED display, and APDU button flows. Approved transactions are broadcast to Hedera EVM Testnet (Chain ID 296) and settle against our Hardhat-tested BridlePaywall.sol contract deployed at 0x5442A862d2B11709045BE15015368c7dD6B9cfd8, which utilizes cryptographic nonces to prevent replay attacks. To solve asynchronous latency between EVM RPC transaction broadcast and Hedera Mirror Node indexing, the gateway integrates resilient exponential backoff polling (5 retries with 1.5s delay) to verify receipts reliably. Finally, the system leverages the Hedera SDK to commit structured audit messages directly to Hedera Consensus Service Topic 0.0.10474223, taking advantage of fixed USD-pegged fees and immediate ABFT consensus.",
+  "auto_summary": "Bridle is an agent payment gateway that enforces spending thresholds with Hedera-based micropayments, an EVM paywall contract, and Ledger-style approval flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bridle-w8ao2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

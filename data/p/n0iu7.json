@@ -1,0 +1,21 @@
+{
+  "id": "n0iu7",
+  "slug": "bubble-bridge",
+  "title": "Bubble Bridge",
+  "tagline": "Cross-chain swaps made simple: a lightweight HTLC framework for atomic token transfers.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n0iu7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Pq00zz00beTHxBLiJ1BkG01NMtvTTIiesR6UrYHbkR85Sk/high.mp4",
+  "source_url": "https://github.com/degenshoyu/bubble-bridge",
+  "finalist": false,
+  "description": "This project implements a lightweight cross-chain swap framework based on Hash Time-Locked Contracts (HTLCs), enabling secure and trustless token transfers between heterogeneous blockchains like Ethereum and Sui. The system is designed to be modular, developer-friendly, and secure by design.\n\nIt consists of:\n1- A smart contract layer on both chains (e.g., EVM and Sui) that handles locking, claiming, and refunding of tokens based on hash preimages and timeouts.\n2- A TypeScript SDK that simplifies hash lock generation, balance checking, HTLC creation, and transaction monitoring.\n3- Testing and simulation scripts to deploy and verify HTLC functionality in local or testnet environments.\n4- A planned browser-based UI to let users initiate atomic swaps without interacting directly with the contract layer.",
+  "how_its_made": "The project is built with Move and Solidity smart contracts to implement HTLC logic on Sui and Ethereum, respectively. On the Sui side, the Move contract handles Coin<T> types, time locks, and swap state. The contract securely holds tokens in escrow within the Swap<T> struct and releases or refunds them based on hash preimages and timeouts.\n\nWhile Balance<T> is often used for holding coins in system modules, this project intentionally uses Coin<T> directly in the Swap struct to preserve atomicity and simplicity. By allowing Coin<T> in struct fields (via #[allow(lint(coin_field))]), the contract provides a minimal and auditable HTLC design tailored for cross-chain interaction scenarios.\n\nThe developer tooling is written in TypeScript using the Sui SDK, and leverages:\n1- ts-sdk/htlc/ modules for lockHtlc(), claimHtlc(), and refundHtlc() functions\n2- utils.ts for hash preimage generation and local keystore handling\n3- A modular deployment structure (deployments/{network}/{timestamp}.json) to track deployments and objects\n4- A shell script to check and aggregate gas balances across gas coins\n\nI designed this framework to be easy to audit and extend. I avoided over-engineering and kept it hackathon-friendly, focusing on functionality and cross-chain interoperability. Authentication is currently local via private keys, and interaction is CLI- and SDK-based for now.\n\nA planned web frontend (React + Wagmi + Sui Connect) will provide a clean UI for real users.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/bubble-bridge-n0iu7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

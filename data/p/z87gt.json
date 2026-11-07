@@ -1,0 +1,27 @@
+{
+  "id": "z87gt",
+  "slug": "huddle-to-buy",
+  "title": "Huddle to buy",
+  "tagline": "Agents pool buyer demand P2P to unlock bulk pricing — settled atomically onchain. ",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z87gt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4wOby2tMXNFaJvEKCKMom02c2uDrY6dIVs2bKyiMVirk/high.mp4",
+  "demo_url": "https://t.me/huddle1bot",
+  "source_url": "https://github.com/xaviersharwin10/huddle_to_buy",
+  "finalist": false,
+  "description": "Huddle lets anyone access volume discounts that only exist for enterprise buyers today. \n\nA user texts their Telegram bot: \"I want 10 H100 GPU hours, max $1.80/hr.\" Their local buyer agent hashes the intent and broadcasts it anonymously over Gensyn AXL's encrypted P2P mesh — no central server, no seller visibility. When 3 agents independently detect matching intent hashes (k-anonymity), they reveal to each other, elect a coordinator via deterministic lexicographic sort, and negotiate with the seller using the real X402 payment protocol.\n\nThe seller returns a bulk tier price ($1.50/hr vs $1.99 solo). All buyers approve with one tap. Funds pool into Coalition.sol on Gensyn Testnet — a state-machine escrow that holds the discounted price from every buyer. KeeperHub watches the contract: when all N buyers fund, it atomically commits the entire pool to the seller in a single transaction. If anyone drops out before the deadline, KeeperHub fires refundAll() — every buyer is made whole automatically.\n\nThe crypto layer is completely invisible. Users see: \"Coalition found. You saved $3.00. Accept?\" One tap. Done. Volume discounts on digital goods have always existed — Huddle makes them reachable for individuals for the first time.",
+  "how_its_made": "Huddle is a TypeScript monorepo (pnpm workspaces) with four services running in a single Railway container: seller agent, three buyer agents, and a Telegram bot frontend.\n\nGENSYN AXL — the entire P2P layer. Each agent runs as a separate OS process with its own AXL binary instance, ed25519 keypair, and port. Intent commitments (keccak256 hashes) are broadcast via a custom GossipSub implementation we built on top of AXL's send/recv — full GRAFT/PRUNE/IHAVE/IWANT mesh maintenance with D-parameter enforcement. The k-anonymity reveal handshake, coordinator election, and offer ratification all happen over AXL A2A messages. Removing AXL removes the product — there is no central broker.\n\nKEEPERHUB — owns the atomic commit lifecycle. Two live workflows are registered on KeeperHub cloud (IDs: agfndtbs9xl7wlj9qa3ud and kt470bvmvs0aqyrtgi5ax). The commit workflow watches for N BuyerFunded events then calls Coalition.sol's commit() in a single atomic transaction with retry and MEV protection. The refund workflow fires refundAll() if validUntil expires with partial funding. N-party atomic commit is a novel KeeperHub usage — no prior project on their platform settles a multi-buyer threshold coalition.\n\n0G — buyer identity and persistent memory. Each user mints an ERC-7857 Buyer Profile iNFT on 0G Testnet (contract: 0x86583710FB176b5a868262FCc95BFf0DfBeE130C). Profile preferences are uploaded to 0G Storage file layer via the 0g-ts-sdk (Merkle root stored as the iNFT's tokenURI). Coalition outcomes are written to 0G Storage KV via Batcher after each successful commit.\n\nX402 — the seller charges a real on-chain micro-fee (0.01 MockUSDC) per price quote. The coordinator pays this fee, the seller verifies the Transfer event log on-chain before returning the tier price. Replay prevention via used_payments.json. This is real X402 semantics — HTTP 402 → on-chain payment → retry with X-Payment header.\n\nCOALITION.SOL — a Solidity state machine (Forming → Funded → Committed / Refunded) with reentrancy guards, keeper access control, and a liveness fallback (anyone can trigger refundAll after validUntil). Deployed on Gensyn Testnet. Deployed and tested end-to-end with real testnet tokens.\n\nTELEGRAM BOT — Gemini Flash parses natural language intents with regex fallback, generates fresh EVM wallets per user, queues intents when agents are temporarily offline, polls agent status every 5s, and sends stage-by-stage coalition updates. The /faucet command auto-funds new wallets from a treasury. Users never see a wallet, a transaction, or a gas fee.\n\nNotable hack: the coordinator election uses pure lexicographic sort of revealed peer IDs — zero election messages, deterministic, and crash-tolerant via a 30-second fallback timer that arms on the second-sorted peer. COORDINATOR_CRASH_TEST=true deliberately kills the primary mid-negotiation to demo the fallback live.",
+  "auto_summary": "A monorepo for coordinating group purchases through Telegram, peer-to-peer agent messaging, escrow contracts, and automated settlement workflows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/huddle-to-buy-z87gt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

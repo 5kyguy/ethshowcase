@@ -1,0 +1,35 @@
+{
+  "id": "2oagg",
+  "slug": "qi",
+  "title": "Qi ",
+  "tagline": "Qi is a transaction auction platform that reduces transaction cost for transactions. The cost reduction comes from three places 1. MEV redistribution 2. transaction exeuction 3. and gas fees",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2oagg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9MM4ggDkdyXshDp70000CUvzbm00w1F4SYuZKffpD4ose00/high.mp4",
+  "source_url": "https://github.com/da-bao-jian/qi",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊‍♂️ Polygon — Pool Prize",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Taiko",
+      "sponsor_id": "qfmej",
+      "placement": "🤖 Taiko — 🥇 Catch MEEEEEEEEEV!",
+      "title": "Taiko"
+    }
+  ],
+  "finalist": false,
+  "description": "Users constantly overpay for block space these days. The expensive amount comes in three different forms\n1. MEV\n2. poor transaction execution\n3. gas fees\n\nThe solution space currently is fragmented with well-designed protocols, yet they don't address the issue holistically. Qi provides a solution that address all of above. \n\nQi is a transaction auction platform that allows users to auction off the right to execute their transactions to solvers, third-party specialized agents that compete for providing the lowest cost of block space for users. Solvers are sophisticated network participants who could be MEV searchers, or Cow Protocol-like solvers, who solve optimization problems to increase users' utility functions. \n\nThrough the auction, Qi is providing a transaction cost maximization and value leakage minimization solution that achieve these design goals:\n1. permissionless access - this applies to solvers and users;\n2. programmable privacy - users can selectively shield their transactions \n3. trust minimization - an auctioneer is a smart contract so no risk of manipulation\n4. meritocracy based - the auction is purely based on who's capable to provide the best utility to each individual user\n\nThis is how it works:\n-users sign off messages that represent their transactional intent using the erc1271 compatible signature scheme. User can selectively shield their message to prevent solvers from stealing MEV. However, this could also increase the difficulty for solvers to include the transaction. So there's a element of game theoretic dynamic between user and solver here;\n-messages are stored at an off-chain server that has a WebSocket opened to solvers;\n-solvers will monitor database updates continuously to look for new messages being added;\n-the auction will run by epochs, and each epoch lasts 24 seconds(2 blocks);\n-at the beginning of each epoch, Qi takes a snapshot of all the existing messages in the server, and will only include those messages in the current auction. New messages will be included in a queue for the next auction\n-during the auction, solvers will bid for batched of transactions. If two batches contain completely different transactions, then they won't compete with one another. However, if two batches include conflicting transactions, the auction selection algorithm will determine who has the right to include conflicting transactions. \n- The auction selection algorithm is a utility function that takes all three factors(MEV rebate, price execution, and gas fee subsidization) into consideration given a solver's bid. A solver will not win the right of execution simply because he/she provides a better price for each individual user in the batch. If the execution price is negatively impacted by solver's ordering or arbitrage transaction to a point where the slippage is worst than the bid, a solver might not win the auction against a lower bid batch but provides better transaction execution;\n-since some user messages might be private, we'll provide a simulation API to return the simulated outcome of a batch. Then, they'll change the batch logic a little bit and submit it for simulation again. In this sense, solvers are constantly performing \"proof of work\" to try to find the best combination and order of transaction possible.\n-The solvers will be able to see each other batches' simulated outcomes and transactions included in the batch, but the bids will be sealed until the auction is complete. This will create an incomplete information game among solvers. \n-The auction is eventually settled on-chain through a dedicated smart contract. So no centralized auctioneer could manipulate the auction outcome;\n-messages that are not included by any of the batches will go into the next auction. The user will set an expiry time for the message and what to do when it expires. When a message expires, will route it through 1inch Fusion to provide the best possible transaction outcome. \n\n",
+  "how_its_made": "Qi uses the ERC1271 signature scheme to collect user messages. Then put it into a Postgres database. A WebSocket connection is established to feed the data stream to a group of solvers. Solver will submit a bid through the Auction.sol smart contract. The bid is determined based on a utility function. Not collected bid will be sent to 1inch. \n\n1inch Fusion provides the best order execution solution in the game. When a user message is not signed, it will be routed to 1inch Fusion directly for execution\n\nQi will also have a vertical integration with MetaMask and 4337 wallets. The integration with MetaMask is done through Snap. And because Qi uses 1271 signature scheme, it's compatible with all 4337 wallets. Later, we will implement a customized Paymaster contract for users to auction off their transactions and receive bids for their transactions directly. \n\nSuperfluid supports a nice feature to stream payout to a designated address. Qi supports this feature to prevent the solver from griefing the auction payoff process. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/qi-2oagg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "tftn2",
+  "slug": "flowfi-finance",
+  "title": "flowfi.finance",
+  "tagline": "FlowFi: an AI-powered DEX aggregator on Arc  swap, bridge, launch tokens in native USDC",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tftn2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/skpPVMlA01TAp02SAYkrE3eD9T0083Q00NGcxDYApSItJ01Y/high.mp4",
+  "demo_url": "https://www.flowfi.finance/deck.html",
+  "source_url": "https://github.com/sekuler/flowfi",
+  "finalist": false,
+  "description": "FlowFi is a stablecoin interface on Circle's Arc Testnet (chain 5042002), with an AI Copilot reading live on-chain data across Portfolio, Dashboard, and Analytics views. Gas and balances are both USDC: native units are 18 decimals, the ERC-20 contract (0x3600...) is 6 decimals — one asset, two interfaces, handled explicitly in code. What works today: browser wallet or Circle Developer-Controlled Wallet (no seed phrase); USDC/EURC swap; USDC bridging Sepolia↔Arc via Circle's CCTP V2 (burn, attestation, mint); curated liquidity pools; an ERC-20 launch tool with permanent-liquidity locking. FlowFi does not custody funds or market-make: on testnet, thin pools are flagged rather than quoted as live prices. After Arc mainnet, the same UI is meant to route swaps through real external liquidity (Uniswap, LI.FI) and earn an interface fee, not hold reserves itself.",
+  "how_its_made": "Frontend: React, TypeScript, Vite, viem. Wallets are EIP-1193 in the browser, or Circle Developer-Controlled Wallets through a backend so the seed never sits in the client. Same-origin proxies sit in front of Arc RPC and Arcscan because public eth_getLogs and explorer rate limits fail under load.\n\nContracts: Solidity 0.8.19 factory + constant-product pool, shipped in several testnet revisions as bugs showed up. One revision called addLiquidity with a deadline on a v2 pool that had no deadline and the tx reverted. Later pools pull both tokens with SafeERC20, record reserve deltas from balanceOf, and (in the newest code) match Uniswap-style amountAMin / amountBMin so a skewed deposit is not silently donated. Pause, where it exists, is queued for two days; unpause is immediate. None of this is audited; it stays testnet infrastructure\n\nIntegrations that actually move value: Circle CCTP V2 (burn on Sepolia, attest, mint on Arc) and Circle wallets. USDC on Arc is one balance, two interfaces — eth_getBalance / gas at 18 decimals, ERC-20 0x3600… transfer / approve at 6. We hardcode 6 on the ERC-20 path instead of trusting decimals() on that precompile.\n\nWhat we refused to ship as product: quoting a residual pool (cents of USDC/EURC) as a live FX price. A constant-product pool only knows its reserve ratio. FlowFi is an interface; after Arc public mainnet the same screen is meant to route to an external venue and take a fee, not to market-make.\n\n",
+  "auto_summary": "A React and Solidity app for Arc testnet that handles USDC-based swaps, bridging, liquidity pools, escrow, lending, and Circle wallet access.",
+  "scores": {
+    "originality": 6,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/flowfi-finance-tftn2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

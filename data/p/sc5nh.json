@@ -1,0 +1,26 @@
+{
+  "id": "sc5nh",
+  "slug": "vouch",
+  "title": "VOUCH",
+  "tagline": "One badge. One human. Skin in the game. The trust layer the internet never had.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sc5nh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nUTN11Su9TGY00WRSLl02oB9hnGMYqfAS47JstCKCHyM00/high.mp4",
+  "source_url": "https://github.com/manalhdev/vouch",
+  "finalist": false,
+  "description": "Every day, millions of people fall for fake websites. Phishing sites steal crypto. Scam exchanges vanish overnight. And there's no universal signal to warn you before it's too late.\n\nVOUCH changes that.\n\nWe built a Chrome extension that shows a real-time trust badge on every website you visit. Behind each badge: real humans, verified through World ID, who staked their own ETH to say \"I vouch for this site.\" No bots. No fake reviews. Just cryptographic proof that real people put real money on the line.\n\nGreen badge? Hundreds of verified humans trust this site. Red badge? Nobody vouches for it — proceed with caution.\n\nBut we didn't stop at human signals. VOUCH combines decentralized AI (powered by 0G Compute Network) that automatically scans URLs for phishing patterns, domain age, and suspicious behavior. Humans and AI working together each covering the other's blind spots.\n\nEvery endorsement lives on-chain. Every endorser is a unique human. Every stake is real money. And the best endorsers earn a Soulbound Token proving their track record — a reputation you can't buy, only earn.\n\nVOUCH isn't a platform. It's a protocol. Any dApp, marketplace, or DAO can read our trust registry and integrate it. It's a composable trust lego for the entire internet.\n\n6 technologies. 1 mission. Trust, verified by humans.",
+  "how_its_made": "VOUCH was engineered as a full-stack trust protocol in under 14 hours using Claude Code running in parallel across 3 developer machines. Every architectural decision was driven by one question: \"Does this make the demo undeniable?\"\n\nThe backbone is two Solidity smart contracts deployed on Base Sepolia via Foundry. TrustSeal.sol manages endorsements with minimum 0.001 ETH stakes, enforces one-human-one-endorsement per URL, and auto-mints a non-transferable Soulbound Token (ERC-721) when an endorser hits 5 validated endorsements. We integrated Chainlink's AggregatorV3Interface directly into the contract to read live ETH/USD prices so every stake displays in both ETH and dollars, making the \"skin in the game\" immediately tangible.\n\nFor Sybil resistance, we went all-in on World ID 4.0. RP signatures are generated server-side through Next.js API routes using @worldcoin/idkit/signing (never client-side security first). Proofs are forwarded to World ID's /v4/verify endpoint, and upon success, the backend calls verifyHuman() on-chain. This means every single endorsement on VOUCH is cryptographically tied to a unique human being.\n\nThe AI layer leverages 0G's decentralized Compute Network in a way we're particularly proud of. We initialize a broker via @0glabs/0g-serving-broker, connect to the qwen-2.5-7b-instruct model on testnet, and run URL trust analysis through the OpenAI-compatible inference API. Every AI response is TEE-verified meaning our trust analysis is itself trustless. We built a smart caching layer for demo reliability with live 0G calls as the primary path.\n\nWallet authentication runs on Dynamic's React SDK with EthereumWalletConnectors, giving us instant access to 300+ wallets including MetaMask, Rainbow, and Coinbase Wallet all through WalletConnect under the hood. One widget, every wallet.\n\nWe used viem's getEnsName() against Ethereum mainnet to resolve endorser addresses into human-readable ENS names. Seeing \"vitalik.eth vouched for this site\" instead of \"0xd8dA...\" transforms the entire user experience from abstract to personal.\n\nThe Chrome extension (Manifest V3, vanilla JS + ethers.js) is where the magic becomes visible. A content script reads the current URL, hashes it with keccak256, queries the contract, and injects an animated trust badge with real-time data all in under 1 second. The in-page panel shows endorsement history, AI analysis, ENS-resolved names, and USD-denominated stakes.\n\nThe hackiest and most satisfying moment: watching all six sponsor technologies World ID verification, 0G AI inference, Dynamic wallet auth, ENS resolution, Chainlink price feeds, and WalletConnect fire in sequence during a single endorsement flow. One click, six protocols, zero friction.",
+  "auto_summary": "A Chrome extension and web app that combine on-chain endorsements, human verification, AI URL analysis, and ENS name resolution for website trust signals.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/vouch-sc5nh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

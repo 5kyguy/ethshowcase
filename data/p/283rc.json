@@ -1,0 +1,22 @@
+{
+  "id": "283rc",
+  "slug": "consensus-neotrace",
+  "title": "Consensus Neotrace",
+  "tagline": "Automated generation of cross-client test vectors via non-intrusive spec tracing",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/283rc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/azilGdXl1h8xEWlK00zE1zlt7P2Or8701qqHcm00CGfPP00/high.mp4",
+  "demo_url": "https://github.com/ethereum/consensus-specs/pull/4755",
+  "source_url": "https://github.com/IvanAnishchuk/eth-consensus-specs",
+  "finalist": false,
+  "description": "The Problem: The Ethereum Consensus Specification (written in Python) is the source of truth for the Beacon Chain. However, client teams (Prysm, Lighthouse, Teku, etc.) write their implementations in Go, Rust, and Java. Ensuring these clients perfectly match the Python reference requires thousands of test vectors. Currently, creating complex state transition vectors is often manual, tedious, or limited to specific scenarios.\n\nThe Solution: We built a \"Smart Execution Recorder\" that hooks directly into the Python executable spec. By simply running the existing Python unit tests with our @record_spec_trace decorator, the system automatically generates standardized, cross-client trace.yaml test vectors.\n\nIt doesn't just dump data; it intelligently tracks the Beacon State. It detects when the state is mutated (even in-place), calculates Merkle root hashes to deduplicate state snapshots, and produces a content-addressed, portable trace file that any client can use to verify their execution against the spec, step-by-step.",
+  "how_its_made": "The project is built using Python and integrates deeply with the ethereum/consensus-specs repository.\n\nTransparent Proxies (wrapt): We use object proxies to wrap the spec module. This allows us to intercept every function call, argument, and return value without modifying the core specification logic.\n\nSmart State Tracking: A core challenge was tracking the 32GB+ Beacon State efficiently. We implemented a \"smart tracker\" that calculates the hash_tree_root of the state before and after every operation. It detects context switches and out-of-band mutations, only serializing the state when the content actually changes.\n\nContent-Addressing: All SSZ objects (States, Blocks, Attestations) in the trace are identified by their raw hex Merkle root. This ensures valid deduplication and allows the trace to be \"replayable\" by clients who can verify they arrived at the exact same state root.\n\nPydantic Schema: We use Pydantic models to define the trace.yaml schema. We implemented custom validators to automatically sanitize Python-specific types (like Slot or ValidatorIndex subclasses) and raw bytes into standard, portable hex strings that other languages can parse easily.\n\nPytest Integration: The system hooks into the existing test runner via a custom decorator, making it zero-config to generate a trace for any existing test case.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/consensus-neotrace-283rc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "zwce6",
+  "slug": "agentreviewers",
+  "title": "AgentReviewers",
+  "tagline": "AI judge swarm that reviews your code and stores every verdict on 0G Storage. (",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zwce6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/oQdILnqg0001xK1Jvv1gdu800DlJ4ltRfrgXUV02sx4qfZI/high.mp4",
+  "source_url": "https://github.com/ysongh/AutonomousAgentReviewers",
+  "finalist": false,
+  "description": "Autonomous Agent Reviewers (AAR) is a swarm of AI judge agents that peer-review hackathon submissions, coordinating entirely through 0G Storage on the 0G Galileo testnet. When a project is submitted, an intake agent fetches the repository metadata, uploads the submission record to 0G, and fans out to a three-judge panel — one tuned for technical merit, one for originality, and one trained as a deliberate skeptic. Each judge reads the submission from storage, casts an independent verdict via Anthropic's Claude using structured tool-use, and writes its scored reasoning back to 0G. Every payload that crosses an agent boundary is content-addressed by its 0G root hash and validated against a shared zod schema on both ends, so the on-chain record is the source of truth — no agent ever trusts another agent's HTTP body for anything beyond a hash.\n\nAfter the first round, an aggregator agent runs a single round of deliberation: each judge sees its peers' verdicts and either revises its score or holds firm, with both outcomes recorded as distinct on-chain artifacts. The aggregator then computes a weighted final score, flags meaningful disagreement, and produces a panel verdict that captures the full deliberation trail — round-1 verdicts, revisions, abstentions, and a dissent summary when the panel didn't converge. Each agent runs as an isolated Express service with its own funded wallet, so concurrent writes to 0G don't collide on nonces, and a live dashboard streams the agents' JSONL logs over Server-Sent Events so you can watch the panel reason through a submission in real time. The result is a fully auditable, reproducible review pipeline where every score, every change of mind, and every disagreement is provably stored on decentralized infrastructure.",
+  "how_its_made": "AAR is built as a small fleet of Node/Express services that talk to each other only in 0G Storage root hashes — never raw payloads. The five agents (intake, three judges, aggregator) each live in their own folder with their own package.json and node_modules, sharing code through an aar-shared module linked via pnpm's link: protocol so edits to common modules propagate without reinstalls. A separate log-streamer service tails every agent's pino JSONL log with chokidar (in polling mode — see hacks below) and broadcasts entries over Server-Sent Events to a Vite + React 19 + TypeScript dashboard. The dashboard is a passive consumer: it derives every visualization from the canonical event vocabulary the agents already emit, and adds zero new endpoints or log events of its own.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentreviewers-zwce6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

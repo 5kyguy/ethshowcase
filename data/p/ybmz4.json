@@ -1,0 +1,21 @@
+{
+  "id": "ybmz4",
+  "slug": "fluxsettle",
+  "title": "FluxSettle",
+  "tagline": "FluxSettle: Agentic DeFi using ENS intents & Uniswap v4 Hooks for seamless cross-chain liquidity.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ybmz4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lRyWrBPn6DR6PS8c02dg2BxrEYhTBwEiPoPu5lTTjJsQ/high.mp4",
+  "source_url": "https://github.com/securecodechain/fluxsettle",
+  "finalist": false,
+  "description": "FluxSettle AI is an agentic DeFi execution and settlement layer that separates high-frequency decision-making from on-chain finality. Users lock funds once and open a secure session to perform instant, gasless interactions while AI agents continuously analyze market signals, liquidity, and risk constraints.\n\nFluxSettle is an intent-based liquidity management protocol that solves the fragmentation problem in modern DeFi. Currently, moving funds across different chains to seek yield or settle debt is a manual, multi-step process involving risky bridges and constant signature approvals. We have abstracted this entire complexity away by creating \"Agentic Accounts\".\n\nBy leveraging ENS Public Resolvers as an on-chain configuration layer, users can define their investment \"intents\" directly on their ENS names. Once an intent is set, an autonomous off-chain Python Agent monitors the wallet for incoming funds. Upon detection, it utilizes LI.FI's aggregation stack to identify the most efficient cross-chain route—ensuring the fastest and cheapest settlement without any further user intervention.\n\nThe final destination of every transaction is a custom Uniswap v4 Hook deployed on the target chain. This hook is programmed to automatically manage the liquidity position as soon as the funds arrive, removing the need for users to switch networks or sign secondary transactions. FluxSettle effectively turns a static ENS identity into a dynamic, autonomous liquidity manager.",
+  "how_its_made": "FluxSettle is built with a three-layer architecture designed for modularity and automation.\n\nThe Intent Layer (ENS): We used ENS Text Records as a decentralized database for user strategies. By encoding investment intents into the fluxsettle.config record, we made the user's financial strategy human-readable and verifiable on-chain.\n\nThe Routing Engine (LI.FI & Python): Our off-chain agent is built with Python (Web3.py). It acts as the \"brain\" of the system, constantly polling for balance changes and querying the LI.FI API for dynamic routing. We integrated LI.FI specifically because it abstracts the complexity of bridge selection, allowing our agent to always pick the optimal path (e.g., GasZip for efficiency).\n\nThe Execution Layer (Uniswap v4): We developed a custom Uniswap v4 Hook using Solidity and the Foundry framework. The hook uses the beforeAddLiquidity flag to automate the deposit process once the bridge transaction is finalized on the destination chain.\n\nHacky Details & Challenges: One of the most notable \"hacky\" parts of the build was developing a custom HookMiner script to find a salt that matches the specific permission flags required for our Uniswap v4 logic. Additionally, we had to build a robust error-handling system in the Python agent to handle bridge finality times across different L2s during the live demo. The project was deployed and verified on Sepolia at 0xb7d1Ef125bAa22219134FEd53a46aDA1DB1CF701.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fluxsettle-ybmz4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

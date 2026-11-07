@@ -1,0 +1,30 @@
+{
+  "id": "ntdmp",
+  "slug": "grimswap",
+  "title": "GrimSwap",
+  "tagline": "Privacy DEX on Uniswap v4 — ZK-SNARK proofs + stealth addresses break the sender-receiver link. ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ntdmp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Gew4vrZFjlAEGpndzFZ01PQEFu0202PFrrK1a91O3dVkm4/high.mp4",
+  "demo_url": "https://grimswap.com/",
+  "source_url": "https://github.com/grimswap/grimswap-test",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackMoney 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "GrimSwap is a privacy-preserving decentralized exchange built as a Uniswap v4 hook that enables anonymous token swaps using zero-knowledge cryptography.\n\n  The Problem: Every swap on traditional DEXs is fully transparent. Anyone can track your wallet, analyze your trading patterns, and front-run your transactions. Over $1.3B in MEV is extracted annually, and 1 in 30 swaps gets attacked by sandwich bots. Your on-chain history is public forever.\n\n  GrimSwap solves this by breaking the on-chain link between depositors and recipients:\n\n  1. Deposit — Users deposit tokens into a shielded pool, generating a secret commitment stored locally in their browser\n  2. ZK Proof — When swapping, a Groth16 SNARK proof verifies the user owns a valid deposit without revealing which one (~1 second proof generation in-browser)\n  3. Stealth Addresses — Swap outputs are routed to one-time ERC-5564 stealth addresses that only the recipient can derive and spend from\n  4. Relayer — A gas relayer submits transactions on behalf of users, so the depositor's wallet never appears on-chain\n\n  The result: complete transaction privacy. No one can link your deposit to your withdrawal, trace your trading history, or identify your wallet.\n\n  Built natively on Uniswap v4's hook architecture, GrimSwap uses a dual-mode hook — the same pool supports both regular and private swaps, so privacy doesn't fragment liquidity. The hook verifies ZK proofs in beforeSwap and routes outputs to stealth addresses in afterSwap, all atomically in a single transaction.",
+  "how_its_made": "Architecture: GrimSwap is a monorepo with four components: Solidity smart contracts (Foundry), Circom ZK circuits, a TypeScript SDK published as @grimswap/circuits on npm, a Node.js relayer service, and a React frontend.\n\n  Smart Contracts (Solidity 0.8.26 + Foundry):\n  The core is GrimSwapZK.sol — a Uniswap v4 hook implementing beforeSwap, afterSwap, and afterSwapReturnDelta. When hookData is empty, swaps pass through normally (regular mode). When hookData contains an encoded ZK proof, the hook verifies it on-chain via a Groth16 verifier contract, validates the Merkle root, marks the nullifier as spent, and routes the output to a stealth address. This dual-mode design means privacy doesn't require separate liquidity pools.\n\n  GrimPoolMultiToken.sol manages a 20-level Poseidon Merkle tree (~1M deposit capacity) that stores commitments for both ETH and ERC20 deposits. It maintains a 30-root history buffer to prevent front-running attacks on the Merkle root.\n\n  ZK Circuits (Circom + Groth16):\n  The privateSwap.circom circuit proves: (1) the user knows a secret and nullifier that hash to a commitment in the Merkle tree, (2) the nullifier hash matches to prevent double-spending, and (3) the recipient address is non-zero. All hashing uses Poseidon over the BN254 scalar field for ZK-friendly performance. The Groth16 verifier was generated via snarkjs trusted setup and deployed on-chain, giving us ~828K gas for full proof verification.\n\n  Stealth Addresses (ERC-5564):\n  We implemented the full ERC-5564 stealth address scheme using secp256k1. The SDK generates spending/viewing keypairs, computes shared secrets via ECDH, derives one-time stealth addresses, and supports scanning Announcement events with view tags for efficient recipient detection. Users can claim tokens from stealth addresses using derived private keys — all handled in-browser.\n\n  TypeScript SDK (@grimswap/circuits v1.4.1):\n  The SDK handles the entire privacy pipeline: deposit note creation, Merkle tree construction from on-chain events, browser-compatible ZK proof generation via snarkjs WebAssembly (~1-2 seconds), proof formatting for Solidity (including the pi_b coordinate swap for BN254), stealth address generation/scanning, and raw transaction signing for stealth claims — all without ethers.js dependency in the core modules.\n\n  Relayer (Node.js + Express):\n  The relayer accepts ZK proofs, verifies them locally with snarkjs before submitting on-chain, and optionally funds stealth addresses with gas ETH (0.0005 ETH) so recipients can claim without linking their wallet.\n\n  Frontend (React 18 + Vite + wagmi v2 + RainbowKit):\n  The app stores deposit notes and stealth keys in IndexedDB (two separate databases). It syncs Merkle trees from on-chain deposit events, generates proofs client-side, and handles the full lifecycle: deposit → private swap → stealth claim. Styled with Tailwind CSS v4 with a custom dark theme.\n\n  Notably hacky: The trickiest part was getting the Groth16 proof format correct across the stack — snarkjs outputs pi_b coordinates in one order, but Solidity's BN254 precompiles expect them reversed. The SDK and relayer both handle this coordinate swap transparently, which took significant debugging to get right across browser → relayer → on-chain verification.\n\n  Deployed on Unichain Sepolia with all contracts verified. The privacy pool runs alongside a standard Uniswap v4 pool on the same PoolManager instance.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/grimswap-ntdmp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "q9aya",
+  "slug": "pairband",
+  "title": "Pairband",
+  "tagline": "Launch in USDC from any chain. Bonding curve → locked AMM + on-chain CLOB. Settlement on Arc.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q9aya/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YmaJq02101zF8r5QDJwPd7P00dDkUH9KIB00qjWzgzdrieo/high.mp4",
+  "demo_url": "https://pairband.com",
+  "source_url": "https://github.com/kunaldrall29/pairband",
+  "finalist": false,
+  "description": "Pairband is the Arc launchpad for USDC-quoted token launches. Creators pay a $1 USDC fee to mint a token; buyers and sellers trade on a virtual bonding curve (1.0% protocol + 0.5% creator fees in USDC). When the curve raises $80 of real USDC, the launch graduates: remaining inventory and cash seed a constant-product Uniswap-style pair, LP tokens are burned to 0xdead (no removable liquidity), and a fully on-chain CLOB opens alongside the pair.\n\nAfter graduation, market orders walk the book in price-time priority, then leftover size hits the locked pair at 0.30%. Limit orders rest on-chain with escrowed cancel. Traders can bring USDC from Ethereum, Base, Arbitrum, Optimism, Solana, Unichain, and other CCTP domains; Circle CCTP v2 mints Arc USDC into Pairband’s settler, and settlement stays on Arc—tokens never leave the Arc ledger. The product surfaces Create, Discover, and Trade in a live web app (plus a local mirror engine for wallet-free demos), with contracts already deployed on Arc Testnet (5042002). Tagline: cover the downside, keep the upside—stable quote asset, permanent LP, and a real post-curve market instead of a thin graduated pool.",
+  "how_its_made": "On-chain (Solidity 0.8.26 + Foundry). Core launch stack: PairbandLaunchpad (USDC bonding curve, CEI + reentrancy lock, fees capped in bytecode), PairbandToken, PairbandAmmFactory / PairbandPair (v2-style getAmountOut, 0.30% fee), and PairbandBook (on-chain CLOB). Graduation is atomic: at graduateAt the pad seeds the pair and book and burns LP. PairbandSettler is the Arc CCTP inbox (domain 26): messenger-only ingest, replay protection by (sourceDomain, nonce), settleBuy into the pad/book, and bridgeOut via CCTP TokenMessengerV2 depositForBurn. Same bytecode targets Arc testnet and mainnet.\n\nPartner tech. Circle USDC + CCTP v2 = any-chain-in / settle-on-Arc without wrapping launch tokens. Arc = USDC gas and settlement. A parallel Uniswap v4 path (PairbandHook + vault, HookMiner CREATE2 flag mask 0x2A40, vault-gated liquidity, zero-delta afterSwap) explores concentration/rebalance; the shipping beachhead is the Arc launchpad.\n\nApp & tooling. React 19 + TanStack Start/Router/Query, Tailwind v4, wagmi/viem for Arc txs (6-dec USDC ↔ 18-dec token amounts, sell slippage scaled so curve sells don’t revert). A local engine mirrors contract math for demos; Discover syncs on-chain launches when a wallet is connected. Ops deploy via Foundry scripts; deployer keys stay out of VITE_ / the browser. Docs site, pitch deck, and Foundry + Node engine tests back the demo. Notable hack: mirroring full curve/AMM/book math in TypeScript so the UI stays demoable without a wallet while live create/buy/sell still hit real Arc testnet contracts.",
+  "auto_summary": "Pairband is an Arc-based token launchpad using USDC bonding curves, CCTP settlement, a custom AMM, and an on-chain order book.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pairband-q9aya",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "r8qpc",
+  "slug": "arbiter-capital",
+  "title": "Arbiter Capital",
+  "tagline": "Autonomous yield optimizer: AI agents rotate WETH across Pendle, Lido, and Uniswap v4 automatically.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/r8qpc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aqW1xIgjtE02kUVv01rwjSDqVv2kX5Li1sLOxO02NtbT5Y/high.mp4",
+  "source_url": "https://github.com/jmberean/arbiter-capital",
+  "finalist": false,
+  "description": "Arbiter Capital is an autonomous DeFi yield optimizer. It continuously monitors yield spreads across Pendle PT-USDC, stETH/Lido staking, and Uniswap v4 pools. When the quantitative engine detects a better risk-adjusted return, or a volatility event requiring a protective stable rotation, it kicks off a multi-agent negotiation without any human intervention.\n\nA Quant agent runs deterministic yield-spread math (gas-adjusted returns, volatility signals, safety scores), drafts a swap proposal, and signs it with EIP-712. A Risk Guardian agent independently re-runs the same math to verify it, consults KeeperHub's simulation oracle to simulate the trade against a forked chain state, then countersigns. Only after both signatures are collected does a Gnosis Safe 2-of-2 multisig execute the transaction through Uniswap v4, routed through a custom ArbiterThrottleHook that enforces per-block swap rate limits.\n\nEvery LLM call made by both agents is captured as a LLMContext artifact containing the full prompt, model ID, temperature, seed, and parsed response. Each artifact is hashed and stored on 0G decentralised storage, chained into a cryptographic audit trail of 500+ receipts that anyone can replay. A Byzantine Watchdog agent fires six adversarial proposal types per run (forged signatures, replayed nonces, math manipulation) to continuously stress-test the system. All rejections are signed and logged to 0G.",
+  "how_its_made": "The system runs five concurrent Python processes communicating over Gensyn AXL, a live Yggdrasil P2P mesh with five distinct node identities. DEMO_MODE=1 fails closed if any AXL node is unreachable, enforcing the no-centralized-broker requirement. Each inter-agent message is wrapped in a signed AXL envelope and recipients verify the producer signature before processing.\n\nBoth agents are built as LangGraph graphs. The Quant graph runs: ingest market data, recall memory (ChromaDB semantic search over prior decisions), draft proposal (GPT-4o with structured output, temperature=0, seed=42 for determinism), self-audit (hash check), EIP-712 sign. The Patriarch graph runs: deterministic recheck (re-executes the quant's Python math and verifies keccak hash), LLM evaluation (structured ProposalEvaluation output), KeeperHub Sim Oracle consultation (LangChain BaseTool, attestor signature verified via ecrecover).\n\nExecution uses a Gnosis Safe 2-of-2 on Sepolia. The executor collects CONSENSUS_SIGNATURES, ecrecovers both signers, confirms they are registered Safe owners, then calls Safe.execTransaction. Swaps go through Uniswap v4's UniversalRouter with Permit2 approval. The ArbiterThrottleHook is a custom v4 hook deployed via CREATE2 on Sepolia that enforces per-block rate limits. Lido staking calls submit() directly and Pendle buys PT tokens. Every execution mints an ArbiterReceipt SBT.\n\n0G storage is written by both agents after every LLM call via a MemoryManager that falls back to local files when the testnet is dry. ChromaDB stores embedding and 0G hash pointers for semantic recall. The public verifier dashboard is built with Alpine.js and Tailwind, served by a Python HTTP server reading from SQLite. It shows the live Trade Queue, agent status, 0G audit chain, and a per-trade Decision Timeline modal showing every agent action from proposal to on-chain execution.",
+  "auto_summary": "A Python-based multi-agent DeFi system coordinates trading decisions, executes swaps through a Safe, and records decision artifacts and receipts.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arbiter-capital-r8qpc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

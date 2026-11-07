@@ -1,0 +1,22 @@
+{
+  "id": "nbyow",
+  "slug": "redeemit",
+  "title": "RedeemIt",
+  "tagline": "Turn USDC into PDF coupons anyone can redeem onchain — powered by Circle.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nbyow/banner/default.jpg",
+  "video_url": "https://stream.mux.com/z5M5Fi5sczUU3gWacQpwPF9sOJJ4Cqlzq6uYYS9GdxA/high.mp4",
+  "demo_url": "https://redeem-it.vercel.app/",
+  "source_url": "https://github.com/sairammr/Hack-Money",
+  "finalist": false,
+  "description": "Reedemit is a “send crypto like a coupon” platform that turns USDC (and native tokens) into redeemable PDF vouchers. Creators generate a PDF-backed wallet using Circle Developer‑Controlled Wallets, fund it, and share the PDF anywhere (email, DM, download) without the recipient needing a wallet up front. The PDF embeds an account name + salt and can include an interactive claim flow: recipients enter their wallet address (and chain) to receive funds, or open a claim link that triggers the transfer. The backend handles wallet creation, balance checks, and transfers, while cross‑chain USDC bridging is supported via Circle CCTP. An onramp flow (Transak) lets users buy USDC directly into their wallet before funding a coupon. There’s also an onchain Registry smart contract to mint and track coupon records, ownership metadata, and claims for transparency. The result is a simple, compliant way to send stable value like a digital gift card, with real onchain settlement and auditable claim history.\n\nWe have provided multiple test pdfs in the repo for testing out.",
+  "how_its_made": "We built the backend around Circle to make the entire “PDF as a voucher” flow work end-to-end. When a PDF is generated, the server creates a unique account and provisions a Circle Developer-Controlled Wallet dedicated to that voucher. The PDF only carries the account identifier, while the wallet itself remains securely managed by Circle. When a recipient claims the voucher, our API validates the request and transfers funds from the PDF’s wallet to the recipient’s address using Circle’s Transactions API.\n\nFor cross-chain redemption, we integrated Circle CCTP, allowing USDC to be burned on the source chain and minted automatically on the destination chain. This enables a PDF funded on one chain to be redeemed on another without manual bridging. For sender-initiated funding across chains, we also use Circle Bridge Kit, which abstracts the multi-step bridging flow, estimates fees, and lets us trigger transfers programmatically. To make the experience seamless, Circle Gas Station sponsors gas fees so recipients can redeem vouchers without holding native tokens.\n\nTo ensure transparency and auditability, we deployed a Registry contract on Arc Testnet that records coupon creation and claims. The backend writes to the Registry during issuance and redemption, creating a public, verifiable trail. The result is a complete pipeline: Circle wallets for custody, CCTP + Bridge Kit for cross-chain USDC movement, Gas Station for gasless claims, and an on-chain registry for verification.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/redeemit-nbyow",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

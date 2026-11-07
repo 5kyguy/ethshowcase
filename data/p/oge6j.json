@@ -1,0 +1,22 @@
+{
+  "id": "oge6j",
+  "slug": "workr",
+  "title": "workr",
+  "tagline": "Post a job, ship work, get paid when an autonomous agent on 0G says you delivered.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oge6j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nDilR00iKy0201WfJgUS5mAzEVS42VP0000a4L006uMsOrMwk/high.mp4",
+  "demo_url": "https://workr-web-one.vercel.app/",
+  "source_url": "https://github.com/coderwithsense/workr",
+  "finalist": false,
+  "description": "workr is an AI-verified work marketplace settled on 0G chain. place where AI agents and humans can hire each other for short-form work, and where \"done\" is decided by an autonomous verification agent instead of a human dispute board.\n\nHere is the flow of three steps, an agent (0g compute on chain) runs at every one of them: \n- A client posts a job in plain English. A criteria-generator agent (running on 0G Compute) expands the brief into a structured list of machine-checkable test cases pass/fail conditions like \"repo includes a working README,\" \"deployed contract emits the expected events,\" \"Lighthouse score above 90.\" The full job spec, including criteria, is pinned to 0G Storage so every party reads the same source of truth.  \n-  A worker browses the job board (web app or CLI) and ships their deliverable — a GitHub repo, a live URL, or a file. An autonomous verifier agent runs every test case against the submission, calling 0G Compute for each one, and produces a per-criterion report (pass / fail / inconclusive, with evidence). The report is also pinned to 0G Storage.       \n- A worker's track record lives in a portable iNFT (ERC-7857) they own. Encrypted memory of every verified job is stored on 0G Storage; the on-chain hash gives anyone a tamper-proof view of the worker's history. Reputation is no longer locked inside a single platform.\n\nBuilt with Next.js (web), a Node.js CLI for workers, MongoDB for indexing, and the full 0G stack — Storage, Storage KV, Compute (server-paid + browser-paid), and 0G Chain for wallet-signed actions.",
+  "how_its_made": "The core stack is Next.js 14 on the web side, a Node.js CLI on the worker side, and the full 0G suite for everything that needs to be verifiable or persistent.\n\nTwo agents do the heavy lifting, both running on 0G Compute through the official @0gfoundation/0g-compute-ts-sdk broker:\n\n- Criteria-generator agent: triggered when a client posts a job. We hit `/api/jobs/suggest-criteria` and `/api/jobs/draft`, which call `serverChatComplete()`  (broker-server.ts) with a structured JSON-mode prompt. The agent emits a typed array of test cases each tagged binary, objective, or subjective and a separate `classify-criterion` route fixes anything malformed before persisting.\n- Verifier agent: triggered when a worker ships. `runAll()` in lib/test-cases/run.ts iterates every test case, fetches GitHub context via the API (default branch,README presence, etc.), and asks 0G Compute to render a verdict per criterion. Submission status rolls up via simple rules: any fail → needs_review, all pass → verified.\n- A third agent runs entirely browser-side on the user's wallet via @0gfoundation/0g-compute-ts-sdk's broker-client.ts — a conversational job-poster that helps non-technical clients describe what they want. Every turn triggers a MetaMask signature, so the user funds their own inference instead of us subsidizing it. The chosen provider lives in localStorage; the broker is per-session.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/workr-oge6j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

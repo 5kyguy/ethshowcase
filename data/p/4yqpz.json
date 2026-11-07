@@ -1,0 +1,29 @@
+{
+  "id": "4yqpz",
+  "slug": "fyield",
+  "title": "fYield",
+  "tagline": "Cross-chain yield router: earn Aave & Curve yields from FXRP on Flare with anytime withdrawal.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4yqpz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Axvo1dMbv102yWj6qnCzHYQwtHCdvM4EpYRCGcwEVM7Y/high.mp4",
+  "source_url": "https://github.com/rehan-anjum/fYield",
+  "prizes": [
+    {
+      "sponsor": "Flare Network",
+      "sponsor_id": "2ugg8",
+      "placement": "3rd place",
+      "title": "MAIN TRACK: use protocols on Flare blockchain"
+    }
+  ],
+  "finalist": true,
+  "description": "FYield bridges Flare Network's FXRP token holders with Ethereum's mature DeFi lending markets, specifically AAVE V3 and Curve. This solves a critical problem: FXRP holders on Flare currently have limited yield-generating opportunities compared to Ethereum's established protocols that offer 3-5% APY on stablecoins.\n\nUsers deposit FXRP on Flare and automatically start earning AAVE or Curve lending yield without needing to bridge assets themselves or interact with Ethereum directly. They receive vFXRP receipt tokens representing their deposit, which can be withdrawn anytime for their original FXRP plus accumulated USDC yield on Ethereum mainnet.\n\nThe system monetizes through multiple revenue streams: taking a small percentage fee on yield earned (configurable operator fee), charging withdrawal fees for cross-chain transactions, and potentially offering premium features like yield optimization strategies or instant withdrawals for a fee. As Total Value Locked grows, even a 0.5-1% protocol fee becomes significant revenue.\n\nThis creates value by democratizing access to Ethereum DeFi for Flare users who may lack technical knowledge for cross-chain bridging or gas fees for Ethereum transactions. It aggregates smaller deposits into larger positions that earn better rates, similar to how traditional banks pool deposits. The automated price conversion using Flare's native oracles ensures accurate, trustless valuations without relying on external price feeds that could be manipulated or fail.\n\nFor the broader ecosystem, this increases capital efficiency across chains and provides exit liquidity for FXRP holders seeking yield, potentially increasing FXRP adoption and trading volume. The transparent, on-chain yield tracking builds trust while the ERC4626 standard ensures composability with other DeFi protocols.",
+  "how_its_made": "We built this cross-chain yield router using Flare's FAssets and FTSO v2 oracles as the backbone, eliminating the need for traditional bridges entirely. The architecture centers on ERC4626 tokenized vaults deployed on both Flare (Coston2) and Ethereum mainnet.\n\nOn Flare, users deposit FXRP (FAssets representing XRP) into our FlareVault contract, receiving vFXRP shares that represent their proportional ownership. Here's where it gets interesting: instead of bridging assets, we \"snoop\" on deposit events using an off-chain coordinator. When a deposit occurs, our Node.js server captures the ERC4626 Deposit event, queries Flare's FTSO v2 price feeds to get the current XRP/USD rate, calculates the equivalent USDC value, and triggers a corresponding deposit into our Ethereum-based AAVEManager vault.\n\nThe AAVEManager contract supplies USDC to AAVE V3's lending protocol, earning yield on behalf of Flare users without their assets ever leaving their native chains. Both vaults implement ERC4626 standard for fair share-based accounting, ensuring yield distribution is proportional to deposits and timing.\n\nThe particularly hacky part: we avoid bridge risk entirely by maintaining separate liquidity pools on each chain and using event-driven coordination. User funds stay locked in their respective vaults while only metadata crosses chains through our operator. Withdrawals work in reverse: users redeem vFXRP shares on Flare, triggering our server to calculate accumulated yield from AAVE, withdraw from the Ethereum vault (keeping principal, sending only yield), and complete the withdrawal on Flare.\n\nFlare's FTSO v2 was crucial for getting reliable, decentralized price feeds without additional oracle costs. FAssets (FXRP) gave us a trustless way to represent XRP on Flare's EVM-compatible chain, making the entire system more accessible to XRP holders seeking DeFi yields.\n\nTech stack: Solidity, OpenZeppelin contracts, Hardhat, ethers.js v6, Express.js, AAVE V3 Protocol, Next.js, Flare Smart Contracts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fyield-4yqpz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

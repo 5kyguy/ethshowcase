@@ -1,0 +1,27 @@
+{
+  "id": "6zgfp",
+  "slug": "trust-swap",
+  "title": "Trust Swap",
+  "tagline": "Reputation-graded Uniswap settlement: AI agents execute via TrustSwapRouter, gated on ENS trust",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6zgfp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LQ00SB0200rPe4SHCLxjAEa4eHsetc2PDPdT9HAsBqMsH00/high.mp4",
+  "demo_url": "https://trust-swap-roan.vercel.app",
+  "source_url": "https://github.com/estmcmxci/trust-swap",
+  "finalist": false,
+  "description": "TrustSwap is reputation-graded settlement on Uniswap: any two parties — including autonomous AI agents — can transact through Uniswap pools only after both sides' published trust constraints agree on-chain. \n\nTwo ENS-identified agents (`daemon.emilemarcelagustin.eth` and `daemon.trustrust.eth`) peer-fulfill each other's swap intents on Base mainnet without human input. \n\nEach agent publishes:\n\n- agent-risk-policy`— an ENS text record declaring which counterparties they accept (tier floor, accepted tokens, max size).\n- agent-endpoint`— an ENSIP-26 record exposing intents over HTTPS so peers can discover each other.\n\nTrust verification rides the synthesis Trust Resolution Layer, a 5-layer ENS resolver covering: \n\n- Personhood (World ID via AgentBook NFT), \n- Identity (ENSIP-25 / ERC-8004 registry), \n- Context (ENSIP-26), \n- Manifest (AIP V2 signature+ lineage chain), and \n- Skill (domain-verified SKILL.md). \n\nThe aggregate produces a `TrustTier` — none, registered, verified, trusted, full — that policies gate on.\n\nSettlement rides the Uniswap Trading API through `TrustSwapRouter, a custom onchain contract on Base that wraps Universal Router. The router refuses to forward calldata unless an offchain oracle has signed an attestation that both sides' published trust constraints already agreed. \n\nThe Trading API doesn't change shape; the router slots in between agent and `execute()`.\n\nBase mainnet tx: https://basescan.org/tx/0xfe6f2308701fc19074fa84304efcb6dbd5e4cb14e06d91e91028e471a23a88f5\n\nDaemon-1 peer-fulfilled daemon-2's `drip-usdc-to-weth` intent for 0.1 USDC → WETH, end-to-end, after the oracle's 5-gate check passed. Paired allow + deny JSONL captures under `infra/demo-runs/phase-6/`.",
+  "how_its_made": "Monorepo / topology: Trustswap is a pnpm workspace with six packages — core (trading api client, riskpolicy fetcher, gate orchestration), cli (tru daemon loop for unattended agent runs), contracts (foundry-managed solidity for TrustSwapRouter), oracle (hono on cloudflare workers for off-chain attestation signing), site (next.js 15: /swap, /policy, /api/gate), and mcp (mcp server for agent integrations). \n\nThe stack is typescript-first, built with tsup (esm + dts) and next build. \n\nDeployment topology: site on vercel, oracle on cloudflare workers, and daemon agents on digitalocean droplets behind tailscale.\n\nPartner technologies:\n\n• Uniswap trading api is the execution surface. We call /quote and /swap with routing: \"CLASSIC\", then pass swap.data calldata directly into a low-level call() from TrustSwapRouter. This wrapper-router pattern is the key composability win: any wrapper contract can treat uniswap routing as a black box and layer trust gating, fees, or accounting on top without rebuilding routing logic.\n\n• ENS is the identity substrate end-to-end: addr for recipient resolution, agent-risk-policy for riskpolicy, agent-ids + ensip-25 for registry indexing, agent-version-lineage + agent-latest for aip v2 manifest pointers, and agent-endpoint (ensip-26) for peer discovery.\n\n• Trust Resolution Layer (@synthesis/resolver) is the 5-layer resolver — personhood, identity, context, manifest, skill — producing the trust tier we gate on (none → registered → verified → trusted → full).\n\n• Zerodev provides kernel accounts for daemons, and pimlico provides the erc-4337 bundler rail.\n\n• World id via Agentbook NFT on base provides personhood proofs.\n\n• IPFS (via omnipin) stores aip manifest content, with lineage records pointing to cids.\n\nArchitecture: \n\nThe agent loop (tru agent run) runs as a recurring tick. Each cycle, it polls peers via agent-endpoint for advertised intents, matches them against locally enabled intents, then calls orchestrate(). orchestration resolves both parties through trl, fetches the recipient’s RiskPolicy at blockTag: finalized, and applies a five-gate check: manifest lineage intact, manifest signature valid, both sides’ acceptedTokens constraints, and tier/size caps. \n\nIf all checks pass, it requests an EIP-191 attestation from the oracle, then submits an ERC-4337 userop through kernel + pimlico that calls TrustSwapRouter.execute(). onchain, the router verifies the oracle-signed attestation against its configured owner key, then forwards the trading api calldata to universal router via low-level call(). \n\nResult: Uniswap sees a normal swap path, while agents get trust-gated settlement that only executes when both sides’ published constraints already agree off-chain.",
+  "auto_summary": "A monorepo for trust-gated agent-to-agent token swaps that uses ENS-based metadata, an off-chain oracle, and a router around Uniswap execution.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/trust-swap-6zgfp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

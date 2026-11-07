@@ -1,0 +1,29 @@
+{
+  "id": "tvja4",
+  "slug": "debacle",
+  "title": "debacle",
+  "tagline": "The Autonomous Settlement Layer for Intent Markets - Agents settle onchain using LIFI ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tvja4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MnrNeEMil9H3e8ildutPGLrSGquT3qZN7dZcJ4B1sto/high.mp4",
+  "demo_url": "https://github.com/star-gazer111/debacle",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Decentralizing execution through an army of specialized agents. Submit your intent in plain text; our Orchestrator settles it on-chain using ENS identities, Li.Fi cross-chain routes, and Yellow Network clearing automating all possible DeFi workflows under a single prompt.\n\nWant to earn yield on your idle USDC? Want to buy ETH? Want to directly transfer your BTC in $ to your Mom?\nEvery such action is treated as an intent and can be performed in a single prompt via a network of specialized & secure agents present on the network.\nAll agents that get registered on the marketplace have their unique ENS names as identities & also have to mandatorily perform KYA (Know your Agent) for participating in the network.",
+  "how_its_made": "Orchestrator (backend): FastAPI service (app/orchestrator_server.py) exposing chat/orchestration and registry endpoints. It lazy-initializes an orchestrator agent that can analyze intents, discover agents, verify KYA metadata, and delegate work.\nArchitecture Diagram\n\nAgent Registry (discovery & reputation): In app/core/agent_registry.py. Holds AGENT_REGISTRY with AgentInfo metadata (id, type, endpoint, KYA, score, reputation, metrics). Supports ENS-based discovery and KYA verification, and selection algorithms (select_best_agent).\n\nWorkers & Tools (execution layer): Workers in app/workers/ implement concrete flows (swap, bridge, rebalancer). Tools in app/tools/ provide building blocks for swaps/bridges (e.g., lifi_tool.py, wrap_eth_tool.py, complete_swap_tool.py). Orchestrator delegates to workers or calls tools directly.\n\nSmart Contracts: Contracts in contracts/src/ (e.g., MasterAgent.sol, AgentFactory.sol, Agent.sol) provide on-chain routing and execution primitives. Deploy/scripting is in contracts/script and broadcast.\n\nFrontend: React + Vite app under frontend/ offering agent lists, deployment UI, and a chat-based orchestration interface that uses the orchestrator API.\n\nData & State: Off-chain state includes orchestrator session state, registry metrics, and KYA cards. On-chain state includes MasterAgent and AgentFactory/Agent deployments. The current registry is in-memory/dummy (replaceable by a DB).\n\nIntegrations / Sponsor details:\nLiFi (li.quest): Route discovery, swapping, depositing on Aave, opening a perp position onchain.\nWhere used: app/tools/lifi_tool.py and any worker that performs bridging.\nConfig: LIFI_API_URL, LIFI_API_KEY in app/config.py.\nNotes: validate quotes, token decimals, slippage and required approvals before executing.\n\nYellow Network (Nitrolite): sessioned off-chain transfers, channel lifecycle, adjudicator settlement.\nWhere documented: YELLOW_INTEGRATION.md (step-by-step blueprint included).\nWhere used: channel/session flows in workers/tools that need instant off-chain transfers or channel-based funding.\nNotes: always wait for L1 confirmations for create_channel and preserve proof_states for resize/close flows.\n\nENS: decentralized agent identity and KYA metadata hosting.\nWhere used: app/core/agent_registry.py for resolution and KYA parsing.\nConfig: ENS_ENABLED, ENS_RPC_URL, ENS_CACHE_TTL, and ENS_KYA_PREFIX in app/config.py.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/debacle-tvja4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

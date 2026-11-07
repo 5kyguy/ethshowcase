@@ -1,0 +1,41 @@
+{
+  "id": "76sd6",
+  "slug": "0xsauce",
+  "title": "0xSauce",
+  "tagline": "On-chain blacklisted NFT oracle; A guard to the future NFT financialization. Let's get saucy with your NFTs!!",
+  "event": {
+    "slug": "ethonline2022",
+    "name": "ETHOnline 2022",
+    "start_time": "2022-09-02T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/76sd6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7VNorS9I008LYWpYu01l5w00pTUgtaPySbpo7YRML02u2gI/high.mp4",
+  "source_url": "https://github.com/lljxx1/0xsauce",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline Finalist",
+      "title": "ETHGlobal"
+    },
+    {
+      "sponsor": "Covalent",
+      "sponsor_id": "f7o0p",
+      "placement": "🥈 Covalent — Best Use",
+      "title": "Covalent"
+    },
+    {
+      "sponsor": "IPFS & Filecoin",
+      "sponsor_id": "s0vuq",
+      "placement": "🏊‍♂️ IPFS & Filecoin — Pool Prize",
+      "title": "IPFS & Filecoin"
+    }
+  ],
+  "finalist": true,
+  "description": "According to this Dune Analytics dashboard and by the end of July 2022, NFTs blacklisted by the marketplace came to 24,000 ETH. This number is according to the floor prices of each aforementioned NFT collection. Centralized marketplaces such as OpenSea blacklists an asset and prevents it from trading after it is tagged as stolen or suspicious. With the emergence of more and more decentralized NFT financialization protocols such as NFT AMM, NFT loan, or NFT fractionalization, there is a solid need to source the NFT before a user can trade or perform other financialization tasks. Otherwise, blacklisted NFT will flow into the permissionless decentralized protocols and cause unfair trading for the user. The initial motivation for 0xSauce is to build an NFT sourcing oracle as a guard for future NFT financialization.\n",
+  "how_its_made": "To address the issue above, 0xsauce will provides three services: \n\n1. An on-chain NFT source oracle that saves blacklisted NFT item ID with its collection address. \n2. A website( 0xsauce.xyz) that can allow users to check if a specific NFT item is tagged as suspicious. \n3. A EPNS message notifier that updates the newest blacklisted NFT item information to address who enables the notification setting. \n\nThe data source:\n\nOur current blacklisted NFT data come from two sources: NFT marketplace snapshot such as OpenSea and blockchain security groups such as SlowMist and Scam Sniffer. The first source is constantly snapshotting OpenSea blacklisted tags and updating to 0xSauce dynamic DB. The second source is that we monitor all the NFT scam addresses that are tagged by blockchain security organizations and we blacklist the current holding NFTs in the scam address or any incoming NFTs. This is our current approach to reaching blacklisted NFT data. This method is still quite centralized and exposed to certain attacking risks. We have a few ideas to improve the existing data sourcing platform and we would love to hear any suggestions from you.\n\nThe Oracle Architecture:\n\nThe general idea is to collect blacklisted NFTs and store these data in the blockchain through a smart contract. Other NFT Dapps can call the 0xSauce contract to check if the specific NFT is suspicious or not before a user initiates an NFT financialization task. However, storing and updating each blacklist item and corresponding collection is expensive. We come up with the idea of performing Merkle tree as data verification and synchronization. The generated root is 32 bytes. Instead of storing all the blacklisted addresses with a specific ID, we only need to store a 32-bytes root. When the dynamic database updates and monitors a change in blacklisted items, 0xSauce oracle will generate a new Merkle tree and update the most current root to the blockchain.\nThe leaf of generated Merkle tree is then stored publicly and permanently on IPFS.  For the convenience to query the proof, we have created a subgraph in The Graph. Other Dapps can easily query the most updated token proof in the 0xSauce subgraph. \n\nAmazing Protocols Used in Our Project:\n\n@Polygon We deployed our NFT Oracle contract on Polygon mainnet to build a healthy NFT ecosystem on Polygon. Link: https://polygonscan.com/address/0xBcD3e73d06E1F2B546cca0BA0686c466Ac396192\n\n@Optimism We deployed our NFT Oracle contract on the Optimism mainnet to build an NFT infrastructure and together we can build a healthy NFT ecosystem on Optimism. Link:https://optimistic.etherscan.io/address/0xBcD3e73d06E1F2B546cca0BA0686c466Ac396192\n\n@IPFS & Filecoin We are using IPFS storage to host and publish the blacklist NFT Merkle tree data. Since the Merkle tree proof is an essential part of our oracle, the leaf of generated Merkle tree should be stored publicly and permanently. We pinned each NFT collection Merkle tree data to IPFS and here are the links. Link: ipfs://QmP5cySG7cCJSW7fQJXriUDdUQ7dACXpxmLHoDZm6NiN2s; ipfs://QmVkaY3vq7uRXsSXT77uAgbpRnRnbusdWvsCrpqoC4uLh6; \nipfs://QmWEStk6ik9xC6oH6pHfCujBEmapRE3BRgih5LYF9MtDDY;\nipfs://QmV9X8FSCDWc1jiAvFnNafhxFmMSYfLprg5VjBeJpUiXhz;\nipfs://QmartzWuNMPXQaM85fnAUz5i7EVaZ7Ch23Sf8yrotqMRcP;\nipfs://Qmc9njMV5uvEN6aM48TtocQ5SEXom13fN8jDokKHXFCA2D\n\n@The Graph We have created a subgraph in The Graph to share 0xSauce proof. Other Dapps can easily query the most updated token proof in the 0xSauce subgraph. 0xSauce Subgraph. ID: QmTCo1cNSoTDZmpcNXvSwpjyerGHo7ubniPPYfxAz8dWrc; Link: https://thegraph.com/hosted-service/subgraph/lljxx1/0xsauce-dev\n\n@EPNS We implemented EPNS notification in our front-end web. We also set up our EPNS channel. Users who opt-in to our channel will be pushed to the hottest NFT blacklisting information. Link:  https://app.epns.io/#/channels?channel=0xEf0D8F546880d1D41e7F35c5BA06a43C7F42FF2f\n\n@Covalent We implemented amazing covalent services to lookup blacklisted addresses and monitor the most recent transactions of these addresses. The API we called is : https://api.covalenthq.com/v1/1/address/${address}/transactions_v2/?key=${Covalent_API}&page-size=${size}. \n\n@ QuickNode We used QuickNode services to deploy contracts on Ethereum Mainnet. QuickNode provides great node services and have amazing add-ons. Our RPC has the Flashbots Protection and Single Flight RPC added. \nRPC: https://light-little-sanctuary.discover.quiknode.pro/6556bef83624e969dc756ac0219251b786433890/\n\nFor more info: https://medium.com/@0xsauce/about-0xsauce-62cae2763f53\n\nOur Twitter handle: @0xSauce_xyz\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/0xsauce-76sd6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

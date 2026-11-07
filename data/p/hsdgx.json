@@ -1,0 +1,27 @@
+{
+  "id": "hsdgx",
+  "slug": "rebalanced",
+  "title": "Rebalanced",
+  "tagline": "Autonomous DeFi agent on Hedera paying real x402 HBAR for live yield data to rebalance a vault.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hsdgx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/43XFExYBPTOpTuzgCx7wyKKao8TUgsHdVnNbK57f01M8/high.mp4",
+  "demo_url": "https://ethglobal-ai-rebalancing-vault.vercel.app/",
+  "source_url": "https://github.com/AlejandroPanos/ethglobal-rebalanced",
+  "finalist": false,
+  "description": "Rebalanced is an autonomous DeFi agent built on Hedera that manages a real, deployed vault contract. Anyone can connect a wallet, mint testnet mUSD, and deposit into the vault to receive shares. It is a standard, tested vault-share accounting with dilution protection.\n\nAn off-chain agent runs continuously, checking a paid \"yield signal\" service every 60 seconds to decide whether the vault should shift its strategy between conservative and aggressive lending. That signal is grounded in real market data via live Uniswap V3 pool APYs sourced from DefiLlama. To access it, the agent pays a genuine HBAR micropayment per request using the x402 payment protocol, settled through the Blocky402 facilitator on Hedera testnet.\n\nWhen the data favors a new strategy, the agent calls the rebalance() function on-chain and immutably logs its reasoning to Hedera Consensus Service (HCS), giving depositors a transparent, tamper-proof audit trail of every decision. A live dashboard lets anyone watch this happen in real time, alongside their own deposit and withdrawal activity.",
+  "how_its_made": "The stack spans four independent packages in one monorepo:\n\n1. Contracts: a Solidity vault (Foundry, OpenZeppelin) with standard ERC4626-style share-price accounting, full custom-error/event coverage, and an extensive test suite including a deliberately constructed desynced-accounting scenario (via deal()) to prove the withdrawal math can't be pushed into an unsafe state. Deployed to Hedera testnet, and since Hedera is EVM-compatible, this is a completely normal Foundry deploy, just pointed at Hedera's JSON-RPC relay (Hashio).\n\n2. Agent: Node.js/TypeScript, using ethers.js for the EVM side (reading vault state, calling rebalance()) and the native @hiero-ledger/sdk for Hedera Consensus Service logging – two separate client setups for the same account, since HCS has no Solidity ABI. Payment uses the real @x402/core, @x402/hedera, and @x402/fetch packages, settled through Blocky402's live testnet facilitator using Hedera's \"exact\" payment scheme (partially-signed transactions).\n\n3. Signal service: Express + @x402/express middleware handling the full 402/verify/settle flow server-side, serving real yield data pulled from DefiLlama's public API – comparing a stablecoin Uniswap pool's APY against a volatile pool's APY to make its recommendation.\n\n4. Frontend: React/Vite/Tailwind, reading live contract state via JSON-RPC and the agent's decision history via the Mirror Node REST API, deployed statically to Vercel. Wallet connect, deposit/withdraw, and a testnet faucet are all real signed transactions from the user's own wallet.\n\nThe gnarliest hacky bits: Hedera's Hashio RPC relay is a load-balanced node pool that doesn't always agree on state instantly, which caused intermittent \"insufficient allowance\" reverts even with a correct on-chain approval – fixed by passing explicit gas limits rather than trusting eth_estimateGas, and adding --legacy --slow flags to multi-transaction Foundry deploy scripts to avoid nonce-ordering races across relay nodes.",
+  "auto_summary": "A Hedera-based DeFi vault uses an off-chain agent to buy yield data, rebalance a Solidity vault, and log decisions to Consensus Service.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/rebalanced-hsdgx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

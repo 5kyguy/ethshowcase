@@ -1,0 +1,27 @@
+{
+  "id": "2gefb",
+  "slug": "marumaru",
+  "title": "MaruMaru",
+  "tagline": "Borrower-owned financial passport proving financials qualify for loan without sharing any documents.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2gefb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/acihvXSbKGYBC9MTqyX9qKwAnwybF5x6PtS91WWMsZM/high.mp4",
+  "demo_url": "https://marumaru-5hb0feieb-devds-projects-0114b344.vercel.app/",
+  "source_url": "https://github.com/DevDiner/marumaru",
+  "finalist": false,
+  "description": "MaruMaru (まるまる / 〇〇) is a borrower-owned financial passport for proving that you qualify financially without repeatedly handing over payslips, bank statements, or raw financial data.\n\nA borrower verifies themselves with World ID, proves financial facts such as income, savings and debt-service ratio, and receives an ENSv2 passport such as aiko.marumaru.eth. Instead of exposing the underlying numbers, the passport carries machine-readable qualification marks such as income ✓, savings ✓ and human verified.\n\nWorld ID anchors the passport to a human rather than just a wallet, allowing MaruMaru to enforce one live passport per person and make same-person activity across lenders visible. ENSv2 makes the passport borrower-owned, portable, soulbound by default, expiring, and equipped with revocable lender consent.\n\nMaruMaru is designed first for mortgage pre-qualification, where borrowers currently over-share sensitive documents simply to learn whether they qualify. It does not replace final regulated underwriting; it minimizes disclosure before that stage. The long-term direction is to extend the same borrower-controlled consent model to encrypted document release for the lender ultimately chosen by the borrower.\n\nThis matches the guide’s intended positioning: the ENS name is the passport, the app is merely its control surface, and the product is explicitly a pre-qualification/disclosure-minimization layer rather than a replacement for regulated underwriting.  \n",
+  "how_its_made": "MaruMaru combines World IDKit v4, Reclaim zkTLS, ENSv2, Solidity, Node.js and ethers into a single borrower-controlled verification flow.\n\nWorld ID is the human layer. The backend verifies the IDKit result against World’s v4 verification API, captures the achieved assurance tier, and derives a one-way humanKey from the World nullifier rather than storing or exposing the raw nullifier. MaruMaru deliberately matches proof strength to the action: Selfie Check or Passport can be used for lower-stakes shopping/pre-qualification, while Orb Proof of Human is required when uniqueness becomes load-bearing for underwriting. The World credential therefore changes application behaviour rather than acting as a login decoration.  \n\nReclaim is the financial-proof layer. Financial values are verified and reduced to policy results such as pass or fail, so the borrower does not need to disclose the underlying figure to every lender. We also bind the World verification and financial proof to the same MaruMaru issuance session, preventing unrelated or replayed proofs from simply being combined into a new credential. In the reproducible offline demo, the banking step uses a real authenticated 401→200 session, a real Ed25519-signed attestation and real cryptographic tamper rejection; the bank and attestor are simulated, and Reclaim’s TLS-session binding is explicitly disclosed as the property the offline stand-in does not reproduce. \n\nENSv2 is the passport layer, not just a name attached to a database row. MaruMaruRegistrar.sol creates borrower subnames under our ENSv2 registry and writes scoped maru.* records for qualification marks. Enhanced Access Control restricts which records the registrar can write. Passports are soulbound by default by withholding transfer authority, carry freshness expiry, and lender grants can be created and revoked. We also withhold resolver-changing authority so a passport owner cannot point the name at a malicious resolver that fabricates passing marks. \n\nThe contract also contains a stronger permissionless path, mintWithProofs, where the borrower submits their own World and Reclaim proofs and the Solidity contract verifies them, binds the financial claims to the caller, derives the marks against immutable policy thresholds, and mints the passport without trusting an off-chain issuer. The same World-derived human key powers one-live-passport-per-human enforcement and the protocol’s same-person-across-lenders signal.  \n\nThe application itself is split cleanly: app/handlers.mjs contains the shared World/bank/attestation/issuance/lender logic, app/store.mjs provides the local/Vercel storage seam, and demo/server.mjs is only a thin HTTP adapter. The borrower-facing UI then provides three views: create the passport, manage the passport and lender sharing, and let a lender look up an applicant by ENS passport name.",
+  "auto_summary": "A borrower-controlled financial passport app that combines World ID, financial attestations, and ENSv2 subnames for privacy-preserving pre-qualification.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/marumaru-2gefb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

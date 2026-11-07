@@ -1,0 +1,40 @@
+{
+  "id": "zeufj",
+  "slug": "zkvoicekey",
+  "title": "ZKVoiceKey",
+  "tagline": "ZKVoiceKey is a protocol that allows users to recover their private keys using only their voice; by using Fuzzy Commit and ZKP, authentication is possible through a fuzzy match of voice without storing voice information directly on the blockchain.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zeufj/banner/default.jpg",
+  "source_url": "https://github.com/SoraSuegami/voice_recovery_circuit",
+  "prizes": [
+    {
+      "sponsor": "Reazon Holdings",
+      "sponsor_id": "bht2g",
+      "placement": "🥈 Reazon — Best Mass Adoption",
+      "title": "Reazon Holdings"
+    },
+    {
+      "sponsor": "Ethereum Foundation",
+      "sponsor_id": "362vt",
+      "placement": "🥷 EF — ZK, Semaphore, RLN, & Unirep",
+      "title": "Ethereum Foundation"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Tokyo Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "This project combines technologies such as zero-knowledge proof, machine learning, and smart contracts to enable users to recover their private keys. Traditionally, private key recovery methods have been limited by social recovery and device dependence. However, ZKVoiceKey allows users to register their own voice (biometric information) on the blockchain in advance, making it possible to recover the private key with just their voice in case it is lost.\n\nAmong the many types of biometric information, voice was selected for this project because it can be used to link a person's voice to a message (in this case, the transfer of an address).\n\nAt the time of registration\n\nThe user registers his/her voice (biometric information) in advance via a browser. Fuzzy Commitment is not biometric information itself, but rather a commitment, which increases security. Fuzzy Commitment is a secure way to manage biometric information as a commitment, not as a biometric itself.\n\nRestoration.\n\nThe user extracts features through a machine-learning model of speaker authentication as at the time of enrollment. Next, the user compares his/her biometric information with that stored on the blockchain. Fuzzy Commitment is able to recover the biometric bit sequence at the time of enrollment using error correction codes. This allows only the individual to authenticate, and creates a halo2-based zero-knowledge proof at the time of authentication. The created proof is sent to the on-chain contract for verification.\n\nThis allows the wallet to be tied from the old address to the new address.",
+  "how_its_made": "[Front-End].\n\nBuilt using React. The screen accepts voice input for voice registration and authentication, and the data is sent to the backend, where it can be checked for the sign obtained during authentication.\n\n[Back-End]\n\nThe backend is built mainly in Python, using a web framework called Flask.\n\nWe also used a machine learning model for speaker authentication called RawNet. This model takes raw speech data as input and outputs a feature vector of speech. This model is suitable for this biometric authentication scheme using Fuzzy Commitment. In addition, the ability to use raw voice data as input makes the model more suitable (compared to models that require preprocessing) for creating zero-knowledge proofs of inputs and outputs, which was not accomplished during the hackathon, but is the future work that we are considering.\n\nFuzzy Commitment is a technique that stores biometric information as a commitment and restores it when another biometric information sent during authentication is below a certain threshold using error correcting codes. This provides an increased level of security.\n\nThe part of the system that creates the zero-knowledge proof and sends it to the smart contract is built by Rust. halo2, a zero-knowledge proof protocol, is used.\n\n[Smart-Contract]\n\nSolidity\n\nThere are two types of smart contracts deployed on Arbitrum: Voice Recoder Contract and Wallet Contract. The Voice Recoder Contract enrolls and stores the user's submitted biometric information.\n\nOne Wallet Contract is assigned to each user who has registered his/her voice.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkvoicekey-zeufj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

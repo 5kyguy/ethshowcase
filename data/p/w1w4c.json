@@ -1,0 +1,27 @@
+{
+  "id": "w1w4c",
+  "slug": "speculum",
+  "title": "speculum",
+  "tagline": "Checks whether an AI agent's stated intent matches the transaction it is about to sign.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w1w4c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NL2WlgF0102qvcPPkBkAVe6nnJplvmKzXY4kF1N4y3F01Y/high.mp4",
+  "demo_url": "https://speculum.ochinimus.app",
+  "source_url": "https://github.com/seekdaseek/speculum",
+  "finalist": false,
+  "description": "In 40 consecutive Ethereum mainnet blocks on 13 September, speculum decoded 7,299 transactions. Of the 203 approvals that carried an amount, 59 were unbounded, nearly three in ten signatures granting a ceiling no token supply can ever reach. That traffic was not written for this project. It is what ERC-20 approval looks like on a normal morning.\n\nAn agent says it will approve exactly 100 USDC. It emits calldata. The signer signs bytes that nobody ever compared against the sentence. Nothing in that flow is malicious and nothing reverts, which is why it keeps happening.\n\nspeculum makes the agent declare what it is doing before it signs, then decodes the calldata on its own and compares the two. The decoder never sees the declaration, so the check cannot be circular. A match passes. A divergence blocks and escalates to a hardware confirmation. When the calldata cannot be decoded at all, speculum refuses rather than guessing, and says which of the two failures happened.\n\nFifteen named divergence classes so far. Wrong recipient, wrong token, wrong spender, an amount larger than the one declared, an approval that came out unlimited when a specific figure was stated, native currency riding along undeclared, and calls that transfer ownership or upgrade a proxy behind an otherwise ordinary looking transaction.\n\nSimulators already tell a human what state will change. They do not know what the agent claimed, so they cannot tell you that the two disagree. That gap is the whole product.",
+  "how_its_made": "The engine is Node and viem. decode takes a transaction and nothing else and returns what the bytes actually do. compare takes that plus the declared intent and returns a verdict with every reason attached. Calldata in the tests is encoded with viem rather than written by hand, so the bytes under test are real bytes and not strings that happen to parse.\n\nTwo bugs came out of the tests rather than out of reading the code. The branch separating an unknown selector from unreadable arguments was structurally always true, so every unrecognised call was mislabelled. And the bitfield that crosses from JavaScript into the Solidity event needed a test of its own, because a silent disagreement there would have miscounted every indexed verdict without ever failing loudly.\n\nThe contract stores nothing and emits everything, because the consumer is an indexer rather than another contract, and a check that costs twenty thousand gas is a check that gets skipped. It holds no funds and routes no calls, so it cannot become a point of failure inside a transaction it is judging. It also enforces one invariant: a clean verdict carrying findings, or a flagged verdict carrying none, is rejected rather than indexed as a contradiction.\n\nOn AI use, since the rules ask for it. Claude was used to do some work here, including this text, since English is not my first language and I did not want mistakes in it. What it could not do is establish that any of it was true. Every fact in the repository README came from running something: the Ledger needing a physical confirmation and returning 0x6985 when refused was established by pressing both buttons and then pressing reject on a real device, eth_simulateV1 was probed across five endpoints and works on two, and the contract was funded and deployed by hand to Base Sepolia. The model had asserted several of those confidently before they were checked, and was wrong about some. Three errors were caught by eye rather than by tests, including a co-author still showing on the repository after the model declared the history clean, because it had verified commit messages instead of the page a person actually looks at. The problem, the decision to build from scratch, the partner choices and the name are mine.\nThe root of the service negotiates on the Accept header, so an agent gets the JSON descriptor it needs to discover the price and a browser gets a page, one URL with no second copy to drift. The consumer is in the repo too: hedera/agent.js sends the unpaid request first on purpose, takes the price from the 402 rather than anything hardcoded, signs, and refuses to sign the check it was told to block.",
+  "auto_summary": "This project checks whether declared transaction intent matches actual calldata, records verdicts on-chain, and uses indexed history to influence signing decisions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/speculum-w1w4c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

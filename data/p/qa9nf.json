@@ -1,0 +1,29 @@
+{
+  "id": "qa9nf",
+  "slug": "zkyc",
+  "title": "zkyc",
+  "tagline": "Uses TLS Notary to enable users to prove they've previously done a KYC. Service providers can save costs and improve onboarding by using our blinded tokens",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qa9nf/banner/default.jpg",
+  "demo_url": "https://kyt.codes",
+  "source_url": "https://github.com/maceip/tlsn-verify",
+  "prizes": [
+    {
+      "sponsor": "Ethereum Foundation",
+      "sponsor_id": "362vt",
+      "placement": "🥈 Ethereum Foundation — Best use of TLSNotary",
+      "title": "Ethereum Foundation"
+    }
+  ],
+  "finalist": false,
+  "description": "When building infrastrucrue at my last company, KYC & KYT regulations required us to use a company that charged us per-attestation. zkyc allows users to prove they have previously done a KYC \"ceremony\", and share those attestations securely and privately with any future service provider. No more selfies or passport photos!\n\nWe used TLS Notary, which hijacks part of the TLS session key to create a MPC circuit that proves certain information was inside of that session. \n\nWe wanted a verifier to exist on chain but wasn't possible during the hackathon so we had to compromise and use the chromium implementation of privacy pass, a protocol that lets our off-chain verifier mint blinded tokens to users who attest successfully. Those tokens can be used seamlessly by any service provider who wants to speed up onboarding and reduce costs. \n\n\nWe burned about 12 hours trying to get the TLS Notary verifier compiled from rust to wasm using the arbitrum stylus / nitro / arbos machinery but due to size and wasm-bindgen and web-sys dependency issues we were unable to get it to work in time.\n\nWe think this is the first hackathon project to implement Private Stake Tokens and TLS Session MPC via TLS Notary.",
+  "how_its_made": "4 webservers:\nhttps://kyc.codes\nhttps://notary.kyc.codes\nhttps://verifier.kyc.codes\nhttps://newbank.kyc.codes\n\n2 Languages\nRust, Typescript\n\nERC4626 vault (on stylus -- arbitrum goerli) for commitments and future payouts\n\nA chrome browser extension that hijacks cookies out of KYC sessions and enables you to submit them to the verifier\n\nThanks to privy, our entire auth and wallet init stack was done with a few lines of code: users without wallets can use our tool without even knowing they are interacting with ethereum -- we have privy configured to pre-generate AA wallets for users so when they verify they already have on-chain real-estate.\n\nHEAVY use of IPFS libp2p (helia) for in-browser WEBRTC transport and peer discovery -> we store the attestations on IPFS using a combo of IPLD and a DHT\n\nOur last-mile hacky fix using tokes is using the freshly released  chromium Trust Token implementation for blinded tokens (https://github.com/WICG/trust-token-api) \n\nWe tried to get the tlsnotary verifier compiled into wasm and onto the arbitrum rust L2 stylus, but due to time (and WASM size!) constraints we decided to use blinded tokens to enable users to spend KYC tokens signed by the notary. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkyc-qa9nf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "1mvz7",
+  "slug": "bountynet",
+  "title": "BountyNet",
+  "tagline": "a prover network where agents get paid to fix your builds with llm tokens",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1mvz7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/usXRk7hlBKXJ4AxN2y9Pdf2iYqY9d700NHW01Yj701GhUs/high.mp4",
+  "source_url": "https://github.com/maceip/BountyNet",
+  "finalist": false,
+  "description": " BountyNet is an autonomous bounty marketplace where AI agents fix failing CI builds and get paid in EURC. A developer (staker) installs the\n  BountyNet GitHub App and stakes their Anthropic API key with a token budget per repo. When CI fails, BountyNet detects the webhook, hashes the\n  failure context, and creates an on-chain bounty on Arc. Autonomous solver agents discover the bounty, claim it, clone the repo, call Claude\n  through BountyNet's inference proxy (using the staker's API key — three-tier key resolution ensures stakers pay first), generate a fix, and submit\n   a PR through the GitHub App. When CI passes on the PR, a TEE oracle on Flare attests that the tests actually passed — not just that someone said\n  they did — and the proof is stored cross-chain. The bounty resolves: 70% EURC to the solver agent, 30% to the protocol, settled gaslessly via\n  Circle Smart Accounts. No human touched the code. No human approved the payment. Fully autonomous agentic orderflow from CI failure to EURC\n  payout.",
+  "how_its_made": " The gateway is a Flask/Starlette ASGI server that orchestrates the entire pipeline: GitHub App webhooks for CI failure detection, an\n  Anthropic-compatible inference proxy with per-bounty token metering via LiteLLM, and on-chain bounty lifecycle management. Smart contracts are\n  Vyper 0.4 on Arc Testnet — BountyEscrow for bounty creation/resolution/payout, IdentityRegistry for EIP-8004 agent identity NFTs,\n  ValidationRegistry for oracle proofs, and ResourceClaim (ERC-721) for staking compute. The TEE oracle runs as a Flare FCE extension in a Docker\n  container on EC2 — it signs CI proofs with a TEE-held key and stores attestations on Coston2 via ecrecover verification. ENS integration uses\n  CCIP-Read (EIP-3668) and ENSIP-25 for multi-chain agent resolution across Arc and Coston2. Auth uses Dynamic embedded wallets (no MetaMask) with\n  Circle Smart Accounts for gasless EURC transfers. The CLI is Rust (forked from mise), installable via curl | bash, and handles bounty join, bounty\n   bounties watch, and agent registration. The frontend is Vite + React 19 + Tailwind 4 with a custom Matra font, per-letter variable font hover\n  effects, and real-time event feed polling from the gateway. The solver agent is a Python script that polls for bounties, claims them, clones\n  repos, reads CI errors, calls Claude via the gateway's inference proxy, and submits PRs — all autonomously. We built adversarial simulation\n  testing (identity spoofing, double-claims, budget drain, oracle manipulation) and defended against 4/7 attack vectors. The hackiest part: the\n  inference proxy resolves API keys in a three-tier waterfall (staker's key → solver's key → platform key), so solvers never need their own\n  Anthropic account — they just burn the staker's compute budget.",
+  "auto_summary": "BountyNet automates CI-failure bounties by creating onchain tasks, routing AI-generated fixes into pull requests, and settling payouts after oracle validation.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bountynet-1mvz7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

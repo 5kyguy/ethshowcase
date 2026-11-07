@@ -1,0 +1,35 @@
+{
+  "id": "7re2h",
+  "slug": "axl-opentelemetry",
+  "title": "AXL OpenTelemetry",
+  "tagline": "Adding OpenTelemetry support for debugging AXL and invisible agents",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7re2h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Z01OTM7daaeHjfYOhOKrc700BE2DYwG7FzVFaqDSqtQPw/high.mp4",
+  "demo_url": "https://axl-otel-demo.boilerroom.tech",
+  "source_url": "https://github.com/Metroxe/axl-otel",
+  "prizes": [
+    {
+      "sponsor": "Gensyn",
+      "sponsor_id": "zaxt3",
+      "placement": "3rd place",
+      "title": "Best Application of Agent eXchange Layer (AXL)"
+    }
+  ],
+  "finalist": true,
+  "description": "axl-otel adds OpenTelemetry distributed tracing to AXL agent meshes. AXL is peer-to-peer, so the agents you call usually call other agents you don't own. axl-otel collects spans from every cooperating peer in the chain and routes them home to the originator, even from peers the originator never directly addressed.",
+  "how_its_made": "It's a Bun and TypeScript sidecar compiled to a static native binary. Standard OpenTelemetry over OTLP HTTP on the agent side, AXL's /send and /recv as the wire, Jaeger as the demo backend. No client library to import.\n\nEach agent points OTEL_EXPORTER_OTLP_ENDPOINT at the local sidecar. The originator drops its AXL peer ID into OTel baggage at workflow start, and the standard BaggageSpanProcessor stamps it on every span. The sidecar routes per-span. Local peer ID goes to the local backend, anything else ships over AXL /send to the originator, whose sidecar polls /recv and forwards to its own backend. Every cooperating peer ends up in one trace.\n\nAXL is honestly the whole reason this works. Its identity-addressed encrypted mesh is what makes a span routable home without a shared collector or a public endpoint, and the bundled MCP router unblocked the 5-agent demo without me writing transport glue.\n\nHacky part is using OTel baggage as a routing header instead of trace metadata. The standard processor already stamps it on every span, so routing falls out for free with no custom propagator.",
+  "auto_summary": "A Bun and TypeScript sidecar routes OpenTelemetry spans across AXL-connected agents back to the trace originator.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/axl-opentelemetry-7re2h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

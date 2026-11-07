@@ -1,0 +1,27 @@
+{
+  "id": "rd324",
+  "slug": "freeride",
+  "title": "Freeride",
+  "tagline": "Free AI inference until it runs out — then the agent pays for itself on Hedera via x402",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rd324/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9CPIphqZ9om6EqaSSLtZlLow7ecuBAzsYAn78ckwo9s/high.mp4",
+  "demo_url": "https://free-ride.xyz/",
+  "source_url": "https://github.com/Shaivpidadi/freeride-x402",
+  "finalist": false,
+  "description": "Coding agents run on free inference tiers, and free tiers run out mid-task. The usual\nanswers are a paid gateway you have to adopt, or a bare x402 meter you have to wire up\nyourself. FreeRide is neither.\n\nFreeRide is a local gateway that keeps the free tier working: it fans every request\nacross OpenRouter, Groq, NVIDIA NIM, HuggingFace, Cerebras and your own Ollama, with\nautomatic failover when one rate-limits or retires a model mid-session. When free\ngenuinely cannot serve, the agent buys the inference it needs — itself, on Hedera, in\nthe same terminal, with no subscription, no top-up and no human in the loop. Free stays\nfree; paying is the escape hatch.\n\nThree parts share one wallet. The gateway runs as a local daemon. A native terminal\ncoding agent (a fork of vercel-labs/fx) reads files, writes code and runs commands with\nevery model call served through it — and a paid turn says what it cost right in its\nfooter: \"37s (↑22 ↓120) · 0.001 HBAR\". And a set of always-on AI teammates (\"Bots\"),\neach with its own computer and browser, can buy paywalled resources mid-job: under the\njob's budget they pay and keep working, over it the run parks on an approval card and\nwaits for a human.\n\nThat last part is the argument. A bot that wakes you for every cent is not autonomous;\none that can spend without limit is not safe. A budget with a human backstop is what\nmakes an unattended agent trustworthy with money. The payer key never leaves the daemon,\nso a prompt-injected agent can ask for a payment but cannot take the wallet.\n\nA funded testnet payer ships in the package, so the whole thing works with no setup.",
+  "how_its_made": "The gateway is Python and FastAPI, serving five wire protocols (OpenAI, Anthropic,\nOpenAI Responses, Gemini, and Vercel's fx/AI-Gateway dialect) so existing tools work\nunmodified. The agent is Zig — a fork of vercel-labs/fx with FreeRide as its default\nprovider. The Bots are Next.js on the eve framework.\n\nHedera is the settlement layer. When free inference is exhausted, the daemon builds an\nx402 v2 PAYMENT-REQUIRED challenge, signs it with the Hedera SDK (@x402/hedera, ECDSA\nsecp256k1) in a Node helper, and posts it to the Blocky402 facilitator's /verify then\n/settle. That puts a CRYPTOTRANSFER on Hedera testnet — agent wallet debited, merchant\ncredited, facilitator covering the network fee — and only then does the paid request\nrun. The response carries PAYMENT-RESPONSE and the transaction id.\n\nTwo things worth calling out. First, the payer key is deliberately trapped in the\ndaemon: agents POST payment requirements to a localhost endpoint and get back a\nready-to-send PAYMENT-SIGNATURE, so they need no Hedera dependencies and never see the\nkey. That endpoint enforces its own ceiling, a network check and an optional payee\nallowlist, because unlike the inference lane the caller now chooses both amount and\npayee. Second, the Bot spending policy is not bolted on — eve's approval hook is an\nasync function with access to the tool input, so the budget check *is* the approval\ngate, and spend is summed from the durable activity feed rather than a counter, so the\nnumber enforced is the number you audit.\n\nHackiest bit: free-first means the cash lane is invisible whenever free works, which\nmade it impossible to demo without deleting your own provider keys. So there's a\nruntime switch — /paid on inside the agent, flipped in the daemon's memory, deliberately\nnot persisted so an abandoned demo can't leave the wallet spending.",
+  "auto_summary": "A multi-component local AI gateway routes model requests across free providers and uses Hedera-backed x402 payments when paid inference is required.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/freeride-rd324",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

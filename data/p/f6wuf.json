@@ -1,0 +1,27 @@
+{
+  "id": "f6wuf",
+  "slug": "alpha-ledger",
+  "title": "Alpha Ledger",
+  "tagline": "Spin up agents w/ENS subdomains, delegate—swap & prediction markets from alpha & what it sees.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f6wuf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1DkoJOX3wH7y01hzxycEGSI3clGfafcvoSThxCImrtG00/high.mp4",
+  "demo_url": "https://predict-intelligence-ui-pi.vercel.app/",
+  "source_url": "https://github.com/dayksx/predict-intelligence",
+  "finalist": false,
+  "description": "Alpha Ledger helps users spin up autonomous agents tied to human-readable ENS identity under agentic.eth on Sepolia, not just a wallet address. Through the Next.js app they register a subdomain and publish records: focus domain, thesis prompt, delegated ETH, and metadata; so every agent has an on-chain profile that downstream systems can trust.\n\nThe dashboard lists the user’s agentic subdomains and links into a per-agent console: delegation metrics, a venue-level P&L view (swap / perps / prediction markets), wins vs losses, net trading P&L and book, plus an outcome-style visualization beside a live agent sidebar. Activity sections show how the agent perceives, reasons, and acts—aligned with how the wider stack ingests markets and ENS profiles and drives scheduling and execution (listener + AI pipeline in the repo).\n\nThe dapp is LIVE.",
+  "how_its_made": "Frontend: Next.js (App Router) with wagmi, viem, and ConnectKit on Sepolia. Users register a subdomain under agentic.eth via a custom Solidity registrar that calls ENS NameWrapper, and publish text records — thesis, delegated amount, avatar — directly on-chain. The agent console UI reads from the API to render Perceive / Reason / Act activity in real time alongside a P&L chart per venue.\n\nListener: A continuous Node.js poller that ingests Polymarket/Gamma markets, classifies them by domain, maintains a JSON market registry, and pushes episodic market data into Graphiti. A parallel ENS poller watches the agentic.eth subgraph on Sepolia, fetches each agent's text records, and writes profiles to disk for the AI to consume.\n\nAI agent: A LangGraph pipeline (ingest → retrieve → reason → validate → preflight → act → record) that reads the market registry and queries Graphiti for relevant memory episodes, then reasons with an LLM conditioned on the agent's ENS thesis. Graphiti acts as a Neo4j-backed temporal knowledge graph — giving each agent persistent, queryable context across cycles. Swap decisions execute live via Uniswap's Trading API; prediction-market orders are structured and logged per agent.\n\nAPI: An Express + SQLite data hub exposing /perceive, /reason, /act, /profile, and /ingest routes with Swagger docs. The UI calls these to populate the agent console tables and the AI writes activity back through the same layer.\n\nSmart contracts: A Foundry project with AgenticSubdomain.sol — a minimal registrar that wraps ENS NameWrapper's setSubnodeRecord to mint *.agentic.eth subnames on Sepolia, with deploy, approve, and register scripts.",
+  "auto_summary": "A multi-service app that registers ENS subdomains for agents and runs an AI trading workflow with API-backed activity and market ingestion.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/alpha-ledger-f6wuf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

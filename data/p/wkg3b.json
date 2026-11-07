@@ -1,0 +1,29 @@
+{
+  "id": "wkg3b",
+  "slug": "invisible-empires",
+  "title": "Invisible Empires",
+  "tagline": "Invisible Empires is a fully on-chain implementation of the Risk board game. Built with Mina protocol, we prove that all game execution factors (such as allocating territory and rolling dice) is fair and trustless.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wkg3b/banner/default.jpg",
+  "demo_url": "https://invisible-empire.vercel.app/",
+  "source_url": "https://github.com/invisibleempire/contracts",
+  "prizes": [
+    {
+      "sponsor": "Mina Protocol",
+      "sponsor_id": "6wi0d",
+      "placement": "🥉 Mina — Best Use",
+      "title": "Mina Protocol"
+    }
+  ],
+  "finalist": false,
+  "description": "The project aims to create a decentralized implementation of the popular board game \"Risk\" using the Mina protocol. The game will allow players to compete against each other in a virtual world and conquer territories using armies, just like the traditional game.\n\nThe game will be implemented as a smart contract on the Mina blockchain, which will handle all the game logic, player actions, and state transitions. The smart contract will be written in Typescript and all the logic that runs will be generated into a proof that is verified on the Mina blockchain.\n\nThe game has a user-friendly front-end interface that allows players to interact with the smart contract and participate in the game. We allow a maximum of four players. Territories are currently laid out as a grid of buttons, but will soon look like a map as in the Risk game. The front-end interface is built with Next-js.\n\nPlayers will be able to join the game by signing in with their Mina wallet. They will be assigned random territories across the map with each territory having 7 troops. They will then be able to deploy their troops to different territories on the game board and attack other players' armies. The game will be simultaneous, meaning players can attack as they choose as long as they have the troops to do so.\n\nThe game will incorporate the Poseidon hash function to determine the outcomes of battles, making it more unpredictable and exciting. We determine if the hash of the two player id's & the attacking player's nonce is even or odd, then use that to determine which side wins the battle and defeats the opposite troops. We wanted to use a recursive proof to verify the Poseidon hash in batches, but had a time constraint and had to move onto other things.\n\nOverall, the project aims to provide a fun, engaging, and decentralized gaming experience to players around the world, while leveraging the unique features of the Mina protocol to ensure fairness, transparency, and security.",
+  "how_its_made": "This project is fully built on Mina protocol. We implemented the entire project in Typescript. Our smart contract implements functions for starting a game, playing a move, and verifying a player. Our helper class defines a struct for a Territory and implements functions for attacking, serializing our state Field element (will discuss later), claiming & transferring territory ownership, checking for winners, and rolling the hash dice. \n\nWe used the Poseidon hash function to add some randomness to the dice roll. As described earlier, we used the attacking and defending user's id's + the attacking user's account nonce to generate a unique hash. If that hash was even, we'd give the attacker the win. If odd, the defender won. \n\nOne hacky thing in particular that we did was represent the entire game state with one 256 bit Field element. The first 80 bits were used to represent the 16 territories using 5 bits each. The first 2 bits defined the player that owned it, the last 3 bits defined the amount of troops that were left. We then used 16 more bits to count the number of territories each player owned. they all started with 4, but if someone reached 1111, they won the game. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/invisible-empires-wkg3b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

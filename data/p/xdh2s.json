@@ -1,0 +1,27 @@
+{
+  "id": "xdh2s",
+  "slug": "ringo",
+  "title": "Ringo",
+  "tagline": "Tweet-native challenges in USDC. The agent reasons over The Graph. World ID guards the credit.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xdh2s/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sS6IcyzZcvFuMzL52rOimiO01rVBHbuKVvmBidml8umg/high.mp4",
+  "demo_url": "https://ethonline.joinringo.xyz",
+  "source_url": "https://github.com/joinringo/ringo-ethonline-2026",
+  "finalist": false,
+  "description": "Ringo turns a tweet into a real-money challenge. Someone replies to a post, another person takes the opposite side, and it settles in USDC on Polygon through an order book and the RingoManager contract. That platform has been live since September 2025 and is closed source. None of it is submitted for judging.\n\nThis is a Continuity entry, and two things were built during the hackathon.\n\nThe first is an index of Ringo's own contracts. Until this week the agent could answer questions about a single position but knew nothing about the history it had created. A subgraph now indexes every creation, resolution and fee transfer on Polygon, and a new agent tool answers questions from it in natural language. It also gives the agent a base rate: when someone opens a new challenge, the agent looks up how comparable questions actually resolved and suggests a price from that rather than from nothing. The public dashboard reads every figure it shows from that index, with no database fallback, so if the index is wrong the page is visibly wrong.\n\nThe second is proof of personhood in front of free money. Ringo gives new users one free credit. One human with three accounts was getting three credits, and no email or wallet check can fix that. A World ID verification service now sits in front of the grant, and a unique index on the nullifier makes a second claim by the same person a no-op rather than a payout.",
+  "how_its_made": "The subgraph indexes RingoManager and USDC fee transfers on Polygon, and it exists because the private ABI never arrived. We recovered it from the chain instead: matching keccak256 of each candidate signature against the topic0 the contract emits, then reading the LOG opcode after each of those constants in the unverified implementation's runtime bytecode to learn which parameters are indexed. Three of our four guesses were wrong. Deploying the guess would have decoded every amount one word off, producing plausible numbers that were all incorrect.\n\nOne consequence shapes the schema. ringoId is an indexed dynamic bytes, so the event topic holds keccak256 of the value and never the value itself, and it cannot be recovered from calldata because every Ringo transaction is an ERC-4337 UserOperation. Entities key on the topic hash, and callers hash before querying.\n\nThe World ID service has zero runtime dependencies: node:sqlite for the nullifier store, node:test for its 43 tests. It fails closed on every path, including a redirect from an upstream that answers yes, and it takes the nullifier from World's verification response rather than from the client payload, because a client controls its own request body and not what World says back.\n\nThe most useful thing we found is a documentation bug. World's published personhood example uses a preset that returns World ID 3.0 proofs only, and a v3 proof carries a different nullifier than a v4 proof for the same person. An integrator following that page and building a uniqueness guarantee on the result gets a guarantee that is silently absent, with every check still reporting success. We only caught it by reading the shipped type definitions instead of the page. Our gate now pins verification to exactly one protocol version rather than widening to accept both, which is the safe configuration nobody documents.",
+  "auto_summary": "This project adds a Polygon subgraph-backed analytics/agent layer and a World ID-gated free-credit service to an existing prediction market app.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ringo-xdh2s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

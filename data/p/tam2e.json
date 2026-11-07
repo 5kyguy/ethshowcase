@@ -1,0 +1,41 @@
+{
+  "id": "tam2e",
+  "slug": "sybil-game",
+  "title": "Sybil Game",
+  "tagline": "Sybil Game is an onchain live-trivia game with sybil resistance powered by World Id. Participants answer five rounds of multiple-choice questions about crypto and are rewarded from a $100 ETH prize pool upon survival.",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tam2e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/j7023ZPpZqNpNS6DMy3OSyHy7MTCNoCvAM02tg6SFAULo/high.mp4",
+  "source_url": "https://github.com/jakim929/sybil-game",
+  "prizes": [
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "🏊‍♂️ Worldcoin — Pool Prize",
+      "title": "Worldcoin"
+    },
+    {
+      "sponsor": "WalletConnect",
+      "sponsor_id": "46q4i",
+      "placement": "🔟 WalletConnect — Top 10",
+      "title": "WalletConnect"
+    },
+    {
+      "sponsor": "WalletConnect",
+      "sponsor_id": "46q4i",
+      "placement": "🧑‍💻 WalletConnect — 🥈 Best Use of Web3Modal",
+      "title": "WalletConnect"
+    }
+  ],
+  "finalist": false,
+  "description": "GAME CONCEPT\n\nSybil Game is the crypto-native version of popular live-trivia games like HQTrivia. \n\n- 5 rounds of crypto trivia questions with 4 answer choices, 1 correct answer\n- Participants are given 30 seconds to commit your answer on-chain in an “unrevealed” state. Failure to submit an answer results in a loss.\n- Participants are subsequently given 30 seconds to “reveal” their answer submissions on-chain. Failure to reveal their submission also results in a loss.\n- Correct answers advance participants to the following round until the fifth round.\n- Participants win after surviving all five rounds and are sent your portion of the ETH prize pool, split equally among winners.\n\nANSWER SUBMISSION MECHANICS\n\nAnswer Submission Phase\n\n- Participants are provided a generous 30 seconds to submit their answers on-chain to combat potential network congestion. Some users may try to game the system, but they risk not having their transaction included.\n- All answers are recorded on-chain in an \"unrevealed\" state to prevent front-running (e.g., querying what other participants submitted).\n\nAnswer Reveal Phase\n\n- Once the answer submission phase expires, participants have 30 seconds to \"reveal\" their answers on-chain.\n- The game host will then send the correct answer on-chain to compare vs participant answers.\n- Revealing a correct answer advances the participant to the next round.\n- Surviving the final round crowns the participant as a winner. They then receive ETH from the prize pool to their connected wallet.\n\nSYBIL RESISTANCE/WORLD ID\n\nSybil resistance is paramount in Sybil Game, to prevent multiple answer submissions and bots. \n\n- To ensure proof of personhood,  participants must verify and sign in with World ID using World App before they can join the game. The proof of personhood verifications do not reveal  information about the verification or the participant herself.\n- Further methods to verify personhood will be added in the future.",
+  "how_its_made": "SybilGame.sol is the main logic of the game.\n\nSIGN UP FLOW\n\n⁃\tWe guard the signup with an on-chain anonymous action from WorldID. We store the nullifier hash so that you cannot sign up twice using the same worldID for a game session.\n\n⁃\tThe user’s address is included in the signal for WorldID, so we know that the user cannot add a new address\n\n⁃\tYou need to register before the first round starts\n\nCOMMIT AND REVEAL SCHEME\n\n⁃\tIn order to prevent people from copying other people’s answers (by viewing them on chain), we added a commit and reveal scheme. Once a round starts, it starts in the commit stage. The host submits a question on chain. The player has x seconds to respond. The player submits a hash of their answer (which includes a nonce) Then the host submits the answer on chain. The player has x seconds to reveal their answer (answer and nonce), and if it’s correct, they get added to be able to play the next round. It is in the player’s incentive to reveal if it’s correct, since it’s the only way to move to the next level.\n\nSybillGameLauncher.sol serves two purposes, to make it easier for the host to launch new games, and to have a canonical place on change to store the latest game address.\n\nTECH STACK\n\n⁃\tVite\n\n⁃\tReact\n\n⁃\tTailwind\n\n⁃\tShadcn-ui\n\n⁃\tFoundry\n\n⁃\tWagmi\n\n⁃\tWeb3Modal\n\nFUTURE DIRECTIONS\n\n⁃\tAdd multi-day support. Your reputation would accrue each day you play.\n\n⁃\tOne click signup, right now user needs their own wallet. Since the scheme is sybil resistant, we can easily add a flow where the host pays for the user’s gas.\n\n⁃\tWe can also add email signup\n\n⁃\tPayout stage - we didn’t have time to do the payouts, but it should be an easy add.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sybil-game-tam2e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

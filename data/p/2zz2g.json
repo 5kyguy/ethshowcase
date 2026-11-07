@@ -1,0 +1,27 @@
+{
+  "id": "2zz2g",
+  "slug": "humanvote",
+  "title": "HumanVote",
+  "tagline": "Decentralized voting for competitions! Need fair voting?  Use our app!",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2zz2g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pNeHhdMj2LtbLlBeKfciuy00isYGRGy2w8g6CtevuLUA/high.mp4",
+  "demo_url": "https://github.com/christos-partasidis/HumanVote",
+  "source_url": "https://github.com/christos-partasidis/HumanVote",
+  "finalist": false,
+  "description": "HumanVote is a decentralized, fair voting platform for competitions that guarantees one human, one vote using World ID's biometric (Orb-level) verification. The platform lets users create competitions (hackathons, contests, Eurovision-style events, etc.), add entries, and cast votes that are verifiably unique per human per competition. Each vote triggers a World ID zero-knowledge proof to confirm the voter is a real, unique human: preventing bots, sybil attacks, and duplicate voting entirely.\n\nThe voting system uses a dual-layer architecture: votes are first stored in a Turso (libSQL) database as the source of truth, then recorded on-chain on World Chain Sepolia as a transparency layer. This \"best-effort on-chain\" design means that even if the blockchain transaction fails due to network congestion, the user's vote is never lost. The on-chain record serves as a public, auditable log that anyone can verify independently.\n\nUsers authenticate through World App's wallet (SIWE (Sign In With Ethereum)), and all protected routes require a valid session. The platform features a clean, mobile-first UI using World's Mini Apps UI Kit, competition listing with countdown timers, real-time vote counts with progress bars, and seamless in-app transactions via MiniKit. The smart contract (Solidity 0.8.24) enforces on-chain uniqueness through nullifier hashes, creating a fully trustless verification layer on top of the database.",
+  "how_its_made": "HumanVote is built as a Next.js 15 (App Router) full-stack application deployed on Vercel, with a Solidity smart contract on World Chain Sepolia.\n\nFrontend: React 19 + TypeScript + Tailwind CSS 4, using @worldcoin/mini-apps-ui-kit-react for World-branded components (TopBar, Tabs, Buttons). The app runs inside World App as a Mini App via the MiniKit SDK, which provides native wallet auth and transaction signing.\n\nAuthentication: Multi-layer — a random nonce is generated server-side, signed with HMAC, then the client calls MiniKit.commandsAsync.walletAuth() to get a SIWE signature. NextAuth (v5 beta) validates the SIWE message via viem.verifySiweMessage(), extracts the wallet address, and creates a JWT session. Middleware protects all /protected/* routes.\n\nDatabase: Prisma v7 ORM with Turso (hosted libSQL/SQLite). We use @prisma/adapter-libsql/web with explicit @libsql/client/web instantiation for Vercel serverless compatibility. One notably hacky detail: we had to cast the libSQL client with as any to bypass a TypeScript type mismatch between the libsql client and PrismaLibSql adapter — a necessary workaround for the serverless environment.\n\nWorld ID Verification: When voting, the client calls MiniKit.commandsAsync.verify() with Orb-level verification. The backend then validates the ZK proof against World's API (/api/v4/verify/{rp_id}), extracts the nullifier hash (unique per human), and enforces a @@unique([nullifier, competitionId]) constraint — one vote per human per competition.\n\nSmart Contract: Written in Solidity 0.8.24, deployed on World Chain Sepolia. It stores competition registrations and votes with nullifier-based duplicate prevention. CUIDs from the database are converted to bytes32 via keccak256(toHex(cuid)) client-side before sending transactions through MiniKit. On-chain writes are wrapped in try-catch — the DB is always the source of truth, blockchain provides transparency.\n\nNotable design: The \"best-effort on-chain\" pattern was a deliberate choice — recording votes on-chain for auditability without making it a hard dependency, so users never lose votes due to chain issues.",
+  "auto_summary": "A Next.js mini app for competition voting that uses World ID verification, Turso storage, and optional on-chain vote logging.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/humanvote-2zz2g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

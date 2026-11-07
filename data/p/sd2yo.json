@@ -1,0 +1,21 @@
+{
+  "id": "sd2yo",
+  "slug": "ontime",
+  "title": "onTime",
+  "tagline": "Because “I’ll send it later” needed a system. Split later, but onTime.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sd2yo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sUp6OfLY2SRnXjutZ9T56OWdeV00MypDllnIdq2JCUXU/high.mp4",
+  "source_url": "https://github.com/renisha18/onTime",
+  "finalist": false,
+  "description": "Paying the full bill upfront and later asking friends to settle their share sounds trivial, but for many people it’s socially uncomfortable and often delayed. This friction leads to awkward follow-ups, broken trust, and uneven financial responsibility. onTime addresses this problem by turning timely bill payments into a rewarding experience. By using ENS for simple identity, Yellow for seamless coordination, and ARC for incentives, onTime encourages users to pay on time and settle splits transparently—keeping friendships intact while making everyone happier and accountable.",
+  "how_its_made": "We've all been that friend who pays the full restaurant bill upfront, then awkwardly texts everyone asking for their share days later. Payments trickle in slowly, and you're stuck either pestering people or eating the cost. OnTime solves this with a simple premise: reward people for paying quickly.\n\n\nThe Architecture\nWe built a three-layer system combining Arc Network, Yellow Network, and smart incentives:\n\nLayer 1 - Arc Network (Blockchain): We deployed two Solidity contracts on Arc. ArcRewardToken (ERC-20) mints rewards when users pay, while BillSplit manages expenses and calculates time-based rewards: 2 ARC for instant payments (<1 hour), 1 ARC for fast payments (<24 hours), 0.5 ARC for normal payments (<7 days). Arc's EVM compatibility let us use standard OpenZeppelin contracts and deploy via Remix with zero modifications.\n\nLayer 2 - Yellow Network (State Channels): Here's where it gets interesting. We integrated Nitrolite SDK to solve the gas fee problem. When users create expenses, a Nitrolite session opens connecting to ClearNode via WebSocket. Payment notifications happen off-chain through state channels (gasless!), while final settlement happens on-chain. Instead of 10+ on-chain transactions per expense, we do 2 (create + settle) with everything between happening off-chain.\n\nLayer 3 - React Frontend: Built with Vite and wagmi v2 hooks (useWriteContract, useReadContract, useWaitForTransactionReceipt). The challenge was integrating Nitrolite, which requires viem clients not wagmi hooks. We dynamically create viem publicClient and walletClient instances, then initialize NitroliteClient with them. This hybrid approach uses wagmi for UI state and Nitrolite for state channels.\n\nThe result:\n\n No more awkward payment reminders. Create an expense, Yellow notifies participants gaslessly, they pay and earn Arc tokens. The technical architecture mirrors the user journey , minimizing gas, maximizing speed, incentivizing quick payments.\nTech Stack: Solidity 0.8.20, OpenZeppelin, Arc Network, Yellow Nitrolite SDK, React 18, Vite, wagmi v2, viem v2, ENS resolution\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ontime-sd2yo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

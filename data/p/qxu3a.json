@@ -1,0 +1,21 @@
+{
+  "id": "qxu3a",
+  "slug": "crosschain-vault",
+  "title": "Crosschain Vault",
+  "tagline": "Cross-chain vault auto-farms Rootstock assets via LayerZero and bridges yield home.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qxu3a/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HX2OBbUTNDz4Y9RQTwQrYNyPmFiP7NP9Srn4FcXjZgY/high.mp4",
+  "source_url": "https://github.com/codersharma2001/rootstock-defi",
+  "finalist": false,
+  "description": "This is a cross-chain yield vault that lives on Rootstock and Sepolia. You mint an omnichain fungible token (MyOFT), bridge it with LayerZero, farm the bridged liquidity, and then send the principal plus harvest back to your “home” chain—all from Hardhat scripts.\n\nAt the core is VaultLifecycleManager.sol, a controller contract that takes a “bridge ID,” pushes the bridged tokens into a farm (YieldFarmOFT or whatever strategy you point it at), tracks whether rewards should auto-compound, and knows how to exit the position. When you call lz:vault:return it harvests, unwinds a percentage of the stake, and hands the balance off to the existing lz:oft:send task so the assets hop back to the origin chain.\n\nCrossChainVault.sol and RewardsDistributor.sol were upgraded to LayerZero’s V2 messaging interface (the new MessagingFee struct) so every cross-chain message is compatible with the current endpoints. YieldFarmOFT now mints rewards into the contract, builds a proper SendParam, and invokes the LayerZero send path under the hood. Everything is wired through Hardhat with ethers v5 and LayerZero devtools: tasks handle bridging, peer configuration, farming, and returning; the README walks through the workflow; LayerZero config keeps endpoint IDs straight.\n\nIn short: it’s a scripted, contract-first pipeline that lets you deposit on Rootstock, bridge to Sepolia, farm, and bridge back with minimal manual glue, all using LayerZero’s OFT stack and a tiny lifecycle manager to coordinate the steps.",
+  "how_its_made": "Built it as a Hardhat mono-repo that stitches Rootstock and Sepolia together via LayerZero’s OFT stack. The core contracts are plain Solidity 0.8.22:\n\nMyOFT (ERC‑20 + OFT) for bridging,\nVaultLifecycleManager to babysit bridged positions,\nCrossChainVault/YieldFarmOFT handling vault math and rewards,\nLayerZero handlers (_lzSend, send/quoteSend) upgraded to the V2 MessagingFee signature so the cross-chain hops actually settle.\nHardhat stays on ethers v5 (@nomiclabs/hardhat-ethers) because LayerZero’s dev tooling still leans on it, which meant a little hackery: wrapped return types, BigNumber math, and ethers.utils.* everywhere after briefly trying ethers v6. The CLI workflow lives in TypeScript tasks (task/*), calling LayerZero’s devtools to resolve endpoint IDs, auto-configure trusted peers, and queue bridge/farm/return steps. README docs and two new tasks (lz:vault:farm, lz:vault:return) make the cross-chain loop a three-step flow.\n\nMost of the “clever” bits revolve around abusing Hardhat tasks to drive the lifecycle instead of building a UI, auto-wiring peers before each send, and faking a position “ID” by hashing the LayerZero bridge tx. No front-end—just scripts, LayerZero config, and Solidity.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/crosschain-vault-qxu3a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "cdv2j",
+  "slug": "tempo",
+  "title": "Tempo",
+  "tagline": "A SwapVM instruction that gives a 1inch Aqua strategy memory of its own fill history",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cdv2j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RU01ug6VRhrykC8K302v5FnTQJY00YJzsN8SvPCVec2fog/high.mp4",
+  "demo_url": "https://tempo-ysu3.onrender.com/openapi.json",
+  "source_url": "https://github.com/intelligent-ears/Tempo",
+  "finalist": false,
+  "description": "Tempo is a custom instruction for 1inch's SwapVM. A maker ships a bytecode program that prices their swaps; Tempo hooks in through the Extruction opcode as a separately deployed contract, tracking per-strategy fill velocity in persistent storage and widening the spread as velocity rises, saturating at a bound. It runs against the already-deployed Aqua registry and AquaSwapVMRouter on Base with no changes to 1inch's contracts.\n\nThe question was whether a strategy that remembers its recent fill history prices better than one that doesn't. To answer it I built a replay harness: real hourly ETH/USD price tapes, an arbitrageur sized endogenously from the pool's own quotes rather than a scripted trade list, and price-sensitive organic flow that walks away from bad execution. The control is Tempo against itself configured with a constant spread — same contract, same placement, same rounding, same gas shape — bracketed around Tempo's own realised average spread.\n\nThe result is negative. Adaptiveness does not beat a matched constant spread in any of nine tape and flow-mix combinations. An earlier version of this measurement reported the opposite; that finding came from a control with structural disadvantages and did not survive a fair one. The diagnosis is in ANALYSIS.md: in every configuration tested the decay window was shorter than the interval between trades, so the velocity ramp only ever activated on fills sharing a timestamp and was never exercised across ticks.\n\nAlso shipped: an HTTP API that encodes SwapVM programs and replays Tempo's pricing offline, live at https://tempo-ysu3.onrender.com with an OpenAPI spec at /openapi.json, exposed through a Bazantic x402 gateway.",
+  "how_its_made": "Solidity 0.8.30 and Foundry, tested against pinned Base mainnet forks using the live deployed Aqua registry (0x1111113ccf1426a8e30e2bff5e005d929bf6a90a) and SwapVM router (0x111111338c5091e8440b67b168bae16a668ac0de), verified byte-identical to swap-vm v1.0.1 and aqua v1.0.0 via Sourcify before building against them. Only my own contracts are deployed; 1inch's are consumed as pinned git submodules, never vendored.\n\nTempo is an Extruction target implementing IExtruction and IStaticExtruction, placed after XYCSwap in the program. It keys velocity state on orderHash, packs volume and timestamp into one slot, and takes a genuinely read-only path under isStaticContext — the router issues a STATICCALL to the target whenever quoting, so a write there reverts at the EVM level.\n\nThe replay harness runs both arms over identical tapes and seeds, with paired per-seed differences and a measured noise floor established against a pass-through stub before the real logic existed.\n\nFour bugs worth naming. The deployed router's opcode dispatch has an off-by-one: _opcodes() reuses the fixed array's memory as the returned dynamic array's length word, shifting every opcode index down by one, so XYCSwap is 17 and Extruction 32 rather than 18 and 33. That only surfaced by executing against the real contract. The gas measurement was biased by EIP-2929 warm/cold leaking between sequential swaps in one test function. The harness never advanced block.timestamp, making the decay window inert. And the first control arm used swap-vm's own Fee instruction, whose pre-curve placement was itself a confound — replacing it with constant-spread Tempo reversed the headline result.\n\nThe API is Python stdlib only, Dockerised, with the program encoding byte-matched against fixtures captured from real Foundry output.",
+  "auto_summary": "A Solidity and Python project that adds a custom 1inch Aqua SwapVM instruction and tests it on Base fork replays and via an HTTP API.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tempo-cdv2j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

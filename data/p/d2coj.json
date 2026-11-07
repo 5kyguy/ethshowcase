@@ -1,0 +1,22 @@
+{
+  "id": "d2coj",
+  "slug": "bridged",
+  "title": "Bridged",
+  "tagline": "A gasless 2-way Ethereum↔Tron bridge with 1inch Fusion+, hashlock timelocks.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d2coj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LkZ1196nAQQHAEgSQ7pIqx4gqCwDX7tK9gHRRyM01n8Y/high.mp4",
+  "demo_url": "https://bridged-beryl.vercel.app/bridge",
+  "source_url": "https://github.com/osas2211/bridged",
+  "finalist": false,
+  "description": "I built a fully end-to-end, cross-chain atomic swap system that lets me bridge my own ERC-20 tokens on Ethereum’s Sepolia testnet to TRC-20 tokens on the Tron Nile testnet—and back again—without trusting any centralized intermediary. On the front end, I connect my MetaMask and TronLink wallets, then initiate a swap by locking tokens into a hash-time-lock contract (HTLC) on one chain. Once that lock is confirmed, I switch chains and claim the corresponding tokens by revealing a shared secret. All of it happens in a single, intuitive UI flow: generate a secret, click “Lock,” and then “Claim.” The HTLC contracts enforce deadlines and cryptographic proofs so that either both sides of the swap complete or both sides refund, guaranteeing atomicity.",
+  "how_its_made": "Smart Contracts\n\nETH_HTLC (Solidity, Hardhat)\nHolds ERC-20 tokens under a swapId.\nFunctions:\nnewSwap(bytes32 swapId, address receiver, uint256 amount, bytes32 secretHash, uint256 expiry)\nclaim(bytes32 swapId, bytes calldata preimage)\nrefund(bytes32 swapId)\nEmits Locked, Claimed, Refunded events for on-chain monitoring.\n\nTRX_HTLC (Solidity, Tron compiler)\nMirrors ETH_HTLC logic for native TRX via msg.value.\n\nDeployment & Testing:\nUsed Hardhat to compile, deploy, and test ETH_HTLC on Sepolia (and locally via fork).\nDeployed TRX_HTLC to Nile testnet using Tron’s CLI and TronWeb in scripts.\n\nNode.js Scripts\nswapData.json handshake:\nGenerates a random 32-byte secret → secretHash = keccak256(secret).\nComputes swapId = keccak256(abi.encodePacked(secretHash, sender, receiver, expiry)).\nStores { swapId, secretHash, timelock } for both chains.\n\nscripts/lock_eth.js\nReads swapData.json.\nApproves ERC-20 spending.\nCalls newSwap(...) on ETH_HTLC.\nSurfaces revert reasons via contract.callStatic before sending.\n\nscripts/lock_tron.js\nReads the same swapData.json.\nUses TronWeb to translate base58 → hex addresses.\nCalls lock(...) on TRX_HTLC with msg.value.\n\nKey Integrations & Hacks\ncallStatic + provider.call to pre-validate on-chain calls and decode revert messages—essential for rapid iteration on testnets.\nSingle JSON file as a “stateless” bridge between scripts—no backend server or database needed.\n\n.env to securely manage private keys, RPC endpoints, and contract addresses.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/bridged-d2coj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

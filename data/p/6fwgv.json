@@ -1,0 +1,35 @@
+{
+  "id": "6fwgv",
+  "slug": "ensgateway-arbitrum",
+  "title": "EnsGateway❤️Arbitrum",
+  "tagline": "This hack involves an Arbitrum integration for the EVMGateway to retrieve any data from Arbitrum using ERC-3668 CCIP-Read.",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6fwgv/banner/default.jpg",
+  "demo_url": "https://github.com/ensdomains/evmgateway/pull/19",
+  "source_url": "https://github.com/AlexNi245/evmgateway",
+  "prizes": [
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Best Use of EVM Gateway",
+      "title": "Best Use of EVM Gateway"
+    }
+  ],
+  "finalist": false,
+  "description": "EVMGateway provides a novel approach to connect various EVM networks to ENS using ERC-3668 CCIP-Read, enabling permissionless data retrieval. This allows users to store data inexpensively on Layer 2 networks while retaining access to them on mainnet dApps. EVMGateway offers a generic solution for resolving data from any contract, not limited to ENS-related ones.\n\nArbitrum is one of the largest Rollups in the ecosystem, hosting dozens of communities and projects. Gas fees are much cheaper than on the mainnet, making it the perfect home for user-facing dApps\n\nThe hack introduces arb-gateway and arb-proof to the ENSGateway repository. Inspired by existing packages in Optimism, these additions provide a Gateway server and the necessary L1 contract to utilize the EVM Gateway with Arbitrum as the target chain. They seamlessly integrate with the existing interfaces of the EVM Gateway and can be used concurrently with other solutions, such as Optimism.",
+  "how_its_made": "# arg-gateway\n\nThe gateway is a web server written in Node.js designed to manage CCIP requests for the Arbitrum network.\n It utilizes the eth_getProof RPC call to obtain a Merkle proof confirming that the requested data is part of the latest node posted to Arbitrum. Additionally, it decodes the NodeCreated event to extract sendRoot and blockHash from the attestation. These, along with the RLP-encoded block, can be employed to verify on Layer 1 that the gateway has not returned malicious data.\n\nThe gateways heart is the ArbProofService. If you're curious how the stateProofs are computed you can check it out here : https://github.com/ensdomains/evmgateway/pull/19\n\nThe arb-verifier smart contract serves as the counterpart to the gateway. It receives the data computed by the gateway using the resolve with resolveWithProof hook within the CCIP resolve flow. The contract unpacks the request created by the gateway and verifies the correctness of the provided Merkle proof. It then loads the node for which the proof was generated from the Rollup contract. If everything is correct, it returns the data to the caller.\n\nYou can find the gateway here https://github.com/AlexNi245/evmgateway/blob/add-arbi-validator/arb-verifier/contracts/ArbVerifier.sol",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ensgateway-arbitrum-6fwgv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

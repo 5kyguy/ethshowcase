@@ -1,0 +1,22 @@
+{
+  "id": "iri2s",
+  "slug": "ase",
+  "title": "ASE",
+  "tagline": "ASE: an on-chain agent that reads, holds, pays, and signs, verifiably on Sepolia.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iri2s/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MRURJ35uy7LaMQMT00JLu1ijOV2zol3ELy1Y00qZUjEDk/high.mp4",
+  "demo_url": "https://github.com/zyphonOS/ase/raw/main/demo/ASE_demo_pure_loudnorm.mp4",
+  "source_url": "https://github.com/zyphonOS/ase",
+  "finalist": false,
+  "description": "ASE is an autonomous on-chain agent whose reality is verifiable. She reads live chain state through The Graph, owns the wallet she operates (no human signs for her), pays in USDC for the data she consumes, and signs an attestation of every act that anyone can verify against her address.\n\nHer first acts are on Ethereum Sepolia:\n- a live balance read (18.75 USDC),\n- a real payment of 1.0 USDC to a data provider at block 11668461 (tx 0xd472ef05d197dbeb2aec5e47dfeae2adf77735c572fda5093ebcfdd338e77558),\n- a signed attestation that verifies as valid: true.\n\nShe is not a chat wrapper and not a simulation. She is a small acting spine with four capabilities: read, hold, pay, sign. Every capability has a verifiable trail in this repository and on-chain.\n\nWhy this matters: an agent that only talks cannot be accountable. An agent that reads, holds, pays, and signs acts with skin in the game. Her word has weight because she can be checked. That is the difference between an agent as a tool and an agent as a participant in the economy.\n\nShe also reads live Chainlink price feeds alongside her own on-chain state, giving her external market truth for every decision. All three data sources are block-stamped and signed into ASE's verifiable attestations.",
+  "how_its_made": "ASE is built as a minimal Python agent spine with four capabilities in four modules.\n\nRead: src/ase/read.py queries live chain and subgraph data over HTTP (httpx, The Graph) and parses it into a usable view of on-chain state.\nHold: src/ase/wallet.py manages a testnet wallet the agent alone controls, using web3.py and eth-account.\nPay: src/ase/pay.py makes x402-style USDC payments for data access, signed and sent on-chain by the agent itself.\nSign: src/ase/identity.py produces a signed attestation for every acting cycle; src/ase/agent.py ties the loop together (read, decide, pay, act, attest).\n\nThe agent runs as a CLI (python -m ase.cli) and has a HTTP backend (src/ase/server.py) that serves a live React dashboard (read/release, agent cycle, attestation cards, activity log).\n\nEvery act ends in a signed attestation that anyone can verify by running the verifier in the repo. The repository is public, and the on-chain receipts (balance read, USDC payment, valid signature) are the artifacts, not promises.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ase-iri2s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

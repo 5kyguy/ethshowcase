@@ -1,0 +1,29 @@
+{
+  "id": "4fona",
+  "slug": "sentinel-mcp-wallet",
+  "title": "Sentinel MCP Wallet",
+  "tagline": "Policy-Governed MCP Wallet for Safe AI-Driven DeFi Execution",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4fona/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02rzE5SEabflywsiPywDtzmlBB1Ixi4TlC9ZczygW01FQ/high.mp4",
+  "source_url": "https://github.com/nikillxh/sentinel",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Sentinel is a security-first, policy-governed Model Context Protocol (MCP) wallet designed to bridge the gap between AI agents and DeFi. While LLM agents are becoming increasingly capable of navigating complex financial workflows, their lack of deterministic constraints makes them a massive risk for portfolio management. One hallucination or prompt injection can result in irreversible loss.\n\nSentinel solves this by wrapping an AI agent’s execution environment in a deterministic policy engine. Instead of giving an agent direct access to a private key, the agent interacts with Sentinel via 4 specific MCP tools. Every proposed trade is instantly cross-referenced against a hardcoded safety policy (e.g., max 2% trade size, whitelisted tokens, and slippage caps).\n\nTo ensure the UX isn't hindered by on-chain latency, Sentinel utilizes Yellow Network / Nitrolite state channels. This allows the agent to execute dozens of swaps off-chain during a session with zero gas and instant confirmation. These trades are cryptographically co-signed and only settle on-chain once the session is closed. The entire system is anchored by ENS, where a hash of the current security policy is stored as a text record, providing a transparent, tamper-proof audit trail that ensures the agent is always playing by the rules defined by the human owner.",
+  "how_its_made": "Sentinel is built as a modular stack combining TypeScript, Solidity, and the Model Context Protocol (MCP).\n\nThe Brain (MCP & Policy Engine): We built an MCP server in TypeScript that exposes four specialized tools to any LLM (like Claude or GPT). We used Zod for strict input validation to prevent the agent from passing malformed data. The internal Policy Engine evaluates every propose_swap call against 4 rules, returning a SHA-256 hash of the audit trail.\n\nThe Speed (Nitrolite State Channels): For the execution layer, we integrated Nitrolite. This was a game-changer; it allowed us to maintain an off-chain \"Session Balance\" that the agent can trade against instantly. Each swap generates a new state transition co-signed by both the agent's operator and the broker, avoiding the 12-second block time bottleneck of Base.\n\nThe Shield (Smart Contracts): On the L2 side (Base Sepolia), we developed SentinelWallet.sol (an ERC-4337 compatible smart wallet) and PolicyGuard.sol. We used Foundry for rigorous testing of the settlement logic. The \"hacky\" but effective part: we used ENS text records to anchor the policy hash. Before the PolicyGuard allows on-chain settlement, it can verify that the off-chain execution followed the exact policy version currently live on ENS.\n\nPartner Tech Benefits: Using Uniswap v4’s Quoter2 allowed us to get real-time on-chain pricing for our off-chain simulations, ensuring that the \"mock\" environment perfectly mirrored real market conditions.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sentinel-mcp-wallet-4fona",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

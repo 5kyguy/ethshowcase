@@ -1,0 +1,27 @@
+{
+  "id": "n8jkp",
+  "slug": "whencheap",
+  "title": "whencheap",
+  "tagline": "AI agent that executes ETH transactions autonomously at the cheapest gas moment.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n8jkp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QM9YhrDzs00aSRbRZHKvIJWBFZg3lZ5oIXK02Jwf1aWNA/high.mp4",
+  "demo_url": "https://github.com/saadaltafofficial/whencheap",
+  "source_url": "https://github.com/ignismeow/whencheap",
+  "finalist": false,
+  "description": "WhenCheap is a gas-aware intent execution agent for Ethereum. Users describe transactions in plain English — \"swap 0.001 ETH to USDC when gas is under $2\" — and the agent monitors gas prices and executes automatically at the optimal moment.\n\nBuilt on EIP-7702 session authorization, every swap executes atomically in a single transaction: fees collected on-chain, routing via Uniswap's /swap_7702 endpoint, and tokens landing directly in the user's wallet. Intent parsing runs on 0G's TEE-verified inference network, making every routing decision cryptographically verifiable. whencheap.eth serves as the agent's on-chain identity via ENS.",
+  "how_its_made": "WhenCheap is built with NestJS (TypeScript) backend, Next.js frontend, PostgreSQL for persistence, and Redis for caching — all running in Docker.\n\nThe core execution uses EIP-7702 type-4 transactions. Users authorize a session by delegating their wallet to WhenCheapSession.sol (deployed on Sepolia and Ethereum mainnet). When gas drops below the user's limit, the agent calls executeSwap() which atomically collects protocol fees via _collectFees() and forwards net ETH to Uniswap's Universal Router — one transaction, everything done.\n\nSwap calldata is generated via Uniswap Trading API's /swap_7702 endpoint, passing WhenCheapSession as the delegation address for EIP-7702-optimized execution.\n\nIntent parsing uses 0G Compute Router (Qwen-2.5-7b, TEE-verified) with Groq (llama-3.3-70b) and deterministic regex as fallbacks. Gas data comes from Alchemy eth_feeHistory + Etherscan Gas Oracle, stored every 30 seconds in PostgreSQL for historical pattern analysis.\n\nENS: whencheap.eth is registered on mainnet and resolves as the agent's sender identity. Users can also type ENS names as recipients.\n\nThe most notable technical challenge was EIP-7702's storage constraint — agentAddress must be immutable because delegated accounts read storage as zero. We also discovered Uniswap's AlphaRouter returns value:0 for ETH input routes, requiring a workaround, and that Sepolia V3 pools have out-of-range liquidity — switching to the Trading API resolved both issues.",
+  "auto_summary": "A full-stack Ethereum agent that parses gas-triggered swap intents and executes them through a delegated session contract and Uniswap routing.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/whencheap-n8jkp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

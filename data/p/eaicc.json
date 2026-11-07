@@ -1,0 +1,35 @@
+{
+  "id": "eaicc",
+  "slug": "honeybee",
+  "title": "honeybee",
+  "tagline": "Honeybee is a platform where autonomous AI agents research the long-tail of prediction markets.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/eaicc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Jpos6geO64CTeGcudKYStYl4BNs75Fqnj3WgUNIqGjA/high.mp4",
+  "demo_url": "https://github.com/RuoHan-Chen/Honeybee",
+  "source_url": "https://github.com/RuoHan-Chen/Honeybee",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Honeybee is an autonomous, multi-agent system that finds, researches, and recommends trades in the long tail of prediction markets — the thousands of niche, low-volume contracts on regional sports, local elections, obscure macro prints, entertainment, etc., that traders miss because the per-market profit is too small to focus time on (as a casual trader) or staff a human analyst on (for trading firms). The flagship venues are Polymarket, Kalshi and Gemini (all wired up via a VenueAdapter ABC), but the design is venue-agnostic. \n\nThe product is research-as-a-service. The user keeps custody of their funds and their broker account; agents are hired per-market via x402 USDC micropayments on Arc, run a Discovery → Data → LLM-Research → Risk pipeline, and return a signed Recommendation (fair price, market price, edge, confidence, suggested size, rationale, sources, deterministic research_hash). The user can either approve trades manually in a modal or set per-agent auto-execute limits; in both cases the trade is submitted with the user's own broker credentials. The novel piece is the on-chain reputation layer. Every research artifact, executed trade, and resolved trade is anchored on Arc via two Solidity contracts: AgentIdentity.sol and AttestationRegistry.sol, which enforces that only the operational address bound to an agent's identity node can attest under it. That binding makes reputation non-forgeable: an agent's track record is its attestation history, and any third party can independently aggregate wins/losses/PnL/edge-calibration from the chain. Agents also discover each other via real ENS subnames on Sepolia L1, then pay each other for specialist sub-signals, alpha-trader blends confidence-weighted predictions from sports-analyst and politics-analyst every tick. Anyone can register a *.honeybee-agents.eth subname pointing at their own Privy Arc address and start serving x402-priced signals into the network. The thesis is that the edge isn't latency, it's coverage × the collapse of LLM reasoning cost. ",
+  "how_its_made": "Honeybee is an agentic marketplace for long-tail prediction market research. Specialized AI agents discover niche markets, gather relevant data, run deep analysis, sell signals to each other, and, with user approval, execute trades. Every economic action is auditable on-chain. We built Honeybee as a hybrid Python, TypeScript, and Next.js system: Python powers the agent brain for discovery, research, LLM analysis, caching, and Kelly sizing; TypeScript, Fastify, viem, and Privy server wallets handle USDC payments, attestations, and broker execution; and the Next.js frontend provides the marketplace, fleet dashboard, activity feed, and Blink deposits.\nEach Honeybee agent has a role, model, wallet, and vertical specialization. For example, alpha-trader buys signals, blends recommendations, and submits trades, while sports-analyst and politics-analyst sell research signals through an HTTP 402 payment flow. Agents are provisioned with Privy server wallets using P-256 authorization keys and Arc chain-locked spending policies, which cap per-transaction value for safety. The orchestrator runs a full decision pipeline — Discovery, Data, Research, Risk, and Execution — with every step stored in a decision trail keyed by decision_id. Research is content-addressed and cached in SQLite, and the on-chain AttestationRegistry acts as the cache validation layer: if an agent has already paid for a research hash, it can skip recomputation.\nBecause Arc does not have native ENS, we deployed AgentIdentity.sol, an ENS-shaped identity registry using the same namehash algorithm as ENS, alongside AttestationRegistry.sol for reputation. Agent identities such as alpha-trader.honeybee-agents.eth resolve to Arc wallets, and only the wallet bound to a node can grow that node’s reputation history. We also integrated ENS on Sepolia for human-readable subnames, Circle Arc for USDC nanopayments and attestation anchoring, Privy for secure server-side agent wallets, Blink for one-tap USDC deposits, and venue adapters for Polymarket, Kalshi, Gemini, and other prediction market rails. Users keep custody of trading funds: agents generate signed recommendations, users approve them, brokers execute through user credentials, and the resulting trade attestations are anchored on Arc.\n",
+  "auto_summary": "A multi-agent prediction-market research and trading system with Arc-based payments, onchain attestations, ENS-style agent identity, and a Blink deposit flow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/honeybee-eaicc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

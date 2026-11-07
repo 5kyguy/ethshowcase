@@ -1,0 +1,48 @@
+{
+  "id": "futsg",
+  "slug": "goat-ramp",
+  "title": "GOAT RAMP",
+  "tagline": "GOAT RAMP brings your offchain credit card payments onchain by extracting the signatures inside the NFC chip.",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/futsg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FL00JVN83F601DBtDz4EO00IEB8Fm9xGwLMaxL4X7100Uko/high.mp4",
+  "demo_url": "https://github.com/0xturboblitz/goatramp",
+  "source_url": "https://github.com/0xturboblitz/goatramp",
+  "prizes": [
+    {
+      "sponsor": "CELO",
+      "sponsor_id": "inotq",
+      "placement": "3rd Place",
+      "title": "Best dApps on Celo Blockchain"
+    },
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "EVM Migration Tool Prize",
+      "title": "EVM Migration Tool Prize"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "Deploy on Scroll",
+      "title": "Deploy on Scroll"
+    }
+  ],
+  "finalist": true,
+  "description": "GOAT RAMP uses the NFC chips that are in bank cards (Mastercard, Visa) to extract signatures that we can use to prove that a payment was made (thus proving also ownership of the card). This means that we can do actual credit/debit card payments and have that information processed onchain.\n\nWe realized it could be very good for creating new trust-minimized onramps/offramps, here's how: Alice wants to offramp 100 USDC and Bob wants to onramp the same amount, Bob pays Alice with his credit card using our system, which will create a zk proof of the payment that our verifier contract can verify and unlock the 100 USDC from Alice if valid.\n\nWe are emulating the payment terminals for the prototype by using an NFC reader and the software necessary to communicate with the cards.",
+  "how_its_made": "This project makes use of an open-source payment terminal emulator called \"emvpt\", a bank card simulator for tests, an NFC reader and our circuit to prove one of the signatures coming from the cards.\n\nThe payment terminal emulator works in tandem with the NFC reader by basically using it to send and receive messages to the cards, as if the cards were communicated with an actual merchant terminal. Communication is done with the EMV (Europay, Mastercard, Visa) protocol, which specifies a lot of commands detailing how to fetch specific data, how to ask for a payment signature, etc. This setup allows us to get a signature made by the Secure Element chip in the card.\n\nThis signature can then be put through our ZK SNARK circuit that will simply decrypt the RSA cipher (EMV spec calls it Signed Authentication Data) that the Secure Element encrypted and compare it to the message that should have been signed (Authentication Data), this is the same as verifying the signature.\n\nOnce we get that proof, we can send it to the onchain verifier and unlock whatever onchain interaction we want. In the case of GOAT RAMP we want to unlock onchain funds of offrampers to onrampers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/goat-ramp-futsg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "xf731",
+  "slug": "overdraft",
+  "title": "Overdraft",
+  "tagline": "On 1inch Aqua, makers quote depth they can't back. Overdraft measures the gap and ships the fix.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xf731/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CEcdxwiKVOIq5UuNcjIrH7zOesdX6m7wiXOgfJ11QJg/high.mp4",
+  "demo_url": "https://leonardoryuta.github.io/overdraft/",
+  "source_url": "https://github.com/LeonardoRyuta/overdraft",
+  "finalist": false,
+  "description": "On 1inch Aqua, the liquidity you see isn't always liquidity you can trade.\n\nAqua's trick is virtual balances: one wallet can back many positions at once, so a maker can quote far more depth than it could ever pay out. Great for capital efficiency, but it means quoted depth is a promise, not a guarantee, and nobody was checking how much of that promise is real.\n\nOverdraft checks. For every live position on every chain, it works out how much is actually backed (coverage = min(wallet, allowance) / committed), indexes it on The Graph, and reads the backing straight off-chain. On Ethereum right now: about $25.3M quoted against $1.6M backed. That's 6.3% real, $23.9M phantom, spread across 1,046 under-backed positions.\n\nThen it goes past a dashboard. We proved the gap actually bites (a real position quotes 15,818 1INCH; the fill reverts at settlement) and shipped SolvencyGuard, a SwapVM instruction that makes a position refuse to quote past its real backing. Funded makers are never blocked; overquotes revert before a single token moves.\n\nThis isn't a knock on Aqua, which has been audited eight times. It's the coverage and monitoring layer those audits don't touch. Every number is live and reproducible, cross-checked against on-chain rawBalances.",
+  "how_its_made": "Indexing: one Subgraph schema deployed per chain (Ethereum + Base) on Subgraph Studio, plus a Rust Substreams module to reach Firehose-only chains a subgraph can't. Both read Aqua's Shipped/Docked events off the same schema.\n\nCoverage engine (Node + viem): it enumerates positions from The Graph, then reads min(balanceOf, allowance to Aqua) live on-chain, prices in USD via DefiLlama, and flags positions that quote more than a token's entire supply.\n\nContracts (Foundry): SolvencyGuard is a custom SwapVM instruction (opcode 0x22) plus a modified AquaSwapVMRouter, tested against 1inch's real swap-vm on a mainnet fork (4 passing tests).\n\nAgent layer: an MCP server and a reusable SKILL over the subgraph, so any agent can ask about Aqua solvency in plain English.\n\nSite: one static page (no framework) with a live dashboard and an interactive guarded-swap demo that reads real backing via eth_call.\n\nA few hacky bits worth mentioning: we rebuild each position's Order from raw Shipped bytes to match its on-chain strategyHash; the router shifts opcode bytes down by one through an array trick, so the guard actually runs at byte 0x22; and enumeration falls back to a keyless Blockscout sweep when public RPCs gate eth_getLogs.",
+  "auto_summary": "This project measures solvency of 1inch Aqua positions using indexed event data, live on-chain balance checks, and a guarded SwapVM router.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/overdraft-xf731",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

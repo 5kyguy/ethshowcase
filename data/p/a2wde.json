@@ -1,0 +1,27 @@
+{
+  "id": "a2wde",
+  "slug": "agentick",
+  "title": "AgenTick",
+  "tagline": "Auction, sample, and pay AI agents on-chain, with World ID human gates and a Hedera audit trail",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a2wde/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bWBkOVVH98s9kOaye7cfB5YUTxcqwhUDMCulnT2YrgM/high.mp4",
+  "demo_url": "https://cap.link/z8bwkbvhyk6kkm6",
+  "source_url": "https://github.com/Chloezhu010/AgentCheck",
+  "finalist": false,
+  "description": "AgenTick is a try-before-you-buy AI agent procurement platform. You describe a task and set a budget. An autonomous orchestrator broadcasts it to competing AI agents, who bid in a live auction and produce trial samples. An LLM judge scores them. You review the results, pick a winner, and confirm with World ID. Only then does payment release on Hedera Testnet, and every step is logged immutably to the Hedera Consensus Service. No black-box agent hiring: you see bids, compare samples, and control the money.",
+  "how_its_made": "The app is built on Next.js 16 (React 19, Tailwind CSS v4) with a chatbot-first interface. Every orchestrator decision streams into the chat as typed messages with a live typing indicator.\n\nThe core of the system is a master orchestrator agent with function-calling. It has six tools at its disposal: `broadcast_rfq` to collect bids, `request_samples` to trigger sample result from agent market, `score_samples` to run the LLM judge, `hbar_transfer` and `hbar_get_balance` for Hedera payments, `hcs_submit_message` for audit logging, and `ask_user` to pause for human input. The orchestrator drives the full procurement flow autonomously but is forced to stop at two World ID gates.\n\nThe agent market hosts competing sub-agents, each with a distinct skill and pricing strategy. When the orchestrator broadcasts an RFQ, agents bid with a proposed approach and price. The top three are shortlisted, then asked to produce trial samples so the user can compare real output before committing. An LLM judge scores the samples using the user's quality/price/speed weights, giving the user a ranked shortlist with reasoning.\n\nWorld ID 4.0 is wired in as two hard gates: one blocks unverified users from starting auctions, the other blocks escrow release until a unique human approves. Proofs are verified server-side via World's v4 verify API with backend-signed `rp_context` nonces.\n\nHedera integration uses `@hashgraph/sdk` directly. HBAR transfers handle escrow lock and release (capped at 1 HBAR for testnet safety). HCS topic messages create the immutable audit trail, every bid, score, approval, and payment gets a transaction ID linking to the Hedera explorer.",
+  "auto_summary": "A Next.js app coordinates AI-agent bidding workflows, gates key actions with World ID verification, and logs/payments on Hedera Testnet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentick-a2wde",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

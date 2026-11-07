@@ -1,0 +1,22 @@
+{
+  "id": "vwuoe",
+  "slug": "0x-golden-goose",
+  "title": "0x Golden Goose",
+  "tagline": "Non custodial DeFi Trading with an Agenti AI swarm built for coffee",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vwuoe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/K4sVoa7QeKx01qmWf3hNZebbyzdv7Nq5lgXbIDdKBdsI/high.mp4",
+  "demo_url": "https://x-golden-goose.web.app/",
+  "source_url": "https://github.com/cryptotwilight/0x-golden-goose",
+  "finalist": false,
+  "description": "0x Golden Goose is an AI-style autonomous trading swarm built for ETHGlobal OpenAgents: three cooperating agents—PriceScout, RiskManager, and Executor—that watch markets, decide whether a trade is acceptable under risk rules, and (optionally) execute Uniswap v3 swaps on Sepolia, without a single monolithic “bot brain.”\n\nPriceScout polls Uniswap v3 (mainnet quotes via QuoterV2) for WETH/USDC, maintains a rolling window of prices, and emits BUY / SELL / HOLD style signals when deviation crosses configurable thresholds. \n\nRiskManager consumes those signals over an inter-agent bus, applies gates (confidence, circuit breaker, cooldown, adjusted size), and emits an approve/reject decision. \n\nExecutor runs in simulate mode by default, or live mode with a wallet key: it can pull funds from a SwarmFund vault contract (per-user vault, bot wallet, trade limits), swap on SwapRouter02, and settle back. \n\nKeeperHub can drive the swarm on a schedule or price alerts via HTTP POST to a small Node callback server. \n\nGensyn AXL carries SIGNAL → DECISION → RESULT messages (with a local event bus fallback when no AXL node is up). \n\n0G Labs storage is used to persist snapshots and an event trail. \n\nENS names identify each agent. A React + Vite dashboard (and optional Firebase Hosting deploy) shows live stats and includes a wagmi/viem “My Vault” panel for deposits, withdrawals, and vault settings on Sepolia.",
+  "how_its_made": "The backend is TypeScript on Node, compiled with tsc. The entrypoint boots three agent classes extending a shared BaseAgent that wires AXL (fetch to /topology, /send, /recv with timeouts and fallback) and a 0G client (@0glabs/0g-ts-sdk + ethers JsonRpcProvider) for storeState / appendEvent when keys and SDK are available. \n\nPriceScout calls viem createPublicClient + QuoterV2 quoteExactInputSingle via encodeFunctionData / call (avoiding brittle simulateContract on public RPCs). \n\nRiskManager is pure decision logic on in-memory stats. Executor uses viem wallet client + Uniswap helpers for approve/swap and optional SwarmFund drawdown / returnFunds with ABI from parseAbi. \n\nA node:http server exposes /api/stats, /api/settings, /api/trigger with permissive CORS and binds 0.0.0.0 so ngrok can reach the API while the UI (local Vite or hosted Firebase) polls JSON. The UI is React 18, TanStack Query, wagmi v3 + @wagmi/connectors (injected) on Sepolia, with SwarmFund + ERC20 ABIs inlined for deposit/withdraw/limits/bot wallet. Firebase is static hosting (dist + SPA rewrite). Notable “glue”: HTTP bridge from KeeperHub into a process that otherwise speaks AXL; early HTTP listen so the dashboard stays reachable while slow RPC/0G init runs; ngrok-skip-browser-warning on fetches when tunneling.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/0x-golden-goose-vwuoe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

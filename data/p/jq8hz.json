@@ -1,0 +1,30 @@
+{
+  "id": "jq8hz",
+  "slug": "agentmeshx",
+  "title": "AgentMeshx",
+  "tagline": "4 AI agents audit smart contracts together over a P2P mesh, then store proof on-chain.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jq8hz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AhkJRC1eQjELnxRv6sAlOGWxaxW1oM7qo4pApQMjlFk/high.mp4",
+  "demo_url": "https://agentmesh-rho.vercel.app",
+  "source_url": "https://github.com/dmustapha/agentmesh",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "Best Autonomous Agents, Swarms & iNFT Innovations",
+      "title": "Best Autonomous Agents, Swarms & iNFT Innovations"
+    }
+  ],
+  "finalist": false,
+  "description": "AgentMesh is a decentralized smart contract security platform where four specialized AI agents (reentrancy, access control, logic errors, economic exploits) run as independent peers on a Gensyn AXL mesh network. You paste a Solidity contract, and all four agents analyze it in parallel, share findings with each other over P2P, debate severity, and reach consensus. The final report gets stored on 0G S the audit happened and what it found. Each agent has its own ENS identity using ENSIP-25 text records and proves ownership through ENSIP-26 verification, so you can look up any agent and confirm it's real. The whole thing runs without a central server coordinating the agents. They discover each other through ENS, communicate through AXL, think through 0G Compute, and leave a permanent trail on 0G Chain. The dashboard shows the live mesh topology, streams the actual inter-agent messages as they happen, and lets you drill into the consensus report with per-finding vote breakdowns.",
+  "how_its_made": "The backend runs four separate AXL node instances on different ports, each with its own peer ID and transport layer. When an audit starts, each agent does a deterministic static pattern scan first (regex-based vulnerability detection with false-positive suppression), then sends the contract to 0G Compute for deeper LLM analysis using their serving broker SDK. Agents share findings over the AXL mesh using a custom message protocol, then cross-evaluate each other's findings through a voting system. The consensus engine aggregates votes with confidence weighting and produces a final severity rating per finding.\n\n  For on-chain proof, I deployed two Solidity contracts on 0G Chain (testnet 16602): an AgentRegistry where agents register their ENS names and specialties, and an AuditAttestation contract that records the report hash, storage root hash, and vulnerability counts. Reports get uploaded to 0G Storage through their SDK, which returns a root hash we include in the attestation.\n\n  ENS integration goes beyond basic text records. Each agent registers ENSIP-25 records (agent type, capabilities, mesh endpoint) under subnames of agentmesh.eth on Sepolia. ENSIP-26 signatures prove each agent actually controls its name, not just that someone wrote metadata there.\n\n The frontend is Next.js with real-time WebSocket streaming. The topology graph polls AXL node connections every 2 seconds. The chat feed shows actual P2P messages between agents as they analyze, debate, and vote. Built with TypeScript throughout, monorepo structure with shared types between frontend and backend.\n\nStack: TypeScript, Next.js 15, Express, Gensyn AXL (P2P), 0G Compute (inference), 0G Storage (persistence), 0G Chain (attestation), ENS with ENSIP-25/26 (identity), ethers.js, WebSocket, Tailwind CSS.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentmeshx-jq8hz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

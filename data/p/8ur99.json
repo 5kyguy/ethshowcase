@@ -1,0 +1,22 @@
+{
+  "id": "8ur99",
+  "slug": "zonego",
+  "title": "ZoneGo",
+  "tagline": "The merchant pays $0.05 only when a verified human walks in. The visitor gets paid to explore.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8ur99/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FYLucMVg02NWCyI5TbHvyy5BKfxbzrVUVkgp1tdxNDFA/high.mp4",
+  "demo_url": "https://zone-go.vercel.app/.",
+  "source_url": "https://github.com/ZoneGo-App/ZoneGo",
+  "finalist": false,
+  "description": "ZoneGo is a Web3 advertising network that flips how local ads work: instead of paying per click or impression, a merchant pays only when a real, unique, verified human physically walks into their store. A neighbor searches for what they need, picks a nearby store on a real map, walks over, and scans a QR the merchant shows at the counter. The merchant's device signs an EIP-712 visit signature on the spot, the contract verifies it on-chain, and USDC lands in the visitor's wallet in seconds — no app download, no seed phrase, no crypto knowledge required on either side.\n\nWorld ID's Selfie Check proves the visitor is a unique human before they can claim, closing the one attack that would otherwise kill the economics: a single person farming visits with many wallets. Privy gives both the merchant and the visitor an embedded wallet from just an email or phone number. The Graph indexes every visit and payout so the leaderboard and the merchant's own dashboard are provably not something we could fake or edit after the fact.",
+  "how_its_made": "Contracts: Solidity on Base Sepolia. CampaignVault holds each merchant's USDC budget; VisitRegistry verifies the merchant's EIP-712 signature over (campaignId, nonce, expiry, geohash, visitor) and pays out — the merchant's own wallet signs the visit, so the backend never has authority to invent one. Tested with Foundry.\n\nBackend: FastAPI relay that pays gas on the visitor's behalf (a convenience, not a requirement — the visitor could submit the same signed call themselves). It calls World's Selfie Check to mint a short-lived attestation, and relays the claim to the contract using web3.py.\n\nFrontend: React + Vite. Campaigns are anchored to a merchant's real GPS location or to an address they type, geocoded with OpenStreetMap's Nominatim — no Google API key exists in this project, so the map itself is Leaflet tiles over OpenStreetMap too. Geohash encoding matching Solidity's bytes32 packing was written and verified from scratch, including a byte-for-byte check against a known-good on-chain transaction before ever sending a real one.\n\nThe Graph indexes CampaignCreated/VisitRecorded/RewardPaid events for the leaderboard and merchant dashboard, so neither reads from a database we control.\n\nNotable hack: the QR shown to the merchant originally encoded the full EIP-712 domain and type definitions every time, which made it too dense for a phone camera to read off a screen. Since that schema never changes, we cut the payload roughly in half by hardcoding it on the scanning side instead of transmitting it — the difference between a QR that scans and one that doesn't.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zonego-8ur99",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

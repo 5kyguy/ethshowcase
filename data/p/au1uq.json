@@ -1,0 +1,22 @@
+{
+  "id": "au1uq",
+  "slug": "unisd",
+  "title": "UniSD",
+  "tagline": "Uniswap v4 stablecoin omnipool: LP once and earn from every whitelisted stable-stable pair.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/au1uq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/47jdIUoSV7AWdyDGlhJQqUp48028ZP5ExcnzY7zKUqZU/high.mp4",
+  "demo_url": "https://docs.google.com/presentation/d/1RlNIToryK05clBRv8Nl3idOAYcsPNt57t7T_WZVxfTU",
+  "source_url": "https://github.com/jeffishjeff/UniSD",
+  "finalist": false,
+  "description": "This project is a Uniswap v4 hook that turns all major stablecoins into a single shared liquidity layer. The hook whitelists a set of stablecoins (e.g. USDC, USDT, DAI, etc.), and any pool between these tokens can opt in. LPs deposit any whitelisted stable and receive shares representing their pro-rata claim on the aggregated stable balance, rather than on a single pair or narrow range. When they withdraw, they receive a proportional basket of all stables in the pool, minus a 0.01% protocol fee.\n\nOn the trading side, the hook supplies just-in-time concentrated liquidity between ticks -100 and 100 for each stable-stable pool, using as much relevant inventory as possible. This design reuses the same capital across many pairs, improves depth and execution quality around the 1:1 peg, simplifies LP UX (single-asset in, diversified basket out), and creates a unified, capital-efficient “stable omnipool” natively inside Uniswap v4.",
+  "how_its_made": "The project is a Uniswap v4 hook written in Solidity 0.8.30 that turns a set of whitelisted stablecoins into a single vault-like liquidity layer for all stable–stable pools. At the core is the UniSD contract, which is both an ERC20 share token (via OpenZeppelin) and an IHooks implementation plugged into a standard v4 IPoolManager.\n\nWe use Uniswap v4’s Currency type and a simple whitelist to track which stables are supported. For each supported stable, the contract keeps an internal balances[currency], plus two global accumulators: totalBalance (total stablecoin value) and totalShare (total UniSD shares). When a user calls mint, we compute how much of the chosen stable they need to deposit with FullMath.mulDivRoundingUp(shareDelta, totalBalance, totalShare), pull that via transferFrom, update the vault accounting, and mint UniSD as a pro-rata claim on the whole basket. On burn, we reverse the process: burn shares, loop over all supported currencies, and send the user their proportional share of each token, minus a 0.01% fee on each that is skimmed to the owner as protocol revenue.\n\nOn the hook side, beforeInitialize enforces that both tokens in the pool are whitelisted stables and that the initial price is fixed at 1:1 (by checking sqrtPriceX96 == 1, for now a very strict peg guardrail). We disallow external LPs from interacting directly with the pool by requiring sender == address(this) in beforeAddLiquidity/beforeRemoveLiquidity, so only the vault can provide liquidity.\n\nThe interesting part happens in beforeSwap and afterSwap. In beforeSwap, we read the current pool price via POOL_MANAGER.getSlot0, then use Uniswap’s LiquidityAmounts.getLiquidityForAmounts helper to compute the maximum liquidity we can provide between ticks -100 and 100 given our current balances[currency0] and balances[currency1], with precomputed SQRT_PRICE_LOWER_X96 and SQRT_PRICE_UPPER_X96. We then call modifyLiquidity to JIT-add that liquidity for the duration of the swap. In afterSwap, we query the pool’s liquidity and immediately remove it again, so the vault is only exposed while the swap is executing.\n\nThe stack is: Solidity + Foundry (forge-std) for testing, Uniswap v4 core libraries for types/math (StateLibrary, FullMath, LiquidityAmounts, BalanceDelta, BeforeSwapDelta), and OpenZeppelin’s ERC20/Ownable for share token and admin controls. The “hacky” bit is that we emulate an omnipool entirely at the hook layer: many independent v4 pools still look standard to routers, but under the hood they are all borrowing liquidity from a single shared stablecoin vault, with JIT concentrated liquidity and basket-style LP shares.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/unisd-au1uq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

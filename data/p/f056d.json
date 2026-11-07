@@ -1,0 +1,35 @@
+{
+  "id": "f056d",
+  "slug": "almost-free-solidity",
+  "title": "almost free solidity",
+  "tagline": "This project introduces a @free annotation that allows you to offload any heavy computation offchain. It allows solidity developers to bring the cost of compute-heavy functions almost to zero without sacrificing the DevEx.",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f056d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jX8HVoMCGstnzbycbQzKVcjQtaozq1VE3xhPhufTrRU/high.mp4",
+  "source_url": "https://github.com/AntonD3/almost-free-solidity",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "Runners-up",
+      "title": "Best Zero-Knowledge Application on Polygon zkEVM"
+    },
+    {
+      "sponsor": "Nethermind",
+      "sponsor_id": "bk5qx",
+      "placement": "Cryptography applications and Ethereum",
+      "title": "Cryptography applications and Ethereum"
+    }
+  ],
+  "finalist": false,
+  "description": "The project's goal is achieved by a combination of many instruments used in the different stages.\nThe first stage is preprocessing, here the user's code gets modified and all the needed modifications are injected. The original code of the annotated function is used later in the process. We defined a custom set of EVM opcodes and the interpreter within the SP1 VM to prove the execution of the function's code.\n\nAfter the proving, batches of proofs are aggregated and sent to the blockchain. Within those aggregated proofs, every single one has its own Merkle path that can be later used for verification purposes. Those are sent to the special contract called Oracle.\n\nAfter they are present in the Oracle contract, ",
+  "how_its_made": "We use solc modifications, SP1, Rust, and Foundry.\n\nSystem workflow:\n1. Preprocessing\n   1. Use a custom Solidity preprocessor to find all the functions with `@free` annotation in the source code.\n   2. Separate the implementations and compile them to EVM bytecode.\n   3. Replace their implementations with a call to the verification oracle.\n   4. Replace `calldatasize()` with `calldataload(caldatasize() - 32)` in the EVM bytecode. It allows us to pass additional witnesses needed for ZKP verification without affecting the function selectors and contract logic.\n2. Proving\n   1. Receive the bytecodes from step 1.2 along with the function inputs.\n   2. Use a specialized server with a custom EVM implementation to ensure that the function execution can be performed without interactions with the state. \n   3. Use SP1 zkVM to prove the EVM execution of the function's bytecode with specific calldata.\n3. Aggregation\n   1. Proofs from different users of the protocol are batched to share the verification cost.\n   2. Final proof is sent to the blockchain, all the nested proofs are merklized, and the root is used as a part of the public input.\n   3. Each of the nested proofs within the final one gets a Merkle proof to verify that it belongs to the verified batch.\n4. Execution\n   1. When calling the initial contract, the Merkle proof is provided in the \"buffer\" that was allocated in the calldata during preprocessing.\n   2. Merkle proof is used to call the oracle and ensure that the function with the specific input will return a specific output.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/almost-free-solidity-f056d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

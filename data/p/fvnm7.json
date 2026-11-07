@@ -1,0 +1,35 @@
+{
+  "id": "fvnm7",
+  "slug": "pinch",
+  "title": "pinch",
+  "tagline": "Agentic teleoperation payout system AR handcontrol robots that autonomously post bounties when stuck",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fvnm7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uWWrGVFYBJzYKtc0000pp2CugQgDPM00UvwRp11atVd301M/high.mp4",
+  "demo_url": "https://xrpinch.vercel.app",
+  "source_url": "https://github.com/waseem091/pinch",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "1st place",
+      "title": "Track B (World ID)"
+    }
+  ],
+  "finalist": true,
+  "description": "Pinch is a full-stack real-time robotics control and bounty platform built on Snap Spectacles AR glasses. It lets a human operator use bare-hand gestures — tracked in 3D space via WebXR — to remotely control a physical robot (M5Stack Stackchan), while also running an autonomous bounty economy where the robot can post HBAR (Hedera) rewards for human assistance when it gets stuck.\n\nThe Robot as an On-Chain Agent: Each robot has its own Hedera wallet and acts as an autonomous economic agent. When it detects an obstacle it can't resolve, it self-posts a bounty from its own wallet — no human initiates it. The robot also has an ENS identity (e.g. stackchan.yourname.eth on Sepolia) with ENSIP-26 AI Agent text records that describe its capabilities, category, and payment method, making it discoverable and interoperable as a named on-chain agent.\n\nHand Tracking Layer: The Spectacles glasses run a WebXR session that captures all 25 skeletal joints of both hands (wrist, thumb, 4 fingers × 5 joints each) at up to 30fps. Joint positions and orientations are streamed as JSON frames over a persistent WebSocket to a Cloudflare Worker relay — no local server required, everything is cloud-hosted.\n\nRobot Control: The Cloudflare Worker translates the incoming wrist X-position into a pan angle (0–180°) and continuously POSTs { type: \"control\", pan, tilt } commands to the robot's REST API. A 5-frame smoothing buffer reduces jitter. Commands are sent unconditionally — the robot always receives control data regardless of whether it sees an object.\n\nBounty Economy: When the robot posts a bounty from its own wallet, humans visiting the bounties app verify their identity via World ID (proof-of-personhood) and connect a MetaMask wallet on Hedera. They claim the bounty, physically free the robot, and receive automatic HBAR payment tracked on Hashscan.\n\nFrontend: A Next.js landing page serves as the entry point, while a Vite/React bounties app handles the live quest board with SSE real-time updates.",
+  "how_its_made": "Hand tracking: Snap Spectacles runs a WebXR session via Three.js, extracting all 25 skeletal joints per hand every frame and streaming them as JSON over a WebSocket to a Cloudflare Worker + Durable Object, which acts as a pure pass-through relay — broadcasting every frame to all connected clients instantly with zero storage.\n\nRobot control: The Worker intercepts hand frames, maps wrist X-position to a 0–180° pan angle with a rolling average for jitter smoothing and a slew-rate limiter so the robot moves slowly instead of snapping, then POSTs servo commands to the robot's REST endpoint in real time.\n\nBounty economy: The robot has its own Hedera (HBAR) wallet and autonomously posts bounties when stuck. Humans claim them after verifying with World ID (proof-of-personhood) and connecting MetaMask. Payment is confirmed on-chain via Hashscan.\n\nRobot identity: Every robot gets its own ENS subdomain on Sepolia (e.g. stackchan.yourname.eth) with ENSIP-26 AI Agent text records — agent.category, agent.capabilities, agent.version — making each robot a uniquely named, discoverable on-chain agent. The bounties UI resolves these records live and renders an ENS badge on each quest card.\n\nNotably hacky: The viewer dashboard HTML is imported directly as a string into the Worker and served over HTTP — one Worker handles WebSockets, robot control, bounty storage, and the live dashboard. Also, we rate-limited servo movement inside the relay Worker instead of touching robot firmware, since we had no access to the M5Stack Arduino code.\n\nStack: Spectacles + WebXR + Three.js → Cloudflare Workers + Durable Objects → M5Stack robot / Hedera / World ID / ENS Sepolia / React + Vite / Next.js / Vercel.",
+  "auto_summary": "This project links WebXR hand tracking, a Cloudflare Worker relay, a physical robot, and a bounty UI with Hedera, World ID, and ENS features.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pinch-fvnm7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

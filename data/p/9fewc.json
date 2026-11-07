@@ -1,0 +1,35 @@
+{
+  "id": "9fewc",
+  "slug": "deltafx",
+  "title": "DeltaFX",
+  "tagline": "FX insurance for the stablecoin economy – hedge currency risk onchain",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9fewc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EZ016EpfYR8p00kImhqeBgl01lzca4sqBEiT02ywgGnNrxY/high.mp4",
+  "demo_url": "https://deltafx.vercel.app",
+  "source_url": "https://github.com/abcxz/deltafx",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Connect the World with Chainlink",
+      "title": "Connect the World with Chainlink"
+    }
+  ],
+  "finalist": false,
+  "description": "DeltaFX is an onchain FX insurance product that lets businesses protect against currency fluctuations between stablecoins. As multi-currency stablecoins gain traction, businesses transacting across currencies face the same FX risk that drives a $10 trillion daily market in traditional finance – but with zero hedging tools available onchain.\n\nDeltaFX fills that gap. A business pays a small USDC premium to lock in today's exchange rate for a future date. If the rate moves against them, the protocol pays out the difference automatically at expiry. On the other side, capital providers deposit USDC into a vault, underwrite these policies, and earn yield from collected premiums.\n\nPricing uses the Garman-Kohlhagen model – the same option pricing framework institutions have used for decades, adapted for stablecoin FX pairs. The vault has been backtested over 365 days.\n\nDeltaFX is the hedging layer that completes Circle's Arc and StableFX stack.",
+  "how_its_made": "DeltaFX is a cross-chain FX options protocol — users buy put protection on Arc, capital is managed on Ethereum Sepolia, and settlement is automatic via Chainlink price feeds. No human intervention anywhere in the flow.                                                                                                                                                                                  \n                                                                  \nSmart contracts are written in Solidity with Foundry. The core pricing logic is a full Garman-Kohlhagen implementation in OptionEngine.sol — the industry standard for FX options, running entirely on-chain. It reads a multi-tenor implied volatility surface (7d/30d/60d/90d) from MarketDataStore, SOFR from NY Fed, and eSTR from ECB. Each currency pair (EUR, BRL, MXN, ZAR) gets its own isolated stack of five contracts on Sepolia, sharing the Arc entry point.\n                                                                                                                                                                                                         \nCross-chain is two-layer: Chainlink CCIP carries policy metadata (pair, notional, strike, tenor) from Arc to Sepolia on every purchase; a burn/mint bridge handles USDCFX token movement. In production this would be Circle CCTP V2 — but Circle's testnet faucet is rate-limited and doesn't support EM currency pairs, so I built a custom bridge relayer that watches Arc events and mints on Sepolia.                                                                                                                                      \n                                                                  \nMarket data runs as a Chainlink CRE workflow (TypeScript SDK, ConsensusAggregationByFields with median aggregation, simulated with cre workflow simulate) with a GitHub Actions fallback that writes identical data hourly. Swapping the trigger from GitHub Actions to the DON requires zero contract changes.\n                                                                                                                                                                                                         \nNotable: BRL/USD, MXN/USD, and ZAR/USD don't have native Sepolia Chainlink feeds — so a Cloudflare Worker polls real mainnet Chainlink feeds every 5 minutes and writes prices to MockChainlinkPriceFeed contracts on Sepolia. The OptionEngine treats them identically to the real EUR/USD feed.\n                                                                                                                                                                                                         \nFrontend is Next.js 14 + Viem + Dynamic.xyz. Dynamic handles wallet connection across both Arc and Sepolia with programmatic network switching — users sign on two different chains in a single session without knowing it. The homepage features a 3-step interactive demo that runs real on-chain transactions: buy policy → bridge premium → settle — all visible with live tx hashes.",
+  "auto_summary": "DeltaFX is a cross-chain stablecoin FX hedging protocol with onchain option pricing, vault underwriting, and automated settlement across Arc and Sepolia.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/deltafx-9fewc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

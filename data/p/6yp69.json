@@ -1,0 +1,35 @@
+{
+  "id": "6yp69",
+  "slug": "bitlazarus",
+  "title": "BitLazarus",
+  "tagline": "A decentralized bounty marketplace for recovering dead torrents",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6yp69/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Asg3Jdv4xt6dmCnYwbOVSh2K3gQ4P3fQS01KhHpU3rJE/high.mp4",
+  "demo_url": "https://bitlazarus.org",
+  "source_url": "https://github.com/opensaalik/bit-lazarus",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Bit Lazarus is a decentralized bounty marketplace for recovering dead torrents. When a torrent has no seeders, the file is effectively gone: there's a need for a mechanism to incentivize someone to find and re-seed it. Bit Lazarus builds that mechanism: a requester puts up a USDC reward, a hunter recovers the file, delivery is verified, and the escrow settles automatically.\n\nThe flow starts when a requester uploads a `.torrent` file and specifies a reward amount. The torrent's infohash (a cryptographic fingerprint of the torrent metadata) is used to derive an ENS wildcard name: `btih-<infohash>.bitlazarus.eth`. This ties every bounty to a globally resolvable ENS name, so the recovered file has a permanent, human-readable pointer once it's archived. A USDC escrow is then created on Arc, an EVM-compatible chain where USDC is the native gas token, which eliminates the ETH-for-gas UX friction typical of Ethereum-based escrows.\n\nA hunter claims the bounty, finds or reconstructs the file, and commits a SHA-256 hash of the content before seeding. Seeding happens in-browser via WebTorrent over WebSockets. The backend runs its own tracker at `/tracker` on the same HTTP server, so the app is simultaneously a bounty platform and a torrent tracker. The requester downloads the file and verifies the SHA-256 matches the committed hash. Once confirmed, the recovered file is uploaded to Walrus, a decentralized blob store, and the returned blob ID is written into the Arc escrow contract. From that point on, anyone can resolve `btih-<infohash>.bitlazarus.eth` via ENS CCIP Read (EIP-3668) to get the bounty status and the Walrus blob ID of the archived file, agnostic of knowledge of the bounty system.\n\nThe backend is non-custodial by design. It builds unsigned Arc transaction payloads and returns them to the frontend, where the user's wallet signs them. The server never holds a private key. The stack is Node.js on the backend, Vite/React on the frontend, Solidity for the Arc escrow contract, and a custom ENS wildcard resolver deployed on Sepolia that serves off-chain data via a CCIP gateway the backend also hosts.\n\nIn future, BitLazarus will incorporate ZK proofs of file delivery, which will make this trustless. A future version will close the gap with a ZK proof of file content tied to the torrent's piece hashes, making the entire settlement flow trustless without any requester cooperation.",
+  "how_its_made": "Bit Lazarus is built on three partner technologies: ENS for torrent identity and resolution, Walrus for file archival, and Arc for escrow and settlement.\n\nThe @ENS integration is the most technically interesting piece. Every torrent has a globally unique infohash, a SHA-1 or SHA-256 fingerprint of its metadata. We derive a wildcard ENS subdomain from it: `btih-<infohash>.bitlazarus.eth`. Instead of registering each subdomain individually, we deploy a single wildcard resolver on Sepolia that catches all `*.bitlazarus.eth` lookups. Resolution runs via EIP-3668 CCIP Read. The resolver points offchain to a gateway our Node.js backend serves, which reads bounty state and Walrus blob IDs from local storage and returns signed responses the ENS client verifies. Any recovered torrent becomes resolvable as an ENS name with zero additional onchain writes after the initial resolver deploy.\n\n@Sui's Walrus handles archival. Once a hunter delivers and the requester verifies the SHA-256 commitment, the backend uploads the file to Walrus via its publisher API and writes the returned blob ID into the Arc escrow contract. The ENS CCIP gateway reads that blob ID back from Arc on resolution, so `btih-<infohash>.bitlazarus.eth` resolves straight to the archived content. Walrus is chain-agnostic, so it drops into our EVM stack without any Sui-specific overhead.\n\nEscrow and settlement run on Arc. Bounties are USDC-denominated, so Arc eliminates the ETH-for-gas problem that would make small bounties economically irrational. `BitLazarusEscrow.sol` implements the full lifecycle: create, submit-delivery, confirm-delivery, claim, refund-expired. The backend is fully non-custodial. It builds unsigned transaction payloads and hands them to the frontend for wallet signing.\n\nDelivery verification uses WebTorrent running in-process. The backend mounts its own tracker at `/tracker` on the same HTTP server as the API, advertising `wss://<host>/tracker`. Hunters seed in-browser via WebRTC, requesters download through the same tracker. The SHA-256 commitment the hunter submits before seeding closes the trust gap. Requester verifies the hash matches before calling confirm-delivery on Arc.",
+  "auto_summary": "A decentralized torrent recovery marketplace using Arc escrow, ENS-based naming, WebTorrent delivery, and Walrus archival.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bitlazarus-6yp69",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

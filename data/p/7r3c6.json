@@ -1,0 +1,26 @@
+{
+  "id": "7r3c6",
+  "slug": "new-friendship-tech",
+  "title": "New Friendship Tech",
+  "tagline": "Your trip to Tokyo is an expiring ENS name. Verified humans, dinner tables, a concierge agent.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7r3c6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Dzqgv2bgKCfEIc4kw5FZxcz00fXHqPCdGk02Cuy3h3J8E/high.mp4",
+  "source_url": "https://github.com/don-radman/new-friendship-tech-ens-world",
+  "finalist": false,
+  "description": "New Friendship Tech is a membership for people who travel and want to actually meet people in the city they land in. This build turns a trip into an on-chain object.\n\nWhen a member arrives in Tokyo they activate a trip, which mints maya.tokyo.<parent>.eth, a non-transferable ENSv2 subname whose expiry is their departure date. It exists only while they are in town and is only issued after a World ID proof of human, so every name in the city namespace is a verified person who is really there.\n\nMembers host tables (coffee, breakfast, lunch, dinner) as data-only subnames under tables.tokyo.<parent>.eth. The attendee list lives in a text record, seats are approved by the host, and the bill is split from the names on the record and verified on chain.\n\nOne concierge agent, published as concierge.<parent>.eth with ENSIP-26 records and aliased under every city, answers \"who's around\", finds you a dinner, and posts that you're free until 22:00. It never acts alone: every action that puts a member in a room goes through World ID for Agents, so the human approves with a fresh authentication. The concierge also exposes a read-only MCP endpoint, so any other agent can ask who is around and which tables are open. Names only, never wallets or contacts.",
+  "how_its_made": "The app is Next.js 16, React 19, TypeScript, Drizzle and PostgreSQL (PGlite in tests), with Privy for auth and wallet linking.\n\nENSv2 is talked to through hand-written minimal viem ABIs for the registry, permissioned resolver and factory (the contracts-v2 package is a Foundry dependency, not npm), targeting the Sepolia ENSv2 beta deployment. A ChainAdapter interface has two implementations: SepoliaChain (viem, two wallet clients) and SimulatedChain (in-memory registry and resolver with role scoping enforced), so the demo and test suite run without an RPC. Trips are registered with expiry = departure, and the city entry carries no resolver, so an expired trip stops resolving instead of falling back to a shared resolver. A leased ENS job worker handles mint, extend, expire and record writes with a write proof (receipt, re-read, compare). The concierge has its own wallet that holds exactly two setter roles on the resolver (friendship.now and friendship.table); a write to any other key reverts. Record aliasing is used where it is honest: concierge.tokyo.<parent>.eth links to the concierge's record bundle with linkToNode, so a new city is one link, not a copy.\n\nWorld ID uses IDKit v4 with proofOfHuman and a passport preset as the Orb-free path, server-signed rp_context, verification against the v4 endpoint, signal hash bound to the city, and the nullifier stored to enforce one active trip per human per city. World ID for Agents is plain OIDC against the sandbox: a step-up is an authorization request with prompt=login and max_age=0 whose ID token is checked for auth_time, nonce and sub inside the same transaction that marks the approval consumed.\n\nBill split settles in MockUSDC on Sepolia (the same token the ETH Registrar takes) with on-chain verification of the transfer; 0G Pay sits behind a flag. The MCP endpoint is hand-written JSON-RPC 2.0 on its own route because the app API enforces an exact Origin header that server-to-server MCP clients never send. The concierge brain is a swappable interface with a deterministic RuleBrain shipped and a custom loader for an LLM.",
+  "auto_summary": "A Next.js app models temporary city presence, social tables, and concierge approvals using ENSv2 names and World identity checks.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/new-friendship-tech-7r3c6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

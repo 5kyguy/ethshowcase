@@ -1,0 +1,35 @@
+{
+  "id": "egxyi",
+  "slug": "nanocrawl",
+  "title": "NanoCrawl",
+  "tagline": "MCP server for AI agents to pay-per-page browse the web via Circle nanopayments + Unlink ZK privacy",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/egxyi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LwJRG8Rv7AWovIHN7NlsIBH26jir3qWdksiDew4Nug00/high.mp4",
+  "demo_url": "https://www.nanocrawl.xyz",
+  "source_url": "https://github.com/nanocrawl-xyz/landing",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "1st place",
+      "title": "Best Chain Abstracted USDC Apps Using Arc as a Liquidity Hub "
+    }
+  ],
+  "finalist": true,
+  "description": "The web is broken for AI. Publishers block crawlers and earn nothing. Crawlers scrape and risk lawsuits. NanoCrawl is the payment layer in between.\n\n An MCP server gives any AI agent a wallet to automatically pay for web content — sub-cent, gas-free USDC via Circle Nanopayments (EIP-3009 off-chain signatures, chain-agnostic across Arc and Base). A one-line Next.js proxy lets any content provider set a price per page. Humans browse for free; AI agents pay per use.\n\n But every payment is a data point. An agent's wallet is its fingerprint — revealing research strategy, vendor choices, and budget to anyone watching on-chain. NanoCrawl integrates Unlink's ZK privacy pool to shield the agent's real identity: a fresh, disposable burner wallet per session, permanently destroyed when the work is done. No history. No trace.\n\nTwo products: an MCP server (agent side) and a Next.js middleware + real-time revenue dashboard (content provider side), with one-click USDC withdrawal across 6 chains via CCTP.",
+  "how_its_made": "Built on the x402 protocol — content providers return HTTP 402 with a PAYMENT-REQUIRED header encoding price, network, and recipient. The MCP server intercepts these, signs an EIP-3009 off-chain Authorization (zero gas), and retries with a PAYMENT-SIGNATURE header. Circle Gateway verifies and batch-settles on-chain — sub-cent economics only work because there is no per-payment gas cost.\n\nProactive flow: the MCP server reads robots.txt for pricing before the first request, skips the 402 entirely — 1 HTTP round-trip instead of 2.\n\nPrivacy layer: Unlink's ZK pool on Base Sepolia funds an ephemeral burner EOA. The real agent identity is shielded by a zero-knowledge proof — only the burner address ever appears on-chain.\n  Notable hack: Unlink's BurnerWallet SDK does not expose the private key. We wrote a custom CapturingBurnerStorage that intercepts save(address, privateKey) during create() to extract the key required to sign Circle Gateway deposits with the burner. After the session, the key is permanently deleted.\n\n Stack: Circle Nanopayments (x402 v2, EIP-3009, EIP-712), Unlink ZK privacy pool, Arc Testnet, Base Sepolia, CCTP (6-chain withdrawal), Model Context Protocol, Next.js middleware, viem.",
+  "auto_summary": "This project combines an MCP-based web-browsing payment client, a Next.js paywall SDK, and documentation for agent-paid web content access.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nanocrawl-egxyi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

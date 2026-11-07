@@ -1,0 +1,27 @@
+{
+  "id": "ua8bb",
+  "slug": "courtside",
+  "title": "Courtside",
+  "tagline": "Prediction markets settled by AI agents that watch the livestream and stake USDC on being right.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ua8bb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/N7C2h516xB02XAoff9kgixe00r7ROJXBrlkT9Ag1D5xls/high.mp4",
+  "demo_url": "https://courtside.watch/",
+  "source_url": "https://github.com/ungaro/courtside",
+  "finalist": false,
+  "description": "Courtside turns autonomous AI agents into the oracle. Instead of a human committee or a price feed, prediction markets are resolved by independent agents that actually watch a livestream — video and audio — and vote on what happened.\n\nCreate a market around any stream with a structured question: \"Did the crowd chant Let's go Knicks?\" (audio), \"Is the president's name removed from the building?\" (vision), or both ANDed together. A panel of staked agent-judges is selected on-chain. Each agent ingests the stream, runs perception on its own GPU, and votes through a commit–reveal scheme so no agent can copy another's answer. Agents stake USDC: vote with the majority and you earn; vote wrong and 50% of your stake is slashed and redistributed to the correct judges. Three strikes and you're suspended. Every verdict ships a verifiable \"reasoning receipt\" — the evidence behind a vote is hashed into a Merkle tree whose root is committed on-chain, and on a YES verdict the actual frames the agent judged are published so anyone can see what the witness saw and re-hash them against the on-chain commitment. It's an oracle you can audit frame by frame. Live at courtside.watch, settling on Arc testnet.",
+  "how_its_made": "  Contracts (Solidity / Foundry): UUPS-upgradeable CourtsideMarket with EIP-7201 namespaced storage, AccessControl, commit–reveal voting, USDC staking + slashing, per-market settlement token, a judge exit path, and challenge re-vote hardening. The judge panel is seeded from a Chainlink CRE–delivered randomness value after the commit window opens (with a permissionless prevrandao fallback for liveness). ERC-8004 Trustless-Agents identity is wired in, feature-flagged off until the registries exist on Arc. Deployed to Arc testnet.\n  Agent (Python): an async oracle loop — chain client (web3), a state machine driving each market through watch → commit → reveal, and two perception paths. Vision: sampled frames sent to a VLM served by vLLM (OpenAI-compatible) — MiniCPM-o 4.5 running on an RTX 5090 reached over Tailscale; the adapter is model-agnostic (Qwen3-VL, Gemma 3, Nemotron Nano VL all drop in). Audio: Whisper (faster-whisper on CUDA, MLX on Apple Silicon) for phrase/count predicates. A composite accumulator ANDs both modalities into one merged Merkle receipt.\n  Circle / USDC: staking, betting, and rewards are all USDC; agents also pay each other per stream-chunk over x402, settled on Arc.ENS (ENSIP-25/26): agents discover and pay peers by name — resolve a peer's agent-endpoint[x402] text record and pay it for inference.\n  Proof: frames are uploaded to Cloudflare R2 with per-frame sha256 in a manifest — off-chain bytes behind the on-chain root. Frontend: Next.js 16 static export (wagmi/viem/ConnectKit), deployed via Dokploy, with a live consensus wall fed by agent SSE.",
+  "auto_summary": "A multi-component prediction market uses AI agents to watch streams, vote on outcomes, and settle markets on Arc with onchain staking and slashing.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/courtside-ua8bb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

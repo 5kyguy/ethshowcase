@@ -1,0 +1,27 @@
+{
+  "id": "vnh2o",
+  "slug": "ensv2-kingdom",
+  "title": "ENSv2_kingdom",
+  "tagline": "Claim an ENSv2 name, watch it grow into a 3D castle, and tip rival kingdoms with real ETH.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vnh2o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Gu3FJO5ZSdBgMDb4uBvHLo2PoHyrq01grofaKM6GfExA/high.mp4",
+  "demo_url": "https://ensv2kingdom.vercel.app/",
+  "source_url": "https://github.com/vinhyenvodoi98/ENSv2_Village",
+  "finalist": false,
+  "description": "ENSv2 Kingdom turns your .eth name into a living medieval kingdom instead of a boring line in a wallet. The moment you claim a name through ENSv2's real commit-reveal flow, a castle grows out of the ground on a shared 3D map. Its size, style, and even its \"derelict\" ruined look are driven entirely by on-chain state, not by a database we made up.\n\nFrom there it becomes a small onchain society. You can tip another player's kingdom with real ETH and watch archers, ballistas, or catapults march across the map toward their castle. You can also found your own registry and start handing out subnames, and each one shows up as a smaller castle next to yours, so a whole namespace actually looks like a kingdom with villages around it instead of a list you have to imagine. And when you grant or revoke someone's access, you're not digging through hex logs to check it worked. It just shows up in the activity feed as a normal sentence, because we decoded it that way ourselves.\n\nWe didn't reach for exotic contract logic. The fun comes from making ENSv2's own primitives (registrar, registry, resolver, role bitmaps) visible and tangible. It's the project we'd actually want to open again after the demo ends, just to see whose kingdom grew.",
+  "how_its_made": "The frontend is Next.js + React, with the 3D world rendered via Three.js/React Three Fiber. Castles, cameras, and troop-march animations all live in src/world/. \n\nWallet connection and every onchain call go through wagmi/viem against a real ENSv2 deployment on Sepolia: ETHRegistrar for the commit, wait, register flow, PermissionedRegistry plus VerifiableFactory for deploying per-name resolver proxies, and EnhancedAccessControl's role bitmaps for permissions, decoded client-side into plain-English activity feed lines instead of raw hex.\n\nNothing in the game state is faked or mocked. A castle's shape, its ruined look, its subnames, its role holders are all derived live from registry reads. The claim wizard mirrors the actual multi-step registration process, including the 60-second commit-reveal wait ENSv2 requires to prevent front-running, and we persist wizard progress to localStorage so refreshing mid-claim resumes instead of losing your commitment. That's a small but very real UX fix once we ran into it ourselves during testing.\n\nThe one deliberately hacky choice is that the tip feature is a plain ETH transfer resolved through the name's ENS addr record, falling back to the registry owner, rather than a custom payment contract. We wanted tipping to feel instant and game-like instead of adding a contract surface that didn't add real value. The result is a project with no exotic contract engineering, just correct, careful use of ENSv2's own building blocks, pieced together to be genuinely fun to poke around in.",
+  "auto_summary": "A Next.js app visualizes ENSv2 names on Sepolia as a 3D kingdom and supports registration, subnames, permissions, and name-based tipping.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ensv2-kingdom-vnh2o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

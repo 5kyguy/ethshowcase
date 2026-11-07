@@ -1,0 +1,35 @@
+{
+  "id": "qsb02",
+  "slug": "coldproof",
+  "title": "ColdProof",
+  "tagline": "Tamper-proof cold-chain custody, carrier reputation and automatic escrow settlement.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qsb02/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8kJNOzPFS3V6F017lJ5Mgwd8g02Hp02edSUYCZKL6BxEoI/high.mp4",
+  "demo_url": "https://coldproof.pipe.com.ar/",
+  "source_url": "https://github.com/adrian-tavella/ethglobal2026",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "1st place",
+      "title": "Best AI Use Case of The Graph"
+    }
+  ],
+  "finalist": true,
+  "description": "ColdProof is a physical and digital trust layer for temperature-sensitive logistics.\n\nCold-chain failures cost the biopharma industry an estimated $35 billion annually, while shipment evidence is still often stored in editable data loggers controlled by a single party. When medicine, vaccines or biologics are rejected, shippers, carriers and insurers may have no neutral source of truth.\n\nColdProof solves this with a secure ESP32-powered box that signs temperature readings, door events and breach reports at the source. Every verified event is recorded on a dedicated Hedera Consensus Service topic, creating an immutable, ordered and publicly auditable custody record.\n\nAt the destination, the Hedera consensus log determines the settlement result. If the cold chain remained within the required range, HBAR escrow is automatically released to the carrier. If a temperature or physical security breach occurred, the payment is refunded to the shipper and the reason is recorded on-chain.\n\nColdProof also gives each carrier a portable ENS identity under coldproof.eth. Verified delivery outcomes, breaches and settlement history are processed by the ColdProof Score Engine to generate a deterministic carrier reputation score.\n\nA custom data bridge normalizes Hedera shipment evidence for The Graph-powered querying, analytics and reputation calculations, without claiming that a standard EVM subgraph can directly index Hedera HCS.\n\nColdProof transforms cold-chain data from a private, disputable record into neutral infrastructure for custody, settlement and reputation.\n\n",
+  "how_its_made": "ColdProof combines physical hardware, cryptographic device identity, distributed consensus, automatic settlement and portable carrier reputation.\n\nThe physical prototype is built with an ESP32, a DS18B20 temperature probe, a reed switch for door detection, a servo-controlled latch and status LEDs. The firmware is written in C++ using Arduino and PlatformIO. Each box has an Ed25519 key pair and signs every temperature reading, seal event and breach report before sending it to the backend.\n\nThe backend is built in TypeScript with Fastify 5, Node.js ESM and a clean hexagonal architecture. Business logic depends on abstract interfaces for the consensus log, consensus reader and escrow gateway. Hedera integrations remain in the infrastructure layer, making the core business logic modular and testable.\n\nWhen a shipment begins, ColdProof creates a dedicated Hedera Consensus Service topic. Verified sensor readings are persisted locally and submitted to that topic as ordered consensus messages. The backend uses the Hedera Mirror Node to retrieve the complete delivery history and calculate the settlement result from the public ledger rather than from a private database.\n\nIf all readings remain within the configured temperature range and no physical breach is detected, the backend releases HBAR to the carrier. If a breach occurs, it refunds the shipper. The final verdict and refund reason are also written to the HCS topic.\n\nThe dashboard is built with React 18, Vite, TypeScript and Tailwind. It allows users to manage devices, carriers and deliveries, monitor readings, review settlement outcomes and open the corresponding HashScan topic for independent verification.\n\nFor The Graph integration, we built a custom Hedera data bridge and indexing proof of concept. Standard EVM subgraphs cannot directly read Hedera Consensus Service messages, so the bridge retrieves the relevant Hedera evidence, normalizes delivery and settlement data, and exposes it for querying and reputation calculations.\n\nENS provides the carrier identity and reputation layer. Each carrier can receive an ENS subname under coldproof.eth. The ColdProof Score Engine calculates a deterministic score from verified delivery outcomes, breaches and settlement history, connecting the carrier's operational performance to its portable ENS identity.\n\nThe most notable technical decision is that Hedera is not used only as a data log. The consensus record acts as the settlement oracle. Payment is a deterministic result of the immutable sensor evidence recorded during the shipment.",
+  "auto_summary": "ColdProof logs signed cold-chain shipment events to Hedera, settles escrow from the consensus record, and computes ENS-linked carrier reputation.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/coldproof-qsb02",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

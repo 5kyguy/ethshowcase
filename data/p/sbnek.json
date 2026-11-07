@@ -1,0 +1,21 @@
+{
+  "id": "sbnek",
+  "slug": "hexray",
+  "title": "HexRay",
+  "tagline": "X-Ray vision for EVM transactions — a Claude Code skill to decode and safety-check before signing",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sbnek/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mAYENNxhfZVAbIu62TAceJVLKLKHphIylsF01ahEWg8s/high.mp4",
+  "source_url": "https://github.com/onyb/hexray",
+  "finalist": false,
+  "description": "Users routinely sign Ethereum transactions they don't understand. Calldata is opaque hex, Etherscan shows raw uint256 values and bare addresses, and there's no way to tell if you're interacting with a phishing contract or executing a legitimate swap.\n\nHexRay is a Claude Code skill that gives you X-ray vision into any transaction before you sign it. Type /hexray with a raw transaction or calldata hex, and Claude orchestrates a 4-stage analysis pipeline:\n1. Decode the calldata through a multi-tier fallback strategy that works even on unverified contracts\n2. Enrich parameters with real-world context — token symbols, formatted amounts, contract names, human-readable dates\n3. Run 11 safety checks including contract verification, age, proxy detection, sandwich attack vulnerability, slippage risks, and address-poisoning pattern detection\n4. Analyze historical usage of the same function to assess revert rates, event patterns, and confidence.\n\nClaude synthesizes the structured results into a clear verdict — SAFE TO SIGN, CAUTION, or DO NOT SIGN — with plain-English explanations of every risk factor. No more signing blind.",
+  "how_its_made": "HexRay is a Claude Code slash-command skill backed by a Bun + TypeScript CLI. The skill definition (.claude/commands/hexray.md) instructs Claude to orchestrate four CLI stages sequentially, handle user disambiguation when needed, and synthesize the JSON outputs into a human-readable security report — Claude acts as both the orchestrator and the interface.\n\nThe CLI uses viem for type-safe EVM interactions and ABI decoding. The calldata decoder uses a 4-tier fallback: Etherscan-verified ABIs, 4byte.directory selector lookups (with collision-resistant hardcoded overrides), @openchainxyz/abi-guesser for inferring parameter types from encoding structure alone, and @shazow/whatsabi for extracting ABIs from unverified bytecode via JUMPI analysis with ERC-1967/ERC-1167/Diamond proxy resolution.\n\nThe enrichment layer uses heuristics to detect token amounts vs. timestamps from parameter names and positions, resolves swap paths to human-readable token chains, and handles non-standard ERC-20 tokens (like MKR's bytes32 returns) via ABI fallback. Safety assessment runs 11 checks including an async address-poisoning detector that identifies dust-attack and drain-contract patterns from on-chain transfer history.\n\nThe project is designed to be open-source and accessible — anyone with a free Etherscan API key can use it. The entire pipeline persists state to a JSON file between stages, enabling user intervention (e.g., disambiguating multiple 4byte selector matches mid-flow).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hexray-sbnek",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

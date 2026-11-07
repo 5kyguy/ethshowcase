@@ -1,0 +1,29 @@
+{
+  "id": "2k6pj",
+  "slug": "tornado-cash-2-0",
+  "title": "Tornado Cash 2.0",
+  "tagline": "Native EVM Privacy-Preserving Lending Platform: Leveraging the Poseidon Hash, Noir DSL, IMTs, Aave, Intents, & ZKPs",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2k6pj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6aVPj7uRTq00gokK01bUDaAYIG7PMGTsCuPIZ01skXJJ4U/high.mp4",
+  "source_url": "https://github.com/partylikeits1983/tornado-2.0",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "Runners-up",
+      "title": "Best Zero-Knowledge Application on Polygon zkEVM"
+    }
+  ],
+  "finalist": false,
+  "description": "This project is a native EVM privacy-preserving lending platform that leverages zk circuits and intents to enhance onchain user privacy and capital efficiency. Users can deposit liquidity from one address and receive their initial deposit on another address without creating a link between the two addresses, all while accruing interest on their deposit. It’s magic! \n\nWhile the liquidity is deposited into the Tornado Cash 2.0 vault, it is supplied to Aave, earning interest. The person who calls the withdraw function with a valid withdrawal proof, is rewarded with the interest earned. Additionally, the more liquidity initially deposited, the shorter the time required to finalize the withdrawal without paying a fee. Other users can submit valid withdrawal proofs to the Tornado Cash vault contract to receive the interest earned by the initial deposit. The user who deposited the liquidity receives their liquidity directly from the Aave pool contract.\n\nThe key innovation here is the ability to prove that something was done a certain time ago in the past without revealing when it occurred. This is achieved by using two separate on chain proof verifiers. All hashing is done using the Poseidon hash, which the Ethereum Foundation is actively researching and verifying its security claims.\n\nLogic Flow:\n1) User 1 deposits 1 ETH on address 1 to tornado cash 2.0.\n2) During the deposit call, a valid deposit proof is required. If the deposit proof is valid, the 1 ETH is lended out on Aave, and the user’s proposed leaf is inserted into the on chain intermediate Merkle tree.\n3) User 1 can generate a withdrawal proof, proving they know the hash preimage of a leave in the IMT on chain, for a recent root. (This is the hash preimage of the leaf they inserted into the IMT during deposit.)\n4) The withdrawal root is gossiped across the network (TBD exact technical details, could be on IPFS, or even a telegram chat). User 2 sees the withdrawal proof, and sees they can submit it, to earn a fee. However to make the tx profitable, they must wait until the 1 ETH earns enough interest to cover the gas costs, plus a reward.\n5) user 2 submits the withdrawal tx, with the withdrawal proof. One of the public inputs to the withdrawal proof is address 2 of user 1.\n6) ETH is transferred to address 2 of user 1, and user 2 earns a small fee for submitting the transaction.\n7) user 1 receives a transfer of their initial deposit from Aave, since the tornado vault calls Aave.withdraw(asset, to, amount) with the to parameter being address 2 of user 1.\n8) address 1 & 2 of user 1 are not linked in any way breaking their on chain linkage.\n\nThe more users use the protocol, the higher the privacy guarantee.\n\nKey ZKP innovation:\nProve an event X happened Y amount of time in the past, without revealing at what point in time event X occurred using two separate zk proofs, and an onchain commitment.\n\nI am pretty sure this is the first time something like this has been created using a pure circuit and a smart contract. This is possibly the foundation for an EIP. I came up with this idea completely on my own. Please refer to the deposit and withdraw circuits to see how this is implemented. \n\nPrivacy is a fundamental human right.",
+  "how_its_made": "I built this project using a combination of advanced cryptographic techniques and blockchain technologies to ensure both privacy and functionality. At the heart of the system is the Noir DSL, which I used to write the zero-knowledge circuits. \n\nFor the hashing mechanism within these circuits, I employed the Poseidon hash function developed by Dmitri Hordatovich. Poseidon is specifically optimized for zero-knowledge proofs, making it an ideal choice for efficient and secure hashing.\n\nThe smart contracts are written in Solidity.\n\nA key component of the system is the storage of an intermediate Merkle tree on-chain. This Merkle tree plays a crucial role in maintaining the anonymity of transactions. When a user initiates a withdrawal, they prove that they know the hash preimage of a leaf in the intermediate Merkle tree without revealing which specific leaf it is or the path to that leaf. This zero-knowledge proof allows for secure verification of transactions while preserving user privacy. The 32 most recent IMT roots are stored in an array in the smart contract.\n\nOne of the innovative aspects of the project is the ability to prove that an action was performed at some point in the past without disclosing the exact time it occurred, only that a certain amount of time has elapsed since this action occurred. \n\nBy integrating these technologies—Noir for circuit design, Poseidon for hashing, and Solidity for smart contracts, and Aave for the lending backend, —I've created a seamless and privacy-preserving lending platform.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tornado-cash-2-0-2k6pj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "p8roy",
+  "slug": "prtct",
+  "title": "PRTCT",
+  "tagline": "Cyber-insurance infrastructure that uses ZKP to validate incidents without exposing sensitive data.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p8roy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/je02oMfH02JLDs01Wh8ntmXWFoL3gqZjomOf5yHz6ZWZF8/high.mp4",
+  "demo_url": "https://app.protectorium.com",
+  "source_url": "https://github.com/Nurnberg-Meistersinger/PRTCTeam",
+  "prizes": [
+    {
+      "sponsor": "Aztec",
+      "sponsor_id": "nhs1x",
+      "placement": "Rethinking What's Possible",
+      "title": "Rethinking What's Possible"
+    }
+  ],
+  "finalist": false,
+  "description": "The cyber insurance market has tripled since 2020 but remains inefficient due to a lack of trust. Insurers delay payouts because they do not recognise the occurrence of a Cyber-Incident without manually verifying confidential IT infrastructure. Affected companies even refuse to receive payouts just to prevent data leaks from insurers and additional legal expenses.\n\nWe are building a cyber insurance infrastructure platform that allows policyholders to prove the occurrence of a Cyber-Incident without disclosing corporate secrets, reducing the approval payout time from several months to a few hours. We replace trust with ZKP: a Cyber-Incident can be proven only with strong evidence in the form of signed audit logs, which are verified within the ZK circuit to ensure compliance with the terms of the cyber insurance policy.\n\nThe PRTCT platform acts as an intermediary between the Insurer and the Policyholder. For Policyholder to generate a ZKP of Incident, a reliable source of trustworthy and authentic Cyber-Incident data that is extremely difficult to tamper with is required. Such a source can be SOAR-class cybersecurity systems, which emit Cyber-Incident artifacts that cannot be tampered with or altered without being detected. SOAR-class systems are the best choice due to their orchestration function: they collect raw security data and alerts from all other company cybersecurity modules, such as SIEM, EDR, DLP, WAF, NGFW, etc.\n\nTo ensure a stable and secure data transfer channel from Policyholder to PRTCT, we assume to integrate the lightweight Watch Guardian module into Policyholder's IT infrastructure during the cyber risk underwriting phase, ensuring the delivery of Cyber-Incident artifacts over secure communication channels in real time. We have several working hypotheses regarding practical implementation (TLS in backend is major), but we plan to experiment with zkTLS separately.\n\nTo ensure legal validity and as an additional measure to prevent fraud by Policyholder, each sent Cyber-Incident data packet is additionally digitally signed within Watch Guardian, which is legally binding in court proceedings.\n\nAfter receiving and processing all Cyber-Incident data, the PRTCT platform allows the Policyholder to initiate the generation of a ZK Proof and send it to the Insurer for verification. Within the arithmetic circuit, a check is made to determine whether the Cyber-Incident actually meets the policy terms. A ZK Proof cannot be generated if the Cyber-Incident does not meet the policy terms. Successful Proof of Incident generation, in turn, confirms the Policyholder's right to promptly receive insurance compensation: timely assistance from the Insurer can minimize the impact of existing Cyber-Incidents and prevent them from escalating into more serious events.\n\nThe platform's operating algorithm consists of 5 main phases:\n1. Cyber-Incident Occurence\n2. Cyber-Incident Processing\n3. ZKP of Incident: Initiation\n4. ZKP of Incident: Generation\n5. ZKP of Incident: Broadcast",
+  "how_its_made": "As part of the hackathon, we were able to build a simplified prototype system and write the logic for proving the onset of a rather critical Golden Ticket Attack — a cyberattack targeting Active Directory infrastructure that allows attackers to gain persistent domain-level access by forging Kerberos authentication tickets.\n\nThe current version of the architecture implements only the basic logic of Policyholder and Insurer authorization via Azguard Wallet (Aztec), acceptance and processing of incidents in the form of mock data, generation of ZK Proof of Incident (Golden Ticket Attack) via Noir circuit, as well as ZK Proof broadcast and display on the Frontend.\n\nStack\n- Backend: Python, PostgreSQL, FastAPI, Uvicorn\n- Frontend: Typesript, NextJS, Aztec.js, Azguard Wallet SDK\n- ZKP: Noir\n- Contracts: Noir, Aztec.nr, Aztec Devnet\n\nAttack Vector\n- The circuit processes Windows Security Event logs, specifically focusing on Kerberos authentication events. \n- Compromise: Attacker obtains the KRBTGT account password hash (domain controller's master key)\n- Forgery: Creates fake Ticket-Granting Tickets (TGT) with arbitrary parameters\n- Persistence: Gains unlimited access to any domain resource while remaining undetectable\n\nAttack Detection Logic\n1. Anomalous Ticket Lifetime Detection:\nWhat we prove: TGT ticket exceeds policy maximum (normal: 10 hours, attack: years)\n2. Ghost User Detection:\nWhat we prove: Ticket requested for non-existent/forged user account\n3. Privilege Escalation Detection:\nWhat we prove: Non-existent user has Domain Admin privileges",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/prtct-p8roy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

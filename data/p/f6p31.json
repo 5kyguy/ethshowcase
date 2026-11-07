@@ -1,0 +1,29 @@
+{
+  "id": "f6p31",
+  "slug": "blockchess",
+  "title": "Blockchess",
+  "tagline": "Real-time cross-chain chess game where players vote on moves with USDC stakes and earn rewards",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f6p31/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MHGqYfsoNXE8epo1cXUVpOq6p2GVTVh2c3qKIkXHGVo/high.mp4",
+  "source_url": "https://github.com/aristidebrd/blockchess",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "World Pool Prize",
+      "title": "World Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "BlockChess is a collaborative chess game we built where players join teams (white or black) and vote on the next move in real-time. What makes it unique is the blockchain integration - players stake USDC to vote for moves, one vote per turn, and the winning team gets the pot proportionnaly to each player's vote.\nThe improvement is that it can be played from many chains without the need for users to be on the same chain, thanks to Circle's CCTP in order to collect and distribute the rewards cross chain.\n\nI was inspired by the idea of turning chess into a community decision-making game with real stakes. The frontend is React/TypeScript with a clean voting interface, the backend is Go with WebSocket for real-time updates, and I wrote Solidity contracts for the staking and rewards mechanism.\n\nPlayers connect their wallets, pick a team, and then vote on moves during 15-second turns. The most voted move gets executed automatically.\n\nThe cross-chain aspect was particularly fun to implement - winners can receive their rewards on any of the supported chains from where they are playing, making it truly multi-chain.",
+  "how_its_made": "The architecture has three main parts that we built from scratch:\n\nFrontend: React + TypeScript with RainbowKit for wallet connections. We used WebSockets for real-time voting updates and built a custom chess board component. The UI shows live vote counts and has a clean approval flow for USDC transactions.\n\nBackend: Go server handling WebSocket connections, game state management, and blockchain interactions. We implemented a voting system that tracks moves per turn and automatically executes the most popular choice when the timer hits zero. The tricky part was syncing the chess logic between the frontend/backend and the blockchain state.\n\nSmart Contracts: Three main contracts - GameFactory creates and manages new games, GameContract tracks individual game state and votes, and VaultContract handles USDC staking and rewards distribution with Circle's CCTP for cross-chain transfers. We deployed across 10 testnets :\n\n- Ethereum Sepolia\n- Base Sepolia\n- Optimism Sepolia\n- Arbitrum Sepolia\n- Avalanche Fuji\n- Polygon Amoy\n- Unichain Sepolia\n- Linea Sepolia\n- Sonic Testnet\n- World Chain Sepolia\n\nThe most interesting technical bit was integrating Circle's Cross-Chain Transfer Protocol. Winners can receive USDC rewards on any supported chain, not just where they staked. We also built deployment scripts that automatically set up the contracts across all networks.\n\nFor testing, we created a script that forks Base/Optimism Sepolia locally and credits test accounts with USDC, making development much smoother.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/blockchess-f6p31",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

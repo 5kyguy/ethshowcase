@@ -1,0 +1,26 @@
+{
+  "id": "j9ygy",
+  "slug": "lethe",
+  "title": "Lethe",
+  "tagline": "Lethe audits medical bills with multi-AI consensus and zero data retention.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/j9ygy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EPL00rG7EcQuK201Gkgb5XkE9P02PVIbZSHF8PI4SgKULw/high.mp4",
+  "source_url": "https://github.com/jhatch3/lethe-",
+  "finalist": false,
+  "description": "Lethe is a privacy-first medical billing audit system that helps patients detect and dispute costly errors without exposing sensitive data. Users upload a hospital bill, and Lethe immediately strips all personally identifiable information before any AI processing occurs. Three independent AI agents analyze the redacted bill in parallel, then share findings and re-evaluate them through a second round of peer review. Only results with 2 of 3 agreement are accepted, ensuring high-confidence error detection.\n\nMedical billing errors cost Americans over $100B annually, yet most patients lack the time or expertise to challenge them. Lethe directly addresses this by identifying overcharges, incorrect codes, and duplicate fees, then automatically generating a structured appeal letter for the user to review and send.\n\nThe original bill is never stored, and all sensitive data is wiped from memory after processing. For verification, Lethe anchors a hash of the audit and its outcome on-chain, creating a tamper-proof record without revealing private information.\n\nBy combining multi-agent AI consensus, zero data retention, and verifiable blockchain records, Lethe makes it simple to recover money lost to billing errors while preserving complete user privacy.",
+  "how_its_made": "Lethe is built as a full-stack system combining a React/Next.js frontend with a FastAPI-based orchestration backend that coordinates parsing, redaction, AI agents, and on-chain actions. When a user uploads a bill, a deterministic parser extracts structured data, followed by a multi-layer redaction pipeline (regex + LLM sweep) that removes all PHI before any model interaction.\n\nThe core of Lethe is a 3-agent consensus system using independent LLM providers (OpenAI, Anthropic, and Google). Each agent runs in parallel, then communicates findings over a peer-to-peer mesh (Gensyn AXL) to enable a second round of reflection before reaching a 2-of-3 quorum. This avoids single-model bias and creates a more reliable audit layer.\n\nFor persistence and verification, Lethe uses the 0G stack: 0G Chain to anchor audit hashes and outcomes, 0G Storage for encrypted audit blobs and rulebooks, and optionally 0G Compute for decentralized inference. A Node.js sidecar handles signing and interaction with 0G services, enabling trust-minimized compute and storage without exposing raw data.\n\nKeeperHub is used to trigger real-world actions via on-chain workflows, including anchoring audits, recording disputes, and attesting when appeals are sent. These workflows interact with a unified smart contract deployed on Ethereum Sepolia.\n\nSome notable “hacky” elements include running three independent AI agents with separate Dockerized P2P nodes for real message passing, a fallback system that dynamically switches between decentralized and centralized inference, and a zero-retention memory model that wipes all bill data immediately after processing while still preserving verifiable proofs on-chain.",
+  "auto_summary": "A full-stack medical billing audit app redacts uploaded bills, runs multi-agent review, and records verification data on-chain.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lethe-j9ygy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

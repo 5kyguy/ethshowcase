@@ -1,0 +1,27 @@
+{
+  "id": "q8en2",
+  "slug": "behaviorchain",
+  "title": "BehaviorChain",
+  "tagline": "Hash-chained behavioral identity for agents. Detect behavioral drift in real-time.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q8en2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5FDtzUnsYtzbQXPGMVnP7RnItpbqokc029ypU1qZWWEg/high.mp4",
+  "demo_url": "https://frontend-chi-seven-60.vercel.app",
+  "source_url": "https://github.com/drewM33/BehaviorChain",
+  "finalist": false,
+  "description": "AI agents are the fastest-expanding attack surface in cybersecurity. 48% of security professionals now rank agentic AI as the single most dangerous attack vector (Dark Reading / Kiteworks, 2026), and Gartner projects 40% of enterprise apps will embed agents by end of year. The problem is structural: agents operate with elevated permissions across multiple systems at machine speed, every tool integration is an entry point, and compromised agents cascade through trust graphs before a human can respond.\n\nAgentKit provides powerful identity primitives with proof-of-human delegation, wallet binding, and verification. BehaviorChain extends that trust model with something identity alone can't catch: real-time behavioral drift detection through cryptographic hashes. \n\nOn March 31, 2026, attackers compromised the npm account of the Axios maintainer and published two poisoned versions of the library, a library used by over 100 million projects weekly. A phantom dependency (plain-crypto-js@4.2.1) deployed a cross-platform RAT capable of credential theft and remote execution. The malicious versions were live for approximately two to three hours before removal.\n\nNow imagine a maintainer's AI agent running Axios in production, verified through AgentKit. During the attack, the only thing that changes is what the agent is actually doing, and no identity primitive watches for that.\n\nBehaviorChain would have fired five critical alerts: dependency graph hash changed (new package appeared), new outbound destination never seen before, first-time credential access pattern (SSH keys, AWS tokens, NPM tokens), first-ever subprocess spawning (shell execution to download the RAT), and self-modification detected (malware deleting its own artifacts).\n\nThe industry average time to detect a supply chain compromise is 267 days (IBM 2025). BehaviorChain detects drift at commit time because the protocol is instant, on-chain, and tamper-proof. It extends ERC-8004 by hash-chaining behavioral state commitments on-chain and then committing only when behavior changes. No change means no commit, no gas, no noise. Chain length over time is itself a volatility metric.\n\nAgentKit tells you who the agent is. BehaviorChain tells you what it's doing, and whether that changed.",
+  "how_its_made": "BehaviorChain starts where World's AgentKit leaves off. AgentKit gives agents a verified human link through World ID; proof of personhood that ensures a real person is behind every agent. That human-linked identity is a powerful foundation for behavioral accountability: when you know who is behind an agent, detecting what that agent does becomes far more actionable. BehaviorChain uses that identity anchor as the trust root for an on-chain behavioral history.\n\nThe project is a TypeScript monorepo with five packages, built on Base (Sepolia and Mainnet). At the center is a Solidity smart contract, BehaviorSnapshotRegistry, that stores hash-chained behavioral commitments and emits SnapshotCommitted events. Each commitment links to the previous via hash chaining, creating a tamper-proof, append-only behavioral history per agent.\n\nThe @behaviorchain/drift engine subscribes to on-chain SnapshotCommitted events in real time and classifies drift severity across five vectors: dependency graph mutation, outbound destination changes, credential access patterns, subprocess spawning, and self-modification. The @behaviorchain/dashboard is a React app built with Vite, backed by an API server for live monitoring. The @behaviorchain/sdk wraps ethers.js and exposes a single method: commitIfChanged. It takes the Valiron (a free public SDK for off-chain behavioral snapshots on ERC-8004) evaluation snapshot, hashes it, compares against the last on-chain commit, and only submits a transaction if the hash differs — stable agents burn zero gas. The @behaviorchain/pipeline connects to Valiron via webhooks, automatically pushing evaluation snapshots into the chain whenever Valiron runs an assessment.\n\nThe hackiest part: the commit is the signal. A SnapshotCommitted event inherently means behavior changed — no separate alerting index, no polling, no off-chain watcher. Uninterrupted chain length over time becomes a native volatility metric. AgentKit's proof of personhood solves identity, and BehaviorChain extends it with persistent behavioral accountability. A human-linked agent with a clean, long behavioral chain is the strongest trust signal in the agentic economy.",
+  "auto_summary": "A TypeScript monorepo that records agent behavior snapshots on Base and surfaces drift alerts through SDK, pipeline, and dashboard components.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/behaviorchain-q8en2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

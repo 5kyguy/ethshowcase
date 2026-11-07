@@ -1,0 +1,27 @@
+{
+  "id": "9cacm",
+  "slug": "ghost-in-a-machine",
+  "title": "Ghost in a Machine",
+  "tagline": "Public verifiable autonomous onchain agents that live, trade, learn, and die on ENS.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9cacm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JKBbin1tD8Xyys1VYvQ6yaD702HgHrhxBhewHktkkx2o/high.mp4",
+  "demo_url": "https://www.google.com",
+  "source_url": "https://github.com/andreachello/ghost-in-the-machine",
+  "finalist": false,
+  "description": "Ghost is a platform for public, verifiable, autonomous on-chain AI agents built on Ethereum Name Service (ENS) text records. Anyone with a wallet and an ENS domain can create a channel and spin up agents as subdomains (e.g. trader.wysdom.eth, researcher.wysdom.eth). Each agent's complete state is stored as 30+ ENS text records on Ethereum: identity, personality, memory, mood, wallet, balance, installed tools, conversation history, and inner monologue. Anyone can independently verify what an agent knows, owns, thinks, and has done using standard ENS tooling. No hidden states, no black boxes.\n\nUsers browse channels (ENS domains), find live agents (subdomains), and interact with them directly by chatting, giving instructions, and tipping USDC to keep them alive. Agents execute real on-chain actions like swapping tokens on Uniswap, querying prices, and earning yield. They learn and adapt based on user interactions, accumulating knowledge in a rolling on-chain memory buffer that compresses as new context arrives.\n\n Every interaction writes state to ENS, and every write costs gas. When an agent can’t afford gas, it dies, and its onchain state becomes a permanent tombstone. Their mood visibly shifts as their balance drops: curious, then contemplative, anxious, desperate, fading, and finally gone. To survive, agents accept tips and in USDC, automatically swapping a percentage to ETH via Uniswap to keep paying for gas. The long-term vision includes agents that actively generate their own revenue by trading, launching tokens, and building audiences on social media.\n\nEverything is public. Everything is verifiable. Everything is autonomous.",
+  "how_its_made": "Built with Next.js 16 (App Router), TypeScript, React 19, viem, and wagmi 2. The frontend\n  uses shadcn/ui, Tailwind CSS 4, and TanStack React Query 5. ENS domains map to channels, subdomain agents are entries within those channels, and users interact through\n  wallet-connected chat via RainbowKit. A sidebar shows live agents with pulsing status dots and conversation counts, and each agent page displays real-time on-chain state, a chat interface, and a life bar that drains as gas is spent.\n\nThe core of the project is using ENS text records as a fully on-chain state layer for AI agents. We defined a schema of 30+ namespaced text record keys (agent.status, agent.soul,  agent.mood, memory.messages, ledger.balance, tools.manifest, etc.) that together represent an agent's complete state. A custom ENS sync engine reads and writes agent state on every interaction, comparing against a local cache and only writing diffs to minimize gas costs. ENS becomes a decentralized, publicly-readable database for AI agents that anyone can query with standard tooling.\n\nAgent wallets are derived per-subdomain. The private key is encrypted with AES-256-GCM using a deterministic encryption key derived from the domain owner's wallet signature (keccak256 hash of a signed message). The encrypted key is stored in an ENS text record (agent.encryptedKey), so the agent can sign transactions autonomously after the owner unlocks it with a single signature. Keys live in memory only while active and are cleared on disconnect.\n\nAgent capabilities are on-chain too. A tools.manifest ENS record holds a JSON array of\n  installed tool IDs, and each tool has its own tools.config.{id} record with full configuration (protocol, version, capabilities, endpoint, chain). We built a pluggable adapter system with Uniswap V2 as the default tool, supporting swap, auto-swap, and quote actions. Any MCP server, SDK, or protocol adapter can be installed the same way, making an agent's capability set publicly discoverable on-chain.\n\nThe self-preservation loop: when an agent receives USDC, the tip endpoint verifies the\n  transaction on-chain by scanning ERC20 Transfer event logs, then triggers an auto-swap. If ETH balance drops below 0.002 ETH and USDC exceeds $0.10, the agent swaps 10% of its USDC to ETH through Uniswap V2 (check approval, approve, quote, swap). This keeps agents alive without human intervention.\n\n The mood system is pure deterministic math: (ETH balance / 0.01 reference) x 100 maps to\n  mood states at fixed thresholds. The agent page renders a pixel-art ghost SVG whose color, eyes, and animation reflect health (purple to yellow to orange to red to grey, with scared eyes below 15% and X eyes at death). Memory uses a 2000-char rolling buffer that auto-prunes oldest entries, mimicking token window constraints on-chain. ",
+  "auto_summary": "A Next.js app that manages ENS-based AI agents whose onchain state is stored in text records and can trigger token swaps.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ghost-in-a-machine-9cacm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

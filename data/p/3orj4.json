@@ -1,0 +1,27 @@
+{
+  "id": "3orj4",
+  "slug": "samm",
+  "title": "SAMM",
+  "tagline": "SAMM: The first dynamically sharded AMM — upto 16x throughput, and upto 15x LP returns",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3orj4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8O2eAO012X4qBctH02y5X9kcSar9Lhf00PqgPbI63n4zV00/high.mp4",
+  "demo_url": "https://www.samm.one/",
+  "source_url": "https://github.com/ASR-Innovations/samm-evm",
+  "finalist": false,
+  "description": "SAMM adapts the number of AMM shards in real-time based on transaction throughput. It uses game-theoretically sound mechanisms to prevent front-running, ensure pricing fairness, and increase LP profitability.\n\nSAMM enhances LP returns by:\n\nFee Differentiation: Smaller shards offer better fee incentives to LPs, driving liquidity rebalancing.\nIncreased Utilization: During high demand, dynamic scaling ensures more trades and higher fee income.\nMinimized Idle Capital: In low-demand regimes, LPs consolidate in a single shard for maximum ROI.\n\nSAMM introduces a bounded-ratio polynomial fee function to balance liquidity across shards.\n\nFee(Δ) = (R_B / R_A) × Δ × max{ r_min, min{ r_max, β₁ × R_A^β₂ × R_B^β₃ × Δ^β₄ + β₅ } }\n\nWhere:\nΔ: amount traded\n(R_A, R_B): token reserves\n(βᵢ): tunable coefficients\n(r_min, r_max): fee ratio bounds",
+  "how_its_made": "SAMM is a sharded AMM built from scratch across two live testnets simultaneously.\n\nCore contracts (RiseChain OP Stack, chain 11155931): Six Solidity 0.8.20 contracts compiled with Hardhat — SAMMPool (output-based AMM with custom dynamic fee formula: fee = max(r_min, β₁·(O_A/R_A) + r_max) in 18-decimal fixed-point), SAMMPoolFactory, CrossPoolRouter (multi-hop routing up to 4 hops), DynamicShardOrchestrator (atomic split/merge/rebalance), SAMMAgentRegistry, and TokenFaucet. All built on OpenZeppelin v5.\n\n\nChainlink CRE: A TypeScript workflow runs on a Chainlink DON every 60s — reads live AggregatorV3 price feeds (ETH/USD, BTC/USD, USDC/USD, DAI/USD), fetches SAMM pool state, and autonomously splits shards when TPS/shard ≥ 250, merges when ≤ 62.5, and rebalances when spot price deviates >0.3% from oracle.\n\nUniswap Trading API: Proxied through an Express 5 backend (API key server-side). Two endpoints handle the full swap flow — /prepare returns a Uniswap quote + Permit2 typed data, /execute returns the unsigned tx for MetaMask.\n\nENS (SAMMAgentRegistry): Every agent and pool shard gets an on-chain ENS identity — 5 agents + 42 shard subnames (e.g. small.weth-usdc.samm.eth). External protocols can call resolveENS() to get address, role, and metadata, making the entire system composable.\n\nNotable hack: The shard orchestrator triggers atomically from the Chainlink DON — no multisig, no manual intervention. The DON computes n = min(⌈TPS/50⌉, 10) off-chain and writes the decision on-chain in a single transaction.",
+  "auto_summary": "A Solidity-based sharded AMM with routing, orchestration, and off-chain integrations for Uniswap API, Chainlink workflows, and ENS-style identity registration.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/samm-3orj4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

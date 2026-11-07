@@ -1,0 +1,35 @@
+{
+  "id": "hr2jk",
+  "slug": "keeper-gate",
+  "title": "Keeper-Gate",
+  "tagline": "Universal adapter that connects KeeperHub to LangChain, ElizaOS & OpenClaw instantly",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hr2jk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tIrz4bpareO5YTvp6PgifEsiWogztS602LeHJU2p6qOc/high.mp4",
+  "demo_url": "https://www.npmjs.com/~keepergate",
+  "source_url": "https://github.com/chronogist/keeper-gate",
+  "prizes": [
+    {
+      "sponsor": "KeeperHub",
+      "sponsor_id": "8exbf",
+      "placement": "2nd place",
+      "title": "Best Use of KeeperHub"
+    }
+  ],
+  "finalist": true,
+  "description": "KeeperGate unlocks KeeperHub for hundreds of thousands of developers. LangChain has 200k+ monthly users, ElizaOS powers 50k+ active agents, and OpenClaw serves 30k+ developers building AI tools. KeeperHub's blockchain execution is incredible but it only works if you write custom code. \nKeeperGate changes that. Three lines of code. Any developer. Any framework.\n\nNow a LangChain builder can give their agent on-chain superpowers without learning KeeperHub's API. An ElizaOS developer can automate blockchain workflows without writing a single HTTP request. An OpenClaw user can execute trades, transfer tokens, and manage smart contracts instantly.\n\nInstead of KeeperHub reaching the tiny fraction of developers who build custom integrations, KeeperGate puts it directly in the hands of 280k+ framework users. One adapter. Three ecosystems. Massive reach.\n\nWhat does each agent get? Multiple blockchain tools: token transfers, smart contract reads, conditional execution, workflow management, transaction tracking, and more. All with enterprise features built-in: automatic retries, gas optimization, MEV protection, and complete audit trails. No extra work. No boilerplate. Just reliability.\nThis is how you scale infrastructure: meet developers where they already build.",
+  "how_its_made": "KeeperGate is built around a single, hardened core with three minimal adapters layered on top.\n\nAt the center is the @keepergate/core package, a framework-agnostic engine responsible for all the heavy lifting: REST authentication, polling, retry logic, error handling, response normalization, and schema inference. It’s written in TypeScript 5 with strict settings (including noUncheckedIndexedAccess) to enforce correctness in a blockchain context where mistakes are costly.\n\nThis core wraps the KeeperHub REST API via a strongly typed KeeperHubClient that manages Bearer token authentication, retries, and structured error handling. It exposes two primary abstractions:\n\n📍DirectExecutor for immediate on-chain operations such as token transfers and contract calls\n📍WorkflowTool for interacting with KeeperHub’s workflow system (create, run, update, delete, duplicate)\n\nOn top of that sit three adapters; @keepergate/langchain, @keepergate/elizaos, and @keepergate/openclaw : each roughly ~100 lines. Their sole job is to translate the core’s capabilities into the native interfaces of their respective ecosystems:\n✨ LangChain → StructuredTool[] with Zod schemas\n✨ ElizaOS → Plugin + Action[] with uppercase naming conventions\n✨ OpenClaw → definePluginEntry + AnyAgentTool[] using TypeBox schemas\n\nBecause all functionality lives in the core, any new feature is implemented once and automatically becomes available across all adapters. This eliminates duplication and minimizes long-term maintenance overhead.\n\nFor the demo, OpenRouter (OpenAI-compatible) was used as the LLM layer, demonstrating multi-step tool chaining within a single reasoning loop — for example, listing workflows and immediately executing one. This was tested with a real gpt-oss-20b model, the live KeeperHub API, and actual on-chain interactions.\n\nTesting is handled within a pnpm monorepo, with over 40 smoke tests running against the live API. Each adapter is validated end-to-end, alongside unit tests covering edge cases like malformed templates, retry logic, and polling timeouts. Full CRUD lifecycle tests (create → duplicate → update → delete) are executed across all three integrations.\n\nThe stack includes TypeScript 5, pnpm workspaces, Zod (with per-field .describe() metadata for LLM guidance), @langchain/core, @elizaos/core v1.7+, and openclaw v2026.4+. The project is licensed under Apache 2.0 to align with KeeperHub.\n\nOne particularly pragmatic area was hardening the ElizaOS integration against unreliable LLM outputs — including empty responses, plain text instead of structured payloads, malformed XML, and missing fields. Defensive parsing and validation layers were added to ensure system stability even when upstream model output is inconsistent.",
+  "auto_summary": "A TypeScript monorepo that wraps the KeeperHub REST API in a shared core and exposes tools for LangChain, ElizaOS, and OpenClaw.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/keeper-gate-hr2jk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

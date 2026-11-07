@@ -1,0 +1,48 @@
+{
+  "id": "xarwm",
+  "slug": "zeke",
+  "title": "Zeke",
+  "tagline": "Zeke is the first zero knowledge powered Paypal on/off ramp with Telegram native integration & Account Abstraction for a seemless UX ",
+  "event": {
+    "slug": "sydney",
+    "name": "ETHGlobal Sydney",
+    "start_time": "2024-05-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xarwm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/niEjd4PG3H1EusTSmxVSeI32iahErCGd644LS3Olvx4/high.mp4",
+  "demo_url": "https://drive.google.com/file/d/13WqllmjSa8MBwBWFpgcO44uEhBMrNDuH/view?usp=sharing",
+  "source_url": "https://github.com/mnm458/zeke",
+  "prizes": [
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "Best Infra and Tooling Project",
+      "title": "Best Infra and Tooling Project"
+    },
+    {
+      "sponsor": "Nethermind",
+      "sponsor_id": "bk5qx",
+      "placement": "Zero-Knowledge (ZK) innovations",
+      "title": "Zero-Knowledge (ZK) innovations"
+    },
+    {
+      "sponsor": "dabl.club",
+      "sponsor_id": "h24ko",
+      "placement": "2nd place",
+      "title": "Zero Knowledge Bounty"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Sydney Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "“As it stands, the success of crypto depends heavily on the availability of user-friendly onboarding portals” -Nasdaq\n\nZeke is a zero knowledge proof based on/off ramp allowing anyone to on-ramp (convert fiat to stablecoin) in a completely decentralised peer-to-peer manner through off-chain payment rails such as Venmo and PayPal via Telegram Bot.\n\nCurrent fiat on/off ramp providers face issues with their user flows being very clunky, inconvenient and requiring a lot of data input for KYC, while existing defi on-ramp solutions have problems with on-ramping in a timely manner.\n\nZeke aims to address these issues by providing users with an easy to use interface and operability via telegram bots. Approximately 80% of the trading volume occurs via Telegram Trading Bots, with over $9 billion of cumulative trading volume with more untapped potential.",
+  "how_its_made": "Zeke is made of a few major components including smart contracts, zk circuits and a custom relayer infrastructure.\n\nZeke smart contracts include a Ramp contract, which acts as a escrow, and handles all business logic and intricacies of creating, managing, completing and verifying orders. Ramp contract works in conjunction with Maanager util contracts including order manager, token manager and user manager and escrow manager. There is also a Verifier contract that only serves one purpose of validating and verifying our circuit proofs.\n\nZeke's zk circuits include Merkle Damgard Verifiers, paypal off ramp verifiers and paypal on ramp verifiers. The key purpose of the circuits is to take certain public inputs that are retrieved from the .eml file of a Paypal payment email confirmation such as header, amount, sender etc. The circuits then perform a series of sophisticated verifications on the email object including DKIM header validation which validates the email signature validating that the contents of the email are authentic and not-tampered with. The circuit then performs regex-based verifications to validate the payment amounts, currency and body hash in padded bytes to ensure validation process consistency. the circuits themselves are off-chain, compiled into a .wasm and r1cs, which along with inputs.json and a few other config files used to generate witness, the zkey and finally the proof.json. the backend for this is hosted on a powerful VM on GCP compute instance. \n\nThe relayer infrastructure is written in golang and  composed of a kafka message queue system which, on the producer side has event listener using geth, to pick up on any incoming order creation transactions while ensuring low latency. the Producer then pushes the transactions to the messaeg queue depending on the queue broker, topic and partition. Different topic is used for each corresponding chain to support multi-chain orders. On the consumer side, the LP/consumer pulls messages from the queue, parses the transactions to retrieve emitted events and retrieve key info, then created an order using Paypal webhooks, after which the onramper receives payment request. the payment request config is set to no chargebacks as a default policy, which is enforced. Once the payment is made, the LP/consumer generates the zk proof interacting with our zk binary backend hosted on GCP. \n\nThe Telegram bot mini app is made using React and Tailwind CSS. The bot first needs to be initialised using BotFather which provides a unique token. Then, using a React.Js project with necessary libraries like Tailwind and Telegraf, the logic for the bot is written to present a mini app with a focus on a seamless user interaction. The mini app is what allows users to connect to a wallet with the help of a library called thirdWeb, which also allows the use of account abstraction and the use of smart contract wallets.\n\nWith thirdWeb, we are able to implement account abstraction wallets in the app which allows the smart contract to pay directly for the transaction fees, reducing that cost for users trying to on/off ramp their fiat to crypto or vice versa. This also promotes flexibility for the user with the app as well as the ability to execute transactions without the hassle of managing cryptocurrency balances. \n\nMajor Components\n- ZK proof circuits in Circom\n- Relayer in Golang \n- UI using Telegram Web App, implemented using React.Js and Tailwind CSS\n- Smart contracts in Solidity using Foundry Framework\n*Offchain servers hosted in GCP*\n\nPartner Technologies\n- Chainlink Price feed to validate the fiat exchange rate requested by on-rampers, and to validate the crypto amount off-ramped\n- Base - deployed on Base\n- Mantle - deployed on Mantle\n- Zero Knowledge Proofs to power private payments in L2 networks",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zeke-xarwm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

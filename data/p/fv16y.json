@@ -1,0 +1,53 @@
+{
+  "id": "fv16y",
+  "slug": "manila",
+  "title": "Manila",
+  "tagline": "Private, onchain, programmable, and agentic USDC payroll and vesting on Arc",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fv16y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VdcvqL6LvsRoeFc1bLdl02ZFfs02MImAqiRZdd5yhsgdY/high.mp4",
+  "demo_url": "https://manila.maxwellandrew.com",
+  "source_url": "https://github.com/max-andrew/manila",
+  "prizes": [
+    {
+      "sponsor": "Unlink",
+      "sponsor_id": "itd29",
+      "placement": "Best use of Unlink SDK for Payments",
+      "title": "Best use of Unlink SDK for Payments"
+    },
+    {
+      "sponsor": "Dynamic",
+      "sponsor_id": "xrzks",
+      "placement": "Best Money App",
+      "title": "Best Money App"
+    },
+    {
+      "sponsor": "Dynamic",
+      "sponsor_id": "xrzks",
+      "placement": "Best Private Nanopayments App",
+      "title": "Best Private Nanopayments App"
+    },
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "Best Private Nanopayments",
+      "title": "Best Private Nanopayments"
+    }
+  ],
+  "finalist": false,
+  "description": "Manila is confidential USDC payroll, operated by an AI agent. Today under 1% of payroll runs on stablecoins, partly because a public chain turns every salary into a permanent, public record. Manila fixes that and pays the team daily instead of monthly.\n\nYou instruct an agent in plain English — \"run today's payroll,\" \"pay just Ben Strauss,\" \"run with the maximally acceptable bonus.\" The agent drafts the run, but it can't act on vibes: every run is checked against a deterministic policy engine (per-run cap, hard ceiling, pay band, recipient allowlist) that returns one of three verdicts — pass, hold for a second human signature, or refuse. The model proposes; deterministic code disposes, so no clever prompt can talk a payment past the controls.\n\nManila runs two USDC rails:\n\n1. Sealed daily salary: each employee's salary is sent as a private transfer, settled through gas-free batched nanopayments, so per-day payroll costs a fraction of a cent (impractical on ACH or wire). Balances are sealed from the public explorer but remain auditable to the employer.\n\n2. Programmable vesting: longer-horizon, equity-style pay streams from an on-chain USDC vault the agent releases as it accrues. This path is fully public and verifiable on Arc.\n\nEvery action (drafts, policy checks, seals, vault releases) lands in an exportable audit trail. The agent holds no private keys, every payment is signed by a Dynamic MPC server wallet.",
+  "how_its_made": "The whole app is a Cloudflare Worker (Hono router, D1/SQLite for state, served from one static page). The agent brain is Cloudflare Workers AI running Llama 3.3 70B in a function-calling loop — no external LLM key, the model runs on the AI binding. The model only routes: it picks tools (draft run, check policy, execute, request approval, release vesting), and a deterministic policy engine makes every money decision, so a smaller free model can't be talked past the controls. A deterministic fallback parser handles cases where the model emits no clean tool call, so commands fail gracefully.\n\nCircle / Arc: everything settles in USDC on Arc testnet, where USDC is the native gas token. Payroll fees settle as batched x402 nanopayments through Circle Gateway. The vesting path is a Solidity contract (PayrollVaultV2, Foundry-tested, 14 tests) deployed on Arc for the \"Advanced Stablecoin Logic\" idea; per-employee cliff + linear vesting, with a resetClock that re-arms remaining funds over a fresh clock so a long schedule stays live.\n\nUnlink: salaries are sealed as private transfers via the Unlink SDK; the public explorer can't show them by design, so we read employer-auditable balances through Unlink's admin API.\n\nDynamic: the agent holds no keys. A Dynamic MPC (2-of-2) server wallet signs every x402 authorization and every on-chain vault release. Because the native MPC binary can't run inside workerd, the hacky-but-clean bit is a tiny Node sidecar that exposes signing only — the Worker builds the transaction, the sidecar signs, the Worker broadcasts. The Dynamic wallet is also the vault's on-chain releaser, so the agent releases vested USDC, signed by Dynamic, settled on Arc.",
+  "auto_summary": "A Cloudflare Worker app runs policy-checked USDC payroll with private Unlink salary transfers, Dynamic-signed settlements, and Arc-based vesting contracts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/manila-fv16y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

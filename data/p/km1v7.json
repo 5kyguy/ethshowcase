@@ -1,0 +1,27 @@
+{
+  "id": "km1v7",
+  "slug": "swapguard",
+  "title": "SwapGuard",
+  "tagline": "Task-level cost accounting and RPC receipt checks for Uniswap agents, via a local advisory MCP.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/km1v7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PZ200KLv02Kw2w2YvSXXeLNoX1QQLua64OX2a02rBdVdu8/high.mp4",
+  "demo_url": "https://swapguard-ethonline-2026.swapguard.workers.dev",
+  "source_url": "https://github.com/CrisChang/swapguard-ethonline-2026",
+  "finalist": false,
+  "description": "SwapGuard adds task-level cost accounting and original-condition checks to existing Uniswap swap agents. One swap task may include approval, a failed transaction and a retry. A refreshed quote should not erase gas already spent or silently lower the user's original minimum output.\n\nThrough a local advisory MCP interface, agents retain the original output floor, cumulative gas budget and deadline, check each proposed attempt, and keep a ledger across retries and restarts. The ledger separates approval, failed-swap and successful-swap gas. Unfinished tasks retain their costs without being shown as zero-cost successes. Optional RPC receipt verification reconciles supported WETH-to-USDC transactions and distinguishes receipt-derived observations from unverified caller reports.\n\nWe tested a project-authored deterministic reference agent on a local Ethereum fork using fake funds and the same four scenarios under three policies. Per-attempt budgeting completed four tasks with two budget overruns; independent cumulative budgeting and SwapGuard MCP each completed three with one overrun. Only two tasks per policy met both output and budget requirements. These results demonstrate reusable accounting and reconciliation, not superior routing or guaranteed savings.\n\nThe website also retains manual read-only analysis and clearly labelled synthetic examples. SwapGuard is an advisory prototype, not a trading router or wallet-enforced spending cap. The reference agent is not a third-party or LLM integration, and the tests are not live mainnet trading.",
+  "how_its_made": "SwapGuard is built with TypeScript, React, Vite and viem, with a Hono API deployed on Cloudflare Workers. A separate local stdio server uses the official MCP TypeScript SDK, exposing four accounting tools and an optional swapguard_verify_receipt tool.\n\nStrict schemas, bigint arithmetic, immutable task terms, pending-operation checks and idempotent recording support the ledger. A private single-writer journal persists costs and restores task state after restart. Agents keep their own execution channel; SwapGuard does not sign or broadcast transactions.\n\nUniswap v3 Factory and QuoterV2 provide read-only quotes. Receipt verification supports narrowly defined WETH approvals and deadline-bound SwapRouter02 WETH-to-USDC swaps. It checks the bound wallet, chain, transaction parameters, receipt identity, canonical block and confirmation threshold, then reads actual gas usage and recipient transfer logs. Receipt-block Chainlink ETH/USD and USDC/USD feeds convert gas into USDC-equivalent while preserving native values.\n\nAn Anvil local-fork harness restores the same snapshot for each policy run and publishes tool calls, receipts, restart records, outcomes and source fingerprints. Synthetic examples, live reads and local-fork execution are labelled separately. Verification trusts configured RPC data; it is not a cryptographic proof or enforced wallet budget. AI-assisted development and review limits are disclosed in docs/AI_USAGE.md.",
+  "auto_summary": "SwapGuard tracks cumulative gas, minimum output, and receipt verification for retrying Uniswap swap tasks through a local MCP advisory service.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/swapguard-km1v7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

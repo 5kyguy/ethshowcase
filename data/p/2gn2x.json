@@ -1,0 +1,27 @@
+{
+  "id": "2gn2x",
+  "slug": "8004-reality-check",
+  "title": "8004 Reality Check",
+  "tagline": "What's actually inside the ERC-8004 registry — decoded from raw on-chain bytes via BigQuery",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2gn2x/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ONEg8uPAhcuJsGANxldgCgHzvx5s1h8JUUObVPmEVMY/high.mp4",
+  "demo_url": "https://erc8004-reality-check-830256848151.us-central1.run.app/",
+  "source_url": "https://github.com/YoungsukHwang/erc8004-reality-check",
+  "finalist": false,
+  "description": "ERC 8004 Reality Check is a BigQuery-powered analytics explorer for the ERC-8004 agent registry on Ethereum mainnet. Other explorers headline huge registration counts and treat registration as existence. This tool looks inside the numbers and shows the gap between what agents claim and what the chain confirms.\n\nDecoding the raw Identity and Reputation registry logs reveals the real shape of the agent economy: of 34,569 registrations, a single anonymous wallet registered 9,967 (with empty metadata) and the top 20 wallets account for 55%. Only 224 agents expose a real service endpoint, 105 pass a 3-distinct-reviewer Sybil bar, and just 6 are simultaneously trustworthy and payable. We also surface reputation manipulation — 3,173 feedback events share only 183 distinct feedbackURI hashes (~17x reuse), and one coordinated campaign used a single hash across 301 wallets and 39 agents.\n\nA recurring pattern: the biggest registrants are anonymous, while the few genuinely payable agents disproportionately belong to ENS-named wallets. The result answers the question other scanners avoid — not \"how many agents exist,\" but \"which ones are real, active, and trustworthy.\"",
+  "how_its_made": "The backend is Google BigQuery over the public bigquery-public-data.goog_blockchain_ethereum_mainnet_us dataset (Ethereum mainnet logs + token_transfers), with partition pruning from the 2026-01-28 launch. We decode ERC-8004 events directly in SQL: the IdentityRegistry Registered event (agent_id, owner, agent_uri) and the ReputationRegistry NewFeedback event. The two registries have different topic layouts — Identity's topics[2] is owner, Reputation's topics[2] is client and topics[3] is the feedbackURI hash — and that hash is what we use to detect wash/Sybil feedback that the naive \"3 distinct reviewers\" barrier misses.\n\nA core technique is parsing on-chain base64 agent cards (name, description, services, skills, x402 support, pricing) entirely inside BigQuery via SAFE.FROM_BASE64 + JSON_VALUE, then rule-based classification (functional / no-endpoint / PFP-NFT / spam). We join token_transfers to test x402 claims against real USDC settlement (32 owners actually received USDC, $320K total).\n\nFrontend is Streamlit, deployed on Google Cloud Run via Artifact Registry and Cloud Build. Natural-language agent search uses Vertex AI Gemini (gemini-2.5-flash, tool_use). ENS reverse resolution (web3.py) labels owner wallets. Everything runs on one service account with BigQuery + Vertex AI roles — no API keys.",
+  "auto_summary": "A Streamlit application analyzes ERC-8004 Ethereum registry data in BigQuery and augments results with ENS labels and natural-language search.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/8004-reality-check-2gn2x",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

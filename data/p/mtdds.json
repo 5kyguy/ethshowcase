@@ -1,0 +1,21 @@
+{
+  "id": "mtdds",
+  "slug": "intentlayer",
+  "title": "IntentLayer",
+  "tagline": "No central relay. No raw private key exposure. No unauditable transactions.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mtdds/banner/default.jpg",
+  "video_url": "https://stream.mux.com/52DWP1aSKQhiM02Eplgex1nziZ5eO9uxEwqvc3szJg3w/high.mp4",
+  "source_url": "https://github.com/Tanmay-say/IntentLayer_Protocol",
+  "finalist": false,
+  "description": "IntentLayer is the first protocol combining Gensyn AXL's encrypted peer-to-peer mesh \nwith onchain cryptographic privacy (ERC-5564 stealth addresses), structured agent identity \n(ERC-8004), and annotated transaction trails (IntentNote) — into a single coherent trust \nlayer for autonomous AI agent payments.\n\nAutonomous agents (Agent A as payer, Agent B as payee) communicate exclusively over AXL — \nno central broker, no shared queue. Every payment requires a valid EIP-712 IntentProof \nsignature, is evaluated by a Gemini 2.5 Flash reasoning gate, simulated on Tenderly, and \nthen executed on Base Sepolia via a PolicyWallet smart contract. Payments are routed through \nERC-5564 stealth addresses so the receiver's identity is never exposed onchain. An Observer \nagent and admin dashboard give operators full visibility into every transaction stage — from \nAXL topology to on-chain USDC settlement — without ever exposing a private key in the UI.\n",
+  "how_its_made": "IntentLayer is a TypeScript pnpm monorepo with five key layers:\n\n1. **Transport** — Gensyn AXL Go binary runs as three separate daemons (Agent A :7701, \nAgent B :7702, Observer :7703). A typed TS wrapper (`axl-transport`) handles long-poll \n/receive, /send, and /topology over HTTP. No WebSocket complexity, no central broker.\n\n2. **Smart Contracts (Foundry / Solidity)** — Four contracts deployed to Base Sepolia \n(chainId 84532): `PolicyWallet` (EIP-712 IntentProof verifier + executor), \n`IntentNoteRegistry` (auditable transaction log), `StealthAnnouncement` (ERC-5564), \nand `IdentityRegistry` (ERC-8004 agent cards). OpenZeppelin contracts are vendored via \nFoundry.\n\n3. **Intent Proof Engine** — `intent-core` package implements EIP-712 typed-data signing \n(viem), policy validation, and Tenderly pre-flight simulation. Agent B's acceptance \ndecision is further gated by a Gemini 2.5 Flash LLM call with structured JSON output \nand exponential-backoff retry logic.\n\n4. **Stealth Payments** — `intent-core/stealth.ts` implements the full ERC-5564 SECP256K1 \ngenerate/scan/claim cycle. Agent A derives a fresh stealth address from Agent B's meta-address, \nsends USDC there, and posts an announcement. Agent B scans for payments and sweeps via \nPimlico ERC-4337 paymaster (USDC gas sponsorship).\n\n5. **Operator Dashboard** — `admin-api` (Node/Express SSE stream) + `admin-web` (Vanilla TS + CSS) \ngive operators a live cockpit showing AXL topology, transaction stages, contract addresses, \nand a token-gated payment trigger. Private keys never touch the UI.\n\nNotable hack: the `axl` in-process daemon mirrors the real AXL HTTP API surface exactly, \nso the entire pipeline runs in CI without the Go binary.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/intentlayer-mtdds",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

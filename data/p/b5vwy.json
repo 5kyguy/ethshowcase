@@ -1,0 +1,28 @@
+{
+  "id": "b5vwy",
+  "slug": "xpayr",
+  "title": "XPayr",
+  "tagline": "XPayr: instant cross-chain USDC payment & auto-routing via LayerZero + Circle CCTP.",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b5vwy/banner/default.jpg",
+  "source_url": "https://github.com/Nairod36/XPayr",
+  "prizes": [
+    {
+      "sponsor": "LayerZero",
+      "sponsor_id": "dkzkp",
+      "placement": "1st place",
+      "title": " Best Omnichain Interaction"
+    }
+  ],
+  "finalist": true,
+  "description": "XPayr is a Web3 payment platform that lets merchants invoice and receive USDC payments from any blockchain and automatically route those funds to one or more pre-configured wallets. The client only signs a single transaction on their chain of choice, while XPayr handles the rest:\n\t1.\tInvoice issuance via a minimal Invoice.sol smart contract that stores the merchant’s USDC receiving addresses across multiple networks.\n\t2.\tPayment capture into a secure backend wallet, with Ledger signatures managed by the Device Management Kit.\n\t3.\tCross-chain balance aggregation by querying all merchant wallets balance (Ethereum, Arbitrum, Polygon, Avalanche, etc.) via LayerZero’s lzRead.\n\t4.\tAutomated allocation logic that determines where to keep minimum thresholds and where to send excess USDC.\n\t5.\tAtomic bridging of USDC using Circle CCTP V2: burn on the source chain, mint on each target chain, and distribute to the merchant’s wallets.\n\nThis architecture abstracts away all bridge and multi-chain complexity: the customer simply scans a QR code, signs in USDC, and XPayr delivers value instantly to the right chains.\n\nThis is what we aim for.",
+  "how_its_made": "\t•\tMobile Front-end\n• React Native + Expo + TypeScript for iOS/Android.\n• Custom theming (ThemedView/ThemedText), parallax header, and QR-scanner.\n\t•\tInvoice Smart Contract\n• Solidity (Invoice.sol) storing merchant USDC receiver addresses per chain.\n• Foundry (forge) for compilation, testing (forge test), scripting and deployment (forge script).\n\t•\tBackend Orchestrator\n• Node.js + Express in TypeScript providing /api/bridge & /api/balances.\n• Ethers.js v6 for on-chain calls:\n– ERC-20 approve() then depositForBurn() (full 7-arg signature) on Circle’s TokenMessengerV2.\n– Listen for MessageSent(nonce) to track cross-chain messages.\n• Circle’s SDK until the VAA is COMPLETED.\n\t•\tCross-chain Read\n• LayerZero lzRead via @layerzerolabs/lz-sdk to fetch USDC balances off-chain across every network. And the middleware compute the best dispatch logique of USDC on the merchant wallet.\n\t•\tCross-chain Bridge\n• Circle CCTP V2 for atomic burn/mint USDC transfers under the hood with LayerZero messaging.\n\t•\tLedger Integration Attempt\n• Planned Device Management Kit (DMK) for Ledger signing. Deferred due to DMK v1 vs ethers v6/Expo conflicts, so going for the issue bug correction.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/xpayr-b5vwy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

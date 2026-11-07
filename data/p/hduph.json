@@ -1,0 +1,27 @@
+{
+  "id": "hduph",
+  "slug": "x402-interlock",
+  "title": "x402 Interlock",
+  "tagline": "Screens every x402 payment before signing. Risky ones need a human countersignature via World ID.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hduph/banner/default.jpg",
+  "video_url": "https://stream.mux.com/oZ5J3GclXHc3Vw1GZMJWTC2PdDRBgrpUPXwuKKNS2g00/high.mp4",
+  "demo_url": "https://x402jp.com/",
+  "source_url": "https://github.com/kato9292929/x402-Interlock",
+  "finalist": false,
+  "description": "AI agents are starting to pay for things on their own. x402 makes that easy — an agent hits a 402 response, signs a payment authorization, and gets the data. The problem is that nothing sits between \"the agent decided to pay\" and \"the money is gone.\" Approving every payment by hand does not scale; approving none of them is how an agent drains a wallet into a spoofed token contract.\n\nCountersign is a gate that runs at the moment of signing. When the agent receives a 402 challenge, the payment is held and screened before the signature is produced. Intercepta scans the recipient address, the token contract, and the payment authorization itself. Deterministic rules check the allowlist, the per-payment cap, the per-run cap, and whether the same route was already bought minutes ago.\n\nThe gate then returns one of four verdicts: pay, cap the amount, block, or ask a human. Anything high-value or uncertain is escalated to a human, who countersigns through World ID for Agents — a fresh verification tied to that specific payment, not a login session. If the human declines, the request expires, or it is cancelled, the payment is never signed.\n\nEvery step is written to an append-only, hash-chained ledger: the candidate, the screening result, the verdict and its reason codes, the human verification, and the final outcome. The demo shows all three paths — a clean payment that goes through, a flagged recipient that is blocked with a visible reason, and a high-value payment that waits for a human and is then approved in one run and refused in another.",
+  "how_its_made": "The agent and the gate are TypeScript on Node 20, with a Next.js frontend for the decision timeline and the approval screen. Payments run on Base Sepolia through the x402 buyer-side SDK against a small x402 seller endpoint we wrote, so we can vary the price and trigger each verdict on demand.\n\nIntercepta does the screening. We call Scan Address on the recipient, Scan Token on the asset, and Scan Message on the payment authorization before the signature exists. One thing worth noting: risk data is mainnet-anchored, so the screening calls run against real mainnet addresses while the settlement happens on Base Sepolia. We treat a failed or timed-out screening call as a block rather than a pass — the gate fails closed.\n\nWorld ID for Agents handles the human step. The verification is requested per payment and validated server-side; the client never decides the outcome. We implemented all four branches — approved, declined, expired, cancelled — and only the first one lets the signature happen.\n\nThe ledger is JSONL, append-only, with each event carrying the hash of the previous one, so the judgment trail cannot be quietly rewritten after the fact. Thresholds, allowlists and caps live in a versioned config file rather than in code, so the policy that produced a verdict is always recoverable.",
+  "auto_summary": "A Next.js and TypeScript app that screens x402 payments, optionally requires World verification, and records decisions in a hash-chained ledger.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/x402-interlock-hduph",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

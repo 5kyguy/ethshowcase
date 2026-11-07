@@ -1,0 +1,42 @@
+{
+  "id": "c1tkj",
+  "slug": "accio-nft",
+  "title": "Accio.NFT",
+  "tagline": "A one-click magic for buying NFTs with cross-chain liquidity.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c1tkj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XhkSY6EQjaYW02JKGGApA9aKEO1R2bt12Zm8q5mSMlhY/high.mp4",
+  "demo_url": "https://accio-frontend-fork.vercel.app/",
+  "source_url": "https://github.com/2023ethtokyoteam1/.github",
+  "prizes": [
+    {
+      "sponsor": "MetaMask",
+      "sponsor_id": "4pn9u",
+      "placement": "4️⃣ Linea — Best Use",
+      "title": "MetaMask"
+    },
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "🦄 1inch — 🥉 Best use of Fusion",
+      "title": "1inch Network"
+    },
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "🏆 Hyperlane — Best Overall",
+      "title": "Hyperlane"
+    }
+  ],
+  "finalist": false,
+  "description": "- Accio.NFT combines interchain bridging protocol with NFT marketplaces to create a one-click UX for buying NFTs with cross-chain liquidity\n\n- Background\n    - As the Ethereum ecosystem expands, we are seeing more and more new L2 chains.\n    - This means that in order to use multiple products, users need to move liquidity between multiple chains. The current UX for bridging liquidity is quite cumbersome—users need to swap and bridge tokens from each chain separately.\n    - So we thought that there needs to be an easy way for users to collect assets from multiple chains at once and use their beloved products.\n\n- Functionalities\n    - Users can check their wETH balances on 4+ chains (Goerli, Mumbai, Linea, Optimism)\n    - Users can swap USDC -> wETH using 1inch Fusion API\n    - Users can check the NFTs currently on sale (Opensea)\n    - Users can buy NFTs by specifying how much they want wETH they want to use from which chains (e.g. 0.5 wETH on Linea and 0.5 wETH on Mumbai)",
+  "how_its_made": "## Modules\n----------------------\n\n### Smart contracts\n\nThe buy function on the LiquidityAggregator contract is the initial entrypoint that triggers the cross-chain liquidity aggregation and NFT purchase flow:\n- Stores the user's request within the contract storage\n- Fetches user funds on the local chain if needed\n- Sends interchain messages to the LiquidityAggregators on the remote chains\n- Once the remote LiquidityAggregator receives the message, it gets the user's funds on the remote chain and calls transferRemote on the HypERC20 token to send them over to the origin chain.\n- Upon a successful interchain transfer, the handleWithToken function on the origin chain's LiquidityAggregator is called and if the funds are all aggregated, an NFT purchase is executed.\n\n\n### Frontend\n- Easily view liquidity across multiple chains\n- Display the aggregated value of various tokens from multiple chains through the 1inch API\n- Support simple swaps across multiple chains using the 1inch Fusion SDK\n- Aggregate and display NFT collection information from multiple chains and marketplaces. Also used opensea.io API\n- Integrated with the accio.nft smart contract\n- View your NFTs distributed across multiple chains\n\n\n\n## Tech stack\n----------------------\n\n\n### Hyperlane\n- Using Hyperlane was essential for making our project since we needed both a general messaging bridge and a token bridge. We had fun trying to deploy Hyperlane on a new chain (Linea) and running validators/relayers ourselves.\n- One challenge we encountered was related to relayers--our messages kept failing because the relayer transaction ran out of gas. We ended up digging up the rust code to find out where the gas limit was being set and doubled it to make our transactions go through.\n- Another challenge was modifying the Warp Route default contracts so that it could send arbitrary data along with bridging token. We wanted to use hyperlane-deploy, which contains helper scripts for deploying and testing Warp Route, but we couldn't use it as given because it was importing hyperlane-sdk as an npm package. We ended up using git submodule to solve this problem.\n\n\n### 1inch\n- We implemented 1inch Fusion SDK into our service so that users can swap their assets in the most safe and gas-efficient way\n- We used the 1inch quote API to enable a quick glance at the total value of various tokens on each chain.\n\n\n### Metamask (Linea)\n- We deployed our contract on Linea Goerli network because we believed that it has potential to become a widely-used L2 chain for NFTs and gaming since it is cheap and is very well integrated with other products such as Metamask and Infura.\n\n\n### Airstack\n- We used Airstack to get NFT metadata and the latest transfer information for each NFT collection",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/accio-nft-c1tkj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

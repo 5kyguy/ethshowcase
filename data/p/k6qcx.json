@@ -1,0 +1,30 @@
+{
+  "id": "k6qcx",
+  "slug": "pixelcast",
+  "title": "PixelCast",
+  "tagline": "PixelCast is a community-based pixel game inside a Farcaster Frame that lets you collaboratively create visuals with your friends.",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k6qcx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1KBAlaPHZKkLEecYE2JlUTD01yeh01LvtU55nHwQhoMUA/high.mp4",
+  "demo_url": "https://warpcast.com/~/developers/frames?url=https%3A%2F%2Fpixel-cast-london.vercel.app%2F",
+  "source_url": "https://github.com/OwnerOfJK/PixelCast",
+  "prizes": [
+    {
+      "sponsor": "Nethermind",
+      "sponsor_id": "bk5qx",
+      "placement": "Best projects building on Starknet",
+      "title": "Best projects building on Starknet"
+    }
+  ],
+  "finalist": false,
+  "description": "The idea of this project was to create a social game experience inside Warpcast, making use of Farcaster as a social network protocol. It utilises Farcaster Frames through which users can navigate within a pixel grid by clicking direction buttons (i.e. Up, Left, Right) and ultimately select a color and place a pixel in an open grid.\n\nOther users can jump in and collaboratively paint and create designs within one space. Once a user places a color, a cooldown of 5 minutes will be activated that limits the player to take over the pixel space on its own. This puts an emphasis on cooperation between communities to jointly create and contribute.\n\nTo create PixelCast, we focused on 3 separate parts of the project:\n1. Farcaster Frame: The user interacts with the Farcaster Frame to provide user inputs such as direction and color. It shows the entirety of the pixel space to show everyone's contribution to the grid.\n2. Wallet Connect: The user has the choice to securely link their Starknet ID to their Farcaster ID before they enter the game to add an additional layer of ownership and sense of community contribution (the plan in the future will be to make PixelCast fully onchain, therefore allowing a wallet user to sign a transaction to keep a persistent and trustless state of the game).\n3. Server: The frame server receives a POST request from the app and responds with a response frame. Because the frames are static, we translate the grid and the incoming change into an svg file that can be visualised within a frame.",
+  "how_its_made": "# How PixelCast Was Built\n\n## Technologies and Frameworks\n\n### Front-end Interaction - Next.js and React\n\nFor the front-end, we leveraged React and Next.js, a React framework that enables functionality such as server-side rendering and static site generation.\n\nSpecifically, our project features include:\n- A pixel grid view, where users can see the collective artwork.\n- Directional buttons that enable navigation and pixel placement.\n- A color selection tool for choosing pixel colors.\n\nThe user interface is wrapped inside a `StarknetProvider`, embedding the Starknet connection logic into the React component tree. This provider is configured with various Starknet connectors, facilitating connections to different wallets.\n\n### Middleware - Farcaster Protocol Integration\n\nIntegrating with the Farcaster social network protocol required managing a set of server-side API handlers. We used Farcaster's technology to map user identities within the social protocol to actions in the grid. Our middleware processes POST and GET requests, connected to the Farcaster network, to handle everything from user mapping to pulling profile data for display.\n\n### Blockchain Integration - Starknet\n\nWe implemented a `Wallet Connect` feature, allowing users to link their Starknet ID with their Farcaster ID, associating blockchain accounts with in-game activity.\n\nThe on-chain functionality is not yet fully realized but is set up through the `useSignTypedData` hook, which we use to sign verification messages within the ConnectWallet component.\n\n### Backend - Data Persistence and Server Logic\n\nFor data persistence and backend services we used the following:\n- **PostgreSQL**: We chose PostgreSQL for its robustness and reliability as a database system. Pool connections ensured efficient database interaction within our Node.js environment.\n- **Local Storage**: For additional data storage, we implemented a simple local storage solution for storing and retrieving user mappings, with potential for future blockchain integrability.\n- **Next.js API Routes**: We facilitated server-client communication using Next.js API routes, handling various network requests such as POST for adding or updating user mappings, and GET for fetching user profiles and fid mappings.\n\n## Notable Technical Highlights\n\n- **Dynamic SVG Handling**: For every Farcaster frame, we attempted to translated grid changes into SVG files dynamically served to users.\n- **Authentication and Verification**: We built an authentication system allowing users to sign a message with their Starknet wallet to validate ownership and retrieve their Farcaster profile data.\n- **Seamless Integration**: The integration of Starknet and Farcaster required handling of addresses and FIDs (Farcaster IDs), which we managed via custom hooks and API logic for a seamless user experience.\n\n## Challenges and Learnings\n\nOne of the main challenges we were facing was to build within the constraints given by Farcaster to handle static response frames and using buttons as the only user interactions. We had to think through the game design on how to have a somewhat acceptable player experience within those constraints. One of the solutions was the generation of SVG files of the state.\n\n## Future Directions\n\nMoving forward, we would love to make PixelCast fully on-chain, maintaining game persistence and allowing farcaster and Starknet users to directly interact with the blockchain.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pixelcast-k6qcx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

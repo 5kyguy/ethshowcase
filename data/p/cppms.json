@@ -1,0 +1,27 @@
+{
+  "id": "cppms",
+  "slug": "logrunner",
+  "title": "Logrunner",
+  "tagline": "Logrunner turns EVM event logs into evidence-backed agent answers and monitors.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cppms/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mUI01fNP5CI7uql8xQ00zS8cVk2iYci81pcpxut294TZs/high.mp4",
+  "demo_url": "https://discord.gg/APEjhjUA3",
+  "source_url": "https://github.com/dbxe/amanita",
+  "finalist": false,
+  "description": "Logrunner is a Web3 intelligence runtime that lets an agent use decoded blockchain event logs as evidence to answer user inquiries. Rather than guessing / hallucinating or asking the user to inspect block explorers manually, Logrunner gives the agent typed tools for querying EVM event history, reconstructing event-sourced state, comparing data across chains, as well as the ability to respond to events that occur on the blockchain by registering webhook-backed monitors.\n\nThe demo focuses on Arbitrum governance after the KelpDAO exploit, where the Arbitrum Security Council froze about 30,765 ETH. The agent can provide an overview of the incident, verify what live event data does and does not prove, check whether a release proposal has reached onchain governance, and set a webhook monitor for the next relevant smart contract event. As a broader capability example, it can also reconstruct top ARB holders on Ethereum from ERC-20 Transfer events.\n\nNote: The bot is deployed to the Discord using a cloud VM, but due to current model size and token-output limitations imposed by the 0G-hosted inference path, testing indicates that live Discord performance may be significantly less reliable than the local/recorded demo path. ",
+  "how_its_made": "Logrunner is built as a TypeScript / Node.js runtime with a stdio MCP server that plugs into NanoClaw, the Discord/chat agent harness. The core runtime exposes blockchain intelligence tools instead of allowing the model author random API calls. \n\nMultiBaas is a blockchain development server that provides the live EVM indexing, decoded event queries, contract / address registry, webhooks, and serves as the backend queries to  Ethereum Mainnet and Arbitrum One.\n\nThe architecture has a few layers:\n- src/multibaas.ts wraps the MultiBaas SDK\n- src/event-view.ts defines an event-view spec for compiling analytical views into MultiBaas eventqueries. \n- src/views.ts and src/holder-query-service.ts reconstruct ERC-20 holder balances from Transfer deltas and provide utility functionality such as inserting decimals at the approriate point in the balance reading.\n- src/arbitrum-governance-incident-service.ts packages the current DAO demo around reusable event-query primitives. \n- src/event-monitor-service.ts and src/webhook-service.ts register and process MultiBaas event.emitted webhooks so the agent can keep watching after the chat turn ends.\n\nNanoClaw handles chat sessions and inference model provider plumbing. I used a lightly modified NanoClaw fork.\n\n0G Compute is used for the hosted inference path. \n\nAs for hacky but noteable, I would say the tool call “receipt block” style qualifies. The agent answers include compact event_query or monitor_activation blocks so users can see what tool was used, what fields mattered, and what evidence boundary applies.\n",
+  "auto_summary": "A TypeScript MCP-based agent runtime that queries indexed EVM event data, reconstructs state from logs, and supports webhook-driven monitoring.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/logrunner-cppms",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

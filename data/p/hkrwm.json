@@ -1,0 +1,36 @@
+{
+  "id": "hkrwm",
+  "slug": "omnix402",
+  "title": "Omnix402",
+  "tagline": "Enabling agents to reach any X402 sellers from any chain through an OFT using custom EIP-3009",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hkrwm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/t1uDYEG9Pe02n9GPm7ICBUL7MvzJBZTHaEohHh28v8nY/high.mp4",
+  "demo_url": "https://omnix402.vercel.app/",
+  "source_url": "https://github.com/0xKairn/Omnix402",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "1st place",
+      "title": "Best Use of Payments on Polygon"
+    },
+    {
+      "sponsor": "LayerZero",
+      "sponsor_id": "dkzkp",
+      "placement": "Best Developer Feedback",
+      "title": "Best Omnichain Implementation"
+    }
+  ],
+  "finalist": true,
+  "description": "Omnix402 opens the HTTP 402 (Payment Required) protocol to the multichain era, breaking down the barriers that limit AI agents and developers to single-chain ecosystems. We built a protocol that allows users and AI agents to pay for protected resources on one blockchain while the payment seamlessly bridges to another chain where the API endpoint lives.\n\nToday’s X402 protocol endpoints are fragmented by chain.\nAn AI agent on Polygon can only access endpoints that accept Polygon payments.\nAn endpoint on Base can only monetize Base users.\n\nThis fragmentation limits the growth potential of the X402 ecosystem and prevents AI agents from expanding their service catalog beyond their native chain.\n\nOmnix402 solves this.\nImagine an AI agent with funds on Polygon that needs to call an API endpoint hosted on Base. With Omnix402, it's just a single request. We combined the X402 protocol with LayerZero's OFT (Omnichain Fungible Token) standard to create a seamless cross-chain payment bridge.\n\nOur protocol introduces USDO (Omnichain USD), a wrapped version of USDC that can move freely across chains through LayerZero. AI agents and developers simply wrap their USDC into USDO, and can then access any X402 API on any supported chain. The protocol handles all the cross-chain complexity and delivers the protected content.\n\nOmnix402 is deployed on Polygon and Base, with a web app that guides developers through the protocol.\nIt features live demonstrations of cross-chain payments and code examples to help developers integrate X402 into their own projects.",
+  "how_its_made": "There are three main components to our project:\n\n1. Smart Contracts\n\nFour core smart contracts deployed on Polygon and Base:\n\nUSDO.sol: Our custom OFT (Omnichain Fungible Token) that extends LayerZero's OFT standard. It wraps/unwraps USDC and implements EIP-3009 Extended, our enhanced version of the standard that adds a data field to the transferWithAuthorization and receiveWithAuthorization functions. The standard EIP-3009 doesn't support arbitrary data, but we needed a way to encode destination chain information and routing parameters directly in the payment authorization, to make sure that the user agreed with this information. This modification allows the entire cross-chain flow to be initiated with a single signature. The data field contains the destination chain ID and payment receiver address. This data field allows us to encode cross-chain routing information directly in the payment authorization, enabling users to authorize cross-chain transfers with just a signature, no need to send a transaction first.\nThis upgraded version of the EIP-3009 has a lot of potential applications beyond our specific cross-chain use case. The flexible data field can be leveraged for various scenarios such as payment with conditions or multi-hop transactions or conditional execution paths based\n\nOmnixRouter.sol: Orchestrates the cross-chain flow. When a user signs an EIP-3009 authorization, the router decodes the destination chain info from the data field and calls LayerZero's send() function with the appropriate parameters to initiate the bridge mechanism.\n\nOmnixDVN.sol: Our custom Data Verification Network (DVN) for LayerZero. We built an admin-controlled DVN specifically optimized for payment flows. The owner can call verify() and commit() directly.\n\nOmnixExecutor.sol: Our custom LayerZero Executor that receives and executes cross-chain messages. It's admin-controlled and includes a special commitAndExecute() function that combines verification commitment and execution in a single transaction for maximum efficiency.\n\nAll contracts were deployed using Hardhat and LayerZero deployment tools, with Foundry for testing.\n\n2. Backend (Node.js/Express)\n\nThe backend bridges X402 with LayerZero:\n\nEndpoint Routes: Implements the X402 protocol specification:\n\n- GET /endpoint?endpoint=<url>&network=<chain>: Returns payment requirements modified for cross-chain (402 response)\n- POST /endpoint?endpoint=<url> with X-Payment header: Processes the payment and returns the protected content\n\nCross-chain Orchestration using ethers.js:\n\n1. Submit the EIP-3009 signed authorization to the source chain (Polygon)\n2. Listen for LayerZero's PacketSent event to extract packet data\n3. Call DVN verify() on destination chain (Base)\n4. Call DVN commit() on destination chain\n5. Call Executor commitAndExecute() to finalize the bridge\n6. Use Coinbase CDP SDK to execute the final x402 payment to the desired endpoint in the destination chain\n\nParallel Execution: All three destination chain transactions (verify, commit, execute) are signed simultaneously and broadcast together with sequential nonces to minimize latency.\n\n3. Frontend (Next.js//TypeScript)\n\nThe frontend provides a complete developer experience:\n\n- DemoStatus: Shows real-time bridge progress with 5 distinct steps (payment, DVN verify, relay, execution, final payment)\n- SwapUSDO: Wrap/unwrap interface for USDC / USDO\n- CodeExample: Syntax-highlighted API usage guide for developer \n- HowItWorks: Step-by-step educational guide\n\nWallet Integration: Reown AppKit for wallet connection with network switching.\n\nTechnologies Used\n\n- LayerZero V2: Cross-chain messaging infrastructure\n- Solidity 0.8.22: Smart contract language\n- Hardhat & Foundry: Development & testing frameworks\n- Node.js & Express: Backend API\n- MongoDB: Database for tracking payments\n- Next.js & React: Frontend framework\n- Reown AppKit: Wallet connection\n- Tailwind CSS: Styling\n- ethers.js: Blockchain interactions\n- x402-fetch: X402 protocol client\n- Coinbase CDP SDK: Secure wallet management\n\nBuilt by @0xKairn and @TristanAzlt during Eth Global Buenos Aires",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/omnix402-hkrwm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

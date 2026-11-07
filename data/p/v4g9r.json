@@ -1,0 +1,36 @@
+{
+  "id": "v4g9r",
+  "slug": "redfish",
+  "title": "Redfish",
+  "tagline": "Using zero knowledge machine learning and zktls to create trustless anomaly detection",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v4g9r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/518XG4OzhptOI400C53T02tSjxUqotNnZ8VHqbsAiYKPU/high.mp4",
+  "demo_url": "https://github.com/LPSCRYPT/Redfish/blob/main/demo_redfish.sh",
+  "source_url": "https://github.com/LPSCRYPT/Redfish",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": "Uniswap v4 Volatile-Pairs Hooks"
+    },
+    {
+      "sponsor": "vlayer",
+      "sponsor_id": "92qx9",
+      "placement": "2nd place",
+      "title": "Best Server-Side Proving dApp"
+    }
+  ],
+  "finalist": true,
+  "description": "  The Core Problem\n\n  The \"Impossible Trinity\" of DeFi security states that you can only achieve two out of three critical properties:\n  Sophisticated Detection (complex ML models that catch attacks), Decentralization (trustless, no oracles), and Low Cost\n   (affordable gas fees). Traditional solutions always sacrificed one—centralized oracles are sophisticated and cheap\n  but require trust; on-chain ML would be sophisticated and trustless but would cost $15,000+ per transaction in gas\n  fees; simple allowlists are cheap and trustless but can't detect novel attack patterns. This trilemma forced DeFi\n  protocols to accept either security theater (simple rules), centralization (trust oracles), or massive losses (no\n  protection at all).\n\n  How Zero-Knowledge Breaks The Trinity\n\n  Redfish achieves all three properties simultaneously through Zero-Knowledge Machine Learning (ZKML). The key insight\n  is separating computation from verification: the sophisticated XGBoost fraud detection model runs off-chain (taking\n  30-60 seconds but costing zero gas), generates a cryptographic proof of correct execution, and then the smart contract\n   verifies this proof on-chain (costing ~$375 in gas, dropping to ~$4 with optimizations). The ZK proof is\n  mathematically impossible to forge—breaking it would require breaking the same cryptography that secures Bitcoin\n  signatures—making it completely trustless. This means you get enterprise-grade ML fraud detection (99.97% accuracy)\n  with on-chain verification that's 40x cheaper than naive execution, all without trusting any centralized party.\n\n  The Paradigm Shift\n\n  This breakthrough is analogous to how Layer 2 rollups solved the blockchain scalability trilemma—by moving computation\n   off-chain while keeping verification on-chain. Before ZKML, complex decision-making on blockchains was fundamentally\n  limited by the gas cost of execution. Now, smart contracts can leverage arbitrarily sophisticated computation (ML\n  models, complex algorithms, external data) while remaining fully decentralized and economically viable. The\n  verification cost is dropping exponentially as ZK technology matures: from $375 today to projected $0.37 within 2-3\n  years through proof aggregation, hardware acceleration, and L2 deployment.\n\n  Why This Matters\n\n  Breaking the Impossible Trinity unlocks entirely new categories of blockchain applications that were theoretically\n  impossible before: undercollateralized DeFi lending with on-chain credit scores, sybil-resistant airdrops using\n  behavior analysis, privacy-preserving KYC compliance, MEV-resistant trading, and autonomous fraud prevention like\n  Redfish. This isn't incrementally better—it's a fundamental expansion of what's computationally feasible in trustless\n  systems. Redfish demonstrates that the \"impossible\" constraint that shaped all of DeFi security architecture is now\n  obsolete, opening the door to an \"Intelligence Layer\" where every smart contract can make sophisticated, context-aware\n   decisions while remaining fully decentralized and verifiable.\n\nThe Implementation\n\nWe start with a minimum viable example of an anomaly detection model, trained on ethereum data to detect suspicious transactions. This model is small enough to be used in a ZK circuit and verified atomically onchain. We source trusted data points, such as historical account data, from RPC endpoints secured by vlayer's ZKTLS system. After the inference is verified onchain, it can trigger downstream logic. This fundamentally increases the computational expressivity of a smart contract to that of currently circuitizable machine learning models.",
+  "how_its_made": "We used EZKL as the ZKML engine. This circuitizes the pytorch-generated model, using an ethereum fraud dataset. The inputs the this model at inference time are delivered via vlayer, which serves to provide provable notarization to the input variables, ie. that they are not spoofed by the tx sender. After a zkml proof is made, a verifier is deployed on chain, and then a transaction can be sent to that verifier which will verify the inference of the model without a third party. After this, downstream logic, such as a uniswap hook, can be triggered conditionally on the outcome of the inference. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/redfish-v4g9r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

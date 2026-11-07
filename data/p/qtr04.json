@@ -1,0 +1,22 @@
+{
+  "id": "qtr04",
+  "slug": "qu-d",
+  "title": "QU!D",
+  "tagline": "yield-optimised stable basket: trades against ETH, re-balances based on a custom prediction market",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qtr04/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZBsf2C2JxJk800stVxzTFFAGfL2lSy00WCI7DycRT4sDc/high.mp4",
+  "demo_url": "http://quid.io",
+  "source_url": "https://github.com/tobaccorico/IBO",
+  "finalist": false,
+  "description": "Where should DAO treasuries hold their ETH and $? No looping, no ponzinomics. Just pure yield optimisation. Curated vaults for purposes like this would be wise to use Bunni and Cork protocol...but they were hacked, so we needed to build our own alternatives. \n\nOur Github represents a fork (of our codebase) that is more cross-chain oriented. \nThe version we focused on for this hackathon is the ` so`  branch on gitlab.com/quidmint/quid\nIt contains a Uniswap/UMA hook. At over 2k lines of code, the hook is like another protocol that sits inside of another protocol we've been rebuilding and debugging for the past week:\n\nlive on mainnet...top 10 stables, connected together by Uniswap & AAVE/Morpho: our basket needed a way to defensively adjust concentration risk in real time. Especially since crvUSD recently experienced a depeg, and even USDC is known to have survived such troubles: we need to be proactive about this. \n\nThe 3 alternatives were: do nothing and treat all stablecoins as equally risky (everyone is exposed to the weakest link), or use governance votes (slow, point-in-time, politically capturable). None of these options provides a forward-looking, continuous, skin-in-the-game risk signal. The prediction market hook that we built for this hackathon does!\n\n",
+  "how_its_made": "First I'll mention the \"virtual reserves\" concept (using mockTokens) that allows QU!D to work with UniV4's PoolManager for LP provision and swaps without holding actual value in the PM.\nI initially encountered this in 2018 while working at Bancor. \n\nThe prediction model forming QU!D's hook was inspired by Belgian auctions: participants place bets with a confidence parameter, and are rewarded as a function of that parameter (not only based on how much capital went into the losing side of the event outcome). \n\nYieldBasis and Panoptic also allow anyone to LP without selling half of their ETH for $ first,\nbut we did this with UniV4 using bonds. Among other advantages, it's also conducive to the  stability for USDE, et. al. \n\nThe range for all protocol-controlled liquidity constantly moves, following ETH's price, and swap fees are automatically compounded. We do this for both UniV4 (Vogue.sol) and UniV3 (Rover.sol), in different ways respectively.\n\nBasket.sol is an ERC20 but it follows the 6909 standad: id field represents the maturity of your shares in the $ basket. When you mint (bond into the basket), choosing a delayed maturity gives you yield upfront (later maturity = more yield). This yield isn't algorithmic or governance-based; simply a TVL-weighted average over time of all 11 individual vaults' yields. This even includes Hashnote, an RWA vault for USDC.  \n\nOur Amp.sol contract plugs into Aux.sol, which manages deposits, withdrawals and redemptions for all the stables. To max out what we're doing with Aux, it even provides flash loans to Bebop's JAM Settlement contract. \n\nTraditional LP strategies are defensive—they provide liquidity and suffer when the market moves too fast. Amp.sol is offensive—it actively exploits momentum. In basketball, a crossover involves driving in one direction, planting a pivot foot when the defender commits, then shifting weight to the opposite side. Amp performs the financial version of this with USDC and WETH using AAVEv3 and UniV3.\n\nAs a complementary process to UMA's resolution, we integrated Chainlink CRE. If CRE never runs — workflow fails, Gemini is down, event didn't emit, etc. — the DVM still votes. Voters just have to do their own research instead of reading pre-assembled evidence. If CRE runs but Gemini says \"depeg detected\" and the DVM votes false — the DVM wins. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/qu-d-qtr04",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

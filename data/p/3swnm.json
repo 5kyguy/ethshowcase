@@ -1,0 +1,35 @@
+{
+  "id": "3swnm",
+  "slug": "delorean-protocol",
+  "title": "Delorean Protocol",
+  "tagline": "Delorean is an IPC subnet that extends the timelock encryption capabilites of DRAND. It allows for programming key generation conditions using Solidity smart contracts unlocking many new use-cases and integrations",
+  "event": {
+    "slug": "hackfs2024",
+    "name": "HackFS 2024",
+    "start_time": "2024-05-17T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3swnm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/no502jIuJLNNwyLMqCPO00GWOPvWRIXJ9O01nuB28XgLSo/high.mp4",
+  "source_url": "https://github.com/BadBoiLabs/Delorean-Protocol/",
+  "prizes": [
+    {
+      "sponsor": "Filecoin",
+      "sponsor_id": "9zj01",
+      "placement": "3rd place",
+      "title": "Best use of Filecoin or the FVM"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackFS 2024 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Practical encryption to the future can be done using a blockchain in combination with witness encryption. A plaintext can is encrypted such that the decryption key is produced when a threshold of validators sign a chosen message. This is used by protocols such as [tlock](https://eprint.iacr.org/2023/189) and [McFLY](https://eprint.iacr.org/2022/433.pdf).\n\nIn these protocols the message is chosen to be a block height in the future. With particular blockchains such as [DRAND](https://drand.love) it is guaranteed that the validators will sign every block height and the decryption key will be automatically generated and made public. The limitation of this is it only supports encryption to the future. No additional constraints can be placed on key generation.\n\nDelorean protocol extends this idea to allow programmable conditions for decryption key release while maintaining the same (and in some cases better) security guarantees. Users can deploy Solidity smart contracts that encode the conditions under which the network operators must generate a decryption key. \n\nSome examples might be:\n\n- Fund Raising - Key is released once the contract raises some amount of funds\n- Hush Money - Key is released if the contract does not receive a periodic payment\n- Dead Man Switch - Key is released the contract it doesn't receive a 'heartbeat' transaction from a preauthrized account for a number of blocks\n- Filecoin Deal integration - Key is released once a particular Filecoin deal is discontinued\n- Price Oracle integration - Key is released if some asset reaches a given price\n- Encrypted Transactions / Encrypted Mempool\n\nBeing an IPC subnet Delorean is a fully fledged EVM chain that can also message other subnets in the wider network. This means conditions could be encoded that rely on other chains (e.g Filecoin deals).\n\nWe also developed a CLI that makes it easy to encrypt and decrypt files with keys tied to deployed condition contracts. Encryption and decryption takes place fully off-chain and does not require communication with the validators.",
+  "how_its_made": "Delorean is implemented as an [IPC Subnet](https://docs.ipc.space/) allowing it to be easily bootstrapped and have access to assets from parent chains (e.g. FIL). It uses CometBFT for consensus and a modified version of the FVM for execution which communicates with the consensus layer via ABCI.\n\nThe feature of CometBFT that makes the protocol possible is the [vote extension](https://docs.cosmos.network/main/build/abci/vote-extensions) feature added in ABCI v0.38. In CometBFT validators vote on blocks to be finalized. Vote extensions allow the execution layer to enforce additional data to be included for votes to be valid. In Delorean the additional data is a BLS signature over the next tag in the queue (more detail on this later). If this signature is not included then the vote is invalid and cannot be used to finalize the block. The result is that the liveness of the chain becomes coupled to the release of these signed tags and inherits the same guarantees.\n\n### Delorean Actor\n\nDeloran adds a new actor to the FVM that stores the queue of tags and allows contracts in the FEVM to pay gas to enqueue new tags. Once a tag is added to the queue the validators MUST include a signature over it in their next vote or else they are committing a consensus violation. The block proposer combines all of the signatures from the votes into an aggregate and includes an additional transaction which writes it back to the actor state. This aggregate signature is a valid decryption key for data encrypted to this tag!\n\nA tag is defined as:\n\n```\ntag = SHA256(contractAddress || arbitaryData)\n```\n\nIt is defined this way so someone else cannot write another contract which causes your key to be released. The tag (and hence decryption key itself) is tied to the address of the contract that manages it.\n\n### Cryptography\n\nWe use the threshold BLS Identify Based Encryption algorithm of [Gailly, Melissaris and Yolan Romailler (2023)](^tlock) for encryption and decryption.\n\nEncryption is done using the tag used in combination with the validator public keys. This takes place fully-offchain and without any communication with the validators as follows:\n```\nciphertext = encrypt(message, aggValidatorKey, tag)\n```\nA decryption key is derived from a tag as:\n```\nkey = aggregate([sign(tag, key) for key in validatorKeys])\n```\nand this is produced by the validators and stored back in the actor state after the contract triggers the call to release the key.\n\n---\n\nSee the [repo README](https://github.com/BadBoiLabs/Delorean-Protocol/) for additional details ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/delorean-protocol-3swnm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

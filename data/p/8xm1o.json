@@ -1,0 +1,21 @@
+{
+  "id": "8xm1o",
+  "slug": "agent-allowance",
+  "title": "Agent Allowance",
+  "tagline": "An agent shouldn't hold keys. It should get a revocable allowance to pay for its own data.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8xm1o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WM013DKUw02DH00902AJkYy78cpURvOcV8L6TlB9R4vZ1U00/high.mp4",
+  "source_url": "https://github.com/martaGonz/allowance",
+  "finalist": false,
+  "description": "AI agents can now decide to spend money, but today you either hand them a wallet with everything in it, or they cannot pay at all. Allowance is the middle option.\n\nAn agent watches a real Uniswap v3 position on Base and warns when it deteriorates. Every piece of data it needs costs money and is paid per request. The agent spends from an allowance with a limit and an expiry: before each query a deterministic rule decides whether the data is worth its price, so the agent refuses to pay when its data is still fresh or the query no longer fits the budget. When the allowance runs out, it stops by itself. The owner can revoke it in one click, which burns the allowance token on-chain.\n\nA Claude analyst reads the paid data and raises OK / WATCH / ACT alerts, but it never decides spending.",
+  "how_its_made": "TypeScript end to end.\n- The Graph: data comes from a Messari Standardized Subgraph (DEX AMM Extended schema) for Uniswap v3 on Base, queried with a Subgraph Studio API key; one query shape reads both the position and token USD prices. The same priced tools are exposed over MCP.\n- Hedera: each query sits behind an x402 payment gate built on @x402/hono, charging USDC (HTS 0.0.429274) per tool and settled through the Blocky402 facilitator; settlement only happens when data is delivered. The allowance itself is a bond issued with Asset Tokenization Studio contracts, allocated to the agent, and burned with controllerRedeemByPartition on revoke.\n- Arc + Circle: each paid query is settled in USDC on Arc testnet from a Circle Developer-Controlled Wallet via the Circle SDK, with an idempotency key derived from the payment so it can never settle twice.\n- A live panel (Hono + SSE) shows each sponsor step lighting up, budget, prices, decisions, refusals, the analyst alert and the revoke button, with HashScan and Arcscan links.\n- Hacky bits found on real testnet: Hedera hollow accounts cannot send tokens until they pay a fee themselves, so the agent account is completed first; ATS factory and resolver must be called by their EVM aliases, not long-zero addresses; the relay's gas estimate for the burn is too low, so the burn sets an explicit gas limit; Circle native USDC transfers need the wallet's tokenId, not an empty token address.\nAll payments in the demo are real testnet transactions, linked in the README.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-allowance-8xm1o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

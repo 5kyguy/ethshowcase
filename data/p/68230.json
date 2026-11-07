@@ -1,0 +1,41 @@
+{
+  "id": "68230",
+  "slug": "watermark",
+  "title": "watermark",
+  "tagline": "DAO treasuries market-make on Aqua, ENSv2 makes whitelists counterparties&agent tuning spreads.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/68230/banner/default.jpg",
+  "video_url": "https://stream.mux.com/l4dd7ws4hNsX02bqSBJkbfZhO6M5Awy6M1b8hVztqC00M/high.mp4",
+  "demo_url": "https://desk-swart.vercel.app",
+  "source_url": "https://github.com/sdh2222/eth-tokyo",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "3rd place",
+      "title": "Build an Aqua App"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Tokyo 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "watermark turns a DAO treasury from a price taker into a market maker for its own assets.\n\nThe problem. A multisig signs once per action. Selling in slices (DCA or TWAP) would mean another signature and another price for every slice, so the DAO hands the whole balance to an AMM or a solver in one trade. That sale is not free: the solver sets its own incentive first and comes back with the price that is left. A treasury-sized balance does not make the DAO the side that quotes. It is treated as the side that takes. In February 2023 ENS DAO sold 10,000 ETH (about $16.15M) through CoW Swap with a 2% slippage tolerance (EP3.3): a budget of up to $323k for the other side of the trade.\n\nWhat watermark does. The DAO's Safe signs once. That one signature ships a pricing program to 1inch Aqua. From then on the treasury quotes both sides, bid and ask, around an oracle mid at spreads the DAO sets itself, and market makers fill it in small pieces over time. Tokens never leave the Safe until the moment of each fill, and every fill is atomic. With a mid of 4,000 USDC and terms of 3 bp to sell and 10 bp to buy, the desk asks 4,001.2 and bids 3,996. One fill cannot move more than 50 ETH, so a large balance never leaves in one go.\n\nWho can trade. An open quote is a free option for the fastest bot. So only named counterparties can fill. Each market maker gets an ENS name under the desk, for example mm-a.clients.dao-treasury-a.eth. At every fill the router checks on-chain that the name is live and points to the wallet that is trading. A wallet with no name, or an expired one, is refused before a single token moves.\n\nPer-counterparty pricing. The Safe writes the terms once on each name (sell 3 bp, buy 10 bp, 50 ETH cap per fill) and a plain-English policy on the DAO's own name. After each fill, a risk agent looks at how that counterparty traded: how big, how often, and whether the price jumped its way right after. It writes that name's next spread to ENS, never outside the terms. Counterparties who trade fair get up to 3x tighter prices (1 / 4 bp instead of 3 / 10 bp). Counterparties who trade sharp stay at the edge. A spread written outside the terms is ignored, so the agent can never make a quote worse than the fence. The agent can only write spreads: it cannot change terms, addresses, expiries, the cap, the oracle or the policy, and it never needs another Safe signature.\n\nGuardrails. A 600-second oracle freshness window, a 50 ETH cap per fill, and an inventory floor: the desk stops selling ETH at a 70% ETH share. Every fill can be recomputed from public data.\n\nThe app. A landing page, a treasury dashboard (quotes by counterparty, inventory, the terms fence), a six-step wizard that opens a desk as one Safe proposal, counterparty and agent views, a fills list with per-fill verification, and a trade screen for counterparties. Live on Sepolia, on the official Aqua registry. Not affiliated with 1inch or ENS.",
+  "how_its_made": "Contracts (Solidity 0.8.30, Foundry). DeskRouter is a copy of 1inch SwapVM v1.0.2's Aqua router. Its opcode table keeps SwapVM's control instructions at their original numbers, switches off the fee and AMM slots, and appends two instructions of our own at 34 (EnsGate) and 35 (DeskPrice). The DAO's 2-of-3 Safe ships one SwapVM program to the official Aqua registry (0x1111113c...a90a, not redeployed). Aqua pulls tokens from the Safe and pushes the other side back in the same transaction, so the Safe keeps custody and our contracts store no configuration.\n\nEnsGate (#34) walks ENSv2's per-name registries on-chain (.eth registry, then the desk's registry, then the clients registry, then the resolver) and checks that the counterparty's name sits under this desk, has not expired, uses the pinned resolver, and that its addr is the taker Aqua passed for this swap (not tx.origin).\n\nDeskPrice (#35) reads two binary data records from the ENSv2 PermissionedResolver on the counterparty's name. desk.terms is abi.encode(uint8 version, uint16 sellBps, uint16 buyBps, uint128 cap). desk.spread is abi.encode(uint8 version, uint16 sellBps, uint16 buyBps, uint64 validUntil). A spread counts only if it is unexpired and inside the terms. The instruction then prices ask = mid x (10000 + sell) / 10000 and bid = mid x (10000 - buy) / 10000 from a Chainlink-style oracle with a freshness check, enforces the per-fill cap and the 70% inventory floor (selling ETH reverts at or below a 70% ETH share; buying still fills), and emits a DeskFill event carrying every input, so anyone can recompute the price.\n\nENSv2. dao-treasury-a.eth has clients and agents subnames, each with its own registry, and one PermissionedResolver per treasury. The Safe owns every name and the root roles of the resolver and registries. The risk agent, risk.agents.dao-treasury-a.eth, is granted setter roles for exactly two record keys, desk.spread and desk.stats. ENSv2's per-record permissions are what make \"an AI can tune prices but cannot move money or rules\" enforceable on-chain rather than by trust.\n\nAgent (TypeScript, viem). A keeper scans DeskFill events from a cursor. It reads the fill, applies the plain-English sentences of desk.policy (inventory and suspicion rules), optionally asks TypeSafe's Jev model to pick a tier (tight, standard or fence), and writes the filler's next desk.spread and desk.stats. The next fill by that name reads the new record. Without a Jev key, a local tier rule is used.\n\nRead API and bot. A Node service stores every DeskFill in SQLite and serves read-only routes. The fill route recomputes each price from public on-chain data. A market-maker bot CLI quotes and fills as mm-a and mm-b.\n\nFrontend. React 19, Vite, viem and wagmi. The wizard builds the Safe transaction for the owners to sign. The landing page's clouds and sea were generated in Higgsfield (an image, then a Kling video), then turned into 1-bit animated PNGs by our own blue-noise (void-and-cluster) ditherer in Node. The motion graphics are live canvas simulations dithered every frame against the same 64x64 blue-noise mask, so still dots never flicker.\n\nWhy the partners mattered. Aqua's shared liquidity means the treasury never deposits into a pool, and SwapVM let us add instructions instead of writing a new AMM. ENSv2 gave us identity for the gate and scoped, per-record delegation for the agent.\n\nHacky bits: extending SwapVM's opcode table; storing pricing parameters as binary ENS data records that a swap instruction reads mid-fill; a policy written in plain English that an agent executes; and building the whole thing with one-requirement-per-PR cloud agents behind a clarity gate.",
+  "auto_summary": "A Sepolia OTC treasury trading system uses a custom 1inch Aqua SwapVM router and ENSv2 records to control counterparties and pricing.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/watermark-68230",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "3f7h0",
+  "slug": "mandatei",
+  "title": "mandatei",
+  "tagline": "Ledger-backed x402 agents on Base: tap to fund, pay tools inside a cap keys never touch the LLM",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3f7h0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vTeT8pIdY85BfsR02joGWUIq018XQe00e015EcADU1PBEi8/high.mp4",
+  "demo_url": "https://github.com/Satianurag/mandate",
+  "source_url": "https://github.com/Satianurag/coldwire",
+  "finalist": false,
+  "description": "Mandate is a local operator for autonomous AI agents that spend real USDC on Base mainnet through the x402 payment protocol. You describe a goal in plain language; Mandate uses Vertex (Gemini) to plan which paid tools to call, shows you an upfront price preview, and only executes inside a Ledger-approved spending cap. Trust is split cleanly: your physical Ledger confirms your address and signs the initial USDC allowance via ERC-7730 clear signing (EIP-712); a Key Ring–sealed software wallet handles later micropayments to approved endpoints without repeated USB taps. The LLM never sees private keys. Live evidence comes from The Graph (including Agent0 registry lookups) and optional Hedera analysis; every tool call produces durable SQLite receipts. URL allowlists, per-call limits, rolling windows, and expiry are enforced by the broker—not by prompt instructions. When a run finishes, the agent profile is discarded; payment history and sources remain for audit. Built for ETHOnline 2026 Start Fresh: one npm start workspace on localhost, self-hosted x402 facilitator, and real device taps for funding—not mocked signing.",
+  "how_its_made": "\n\nMandate is a Node 22 monorepo: `packages/gateway` (operator broker) + `packages/facilitator` (self-hosted x402 settlement), static UI in `console/`, entry at `scripts/start.mjs`. Everything runs locally on `:8410`; SQLite holds mandates, payment receipts, and agent run checkpoints.\n\n**Payments:** We use Coinbase x402 v2 (`@x402/core`, `@x402/evm`) with the `exact` scheme on Base mainnet USDC (EIP-3009 `TransferWithAuthorization`). The broker is the only component that can sign: it quotes unpaid 402 offers, reserves budget atomically, signs with a Key Ring–decrypted key via viem, and verifies settlement before accepting evidence. A loopback facilitator on `:8406` batches settlement so the demo does not depend on a third-party endpoint.\n\n**Ledger (partner stack):** Physical device + DMK (`@ledgerhq/device-management-kit`, HID transport) + Ethereum Signer Kit for address read and funding EIP-712. Spending keys live in `@ledgerhq/wallet-cli` Key Ring (`ring encrypt`/`decrypt` over stdin pipes; password from macOS Keychain, never argv). Clear signing uses `@ledgerhq/context-module` CAL filters and a custom ERC-7730 descriptor (`docs/erc7730/`) for “Authorize USDC transfer.” Without a partner `LEDGER_ORIGIN_TOKEN`, production CAL 403s—so we ship a loopback test CAL (`ledger:test-cal`) plus the ledger-dev Ethereum app (`CAL_TEST_KEY=1`). We fail-closed on funding unless clear-signing is provable (`erc7730` or `clear-basic`), not just “device connected.”\n\n**Agent loop:** Vertex Gemini (`gemini-3.5-flash` via gcloud) plans tool steps; unpaid probes validate prices. Execution is adaptive: approved plan steps run sequentially, each paid through x402 to first-party tools on `:8425` (The Graph subgraph queries, Coinbase spot prices, Hedera-backed analysis). Live Agent0 discovery uses Subgraph MCP; counterparty policy pools ERC-8004 feedback across chains before paying unknown recipients. Reports are generated from observed fields, not invented prose.\n\n**Hacky but real:** DMK `close()` hangs Node—we keep a singleton and `resetDmk()` instead. DMK returns `v` as 0/1; we normalize to 27/28 for USDC. CAL needs explicit `EIP712Domain` in `types` or the hash misses on device—we inject it without changing the x402 digest. `DETECT_BLIND_SIGNING` in traces is a reporter step, not proof of a blind screen. Address confirmation and funding are deliberately separate device actions so we never imply a tap signed money when it only showed an address.",
+  "auto_summary": "A local monorepo runs an AI agent broker that executes paid tool calls using x402 and Ledger-backed approval and key handling.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mandatei-3f7h0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

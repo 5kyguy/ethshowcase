@@ -1,0 +1,26 @@
+{
+  "id": "d3pxq",
+  "slug": "stavlos",
+  "title": "Stavlos",
+  "tagline": "Simulation-only DeFi yield analytics for cross-chain stablecoin lending, with risk-adjusted yields.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d3pxq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/asuFK01xWrDtLoXc72mKSAt4lv9hyiZjvzsSLG5grnYE/high.mp4",
+  "source_url": "https://github.com/anto-snowin/stavlos",
+  "finalist": false,
+  "description": "Stavlos is an institutional-grade, simulation-only DeFi yield analytics platform designed to analyze and optimize cross-chain stablecoin lending opportunities. It tracks stablecoins such as USDC, USDT, DAI, USDS, and USDe across major DeFi protocols including Aave, Compound, Morpho, and Spark. The platform ingests yield and protocol data from DeFiLlama, validates and normalizes the data, filters pools based on liquidity and stability criteria, and stores historical yield observations in an idempotent SQLite time-series database.\n\nThe core of Stavlos is a quantitative risk-scoring engine that risk-adjusts nominal APYs using multiple factors, including TVL/liquidity depth, protocol age, APY volatility, blockchain security tiers, and bridge friction. It provides deterministic risk grades and plain-English explanations so users can understand why a particular lending pool receives its score. A historical backtesting engine then simulates capital rotation between opportunities while accounting for gas costs, bridge fees, minimum holding periods, slippage, and churn penalties, allowing strategies to be compared against a static benchmark.\n\nThe project also includes a FastAPI analytical backend and a Next.js dashboard with sortable pool rankings, historical APY charts, quantitative audit information, and interactive 180-day backtest visualizations. An advisory alerting system monitors sudden TVL contractions, abnormal APY increases, and risk-grade changes and can dispatch alerts through console, database, or webhook channels.\n\nStavlos is deliberately non-custodial and simulation-only: it does not contain private keys, request transaction signatures, or broadcast transactions. Its Web3 integration is read-only, using standard JSON-RPC calls to inspect stablecoin balances across multiple chains and compare idle wallet assets with risk-adjusted lending opportunities. Overall, the project combines data engineering, quantitative finance, DeFi analytics, backtesting, Web3 infrastructure, and full-stack development into a single production-oriented research platform.\n",
+  "how_its_made": "Stavlos was built as a modular Python + Next.js system, with a strong focus on quantitative analysis, data reliability, and non-custodial Web3 architecture. The backend is written in Python using FastAPI, Pydantic, Pandas, NumPy, and SQLite. The frontend uses Next.js 14 with the App Router and Recharts to provide an interactive analytics dashboard.\n\nThe data pipeline starts with DeFiLlama’s yields API, accessed through an HTTPX-based ingestion client with Tenacity-powered retries and jittered exponential backoff. Incoming pool data is validated and normalized with Pydantic, filtered for supported stablecoins and sufficient TVL, deduplicated, and persisted into a WAL-enabled SQLite time-series database through an idempotent repository layer.\n\nOn top of this data layer, I built a deterministic risk-scoring engine that applies penalties for TVL, protocol age, APY volatility, chain security, and bridge friction. A historical backtesting engine then replays multi-month yield data and simulates portfolio rotation while accounting for gas costs, bridge fees, slippage, minimum holding periods, and churn penalties. The results are exposed through FastAPI and visualized in the Next.js dashboard.\n\nThe Web3 layer uses Viem and standard EIP-1193/JSON-RPC `eth_call` requests to inspect stablecoin balances across Ethereum, Arbitrum, Optimism, Base, and Sepolia. The integration deliberately has no private keys, signing, or transaction broadcasting, making the system fully read-only and non-custodial.\n\nA particularly notable engineering choice was keeping the entire strategy simulation deterministic and auditable rather than simply ranking APYs. The platform can explain why a yield is considered attractive, replay historical decisions, calculate net performance after realistic friction, and generate advisory alerts for TVL contractions, APY spikes, and risk-grade changes. This turns raw DeFi yield data into an end-to-end research, risk, simulation, and monitoring pipeline.\n",
+  "auto_summary": "A full-stack platform that ingests DeFi yield data, scores lending opportunities, simulates strategy rotations, and displays analytics in a dashboard.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/stavlos-d3pxq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

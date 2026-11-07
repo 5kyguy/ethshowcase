@@ -1,0 +1,28 @@
+{
+  "id": "a6idq",
+  "slug": "dynamo-rates",
+  "title": "Dynamo Rates",
+  "tagline": "A dynamic interest rate strategy for SDAI on Spark Protocol using Chainlink Automation.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a6idq/banner/default.jpg",
+  "source_url": "https://github.com/kakagri/EthGlobalParis2023",
+  "prizes": [
+    {
+      "sponsor": "MakerDAO",
+      "sponsor_id": "t4tb4",
+      "placement": "🌳 MakerDAO — 🥇 Best Use of Spark",
+      "title": "MakerDAO"
+    }
+  ],
+  "finalist": false,
+  "description": "This project is a set of smart contracts: an interest rate strategy for Spark Protocol and an Upkeep Contract that adjusts this interest rate strategy depending on average utilisation of the reserve of SDAI in Spark Protocol.\n\nThe end goal is to have a dynamic interest rate strategy, low utilisation of the reserve means that it is too expensive to borrow, the rate should be lowered to match the market demand. High utilisation indicates that it is very cheap to borrow, the rate should be upped to match market demand. \nSo we use Chainlink Automation to bring a dynamic rate strategy to Spark Protocol for SDAI to start with. The Upkeep Contract (called VariableRateUpdater) periodically caches the utilisation rate, if the average utilisation rate is low it decreases the slope of the variable rate of the interest rate strategy, if it's high and close to optimal it increases the rate.\nI test them separately and the combination of both, to show that it actually works as intended. And also wrote a script to deploy in production a dynamic interest rate policy for SDAI on Spark using Chainlink Automation. All the steps of unfreezing the reserve, making sDAI borrowable and so on are covered and displayed on a mainnet-fork by impersonating the PoolAdmins of Spark Protocol.\n\nFull Description in the README on GitHub.",
+  "how_its_made": "I'm using:\nSpark Protocol\nSDAI\nChainlink Automation\neth-brownie\nsolidity\n\nAs mentioned earlier there is a set of two smart contracts (and some mock contracts) with tests and a script to put to production.\n\nDynamicRateStrategy: an extension of the DefaultReserveInterestRateStrategy of Spark protocol, with some added variables and authorisations to allow the Upkeep Contract a.k.a VariableRateUpdater to update variableRateSlope1\n\nVariableRateUpdater: a contract that implements AutomationCompatibleInterface, it's an Upkeep Contract that keeps track of the utilisation ratio of SDAI (or any asset) on Spark Protocol, it caches data of the last 30 days with a frequency of 12 hours. And performs an Upkeep every 12 hours, that caches in the latest utilisation ratio and updates variableRateSlope1 of the DynamicRateStrategy.\n\nIn the tests we play around with the contracts on their own and together to make sure that the updates to the slope are correct and as intended and there is a script that shows how to deploy this in production for SDAI.\n\nFull description in the README on GitHub.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dynamo-rates-a6idq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

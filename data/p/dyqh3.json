@@ -1,0 +1,27 @@
+{
+  "id": "dyqh3",
+  "slug": "seikyu",
+  "title": "Seikyu",
+  "tagline": "Sell unpaid invoices as ENSv2 names that expire on their due date, to World ID-verified investors.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dyqh3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sPu3ept4GQOmms19LKe01ElQ1dkkOHKEmX01MkfbYKZ8c/high.mp4",
+  "demo_url": "https://seikyu.xyz",
+  "source_url": "https://github.com/eth-2026-seikyu/seikyu",
+  "finalist": false,
+  "description": "Small suppliers often wait 60 or 90 days to get paid on an invoice. Seikyu (請求, Japanese for \"invoice\") lets a supplier sell that receivable now. The invoice itself is an ENS name that expires on the due date, so the on-chain record lives for as long as the debt does and no longer.\n\nIssuing is one transaction. It mints an ERC-721 receivable into escrow, deploys an ENSv2 Permissioned Resolver for that invoice with seven text records (amount, currency, debtor, due date, status, token id, issuer), and registers inv-<id>.seikyu.eth in our own ENSv2 UserRegistry with the name's expiry set to the due date. An eighth record, ack, can only be written by the debtor's accounts-payable wallet. That permission is granted through the resolver's Enhanced Access Control and scoped to one key on one invoice, so the debtor acknowledges or disputes the invoice on ENS itself.\n\nBefore buying, an investor verifies with World ID. The proof is checked server-side, tied to the investor's wallet through the signal, and stored on-chain as a nullifier, so one person gets one wallet and at most three open positions. The market contract then reads ENS before it allows the purchase: the name must still be live and ack must not be \"disputed\". The supplier receives the discounted price in the same transaction.\n\nWhen the debtor pays in full, the current holder receives face value, the token burns, and the ENS name is unregistered in the same transaction. If the due date passes with no sale, the name expires. If the invoice was sold and is still unpaid, anyone can mark it overdue; that renews the name for 30 days so the record stays readable while the debt is collected.\n\nAll of this runs on Sepolia against the pinned ENSv2 contracts. Seven invoices covering every lifecycle state are live at https://seikyu.xyz, and 46 Foundry fork tests cover the full lifecycle.",
+  "how_its_made": "Contracts: Foundry, Solidity 0.8.27, OpenZeppelin v5.1. We built against a pinned tag of ENS's contracts-v2 repo (sepolia-deployment-2026-09-15) with hand-written minimal interfaces, checked for selector parity against that tag's ABI. The main branch has a different API, so the tag is the only ground truth. InvoiceRegistrar registers each invoice as a subname in our own UserRegistry (deployed through ENS's VerifiableFactory) and deploys one PermissionedResolver proxy per invoice. InvoiceMarket is the ERC-721 receivable plus escrow; the World ID gate and the position cap are enforced in its transfer hook. 46 fork tests run against Sepolia at a fixed block. All three contracts are Sourcify exact-match verified.\n\nFrontend: Next.js 15 (App Router), wagmi 2, viem 2, Tailwind 4, deployed on Vercel at seikyu.xyz. ENS records are read through UniversalResolverV2 (resolve with a multicall) and liveness through the registry's getState, so the UI can show a name whose records are still readable after it has stopped being live.\n\nWorld ID: IDKit 4.3 request widget with a server-signed RP context. The verify route hashes the signal with idkit-core's own hashSignal and compares it with the proof before calling /api/v4/verify, because World's endpoint does not check the signal itself. It then enforces environment and credential checks, and an operator wallet relays setVerified(investor, nullifier) on-chain. We designed around Passport and verified a real Passport proof live on Sepolia. The recorded demo runs the Proof of Human preset with legacy v3 proofs allowed, because in the staging Simulator's default v4 mode every test identity shares one nullifier, and a one-person-one-wallet demo needs distinct humans.\n\nThings we learned the hard way: (1) The deployed resolver scopes setter roles by record key only, not by name, so isolating the debtor's ack permission to one invoice requires a resolver per invoice. We found no cheaper way. (2) An expired ENSv2 name keeps its resolver storage and can be revived with renew(), so \"mark overdue\" is an ENS renewal that keeps an unpaid invoice's identity alive for 30 more days. (3) Staging World ID verification needs a 24-hour staging token that is only obtainable through the Developer Portal's MCP endpoint. We open the window there and send the token as a header on every staging verify call. (4) EIP-7702 smart-account EOAs cannot be issuers because the ERC-1155 registry mint rejects them; the issue form warns about it.",
+  "auto_summary": "An on-chain invoice-financing app tokenizes receivables as ERC-721s and represents each invoice as an ENSv2 subname with lifecycle-linked records.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/seikyu-dyqh3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

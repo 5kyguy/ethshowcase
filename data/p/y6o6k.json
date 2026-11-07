@@ -1,0 +1,40 @@
+{
+  "id": "y6o6k",
+  "slug": "messageinabottle",
+  "title": "MessageInABottle",
+  "tagline": "A fully decentralized, fully anonymized, peer to peer messaging platform, crazy part is how we remain fully anonymous and yet do everything publicly.",
+  "event": {
+    "slug": "ethnewyork2022",
+    "name": "ETHNewYork 2022",
+    "start_time": "2022-06-24T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y6o6k/banner/default.jpg",
+  "source_url": "https://github.com/dvlasits/NYCMessaging",
+  "prizes": [
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🚀 Optimism — Just Deploy!",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "WalletConnect",
+      "sponsor_id": "46q4i",
+      "placement": "🥇 WalletConnect — Best Social",
+      "title": "WalletConnnect"
+    },
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "🥇 Gnosis Chain — Best Use",
+      "title": "Gnosis Chain"
+    }
+  ],
+  "finalist": false,
+  "description": "Our app allows for people to send messages to each other without revealing who they're talking with. We managed to provide full privacy, which is an ideal solution for users who want a general purpose messaging with full anonymity on the chain.\n\nWe facilitate it by setting up this protocol: If you want to send the message to someone, you have to know their public key. Then, you encrypt a message “I want to talk to you, talk to me at this IPNS address XXX”. Then, you wait for the receiver to decrypt your message, and once that’s done, you both move to the IPNS to continue your communication. One might wonder how that could possibly scale?- The network potentially has ~1 trillion edges. We resolved this by making everyone's public keys hash to a number between 1-1000. This way, the receiver of the messages has to attempt to decrypt only one of the 1000 arrays of messages that were sent, which cuts the time to identify a sender to a few seconds (and subsequent communication is fast, as it happens through IPFS). \n\nOur users can use tornado.cash to also hide the topology of the graph from everyone else (without it, the only information compromised in the whole exchange is how many connections did they request).",
+  "how_its_made": "You start by logging in through Metamask. We then generate RSA keys and upload them onto our smart contract which function as our more general purpose public keys. We used solidity to create the smart contract and it is deployed using brownie. We have a javascript front-end that communicates with our python back-end using flask. The interaction with smart contracts is supported by brownie. When I want to communicate with an address I get their RSA public key and encrypt the message \"CORRECT\" alongside a link to an IPNS store with my initial message. To make sure it scales I must hash the address from 0-999 and I place the encrypted message onto that row in the smart contract. To allow for easy extension my message is stored in the form a serialised python object using pickle and stored as bytes. Whenever you want to receive you check your corresponding array in the smart contract and check to see anything decrypts with your RSA private key. In which case we store the IPNS link corresponding to that wallet. And can access that to see messages which the sender can update. IPNS allows us to have a mutable store. From then on you can communicate over IPFS and IPNS for free.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/messageinabottle-y6o6k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

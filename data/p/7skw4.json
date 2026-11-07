@@ -1,0 +1,27 @@
+{
+  "id": "7skw4",
+  "slug": "agentarc",
+  "title": "AgentARC",
+  "tagline": "Agent to agent commerce on ARC: Identity,policy, nanopayments, and escrow. ",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7skw4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PbJ1o8w02x8mi6KIic8vL202pLBhZbF7h5jBCZTyfCpjc/high.mp4",
+  "demo_url": "https://agentarc-production.up.railway.app",
+  "source_url": "https://agentarc-production.up.railway.app",
+  "finalist": false,
+  "description": "AgentARC lets one agent pay another agent in USDC on Circle Arc. I built it around four problems in agentic commerce.\n\nWho to trust: every agent has a Circle wallet, and we only pay sellers we can identify.\nWhat to buy: the agent reads your prompt, finds our seller on Arc, and checks Circle’s marketplace so we don’t overpay.\nWhether to pay: small instant jobs go out right away; big or risky jobs hold the money first; bad identity or overspend never pays.\nHow to settle: we hold USDC, check the delivery, then pay the seller or send it back. After it’s paid, it stays paid, no chargebacks.\n\nCircle Agent Stack in the demo: Agent Wallets, USDC on Arc, Agent Marketplace, Nanopayments, and AuthCapture escrow.\n\n",
+  "how_its_made": "I built AgentARC as a TypeScript app running on Node 20 with two lightweight HTTP processes: a buyer orchestrator on port 5180 and an independent x402 seller on port 5181. I used Node’s native http module, vanilla HTML/CSS/JS, and Vitest to keep the stack simple.\n\nThe flow is: user intent, discovery, ERC-8004 trust signals, deterministic policy, Circle Agent Wallet, USDC on Arc, x402 seller, verification and then receipt.\n\nI used Circle’s developer-controlled wallets for keys and transactions. USDC is both payment and gas on Arc Testnet. x402 gates paid seller APIs using HTTP 402. ERC-8004 data from 8004scan provides identity, feedback, validations, and x402 support as separate signals. CoinGecko provides live ETH pricing and OHLC data, while OpenAI is optional for intent parsing with a regex fallback.\n\nI kept payment decisions deterministic with a rules engine. It fail-closes when identity is missing or failures are high. Small objective jobs use direct nanopayments, while larger or subjective jobs use protected escrow-style flows.\n\nThe hacky part was making this reliable on Arc testnet. When Circle’s x402 settlement and contract execution APIs failed, I implemented controlled USDC transfer and AuthCapture fallbacks. I also split the seller into a separate process after discovering that internal API calls could deadlock the original server.\n\n",
+  "auto_summary": "A TypeScript Node app that orchestrates agent-to-agent USDC payments and escrow flows on Circle Arc testnet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentarc-7skw4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

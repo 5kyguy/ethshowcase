@@ -1,0 +1,21 @@
+{
+  "id": "puy90",
+  "slug": "btc-warp",
+  "title": "BTC Warp",
+  "tagline": "We put verification of Bitcoin’s entire history of proof of work in a single zkSNARK. By using the power of recursive SNARKs and massively parallel compute, we create a single succinct proof of the total amount of work in the Bitcoin chain since genesis.",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/puy90/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TPnic29H5kiAe2XJkNEKUirFLKUxv01aAjHohe1UkD5Q/high.mp4",
+  "source_url": "https://github.com/orgs/bitcoin-ultralight/repositories",
+  "finalist": false,
+  "description": "In a blockchain such as Bitcoin, when a new block is added to the chain, miners must “mine” the block to show Proof of Work. In particular, for each block header, there is a nonce that must be set (or “mined”) such that the header’s double SHA256 hash falls below the difficulty threshold (also encoded in the block). As such, the “work” required to mine each block can be represented by the size of the search space of the nonce divided by the difficulty threshold. The Bitcoin chain has “probabilistic finality”, meaning that the current block is determined by the tip of the “heaviest chain”, i.e. the chain of blocks with the most total “work” associated with them.\n\nFortunately, the header of each block encodes all this information in a fairly simple way, along with the hash from the parent block. This means that we can use the headers prove the heaviest chain!\n\nLight clients essentially do this. They only keep track of block headers and verify proof of work. Light clients are useful for compute-constrained environments (like Ethereum). However, this requires you to download all block headers. It’d be nice if a light client could sync and keep up to date with chain without having to download and verify POW for every single header.\n\n⚡ BTC Warp⚡ is a single succinct proof that attests to the entire history of work in the Bitcoin chain. We use recursive SNARKs to generate a succinct proof that a particular header has a specified amount of work attached to it. Light clients can efficiently verify this single SNARK proof to keep updated with the tip of the chain without having to download all block headers. \n\nLooking to the future, this project is notable because with EVM verification of plonky2 proofs, you can zero-shot sync a Bitcoin light client running in an Ethereum smart contract. This opens the door for a trust-minimized BTC <> Ethereum bridge. There’s no longer a need to verify every header’s proof of work; we can verify a single proof to “jump” multiple headers at a time. \n\nOther potential use cases include:\n* Ultralight clients for mobile wallets, in-browser wallets\n* Zero-shot Bitcoin node syncing\n* Integration with ZCash’s zkSNARKs of Bitcoin state-transition to get security of an honest full-node?\n",
+  "how_its_made": "First, we generate a succinct proof that a particular header has a certain amount of “work” associated with it. We use the plonky2 framework in Rust to generate these proofs. The core challenges are that:\n* SHA256 is very SNARK unfriendly arithmetic\n* Implementing big int arithmetic that check that the hash is indeed below the difficulty threshold is not easy because of all the bit math in a SNARK and we need to reconcile the little-endianness of block headers in bytes\n\nFurthermore, since Bitcoin has too many blocks, we leverage recursive SNARKs to parallelize the proving, essentially generating proofs of batches of blocks, then generating proofs of batches of those, and so on, like a tree. Notably, we need different circuits for each layer and we need to write all the different circuits to verify the previous layer + leaves.\n\nFinally, even after the circuits are written, we need to set up massively parallel computation for generating recursive proof for entire chain, which we did on AWS.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/btc-warp-puy90",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

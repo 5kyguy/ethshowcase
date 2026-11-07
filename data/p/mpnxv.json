@@ -1,0 +1,30 @@
+{
+  "id": "mpnxv",
+  "slug": "samvad",
+  "title": "Samvad",
+  "tagline": "The next front page of the internet",
+  "event": {
+    "slug": "ethindia2023",
+    "name": "ETHIndia 2023",
+    "start_time": "2023-12-08T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mpnxv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ldBG01v1aXVRHU4oyVq3mSo18OVIQTBIUgs6nxU2gvz8/high.mp4",
+  "youtube_id": "YjcoyE0JsbY",
+  "source_url": "https://github.com/KryptoNights/samvad/",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Best use of Chainlink CCIP",
+      "title": "Best use of Chainlink CCIP"
+    }
+  ],
+  "finalist": false,
+  "description": "Samvad gives you a strong financial incentive to post quality content. You earn when people reply either to you, or someone who replied to you. With this specific geometrically decreasing incentive, the upside of posting quality content is high. You stop earning if you cross a specific number of downvotes, which prevents spam and overly controversial discussions who want to game the system. \n\nSamvad is also deployed cross-chain! Infact this reply itself is being sent from Avalanche Fuji to Ethereum Sepolia using Cross Chain Transfer Protocol.\n\nIt also has a great user experience. Samvad shows real-time data on how many people are reading a particular post, which would enable participants to choose the highest audience. Notifications are also delivered whenever someone interacts with content. Once you start using samvad, it's hard to go back to the social media where *you* contribute and *they* earn.\n\n**Links**\n- [https://samvad1-codeakki.vercel.app/](https://samvad1-codeakki.vercel.app/)\n- [https://github.com/KryptoNights/samvad/](https://github.com/KryptoNights/samvad/)",
+  "how_its_made": "# Intro\nWe ran into several issues while using some of the tech but we dived deep into their tech and figured it out.\n## ChainLink\nStarting with ChainLink, we were particularly oriented towards them because we wanted such a platform to be accessible from multiple chains. The CCIP send was showing a gas estimation failure error on Remix, and when we forced the transaction it kept failing. When we ran the sample functions given in the docs, it worked fine. Our use case was a bit more complicated. For 3 of the 4 CCIP functions, used a one way token/data transfer. The other however included a transfer from source to destination chain which triggered another send from destination to source. We realized having the CCIPReceiver and a fallback function for the contract to accept token was necessary to prevent the failures.\n## Push Protocol\nWith Push Protocol, we faced version conflicts. We were using ethers 6.x.x while Push Protocol supported only 5.x.x, so we chose to downgrade it for the sake of the UX improvement their notifications offer. That lead to a cascading issue with several other dependencies like hardhat and axios. Eventually we resolved the conflicts by modifying some functionalities.\n## Waku\nWhile integrating Waku we were unsure of where to place the LightNode object, due to which often the node was bootstrapping repeatedlyand was leading to null errors where a request was made to the node the moment it reinitialized. We got over it by moving the object further up the ladder. We were reluctant at first since we were using Waku to show live audience reading a particular post on our platform, a metric we call liveliness. But eventually we figured out we could use ephemeral push to trigger soft reloads instead of relying on the total state of the liveliness.\n\nOverall, we faced several other issues like minor solidity version conflicts and some snags with The Graph and Metamask here and there, but I only mentioned the issues we had to spend considerable time on.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/samvad-mpnxv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "wkmmb",
+  "slug": "arc-mandate",
+  "title": "Arc Mandate",
+  "tagline": "An agent key that can only spend what you allowed. Limits enforced by Arc, revoked from your phone.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wkmmb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BjcslFVhMcfJhsP5EHBqG1TLjRScZimJk2mWxcVp4mE/high.mp4",
+  "demo_url": "https://arc-maze.vercel.app/",
+  "source_url": "https://github.com/nel349/arc-agent-mandate",
+  "finalist": false,
+  "description": "Agent Mandate lets your AI agent spend USDC on Arc within a limit you set from your phone, enforced on chain. A Face ID passkey wallet in React Native, a session-key plugin we ported to Circle's wallets, and an MCP connector that pays x402 sellers. Revoke anytime. Toll, our maze, rewards agents with ERC-8004 reputation, checked by a Chainlink CRE replay.",
+  "how_its_made": "Phone: Expo + React Native, with Circle wallets it doesn't officially support Circle's Modular Wallets TypeScript SDK doesn't support React Native, and the passkey step is where it breaks. We wrote our own Expo native module (Swift on iOS, Kotlin with Credential Manager on Android). A small shim installs navigator.credentials so Circle's SDK runs unchanged. We also convert the passkey's public key into the format Circle expects. One hack: we rewrite one request header, only on calls to Circle, so Circle's passkey server accepts a native app as if it were our website domain. The result is a Face ID smart account with no seed phrase.\n\nSession keys: we ported the plugin Arc's only session-key plugin (Alchemy's ERC-6900) targets EntryPoint v0.6, but Circle's accounts run v0.7. The obvious workaround installs fine and then fails on the first payment. We ported the plugin to v0.7 without touching its rules, deployed it with CREATE2, and tested it in Foundry on a fork against the real contracts.\n\nOne meter On Arc, USDC is one balance with two views: native at 18 decimals and ERC-20 at 6. A limit on one view doesn't limit the other. So the native limit is zero, spending is capped on the ERC-20 view, and an allowlist permits only transfer, approve and Gateway's depositFor.\n\nAgent: an MCP connector (viem, the MCP SDK) Circle Gateway only accepts x402 payments signed by a plain key, not a smart wallet. So the agent has its own key, holds no money, and before each purchase sends a sponsored operation that moves just enough USDC into its own Gateway escrow. Then it signs the payment itself.\n\nPairing without a server (hack) The connector shows a QR code with its address and a one-time code. The phone's grant writes a hash of that code on chain, and the connector finds it by scanning the plugin's events. The blockchain is the only link between laptop and phone. The connector also registers an ERC-8004 identity from the user's wallet, so the person owns it.\n\nToll maze: Bun on Vercel. It charges per move over x402 using Circle's batching facilitator. Each hourly maze is generated from a seed, so every run is recorded in Upstash Redis and can be replayed from its moves, with a sha256 digest. When an agent solves it, the maze writes the score to the ERC-8004 Reputation registry, with the digest attached, and mints a CohortZero badge (ERC-721).\n\nChainlink CRE: A TypeScript workflow whose handler runs in an AWS Nitro enclave. The Vault DON releases the Redis token only into that enclave, which matters because the token can also rewrite records. The workflow imports the maze's own replay code, recomputes the score and digest, and produces a DON-signed report shaped for our MazeVerdict contract. So far we've run it in the CRE simulator, where it matched what was already on chain. MazeVerdict is tested but not deployed yet.\n\nArc surprises we worked around\n- The standard anvil test keys are EIP-7702-delegated to sweeper contracts on Arc, so we derive test keys from our own seed.\n- Arc's USDC ERC-20 transfers run in a precompile that a local fork can't execute.\n- Forks emit no native transfer logs, so the activity feed reads UserOperationEvent and decodes which agent paid from the operation's nonce.\n\nWhat partners gave us:\nCircle provided passkey wallets, sponsored gas and batched settlement, which makes a $0.001 step affordable. Arc gave us dollar-denominated gas. Chainlink CRE gives a score the seller can't fake or quietly edit.",
+  "auto_summary": "A mobile wallet and MCP agent system lets AI agents spend limited USDC on Arc and links gameplay results to onchain reputation.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arc-mandate-wkmmb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

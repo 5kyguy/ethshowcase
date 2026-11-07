@@ -1,0 +1,41 @@
+{
+  "id": "fsivf",
+  "slug": "proof-royale",
+  "title": "Proof Royale",
+  "tagline": "Proof Royale is a new verifiable battleground, enabling onchain challenges for duels and tournaments using any web2 game (or information) that can be accessed via TLS (so basically all of it)!",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fsivf/banner/default.jpg",
+  "demo_url": "https://docs.google.com/document/d/1juoU7RD7-urofX8dAf53D0tXLY2ndc_NGEQiAxdk8HY/edit?usp=sharing",
+  "source_url": "https://github.com/NillionNetwork/proof-royale",
+  "prizes": [
+    {
+      "sponsor": "Ethereum Foundation",
+      "sponsor_id": "362vt",
+      "placement": "Best Overall Use Case of TLSNotary",
+      "title": "Best Overall Use Case of TLSNotary"
+    },
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Best use of Blockscout Block Explorer",
+      "title": "Best use of Blockscout Block Explorer"
+    },
+    {
+      "sponsor": "Avail",
+      "sponsor_id": "910t9",
+      "placement": "Build with Avail ",
+      "title": "Build with Avail "
+    }
+  ],
+  "finalist": false,
+  "description": "# How Does It Work?\nSet Up Your Challenge: Create a smart contract for a Duel between two players who put in the same bet (and soon a Tournament for N players). One Challenger creates a Duel contract on the site by connecting their wallet (or onboarding with web2 credential) using Dynamic, putting up some ETH, and specifying the rules of engagement like the game, the win condition, and who they want to challenge. Those players are then eligible to join the challenge by matching their wager on Arbitrum One.\n\nPlay to Win: The first to complete the win condition, such as completing 100% of a game’s Achievements on Steam or winning a game of online chess against your opponent, is eligible to claim the prize pot.\n\nNotarize Your Glory: The winner generates a proof of accomplishment directly from the relevant page using the TLSNotary browser extension.\n\nVerify To The World: The proof is portable and can be verified by anyone, but they need access to it. The winner solves this by posting their proof to Avail which proves that the data is available and makes it easily accessible to would-be verifiers.\n\nClaim Your Prize: Once proof is available, verifiers can verify it and trigger the contract to release the prize pool to the deserving champion. This verification will be able to be done completely on-chain in the future, but the current solution allows for users to specify a referee contract made up of a threshold of parties downloading the Avail-able proof and running the TLSNotary verifier \n\n# Why Proof Royale?\nTrust-minimized Verification: Your achievements are securely verified through Notaries. If you want even more security, you could rerun the proving process using as many notaries as you want.\nPick Your Battleground: Almost everything worth paying attention to on the internet uses TLS, which means players can choose to face each other across the whole of cyberspace rather than being limited to what’s on-chain. They don’t even have to be games in the traditional sense, it could be a race to see who can get a Twitter dm from their favorite streamer or who’s the first to hit a savings goal in their bank account.\nSmart Contract Escrow with QOL: The prize pool is as secure as the verification mechanism, but what if no one reaches the goal? Nice features like time-based expiry that returns the funds equally and challengers being able to rescind unmet challenges give you peace of mind when challenging.\nMay the best gamer win! 🏆\n",
+  "how_its_made": "* TLSNotary for creating MPC-based proofs of webpages served with TLS\n* TLSNotary's verifier for verifying the proofs\n* Avail for proving that the proofs are available to all verifiers\n* Dynamic to make the onboarding on the UX smooth, especially for onboarding gamers who may be less cryptonative\n\n*We ran into many issues trying to get TLSNotary working across almost all production sites, with the exception of Twitter. We spent quite a lot of time initially hacking on trying to prove the Steam achievement page, where everything was server-side rendered which required some workarounds. Ultimately, the MPC never managed to go through. Even when we switched to very simple payloads like the JSON API from Lichess, the network latency of the servers seemed to be breaking the MPC. The TLSNotary team suggested finding example websites with nearby servers but the time crunch prevented us from exploring that possibility.\n\nTo demo the functionality we instead are running our own website that keeps track of progress as a functional demo of how this would function with Steam. More specifically, each player-id creates a new random list of achievements, e.g.,\nhttps://tlsnotary-game.vercel.app/?username=player1\nhttps://tlsnotary-game.vercel.app/?username=player2 \n\n* We also really wanted to run the TLSNotary verifier on-chain, or with as few trust assumptions as possible. Our candidate for that was Arbitrum Stylus since the verifier was written in Rust – but their testnet size only allowed a maximum of 24 KB WASM binary which was over 10x bigger than the verifier we needed to run. We tried optimizing the wasm compilation process by playing around with flags and removing debug symbols but never managed to crack under 240KB. We also assessed splitting the verifier into multiple files but doing so seemed unlikely to be feasible within the time limit. \n\n* We then looked into running our own Orbit chain with the max contract size parameters changed to accommodate the WASM binary, but ran into trouble with the documentation around what specifically we would need to change to accommodate larger contract sizes (e.g., the impact on batch size). Our understanding was also that the arbitration process may not yet work for these larger contracts. After running into some errors when setting up a modified Orbit chain, we looked for a way around this aspect. Figuring out and documenting how a Stylus/Orbit stack could work with larger binaries would be a really cool focus for another hackathon or perhaps an internal hackathon – the possibilities are endless for what bigger binaries can enable!\n\n* We also looked into trying to run the verifier in SP1 and Risc0 but weren’t sure about feasibility or performance so opted to design toward a simpler threshold approach. It would be relatively easy to add cryptoeconomics to this, similar to what Aligned Layer’s ‘Fast Mode’ is doing as an Eigenlayer AVS. If Aligned Layer allowed for running arbitrary verifiers using the AVS, that would be a great future addition. Another good future work would be integrating Opacity’s network of notaries to distribute the trust even more by doing multiple TLSNotary proofs with different notaries, then verifying all of them.\n\n* The UX flow is built using Next.js and the contracts were manipulated with Foundry. Although the contracts are live on Arbitrum Sepolia, we had some trouble with the pipes at the end since ethers and Dynamic weren’t playing together the way we were used to. The contracts were tested and manipulated directly from the CLI instead, and many of the features implemented in the contracts, such as support for different games or expiry, are not implemented in the demo frontend.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/proof-royale-fsivf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

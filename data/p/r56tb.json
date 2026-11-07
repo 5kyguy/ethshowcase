@@ -1,0 +1,35 @@
+{
+  "id": "r56tb",
+  "slug": "deshare",
+  "title": "deShare",
+  "tagline": "deShare is a new sharing platform to share thoughts, projects, and ideas. It is decentralized, on polygon chain.",
+  "event": {
+    "slug": "roadtoweb3",
+    "name": "Road to Web3",
+    "start_time": "2022-02-03T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/r56tb/banner/default.jpg",
+  "demo_url": "https://desharexyz.web.app/",
+  "source_url": "https://github.com/ianmah/deshare",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊 Polygon Pool Prize",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Covalent",
+      "sponsor_id": "f7o0p",
+      "placement": "🏊 Covalent Pool Prize",
+      "title": "Covalent"
+    }
+  ],
+  "finalist": false,
+  "description": "Our team members, being brand new to web3, wanted to remake a web2 product we love in web3.\r\n\r\nEnter deShare, a sharing platform that is completely decentralized, onchain. It is deployed via smart contracts on the Polygon network.\r\n\r\ndeShare works off of two NFTs, deShare Posts and deShare Members.\r\n\r\nTo create a post, a user must hold a deShare Member NFT. This is to prevent bot wallets from creating spam posts. As well, only members may upvote posts, also to prevent bots from spamming the upvotes.\r\n\r\nFor now member tokens can be minted by anyone, but before deploying to mainnet we would like to iron out our token economics first. We ideated many ways to distribute deShare Member NFTs, but for now we think a random lottery could work - every week, our smart contract could choose a random selection of wallets that are allowed to invite 3 members.",
+  "how_its_made": "Writing contract to contract interaction in our first days using Solidity was a fun challenge but we pulled it off. \n\n\n\nOur Posts NFTs have a few additional features to ERC721 - upvotes (which emit custom log events with the updated vote count to enable dApps to quickly get updated vote counts), and custom user created post metadata.\n\n\n\nOur frontend was completely built from scratch, first designed in Figma, then built in React. Our React app is deployed on Firebase, and uses ethers.js to interact with the blockchain. We only use ethers to write to smart contracts, ie minting member tokens and minting posts. Covalent is used to read any onchain data.\n\n\n\nWhen a user creates a new post, this first uploads the post title and description to an ipfs storage. Then the metadata uri is used to mint a deShare Post (using ethers.js)\n\n\n\nTo display all the posts efficiently without needing to read directly from the blockchain, we used Covalent. We take advantage of the Class-A/Get-NFT-token-IDs-for-contract/ endpoint (and the starting/ending block to display newer posts) and the Class-A/Get-NFT-external-metadata-for-contract/ endpoint to get the posts name and description. We also wanted to use Class-A/Get-log-events-by-topic-hash(es)/ to view our custom Upvote event (has newest upvote count) emitted from our smart contract, but the endpoint was not working (the decoded info was null)\n\n\n\nOur smart contracts currently hold a vote function that emits an Upvote event that we hoped would be logged by blockchain aggregators such as Covalent and Moralis, enabling quick lookup for upvoted posts. We didn't have time to implement the voting button or counts on the front end, as we had some trouble with the log events by topic endpoints.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/deshare-r56tb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

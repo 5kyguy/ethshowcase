@@ -1,0 +1,27 @@
+{
+  "id": "44185",
+  "slug": "cypher-brain",
+  "title": "Cypher Brain",
+  "tagline": "Give an AI agent an ENSv2-scoped, revocable wallet permission for one field. Never your funds.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/44185/banner/default.jpg",
+  "video_url": "https://stream.mux.com/itHeCMP5SmPkLEEw5VtCiUY00XGdICKtmi6xl0201HkgKA/high.mp4",
+  "demo_url": "https://masashi-ono0611.github.io/cypher-brain/ethglobal.html",
+  "source_url": "https://github.com/Masashi-Ono0611/cypher-brain",
+  "finalist": false,
+  "description": "Cypher Brain is an existing open-source project that encrypts a personal AI \"second brain\" (gbrain) every night, then publishes a pointer to it so the brain can be restored elsewhere. That nightly job is run by an AI agent, not a human — which meant giving the agent broad, unverifiable trust: either the owner's real wallet key, or a centralized server nobody outside its operator could audit.\n\nThis submission replaces that with ENSv2's Enhanced Access Control. The owner grants a separate agent wallet a role scoped to exactly one text-record key on the name's existing Permissioned Resolver — no custom smart contract. Routine pointer updates then use only the agent key; the owner's real key is never touched again.\n\nThe scope is proven, not claimed: our ens-verify command reads the granted key back to confirm the write, then simulates a write to a different key and requires the resolver itself to reject it with EACUnauthorizedAccountRoles. We ran the full flow live on Sepolia — registered a real ENS name, granted three independent keys, wrote and verified each one, and captured every transaction hash. A stolen agent wallet can update one field. It cannot move funds, write anywhere else, or act as the owner.",
+  "how_its_made": "This project is a TypeScript CLI (cypher-brain) that already handled encryption and storage of a personal AI second brain; this submission adds four new subcommands on top of it: agent-wallet keygen, ens-setup, ens-set-text, and ens-verify.\n\nage encrypts the second-brain snapshot on-device before it ever reaches a storage backend (local file, Arweave/Turbo, or TON storage for this demo). The ENS text record only ever holds a pointer to that ciphertext — never the plaintext or its decryption key.\n\nFor the ENSv2 side, viem talks to Sepolia and to the name's Permissioned Resolver. ens-setup lets the owner grant ROLE_SET_TEXT for one text key to a locally generated agent wallet, using a hidden interactive prompt so the owner's key is never written to disk. ens-set-text then lets that agent wallet alone write the granted key. ens-verify closes the loop: it reads the key back to confirm the value, then simulates (not broadcasts) a write to a different key, requiring the resolver's Enhanced Access Control to revert it with EACUnauthorizedAccountRoles.\n\nThe hacky-but-deliberate part: we did not write a new smart contract. Everything here — the Permissioned Resolver, its Enhanced Access Control roles, the ENSIP-10 wildcard resolution path text records now go through — already existed in ENSv2's fresh Sepolia redeployment. We just wired an existing OSS project's agent wallet into permissions ENSv2 already offers, and proved the scope holds by making the agent try to break it and fail, live, on-chain.",
+  "auto_summary": "A TypeScript CLI encrypts personal data snapshots and publishes encrypted storage pointers with delegated ENS-based text-record updates.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cypher-brain-44185",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

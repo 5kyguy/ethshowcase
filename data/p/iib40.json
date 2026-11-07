@@ -1,0 +1,27 @@
+{
+  "id": "iib40",
+  "slug": "partybid",
+  "title": "PartyBid",
+  "tagline": "A social music queue where partygoers bid to decide what the DJ plays",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iib40/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2251JbNARpE2rLsmkzAc7MICNEazHrZUz1IQWldb01Mg/high.mp4",
+  "demo_url": "https://partybid.vercel.app/",
+  "source_url": "https://github.com/rizwanmoulvi/partybid",
+  "finalist": false,
+  "description": "PartyBid is a social music bidding app that turns the party song queue into a live priority market. Guests join a party, request songs, and bid for the songs they want the DJ to play. If another guest wants the same song more, they can outbid the current bid, automatically moving the request higher in the queue. The DJ gets a clear, real-time priority queue instead of having to choose between competing requests.\n\nOnce a song is played, the guest can like or dislike it, and the commitment can be settled based on the outcome. PartyBid uses Privy for frictionless social login and embedded wallets, while 1inch Aqua provides the shared liquidity layer for committing and settling bids. The result is a fun consumer experience that hides the complexity of Web3 while demonstrating a real on-chain lifecycle: join, bid, outbid, commit, play, react, and settle.\n",
+  "how_its_made": "PartyBid is built as a full-stack Web3 application using Next.js, React, MongoDB Atlas, Ethers.js, Solidity, and Privy. The frontend provides the party experience: DJs create and manage parties, while guests join, request songs, place bids, outbid other guests, commit their winning bids, react after a song is played, and settle the final outcome.\n\nPrivy powers frictionless authentication through social login, including Google, while creating and managing embedded wallets behind the scenes. This lets users interact with on-chain functionality without starting with a traditional crypto-wallet onboarding flow.\n\nThe backend uses Next.js API routes and MongoDB to maintain authoritative party, song request, bid, and settlement state. We deliberately don't trust client-provided settlement details. Instead, the backend derives the maker, bid amount, outcome, recipient, identifiers, and strategy data from server-side records, then generates an EIP-712 authorization signed by a dedicated settlement signer.\n\nThe core Web3 integration is built around 1inch Aqua on Arc Testnet. When a guest commits a bid, the client receives canonical `strategyBytes` from the backend and uses them to create an Aqua `ship()` position. The corresponding `strategyHash` is cryptographically bound to the settlement, so the commitment and later payout reference the same liquidity context.\n\nWe built a custom `PartyBidAquaApp` Solidity contract that validates the EIP-712 settlement authorization, enforces WUSDC-only settlement, restricts outcomes to player or platform payouts, binds platform payouts to the configured recipient, checks deadlines and signatures, and prevents replay attacks. On settlement, the contract consumes the Aqua virtual balance through `pull()` and routes the WUSDC payout to the authorized recipient.\n\nOne particularly hacky part was making the whole flow feel like a normal consumer app while preserving the full on-chain lifecycle underneath: Google login → embedded wallet → bid → outbid → Aqua commitment → DJ plays → guest reacts → EIP-712 authorization → on-chain settlement. We also built blockchain-first confirmation: MongoDB only marks a settlement as `COMPLETED` after the backend independently verifies the real transaction receipt and `SettlementExecuted` event, rather than trusting the frontend.\n",
+  "auto_summary": "A Next.js app for live song-request bidding that uses Privy wallets and 1inch Aqua-backed WUSDC settlement flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/partybid-iib40",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

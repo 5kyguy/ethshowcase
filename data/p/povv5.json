@@ -1,0 +1,26 @@
+{
+  "id": "povv5",
+  "slug": "aquawrap",
+  "title": "Aquawrap",
+  "tagline": "Custom SwapVM opcode pricing wrapped-asset pools at the live oracle rate, on 1inch Aqua.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/povv5/banner/default.jpg",
+  "demo_url": "https://aquawrap.vercel.app/",
+  "source_url": "https://github.com/madschristensen99/aquawrap",
+  "finalist": false,
+  "description": "AquaWrap is a custom SwapVM instruction that reads a live rate oracle (Uniswap V3 TWAP or wstETH wrap-rate + Chainlink) on every quote() and swap(), continuously re-anchoring the AMM curve so wrapped-asset liquidity stays accurate to real market prices. The problem: SwapVM's built-in PeggedSwap and XYCSwap fix the price at ship time, but wrapped assets (wstETH, cbETH, rETH) have exchange rates that drift as rewards accrue — a stale pool gets arbitraged and LPs bleed value. OracleSwap's curve (x + x0)·y = k with x0 = y/r − x makes the marginal price always exactly the live rate, while slippage still scales with trade size vs. reserve depth — a real AMM, not an RFQ. The official Aqua registry is used unchanged; only the SwapVM router is redeployed with the opcode appended (byte 0x22), which the bounty rules explicitly allow. Every existing opcode keeps its index, so existing programs behave identically. Quote/swap parity holds because the rate provider is a view call and the pricing kernel is pure. Includes a mainnet-fork test suite (ship → quote → swap → dock with real WETH/wstETH), viem scripts, and a zero-build HTML/JS dashboard.",
+  "how_its_made": "Solidity 0.8.30 + Foundry, pinned against 1inch/swap-vm v1.0.2 (the exact tag the deployed router was built from) and 1inch/aqua v1.0.0 as git submodules. The core is an appended opcode: AquaWrapOpcodes overrides the virtual _opcodes() jump table, appending OracleSwap at index 34 (byte 0x22) — the first out-of-bounds index of the deployed router's 34-entry table, so OracleSwap programs only execute on our redeployed router. The pricing kernel is an oracle-anchored constant product: amountOut = y·r·net/(1e18·y + r·net), derived from the curve (x + x0)·y = k with x0 = y/r − x, so the marginal price equals the live rate at any reserve ratio. Notably, the naive approach of scaling balanceIn by the rate cancels out of constant product — the oracle would be decorative — so the curve is anchored through the rate instead. Rate providers: TWAPRateProvider reads Uniswap V3 observe() with TickMath inlined (v3-core v1.0.0 doesn't compile under solc 0.8.30), and WrapRateProvider combines wstETH.stEthPerToken() with the Chainlink stETH/ETH feed (18 decimals, 24h heartbeat). 27 tests pass, including a mainnet fork suite against the real Aqua registry and wstETH/WETH pool, a rate-drift test proving OracleSwap tracks the live rate while XYC stays stale, and a quote/swap parity fuzz. Client tooling is viem scripts (deploy, ship, quote+swap demo, OracleSwap-vs-XYC comparison) and a dependency-free HTML/CSS/JS dashboard.",
+  "auto_summary": "AquaWrap adds a custom 1inch Aqua SwapVM opcode for oracle-anchored wrapped-asset swaps and includes tests, scripts, and a simple web UI.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aquawrap-povv5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "uvzqp",
+  "slug": "jev-market-factory",
+  "title": "Jev Market Factory",
+  "tagline": "An AI agent turns news into prediction markets with instant 1inch Aqua liquidity priced by Jev",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uvzqp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zWw9uigI7MnYTsVA8h02zoh7XlGWYIdUGOnTIvU7javs/high.mp4",
+  "demo_url": "https://github.com/newt0/jev-market-factory",
+  "source_url": "https://github.com/newt0/jev-market-factory",
+  "finalist": false,
+  "description": "Prediction markets have a long tail problem: most small questions (\"Will next week's CPI print above 0.3%?\", \"Will this factory outage be fixed within a week?\") never get a market, and the ones that do start with an empty book and no sensible opening price.\n\nJev Market Factory closes that gap with an agent. For every news item, the Scout agent sends one request to Jev (TypeSafe AI's judgment-only model) asking three typed questions at once: is this an objectively resolvable future event (noul), which category (choice), and what is the yes-probability (noul). If it passes the threshold, the agent creates a YES/NO market on-chain, writes the probability to an oracle, and immediately ships liquidity for both YES/USDC and NO/USDC from a single market-maker USDC balance to 1inch Aqua. Aqua records virtual balances per strategy, so one wallet backs every market at once and tokens only move when a trade fills.\n\nPrices come from our custom SwapVM instruction JevPrice: it centers quotes on Jev's probability (p for YES, 1-p for NO), widens the spread as the deadline approaches, and halts trading when the signal is stale. A Uniswap v4 dynamic-fee hook reads the same probability and charges more for trades that push the pool away from it. After the deadline, the Resolver agent judges evidence text with Jev and settles the market; winners redeem 1 USDC per share.\n\nThe web app (markets list, market detail with order panel, news intake, and a maker view showing one USDC balance vs. total virtual liquidity) reads everything directly from the chain.",
+  "how_its_made": "Contracts (Solidity 0.8.30, Foundry, via_ir) run on an Anvil fork of Base mainnet against the official 1inch Aqua (0x1111113c...) and the official Uniswap v4 PoolManager, with real Base USDC.\n\n- JevPrice (contracts/instructions/JevPrice.sol) is a custom SwapVM instruction (opcode 0x52, curve family). The Aqua build of the SwapVM router only wires a limited opcode set (no LimitSwap / oracle adjusters), so instead of adjusting a rate we compute the fill amount directly: center = p (YES) or 1-p (NO) read from JevSignalOracle, spread widens linearly over the last 24h before the deadline, buy = amountIn / (center + s), sell = amountIn * (center - s), rounding in the maker's favor, revert on stale signal or after the deadline.\n- JevAquaRouter extends the official AquaSwapVMRouter and overrides _runOpcode to dispatch JevPrice (the router's _dispatch cannot be re-overridden). Aqua itself is unmodified.\n- MarketFactory mints per-market YES/NO ERC-20s against USDC (split / merge / resolve / redeem).\n- JevDynamicFeeHook (OpenZeppelin uniswap-hooks BaseHook) returns an override fee from beforeSwap depending on whether the swap pushes the pool price away from Jev's probability.\n\nAgents are TypeScript + viem + @typesafe-ai/sdk. One Jev systemOne request mixes three typed questions (noul / choice / noul), so the Scout decides, categorizes and prices a market in a single ~150 ms round-trip. Scout creates the market, splits USDC into YES+NO and ships two Aqua strategies (Deadline + JevPrice program) from the same maker balance; Pricer re-judges on follow-up news and writes the oracle; Resolver judges evidence and settles.\n\nThe web app is Next.js App Router with route handlers that read the fork directly via viem (no database: the chain is the source of truth) and call the agent CLIs for writes. Hacky bits: USDC is funded on the fork by writing the FiatToken balance storage slot; Aqua strategies are immutable byte strings, so price changes flow through the oracle instead of re-shipping. Built with Claude Code as a pair programmer.",
+  "auto_summary": "An agent-driven prediction market system creates, prices, trades, and settles YES/NO markets on-chain using 1inch Aqua and a Uniswap v4 hook.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/jev-market-factory-uvzqp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

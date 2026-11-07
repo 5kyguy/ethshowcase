@@ -1,0 +1,22 @@
+{
+  "id": "1s5hv",
+  "slug": "preflight-agents",
+  "title": "Preflight-Agents",
+  "tagline": "Before your AI agent pays a stranger's API, Preflight checks it's alive, honest, and pays out.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1s5hv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6vhCi2CD801dMBYEdGVugP7xenNE900MqJaYqkOUcsRgc/high.mp4",
+  "demo_url": "https://eth-online-26.vercel.app/",
+  "source_url": "https://github.com/anshika1307-code/EthOnline-26",
+  "finalist": false,
+  "description": "AI agents are starting to pay other agents for things, using a payment system called x402 - no\nlogin, no API key, just money. But an agent has no way to check first: is this API even online?\nIs its price real? Will it actually deliver what it promised, or just take the money and vanish?\n\nWe scanned every single agent registered on Ethereum's ERC-8004 identity registry - all 10,249 of them to find out how many are actually ready to be paid safely. The answer is 5. Five in ten\nthousand. And even those 5 don't all speak the same version of the payment protocol, so many of\nthem can't pay each other.\n\nPreflight is the check an agent runs before it pays. It asks: is the endpoint alive? Is its price\nquote valid? Does it deliver what it promised? Then it gives a plain answer - SAFE, CAUTION,\nUNSAFE, DEAD, or UNKNOWN ,never a made-up trust score. And the check itself is sold the same way, over x402, on Hedera, for a fraction of a cent. We even built a small buyer agent that finds Preflight on the blockchain by itself, pays for a check in HBAR, and uses the answer to decide whether to pay the real target.\n\nEvery risky test we could have run only ever runs against our own practice server, never against\na stranger's real API. That's not just a policy, it's written into the code so it can't be\nswitched off by mistake.\n",
+  "how_its_made": "Preflight is a Node.js and TypeScript project split into a few pieces that talk to each other.\n\nThe scanner reads Ethereum Sepolia directly through an RPC node, using ERC-8004's registry\ncontract to pull every registered agent, resolve its metadata (including files stored on IPFS),\nand find any payment API it declares.\n\nThe checker is a small set of pure functions - is it alive, is the price quote valid, does it\nactually deliver each one unit tested so a published number can always be re-checked from the\nraw data.\n\nThe paid API is an Express server on Hedera testnet, using the x402 payment protocol through the Blocky402 facilitator. Pricing is metered: you pay per endpoint and per depth of check, not one flat fee, and a payment signed for one endpoint can't be reused for ten we tested that attack on real testnet and it's refused. Every paid check writes a receipt to Hedera Consensus Service,\nafter the payment settles, so nobody can fake one after the fact.\n\nPreflight is also registered as its own ERC-8004 agent on Hedera, so another agent can discover it purely onchain no hardcoded URL. We built a buyer agent that does exactly that: reads the\nregistry, pays in HBAR, and decides.\n\nFor Bazantic, we turned Preflight into an agent tool and paired it with a Hedera mirror node\ngateway, in one recipe. On its own, Preflight can say a payment quote is well-formed. It can't say\nwhether the account behind it actually exists. The mirror node can answer that but only once\nPreflight has pulled the account out of the quote. Neither service can answer alone, the recipe\nneeds both. We caught a real bug while testing it, the same account ID exists on both Hedera\ntestnet and mainnet as two different accounts, and the AI model once looked up the wrong one. We fixed it by only ever connecting the recipe to the testnet mirror node, so that mistake can't\nhappen again.\n\nThe one hacky bit is this project also contributes a fix to the Hedera Harness's own documentation, which had the payment header name wrong for the newer version of x402 - a bug that would silently break any agent built by following it.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/preflight-agents-1s5hv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

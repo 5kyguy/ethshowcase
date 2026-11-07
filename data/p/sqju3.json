@@ -1,0 +1,41 @@
+{
+  "id": "sqju3",
+  "slug": "qsound",
+  "title": "Qsound",
+  "tagline": "A music streaming platform where anyone can sell their songs by token gating them on a flexible subscription basis implemented with on-chain APIs, Data Vaults and zkProofs.",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sqju3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zqurmUxVh3LhK00m3EYIvJdAp5QgQfNH0202Q7k3DBXxKs/high.mp4",
+  "source_url": "https://github.com/Complexia/qsound",
+  "prizes": [
+    {
+      "sponsor": "ApeCoin",
+      "sponsor_id": "t3zyt",
+      "placement": "🥈 ApeCoin DAO — Best Integration",
+      "title": "ApeCoin DAO"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🏊 The Graph — Pool Prize",
+      "title": "The Graph"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Deploy a Smart Contract",
+      "title": "Scroll"
+    }
+  ],
+  "finalist": false,
+  "description": "Qsound aims to solve the problem the music industry has been plagued with for years - that the musicians and labels can't benefit from ongoing subscriptions and giants like Spotify, Apple Music, and Youtube are raking in all of the profits leaving next to nothing for the creators. \n\nWe content gate songs with NFTs, the general pass, song collectable, and other arbitrary ones the publisher can decide on. Then, they get to not only sell direct to their audience, but also gain access to the valuable web3 ecosystem, where they can engage with their audiences by offering exclusive content, promos, and gain on resell value.\n\nWe also take privacy of wallets seriously. Since any arbitrary NFT can be used as a pass, we understand if users don't want to be connecting with their wallets holding their Apes. So, we use Sismo Connect to provide zk proofs of ownership, and that way the fans can still get access to the content without having to reveal their private holdings.\n\nWe deploy on multiple EVM chains because Qsound believes in chain interoperability and we want it to be up to the user which chain ecosystem to enjoy with their song NFTs. From the point of view of the creators, they can grain promos for their users regardless of where they are.\n\nThe chains we deployed contracts on were Polygon, Optimism, Gnosis, and Neon.\n\n\n",
+  "how_its_made": "Starting off with frontend, we built our entire application using Nextjs+TailwindCSS and other frontend packages for the UI/UX, like fontawesome. The UI is responsible for interfacing with the backend (written in Rust) to fetch music from S3 bucket, and stream them to the listeners. For connecting the wallet, I implemented metamask SDK, and used their provider to make contract calls.\n\n\n We built 3 solidity smart contracts:\n\n1. QsoundPass - A non-transferrable ERC721 token which will be minted to the user on subscribing to Qsound Premium Subscription. On minting this token, most of the songs are unlocked and free to listen.\n\n2. QsoundSongFactoryV2 - A ERC721 Contract Factory which as the name suggests deploys Songs as ERC721 NFT smart contracts. Each song when created is deployed as an NFT smart contract. All interactions to the song NFT contract is only through this factory contract. This method is used for easier event indexing using a singleton contract. \n\n3. QsoundSongV2 - A ERC721 Contract that gets deployed by the factory contract. None of its functions are directly intractable but called through the factory contract. The creator of the song can update the configurations of his songs anytime like totalTokens, mintPrice, tokenImageURI etc. The idea behind the song NFT is that it acts more as a collectible, and in addition to gaining access to the song, it will also make the holder eligible for airdrops, rewards, merch, discounts, and whatever else the artist has in mind.\n\nThese contracts deployed on Polygon, Linea, Optimism, Scroll and Gnosis. They are also deployed on Neon Devnet, with the hope of being able to interface with Solana in the future. contracts are deployed on all of the below chains ->\n\npolygon mumbai: 0xc7672a15dcdbBB458Ac47F6e048FE431c8f811df\noptimism: 0xf04a238705B726Bcb1eeC39d8B7529944376C6c3\nscroll: 0x769B092250D57fa70d8553057B24efF846CCc2b2\n\noptimism \nContractFactory => 0xf04a238705B726Bcb1eeC39d8B7529944376C6c3\nQSoundPass => 0x769B092250D57fa70d8553057B24efF846CCc2b2 \n\nSCroll \nContractFactory => 0xf04a238705B726Bcb1eeC39d8B7529944376C6c3\nQSoundPass => 0x769B092250D57fa70d8553057B24efF846CCc2b2\n\nNeon\nContractFactory => 0xf04a238705B726Bcb1eeC39d8B7529944376C6c3\nQSoundPass => 0x769B092250D57fa70d8553057B24efF846CCc2b2 \n\nGnosis\nContractFactory => 0xf04a238705B726Bcb1eeC39d8B7529944376C6c3\nQSoundPass => 0x769B092250D57fa70d8553057B24efF846CCc2b2\n\n\nAnd the QsoundSongV2 can be deployed on any chain QSoundFactotyV2 is deployed, and the user minting the song NFT can choose which chain. The idea here is that the user gets to decide which chain they want their collectible and valuable song to live on. Of course, in the future, they could bridge it, but the initial deployment matters. The artist can provide promos to the holders regardless on which chain they are on.\n\nThe rust backend serves as an interfacing layer between the S3 bucket for storing songs and the UI where they are streamed. It also contains functionality to store user info in mongoDB, such as their wallet address, what passes they hold, etc. Here we use warp restful API for all of the endpoints required for interactions between rust and the frontend.\n\nWhere a listener wants to verify that they own an access pass to listen to a song, this is done with Airstack API. We simply query their wallet's address to view that they indeed have the pass, and make the songs available to them for listening. \n\nI implemented Sismo for the purposes of preserving users's wallets privacy. If a user holds an eligible NFT or a token (APE coins or Noun NFTs), but they are in a different wallet than the one they are connecting with, they add it to their Data Group, and generate a zkProof that they satisfy the condition. Then the content becomes available to them.\n\n\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/qsound-sqju3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

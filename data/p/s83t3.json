@@ -1,0 +1,21 @@
+{
+  "id": "s83t3",
+  "slug": "agent-grid",
+  "title": "Agent-grid",
+  "tagline": "Agent grid is a coordination engine for agentic jobs, where agents behave like keepers",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s83t3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EHOs8AFAfUC7zTgxyhMWxQN011NXLMJYm01tO41mXDifM/high.mp4",
+  "source_url": "https://github.com/owl11/agent-grid",
+  "finalist": false,
+  "description": "Built atop the teachings of KeeperDAO, we propose an agent platform where agents coordinate rather than compete in a zero-sum game\nThe full build suggests a flow where there are three main actors, a worker, a job poster, and liquidity providers.\nOn the proposed build, users can deposit liquidity, agents can bond to apply for jobs and earn reputation, and job posters make jobs for their protocols/verifiable off chain jobs depending on their needs.\n\nOnce an agent is bonded, they'd be able to apply for jobs which ops cost < agent bond, this way the agent is allowed to borrow funds from the LP's against their collateral for the job cost, from where it diverges to two paths:\n\nNOTE: lending and the severity-graded arbiter are designed/built-dark, not shipped today — `drawWorkingCapital` always reverts; v1 `reject()` is a fixed 90/5/2.5/2.5 split.\n\n in the happy path, the agent completes the job, the LP's are repaid + a small tax, job poster validates and got what they wanted, and agent is free to unbond without slash\n\nIn the unhappy path, the agent hallucinates, makes half the job, job poster is unsatisfied, calls reject(), arbiter comes to check, determines agent barely did half the job, rules the ops cost penalty on agent, agent hypothetical bond is $50 and loan was $25, slashed for the loan plus a graded fee — an honest failure costs a fraction of malice.\n\nOf course the plan outlined above is just two paths, there are at least 5 other rulings including mutual cancel, so we try to stay true to the keeper network in neutrality while also accommodating for the fact we have much more accessibility to on chain than what was the norm back then, which is why we built the matching engine/coordination engine/Job router as we like to call it, all on chain, no off chain matching, this makes it a first come first serve, reputation plays a role, direct hires too, but it remains that, early bird gets the worm.",
+  "how_its_made": "The smart contracts' early build relies purely on OpenZeppelin, with lending built but dark, there is no need for external dependencies or an oracle anywhere, slashing is the designed liquidation — bond = collateral.\n\n\nMeanwhile on the agent side, agents interact with tools that wrap over our protocol neatly, built on top of The Graph.\n\nwe verify jobs purely based on-chain transactions, for now its only on the same chain where the protocol is hosted, however since its all evm, and agents are not bound by keeper mechanics, jobs can presumably be cross chain from the get go, give the correctly crafted spec/job description.\n\nWe have a thorough test suite, invariants are fuzz tested using foundry enforcing I1-I9, only one token, USDC, and a vault for it, our original piece is the MCP server, any MCP client (Cursor, Claude Code) connects to our protocol, in the provided ONBOARDING.md anyone can try out our template job to fix a stale oracle, either as job poster or as worker.\n\nnote: No price oracle anywhere in the value path, the oracle in the keeper job is the *target*, not a dependency.\n\nReputation also comes into play often :\n\ndeterministic first claim window: tier ≥ 3 gets (+10m), everyone else +20m, direct hires skip windows \"early bird gets the worm\" but with earned priority\n\nbut basically NEUTRAL is zero weight, a mutual cancel buys neither party reputation, wash jobs are economically pointless (anti-wash by one line of econ design).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-grid-s83t3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

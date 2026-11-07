@@ -1,0 +1,22 @@
+{
+  "id": "aghfu",
+  "slug": "omikuji",
+  "title": "omikuji",
+  "tagline": "Omikuji a fast market where every click is a trade, and every trade is the future.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/aghfu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YeMrIHCfOwKt00Oa3IOufMaQbWv02ZOPsar2cPv8iAhlI/high.mp4",
+  "demo_url": "https://omikuji-mocha.vercel.app/",
+  "source_url": "https://github.com/devbulchandani/omikuji",
+  "finalist": false,
+  "description": "Omikuji (Japanese for \"Sacred Lot\") is a decentralized, high-speed multiplier game, our platform allows users to place \"offerings\" on moving multiplier boxes in a frictionless, high-stakes environment where every millisecond counts.\n\nThe Core Problem: In standard DeFi, every game move requires a wallet confirmation and a wait for block finality. This latency kills the excitement of high-frequency gaming and creates a fragmented UX.\n\nThe Omikuji Solution: By leveraging State Channels on the Yellow Network, Omikuji moves the entire game loop off-chain. After a single initial deposit and session authorization, players can interact with the \"Multiplier Boxes\" instantly—zero gas for game moves and zero MetaMask popups.\n\nKey Features:\n\nWorking on Base MAINNET\n\nVirtual Ledgering: Wins are instantly credited to a \"Virtual Pool\" within the state channel. This allows for immediate re-betting using off-chain credits, backed by signed \"IOU\" state snapshots that are redeemable on-chain at any time.\n\nNon-Custodial Security: While the game is as fast as a centralized server, the security remains decentralized. If the dealer goes offline, the user can submit their last signed state to the Nitrolite Adjudicator contract to force a payout.\n\nENS-Powered Social Identity: We resolve player addresses to ENS names on mainnet, allowing for a personalized leaderboard where players compete as identities, not just hashes.\n\nCooperative Closing: Using Yellow Network's clearing logic, sessions are settled cooperatively between the user and the broker, ensuring that funds are moved back to the user's primary wallet with maximum efficiency.",
+  "how_its_made": "How it’s made\n\nOmikuji is built atop off-chain state channels with decentralized identity. The core engine utilizes the Yellow Network and the Nitrolite (ERC-7824) protocol to achieve near-instant finality for high-frequency multiplier gaming.\n\nThe Tech Stack:\n\nProtocol: We implemented the Nitrolite SDK on the Base MAINNET to handle secure, non-custodial asset custody.\n\nInfrastructure: We integrated with the Yellow Network Clearnode via WebSockets to manage session-based clearing.\n\nBackend & Persistence: We used NeonDB (Serverless Postgres) and Prisma to persist session states and \"virtual balances,\" ensuring users can resume games across devices.\n\nFrontend & Identity: Built with Next.js, Tailwind CSS, and Wagmi/Viem. We integrated ENS (Ethereum Name Service) to resolve complex hex addresses into human-readable identities, providing a social layer to the game with a leaderboard scenario.\n\nSerious issues faced at :\n We decoupled the Main Wallet (MetaMask), which only handles the initial EIP-712 authentication challenge, from an ephemeral Session Key. This session key resides in module-level memory and utilizes a specialized ECDSAMessageSigner to sign WebSocket messages (like create_channel and resize_channel) without ever triggering a MetaMask popup.\n\nWe built a custom request-response matching system to allow for clean async/await syntax during complex multi-step handshakes. We also implemented a custom signature debugger that uses keccak256 hashing to verify user and server signatures before they ever hit the chain, significantly reducing gas waste during the debugging phase.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/omikuji-aghfu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

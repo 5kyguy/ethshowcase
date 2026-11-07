@@ -1,0 +1,28 @@
+{
+  "id": "1humr",
+  "slug": "zk-checkpoint",
+  "title": "zk-checkpoint",
+  "tagline": "ZK proofs for checkpointing on Polygon PoS to save on settlement gas and faster interop",
+  "event": {
+    "slug": "sanfrancisco2024",
+    "name": "ETHGlobal San Francisco",
+    "start_time": "2024-10-18T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1humr/banner/default.jpg",
+  "source_url": "https://github.com/manav2401/zk-checkpoint",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "2nd place",
+      "title": "Best zk App on Polygon"
+    }
+  ],
+  "finalist": true,
+  "description": "Polygon PoS being one of the most used chains has a mechanism where it settles to Ethereum (L1) at regular intervals through checkpoints which is helpful for bridging. As a result, the consensus signatures are sent to L1 contract and signature verification for all validators is done on-chain. This incurs a lot of gas on ethereum and ~86% of total gas used is taken by signature verification for all validators (on mainnet, roughly 105). The costs gas go >250$ in case of high demand. \n\nThis settlement workflow can be improved using ZK proofs which asserts that majority of validator set (>2/3) voted on a particular checkpoint. This can lead to 2 things:\n1. It can drastically improve the L1 gas costs incurred currently on mainnet leading to cheaper on-chain settlement.\n2. Because we commit to a specific block hash, other chains and apps on those chains can leverage this info to derive finality and PoS can settle on multiple chains with giving them a strong guarantee of a view of the chain. ",
+  "how_its_made": "The project is made with the help of SP1, which allows to write the signature verification and validation logic in Rust and generate a proof out of it which can be verified on-chain. \n\nWhile the crux is pretty simple, there were lots of challenges while building this. \n- Fetching all the validator data inside the proving circuit was a bit challenging and it was also tricky to implement a contract which scraps this data from the staking contracts.\n- Because the types for checkpoint were based on internal tendermint libraries, it was difficult to serialise and deserialise the messages for verification. \n\nMoreover, the circuit has certain strict constraints which eliminates the risk of prover generating false/fake proofs. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zk-checkpoint-1humr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

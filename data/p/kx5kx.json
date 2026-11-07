@@ -1,0 +1,30 @@
+{
+  "id": "kx5kx",
+  "slug": "agnetic",
+  "title": "AGNETIC",
+  "tagline": "Convince the 'god' of DeFAI that you are deserving of his bounty!",
+  "event": {
+    "slug": "agents",
+    "name": "Agentic Ethereum",
+    "start_time": "2025-01-31T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kx5kx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/A1bnrd3dCk8t01g7eNLEZ9clCASw2QEfOw02t017xMf34U/high.mp4",
+  "demo_url": "https://agnetic.netlify.app/",
+  "source_url": "https://github.com/itali43/agnetic",
+  "prizes": [
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "AgentKit Pool Prize",
+      "title": "AgentKit Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "We set out to create a project that gets users both interested and incentivized to use AI on the Base blockchain.  We did this by creating the Agnetic AI agent, a \"god of DeFAI\", who is a AI generated virtual entity that users must convince to bestow his coin $AGOD upon them.  \n\nThey do this by depositing ETH, and then requesting it of him or fooling him into giving it to them (for while he is a 'god', he is also an AI and AI's aren't immune to prompt engineering!  \n\nHe gives out his coin to those that are 'worthy' or tricky enough.  The total coin supply is put in a Uniswap v4 pool, so when he gives coins, it is done via swaps in this pool.  Those who are not worthy have their deposits confiscated, which still executes a swap in the pool but burns the tokens received - pumping up the token price.\n\nWe use Base and the Coinbase Developer Platform under the hood.  More details in the next section!\n",
+  "how_its_made": "The project consists of three separate pieces, a frontend, several smart contracts, and an AgentKit AI agent backend.\n\nThe smart contract setup includes a Uniwap v4 hook, and a factory.\n\nThe Uniswap v4 hook contains a \"deposit\" function that allows a user to deposit funds in the hook.  It also contains \"swap\" and \"confiscate\" functions, two special functions that use the 'onlyAgent' modifier, so only the agent can call these functions.  These swaps use funds that users have deposited to swap in the pool, the only difference is that \"swap\" sends the received tokens back to the user, while \"confiscate\" burns the tokens.\n\nThe 'beforeSwap' hook is set up such that only these two functions are able to perform buys on the pool, which has the effect of making it so only transactions initiated by the AI agent are able to buy AGOD tokens.  Tokens can be freely sold however.\n\nThe second contract is a factory.  In one transaction, the factory can launch a new ERC20 token, mint a fixed supply of this token, and then create a new Uniswap v4 pool which uses the hook described above, and then stake the entire token supply in the pool.  The other pool token is always ETH, and the starting price is always 1 to 1.\n\nThe AgentKit AI agent backend is a simple Express app that serves an AgentKit agent via a simple API.  It has extra actions which enable it to interact with the hook, it is able to check whether a user has deposited, and then create and broadcast either a transaction to either \"swap\" or \"confiscate\".  \n\nThe AI agent is instructed to be belligerent, and to not give out the token easily.  Tokens will often be burnt, which has the effect of reducing the total available token supply, as well as inflating the token price in the pool.\n\nThe frontend is built with Nextjs, and streamlines interacting with the bot.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agnetic-kx5kx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

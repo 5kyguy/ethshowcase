@@ -1,0 +1,35 @@
+{
+  "id": "4bvt5",
+  "slug": "kondor",
+  "title": "Kondor",
+  "tagline": "Automate your funds with encrypted, conditional policies executed by Chainlink CRE workflows",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4bvt5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/702VspiOPyW02qTdEBuBWLm1uHkGJUsBX1rweUbN92IRE/high.mp4",
+  "demo_url": "https://kondor-frontend.vercel.app/",
+  "source_url": "https://github.com/blackicon-eth/kondor",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "2nd place",
+      "title": "Most Creative Use of ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "Kondor turns your ENS subdomain into a programmable wallet. Configure token-specific policies through a visual flow builder — swap on Uniswap, lend on AAVE, forward to a wallet, or route privately through Railgun, with conditional branches. Policies are encrypted client-side and executed on-chain by Chainlink CRE.\nThe app also uses a ENS custom resolver to implement the stealth addresses technology: each time your ENS subdomain is resolved, it generates a new address that is unlinked to the previous one. Each of these stealth addresses converge on Railgun or Monerium to avoid degrading your privacy by aggregation and relationships",
+  "how_its_made": "The core hack is end-to-end encrypted policies living in ENS text records and stealth addresses resolutions. \nIn the browser, the user signs a deterministic message with their Privy embedded wallet (silent signing), we SHA-256 the sig into an x25519 key, do ECDH with the CRE's public key, HKDF it down to a 16-byte AES-128 key, and write the ciphertext into a kondor-policy ENS text record alongside the plaintext destination wallet. Only the CRE can decrypt it.\n\nWhen tokens arrive to one of the generated stealth addresses, an HTTP-triggered CRE workflow decrypts the policy, fetches prices, evaluates the condition tree, asks our server for Uniswap EIP-5792 batch-swap calldata, simulates via eth_call, and writes a signed report to KondorRegistry onchain. The registry CREATE2-deploys a SimpleAccount per-user stealth address (predicted from hashedOwner + salt) and executes the batch. A second event-triggered workflow listens for ReportProcessed logs, Multicall3s balanceOf across touched tokens to hand off the amount to the user's Railgun wallet.\n\nPartners: \n- ENS (ENSIP-10 wildcard resolver with CCIP-Read, so subdomains don't need on-chain writes)\n- Chainlink CRE (both handlers + the report-signing trust model that makes the encryption scheme work)\n- Uniswap (EIP-5792 Trade API for batched swaps)\n\nOther technologies:\n- Railgun (to give the user the maximum amount of privacy)\n- Alchemy Notify (webhook watching predicted stealth addresses). \n-Monerium ( Offramp cryptos to bank account < ;- ) \nNotably tricky: You can offramp directly on your bank account ",
+  "auto_summary": "A multi-part app that stores encrypted ENS-based automation policies and executes token routing workflows through onchain smart accounts and Chainlink CRE.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kondor-4bvt5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

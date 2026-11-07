@@ -1,0 +1,27 @@
+{
+  "id": "w083e",
+  "slug": "chaingammon",
+  "title": "Chaingammon",
+  "tagline": "An open protocol for portable backgammon reputation and agentic collaboration",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w083e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RexQIzRI2xcmR01kWNm8gAk01LNshKw6s7KOll2NyPu8E/high.mp4",
+  "demo_url": "https://github.com/oslinin/chaingammon",
+  "source_url": "https://github.com/oslinin/chaingammon",
+  "finalist": false,
+  "description": "Backgammon is an ancient and popular game that has help people's attention for millennia.   The project attempts to solve problems with current web2 frameworks: one can spend years building a ranking on a platform only to have it go down, find that dice are rigged, or terms changed.  The challenges are naturally solved by web3: every match settles to a MatchRegistry contract. Result, ELO delta, and a hash of the full game record (archived on 0G Storage) are all public and cryptographically tied together — anyone can audit any rating change end-to-end. Each player's rating lives in their wallet via an ENS subname (<name>.chaingammon.eth) whose text records hold current ELO, match count, and a link to the full archive. Switch frontends, switch clients — reputation comes with you.\n\nI also thought about modernizing backgammon by making it agentic.  The state of the art model is GNUBG, trained with RL, TD-lambda, and minimax, and A Bearoff Database, which can beat humans.  It is not very interesting to have humans out of the picture and identical agents compete resulting in completely random outcomes.  I propose two innovations: \n\n1) agents infer moves based the game state using on GNUBG's open weights AND a feature vector of the opponent, trained by RL.  This opens the possibility for star agents, who end up with superior strategy, which could beat GNUBG in the long run by choosing the right teammates.  \n\n2) Based on DeepMind's insights, particularly following their work with AlphaZero, the future of optimal game play is viewed as a partnership that combines human creativity with AI's superhuman analytical capabilities. We see this in programming: claude code is superior to humans at coding, but the combination is better than claude code.  Chaingammon provides a way for human and agent to team up and make joint decisions utilizing respective strengths: agents at computation (they can see the history of the opponents matches to find patterns) and and micro-tactics, and human intent and out-of-band context.  When humans and agents play on a team, the LLM interface is more than a dashboard of agent findings: it allows for a back and forth human guidance and LLM research iterations.\n",
+  "how_its_made": "Frontend: Next.js 16 + wagmi v3 / viem v2, pinned to Webpack.\n\nBackend: Solidity, Sepolia\n\nKeeperHub: workflow fires on both MatchEscrow.Deposited events.  Games are started by collecting escrow by Keeperhub, provides drand dice, which also ECDSA-signs the result, lands record + payout in one tx, mirrors the audit JSON to 0G Storage. \n\nEach player's rating lives in their wallet via an ENS subname (<name>.chaingammon.eth) whose text records hold current ELO, match count, and a link to the full archive.\n\n0G Storage holds GameRecords (Log), per-player style profiles (KV), and per-agent NN checkpoints (Blob, Merkle root committed to iNFT.dataHashes.\n\n0G Compute runs the Qwen 2.5 7B Chief-of-Staff coach via @0glabs/0g-serving-broker called straight from Next.js Route Handlers.  Includes TEE attestation sig.\n\nPython shells out to Node CLIs (og-bridge, og-compute-bridge) because the 0G SDKs are not on Keeperhub.  \n\n\n",
+  "auto_summary": "A backgammon application that records matches on-chain, stores game and agent data on 0G, and uses ENS subnames for player and agent profiles.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/chaingammon-w083e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

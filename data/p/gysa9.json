@@ -1,0 +1,27 @@
+{
+  "id": "gysa9",
+  "slug": "reel-deal",
+  "title": "Reel Deal",
+  "tagline": "Relief fund for aquaculture farmers paid in JPYC upon trigger of specific environmental conditions",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gysa9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JsaF4TEN5YiJbNvMLxmAgYEaqPctOYBORp00qTLF3vkk/high.mp4",
+  "demo_url": "https://web-production-746aa.up.railway.app",
+  "source_url": "https://github.com/reeldeal-xyz/reeldeal",
+  "finalist": false,
+  "description": "Reel Deal is a relief fund for aquaculture farmers in Japan. Scallop, oyster and hoya farmers in fishing towns like Kesennuma can lose a whole season's harvest when the sea gets too warm, or when toxin levels are too high and shipping is banned. To protect their income, Reel Deal lets anyone donate to the fund or buy from a seafood marketplace where part of every sale goes into the fund. When public data shows a heatwave or shipping ban has hit a farm, the fund automatically pays the farmer in JPYC.",
+  "how_its_made": "Contracts: Solidity, Foundry, OpenZeppelin v5 on Sepolia.\n\nApps: Next.js 16 LINE mini-app (Drizzle + Postgres) on Railway, and an Astro + Solid.js + Storybook operator dashboard on AWS EC2.\n\nData: Python FastAPI  ingesting JAXA satellite sea-surface temperature and Miyagi prefecture toxin-ban notices, with PostGIS for aquaculture plots.\n\nENS (v2): individual plot registries (umi.eth → karakuwa.umi.eth → p1213-001..015). Each season the farmer receives a non-transferable, expiring slot from the coop,  and the pool reads it on-chain to know who to pay.\n\nWorld ID: IDKit v4 proofs. Selfie Check for level 1. It stops one person from claiming for too many plots. Caps are 3 vs 12 units per human, and only nullifiers go on-chain.\n\nJPYC (Ethereum Sepolia): donations in and payouts out of the ReliefPool. EIP-3009 gasless transfers mean farmers never need ETH.\n\nCurvegrid MultiBaas: indexes ReliefPool, HumanRegistry and JPYC events, powers the donor dashboard, and sends an HMAC-signed webhook that triggers the LINE payout message.\n\nJev (TypeSafe AI via OpenRouter): a decision model used as a safety gate for payouts. Unsure triggers go to the co-op for human review, and it can never send money itself. It also routes farmers' LINE messages to fixed templates.\n\nReown: AppKit + SIWE so anyone without LINE can connect their own wallet.\n\nLINE: LIFF + Messaging API. A wallet is created automatically when a farmer logs in, and payout notifications arrive as LINE messages.\n\nFarmer onboarding flow: add the co-op's LINE account → open the mini-app → LINE Login → wallet created automatically (one per LINE user) → request this season's slot for their plot → licence holder issues the non-transferable \"2026\" ENS slot to their wallet → verify with World ID (Selfie Check, optionally upgrade to level 2) → wallet bound in HumanRegistry → enrolled for payouts.\n\nPayout flow: Donors / marketplace sales → JPYC into ReliefPool → data pipeline sees a threshold crossed → Trigger signed 2-of-3 (pipeline, co-op, science) + Jev check → pool checks ENS slot + World ID → JPYC paid to farmer → MultiBaas webhook → LINE notification.\n\nHacky bits: a fork-mode e2e (bun run e2e) replays the whole payout against a fork of live Sepolia in under a minute. Then we did it for real and paid a verified farmer ¥10,000 JPYC for the 2026 Karakuwa scallop shipping ban.",
+  "auto_summary": "A multi-component relief fund app that uses on-chain eligibility, identity checks, and JPYC payouts for aquaculture disaster assistance.",
+  "scores": {
+    "originality": 8,
+    "practicality": 9,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/reel-deal-gysa9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

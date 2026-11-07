@@ -1,0 +1,35 @@
+{
+  "id": "kfcdq",
+  "slug": "hoomanify",
+  "title": "Hoomanify",
+  "tagline": "Human-readable transaction signing with ERC-7730 descriptors and Ledger hardware wallet integration",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kfcdq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XPYgLIqeWQkaouzfPrpXfC1602yVnTsvD502DC5EF00901s/high.mp4",
+  "source_url": "https://github.com/robdgs/erc-7730Humanizer",
+  "prizes": [
+    {
+      "sponsor": "Curvegrid",
+      "sponsor_id": "5e2gc",
+      "placement": "Best use of MultiBaas",
+      "title": "Best RWA Tokenization Project"
+    },
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "2nd place",
+      "title": "CLEAR SIGNING (ERC-7730)"
+    }
+  ],
+  "finalist": true,
+  "description": "Hoomanify  is a Web3 security application that solves a critical problem in blockchain interactions: blind transaction signing. When users interact with smart contracts today, they typically see incomprehensible hexadecimal calldata (like 0x1760feec000000...) and must trust they're signing the right transaction. This leads to phishing attacks, approval exploits, and lost funds. The project implements the ERC-7730 standard, which provides a structured way to translate raw transaction calldata into human-readable format. Think of it as a \"translation layer\" between machine code and human language for blockchain transactions. \nThe Workflow:\nDeveloper deploys contract → Hardhat generates deployment artifacts\nScript auto-generates ERC-7730 descriptor → Maps ABI to human-readable format\nUser initiates transaction → Creates raw calldata\nDecoder parses calldata → ethers.js extracts function and parameters\nFormatter applies ERC-7730 rules → Converts addresses to token names, wei to decimals, timestamps to dates\nLedger displays formatted data → User reviews on hardware device or simulator\nUser approves → Transaction signed with private key on hardware\nSignature exported → Ready for broadcast to blockchain\nWhy This Matters?\nSecurity: Users can verify exactly what they're signing before it happens\nSovereignty: Private keys stay on hardware devices, never exposed to browsers\nUsability: Complex DeFi operations become understandable to non-technical users\nStandards Compliance: Full ERC-7730 implementation ensures interoperability.\nThis project essentially builds the missing infrastructure for safe, transparent Web3 interactions—making blockchain transactions as clear as traditional banking while maintaining complete user sovereignty over their assets.",
+  "how_its_made": "Technology Stack Breakdown:\nSmart Contract Layer (Hardhat 3)\nHardhat 3.0.0 - Cutting-edge version with ESM support (\"type\": \"module\" in package.json)\nSolidity 0.8.24 - Latest compiler with optimized bytecode\nOpenZeppelin Contracts 5.0.1 - Battle-tested ERC20 interfaces and Ownable pattern\nethers.js v6.10.0 - Used for deployment scripts and descriptor generation\nERC-7730 Descriptor Generation (Node.js Automation)\n\nHacky detail #1 : The Magic Script: generate-descriptor.ts\nReads compiled contract artifacts from artifacts/contracts/DemoRouter.sol/DemoRouter.json\nExtracts the ABI automatically\nPulls deployed address from deployments/DemoRouter.json (if exists)\nGenerates complete ERC-7730 JSON descriptor with:\nContext (ABI + deployment addresses)\nMetadata (owner, timestamps, URLs)\nDisplay formats (field mappings with human-readable labels)\nDual output: Saves to descriptors AND copies to descriptors for runtime access\n\nHacky Detail #2: Dynamic Field Path Resolution\nThe formatter uses dot-notation paths (params.tokenIn) to navigate nested struct parameters.\nThis handles Solidity's SwapParams calldata params being decoded as args[0] by ethers.js.\n\nKey Dependencies:\nNext.js 14.1.0 - App Router with server components\nethers.js v6.10.0 - ABI decoding via Interface class\n@ledgerhq/hw-transport-webusb 6.28.5 - Low-level WebUSB transport layer\n@ledgerhq/hw-app-eth 6.35.4 - High-level Ethereum app API\naxios 1.13.2 - MultiBaAS REST API client\nTailwind CSS 3.4.0 - Utility-first styling\n\nHacky Detail #3: Smart Amount Formatting\nAuto-detects token decimals based on value size\n\nHacky Detail #4: WebUSB Compatibility\nOnly works in Chrome/Edge (Firefox doesn't support WebUSB). Falls back gracefully to simulator mode. The TransportWebUSB.create() triggers browser's native USB device picker.\n\nLedger (@ledgerhq packages):\nDirect hardware integration without intermediaries\nPrivate keys never leave device\nWebUSB enables browser-native connections\nStandardized BIP44 derivation paths\n\nMultiBaAS (Curvegrid):\nUnified API for portfolio, governance, and events\nEliminates need for multiple RPC providers\nPre-indexed blockchain data (faster queries)\nRESTful interface (simpler than GraphQL subgraphs)\n\nHardhat 3:\nMainnet forking for realistic testing\nBuilt-in TypeScript support\nDeployment artifact management\nNetwork abstraction (localhost → testnet → mainnet)",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hoomanify-kfcdq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

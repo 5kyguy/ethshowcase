@@ -1,0 +1,35 @@
+{
+  "id": "hy3kh",
+  "slug": "notyet",
+  "title": "NotYet",
+  "tagline": "Scheduled agent authority — spend keys, API keys, any secret — that doesn't exist until its time.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hy3kh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/X9M4WkvuWDnCeNjK8JyLq2018EQrkpF01026Zc900rKbVlo/high.mp4",
+  "demo_url": "https://notyet.up.railway.app",
+  "source_url": "https://github.com/0xkeccak/NotYet",
+  "prizes": [
+    {
+      "sponsor": "Bazantic",
+      "sponsor_id": "qf93t",
+      "placement": "1st place",
+      "title": "Best Recipe that uses EthGlobal Hackathon Sponsor APIs"
+    }
+  ],
+  "finalist": true,
+  "description": "NotYet gives an autonomous agent a budget on a schedule — without ever handing it a key it can drain early.\n\nThe problem:\n• Hand the agent the whole budget up front → one hack or prompt injection drains it all.\n• Run a key server that releases keys just-in-time → that server is a honeypot holding every future key.\n• Session keys solve expiry; nothing solves start — authority always exists the moment it's issued.\n\nWhy it matters — every one of these was a key that existed before it was needed:\n• Grok / Bankr wallet drain — May 2026, ~$175K.\n• Lobstar Wilde trading bot — Feb 2026, ~$250K.\n• Malicious LLM routers — Apr 2026, ~$500K.\n\nHow NotYet fixes it:\n• Each period's key is timelock-encrypted (drand/tlock) to a future round — before its time it doesn't exist in usable form, not even for the owner. Ask early → NOT_YET.\n• Not just payments — the same lock seals ANY secret (an API key, a credential, a token): the agent holds only ciphertext up front and gets it at its time, not before. No key server to breach or coerce.\n• Spends settle as real x402 pay-per-call on Hedera, gated on-chain by a PeriodVault (window + budget + per-tx cap) and audited on HCS.\n• Hacked today = one period's budget. Never the treasury, never a future period.",
+  "how_its_made": "• Issuance: each period's spend key is generated in software, its EVM address committed to a PeriodVault contract, then tlock-encrypted (tlock-js) to a future drand quicknet round and the plaintext wiped. The agent holds only ciphertexts.\n• Unlock + spend: the agent calls withdraw(i, amount, sig); the vault enforces on-chain the time window (useless before AND after its period), ecrecover identity, per-period budget, and a per-tx ceiling. A real x402 pay-per-call then settles via the keyless Blocky402 facilitator; encrypted receipts land on HCS.\n• Hedera: PeriodVault runs on Hedera EVM via @hiero-ledger/sdk (no ethers) — money, x402, HCS audit, and an optional HIP-423 scheduled-tx mode, all on one chain, no bridge.\n• Ledger: the schedule is signed on-device via the Device Management Kit (headless on Speculos, RFC 6979, ERC-7730 descriptor); the device also co-signs over-cap spends and holds the audit view keys the agent can never reopen.\n• Bazantic: wrapped as an MCP server + a published recipe chaining two services (NotYet + Hedera Mirror Node) — any agent integrates in one line.\n• Stack: TypeScript ESM, viem, tweetnacl, drand-client, solc. Also an npm SDK: @keccak002/notyet.",
+  "auto_summary": "A TypeScript project for time-locking agent spending authority and settling scheduled pay-per-call payments on Hedera with audit logging and Ledger-assisted approvals.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/notyet-hy3kh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "zotub",
+  "slug": "ghostkey",
+  "title": "GhostKey",
+  "tagline": "Give AI agents scoped, temporary authority without exposing permanent secrets or credentials",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zotub/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rhj02R7c801kkwQYcQmQID2p5bAFjS4olxl01uCZ8GyeI00/high.mp4",
+  "demo_url": "https://ghostkeyledger.vercel.app/",
+  "source_url": "https://github.com/karangoraniya/GhostKey",
+  "prizes": [
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "2nd place",
+      "title": "AI Agents x Ledger"
+    }
+  ],
+  "finalist": true,
+  "description": "GhostKey is a Ledger-backed trust and authorization layer for autonomous AI agents.\n\nToday’s agents often operate by receiving powerful, long-lived credentials such as API keys, cloud credentials, GitHub tokens, database secrets or wallet access. Once a secret enters an agent’s environment, prompt injection, malicious tools, logs or compromised dependencies can potentially expose it.\n\nGhostKey changes the model from giving agents secrets to giving agents authority. Each agent receives an ephemeral identity and narrowly scoped capabilities defining exactly what it may access, which actions it may perform, on which resource, and for how long. The underlying credentials remain protected and are consumed internally by GhostKey rather than exposed to the agent.\n\nLedger provides the hardware-backed root of trust. Ledger Key Ring protects service credentials while allowing authorized agent workflows to operate headlessly. For sensitive operations, GhostKey escalates from autonomous execution to explicit Ledger-backed human approval.\n\nThe prototype demonstrates this architecture with two providers: GitHub and AWS S3. An agent can inspect a repository, create an issue, list/read a specific S3 bucket, and operate across providers without receiving the GitHub PAT or AWS credentials. Unauthorized actions such as repository delete or S3 delete are blocked before any provider request is sent.\n\nThe result is a new security boundary for autonomous software: agents get the minimum authority they need, for the minimum amount of time, without inheriting the user’s permanent identity.\n",
+  "how_its_made": "\nGhostKey is built with Next.js and TypeScript around a local capability broker. Every agent receives an ephemeral Ghost Identity. A capability engine binds that identity to a provider, resource, set of allowed actions and expiration time. Every operation is authorized against these constraints before a provider is contacted.\n\nLedger Key Ring (wallet-cli ring) forms the secret-protection layer. Long-lived provider credentials are encrypted using Ledger-backed keys. When an authorized operation needs a credential, GhostKey decrypts and consumes it internally inside the provider adapter. The raw credential is never returned through the web interface, MCP tools or agent-facing APIs.\n\nProvider adapters separate authorization from credentials. GitHub demonstrates developer-platform authority with repository read and issue creation. AWS S3 demonstrates cloud-resource authority with list/read access to a scoped demo bucket. Destructive actions like github.repo.delete and aws.s3.delete are intentionally rejected with ACTION_NOT_ALLOWED before any provider call occurs.\n\nGhostKey also exposes an MCP interface so AI clients can discover and use capabilities without gaining access to the credentials behind them.\n\nFor high-risk authority escalation, GhostKey uses Ledger hardware approval through the Ethereum app/device signing flow. A browser click alone cannot mint elevated authority; the user must physically confirm on the Ledger device. The resulting elevated capability is short-lived and expires automatically.\n\nOne interesting design choice is separating secret access from authority: possession of a capability does not reveal the credential that makes the action possible. Capabilities are scoped, expiring and resource-bound, creating an authority-decay model instead of handing autonomous agents long-lived credentials.\n\n",
+  "auto_summary": "A Next.js app brokers scoped, time-limited capabilities for AI agents while keeping GitHub, AWS, and web3 credentials behind Ledger-backed flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ghostkey-zotub",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

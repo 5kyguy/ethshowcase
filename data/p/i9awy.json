@@ -1,0 +1,20 @@
+{
+  "id": "i9awy",
+  "slug": "sharemyrpc",
+  "title": "ShareMyRPC",
+  "tagline": "Running a node is expensive, earn money by sharing your RPC interface and decentralize Infura",
+  "event": {
+    "slug": "ethonline",
+    "name": "ETHOnline",
+    "start_time": "2020-10-01T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i9awy/banner/default.jpg",
+  "source_url": "https://github.com/MariusVanDerWijden/ShareMyRPC",
+  "finalist": false,
+  "description": "Ethereum has a specification of the RPC interface that most clients implement. It contains functions like EstimateGas, PendingNonce or SendTransaction. Currently most Dapps rely on infura for their JSON-RPC calls. This is in part because running a JSON-RPC server is costly. ShareMyRPC enables Dapps to pay for their RPC usage over a payment channel and Node owners to serve responses if they received money for it. If the user did not pay for their request, the request is not fulfilled. This allows node owners to monetize their nodes and provides an incentive to run an ethereum node.\r\nThe payments are send over a Raiden payment channel in order not to clutter the Ethereum blockchain with a lot of small payments.",
+  "how_its_made": "I implemented a drop-in replacement for ethclient. Ethclient is part of go-ethereum and the de-facto standard way to connect to a nodes JSON-RPC interface in golang. My node automatically sends a payment with every RPC call with an amount depending on the work the node has to do to answer it. E.g. setting up filters or subscribing to events is more costly than retrieving the ChainID or estimating gas for a transaction. This client can be used by every Dapp that currently uses ethclient to add an incentivization layer for the nodes.\n\nThe second notable hack is a library that allows users to easily use a Raiden node in golang. It abstracts interaction with the REST-API of Raiden away from the user and makes it super easy to use Raiden in golang projects.\n\nAdditionally I changed go-ethereum's JSON-RPC server so that it waits for a confirmed payment on every json request. Which means if someone sends a json request but does not send a Raiden payment, the request will not be executed.\n\nLastly I've written a little demo app to demonstrate the capabilities of the ethclient replacement, the raiden library and the raiden-enabled RPC-server which executes some calls and pays for them and also sends some calls without paying to test if the RPC-server correctly discards them.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sharemyrpc-i9awy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

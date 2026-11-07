@@ -1,0 +1,27 @@
+{
+  "id": "19se7",
+  "slug": "lp-terminal",
+  "title": "LP Terminal",
+  "tagline": "Uniswap V3 LP scanner — track every position's range, status, and owner, plus pool balances.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/19se7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/oGKCI00zgLScz4OuOFOOXTXWvv8aJQY5ttT5uE6FkzLk/high.mp4",
+  "demo_url": "https://lp-terminal-eight.vercel.app/",
+  "source_url": "https://github.com/lenoteddy/lp-terminal",
+  "finalist": false,
+  "description": "This is a Uniswap V3 liquidity position scanner built for Robinhood Chain, focused on \nsolving a specific gap: there's no built-in way to see every LP position in a given \npool at once. The NonfungiblePositionManager tracks positions globally by tokenId, not \nper-pool, so the project builts a data pipeline that scans NFPM event logs (Transfer, \nIncreaseLiquidity, DecreaseLiquidity) alongside the pool contract's own Mint events, \ncorrelates them by transaction hash to recover tick ranges, and reconstructs each \nposition's price range and current owner entirely from on-chain history — no \nsubgraph or archive node required.\n\nThe frontend displays a live pool header (current price, token balances), a \npaginated table of every position in the pool with its range and status (active \nin-range, out-of-range, or closed), and a detail view for inspecting individual \npositions with a visual range indicator. Data is fetched from the chain, written to \nSupabase, and served to the frontend as a read-only snapshot — the UI shows exactly \nwhich block range the data was scanned from, so it's transparent about being a \npoint-in-time view rather than claiming real-time accuracy it doesn't have.",
+  "how_its_made": "The stack is Next.js (React/TypeScript) for the frontend, Supabase (Postgres) for storage, ethers.js for all on-chain interaction, and uniswap-v3 sdk, targeting Uniswap V3 on Robinhood Chain.\n\nThe core technical challenge was position discovery: Uniswap's NonfungiblePositionManager tracks positions globally by tokenId, with no built-in way to query \"every position in pool X.\" The project solved this by scanning NFPM Transfer events (filtered on mint transfers from the zero address) to enumerate all tokenIds, then reading positions() to filter by matching token0/token1/fee for our target pool.\n\nThe trickier problem was historical accuracy: calling positions() or slot0() at a specific past block requires an archive node, which our RPC provider didn't support (the project hits a \"metadata not found\" error mid-build). Rather than switching providers, the project rebuilts the data layer around pure event-log replay — summing IncreaseLiquidity and DecreaseLiquidity deltas to compute net liquidity per position, and correlating each NFPM mint's transaction hash with the pool contract's own Mint event to recover tickLower/tickUpper (which aren't included in any NFPM event directly). This means the entire position dataset is reconstructed from raw logs, with no archive node or subgraph dependency.\n\nThe project used @uniswap/v3-sdk for tick-to-price conversion (tickToPrice) to display human-readable price ranges instead of raw tick integers, which handles the precision/decimal-scaling correctly rather than us re-deriving the 1.0001^tick formula by hand.\n\nData is fetched via a standalone Node/TypeScript script (separate from the Next.js app, using a Supabase service_role key) and written to Postgres. The most \"hacky but necessary\" decision was scoping to a fixed, prefetched block range rather than live-fetching on every page load — this trades real-time freshness for demo reliability, and the UI is explicit about this by displaying the exact block/timestamp range the data was scanned from.",
+  "auto_summary": "A Next.js app and Node script scan Uniswap V3 pool and position events, store reconstructed LP data in Supabase, and display pool positions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lp-terminal-19se7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,54 @@
+{
+  "id": "ku3hh",
+  "slug": "wiserriser",
+  "title": "WiserRiser",
+  "tagline": "A better way to bubble up good content by using a variant of prediction markets to lighten moderators’ loads, providing an accurate signal about whether any specific submitted content is a great fit for the community. ",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ku3hh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/voU3kRbyPhO3KSaTCQ5r5OoAofrbuit9JOWrYL9vA6U/high.mp4",
+  "demo_url": "https://wiserriser.com",
+  "source_url": "https://github.com/WiserRiser/hackathon1",
+  "prizes": [
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "🧑‍⚖️ Worldcoin — Best Governance App",
+      "title": "Worldcoin"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🆔 Polygon — Best use of Polygon ID",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Sismo",
+      "sponsor_id": "4i0qt",
+      "placement": "⛓ Sismo — Best Offchain App ",
+      "title": "Sismo"
+    },
+    {
+      "sponsor": "ApeCoin DAO",
+      "sponsor_id": "t3zyt",
+      "placement": "🥈 ApeCoin DAO — Best Contribution",
+      "title": "ApeCoin DAO"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🏊 The Graph — Pool Prize",
+      "title": "The Graph"
+    }
+  ],
+  "finalist": false,
+  "description": "We’re now about two weeks into the Reddit Revolt of 2023.  Reddit has a wide variety of open communities each focused on one topic, and within each one, its community-driven moderation and voting systems lets interesting content relevant to each community rise to the top.  This helped Reddit grow from nothing in 2005 to one of the most visited sites on the Internet, and having an open API leveraged free effort from third-party developers to make good user interfaces.\n \nNow, on short notice, they’re going to charge a lot for that API and a lot of third party apps providing usability features many users regard as essential will shut down.  In protest, mods have set several thousand communities, some with tens of millions of community members, to private (see the list at https://reddark.untone.uk/).  Normally network effects make it hard to compete with a social network of that size, but at this point in history there are so many people looking to leave Reddit (https://twitter.com/aakashg0/status/1669568937854656512) that even if someone stood up an exact clone with no differential advantages it would pick up quite a lot of users. Nobody has to build a Reddit-killer since Reddit did that on its own, but there is an empty throne waiting for a successor to stand up. Reddit is not profitable and you can’t really build a full clone in a week, so we haven’t seen that happen yet, but we might soon, and our team, self-named the Waterloo Winners, has hacked together a key piece of a better alternative.\n \nOne of the key challenges for building a site from user-generated content is moderation, especially the pretty large subset that can’t be handled automatically. Reddit solves this by using volunteer labor from each community, generally free except for occasional revolts when you take away the tools that make their jobs easier.  (https://www.eff.org/deeplinks/2023/06/what-reddit-got-wrong)\n \nFive years ago at a meetup in Bangkok, Vitalik Buterin proposed a solution (https://ethresear.ch/t/prediction-markets-for-content-curation-daos/1312) for scaling up moderator efforts by turning community voting into prediction markets predicting how a post would be moderated, and only a small random percentage of posts then need to be actually manually moderated, with the prediction model providing a pretty reliable signal about the rest. \n \nWe aimed to implement this core idea into WiserRiser, a moderation API leveraging prediction markets to scale up moderator labor.  Upvotes and downvotes now predict how a moderator will answer this question: “Is this a good example of the kinds of post/comment the rules describe as fitting in this community?” In a future version, you should also be able to get bonus points for identifying which particular rule it will be moderated as violating or, where applicable, exemplifying - so, for example, if you think it’s great content but likely to be removed as a copyright violation you can indicate that.\n \n\nFor most communities, there will be just one mod team.  However, if that mod team gets corrupted, or if there are serious differences of reasonable opinions in the community, you will be able to split it by having a new mod team form. All voters and viewers can choose which mod team to align with; it’s a sticky setting (for unregistered viewers and voters who haven’t chosen, it’s randomly chosen from a distribution based on the proportion of prediction market bets placed in the seven UTC days prior to the present one).\n \nTo start a new mod team, you need to identify at least 5 unique humans who serve as an initial mod team, identify what community the team wishes to serve (even if that community currently has no mod team / does not exist), and pay a mod-team setup fee which goes towards sponsoring gas fees. In community setup you also specify rules for what will be considered in and out of bounds. This aligns with a comment from the Santa Fe Institute’s 2023 Collective Intelligence conference held during the week before the hackathon about how movements are governed primarily by shared values about what is interesting and what is not. \n",
+  "how_its_made": "This project was built with Scaffold-Eth 2 to get a live feedback loop started quickly.\n\nOur initial-allocation system requires Sybil protection to participate in the voting markets and moderation, and we allow people who want to participate in the moderation process to use Worldcoin and/or Sismo Connect for proving their unique humanness.  Polygon ID is used to verify age (minimum 13 for participation or 18 if OK with reviewing adult content).  Account abstraction and gasless transactions help us get closer to a simple web2 user experience, including multidevice engagement. The Graph helps us read data more easily.  We’re also using Nouns artwork in graphics for our free public infrastructure.\nLonger text fields, such as community rules or post content, are stored in IPFS.  You can also restrict posting and/or voting to holders of a particular token, through Unlock Protocol.  We also intend to use this to control access to mod chat & incoming mod messages, but our focus for the hackathon was on the prediction-market voting accelerator under the assumption that sites would provide other communications tools for moderator teams. \n\nWe spent a lot of time trying to implement ERC-6551. Each community and post is represented by an ERC-721 token. The community token owns the posts in its community and each post owns its reply posts and the ERC-20 tokens associated with upvotes and downvotes on that post.  However, the contracts for implementing this are not available on the L2 networks we were targeting and attempting to get them deployed even in a test environment was very difficult.  The scripts to deploy those contracts run only in Forge, which has to be compiled from source (along with some of its compilation tools!) to run on Windows, and the contract repository cannot be directly added as a dependency due to lack of a package.json file.  Attempting to copy files led to a lot of issues with internal dependency paths not being found, and after spending several hours (especially on test files, which were not cleanly separable from the rest), we suspended that effort, but pieces of it are still there especially in the ‘computeCommunityAddress’ branch and it would likely work better if deployed on a chain where full support is already present. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wiserriser-ku3hh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

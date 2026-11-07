@@ -1,0 +1,29 @@
+{
+  "id": "tte4i",
+  "slug": "daokeeper",
+  "title": "DAOkeeper",
+  "tagline": "DAO tooling for sustainable governance / Pre-scheduled airdrop platform based on token vesting ",
+  "event": {
+    "slug": "ethbogota",
+    "name": "ETHBogotá",
+    "start_time": "2022-10-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tte4i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9irmk1XWFhYtPeVipLDnBP7RnQgm01KyBneBBdbxD5jI/high.mp4",
+  "source_url": "https://github.com/orgs/DAOkeeper/repositories",
+  "prizes": [
+    {
+      "sponsor": "Klaytn",
+      "sponsor_id": "43ago",
+      "placement": "🥈 Klaytn — Best Use",
+      "title": "Klaytn"
+    }
+  ],
+  "finalist": false,
+  "description": "DAOkeeper is a DAO tooling for governance sustainability.\nWe propose an airdrop platform based on  token vesting as the first step of DAOkeeper roadmap.\n\nWe found out two crucial problems in current airdrop systems.\nFirst, people often dump the airdropped tokens. As people dump their tokens, its price will fall down and the token economy would collapse, threatening the sustainability of the token system. Given that many DAOs airdrop their tokens for governance, it could demotivate the participants.\nAlso, it’s hard to target the proper accounts. Data analysis is one of the solutions, but it’s not perfect as it only reflects the history. It means you can’t manage their future actions.\n\nWe suggest two solutions to the problems.\nThe first one is pre-scheduled airdrop rounds. In DAOkeeper Airdrop, we divide a single airdrop into several rounds with interval periods like a vesting model. For example, one single airdrop could now have 10 rounds with 3months intervals.\nThe second one is retrospective loyalty scores. DAOkeeper Airdrop calculates the loyalty score of each token holder by tracking holding volume and period during the intervals. The airdrop amount for the next round would be computed proportionally to the loyalty scores.\n\nIn addition, we’re going to add Klaytn’s partial fee delegation transaction model while processing gas fees for airdrop claim, discounting the claimers’ gas fees proportional to their loyalty scores. This feature would also incentivize token holders to keep high loyalty scores.\n\nThe whole calculation process for assigning claimable token amount is done 100% on-chain, so claimers do not need to trust that the DAO managers would properly distribute the token in the next airdrop round. They could find out the public contract logic (VestingAirdrop.sol) and convince that they would be incentivized properly for holding the governance tokens.\n\nThe calculation mechanism for the retrospective loyalty score is based on two factors. 1) The period of token holding. 2) The amount of token holding. Loyalty score is calculated based on the time integral (in block numbers) of the holding amount to the holding period. We take the smaller value of the base holding amount and the actual holding amount to prevent holders buying lots of tokens right before the new airdrop round snapshot begins.\nMore details about the calculation mechanism would be further explained in the demo video.\n\nSo, how do we track token holding amounts for the loyalty score? We wrote an extension of the KIP7Votes contract provided by Klaytn to track token transfers and calculate loyalty scores on-chain. It snapshots each holder’s token balance right after every token transfer.\nWhen the airdrop claim method is called it calculates the airdrop amount for each holder & each round based on the loyalty score calculation through our VestingAirdrop contract.\n\nHere’s the overview of contract structures for DAOkeeper.\nFirst, we can create DAO space by deploying DAO Infostore, KIP7Trackable token and Governor contracts.\nThen, we can register divided airdrop schedules by deploying the VestingAirdrop contract with initial constructor parameters like airdrop whitelist, number of airdrop rounds, and length of interval periods.\n\nDAOkeeper doesn’t end up with this vesting-based airdrop platform. We plan to expand our product to a total DAO tooling including voting platform and treasury management platform.",
+  "how_its_made": "DAOkeeper is deployed on Klaytn network, implementing extension contracts for KIP7 token contracts and our original calculation mechanism for retrospective loyalty score considering token holding amount and period between airdrop round intervals.\n\n(Contract)\nKIP7Trackable.sol: Extension of KIP7Votes.sol, which enables tracking each token holder’s balance change histories by committing token balance snapshots after every token transfer.\nVestingAirdrop.sol: Novel calculation mechanism of DAOkeeper to best measure loyalty scores of token holders retrospectively. It computes all required logics fully on-chain, based on balance commit histories of each token holder.\nContractInfoStore.sol: A contract that works as a on-chain server for storing metadata such as IPFS url for each DAO space created via DAOkeeper platform.\nDAOkeeperGovernor.sol: A simple Klaytn governor contract to deal with governance proposals and execution of passed proposals.\n\n(Frontend UI)\nFrontend UI is built with next.js, utilizing ethers.js and caver.js for RPC node interactions. For signing transactions, we used Metamask and Kaikas.\n\n(Klaytn-specific features)\nWe’re still working on utilizing partial fee delegation of Klaytn to additionally incentivize loyal token holders by discounting gas fees for airdrop claims and other on-chain governance actives, proportionally to their loyalty scores.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/daokeeper-tte4i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

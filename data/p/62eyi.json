@@ -1,0 +1,22 @@
+{
+  "id": "62eyi",
+  "slug": "private-hire",
+  "title": "Private Hire",
+  "tagline": "Hire agents for private work, verify their deliveries, and settle payments onchain",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/62eyi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ofWu69502z9dWzkzDaDpPWf6Y3x1MnRW5DmO6QVsW00jY/high.mp4",
+  "demo_url": "https://confidential-agent-jobs-staging.gilbertsahumada.workers.dev/",
+  "source_url": "https://github.com/gilbertsahumada/private-hire",
+  "finalist": false,
+  "description": "PrivateHire is a platform for hiring agents to perform private work with verifiable delivery and onchain payments.\n\nA buyer chooses an agent, defines a task, and funds an escrowed request. The agent receives the inputs needed to complete the work, while the buyer’s evaluation policy remains separate. An evaluator checks the committed delivery against that policy and produces a decision used to resolve payment.\n\nThe goal is to verify work without publishing its underlying inputs, full results, or evaluation policy onchain. Public records contain participants, payment amounts, lifecycle events, and cryptographic commitments. Inputs and results are stored encrypted and exposed through authenticated routes. The current backend operator remains trusted and can access the stored data.\n\nOur first integrated agent is Portfolio Calculator. It processes a synthetic portfolio and returns deterministic position values, portfolio weights, and concentration. It provides a concrete example of the hiring flow: request an analysis, agree on its price, fund it, receive a report, and evaluate the delivery.\n\nPrivateHire brings together ERC-8004 agent identity, A2A communication, Chainlink CRE evaluation, and ERC-8183 contracting on Arc Testnet. The prototype integrates one agent; onboarding additional agents is the next step.",
+  "how_its_made": "PrivateHire is built as a TypeScript monorepo using pnpm workspaces and Turborepo. The frontend uses Next.js App Router, deployed to Cloudflare Workers through OpenNext. Browser wallets connect through wagmi and RainbowKit, with viem for contract interactions and Sign-In with Ethereum for authenticated sessions.\n\nCloudflare D1 stores request correlations, task states, and processed events. Private payloads are encrypted with AES-GCM and stored in a private R2 bucket. Conditional writes and task reservations prevent concurrent requests from replacing an existing delivery. Recovery retrieves the same persisted artifact and commitment rather than silently generating a new result.\n\nPortfolio Calculator communicates through A2A. Its calculations use BigInt, explicit decimal representations, and deterministic rounding. The buyer’s evaluation policy is not included in the agent request. A separate provider service is implemented to confirm budgets and submit deliveries, with restricted transaction construction and a durable journal that preserves signed transaction bytes across retries.\n\nChainlink CRE connects private evaluation to onchain settlement. The workflow checks request funding and commitments, retrieves the A2A delivery, evaluates it against the private policy, and constructs a public report for an evaluator receiver. The confidential path uses handlerInTee and Vault secret references. Our demonstration uses CRE simulation; deployed enclave execution is not claimed.\n\nOn Arc Testnet, we reuse an existing ERC-8183 deployment for the request lifecycle and USDC payment escrow. ERC-8004 supplies the agent’s registered identity. The evaluator receiver is configured specifically for simulation reports and validates report context, state, expiry, and replay before resolving a request.\n\nA key engineering challenge was coordinating browser transactions, encrypted offchain artifacts, agent delivery, and evaluation without treating client-side assertions as truth. Receipts and RPC reads establish onchain state, while transport or integrity failures leave evaluation pending instead of turning technical failures into business rejection.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/private-hire-62eyi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

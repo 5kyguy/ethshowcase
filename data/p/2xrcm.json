@@ -1,0 +1,21 @@
+{
+  "id": "2xrcm",
+  "slug": "arkana",
+  "title": "Arkana",
+  "tagline": "Arkana turns anonimity set necessity into a DeFi opportunity, featuring Aave, Uniswap and some magic",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2xrcm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BHr00pDaTCeG8tQuYYny00GdzjKHcQ5aslyS9CjOCPwXA/high.mp4",
+  "source_url": "https://github.com/SolidityDrone/evm-arkana-monorepo",
+  "finalist": false,
+  "description": "traditional privacy pools like PrivacyPools suffer from a fundamental economic problem: idle capital. When users deposit funds into these protocols, their tokens sit dormant in smart contracts, earning nothing while waiting for withdrawal. This creates a vicious cycle where yield-seeking users leave the pool, shrinking the anonymity set and weakening privacy for everyone who remains.\n\nArkana solves this by making privacy pools productive. Every token deposited into Arkana is automatically supplied to Aave, one of DeFi's most battle-tested lending protocols. This transforms the protocol's liquidity from a cost into an opportunity. Users seeking privacy benefit from larger anonymity sets because liquidity providers are economically incentivized to keep their funds in the pool. Meanwhile, those providing liquidity earn Aave yield plus protocol fees without any active management. This creates a sustainable flywheel: more yield attracts more liquidity providers, which creates larger anonymity sets, which attracts more privacy seekers, which generates more fees.",
+  "how_its_made": "This project is built with Solidity, Noir and integrates with Aave, Uniswap and especially dRand network over bls-bn254 (evmnet) \n\nThe core is a PrivacyPools like protocol with a Lean Incremental Merkle Tree(IMT). But the actual commitments are done in 2 step, circuit ensures some Pedersen Commitment about your state, the smart contract takes that and adds extra terms to the commitment before hashing it and inserting in to the merkle tree.\n\nThis is mostly done cause the Arkana protocol actually takes the deposit and forwards to the ArkanaVaults which supply() on Aave v3. Therefore once we know how much shares of the vault we get, the contract can use point addition over Grumpkin curve to complete the commitment.\n\nWIthdrawal can be both legit or perform a TL operation on Uniswap ( but potentially many other defi protocols ). \nThe user can perform a swap/liquidity provision from within Arkana. But because we wanna avoid large oepration to be attacked, the user subdivde its order into chunks of intents and encrypt these using the dRand network Timelock capabilities. \nThe order is basically an onion hash chain, each chunk is encrypted with Aes128 and everyone can decrypt after dRand complete the round to get the key and split the next chunk.\n\nThe frontend is just demonstrative and dosent contain any notable feature other than the dRand encryption / decryption logic \n\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/arkana-2xrcm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

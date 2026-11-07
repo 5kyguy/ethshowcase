@@ -1,0 +1,30 @@
+{
+  "id": "nxpt2",
+  "slug": "fugazi",
+  "title": "Fugazi",
+  "tagline": "Fugazi is the first fully on-chain dark pool built on Fhenix.",
+  "event": {
+    "slug": "ethonline2024",
+    "name": "ETHOnline 2024",
+    "start_time": "2024-08-23T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nxpt2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xGG8H701tkKyE2oV78t3u86HI5tWn3tOkLN1AbQLHaGU/high.mp4",
+  "demo_url": "https://fugazi-interface.vercel.app/",
+  "source_url": "https://github.com/orakle-dark-pool/fugazi-final-ethonline2024",
+  "prizes": [
+    {
+      "sponsor": "Fhenix",
+      "sponsor_id": "croq1",
+      "placement": "1st place",
+      "title": "Best use of Fhenix Stack"
+    }
+  ],
+  "finalist": true,
+  "description": "Fugazi is AMM-based dark pool. It leverages following three arms to hide order info (size and direction):\n1. Encrypted reserves and order info via FHE\n2. Batch execution\n3. Noise order\n\nUnlike many other implementations of dark pool, Fugazi does not require any oracle or centralized operators and every action related to trading (pool creation, LPing, swap) is completely permissionless.\n\nExcept that users have to wait for a while after each submisson of order (due to the batching and heavy computational load), the UX Fugazi offers is almost as same as that of AMMs like Uniswap, Curve, Balancer, etc etc.",
+  "how_its_made": "For the contract side:\n\n To hide the order info, just slapping encryption is not enough, since attacker can notice the trader's intent by sandwiching it. So common practice is batching trades. Another way of hiding order information is proposed last year; that is, protocol-owned account submits randomized orders along the trader's order together so that the attacker can only know about the aggregated order (trader + random). The protocol takes an additional fee (separate from the swap fee) for providing privacy.\n\n We decided to implement both of them. The final output is AMM-based dex, like uniswap, curve, and balancer, while each order is batched together with randomized order submitted by protocol-owned account. As we mentioned, now everything (user balance, pool reserves, order info, etc etc) is encrypted via fully homomorphic encryption. We believe it is still okay to encrypt pool reserves and hide the information about spot price: arbitrageurs will anyway get (maybe noisy) info about pool price and will set the price close to EBBO (Ethereum Best Bid & Offer).\n\nMoreover, our exchange does not rely on any single centralized external players or resources, resulting in supporting permissionless pool creation.\n\nFor the frontend side we used following:\n\n1. Vite:\nProvides a fast build and development server. The module hot replacement (HMR) feature allows real-time reflection of changes during development, enhancing development efficiency.\n2. React:\nOffers a component-based architecture for efficiently structuring the UI, making state management and lifecycle management easier. Reusable components improve code maintainability.\n3. twin.macro:\nA library that allows the use of Tailwind CSS utility classes within JavaScript/TypeScript files. It combines the advantages of CSS-in-JS with the flexibility of Tailwind, simplifying styling.\n4. Tailwind CSS:\nA utility-first CSS framework that enables fast and intuitive styling. By applying styles through class-based utilities, it enhances code readability and maintains style consistency.\n5. ethers.js:\nA lightweight library for interacting with the Ethereum blockchain. It simplifies communication with smart contracts and transaction management, making it suitable for blockchain application development.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fugazi-nxpt2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "9667e",
+  "slug": "poseidon",
+  "title": "Poseidon",
+  "tagline": "1inch Fusion+ extension for Starknet, with a possibility to swap  from EVM chains to Starknet",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9667e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jgX218ymhnYO6rKceIxe5wEYZaX02hPcZSNu3Rer6If00/high.mp4",
+  "source_url": "https://github.com/kmadorin/poseidon",
+  "finalist": false,
+  "description": "This project implements a cross-chain atomic swap protocol extending 1inch Fusion+ to Starknet. The protocol uses Hashed Timelock Contracts (HTLCs) to ensure that swaps are atomic, meaning they either complete successfully on both chains or fail without any loss of funds for the participating parties.\n\nThe system is built around a set of escrow contracts on both the source (EVM) and destination (Starknet) chains. When a swap is initiated, funds are locked in these escrows. The swap is executed when a secret hash is revealed by maker on the destination chain, unlocking the funds for the taker on the source chain. Security is paramount, with timelocks in place to allow for fund recovery in case of failures. The protocol is designed to be robust, handling potential issues like invalid secrets or timeouts gracefully.",
+  "how_its_made": "The project is built on top of 1inch Fusion+ protocol and extends EVM to EVM cross-chain-resolver example with Starknet smart contracts, deployment and swap logic. The core of the project lies in the Escrow.sol and starknet_escrow.cairo contracts, which implement the HTLC logic on their respective chains.\n\nEVM-side (Solidity): The contracts folder contains all the Solidity contracts. Resolver.sol, is the primary contract, handling the locking and unlocking of assets on the EVM chain. The EscrowFactory.sol contract is used to deploy new escrow contracts for each swap.\n\nStarknet-side (Cairo): The contracts_starknet folder houses the Cairo contracts. starknet_escrow.cairo mirrors the functionality of its Solidity counterpart, managing the escrow process on the Starknet network. keccak_helper implements keccak256 hashing on Starknet chain. EVM proxy contracts logic is replaced with only one Escrow contract which contains a mapping for all escrows created for the swaps. \n\nTesting (TypeScript): The end-to-end swap process is demonstrated in the tests_evm_starknet/main.spec.ts file. These tests simulate the entire lifecycle of a swap, from order creation and fund locking to the final exchange of assets\n\nA notable aspect of this project is the intricate coordination between the EVM and Starknet contracts. The test suites were particularly challenging to implement, requiring a sophisticated setup to simulate cross-chain interactions. Also, keccak256 implementation was quite challenging on Starknet. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/poseidon-9667e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

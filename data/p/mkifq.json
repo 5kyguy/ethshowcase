@@ -1,0 +1,35 @@
+{
+  "id": "mkifq",
+  "slug": "orchestra",
+  "title": "Orchestra",
+  "tagline": "Orchestra: Talk to your crypto. An AI agent for seamless swaps and sends with Ledger security.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mkifq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yzd5VYr00B021fH8KK2YsyTYJDh8vEyJZc9TNE11YhdZE/high.mp4",
+  "demo_url": "https://orchestra-weld.vercel.app/",
+  "source_url": "https://github.com/youssef-jeddi/Orchestra",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "3rd place",
+      "title": "Best OpenClaw Agent on 0G"
+    }
+  ],
+  "finalist": true,
+  "description": "Orchestra is an autonomous AI financial assistant designed to bridge the gap between complex onchain operations and intuitive natural language. It allows users to manage their decentralized portfolios, performing swaps, sending assets, and checking balances, simply by chatting. \n\nThe project leverages a sophisticated multi-agent architecture powered by 0G’s decentralized AI and storage stack to ensure that financial planning and risk assessment are transparent, persistent, and verifiable.\n\n1. The Intent Pipeline\nEvery user request is processed through a tiered reasoning system:\nPlanner AI: Translates conversational prompts (e.g., *\"Swap 10 USDC for ETH\"*) into structured, executable blockchain transactions.\nGatekeeper AI: Acts as a security auditor. It cross-references the plan against the user’s risk profile and onchain spending limits stored on 0G Storage.\n* Safety Net: A server-side validation layer that re-calculates USD values to prevent AI \"hallucinations\" or errors in limit enforcement.\n\n### 2. Hybrid Security Model\nOrchestra solves the \"convenience vs. security\" trade-off in crypto:\n* Low-Value Autonomy: Small transactions within user-defined limits are executed instantly by the agent.\n* Hardware Verification: Any transaction exceeding the spending limit or flagged as high-risk by the Gatekeeper triggers a mandatory physical approval via a Ledger device using the Ledger DMK.\n* Smart Account Custody: All assets are held in a Safe (Gnosis Safe) smart account, utilizing the AllowanceModule for granular, onchain permissioning.\n\n### 3. Decentralized AI Stack\nUnlike traditional bots that rely on centralized APIs, Orchestra utilizes:\n* 0G Compute: For decentralized LLM inference, ensuring the \"brains\" of the operation aren't controlled by a single entity.\n* 0G Storage: To maintain a \"shared memory\" for the agents, storing user profiles, historical plans, and portfolio snapshots in a decentralized manner.\n\n### 4. Seamless Integration\nThe system is fully integrated with Uniswap for optimized trade routing and Permit2 for gas-efficient token approvals. The frontend, built with Next.js 16, provides a \"Futuristic Notebook\" interface where users can watch the AI's step-by-step reasoning (the \"Chain of Thought\") as it prepares to execute their financial commands.",
+  "how_its_made": "Orchestra is a multi-layered AI agent system built for ETHGlobal Cannes 2026. It combines decentralized AI inference, smart contract custody, and hardware-grade security into a single autonomous financial agent.\n\nThe backend runs on Node.js/TypeScript with a custom agent runtime following a \"Provider → LLM → Action\" loop. Three specialized agents work in sequence: a Planner that parses natural language into structured JSON action plans using Groq or 0G Compute inference, a Gatekeeper that pulls user profiles and spending limits from 0G Storage to decide whether a transaction can auto-execute or needs hardware approval, and a Watcher that monitors portfolio health in the background.\n\nFor partner technologies: 0G serves as the project's \"decentralized memory.\" User profiles, risk assessments, trade history, and action plans are all persisted to the 0G Storage network via their TypeScript SDK. We also integrated 0G Compute so users can toggle between centralized (Groq) and decentralized LLM inference directly in the UI, the same agent pipeline runs on both, with TEE-verified responses from 0G. Safe smart accounts hold all user assets. We use the AllowanceModule to enforce on-chain spending limits, if a transaction is within the user's limit, the agent wallet (a delegate with threshold-1 signing) executes it autonomously; if it exceeds the limit, it requires Ledger co-signature. This is defense-in-depth: even if the AI agent is compromised, the on-chain module caps what it can spend. Ledger integration uses the Device Management Kit (DMK) for browser-based Bluetooth connectivity, ensuring high-value transactions and spending limit changes are only valid when signed on a physical device. Uniswap handles all trade routing via their API with Permit2 support for gas-efficient token approvals.\n\nNotable hacky implementations: To bridge server-side AI agents with a client-side hardware wallet, we built a custom WebSocket bridge. When the Gatekeeper flags a transaction as NEEDS_APPROVAL, it pushes a request through a WebSocket to the Next.js frontend, which pops up an approval card prompting the user to connect their Ledger and sign. For spending limit updates, we manually encode Safe's execTransaction with a MultiSend payload, packing three setAllowance calls (ETH, USDC, WETH) into a single Ledger-signed transaction using the owner pre-approved signature ormat (v=1). For 0G Storage, we maintain a local storage-index.json mapping human-readable keys to content-addressable root hashes, enabling fast batch reads over decentralized storage without querying the indexer for every key.",
+  "auto_summary": "An AI-driven crypto assistant that plans DeFi actions from chat, stores agent state on 0G, routes swaps via Uniswap, and gates risky actions with Ledger and Safe.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/orchestra-mkifq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

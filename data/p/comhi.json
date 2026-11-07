@@ -1,0 +1,22 @@
+{
+  "id": "comhi",
+  "slug": "p33rx",
+  "title": "p33rX",
+  "tagline": "Peer to peer spot DEX based on Pyth oracle prices with 0 slippage and seller rebate",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/comhi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bV2i1p02cEQx7DP02BJ8RKlHeq502LvrpBOuzj01QqPBEVU/high.mp4",
+  "demo_url": "https://p33r-x.vercel.app/",
+  "source_url": "https://github.com/d33p-x/ETHGlobalOnline",
+  "finalist": false,
+  "description": "p33rX is a Pyth oracle-based peer-to-peer exchange that implements an on-chain FIFO order book for zero-slippage trading. It enables users to trade any tokens on Base Sepolia that have Pyth price feeds, in a permissionless, non-custodial manner.\n\nThe protocol’s key advantages include guaranteed zero slippage, maker rebates of 0.15%, taker fees of only 0.2%, and execution at exact oracle prices. Unlike traditional AMM DEXs where large orders suffer from price impact, p33rX executes all trades at precise Pyth Network oracle prices, regardless of order size.\n\nSellers (makers) provide liquidity by creating orders that enter a FIFO queue. When filled, they receive the oracle price plus a 0.15% bonus. Sellers can optionally set minimum and maximum price bounds to protect against unfavorable price movements while waiting for buyers.\n\nBuyers (takers) can instantly fill pending orders at the current oracle price plus a 0.2% fee. Combined with zero slippage, this enables predictable and efficient trade execution at highly competitive rates.",
+  "how_its_made": "The smart contract is written in Solidity 0.8.30 using Foundry as the development framework. OpenZeppelin Contracts implementations for ERC20 token interactions and ReentrancyGuard were used.\n\nThe p2p.sol contract handles all protocol logic: Pyth price feed registration, market creation, order creation, and order execution. When a user creates a sell order, it’s added to a gas-efficient linked-list queue in the relevant market (e.g., WETH/USDC). This FIFO (first in first out) structure is entirely on-chain and optimized to fill up to 50 orders in a single transaction.\n\nThe fillOrderExactAmountIn function iterates through pending orders and fills all whose price range includes the current oracle price until the specified amount is spent. It receives fresh Pyth price data from the frontend and enforces a maximum staleness of 15 seconds, preventing stale price exploits.\n\nThe frontend was built with Next.js 14, TypeScript, and Wagmi/Viem for Web3 interactions. Claude Code significantly accelerated development by scaffolding components and implementing complex event-driven state management. The trading interface uses the lightweight-charts library from TradingView to generate custom price charts by dividing token₀ USD price by token₁ USD price (e.g., WETH/SHIB ratio).\n\nA notable technical aspect is the fully on-chain FIFO order-matching system that maintains fairness without requiring off-chain indexers or centralized infrastructure — everything from order state to price validation runs trustlessly on Base (sepolia for now).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/p33rx-comhi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

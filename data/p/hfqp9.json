@@ -1,0 +1,20 @@
+{
+  "id": "hfqp9",
+  "slug": "eil-rs",
+  "title": "eil-rs",
+  "tagline": "It is a rewrite of the eil-sdk(typescript) in rust to enable use of the EIL in rust programs.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hfqp9/banner/default.jpg",
+  "source_url": "https://github.com/meetmangukiya/eil-rs",
+  "finalist": false,
+  "description": "# EIL Rust SDK\n\nA type-safe Rust implementation of the Ethereum Interoperability Layer (EIL) SDK for trustless cross-chain operations on Ethereum L2s.\n\n## Overview\n\nThe EIL SDK enables users to execute complex multi-chain operations with a single signature, abstracting away the complexity of L2 fragmentation. Built with Rust's strong type system and zero-cost abstractions, this SDK provides:\n\n- **Trustless Interoperability**: No third-party trust required for cross-chain operations\n- **Single-Signature Cross-Chain Operations**: Sign once, execute across multiple L2s\n- **Type-Safe Builder Pattern**: Compile-time prevention of invalid operations\n- **Cross-Chain Gas Payment**: XLPs (Cross-chain Liquidity Providers) front gas on destination chains\n- **Runtime Variables**: Dynamic on-chain value computation for complex workflows",
+  "how_its_made": "\n  This project is a Rust implementation of the Ethereum Interoperability Layer (EIL) SDK, originally written in TypeScript. The development process\n  involved:\n\n  Reference Analysis Phase\n\n  The TypeScript reference implementation was thoroughly analyzed from the /home/dmnt/dev/fr/open-source/eil-sdk/ repository. Key files studied\n  included:\n  - packages/sdk/src/CrossChainSdk.ts - Main SDK entry point\n  - packages/sdk/src/CrossChainBuilder.ts - Builder pattern implementation\n  - packages/sdk/src/BatchBuilder.ts - Batch construction logic\n  - packages/sdk/src/Actions/ - Action system (Transfer, Approve, FunctionCall, etc.)\n  - packages/sdk/src/voucher/ - Voucher coordination system\n  - packages/accounts/src/MultiChainSmartAccount.ts - Account abstraction\n\n  The TypeScript codebase provided the architectural blueprint: builder pattern for constructing multi-chain operations, voucher system for cross-chain\n   token transfers via XLPs, ERC-4337 account abstraction for UserOperations, and action-based transaction encoding.\n\n  Architecture Translation\n\n  The Rust implementation maintains feature parity while leveraging Rust's type system for enhanced safety:\n\n  Type-State Pattern: The TypeScript builder's runtime state checks were replaced with compile-time type-states (Building → ReadyToBuild → Signed),\n  preventing invalid operation sequences at compile time.\n\n  Trait-Based Abstractions: TypeScript interfaces became Rust traits (Action, MultiChainSmartAccount, SourcePaymaster), using async-trait for async\n  methods and trait objects for runtime polymorphism.\n\n  Error Handling: JavaScript exceptions became typed Result<T, EilError> using thiserror, providing exhaustive error handling.\n\n  Technical Stack Selection\n\n  - alloy (v0.8): Ethereum primitives, ABI encoding, RPC providers - chosen as the modern Rust successor to ethers-rs\n  - tokio: Async runtime matching TypeScript's Promise-based async/await\n  - serde: JSON serialization matching TypeScript's native JSON support\n  - thiserror: Structured error types replacing JavaScript Error classes",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/eil-rs-hfqp9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

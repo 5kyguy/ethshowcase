@@ -1,0 +1,30 @@
+{
+  "id": "pzdzt",
+  "slug": "agentic-trade-router",
+  "title": "Agentic Trade Router",
+  "tagline": "An agent that auto-routes swaps on Uniswap v4 based on user prefrences stored in ENS text records.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pzdzt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lJOWt2f00iJMdHYatjtFdh7hA8reZc2FC6Fbur7UQkHo/high.mp4",
+  "demo_url": "https://frontend-one-gamma-33.vercel.app/",
+  "source_url": "https://github.com/llSecond/agentic-trade-router",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Agentic Trade Router turns your ENS name into a portable trading profile. You store your swap preferences like: slippage tolerance, fee tiers, routing hops, and deadlines as ENS text records and they automatically apply across any dApp that integrates the router. The AgenticRouter contract on Sepolia reads these parameters from your ENS and enforces them on-chain through Uniswap v4's Universal Router with slippage protection built in. You can still override settings for individual swaps when you need to. This tackles two real problems: ENS names are mostly just used for address resolution when they could do way more, and configuring swap parameters on every DEX you use is tedious and error-prone. The frontend is a Next.js app deployed on Vercel with RainbowKit wallet connection and live mainnet ENS integration.",
+  "how_its_made": "The project connects ENS, Uniswap v4, and Permit2 across two chains. ENS text records live on mainnet, while swaps execute on Sepolia where Uniswap v4 is deployed. The frontend is Next.js 14 with TypeScript, wagmi v2, RainbowKit for wallet connection, and TanStack Query for caching ENS reads with a 1-minute stale time to avoid hammering RPC endpoints. The smart contract (AgenticRouter.sol, Solidity 0.8.24, Foundry) takes a SwapPreferences struct with slippage in basis points, fee tier, max hops, and deadline, validates everything on-chain, then routes through Uniswap v4's Universal Router. It wraps ETH/WETH automatically, uses Permit2 for 1-hour token approvals instead of infinite ones, and calculates minimum output amounts with on-chain slippage math. Token addresses get sorted to match Uniswap v4's PoolKey format, and hardcoded sqrt price limits block MEV attacks. The weirdest part is the dual-chain setup: you write preferences to mainnet ENS via the Public Resolver, but the swap contract runs on Sepolia testnet. The frontend handles this by reading from mainnet and executing on Sepolia in the same session. There's also a fallback system—if no ENS preferences exist, it uses hardcoded defaults (0.5% slippage, 3000 bps fee tier, 2 hops, 20-minute deadline) so everything works even without an ENS name. The contract has 14 Foundry tests including fuzz tests for slippage calculations, and the frontend is live on Vercel with security headers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentic-trade-router-pzdzt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

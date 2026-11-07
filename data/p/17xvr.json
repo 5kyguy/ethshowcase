@@ -1,0 +1,27 @@
+{
+  "id": "17xvr",
+  "slug": "tnega",
+  "title": "Tnega",
+  "tagline": "A home for on-chain AI agents. Check what works before you pay.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/17xvr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00OAT02z2mRVkWqXkouK5H6201wq5p02kNSLA00rjoEf5bvI/high.mp4",
+  "demo_url": "https://www.tnega.app",
+  "source_url": "https://github.com/sabaazdn73/Agents-Marketplace",
+  "finalist": false,
+  "description": "Anyone can register an AI agent on chain. Almost nobody checks\nwhether it works.\n\nTnega indexes ERC-8004 agents across BNB Chain, Ethereum, Arbitrum\nand Robinhood Chain, then evaluates them before you ever see a hire\nbutton. Does the endpoint answer. Has it delivered a job on chain.\nDoes an independent registry corroborate it. Up to 13 signals per\nagent, and where a signal is missing the card says why rather than\nleaving a gap.\n\nThe numbers are the point. Of 30,779 Ethereum agents, 812 respond\nand 29,725 publish no endpoint at all. Across every chain, 57 of\n294,000 listings could complete a hire today. Nobody else is\nmeasuring that, and a marketplace that hides it is selling you the\nother 293,943.\n\nHiring runs on escrow, and the funding model matters more than it\nlooks. Locked escrow protects the buyer but breaks for an agent\nthat must spend to work, since the money it needs is locked behind\ndoing the job. So there are two: ERC-8183 escrow for agents that\ncompute, and a drawable budget I wrote and deployed myself, where\nthe agent draws against your cap and you watch each draw land on\nchain. Per-draw limit, cooldown, deadline and revoke at any time,\nall enforced by the contract. Pause can stop funding and stop\ndraws, and can never stop you reclaiming your own money.\n\nBuilding this surfaced two gaps worth naming. Nothing in ERC-8004\nsays how to engage an agent, so every consumer works it out by\nprobing. And delivery is visible on chain while quality is not.\nBoth are written up as an extension proposal, grounded in what we\nmeasured rather than what we assume.",
+  "how_its_made": "React with wagmi and viem, FastAPI on Render, MongoDB, Solidity\ncontracts on four chains. Data comes from the ERC-8004 registries\ndirectly, The Graph, Zerion, DefiLlama, the block explorers and\nBinance's Web3 Market API.\n\nThe Graph solved a real failure. Our registry API times out at\ndepth, so past roughly token id 332,377 agents were unreachable no\nmatter how often we retried. The Agent0 subgraph indexes the same\nregistries without offset pagination and returned 2,399 of them in\nabout 1.5 seconds, 537 with live endpoints. It runs as a coverage\nfallback, not a replacement, since it carries on-chain data and not\nthe off-chain computed fields.\n\nAgentBudgetEscrow is mine, deployed and verified on BNB Chain,\nEthereum, Arbitrum and Robinhood Chain. 33 adversarial tests\ncovering reentrancy on draw and reclaim, cap overflow,\nfee-on-transfer tokens and unauthorised callers, all run against a\nforked mainnet rather than a testnet so they exercise real token\nbehaviour. Slither reports no high or medium findings.\n\nFour things worth flagging as hacky-but-necessary.\n\nNeither the public BSC RPC nor Infura returns event logs reliably\nover wide ranges. Infura returns an event in a 5-block window and\nnothing for the same event in a 2,000-block window, with no error.\nSo the spend view never takes numbers from logs: it reads spent\nfrom the contract and uses logs only for the itemised history,\nreconciling the two so it can say part of this history is missing\nrather than falsely showing zero.\n\nThe health check was BSC-only and, run against other chains, looked\nup their token ids in BSC's registry and returned false negatives.\nThat deleted 41,000 records before we caught it. It is chain-aware\nnow, and we widen one chain at a time and never widen deletion\nalongside analysis.\n\nThe same contract address exists on all four chains because the\ndeploying wallet was at nonce 0 on each. On BSC that address is a\ndifferent contract entirely, and both implement owner and feeBps,\nso a defensive probe passes while pointing at the wrong thing. One\nfile holds every address keyed by chain, and a check fails the\nbuild if any other file hardcodes one.\n\nAnd /api/agents ignored its own filter parameters and returned the\nfull 15.7 MB on every call, from three components on page load.\nThat is almost certainly what had been OOM-killing the container\nevery 1.8 hours. Paginated and filtered server-side, first load\nwent from 15.7 MB to 64 KB.",
+  "auto_summary": "A multichain marketplace indexes ERC-8004 agents, evaluates their reliability, and supports hiring through escrow and drawable budget contracts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tnega-17xvr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

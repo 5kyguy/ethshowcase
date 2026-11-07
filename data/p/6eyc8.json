@@ -1,0 +1,22 @@
+{
+  "id": "6eyc8",
+  "slug": "gifty",
+  "title": "Gifty",
+  "tagline": "Give a friend ETH and an ENS name with one link. Privy signup faster than fintechs, 0 crypto jargon.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6eyc8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dPxGbw9KVOUc5ctOBtg2Wk3p71SY1C6IobtXYMEOt1w/high.mp4",
+  "demo_url": "https://gifty.energia.dev/",
+  "source_url": "https://github.com/mikjakbiak/crypto-blick",
+  "finalist": false,
+  "description": "Gifty is a social wallet for sending ETH to people who do not have a wallet yet. You lock some ETH into a gift, get a link, and send that link the way you already talk to them. They open it, sign in with Privy (email or Google), pick a free username, and claim the money. After that, friends send to eg. \"vitalik\" (vitalik.gifty.eth), not a hex address.\n\nThe gift is ETH behind a secret. Signup always includes a free ENS subname on gifty.eth (vitalik resolves to vitalik.gifty.eth). Full names like vitalik.eth still resolve through ENS. Raw 0x addresses still work.\n\nMoney lives on Base. Usernames live on Sepolia, because ENS v2 beta is Sepolia-only. The app never asks the user to switch networks. We sponsor Sepolia gas for every username so a new account can get a name before it holds any ETH.\n\nOnce you are in: live Privy onramp from fiat into Base USDC, live Privy swaps, balances, contacts after someone claims your gift, and more gift links. The spend card is in the dashboard; the full issuing flow is mocked because we do not have KYB and Bridge fully set up on Privy yet.\n\nClaims are on-chain. The contract stores a hash - Poseidon(code), not the code, and a browser PLONK proof authorizes release. If the claimant has no Base ETH, the operator pays gas and takes a small fee from the gift. If they already have gas, they claim with no fee and pay the tx themselves, seamless, easy.\n\nLogin, a real ENS name, money in, money out, and a way to pull the next person in, without teaching anyone a seed phrase.",
+  "how_its_made": "Production Next.js app (Bun) with Privy for auth and embedded self-custodial wallets, including Google OAuth. Privy wallets stay on Base. Fiat top-ups use Privy’s live useAddFunds onramp. Swaps are live Privy swaps into Base ETH or USDC. Card UI talks to Privy cards and stops at a demo path; live issuing needs KYB we do not have.\n\nENS v2 on Sepolia: parent gifty.eth, plus GiftyRegistrar on the ENSv2 UserRegistry and Permissioned Resolver. Register is free and one username per wallet. An operator key always submits the Sepolia tx (/api/operator/register) so the user’s Base wallet never needs Sepolia ETH. No-dot labels resolve as label.gifty.eth. Dotted names go through the Sepolia Universal Resolver.\n\nGifts on Base: GiftyClaimer stores Poseidon(code) and the locked ETH. The secret is packed into two BN254 limbs. Circom circuit gifty_claim Poseidon-hashes those limbs, range-checks the claimant to 160 bits, and exposes codeHash and claimant as public signals so a proof for address A cannot be replayed for address B. Prove in the browser with snarkjs PLONK. Verify on-chain with the snarkjs EVM verifier (GiftyVerifier). Sender always pays createGift. Claim is either claim() (user pays gas, fee 0) or operator claimFor() (sponsored gas, small operatorFee capped at 0.00075 ETH). The app picks based on whether the wallet can cover the tx.\n\nThe awkward bit we leaned into: two chains, one session. Alchemy RPCs are proxied server-side. Operator routes exist only for register and sponsored claim. code → amount is not trusted to our database.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gifty-6eyc8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

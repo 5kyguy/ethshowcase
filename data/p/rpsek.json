@@ -1,0 +1,27 @@
+{
+  "id": "rpsek",
+  "slug": "agent-behavior",
+  "title": "Agent Behavior",
+  "tagline": "On-chain analytics layer that maps the $215M revenue gap across 34,569 ERC-8004 agents.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rpsek/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hfn601FUc5ooQ6201WEUM2s6DumkkatsGQZgFXDiCOq34/high.mp4",
+  "demo_url": "https://github.com/zilingliao0912/web3-Eth-Global/blob/main/index_real.html",
+  "source_url": "https://github.com/zilingliao0912/web3-Eth-Global",
+  "finalist": false,
+  "description": "Dead Reckoning is a scroll-driven analytics dashboard that diagnoses \nwhy 87% of ERC-8004 agents fail to generate revenue. Built on Google \nBigQuery's public Ethereum dataset, it classifies all 34,569 registered \nagents by failure type — registry pollution, DevRel gap, gas failures, \nintent mismatch, and day-one cliff abandonment — and maps the full \n$215M unrealized revenue gap across the protocol funnel.\n\nThe dashboard tells a story in six acts: the indictment (87% failure \nrate), the collapse (animated funnel from 34,569 registrations to 433 \nactive agents), the timeline (monthly cohort churn), the forensics \n(3D agent sphere colored by failure type), the bill (losses itemized \nby churn category), and the turn (interactive recovery modeler showing \n$22.2M is recoverable with two targeted fixes).\n\nThis isn't a product. It's a mirror — showing what the ERC-8004 \nprotocol looks like from the outside, and exactly what it's worth \nif you fix the first 48 hours of developer onboarding.",
+  "how_its_made": "The data layer is built entirely on Google BigQuery's public Ethereum \ndatasets — no custom infrastructure, no rate limits. A single master \nSQL query joins four sources: IdentityRegistry logs (ERC-8004 \nregistrations), ReputationRegistry feedback events, outbound \ntransaction counts with function selector classification, and \nexecution traces split into success and failure signals. The query \nreturns one row per agent with 40+ columns covering funnel stage, \nintent category, churn type, ETH flows, and failure diagnostics. \nIt processes ~4.7TB and returns 34,569 rows in ~31 seconds.\n\nThe classification pipeline runs in Python via google-cloud-bigquery, \nresolves ENS names for the top wallets, and outputs churn_master.csv. \nA multi-agent Claude system interprets wallet signals using RevOps \nmethodology (cross-sell whitespace, churn attribution, next-best-action) \napplied to on-chain behavior.\n\nThe frontend is vanilla JS + HTML/CSS with no backend required. \nVisualizations use Three.js for the 3D agent sphere (color = failure \ntype, size = dollar exposure) and Chart.js for the funnel and timeline \ncharts. Scroll-driven animations use IntersectionObserver. The recovery \nmodeler is a live slider that recomputes unlocked value in real time. \nData is loaded from the CSV via Papa Parse at runtime — no hardcoded \nnumbers, everything live from BigQuery output.",
+  "auto_summary": "A static dashboard analyzes ERC-8004 agent failure patterns using BigQuery-derived Ethereum data and CSV-driven frontend visualizations.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 6
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agent-behavior-rpsek",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

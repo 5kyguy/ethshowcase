@@ -1,0 +1,22 @@
+{
+  "id": "11xn7",
+  "slug": "loupe",
+  "title": "Loupe",
+  "tagline": "An AI agent that thinks like a hacker. Dual-phase smart contract audits & exploit PoCs.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/11xn7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7gLgqOCc3RIYAnVZ7Zn5GJN025qPQbyggrTLuD4ToQYo/high.mp4",
+  "demo_url": "https://loupe-six.vercel.app/",
+  "source_url": "https://github.com/Heisen111/Loupe",
+  "finalist": false,
+  "description": "Loupe is an automated smart contract security auditor that actually proves the vulnerabilities it finds. The current meta for smart contract testing usually involves running static analysis tools like Slither and then manually sifting through a massive list of false positives. I wanted to build something that thinks more like a human attacker. Loupe runs a dual-phase AI analysis pipeline. The first phase does the standard sweep for execution level bugs like reentrancy, unprotected selfdestructs, and bad access controls. The second phase is the master hacker layer. It looks for logic flaws, MEV risks, state initialization bypasses, and violated protocol assumptions.\n\nBut the real core of the project is what happens after the scan. Once Loupe identifies a critical risk, it generates a fully compiling Foundry exploit test. It scaffolds the test environment, writes the malicious attacker contract, and crafts the exact payload needed to drain or hijack the target contract. It takes the workflow from finding a theoretical vulnerability to running a verified local exploit in under a minute. It essentially automates the most tedious part of a security researcher's job.",
+  "how_its_made": "The backend is built in Python. It uses Server-Sent Events to stream the JSON audit report to the frontend in real time. Since AI generation takes a few seconds, streaming the data directly to the UI keeps the user engaged instead of staring at a loading screen. For the AI models, I route requests through OpenRouter as the main provider and use Groq as a fast fallback to make sure the app never hangs.\n\nThe hardest part of the build was definitely the Foundry exploit generator. LLMs struggle to write working Solidity tests. They often make up fake cheatcodes or get confused by storage layouts during complex exploits. To solve this, I heavily engineered the prompts to act as strict constraints. For example, I forced the AI to declare an interface for the target contract instead of printing out the entire source code again. This one trick saved thousands of output tokens and stopped the API from cutting off the response halfway through. I also added strict rules to prevent the AI from using test cheatcodes in the wrong places.\n\nAs a final safety net for the live pitch, I built a solid fallback mechanism into the error handling. If OpenRouter gets rate limited or throws a 429 error, the backend instantly catches it and reroutes the request to Groq. This ensures the frontend still gets its streaming data, the exploit generator keeps working.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/loupe-11xn7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

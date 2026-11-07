@@ -1,0 +1,34 @@
+{
+  "id": "kz4d5",
+  "slug": "realm",
+  "title": "Realm",
+  "tagline": "E2E Social Messaging App for Humans and Discoverable AI on the blockchain",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kz4d5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1nN6JdKQ7CHN900Lk3KtcWl00S7trLFg02KWXt36YxE00wo/high.mp4",
+  "demo_url": "https://drive.google.com/file/d/1R-cfDq5XjuY_EHJMEhzfqQhfLFG3SZyS/view?usp=sharing",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "The project research started more than 4 weeks ago. The goal was to have a messaging app that allows native integration of any AI into a conversation, compared to how whatsapp does it, where Only Meta is available. Also to have an Privacy and E2E messaging, compared to WeChat, Telegram, or even whatsapp (message contents are hidden but social network is revealed). And allow any EVM blockchain to natively have a seamless integration solution into a messaging App, because only TON network is available on telegram.",
+  "how_its_made": "Realm is an encrypted messenger where AI agents are ENS names. Starting from a hard constraint: Signal-grade privacy normally leans on Intel SGX a hardware TEE for its two metadata-sensitive services (private contact discovery and PIN-protected backup recovery). We didn't want our privacy guarantees bound to a specific CPU, so research was done and verified before the hackathon to pick a hardware-agnostic alternative, Phalanx, and pair it with libsignal for the message layer.\n\nEncryption (libsignal): X3DH/PQXDH key agreement (post-quantum hybrid), the Double Ratchet for forward secrecy, and sealed sender so the server never learns who's talking to whom. Same protocol as Signal — the server only ever stores ciphertext. \n\nPrivacy without SGX (Phalanx): DH-OPRF PSI over Ristretto255 for contact discovery (the server only ever sees blinded group elements — nothing to peek at, under DDH), and OPAQUE + 3-of-5 Shamir across independent replicas for backup recovery. Pure math, runs anywhere, no enclave, no attestation. \n\nIdentity, discovery & capabilities (ENS + ERC-8004 + MCP): every agent is an ENS name with an ERC-8004 on-chain registration on Base Sepolia and ENSIP-25/26 text records (agent-registration, agent-endpoint[mcp|x402]). MCP tool manifests make an agent's capabilities verifiable on-chain.\n\nHow it's pieced together: the clients are native — SwiftUI (iOS) and Jetpack Compose (Android) — speaking one shared .proto compiled three ways (protoc-gen-swift, Square Wire, ts-proto). A Rust/axum backend does all the on-chain work so the client does zero chain reads: the phone calls our API, the server resolves the name through the ENS UniversalResolver + ERC-3668 CCIP-read (Durin's L1Resolver bridging L1 Sepolia down to the L2 registry), checks ownerOf to bind the agent to its address, and returns a verified-agent badge. The phone trusts cryptography, not us.\n\nPartner tech, ENS is the entire backbone, not a bolt-on: identity (agents = names), discovery (resolve a name -> its MCP endpoint), and access control. The piece we're proudest of is subnames as access tokens — a gated agent is unlocked by minting a subname under its parent, and \"do you have access\" becomes a live on-chain ownerOf fact. The token label is derived byte-identically across TypeScript, Swift and Kotlin (shared test vectors), so the mint and the gate-check can never disagree.\n\nHacky but notable: the repo is a half-finished cryptchat -> realm rename, so the local Rust server doesn't even compile, we ran the whole demo against a live remote backend behind Cloudflare tunnels instead, and deliberately froze the cryptchat:// URI scheme, the cryptchat.v1 proto package and the io.cryptchat.app Android id as wire/identity contracts we refused to rename mid-flight. We sideloaded to real hardware with free personal-team signing (allowProvisioningUpdates) and had it running end-to-end on an iPhone 15 Pro, a Pixel 7 and a Pixel 9, type robot1.cryptchat.eth, resolve a real agent on-chain, mint a subname, watch the gate flip to unlocked.",
+  "auto_summary": "An encrypted messaging app combines native mobile clients, a Rust backend, and ENS-based agent identity and access control.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/realm-kz4d5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

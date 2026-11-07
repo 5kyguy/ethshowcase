@@ -1,0 +1,27 @@
+{
+  "id": "qu1js",
+  "slug": "elf",
+  "title": "Elf",
+  "tagline": "Cross-functional builder workspace where devs, writers, and managers ship together — fully on-chain.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qu1js/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sIZmuXqeXDefqZMgpqAIBaXX7802DVOV6ET8l00z98cGM/high.mp4",
+  "demo_url": "https://elf-it.vercel.app",
+  "source_url": "https://github.com/Sage-senpai/Elf",
+  "finalist": false,
+  "description": "Elf is a cross-functional builder workspace that sits on top of GitHub (and GitLab/Bitbucket), letting developers, content writers, and managers contribute to the same project in the language they actually speak. Mixed-team launches die from fragmentation... Devs live in GitHub, writers in Notion, managers in Slack. Elf collapses that into one workspace.\n\nEvery commit carries a type (feat, fix, audit, content…), a one-line summary, and a plain-English subcaption explaining the why. Writers see \"Yusuf added quiz scoring. Students now get instant results.\" — not a SHA, not a diff. Managers get per-project, per-member permissions, an activity feed, and a two-step approval flow on every fork request.\n\nUnderneath, the things that matter —> your audit log, contributor payments, private team conversations  don't depend on Elf staying online. Audit entries are content-addressed on 0G Storage Log. Contributor payments settle on-chain in USDC from project treasuries. Multi-party Cowork sessions route through an encrypted Gensyn AXL mesh. Every Shelf Agent run is anchored on 0G Galileo via the deployed ShelfAgentStateManager contract (0x220bfc37cf1ce6707b98a5e905375c1dbc4b0c2a), which also pays for its own compute via x402.",
+  "how_its_made": "The frontend is Next.js 14 (App Router) with strict TypeScript and Tailwind. All server routes funnel through a single Hono app mounted at app/api/[[...route]]/route.ts, with Drizzle ORM over Supabase Postgres (21 tables covering Better Auth, workspaces, commits, fork requests, treasuries, audit logs, and on-chain agent state). Auth is Better Auth with GitHub OAuth and Resend magic links.\n\nThe decentralized stack hides behind a strict provider interface layer (src/lib/providers/) — Storage, Execution, Messaging, Payment, Inference. Route handlers never touch @0glabs/*, @uniswap/*, x402-fetch, KeeperHub, or AXL bindings directly; the interfaces are stable, the implementations swap. 0G Storage Log (ZgFile + Indexer) anchors every audit entry. 0G Compute powers the autonomous Shelf Agent's inference, paid for via x402-fetch. Gensyn AXL carries multi-party Cowork sessions over an encrypted P2P mesh (Linux binary in prod, Windows mock for dev). KeeperHub runs fork-approval execution with retries. Uniswap Trading API + viem settle USDC contributor payments directly from project treasuries (server-side signing only, AES-256-GCM at rest).\n\nThe smart contract (ShelfAgentStateManager.sol, Solidity 0.8.24) records every autonomous agent run on 0G Galileo testnet (chain id 16602). Hacky but useful: instead of Foundry, pnpm deploy:contract compiles inline with solc, deploys via viem, and writes the address back to .env.local — zero toolchain install. Also: drizzle-kit push hangs against the Supabase pooler, so we ship a custom apply-migration.mjs script. Cowork is an Anthropic Claude streaming + tool-call loop today, with the Inference provider abstraction making the swap to 0G Compute a one-line config change.",
+  "auto_summary": "Elf is a Next.js workspace app that combines Git-based collaboration with on-chain payments, audit logging, and agent-related infrastructure.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/elf-qu1js",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

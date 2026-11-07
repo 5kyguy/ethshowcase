@@ -1,0 +1,26 @@
+{
+  "id": "pe7qe",
+  "slug": "driftfee",
+  "title": "DriftFee",
+  "tagline": "A Uniswap v4 hook that adjusts fees based on whether trades push prices further from equilibrium.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pe7qe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4fZfvysUi9K01xxXN7AHEctu02eiHaHuafVAyMhPIlZNY/high.mp4",
+  "source_url": "https://github.com/Agarwal-Ujjwal/DriftFee",
+  "finalist": false,
+  "description": "DriftFee is a Uniswap v4 dynamic fee hook designed to reduce adverse selection against liquidity providers. Traditional AMMs charge the same fee to every trade, even though some trades may push the pool price further away from its recent equilibrium and potentially represent more informed or toxic order flow.\n\nDriftFee tracks a time-weighted reference price using the pool’s tick. For each swap, it compares the current price direction with this reference. Trades that push the price further away from the recent equilibrium pay a higher LP fee, while mean-reverting trades can receive a lower fee within predefined safety bounds.\n\nThe goal is to make liquidity pricing more responsive to the direction and potential impact of order flow rather than relying only on static fees or symmetric volatility. All adjusted fees remain LP fees and flow directly to the pool’s liquidity providers through Uniswap v4’s native accounting.\n\nThe project also focuses on adversarial safety. DriftFee is designed with bounded fees and tests around round-trip trading to ensure that fee discounts cannot be exploited to create an artificial profitable cycle.",
+  "how_its_made": "Tech stack: Solidity 0.8.26 (EVM Cancun), Uniswap v4 hooks, Foundry, OpenZeppelin utilities, CREATE2 salt mining.\n\nArchitecture: The core challenge was pricing swaps by drift — how far they move the pool from equilibrium — without letting attackers manipulate the reference price via flash loans. The solution uses a time-decayed moving average of top-of-block ticks rather than spot price, sampled once per block.timestamp. The reference is folded forward with exponential decay, capped at 20% per update, so holding a manipulated price requires crossing many blocks against arbitrage.\n\nTwo-step fee charging: beforeSwap sets a floor fee (minFee) that flows through the pool's normal accounting to LPs. afterSwap then measures the actual drift path the swap traced — integrating an adjustment over that path rather than pricing endpoints — and donates the remainder as an immediate top-up to in-range LPs. This prevents the owner from extracting fees; they're always donated.\n\nPath integration fixed two earlier attacks: Previous designs priced swap endpoints, which let traders split a trade 40 ways to collapse drift as O(V/N), recovering 67 bps against the hook. Integration over the path makes splitting a no-op — the cap sits inside the integral so clamping cannot be gamed. Crossing equilibrium isn't discounted (no net drift earned), killing the pre-move arbitrage.\n\nTesting: Adversarial review found and broke two earlier versions. The production design is covered by unit + fuzz tests, handler-driven invariants, and fork tests against the real deployed PoolManager on mainnet USDC/WETH (6/18 decimals, realistic prices). Deployment uses CREATE2 salt mining to hit the required permission bits.",
+  "auto_summary": "A Solidity project implementing a Uniswap v4 hook that adjusts LP fees based on directional price drift during swaps.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/driftfee-pe7qe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

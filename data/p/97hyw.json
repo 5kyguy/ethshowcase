@@ -1,0 +1,22 @@
+{
+  "id": "97hyw",
+  "slug": "x4-pay",
+  "title": "x4 Pay",
+  "tagline": "ESP32 SDK + iOS/Android/Web3 app for tap-to-pay on Microcontrollers via BLE — one-time or auto-pay.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/97hyw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02veQCngoKmH02WqfmArQ01IHID8TTot8GMLsBjxXHeJqA/high.mp4",
+  "demo_url": "https://x4pay.org/",
+  "source_url": "https://github.com/AbhinavBuilds/x4-pay-core",
+  "finalist": false,
+  "description": "x4Pay lets physical devices (ESP32 microcontrollers with ~520KB RAM) accept on-chain payments over Bluetooth Low Energy (BLE) with tap-to-pay. No WiFi or server infra is required after setup — a phone connects over BLE, the device advertises available options (“Switch 1”, “Switch 2”, “Latte”, “Bike unlock”), returns a dynamic price, and the user signs/pays from x4Pay (mobile or web with WalletConnect/MetaMask).\n\nOn success, the signed transaction is chunked over BLE (200–500 byte MTU), reassembled on the ESP32, verified, and settled using our x402 protocol implementation. The device then triggers real-world actions (turn on motors, unlock relays, power a bike) via callbacks.\n\nCore pieces:\n\nX402Arduino C++ lib: build/verify/settle x402 payment requirements.\n\nx4Pay-core C++ lib: Bluetooth x402 server with setDynamicPriceCallback, setOnPay, enableRecurring(frequencySec), enableOptions([...]), getStatusAndReset(), begin().\n\nx4Pay app (iOS/Android/Web): tap-to-pay over BLE, multi-account wallet, PIN-secured keys, anti-overcharge checks.\n\nTypical flows include vending machines, pay-per-minute bike rentals, and pay-as-you-go devices in Airbnb.",
+  "how_its_made": "The firmware runs on ESP32 and uses our X402Ble + X402Arduino libraries to expose a standard x402 Bluetooth service UUID. In setup(), the microcontroller:\n\nadvertises a device profile (name, logo, banner, description, payout address, network),\n\nregisters selectable options (enableOptions([\"Switch 1\", \"Switch 2\"])),\n\nenables recurring “pay-as-you-go” billing (enableRecuring(15) → request payment every 15s),\n\ninstalls callbacks:\n\nsetOnPay(...) so the device can generate a dynamic price per user selection (e.g. Switch 1 costs 20000 wei, Switch 2 costs 10000 wei),\n\nsetDynamicPriceCallback(...) so after payment settles we get the tx hash, payer address, and user context.\n\nIn the loop(), we call getStatusAndReset(). When a new payment is detected, we read:\n\ngetLastTransactionhash()\n\ngetLastPayer()\n\ngetUserSelectedOptions()\nand then physically actuate hardware. In our demo we drive servos on GPIO pins 12/13/14/27 to flip mechanical switches (turn_S1_ON(), turn_S2_ON(), etc.). If the user stops paying (recurring payment times out), we cut power by calling the OFF routines.\n\nOn the client side, the x4Pay mobile app (React Native) / web app (React + Web Bluetooth + WalletConnect) discovers the BLE peripheral, shows branding (logo/banner/description), shows the available items, requests a dynamic quote, signs the transaction from the user’s wallet, and streams the signature back to the ESP32 in chunks.\n\nThis creates a fully local, serverless payment loop: phone ↔ BLE ↔ ESP32 ↔ relays/servos. Perfect for vending, rentals, and offline IoT commerce.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/x4-pay-97hyw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

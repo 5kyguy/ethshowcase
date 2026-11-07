@@ -1,0 +1,27 @@
+{
+  "id": "0etg7",
+  "slug": "el-cajero",
+  "title": "El Cajero",
+  "tagline": "Slack bot that lets devs request test funds from a Safe. ENS names, multi-chain bridging via Slack.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0etg7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OUxPEyoOxanyueE3OE6twXUK9TKWjeGU7run7BsoZdo/high.mp4",
+  "demo_url": "https://github.com/BootNodeDev/cajero",
+  "source_url": "https://github.com/BootNodeDev/cajero",
+  "finalist": false,
+  "description": "El Cajero is a Slack bot that lets developers request test ETH and USDC from a shared Safe on Base without asking anyone for help.\n\nDevelopers constantly need test funds. They ask the QA person, wait for someone with Safe access, or try to use the Safe app themselves. It's slow and annoying.\n\nEl Cajero fixes that. One Slack command:\n\n/cajero request 0.01 ETH vitalik.eth testing bridge\n\nThe bot validates the request, resolves the ENS name (or takes a raw 0x address), and proposes + auto-executes the Safe transaction. No approval needed.\n\nThe Safe lives on Base, but developers can also request funds on Ethereum or Arbitrum. Cross-chain requests are bridged automatically using Across Protocol (the bridge behind Uniswap). Just add --network eth or --network arb. The bot handles the quote, the ERC-20 approval, and the SpokePool deposit in one batched Safe transaction.\n\nRequests can be tagged with a project name (--project bridge-v2). The /cajero expenses command shows how much each project has spent, broken down by token and network.\n\nBuilt with ENS for human-readable addresses, Safe Protocol Kit for multisig management, and Across Protocol for cross-chain bridging.",
+  "how_its_made": "  Built with TypeScript and the Slack Bolt SDK in Socket Mode, so no public URL is needed. Fund requests go through a validation pipeline: allowlist    \n  check, ENS resolution on Ethereum mainnet, amount caps, and a one-pending-request rate limit per user. Developers can specify recipients as ENS names \n  or raw addresses and the bot resolves them before doing anything.\n                                                                                                                                                        \n  The Safe integration uses @safe-global/protocol-kit and @safe-global/api-kit. The bot wallet is a Safe owner, so it can propose, sign, and            \n  auto-execute transactions in one shot when threshold is 1. No human needed.\n                                                                                                                                                        \n  For cross-chain requests to Ethereum mainnet or Arbitrum, the bot fetches a bridge quote from Uniswap and builds the calldata for the Safe to execute \n  on Base. ERC-20 approval and bridge deposit are batched into a single multisig transaction. Funds arrive on the target chain in seconds.\n                                                                                                                                                        \n  SQLite handles persistence. A background polling loop monitors proposed transactions and posts Slack confirmations when they land on-chain.",
+  "auto_summary": "A Slack bot lets approved users request ETH or USDC from a Safe, including ENS-based recipients and cross-chain transfers.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/el-cajero-0etg7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

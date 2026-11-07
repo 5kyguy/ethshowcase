@@ -1,0 +1,41 @@
+{
+  "id": "ovks1",
+  "slug": "turnstile",
+  "title": "Turnstile",
+  "tagline": "Pay-per-call onchain analysis for AI agents. Sell the answer, keep the method.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ovks1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CxfuZYAfuyklU1O7B4A3AYyzXGETAZwBn67D1PQxr6U/high.mp4",
+  "demo_url": "https://turnstile.moveseventyeight.com/",
+  "source_url": "https://github.com/IpastorSan/turnstile",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "AI & Agentic Payments on Hedera",
+      "title": "AI & Agentic Payments on Hedera"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "2nd place",
+      "title": "Best AI Tooling or AI Use Case with The Graph (From Scratch)"
+    }
+  ],
+  "finalist": true,
+  "description": "Turnstile is a marketplace where AI agents buy and sell onchain analysis one call at a time. \n\nA seller publishes an ENS name whose records are the offer: the price, the chains it accepts payment on, and the endpoint to call. \n\nA buyer's agent finds the seller, reads that price straight from the chain, calls the endpoint, gets an HTTP 402 back asking for payment, pays over x402 on Hedera or in USDC on Arc, and receives the answer. \n\nThe agent spends from a wallet with a limit it can't raise on its own, and the premium scorer is built to run inside a Chainlink CRE enclave, so selling the answer doesn't mean giving away how you got it. The first seller is a Uniswap liquidity analyst powered by The Graph.",
+  "how_its_made": "The Graph is the data layer, twice. The analyst reads a Messari-schema Uniswap v3 subgraph I deployed to Subgraph Studio, through Subgraph MCP. Adopting Messari's schema instead of inventing my own meant the scoring code talks to standard entities, so any conformant AMM subgraph works as a subject. The other half is a Substreams module in Rust that normalizes ERC-8004 agent registrations across four networks. That's what fills the market page with 197 real agents. Only one of them publishes a price you can actually read, which is kind of the whole point.\n\nPayments go through a small PaymentRail interface with four methods, and the seller never knows which chain paid. I enforced that with a test that fails the build if any file on the payment path so much as mentions a chain. Hedera settles over x402 through Blocky402, and every sale drops a receipt on an HCS topic anyone can read. Arc settles USDC through Circle Gateway nanopayments, which batch sub-cent calls into one transaction. \n\nThe agent wallet signs EIP-3009 authorizations offchain and has never sent a transaction, so its nonce is still 0 after eleven payments. Zero gas.\n\nThe offer lives in an ENSv2 subname on Sepolia, minted by a registry and registrar I deployed. Price, rails and endpoint are text records, read fresh on every request. The hot key is scoped to exactly two of those records, so when it tries to change the payout address, the chain reverts it. A Forge fork test proves that against live Sepolia, not a mock.\n\nOn the buyer side, the agent spends from a Privy wallet governed by two key quorums: one signature can't raise the spend cap, two can. The premium scorer runs in a Chainlink CRE enclave (simulated, because deploy access is gated). World Selfie Check caps each human at three listings.",
+  "auto_summary": "An onchain AI-agent marketplace where ENS records advertise paid analysis endpoints and buyers settle requests through multiple payment rails.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/turnstile-ovks1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

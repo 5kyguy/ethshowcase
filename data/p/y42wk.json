@@ -1,0 +1,27 @@
+{
+  "id": "y42wk",
+  "slug": "enstrology",
+  "title": "ENStrology",
+  "tagline": "AI horoscopes from your ENS name's onchain birthday the agent writes, but can't rewrite   you.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y42wk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9x2sfMsEGjPLobLEcRaos23clOZd02KARj3Pzxj01ivxI/high.mp4",
+  "demo_url": "https://enstrology.laitanop.dev/",
+  "source_url": "https://github.com/laitanop/enstrology",
+  "finalist": false,
+  "description": "Every ENS name has an onchain birthday. ENStrology turns that real, verifiable date into a\nplayful AI horoscope and uses it to demonstrate a serious problem: how do you let an AI\n agent create onchain content for someone without handing it control of their identity?\n A user signs in with Privy, links the wallet that controls their ENS name, and ENStrology verifies both the name's control and its real registration date. After paying 0.01 demo USDC on Sepolia, the ENStrology Oracle generates a horoscope and stores it in real, expiring ENSv2 subnames.\n  The permission model is the point. Verified facts  source name, creation date, owner,  payment proof  live on a name the Oracle has no rights to at all. The horoscope lives on a sibling name where the Oracle holds a single scoped role. It can write the reading. It  cannot rewrite the facts, the owner, the resolver, or the expiry, and the user can revoke  its access at any time. All three cases are demonstrated as real Sepolia transactions,  including the one that reverts.\n Readings can stay private or be published to the Cosmic Feed, a discovery page built entirely from contract events and ENS records — no database. Every result clearly separates verified onchain facts from AI-generated entertainment. This is entertainment, not prediction or financial advice.",
+  "how_its_made": "ENStrology is a Next.js, React, TypeScript and Tailwind CSS app. Privy provides email and\n  social sign-in, embedded wallets, and external-wallet linking, so a user with a mainnet ENS\n  name can prove control of it from any linked wallet. viem handles all chain access: ENS\n  ownership and registration data are read from mainnet via The Graph's ENS subgraph with an\n  RPC fallback to registrar events, while every write happens on Ethereum Sepolia — the app\n  never sends a mainnet transaction.\n\n  A Solidity payment contract, built and tested with Foundry, accepts 0.01 demo USDC, prevents\n  replay, and emits purchase and visibility events. The Cosmic Feed is built from those\n  events plus ENS resolution, so the contract — not a database — is the source of truth for\n  what is public.\n\n  ENSv2 does the security work. Each reading is created as an expiring, non-transferable\n  subname in the Oracle's own namespace using the Permissioned Registry, with records stored\n  on a Permissioned Resolver. Because Enhanced Access Control scopes roles per name rather\n  than per record key, verified facts and AI content are deliberately split across two sibling\n  names: the Oracle is granted the Set Text role, as Manager only, on the horoscope name\n  alone. It holds no role on the facts name and no Admin rights anywhere, so it cannot grant\n  itself more. Attempting to write outside its scope reverts onchain, and the owner can revoke\n  the role at any time. The Oracle publishes its own purpose and endpoint as agent-context\n  and agent-endpoint records on its ENS name, following the ENS agent-record convention.\n  Horoscope text is generated with the Vercel AI SDK from verified structured facts only — the\n  model never chooses the name, the date, the payment, or the owner.",
+  "auto_summary": "A Next.js app verifies ENS ownership, takes Sepolia demo-token payments, generates AI horoscopes, and stores related data in ENS-linked records.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/enstrology-y42wk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

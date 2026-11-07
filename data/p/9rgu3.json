@@ -1,0 +1,21 @@
+{
+  "id": "9rgu3",
+  "slug": "impact-fund",
+  "title": "Impact fund",
+  "tagline": "Crowdfunding system for social cases(earthquakes..) with implementing Dao anonymous voting mechanism",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9rgu3/banner/default.jpg",
+  "demo_url": "https://eth-global2023-istanbul.vercel.app/",
+  "source_url": "https://github.com/senyoudev/EthGlobal2023Istanbul",
+  "finalist": false,
+  "description": "The project is composed of basically 2 components : the dapp and the smart contract.\nOur system is a crowdfunding platform that aims to help people affected by natural disasters , but the most trivial problem is that anyone could submit a fake proposal , collect funds and go away. To solve this issue, the platform will be managed by a Dao , the Dao member role is to validate the proposals and make sure they aren't fake ones.\nEven though implementing a Dao is a good idea, but we can see other obvious problems, for example what will make people motivated to do an effort to verify proposals .Moreover, how could we make sure they aren't a part of the submitter plan. we addressed this by implementing a scoring system , so let me explain the process of joining the Dao and managing this system in details. To join the Dao , you need to deposit an amount and you will get points back , these points are your way to vote on proposals .if your vote for a specific proposal aligns with the final decision of the Dao you will get points and you will be able to withdraw your money based on your score . otherwise, if you misalign the majority decision , you will get punished by removing some points from you which means you are losing money so no one will want to lose money of course.\nAt this point , maybe we could think oh yes finally we solved the issue but unfortunately we didn't solve it yet, anyone could wait for the majority to vote and see their decision and vote on the last moments before closing the vote and of course he will get rewarded which is normal . To solve this issue , we need to hide the vote for a period and after the voting period we need to reveal the vote result so people can make sure there is no fraud in this action and to do this we implemented zk proof.",
+  "how_its_made": "This project uses solidity for smart contracts and nextjs for the dapp, so concerning the functionnality of the smart contract , we have 3 smart contracts : 2 of them written using solidity and the other one is generated from circom which was written to implement the circuit .\nLet's start by the ones with solidity : the first one is proposal handler where we have the following functionnalities : creating proposals,  donating and voting but voting is the most tricky feature here let's talk about it at the end \nthe other contract is daoContract which is obviously used for joining the dao , deposit money to get the right of voting ,withdrawing ... and this contract is respecting our scoring system which was explained in the description part\nnow the verifier is just a circum circuit to verify the proof of the vote \n\nlet's talk about how we implemented this in details :\nso the user choose either if the proposal is valid or no, the user commits to a vote , he generate a zk-proof for it that demonstrates he voted for an option , we store in the contract a mapping of proposalId to another mapping composed  of  addressId to the proofs (we tried to store them in an encrypted way) , and when the time of revealing comes , we have a keeper (the one who has the decryption key) which means the ability to decrypt the votes and reveal the results , we know that we have a single point of failure here which is the keeper but this is due to time constraints : we thought of several solutions to solve this : basically we was thinking of three solutions , either the user submits his vote when the time of voting is done\nor running a consensys layer to have multiple actor instead of one and the third one is threshold encryption",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/impact-fund-9rgu3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,26 @@
+{
+  "id": "7ejsc",
+  "slug": "bursar",
+  "title": "Bursar",
+  "tagline": "Manage AI agents like employees: roles, budgets, and hard spending limits enforced on-chain.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7ejsc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OWGlv3kXnC900bX01Bag2J224pMfKhqxZ88ACfI01yHgqo/high.mp4",
+  "source_url": "https://github.com/aiagentdev-1990/bursar",
+  "finalist": false,
+  "description": "Bursar is where you manage a team of AI agents and the money they spend.\n\nAI agents increasingly pay their own way in stablecoins — search queries, model calls, data pulls, even hiring a person for a one-off job. Around 160 million payments have settled over the x402 payment protocol so far, now running at roughly 16 million a month, and nearly all of it is USDC. \n\nOne agent is easy to keep an eye on. A team of them isn't — once you're running five, there is no single answer to what the team is allowed to spend, what it has already spent, or how to stop one agent without disturbing the rest. Each agent is a separate wallet you keep funded by hand, their spending is spread across wallets and vendor invoices, and the limits you set live in a dashboard that can't actually stop a payment. So you either approve every payment yourself, which defeats the point of hiring them, or you find out what happened when the bill arrives.\n\nBursar puts the whole team on one shared balance and gives each agent two limits: how much it can spend on a single purchase, and how much it can spend in a month. Inside those limits it just pays — no approval, no interruption, and you never handle a wallet or a key. Go over either limit and the payment doesn't go through; it waits on your screen until you approve or reject it. And you can cut off any one agent instantly, while the rest carry on working.\n\nWhat makes it hold is where the limits live. They aren't settings in our app — they're in the smart contract that holds the money, so they're checked at the moment a payment is made rather than reported after it.",
+  "how_its_made": "At the centre is the Roster contract — one per team, deployed from a RosterFactory. It is the team's account and its rulebook in one: it holds the team's USDC and, for each agent, two limits (per purchase and per month), what that agent has spent this period, and whether it is still employed. Every payment goes through it, and nothing else checks a limit — an agent can always talk to the chain directly, so the only check worth having is the one between the money and the door.\n\nHiring is a name, a role and two limits in the UI. Bursar provisions a Claude managed agent carrying a version-pinned skill for paying through the Roster; on startup that agent generates its own keypair inside its own sandbox and reports back nothing but an address, which Bursar registers with those limits. We never see the agent's key, and the owner never sees an address.\n\nFrom then on it spends on its own. It calls a paid service, gets a 402, and signs an intent — it holds no gas, because gas on Arc is USDC and a float would be spendable outside its limits — which a relayer submits and pays for. The Roster contract verifies the signature, rolls the monthly counter if the period has turned, and checks both limits. Inside them it releases the USDC to the agent's wallet and the agent pays the service; the owner is never asked. The contract never pays the service itself, so the payee on a request is the agent's stated intent rather than a guarantee.\n\nEvery payment lands as an event on the Roster, so the dashboard reads live limits and month-to-date spend from the contract and history from the chain's explorer API. There is no indexer.\n\nOver either limit, nothing moves: the payment is held for the owner, who approves or rejects it. Approving overrides the per-purchase limit but still counts against the month, and firing an agent beats a request already waiting. Firing writes one field on one agent's record, in a function with no loop over agents, so one agent can be cut off mid-loop while the others keep spending in the same block.",
+  "auto_summary": "Bursar manages AI agent spending through an Arc-based USDC treasury contract with per-agent limits, relayed payments, and owner approvals for over-limit requests.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bursar-7ejsc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

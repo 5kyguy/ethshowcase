@@ -1,0 +1,30 @@
+{
+  "id": "gdvfw",
+  "slug": "wisk",
+  "title": "Wisk",
+  "tagline": "Trustless background verification with DigiLocker + SNARK proofs  secure, private & employer-ready",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gdvfw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9SWrftPqaSlM1jKTXwI7Jow01ByseeEdnj1kGc1sv7CU/high.mp4",
+  "demo_url": "https://wisk.mani.works/",
+  "source_url": "https://github.com/YadlaMani/wisk",
+  "prizes": [
+    {
+      "sponsor": "Ethereum Foundation",
+      "sponsor_id": "362vt",
+      "placement": "2nd place",
+      "title": "Best Applications on General Privacy"
+    }
+  ],
+  "finalist": true,
+  "description": "Background verification has always felt outdated. An employer asks for your documents, a third-party agency collects them, and suddenly your most personal information your identity, your certificates, your government IDs is sitting in someone else’s database. It’s inefficient, it’s risky, and worst of all, it forces you to give up control of your own data.\n\nWe wanted to rethink this from the ground up. What if verification didn’t require handing over documents at all? What if you could prove the truth of your records without ever exposing them?\n\nThat’s exactly what we built.\n\nHere’s how it works: when an employer wants to verify a candidate, they don’t call a middleman. Instead, they send a simple request by email. The candidate receives that request and uploads their Digilocker-issued certificate  a government-signed PDF. Everything happens locally, right in the browser. The raw document never leaves the user’s device.\n\nOur system uses WebAssembly with zk-pdf to parse the actual PDF bytes. It checks whether the requested details like a name or PAN number  are present inside the document. At the same time, it validates the government’s digital signature embedded in the PDF, making sure the document hasn’t been edited or forged. If even a single byte is tampered with, the signature breaks and the verification fails.\n\nOnce everything checks out, we generate a zero-knowledge SNARK proof. This proof says, “Yes, this document is real. Yes, it’s signed by the Government of India. Yes, it contains the requested details.” And it does all of this without revealing the entire document. Only the facts the employer asked for are disclosed  nothing more.\n\nThe proof is then emailed back to the employer. They can verify it instantly, with mathematical certainty. No agencies, no central databases, no trust required  just pure cryptography. And since the proofs are standard SNARKs, anyone in the network can independently verify them too.\n\nWhat makes this powerful is simplicity. For the employee, it’s just clicking a link in their inbox. For the employer, it’s receiving an email with a verified result. Underneath, though, it’s state-of-the-art cryptography ensuring privacy, authenticity, and tamper-proof verification.\n\nNo private data is stored anywhere. The entire codebase is open source, so anyone can audit how it works. And because it’s tied to Digilocker, only official government-signed certificates are accepted. Fake or edited PDFs are instantly rejected.\n\nIn short: we turned background verification into a trustless, privacy-preserving experience. No middlemen. No leaks. Just cryptographic truth, delivered seamlessly through email.",
+  "how_its_made": "I built WISK on top of zk-pdf, a zero-knowledge proving framework purpose-built for PDFs. The goal was to keep sensitive documents fully private while still letting users prove individual fields (like Name, CGPA, or Institute) are authentic.\n\nOn the frontend, we used a Rust → WebAssembly module that runs entirely in the browser. This parses the raw PDF bytes, validates the /ByteRange signature, and extracts text  handling tricky ToUnicode maps and CID fonts that show up in Indian DigiLocker PDFs. Doing this in WASM means the file never leaves the user’s device and ensures we feed deterministic, pre-processed inputs to the prover.\n\nFor proof generation, instead of writing circuits from scratch, we leveraged zk-pdf’s built-in ZK engine. It takes the pre-processed PDF data, runs signature verification and substring checks inside zero-knowledge, and produces a succinct proof. Only minimal public values (like “Name = Alice Kumar was signed by XYZ Institute” and a page hash) are revealed — the rest of the document stays private.\n\nThe orchestration layer uses a Next.js frontend and a lightweight Rust Axum backend. The backend acts as a prover service: it accepts proof requests, calls zk-pdf to generate proofs, and returns them as JSON. The frontend bundles multiple field proofs in parallel (Name, Institute, CGPA) into a single verification package that can be shared with employers. For extra auditability, we also wired this to an on-chain verifier contract, so the same proofs can be validated on Ethereum.\n\nThe hackiest part was building our own deterministic PDF parser in Rust. Off-the-shelf libraries weren’t zk-friendly, so we wrote a custom PKCS#7 validator and text extractor, ensuring both the WASM module and zk-pdf use the same normalization rules. Another challenge was parallel proof generation: we fire multiple proof requests at once and then merge them seamlessly into a single JSON response.\n\nIn short: Rust + WASM keeps the PDFs private, zk-pdf powers the ZK proofs, and Next.js delivers a smooth verification flow.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wisk-gdvfw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

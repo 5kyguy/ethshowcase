@@ -1,0 +1,30 @@
+{
+  "id": "hbnh4",
+  "slug": "tip-flow",
+  "title": "Tip FLow",
+  "tagline": "Tip-Flow is a Dapp designed to enable frictionless, gasless micro-tipping for content creators.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hbnh4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01QnkgI87oF2syUwf8E8nwfCuzA00k00YamsWawTyl2smQ/high.mp4",
+  "demo_url": "https://tip-flow-nextjs.vercel.app",
+  "source_url": "https://github.com/Amirjaved-dev/Tip-Flow",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Tip-Flow is a decentralized application designed to revolutionize the way fans support content creators through frictionless, gasless micro-payments. Built for the modern Web3 ecosystem, it solves two of the biggest hurdles in micro-tipping: high gas fees and transaction fatigue.\n\nBy leveraging a session-based state channel architecture, Tip-Flow allows users to lock a tipping budget once on-chain and then send an unlimited number of instant, gas-free tips. This approach brings a \"Web2-feel\" (instant, single-click interaction) to Web3 without sacrificing the security of self-custody.",
+  "how_its_made": "Tip-Flow was built using a robust stack designed for high-performance Web3 UX, focusing on the intersection of State Channels, Account Abstraction, and Gasless transactions.\n\nThe Core Stack:\n\nSmart Contracts (Solidity & Hardhat): The heart of the project is TipFlowSession.sol\n\n. It’s a custom-built state channel contract that handles the \"locking\" of funds and the bulk \"settlement\" of tips. We used Hardhat for development and deployment.\n\nFrontend (Next.js & Scaffold-ETH 2): We leveraged the Scaffold-ETH 2 toolkit to bootstrap the dApp, which provided the perfect foundation with Viem, Wagmi, and RainbowKit.\n\nAccount Abstraction (Safe & Pimlico): We used permissionless.js to integrate Safe Smart Accounts. Pimlico provides the infrastructure for Bundlers and Paymasters to sponsor user operations.\n\nHow it Pieces Together:\n\nThe architecture follows a \"Deposit-Stream-Settle\" flow.\n\nThe Batching Magic: When a user creates a session, we use ERC-20 Permit to get a signature from their regular wallet (EOA). We then batch three operations into a single Sponsored UserOperation: pulling funds into their Smart Account, approving the session contract, and calling createSession. This turns a 3-step process into a single, gasless click for the user.\n\nThe Off-Chain Channel: Once the session is live, we track tips in a local tips record persisted via LocalStorage. This allows for sub-second UI updates without any blockchain latency.\n\nThe Settlement: To close the session, the user signs a final \"distribution state.\" The contract verifies this signature (supporting both EOAs and Smart Accounts via ERC-1271) and handles the bulk transfers in one go.\n\nPartner Technologies & Benefits:\n\nSafe & Pimlico: These were essential for the \"premium\" feel. By using Smart Accounts, we abstracted away the complexity of gas and multiple transaction approvals.\n\nYellow Network: The architectural design was heavily inspired by Yellow Network’s high-speed clearing patterns, specifically how they handle off-chain intent and aggregated settlement.\n\nWagmi/Viem: Used extensively for ENS resolution and handling the complex cryptographic hashing required for session verification.\n\nThe \"Nitty-Gritty\" & Notably Hacky Bits:\n\nSignature \"Magic\" (v+4 Adjustment): One of the most challenging parts was getting Safe's isValidSignature (ERC-1271) to work with standard eth_sign. We had to manually adjust the signature's v value by adding 4 (a known quirk of the Safe implementation) to ensure the contract's ecrecover logic aligned with the frontend's output.\n\nLocalStorage as a \"State Channel\": Since we didn't want to maintain a complex backend for an MVP, we treated a safe wrapper around Browser LocalStorage as our \"off-chain ledger.\" We built a synchronization hook that monitors the chain to detect if a session was closed or the chain was reset, ensuring the local UI never gets stuck in a \"desynced\" state.\n\nThe \"Sender-Driven\" Shortcut: While traditional state channels require both parties to sign every state change, we implemented a \"Sender-Driven\" model. Since the sender is the one whose funds are at risk, the contract accepts their signature as the ultimate source of truth for distribution, significantly simplifying the UX for creators who don't have to be \"online\" to receive tips.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tip-flow-hbnh4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

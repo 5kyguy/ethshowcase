@@ -1,0 +1,30 @@
+{
+  "id": "hrkoh",
+  "slug": "evor-app",
+  "title": "evor.app",
+  "tagline": "Evor-porate your approvals on any chain safely in a single click",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hrkoh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/45LlMYnDEdCetolJheI00lve5kSU01vThaRsKIzz5AmJM/high.mp4",
+  "demo_url": "https://evor.app",
+  "source_url": "https://github.com/guy-do-or-die/evor.app",
+  "prizes": [
+    {
+      "sponsor": "Envio",
+      "sponsor_id": "ypbun",
+      "placement": "Best Use of HyperSync",
+      "title": "Best Use of HyperSync"
+    }
+  ],
+  "finalist": false,
+  "description": "evor.app is the EIP-7702 application for batch token approval revocation.\n\nThe Problem: Users grant unlimited token approvals to DeFi protocols, stacks them over time and never revoke, because it takes time and gas. When protocols get hacked, these approvals drain wallets. $2B+ lost in 2023 alone. There are existing solutions for batching like revoke.cash or rabby's revoke utility, first one is overwhlemed with details and user still has to sign each one despite they even charge a fee for this, second doesn't allow to do anything else, user has to keep the extension active, and it still takes much time\n\nThe Solution:\nScan all approvals across 12 chains in 3 seconds using Envio HyperSync (100x faster than RPC)\nRevoke up to 250 approvals in ONE transaction using EIP-7702 via a custom lightweight, stateless and renounced contract. Supports ERC20, ERC721, ERC1155, and dangerous Permit2 approvals\n\nHow it works:\nUser connects wallet, selects chain\nHyperSync scans entire blockchain history for approval events\nOptionally excludes some of the approvals from the revoking\nOne-click to sign EIP-7702 authorization\nDelegate contract revokes all approvals in single transaction\nOptional: Clear delegation to restore original EOA state",
+  "how_its_made": "Stack: React + TypeScript + Viem + Wagmi + TailwindCSS, deployed on Vercel\n\nEnvio HyperSync: Core scanning engine. Queries Approval and ApprovalForAll events across 12 chains. Custom query builder with token metadata caching. Reduced 30+ second scans to 2-5 seconds.\n\nHardhat 3.0: Smart contract development with Viem toolbox. EvorDelegate is a stateless contract (no storage) designed for EIP-7702 temporary delegation. Supports batch revocations with ReentrancyGuard protection.\n\nEIP-7702 Implementation:\nManual EIP-712 authorization signature for delegation\nTransaction calls user's own address with authorizationList\nWallet compatibility: Added 500ms delay between signatures to prevent Rabby popup stacking\n\nKey Challenges:\nGrasp EIP-7702 and understand how to use it despite poor infrustructure support by now, especially for external delegators\nToken type detection: ERC721 vs ERC1155 both emit same event → try supportsInterface()\nHyperSync Proxy Routing: Had to build serverless API proxy to handle CORS and routing to different HyperSync endpoints per chain\nDelegation persistence: Compare getCode(userAddress) vs getCode(delegate) to skip redundant authorizations\nTo make onchain events show historical approvals, had to query current on-chain allowances to filter out revoked ones. Implemented fetchCurrentAllowances() with multicall batching\nMulti-chain RPC rate limits, had to accustom Ankr API\nGas optimization: Multicall batching (50 per batch), metadata caching, efficient deduplication\nDesigning frontend :)\n\nPartner Tech:\nEnvio: HyperSync made multi-chain real-time scanning possible\nHardhat 3.0: Viem integration for modern contract development",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/evor-app-hrkoh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

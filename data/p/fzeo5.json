@@ -1,0 +1,22 @@
+{
+  "id": "fzeo5",
+  "slug": "clearintent",
+  "title": "ClearIntent",
+  "tagline": "Human-in-the-loop authority layer for onchain agents. Bounded auditable intents & wallet abstraction",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fzeo5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qhYQaeqtDfF00Gl2jvj9Gapw9bzcgkcbjEHrKx02B1fI4/high.mp4",
+  "demo_url": "https://www.clearintent.xyz/",
+  "source_url": "https://github.com/Vel-Labs/ClearIntent",
+  "finalist": false,
+  "description": "ClearIntent is an authority layer for autonomous AI agents that act onchain. Agents reason and propose actions; ClearIntent enforces bounded, signable execution.\n\nYou set the rules once — spend limits, allowed destinations, time windows, escalation triggers. The agent constructs each action as a bounded typed intent (EIP-712, 15 fields). Identity resolves via ENS. Policy and audit memory live on 0G. Approved intents execute through KeeperHub. Out-of-bounds intents trigger explicit human review with a readable signing payload — no opaque hex.\n\nClearIntent ships as a TypeScript framework (six packages, MIT) plus a Next.js authority dashboard with a 7-step setup wizard. The wizard provisions parent-owned agent smart accounts via Alchemy Account Kit (ERC-4337, Sepolia), binds an ENS subname (<username>.agent.clearintent.eth), publishes the agent policy to 0G, and registers the KeeperHub execution gate — all in one flow.\n\nLive integrations on Sepolia: ens-live-bound (guardian.agent.clearintent.eth), 0g-write-read-verified, keeperhub-live-submitted. Vendor-neutral: ENS, 0G, KeeperHub, and major wallet adapters are integrations, not product identity. ",
+  "how_its_made": "ClearIntent is built as a contract-first TypeScript monorepo. The central authority kernel in packages/core enforces a 9-state intent lifecycle: proposed -> policy_checked -> reviewed -> human_approved -> signed -> verified -> submitted -> executed -> audited. Contracts are defined with JSON Schema, lifecycle transitions are fail-closed, and canonical intent payloads are shaped into EIP-712 typed data with ERC-7730-style metadata for human-readable review.\n\nThe hosted Next.js dashboard at clearintent.xyz gives operators a guided setup flow: connect a parent wallet, create a parent-owned agent smart account, publish policy artifacts, bind ENS records, and prepare the agent-facing runtime context. The wizard path has been validated against vel2.agent.clearintent.eth, including agent smart account custody mapping, 0G policy references, ENS binding, and KeeperHub workflow evidence.\n\n0G is the policy and audit memory backbone. Agent policy artifacts are published to 0G Storage with deterministic hashing, while ENS records carry policy.uri and policy.hash so verifiers can independently fetch and check what the agent is bound by. We used the official 0G TypeScript SDK against testnet Turbo endpoints and recorded live write/read proof, including root hash 0x8ee47b16e0... and tx 0x024cc777....\n\nENS gives agents a discoverable identity layer instead of a centralized registry. ClearIntent binds agent names such as guardian.agent.clearintent.eth and vel2.agent.clearintent.eth to policy, audit, and agent-card records.\n\nKeeperHub is used as the execution gate after ClearIntent verification. The workflow checks the ClearIntent evidence path before accepting submission, and current proof covers live workflow submission/monitoring rather than overstating transaction-backed settlement.\n\nThe hacky-but-important part is the claim discipline: ClearIntent tracks what is locally fixture-proven, live-provider-proven, wallet-tested, or still degraded, so the system never claims stronger authority evidence than it actually has.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/clearintent-fzeo5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

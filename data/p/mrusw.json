@@ -1,0 +1,21 @@
+{
+  "id": "mrusw",
+  "slug": "chainmate",
+  "title": "Chainmate",
+  "tagline": "Trustless token swap bridge using HTLCs between Sepolia and Stellar via custom relayer.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mrusw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/q8tpqSR01jgurX247KOpIkTz1HQzaEqaTA7nQ5w01FblE/high.mp4",
+  "source_url": "https://github.com/lyledavids/chainmate",
+  "finalist": false,
+  "description": "This project implements a trustless cross-chain token bridge between Ethereum Sepolia and Stellar (Soroban) using Hashed Timelock Contracts (HTLCs). The goal is to offer users a simple onramp/offramp between chains without requiring centralized bridges, custodians, or governance.\n\nUsers initiate a swap by locking tokens in a smart contract on Sepolia or Stellar. A custom relayer monitors the blockchain events and ensures the matching escrow is created on the other chain. Once both escrows are verified, the relayer reveals the preimage secret to trigger the withdrawal on both sides.\n\nThe protocol ensures:\n\nNo middleman custody\n\nTimeout refund logic\n\nReplay and griefing protection\n\nMinimal trust assumptions\n\nThis submission focuses on one clear swap direction: Sepolia → Stellar. The design is modular, enabling bi-directional flow or extension to more chains later.",
+  "how_its_made": "EVM Side (Sepolia): A Solidity-based HTLC contract handles deposits, secret-based withdrawals, and time-based refunds. Test ERC-20 tokens simulate asset swaps.\n\nStellar Side (Soroban): A WASM smart contract written in Rust using the Soroban SDK mimics HTLC logic: locking tokens, validating the hash preimage, and enabling secure refund after timeout.\n\nRelayer (Node.js): A custom script monitors events on both chains and reveals the shared secret once both escrows are funded. The relayer ensures the hashlock is respected and timelocks are enforced across chains with mismatched finality assumptions.\n\nTooling:\n\nSolidity + Hardhat for Sepolia\n\nSoroban CLI for deployment/testing on Stellar Futurenet\n\nethers.js and soroban-sdk for smart contract interaction\n\nWe used preimage-based hashlocks (sha256(secret)) and enforced timelocks using on-chain timestamps. While no Dutch auction or price discovery is implemented, the core atomicity and relayer-driven coordination mirror the 1inch Fusion+ principles. This simplified version satisfies the HTLC mechanics as required.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/chainmate-mrusw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "77f7b",
+  "slug": "predict",
+  "title": "Predict",
+  "tagline": "Prediction market, stores information on ENS and resolves the market via Uniswap.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/77f7b/banner/default.jpg",
+  "video_url": "https://stream.mux.com/51Lt2NicayKCJvWj2bms4lAu1Hq4lQvh302SKn01ypms8/high.mp4",
+  "demo_url": "https://ens-prediction-market-frontend.vercel.app/",
+  "source_url": "https://github.com/fritzschoff/ens-prediction-market",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "A decentralized prediction market platform on Uniswap v4 and ENS integration. Users create and trade on binary outcome markets (YES/NO) with human-readable ENS names like btc-100k.predict.eth. The platform addresses MEV and information asymmetry in prediction markets through cryptographic commitments and batch settlement, while using ENS for discoverability and trust.",
+  "how_its_made": "Hooks use Uniswap v4's permission system to intercept pool operations. They implement beforeSwap, beforeAddLiquidity, and beforeInitialize to enforce market rules (expiry checks, resolution status). Each market is a Uniswap v4 pool with YES/NO outcome tokens as the trading pair, using the hook address in the PoolKey to route operations.\nENS Integration:\nMarket metadata is stored in ENS text records under predict.eth subdomains. The @hack-money/ens package uses viem's namehash and direct resolver calls to read/write records. Market discovery works by resolving ENS names to text records containing pool addresses, oracles, and expiry timestamps. The SubdomainRegistrar contract enables one-click subdomain claiming for market creators.\nUniswap: The platform uses Uniswap v4's hooks architecture to make each prediction market a native AMM pool. Each market is a Uniswap v4 pool where YES and NO outcome tokens form the trading pair. The PoolKey includes the hook address, routing all pool operations (swaps, liquidity provision) through our PredictionMarketHook. Markets inherit Uniswap's liquidity mechanics—users can swap between YES/NO tokens at market-driven prices, and liquidity providers can earn fees. The hook intercepts operations via beforeSwap, beforeAddLiquidity, and beforeInitialize to enforce market rules: blocking trades after expiry, preventing operations on resolved markets, and ensuring proper initialization. Native ETH is used as collateral throughout, with the hook's betOnOutcome accepting msg.value directly and minting outcome tokens 1:1 with ETH deposited. The hook's permission flags are encoded in its deployment address's least significant bits, enabling Uniswap v4 to determine which hook functions to call. We use Uniswap v4's singleton PoolManager for all markets, so each market shares the same liquidity infrastructure but maintains isolated state via PoolId hashing, keeping gas costs low.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/predict-77f7b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

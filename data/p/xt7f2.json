@@ -1,0 +1,27 @@
+{
+  "id": "xt7f2",
+  "slug": "agora",
+  "title": "Agora",
+  "tagline": "A shared vault whose members are public but not who acts. ENS seats, self-expiring mandates.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xt7f2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QGLr49WmlXOyYS2aQvzEQyrWewy2mnUY5fCHLcJKiEM/high.mp4",
+  "demo_url": "https://agora-lac-two.vercel.app/",
+  "source_url": "https://github.com/julyyero/agora",
+  "finalist": false,
+  "description": "Every multisig publishes its signer list. That is a target list: to rob a treasury you don't attack the cryptography, you look up the humans and go after the weakest one.\n\nAgora splits the two things multisigs confuse. WHO WAS GIVEN POWER is public, named and accountable, written in an ENS namespace. WHICH ADDRESS EXERCISES IT is mathematically unattributable — not just to outsiders, but to the other signers too. An observer sees that three of five seats approved a payment. Nobody can tell which three, or who sits on them. It is the secret ballot, applied to treasuries: the electoral roll is public, the vote is not.\n\nTwo properties multisigs don't have come for free:\n\nA mandate EXPIRES BY ITSELF. A seat is a dated ENS subname; when it lapses the signature is refused, with nobody revoking anything. In a normal Safe, removing a signer takes an action everyone forgets — which is how former employees keep signing rights for years. Here, forgetting someone revokes them.\n\nThe address ROTATES WITHOUT BREAKING THE MANDATE. One transaction replaces the key under a seat; the holder notices nothing, and the old address stops being a signer at transaction speed.\n\nThe honest limit, stated up front: whoever appoints knows the mapping, because they choose the person and publish the address. With k appointers each knows n/k of it, and reconstructing the body requires their collusion. Removing that entirely would need a trusted relayer, which we refused.",
+  "how_its_made": "The vault holds NO signer list. To decide who may sign, it reads ENS live, on-chain, in the same transaction: NameWrapper.ownerOf(parentNode) is the right to appoint, NameWrapper.getData(seatNode).expiry is the term of office, and the seat's addr record is the address currently exercising it. Remove ENS and you have to rebuild a hierarchical permission system with expiry inside the contract. That live, synchronous read is also why we could not use a CCIP-Read rotating resolver: an OffchainLookup cannot be resolved inside the view call that verifies signers.\n\nAppointment derives an ERC-5564-style stealth address in the browser from the signer's meta-address, published as a text record on their own ENS name. The ephemeral secret r never leaves the tab and is never written on chain. The holder receives nothing: they sign one fixed message, scan the SeatAssigned announcements, and compute their seat. Their key signs EIP-712 messages only — it never sends a transaction, so it never needs funding, and funding is exactly what deanonymizes a stealth address. Anyone can submit execute() and pay the gas.\n\nStack: Solidity 0.8.24 + Foundry, React/Vite/TypeScript/wagmi/viem, @noble/curves for the secp256k1 point arithmetic. No backend at all. 16 Foundry tests, 13 crypto tests, and a 7-step end-to-end run on a throwaway chain covering appoint, detect, threshold, execute, rotate and expire.\n\nThe hacky part worth telling: Sepolia's canonical ENS deployment no longer accepts registrations. Its NameWrapper is not a BaseRegistrar controller any more — controllers(nameWrapper) == false, verified with a raw eth_call — because the v2 migration closed that path, and Holesky is gone. Our register calls reverted with empty data for hours before we found it. So we deployed @ensdomains/ens-contracts 1.7.0 unchanged and ran the whole namespace on it. Real ENS code, real network. We also learned the hard way that ENS never lets you shorten an expiry (_normaliseExpiry: \"Expiry cannot be less than old expiry\"), which means seats must be created at appointment time, never pre-created — otherwise a short mandate becomes impossible forever.",
+  "auto_summary": "A vault contract uses ENS subnames, expiry, and resolver records as its onchain signer authorization system.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agora-xt7f2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

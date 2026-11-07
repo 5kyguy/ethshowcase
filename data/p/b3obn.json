@@ -1,0 +1,27 @@
+{
+  "id": "b3obn",
+  "slug": "unica",
+  "title": "UNICA",
+  "tagline": "Accept crypto, receive your asset. Uniswap converts, ENS names, The Graph indexes.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b3obn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dKUEWL5R01Ih9qIPhNiQh00nf6e0001bY2FnBEk024Q41vxc/high.mp4",
+  "demo_url": "https://unica.nfteria.click",
+  "source_url": "https://github.com/NFTeria/UNICA",
+  "finalist": false,
+  "description": "UNICA is a testnet payment platform for ordinary businesses, live at https://unica.nfteria.click on Ethereum Sepolia. A business signs in with its wallet, and UNICA derives its identity, registers, payout wallet, and profile from on-chain ENS records. It can list one-off, recurring, or permanent products in an on-chain catalogue and share each product through a public shop, payment link, or QR code.\n\nBefore signing, a customer sees exactly what they will pay and what the business is guaranteed to receive. Same-asset USDC purchases settle directly. Plain ETH can be wrapped to WETH when required, while supported cross-asset register orders can use the UNICA market on Uniswap v4. Two payments are demonstrated on Sepolia: a 2 USDC purchase that settled directly, and a register order paid in WETH that converted to USDC through the UNICA market on Uniswap v4, verified on-chain and indexed.\n\nA receipt says Paid only after UNICA's evidence rules verify the payment on-chain. Receipts identify the business and customer through forward-verified ENS names, include the transaction and explorer link, and report The Graph indexing only when the deployed subgraph returns that specific payment. Customers can view their purchases, while businesses can view payments and customers by verified ENS name.\n\nThe holder of unica.eth can set up a new business through the application. The app derives the required ENS record and lineage operations from current chain state and presents each transaction for separate wallet approval. The market infrastructure is deployed and source-verified across five test networks; the submitted identity, catalogue, shop, and demonstrated purchase run on Ethereum Sepolia. Testnet only, no real value, and unaudited.",
+  "how_its_made": "Solidity 0.8.30 with Foundry: a market registry and factory, the UnicaMarketHook on Uniswap v4 (executor-only admission, the exact customer and amounts, a price band, an open unexpired sale), an executor, DirectSettlement for same-asset sales, ProductCatalog (one-off, recurring and permanent products with paidThrough, priced in ERC-20 assets whose deployed contracts expose readable metadata), TerminalAdmission (registers as ENS subnames with their own keys, revocable), and an ENSv2 resolver authority adapter read against the real Sepolia permissioned resolver. Vyper for the identity badge. Deployed stage by stage from the owner's own keystore after fork rehearsals, recorded into manifests, source-verified on Etherscan and Sourcify. The web app is static HTML and plain ES modules with no framework: an EIP-6963 wallet layer (MetaMask, Coinbase Wallet), hand-written ABI encoding, the ENSv2 universal resolver for reverse lookups with a forward check before any name is shown, avatar text records per ENSIP-12, a name-derived gradient when a name has none. The join screen plans a new business as exact calldata (setAddr, setText, three registerLineage rows) from the chain's current state, skips rows that already stand, and asks the wallet to sign each in turn; the product form reads any ERC-20's symbol and decimals by address before it lists; when WETH is required, the checkout wraps ETH first, waits for confirmation, then performs any required approval before initiating the purchase. A small Node companion, also deployed as a Vercel function, keeps the node URL server-side behind a same-origin RPC pipe, reads logs through Etherscan V2 with Blockscout as the fallback, derives businesses from the authority's lineage and resolver records, and applies the evidence rules that decide Paid. A The Graph subgraph indexes the hook's receipts, direct settlements and catalogue sales; the receipt panel, the customer's purchases and the business's customers read it. 670 web test cases and 729 Foundry tests, plus guards for secrets and claims, run in CI on every push. Two details worth saying: the register reads the direct settler's own OrderCreated log back rather than trusting a return value, and the checkout explicitly serializes wrapping, approval, and purchase confirmation so a subsequent transaction cannot race an unmined prerequisite. A converted sale is priced by the register from the deployment's two Chainlink feeds, crossed in the app, and the sale line names each feed, its raw answer and its publish time.",
+  "auto_summary": "A testnet payments platform using ENS-based merchant identity, on-chain product listings, direct ERC-20 settlement, and optional Uniswap v4 conversion with indexed receipts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/unica-b3obn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

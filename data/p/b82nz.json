@@ -1,0 +1,27 @@
+{
+  "id": "b82nz",
+  "slug": "fractionpayy",
+  "title": "Fractionpayy",
+  "tagline": "Tap to pay with fractions of your tokenized real-world assets, settled in USDC .",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b82nz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Uvsi8ks3fJ4PBuKeak01qyCjygGFGMm02zaRmdAdETWSs/high.mp4",
+  "demo_url": "https://fractionpayy.vercel.app",
+  "source_url": "https://github.com/Hemanthsneu/fractionpayy",
+  "finalist": false,
+  "description": "FractionPay turns a yield-earning portfolio of tokenized real-world assets into a payment method. You own fractional shares of real estate, T-bills, gold, bonds and money-market funds assets that earn 4–7% but are normally impossible to spend without selling everything to a stablecoin in advance.\n\nFractionPay unlocks them. Tap an NFC card or scan a QR at a merchant whose entire identity is just an ENS name like coffeeshop.fractionpay.eth. FractionPay hires an autonomous optimizer agent from an open on-chain marketplace, ranked by ERC-8004 reputation we compute with Google BigQuery over Ethereum mainnet. The agent picks the least-disruptive slice to liquidate (your lowest-yield asset), and the payment settles in USDC on Arc while the rest of your portfolio keeps earning until the second you spend.\n\nThe full lifecycle is live: an issuer tokenizes a $10M property, rent is distributed to holders as USDC dividends pro-rata, and the same shares are spendable anywhere. Issue → earn → spend, entirely on programmable stablecoins.",
+  "how_its_made": "Contracts (Arc testnet, Solidity/Foundry): FractionPayVault is an ERC-4626 yield-bearing vault and payment engine it oracle-prices an RWA slice (Chainlink AggregatorV3), takes a protocol fee for LPs, and settles USDC/EURC to the merchant in one pay() call. RWAMarket mints fractional shares for USDC; PropertyToken distributes stablecoin dividends with audited cumulative-dividend accounting. Arc uses USDC as its native gas token, so we built a faucet that bootstraps any connected wallet with native gas + test USDC + a starter RWA basket — after which every action (invest, pay, claim, tokenize) is signed by the user's own wallet via wagmi/viem + Dynamic.\n\nAgent economy (Google Cloud + ERC-8004 + x402): the optimizer is an x402-paywalled HTTP service (/api/optimize) charging $0.001 USDC per decision on Base Sepolia/Eth Sepolia. We rank 34,000+ ERC-8004 agents with two live Google BigQuery jobs over bigquery-public-data.crypto_ethereum (a diversity-weighted reputation score + agent-economy growth). After each payment, on-chain giveFeedback posts to the Reputation Registry on Ethereum Sepolia, and the BigQuery leaderboard re-ranks live — rank → hire → pay → rate → re-rank, closed on-chain.\n\nENS: merchants and the agent are ENS names; the pay page resolves the address + settlement config from mainnet ENS text records.\n\nStack: Next.js 16 (App Router, serverless API routes on Vercel), viem/wagmi, framer-motion + a WebGL shader background. ",
+  "auto_summary": "A Next.js and Solidity project for spending tokenized RWA holdings through ENS-based merchant identities and an agent-ranked payment flow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/fractionpayy-b82nz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

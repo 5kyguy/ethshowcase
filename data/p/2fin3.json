@@ -1,0 +1,22 @@
+{
+  "id": "2fin3",
+  "slug": "erc4626-strategy",
+  "title": "ERC4626 Strategy",
+  "tagline": "ERC4626 Vault & Strategy that accepts WETH, mints iUSD on Ironclad (Mode network) and deposits into the Stability Pool",
+  "event": {
+    "slug": "superhack2024",
+    "name": "Superhack 2024",
+    "start_time": "2024-08-02T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2fin3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/toJTdL9PP6NZiPmU8TjtMHTRdmovUHLbJkh02LnqKLng/high.mp4",
+  "demo_url": "https://github.com/adamocallaghan/ERC4626_Strategy",
+  "source_url": "https://github.com/adamocallaghan/ERC4626_Strategy",
+  "finalist": false,
+  "description": "This project uses the ERC4626 standard to implement a vault and strategy system.\n\n=== VAULT ===\n\nThe Vault itself is an ERC4626 vault based on the solmate implementation. I have overridden 3 functions - afterDeposit, beforeWithdrawal, and totalAssets.\n\nThe afterDeposit function passes the Wrapped ETH (base asset) over to the Strategy contract.\nThe beforeWithdrawal function withdraws the WETH from the Strategy contract back to the Vault.\nThe totalAssets function accounts for all WETH (both user deposited, and that obtained via the strategy) that the strategy is either in possession of, or has claim to. This function is what is used for the 4626 shares-to-assets/assets-to-shares calculations.\n\n=== STRATEGY ===\n\nThe Strategy contract uses the Ironclad protocol to yield additional WETH. Ironclad is forked from the Liquity codebase, meaning it takes in collateral (in our case WETH) and mints a stablecoin against it - in this case \"iUSD\".\n\nThis iUSD is then deposited into the Ironclad Stability Pool, which is a pool of iUSD used to repay undercollateralised loans. Rewards are paid out to Stability Pool depositors.\n\nThe rewards that are paid out, however, are not in liquid $ICL (Ironclad) tokens - they are paid in $oICL, or \"Ironclad Options Tokens\". These oICL are extended ERC20 tokens that allow receivers to exercise an option to purchase the underlying liquid ICL token at a 50% discount to the current market rate.\n\nThe Strategy contract claims these oICL and exercises the options on them, receiving liquid ICL tokens in return.\n\nThese liquid ICL tokens are then swapped into WETH on Velodrome and re-deposited into Ironclad to mint iUSD, which is once again deposited into the Stability Pool, autocompounding our rewards and increasing the amount of WETH that the vault & strategy have claim to.",
+  "how_its_made": "This project was built using Foundry. The solmate ERC4626 contract was used for the vault, while a number of Interfaces were used to interface with the various Ironclad contracts, the Redstone oracle contract, and the Velodrome router contract. The vault and strategy contract were deployed to the Mode testnet network.\n\nVAULT_ON_MODE=0x5D1AAd696FF2265a5d8991Cc8f215f83e2355C04\nSTRATEGY_ON_MODE=0xF06efD836F59B9f7e612A930c5CA2f1B57d3216D",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/erc4626-strategy-2fin3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "mq5y8",
+  "slug": "agentarc-protocol",
+  "title": "AgentARC Protocol",
+  "tagline": "A verifiable, plug-and-play MCP security circuit breaker for autonomous Web3 AI agents.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mq5y8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LGY33LVBws701G502bgX00Oo2ysyZwBXcqnHzxfou3P8iM/high.mp4",
+  "demo_url": "https://agent-arc-protocol.vercel.app/",
+  "source_url": "https://github.com/ARK-ASWINRAJ/AgentARC-Protocol",
+  "finalist": false,
+  "description": "Autonomous AI agents are becoming incredibly powerful, but giving them direct control over blockchain transactions is extremely dangerous. Without guardrails, a rogue, hacked, or hallucinating agent could drain a treasury or interact with a honeypot contract in seconds.\n\nAgentARC Protocol solves this by introducing a verifiable, plug-and-play security middleware for Web3 AI agents. Using the Model Context Protocol (MCP), any agent framework (LangChain, CrewAI, Claude Desktop) can delegate transaction execution to our secure environment without writing custom blockchain code.\n\nInstead of signing a transaction directly, the agent calls our execute_secure_transaction MCP Tool. This passes the payload through a strict 4-stage validation pipeline:\n\n1. Intent Analysis to decode raw EVM calldata into human-readable actions.\n2. Policy Validation to check against organizational rules like spend limits and blacklists.\n3. EVM Simulation using ethers.js to catch hidden reverts. Can also add Tenderly and BuildBear simulations.\n4. LLM Threat Detection to sniff out sophisticated drainers using semantic analysis.\n\nIf deemed safe, the transaction executes. If rogue, it is instantly blocked. AgentARC provides the missing \"circuit breaker\" layer required for the autonomous agent era.\nTo ensure absolute accountability, we integrated 0G Storage. Regardless of whether a transaction is approved or blocked, the entire pipeline's threat report is formatted as JSON and uploaded directly to the 0G Storage Network via their TS SDK. This returns a Merkle root hash, providing an immutable, decentralized audit trail of the AI's intent.",
+  "how_its_made": "We built AgentARC with a split architecture to handle the specific networking needs of the Model Context Protocol (MCP). Because MCP relies on Server-Sent Events (SSE) which require long-lived connections, we built the backend as a persistent Express server hosted on Render, bypassing the timeout limits of serverless functions. We utilized the @modelcontextprotocol/sdk to define our universal transaction tool.\n\nThe core pipeline is written in TypeScript. Stage 3 uses ethers.js to run a staticCall against public Ethereum RPCs, simulating the transaction to catch silent reverts or unexpected token flows. Stage 4 uses the Gemini 3.1 Pro API for semantic context auditing of the calldata.\n\nKeeperHub Integration: For execution, we integrated KeeperHub's Direct Execution API. If a transaction passes all security checks, our server securely routes the payload to KeeperHub. KeeperHub acts as our secure relayer to sign and broadcast the transaction, completely eliminating the need for raw private keys in the agent's memory.\n\n0G Storage Integration: To ensure absolute accountability, we integrated 0G Storage. Regardless of whether a transaction is approved or blocked, the entire pipeline's threat report is formatted as JSON and uploaded directly to the 0G Storage Network via their TS SDK. This returns a Merkle root hash, providing an immutable, decentralized audit trail of the AI's intent.\n\nFinally, the frontend (\"Rogue Agent Arena\") is a Next.js App Router dashboard hosted on Vercel that hooks into the backend via REST and SSE, visualizing the security pipeline, executions, and audit logs in real-time.",
+  "auto_summary": "A Next.js and TypeScript project that validates agent-triggered blockchain transactions, can relay approved ones, and stores audit logs on 0G Storage.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentarc-protocol-mq5y8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

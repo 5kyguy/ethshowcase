@@ -1,0 +1,30 @@
+{
+  "id": "ctqzm",
+  "slug": "inner-circles",
+  "title": "Inner Circles",
+  "tagline": " Trust lending protocol for communities. No collateral, just social proof.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ctqzm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2e01P7y1tuV3fBDZu01Ub3Bg1EC1IffUNm7PdvkDmFdi4/high.mp4",
+  "demo_url": "https://inner-circles.vercel.app/",
+  "source_url": "https://github.com/fruteroclub/inner-circles",
+  "prizes": [
+    {
+      "sponsor": "Circles",
+      "sponsor_id": "wdteq",
+      "placement": "2nd place",
+      "title": "Build a  P2P Loan Market based on Circles Network"
+    }
+  ],
+  "finalist": true,
+  "description": " A decentralized loan protocol built on top of [Circles](https://aboutcircles.com/), designed to provide fair access to credit for community members based on **social trust, not assets**.\n\n## Live Pilot: [Frutero.Club](https://frutero.club)\n\nFrutero.Club is a talent accelerator for LatAm builders, where members build reputation through contributions to real-world projects. We’re piloting this protocol in Mexico to offer **community-backed liquidity for builders and operators** in need of short-term financial support.\n\n---\n\n## How It Works\n\n1. **Member applies for a loan** in CRC from the Circles Group treasury.\n2. **Vouching phase**: At least 3 trusted community members vouch via Telegram bot, each depositing a fixed amount of CRC into escrow.\n3. **Dynamic interest rate** is calculated based on number of vouchers:\n   - `<3 vouchers`: ineligible\n   - `3`: 5%\n   - `10`: 1%\n   - `>15`: 0%\n4. **Additional lenders** can contribute until escrow is filled.\n5. **Funds are disbursed** to the borrower. Repayment cycle begins (default: 30 days).\n6. At maturity, **Telegram bot checks wallet balance** and attempts automated repayment.\n7. If loan is repaid:\n   - Lenders are paid back (in priority)\n   - Trust score improves\n8. If unpaid:\n   - Grace period is triggered\n   - On failure, borrower's **ENS tag is revoked**\n   - Telegram alerts group to adjust trust graph\n   - Future loan access becomes harder (higher quorum required)\n",
+  "how_its_made": "Tech stack:\n\nSmart Contract\nInnerCirclesLendingMarket.sol implements the loan lifecycle: vouching (min 3 vouchers, 1 CRC each), dynamic interest rates (5% → 0% based on voucher count), prioritized repayment (external lenders first), and default handling with off-chain ENS suspension events.\nTelegram Service\nRead-only notification bot using Telegraf.js. Sends notifications for loan events but doesn't handle Telegram reactions for vouching yet.\n\nCircles Integration\nCircles SDK integrated with custom browser runner\nMissing: Personal CRC (ERC1155) → Group CRC (ERC20) wrapping/minting\nCurrent limitation: Contract uses mock ERC20 token; production requires group token minting from personal CRC\n\nArchitecture\nFrontend: Next.js 15 + Wagmi v3 with event-driven loan creation\nBackend: Telegram notifications + member storage\nSmart contract: Complete on-chain loan lifecycle\nGap: CRC token wrapping pipeline (documented in Epic 0, not yet implemented)",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/inner-circles-ctqzm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "2smms",
+  "slug": "sippy",
+  "title": "Sippy",
+  "tagline": "Send and receive PYUSD via WhatsApp — no wallets, no gas, just your phone number.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2smms/banner/default.jpg",
+  "video_url": "https://stream.mux.com/GbQurwQNhUaNTSyJGSWBciq02TVDkJpX6aWSxZsijcTs/high.mp4",
+  "demo_url": "https://www.sippy.lat/",
+  "source_url": "https://github.com/mateodaza/sippy",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Sippy is a WhatsApp-based wallet that enables anyone with a phone number to send and receive PYUSD without installing apps, managing seed phrases, or understanding blockchain. Users simply text \"send 5 to +573001234567\" and money moves instantly on Arbitrum.\n\nThe Problem: Traditional cross-border payments are slow and expensive. Crypto promises better, but wallets, gas fees, and seed phrases prevent mainstream adoption.\n\nOur Solution: Every phone number automatically gets a secure Coinbase CDP wallet. Users never see private keys or gas fees—they just text naturally in English or Spanish, and money moves.\n\nKey Features:\n- Natural language commands (\"cuánto tengo?\" works like \"check balance\")\n- Gasless experience via smart contract coverage\n- Cross-chain onboarding from many networks using Avail Nexus SDK\n- Zero friction: no downloads, no KYC, no seed phrases\n- Blockscout-powered transaction explorer for transparency\n\nMarket: 650 million people in Latin America where 90% use WhatsApp. Colombia's Bre-B and Brazil's Pix prove phone-based payments work, but none cross borders. Sippy fills that gap.",
+  "how_its_made": "Backend (Node.js + TypeScript):\n- Coinbase CDP SDK v2: MPC wallets in Trusted Execution Environment. Phone numbers map to CDP accounts with no seed phrases. This is simpler account abstraction than traditional AA solutions: phone numbers become the abstraction layer without ERC-4337 complexity.\n- WhatsApp Cloud API: Webhook-based bot with hybrid parsing (natural language + regex fallback = 100% uptime). Limited to 5 test numbers until Meta approval for production.\n- PostgreSQL (Railway): Stores phone to wallet mappings and spending limits.\n\nFrontend (Next.js 15):\n- Avail Nexus SDK: Cross-chain bridging from any supported chain to Arbitrum.\nUniswap Universal Router: Multi-hop swap ETH to WETH to USDC to PYUSD with slippage protection.\n- Blockscout API v2: Real-time balances and transaction history.\nSmart Contract:\n\nBlockchain (Harhat)\n- GasRefuel.sol on Arbitrum: Auto-refuels users when ETH < 0.00001, with daily limits and cooldowns.\n\nNotable Challenges:\n- PYUSD Routing: Nexus doesn't support PYUSD natively, so we bridge ETH then swap via Uniswap\nUniversal Router: Reverse-engineered command encoding (0x0b00 = WRAP_ETH + V3_SWAP_EXACT_IN)\n- CDP v2: No high-level token transfer method. Manually constructed ERC-20 callData: selector + ABI-encoded parameters\n- WhatsApp Test Environment: Limited to 5 test numbers before Meta approval, requires manual addition for demo\n\nNote: Some security practices and production optimizations were intentionally left for post-hackathon due to time constraints. Many improvements are planned for UX, data management, rate limiting, authentication, and privacy controls before public launch.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sippy-2smms",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

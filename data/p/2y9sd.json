@@ -1,0 +1,36 @@
+{
+  "id": "2y9sd",
+  "slug": "veilswap",
+  "title": "VeilSwap",
+  "tagline": "A privacy-preserving intent-based DEX settlement layer using MPC.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2y9sd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2pyXGebhkn2dwIqllkaFNgi6n015fzPmyfbRYf90094zQ/high.mp4",
+  "demo_url": "https://veil-swap.vercel.app",
+  "source_url": "https://github.com/VanshSahay/hackmoney",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": "Uniswap v4 Privacy DeFi "
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "VeilSwap is a privacy‑preserving on‑chain intent settlement system built as a pnpm monorepo with three main parts: a Foundry smart‑contract workspace, a TypeScript MPC node service, and a Next.js web app.\n\nVeilSwap’s core is the MPC node network: multiple independently run nodes listen for on‑chain IntentCreated events, then privately compute allocations using replicated secret sharing (RSS) so no single node learns other nodes’ balances or the network’s total capacity. Each node only sees its own allocation, while the leader aggregates signatures and submits a batch settlement on‑chain. This design preserves privacy (capacities and balances remain hidden) while still enabling deterministic settlement and auditability on the Settlement contract.\nFor liquidity, nodes can hold any ERC‑20 and automatically swap into the required output token using Uniswap v4. The node service integrates the Universal Router + Permit2 flow to perform swaps, and maintains an inventory of token balances to decide when swapping is needed. This makes the system flexible: a node can contribute to any intent as long as it can swap into the requested token, without revealing its full holdings.\nNode discovery and identification are ENS‑friendly. Node names can be derived from a base ENS name, and peers are specified by ENS‑style identifiers. Nodes auto‑generate and persist wallets, advertise their blockchain addresses during P2P handshake, and can be registered on‑chain in the Settlement contract. Together, the ENS naming + handshake address exchange enable consistent identity and peer discovery without centralized coordination, while preserving privacy in the MPC computation itself.",
+  "how_its_made": "Built as a pnpm monorepo with three layers: Solidity contracts (Foundry), a TypeScript MPC node service, and a Next.js web app. The Settlement contract handles intent creation and batch settlement; nodes listen for IntentCreated events via Viem, run a n‑party replicated secret sharing MPC protocol to compute allocations without revealing capacities, then exchange signatures over a WebSocket P2P network and submit the final settlement. Node identity/discovery uses ENS‑style names and a handshake that shares blockchain addresses, with wallets auto‑generated and persisted locally. For liquidity, nodes integrate Uniswap v4 using the Universal Router + Permit2 flow and a token inventory manager to swap into required output tokens before participating. The web app uses Wagmi + Viem for SSR‑safe chain interactions. Notable hack: end‑to‑end event‑driven MPC orchestration (on‑chain intents → off‑chain compute → on‑chain settlement) with privacy preserved by RSS, plus auto‑swap so nodes can contribute even if they don’t natively hold the output asset.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/veilswap-2y9sd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

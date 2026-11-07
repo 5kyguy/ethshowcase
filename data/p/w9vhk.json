@@ -1,0 +1,35 @@
+{
+  "id": "w9vhk",
+  "slug": "pnm",
+  "title": "pnm",
+  "tagline": "offline-first hardware-backed payments over NFC. tap to pay via android keystore p-256 signatures.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w9vhk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yCb678kLzrowJMRm2PoUqJV8RecQOAgPoBnSOSTV2rs/high.mp4",
+  "source_url": "https://github.com/mayur-samrutwar/pnm",
+  "prizes": [
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "Best Use of Hyperlane",
+      "title": "Best Use of Hyperlane"
+    },
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": " Best Interchain App",
+      "title": " Best Interchain App"
+    }
+  ],
+  "finalist": false,
+  "description": "PNM brings hardware-backed security to crypto payments through NFC, making crypto feel as seamless as tapping a card. Users deposit USDC into a Vault contract on any sign( currently we support - base sepolia and eth sepolia), then sign payment vouchers using Android's hardware-backed ECDSA P-256 keys—the same secure element that protects your biometrics. These vouchers are transmitted via NFC between merchant and customer devices, enabling instant offline payments that settle on-chain later.\n\nThe system uses a novel architecture where P-256 signatures are validated by a hub service that bridges hardware security to Ethereum. Each voucher includes cumulative spending tracking, expiry timestamps, and unique slip IDs to prevent double-spending. Merchants can accept payments instantly without waiting for blockchain confirmations, while users get the security guarantees of hardware-backed keys without managing seed phrases during transactions.\n\nThis creates a payment experience that's faster than traditional crypto payments, more secure than software wallets, and works completely offline—perfect for retail environments where connectivity is unreliable. The vouchers are cryptographically bound to prevent replay attacks, and the cumulative spending model ensures users can't spend more than they've deposited, even across multiple offline transactions.",
+  "how_its_made": "\nBuilt as a three-tier architecture: Android mobile app (Kotlin), Node.js hub service (TypeScript), and Solidity Vault contract. The mobile app uses Android Keystore to generate and manage P-256 key pairs stored in the device's secure hardware element—the same Trusted Execution Environment that protects biometric authentication. NFC communication uses Android Beam with custom MIME types to exchange payment requests and signed vouchers bidirectionally between devices.\n\nThe hub service validates P-256 signatures using the elliptic library, since Ethereum's secp256k1 can't verify P-256 signatures on-chain. When a merchant receives a voucher, the hub verifies the hardware signature, checks the voucher schema, validates expiry and cumulative spending, then calls the Vault contract's `redeemVoucherByHub` function on behalf of the merchant. The Vault contract uses OpenZeppelin's ECDSA library for secp256k1 signatures (for direct on-chain redemption) and implements a cumulative spending model that tracks total amounts spent per user to prevent overspending.\n\nThe hacky part: we derive Ethereum addresses from P-256 public keys using a deterministic mapping, allowing hardware-backed keys to control on-chain funds without exposing private keys. The voucher system uses EIP-191 message signing with ABI-encoded payloads, and we convert UUID slip IDs to bytes32 hashes for on-chain storage efficiency. The cumulative spending counter prevents double-spending even when vouchers are created offline, since each new voucher must have a cumulative amount greater than the previous one.\n\nWe used OpenZeppelin contracts for security, ethers.js for signature verification matching the Solidity logic exactly, and Android's NfcAdapter API for peer-to-peer communication. The entire flow works offline—users can create and exchange vouchers without internet, and merchants batch-redeem them when connectivity returns.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pnm-w9vhk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

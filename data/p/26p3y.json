@@ -1,0 +1,27 @@
+{
+  "id": "26p3y",
+  "slug": "wallet-vitals",
+  "title": "Wallet Vitals",
+  "tagline": "Aave risk copilot with health factors, stress tests, and verifiable onchain evidence.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/26p3y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/F4texG02TcU014Hnq1LpbaZn3CmnE67uB9kKSMBJrtvQQ/high.mp4",
+  "demo_url": "https://onebattle.win/wallet-vitals/",
+  "source_url": "https://github.com/fizix100/wallet-vitals",
+  "finalist": false,
+  "description": "Wallet Vitals is a read-only Aave V3 Ethereum risk copilot. Paste a public address without signing in, connecting a wallet, or signing a message. The app returns a reconstructed health factor, liquidation buffer, fixed 5%/10%/20% collateral stress scenarios, and changes between comparable snapshots.\n\nThe Graph supplies indexed positions, reserve indices and rates, liquidation parameters, and block metadata. The backend reads Aave oracle prices and the pool's account data at that same block hash, and cross-checks the reconstructed account before producing a report. Stale blocks, indexing errors, negative balances, unsupported eMode, and inconsistent accounts stop analysis instead of producing an unverified score.\n\nEvery report carries an Evidence Receipt: subgraph and deployment identifiers, block number and hash, timestamps, calculation rules, assumptions, position references, oracle/pool addresses, and the contract cross-check. An optional AI layer explains precomputed facts; critical liquidation-boundary answers remain deterministic. Warning and danger labels are not presented as liquidation.\n\nThe application is publicly deployed on Cloudflare with independent D1 storage, server-side API keys, expiring report links, explanation caching, and bounded public-demo usage. Live Graph/RPC/AI integration has been verified and all 50 tests pass in GitHub Actions. The video shows genuine public-deployment captures with English synthetic narration.\n\nThis is a historical evidence snapshot, not a guarantee of current safety or financial advice. It never signs or executes transactions. The repository transparently discloses its retained upstream baseline and all new work in PRE_EXISTING.md. AI assistance was used during development.",
+  "how_its_made": "The implementation uses FastAPI and strict Pydantic contracts with deterministic Decimal/RAY math. A server-side GraphQL adapter queries the Aave V3 Ethereum Subgraph through The Graph Network and reconstructs accrued balances from scaled balances, reserve indices, rates, and source-block time. The Graph is load-bearing: without it, new analyses cannot discover positions.\n\nA notable integration finding was that indexed prices could be frozen even when the indexed block was current. We therefore obtain Aave's own oracle values using EIP-1898 eth_call requests pinned to the exact evidence block hash, resolve the oracle and pool from Aave's Ethereum addresses provider, and compare the reconstructed totals and health factor against the pool. There is no latest-block or fixture fallback. Unsupported eMode and material discrepancies fail closed.\n\nThe local app runs on Python 3.12 with SQLite; production runs as a native Cloudflare Python 3.13 Worker with D1. A Fetch-backed httpx transport supports the same shared application code without sockets. The responsive UI uses server-rendered HTML, CSS, and dependency-free JavaScript. Production includes atomic request quotas, cached explanations, and 24-hour report links.\n\nOpenAI Responses receives precomputed structured facts. Numeric and identifier guards constrain narration, and deterministic explanations remain available. The boundary-critical 'What breaks first?' response is always deterministic. Keys never enter browser JavaScript.\n\nuv, Ruff, Pytest, GitHub Actions, and Docker support reproducibility; 50 tests cover risk math, data validation, oracle/account checks, API behavior, storage and quotas. Code was developed with AI assistance.\n\nProvenance: the repository retains the MIT-licensed dorukyy/telegram-wallet-tracker baseline under the upstream-baseline tag. The legacy Telegram bot is not the running product. The web app, Graph integration, Aave risk engine, same-block contract checks, tests, and Cloudflare deployment are new work in event-period commits. PRE_EXISTING.md describes the boundary; we do not claim the upstream code as original.",
+  "auto_summary": "A web app analyzes historical Aave V3 wallet risk using The Graph subgraph data, on-chain Aave checks, and optional AI-generated explanations.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/wallet-vitals-26p3y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

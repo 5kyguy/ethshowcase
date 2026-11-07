@@ -1,0 +1,30 @@
+{
+  "id": "f8t38",
+  "slug": "next-pay",
+  "title": "Next Pay",
+  "tagline": "Next pay enables Buy Now Pay Later financing on top of Gnosis Pay card.",
+  "event": {
+    "slug": "scaling2024",
+    "name": "Scaling Ethereum 2024",
+    "start_time": "2024-04-05T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f8t38/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yAsL3BkbT45QpXeNFxywuJ01twd624QPjqlg5Q3ubpJI/high.mp4",
+  "demo_url": "https://azerty-next-pay.vercel.app",
+  "source_url": "https://github.com/azerty-scaling/keza-sc",
+  "prizes": [
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "Build cross chain application using Hashi",
+      "title": "Build cross chain application using Hashi"
+    }
+  ],
+  "finalist": false,
+  "description": "This project will allow for Gnosis Pay card holders to do short term financing, called Buy Now Pay Later. Basically a user can decide to pay for some goods or services now in EUR and pay back later, if it holds enough assets (collateral) on its Gnosis Pay safe. In our working prototype for the hackathon we are using wstETH as asset a user can keep on its safe, being able to pay on top of that wstETH with EURe provided by LP's. We are also enabling cross-chain assets as collateral on Arbitrum via Hashi.\n\nA user first has to register for the service via the Sign Protocol. It will have to select his preferences (assets and chain) which will be registered in our Resolver. Let's say a user selected wstETH to use as collateral for service on Arbitrum. This is how the flow would work:\n\nA user wants to buy food for 10EUR. Visa will check if the user can pay and has enough wstETH to pay at current conversion rate. If yes it will lock the conversion rate and trigger the pay function in the Credit-Module. That pay flow will then lock the wstETH on Arbitrum and borrow EURe from the lending pool on Gnosis. (If preferences signed through Sign Protocol were Gnosis it would have triggered the transaction on Gnosis chain directly). The user can repay later his debt to the lending pool with a small fee and unlock it's wstETH.",
+  "how_its_made": "In order for a user to enter into our Buy Now Pay Later financing service, it has to specificy his preferences and sign through the Sign Protocol. This will enable to keep track of his preferences that will be used for his payments (cross chain and assets used for our demo). These preferences can be found in the Resolver contract.\n\nFor the Cross-Chain part we used Hashi hash oracle aggregator. This allows us to perform cross chain operations between the \"strategyVault\" on Arbitrum and our Credit-Module on Gnosis. (We wanted to perform some strategies with wstETH from that vault, why the naming but not implemented yet). In actual prototype the users have to send wstETH to the strategyVault that will be accounted as collateral on Credit-Module (and thus as collateral for payments through Gnosis card). We noticed a bit late that the cross chain transfer of wstETH to the CreditModule and accounting in lendingPool was not done yet for our prototype in the cross-chain flow, but we will keep working towards that.\n\nWe are using Arbitrum as liquidity source for payments (collateral) as it has most DeFi activity of layer2. By bridging and accounting for the users directly we abstract the cross-chain part for them. They can simply decide on which chain to use their collateral. It helps unlock the full potential of Gnosis Card on top of Arbitrum TVL.\n\nFor the Gnosis Pay part we ensure the right quote is locked at moment of payment (canSafePay()) and that quote is sent in the pay function so that VISA is ensured to have the EURe payment at quote of payment initation (vs on chain settlement).\nWe didn't have the time to implement a delay module on Arbitrum yet in order to ensure no funds can be moved during 3 minutes delay but that's something we would like to improve in the flow later as well.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/next-pay-f8t38",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

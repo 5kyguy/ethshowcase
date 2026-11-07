@@ -1,0 +1,27 @@
+{
+  "id": "3i6gw",
+  "slug": "relaydesk",
+  "title": "RelayDesk",
+  "tagline": "Hand over an event link, not your wallet: ENSv2 URL permissions with verifiable revocation.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3i6gw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01RHgksqFdAAiObz4h0272RFCOiJo00R4mo00wybMBxMwgo/high.mp4",
+  "demo_url": "https://relaydesk-ethonline-2026.xianche0614076.chatgpt.site",
+  "source_url": "https://github.com/linjhkg/relaydesk-ethonline-2026",
+  "finalist": false,
+  "description": "RelayDesk helps community-event organizers hand over link maintenance without handing over their wallet or name ownership. An organizer delegates the url text key on a dedicated ENSv2 Permissioned Resolver to a separate volunteer account. The volunteer updates the event link; the organizer later revokes access while the last published URL remains available.\n\nThe product separates a clearly labelled wallet-free simulation from actual Sepolia operations and public evidence. Judges can try the simulated grant, update and revoke workflow, then inspect the real test name, transaction receipts, role checks and Universal Resolver readback at /evidence. On September 8 we completed eight successful transactions against the dedicated ETHOnline deployment: mint, deploy, commit, approve, register, grant, volunteer edit and revoke. After revocation, read-only write simulations return EACUnauthorizedAccountRoles, volunteer root/key roles are zero, and the last URL still resolves.\n\nThe important boundary is explicit: URL-key authority covers the ENTIRE Resolver instance, not just one name. Separate activities should use separate instances; names sharing a Resolver are not isolated. Our verified result is one activity with distinct organizer and volunteer accounts. The two-activity comparison is unfinished, and we do not claim production security certification. September 5 evidence used a different deployment and is marked historical rather than used as current acceptance proof.",
+  "how_its_made": "We built RelayDesk with JavaScript, HTML/CSS, Node.js 24, viem and esbuild. The static public build runs inspected services in the browser with visitor-isolated simulation state; it has no server signing key. Real writes use the participant's browser wallet on Sepolia (chain ID 11155111), with fresh account/network checks and explicit transaction review.\n\nENSv2 is the core authorization layer, not cosmetic naming. We use grantSetterRoles and revokeRoles for the url key and DNS-encoded names for setText(bytes,string,string). Registration follows a direct EOA path using the dedicated ETHOnline ETHRegistrar, VerifiableFactory and Permissioned Resolver. Factory implementation and deployment proofs are checked against verified ABI artifacts. Test-token approval uses the exact quoted amount. We inspect root/key roles and test the controlled fixture for registry resolver-management bypass authority.\n\nA key challenge was correcting assumptions about the deployed Factory ABI and the Resolver-wide permission scope. We migrated from an earlier deployment and reran the actual registration/delegation/revocation workflow on the event-specific contracts. Receipt verification checks the expected effects instead of treating a successful transaction alone as proof. Tests cover wrong networks, stale wallets, duplicate sends, deployment-proof binding, decoded authorization failures and permission boundaries; the last complete run passed 165 tests.\n\nAI disclosure: Codex and native helper agents generated and revised the application, tests and documentation; Claude cross-reviewed documentation, ABIs and implementation assumptions. The human participant supplied requirements, challenged and approved scope decisions, prepared accounts and the dedicated wallet, participated in operational checks, and recorded the Chinese narration. We do not claim the application was hand-written by the participant. See AI_USAGE.md and PUBLICATION.md in the public repository for attribution and history/privacy exclusions.",
+  "auto_summary": "RelayDesk delegates and revokes ENSv2 resolver text-record permissions so a volunteer can maintain an event link on Sepolia.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/relaydesk-3i6gw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

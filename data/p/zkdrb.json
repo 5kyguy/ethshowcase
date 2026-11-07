@@ -1,0 +1,41 @@
+{
+  "id": "zkdrb",
+  "slug": "goddid-money",
+  "title": "goddid.money",
+  "tagline": "Borrow using your Polymarket track record and get a credit score based on your performance. ",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zkdrb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5dfwj1GHEBqfoNN2AGcbMRDlBoh6gptuR32004co5DCc/high.mp4",
+  "source_url": "https://github.com/ericliujt/goddid-polymarket",
+  "prizes": [
+    {
+      "sponsor": "Flare Network",
+      "sponsor_id": "2ugg8",
+      "placement": "1st place",
+      "title": "MAIN TRACK: use protocols on Flare blockchain"
+    },
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "Pyth Entropy Pool Prize",
+      "title": "Pyth Entropy Pool Prize"
+    },
+    {
+      "sponsor": "Privy",
+      "sponsor_id": "ijybm",
+      "placement": "Best App Using Signers with Privy",
+      "title": "Best App Using Signers with Privy"
+    }
+  ],
+  "finalist": true,
+  "description": "goddid.money unlocks liquidity for Polymarket traders by converting verifiable trading history into an on chain credit profile and enabling borrowing against it. Users link their Polymarket account and XRPL address, and we bind this identity to a Privy embedded wallet with a session signer key. This proxy wallet becomes the enforcement layer for amortization, repayment, collateral handling, and default resolution, allowing the protocol to execute required actions without user re-approvals or online presence.\n\nWe ingest Polymarket positions using Flare’s Data Connector with Web2Json attestations. The backend composes a Web2Json request to the Polymarket API, applies a jq post processor to extract normalized trade data, and receives ABI encoded data plus a Merkle proof. Our PolymarketUserData contract verifies this proof through the FDC verifier and stores the validated position and trade state. This provides a tamper resistant, trust minimized data layer for the credit system.\n\nFrom this verified dataset we compute a financial credit model. Closed trades provide ROI, win rate, volatility normalized return, and profit factor. Open trades provide drawdown, concentration measured through HHI, and dead share exposure. These inputs form performance and risk subscores, which are passed through a logistic transform to produce a probability of default that is then mapped to a 300 to 850 credit score. Users can track this score directly, and the score determines loan to value and maximum borrowing capacity.\n\nTo prevent deterministic loan parameters from being gamed, we integrate Pyth Entropy. Each loan offer consumes a verifiable random value that applies a small randomized adjustment to the user’s loan to value ratio and maximum borrow. This prevents users from farming predictable states, and prevents both the backend and miners from influencing LTV outcomes.\n\nBorrowing is denominated in FXRP, the synthetic XRP asset minted through the FAssets system. Once the protocol approves a user’s credit parameters, FXRP is streamed from an external XRP liquidity provider. Currently an FXRP lender deposits FXRP into a lending pool. In near future configuration, a XRP whale deposits native XRP, converts it to FXRP using FAssets, and seeds a lending pool that earns yield from repayments and interest. The liquidity module is abstracted so that it can later be replaced with multi LP vaults, AMM based reserves, or external yield strategies without modifying the credit or scoring logic.\n\nPrivy’s embedded wallet and session signer provide deterministic delegated execution. The session signer can perform repayment pulls, collateral checks, automated liquidation, default writeoffs, and blacklist updates. This delivers meaningful delegated behavior, as the protocol can perform real economic operations, including loan recovery and debt marking, even when the user is offline.\n\ngoddid.money combines verified Polymarket ingestion, a quantitative credit model, verifiable randomness, synthetic XRP liquidity through FAssets, Privy based delegated execution, and a modular cross chain liquidity backend to deliver the first credit system where Polymarket traders receive a credit rating and borrow directly against their trading performance.",
+  "how_its_made": "Our system ingests Polymarket trading data using Flare’s Data Connector with Web2Json attestations. The backend constructs a Web2Json request, applies a jq post processor to normalize trade objects, and receives ABI encoded results with a Merkle proof. Our PolymarketOracle contract verifies these proofs through the FDC verifier and stores validated position and trade state on chain for deterministic credit computation.\n\nThe credit engine runs onchain. Verified trade data is used to compute ROI, volatility normalized returns, profit factor, drawdown, HHI concentration, and dead share exposure. These metrics produce performance and risk subscores that feed into a logistic transform to generate a probability of default, which maps directly to a 300 to 850 credit score.\n\nTo prevent deterministic loan offers from being exploitable, we integrated Pyth Entropy. Loan issuance consumes verifiable randomness through the entropy callback, introducing controlled stochastic variation to LTV and maximum borrow amounts, removing predictability from credit pricing and preventing miner or user manipulation.\n\nBorrowing is executed in FXRP, the synthetic XRP minted through the FAssets system. Liquidity originates from an external XRP provider that deposits native XRP, converts it to FXRP through FAssets, and seeds a lending pool. This pool module is abstracted and can be swapped out for multi LP vaults or AMM based liquidity without altering higher layer logic.\n\nPrivy’s embedded wallet stack provides identity binding and delegated execution. Each user receives a Privy managed wallet and an authorized session signer key that allows the protocol to perform amortization pulls, collateral checks, liquidation, default writeoffs, and blacklist updates without requiring user re approvals. This solves loan enforcement and collateral management, enabling reliable off chain and offline execution.\n\nThe frontend interacts with Flare, XRPL, and Privy through a unified TypeScript stack, while the lending components and verified polymarket user data is stored on Solidity contracts deployed on Flare Coston2. The system stitches together FDC proof verification, Pyth Entropy randomness, FXRP liquidity, XRPL level identity, and Privy delegated control into a cohesive credit protocol that operates across chains with deterministic enforcement.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/goddid-money-zkdrb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

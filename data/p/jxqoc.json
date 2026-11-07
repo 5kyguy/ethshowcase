@@ -1,0 +1,77 @@
+{
+  "id": "jxqoc",
+  "slug": "bounce",
+  "title": "Bounce",
+  "tagline": "Non-custodial real world NFC card peer to peer payments based on PoS terminals.",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jxqoc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/W6nWNO6P9v1027AOEEEnzTuICYR00rz2m02L023O7T6m8RM/high.mp4",
+  "source_url": "https://github.com/WuBruno/nyc-hack",
+  "prizes": [
+    {
+      "sponsor": "XDC Foundation",
+      "sponsor_id": "mraad",
+      "placement": "🥇 XDC Foundation — Best Use",
+      "title": "XDC Foundation"
+    },
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "👩‍💻 Mantle — Best UX",
+      "title": "Mantle"
+    },
+    {
+      "sponsor": "MetaMask",
+      "sponsor_id": "4pn9u",
+      "placement": "2️⃣ Linea — Deploy on Linea",
+      "title": "MetaMask & Linea"
+    },
+    {
+      "sponsor": "Celo",
+      "sponsor_id": "inotq",
+      "placement": "🥇 Celo — Best dApp",
+      "title": "Celo"
+    },
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🏊‍♂️ NeonEVM — Pool Prize",
+      "title": "Neon EVM"
+    },
+    {
+      "sponsor": "Aave Grants DAO",
+      "sponsor_id": "oiv32",
+      "placement": "🥇 Aave — Best Use of GHO",
+      "title": "Aave Grants DAO"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊‍♂️ Scroll — Pool Prize",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🔀 Polygon — Best use of zkEVM",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "🦄 Gnosis Chain — Best Frontend for Uniswap",
+      "title": "Gnosis Chain"
+    }
+  ],
+  "finalist": false,
+  "description": "Bounce represents an innovative decentralized and non-custodial solution for facilitating peer-to-peer payments, underpinned by immutable smart contracts within the blockchain. It is worth noting that the act of effecting real-world fiat purchases using physical payment cards, often through intermediaries like Mastercard or Visa, has become ubiquitous. Nevertheless, the realm of cryptocurrency payments has hitherto lacked an effective, proficient, or truly compelling solution.\n\nIt is imperative to initially delineate the two primary components that most individuals would naturally contemplate when envisioning the establishment of an underlying infrastructure for this endeavor: the NFC card and the Point of Sale (PoS) terminal. The initial conceptualization, perhaps the most straightforward one (in the absence of security concerns), would involve the storage of an Externally Owned Account's (EOA) private key on the NFC card. Subsequently, a PoS terminal would be configured to receive this private key upon tapping the card on a reader. In this scenario, the terminal would propose an incompletely processed transaction, which the private key would validate and transmit to the blockchain.\n\nNavigating this challenge without considering security is, indeed, a relatively uncomplicated task. However, as soon as security considerations enter the equation, the complexity of the issue escalates significantly.\n\nThe solution devised by the Bounce Team encompasses the introduction of two pivotal fundamental components into the system. First and foremost, a vault, serving as a centralized repository for users to safeguard their funds, comes into play. Second, an ephemeral mechanism is employed to address the intricate security concerns that arise in the execution of this concept.\n\nFlow:\n\n1.\tEphemeral key pair is generated securely using ethers functions on the user app.\n2.\tEphemeral Public Key is stored in the vault contract.\n3.\tEphemeral Private Key is embedded in the NFC card, along with the public Ethereum address of the vault contract.\n4.\tThe card is tapped on a PoS terminal. The ephemeral private key and the vault contract address are now shared with the PoS terminal.\n5.\tThe transaction body is now built out, of which contains the amount and type of token required.\n6.\tThis is then signed with the ephemeral private key.\n7.\tThe vault contract is then called with this signed data produced in the previous step.\n8.\tThe vault contract then verifies the legitimacy of the signed data by decrypting with the ephemeral public key stored in the vault contract.\n9.\tThe vault also checks that the PoS terminal’s address is whitelisted and the transaction is within transfer limit threshold (based on a reputation system, e.g. Target might have a limit of 500 USDC, but a corner store might have a limit of 25USDC)\n10.\tWe now just have the transaction data after removing that layer of security.\n11.\tThe transfer from the vault contract is made to the PoS terminal as it has now received all the information required.\n\n\n",
+  "how_its_made": "We used a Rasberry pi running Raspbian, where we installed node. We also used a third party node module to make the connection between the NFC card reader and the program itself. We ran web sockets to listen for the NFC tap. We used react native for the PoS terminal interface with daisyUI. We used ethers and hardhat to deploy and make contract calls.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/bounce-jxqoc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

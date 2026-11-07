@@ -1,0 +1,22 @@
+{
+  "id": "k4onm",
+  "slug": "zkotp-wallet",
+  "title": "zkOTP Wallet",
+  "tagline": "zkOTP Wallet: A seedless wallet secured by zk-proofs and Google Authenticator TOTP standard.",
+  "event": {
+    "slug": "taipei",
+    "name": "ETHGlobal Taipei",
+    "start_time": "2025-04-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k4onm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/udkFTR00vVtdLSTqUtathRZBqoD700DsuhBuTu9ohQu6c/high.mp4",
+  "demo_url": "https://v0-zkotp-wallet-design-dkbyin.vercel.app/",
+  "source_url": "https://github.com/NuttakitDW/ethglobal-taipei",
+  "finalist": false,
+  "description": "**How it's made**\n\n*Tell us about how you built this project; the nitty-gritty details. What technologies did you use? How are they pieced together? If you used any partner technologies, how did it benefit your project? Did you do anything particuarly hacky that's notable and worth mentioning?*\n\nFor proving TOTP Code on-chain, the prover (which is the zk-TOTP wallet) takes private inputs (secret_raw, secret_bits, otp_code) and public inputs (hashed_secret, time_step, action_hash, tx_nonce) into the circuit. \n\nWithin the circuit:\n\n1. It first confirms the circuit “Secret” matches the hashed_secret\n2. It then computes the TOTP Code with HMAC-SHA1\n3. Then compares to the user’s `otp_code` \n4. Then binds the proof to action_hash & tx_nonce \n\nFinally, the smart contract verifies the proof by circuit is true, ensures nonce is not used to prevent replay attacks, and executes the requested action. \n\nWe use Self Protocol SDKs to implement the on-chain verification process on Celo, then use Hyperlane to securely transmit the zero-knowledge proof and verification data between Celo chain and HashKey chain. This expands the use of Self Protocol and Hyperlane to enable zero-knowledge proof KYC on Hashkey chain, taking a step closer to the framework of regulatory-compliant data storage and data privacy protection networks.",
+  "how_its_made": "**How’s it made**\n\n⚙️  Technologies Used\n\n- Noir (via nargo) for writing and compiling the zk circuit\n- NoirJS for browser-based proving (WebAssembly)\n- Solidity for the onchain zk-SNARK verifier on Celo\n- Poseidon Hash for efficient in-circuit commitments\n- Google Authenticator-compatible TOTP (RFC 6238, HMAC-SHA1)\n- Self Protocol for decentralized identity & recovery commitment\n- Celo Chain as the execution layer for onchain proof verification\n- HashKey Chain for tiered based KYC\n- The frontend is built by Next.js, and deployed on Vercel.\n\n🧠 Notable Hacks & Engineering Wins\n\n- Implementing bit-accurate SHA1 and HMAC-SHA1 in-circuit was nontrivial. Handling 512-bit blocks, 32-bit rotations, and byte-alignment took several iterations.\n- Compatible with existing 2FA apps (like Google Authenticator) with zero modification, lowering onboarding friction.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkotp-wallet-k4onm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "tdgk0",
+  "slug": "aqueduct",
+  "title": "Aqueduct",
+  "tagline": "A DeFi maker's real risk is every strategy added up, not one trade — we gate live on that number.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tdgk0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dDEHtKFZM5NMP7lSLmbAlkjsdU8YSOnjWhrAWivMi7A/high.mp4",
+  "demo_url": "https://aqueduct-protocol.vercel.app/",
+  "source_url": "https://github.com/SudeepGowda55/Aqueduct",
+  "finalist": false,
+  "description": "A DeFi maker's liquidity can look safe strategy-by-strategy while being dangerously overcommitted in aggregate — the \"multiplier effect.\" Aqueduct adds _exposureGate1D, a new SwapVM instruction that reads a maker's live, cross-strategy exposure from an on-chain oracle and derates or halts their fill — monotonic by construction, so it can only ever make a fill more conservative, never better. A Uniswap v4 hook (AquaV4Hook) sources v4 swaps from that exact same gated strategy, so the identical safety guarantee holds on both a direct SwapVM swap and a Uniswap v4 swap — proven bit-for-bit identical on real Base Sepolia transactions. The Graph aggregates the maker's exposure across every strategy they've shipped, feeds the oracle, and re-exposes real swap data in a standardized Messari DEX-AMM schema plus an MCP server so AI agents can query it directly. Every number shown is live on Base Sepolia, independently verified on-chain — not mocked, not simulated.",
+  "how_its_made": "Built in Foundry against real, unmodified 1inch Aqua/SwapVM and Uniswap v4-core/v4-periphery — no forks, no mocks. _exposureGate1D is appended to stock AquaOpcodes at a fresh index, alongside OraclePriceAdjuster (1inch's own instruction, wired into AquaOpcodes for the first time here) composed into a three-instruction \"Strategy P\" position reading a real Chainlink ETH/USD feed. On the Uniswap side, we extracted a reusable AsyncLiquidityHook base solving v4's flash-accounting settlement-order problem (a working-capital float: mint claims, fund from the hook's own balance, settle, sweep later) — proven generic with two independent implementations — then added a second, independent v4 capability: a risk-adjusted dynamic LP fee via LPFeeLibrary/updateDynamicLPFee, mirroring OpenZeppelin's uniswap-hooks patterns. The Graph side runs a custom subgraph plus a trimmed Messari DEX-AMM standardized layer (same entity/field names as messari/subgraphs) and a zero-dependency MCP server exposing exposure and safety-verdict tools over stdio. Frontend is Next.js + ethers, reading live contract and subgraph state with no personal RPC key shipped client-side. 49 Foundry tests, including a 128,000-call stateful-fuzz invariant suite proving committed-balance accounting holds under arbitrary sequences of pushes, pauses, and swaps.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aqueduct-tdgk0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

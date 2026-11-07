@@ -1,0 +1,22 @@
+{
+  "id": "91xdp",
+  "slug": "sigil",
+  "title": "Sigil",
+  "tagline": "Skills for AI agents, backed by staked USDC and verified on-chain, licensed per use via x402",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/91xdp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/oY301kEh93301HPFIAAqCllbSgc5Lxl21ZLZp6bN477kc/high.mp4",
+  "demo_url": "https://dr7shuhqdeo3p.cloudfront.net/",
+  "source_url": "https://github.com/sm-xd/sigil",
+  "finalist": false,
+  "description": "Sigil is a trust layer for AI agent skills. An agent extends itself by installing skills (small tools, MCP servers, snippets of code), and one bad skill can leak a cloud key or drain a wallet. Today an agent has two signals about a skill, the author's description and a scanner's opinion, and neither costs anything to be wrong. Sigil makes being trustworthy cost money. Anyone lists a skill for free; the gateway hashes its source into the skill id, pins the bundle on Hedera as an HCS-1 file and announces it on an HCS registry topic. A staker then locks USDC on Arc behind one machine-testable predicate about the skill: it reads no env var, opens no network connection, reads or writes no path outside an allowlist, starts no subprocess, runs no dynamic code. An agent buys the skill's source per request over x402 on Hedera, gets an HTS licence NFT, and runs the skill in a deterministic sandbox that records every env, file, network, subprocess and eval event and hashes the canonical trace. If the trace breaks the claim, anyone can dispute with a counter-bond and the trace; an independent verifier re-runs the exact bundle from the pinned source, and the contract pays stake plus bond to whichever side the evidence supports. A World Selfie Check nullifier is stored on every claim and dispute so one person cannot hold both sides of a stake. No model adjudicates anything: the only thing behind a claim is capital at risk, and anyone can re-run the evidence. Everything is live on Hedera testnet and Arc testnet: 17 skills listed, real x402 settlements through Blocky402, real USDC escrow on Arc, disputes settled both ways, and the whole loop (register, claim, probe, dispute, resolve, settle) works from the browser.",
+  "how_its_made": "A pnpm monorepo in TypeScript. The gateway is Express: a JSON index for skills, claims, disputes, resolutions and payments, with Hedera HCS as the audit log. Every event is an HCS message on the registry topic and on a per-claim topic; skill sources and dispute evidence are pinned as HCS-1 files; each buyer gets an HTS licence NFT minted on settlement; the agent carries an HCS-14 identity. Paid access is x402 via @x402/core, @x402/express and @x402/hedera, settled by the Blocky402 facilitator in HBAR or HTS USDC, priced per kilobyte of source; a licence gate reads NFT ownership from the mirror node so holders read free. The sandbox runs the skill in a scrubbed Node child process with an interposition shim that wraps process.env, fs, net.Socket.connect, dns, child_process and eval (the child also runs with --disallow-code-generation-from-strings); canary env vars are planted so a leaking error handler is caught red-handed; the trace is canonicalised and sha256'd, and we verified byte-identical hashes across processes, working directories and a Docker container. Stake custody is a Foundry/Solidity contract on Arc (SigilStake: openClaim, dispute, resolve; DisputeResolver records verdicts), and the agent signs every approve, dispute and resolve as an ERC-4337 user operation from a Circle Agent Stack wallet. The web app is Next.js 16, React, TanStack Query, wagmi/viem and Tailwind, designed as a printed ledger rather than a dashboard. Hacky and worth mentioning: the gateway exposes POST /claims/:id/probe, which runs the claim's skill in the same sandbox on the server, so a browser user gets dispute evidence without the repo; a headless agent cannot open the World widget, so its operator verifies once and lists the nullifier; and the same skill.json folders feed both the UI's example picker and the CLI registration script.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sigil-91xdp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

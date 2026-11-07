@@ -1,0 +1,27 @@
+{
+  "id": "7cf9e",
+  "slug": "revoke-eth",
+  "title": "Revoke.eth",
+  "tagline": "Grant, limit, or revoke an AI agent's spending through ENS — instantly, no key rotation.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7cf9e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3Hpbez8YZl901wwtfcZP79Msq6XHtTOYK7AMMGWk2Kzk/high.mp4",
+  "demo_url": "https://revoke-eth-web.vercel.app/",
+  "source_url": "https://github.com/Dragoon4002/revoke.eth",
+  "finalist": false,
+  "description": "Revoke turns an AI agent's ENS name into its authorization. A parent grants an agent a narrow, expiring, revocable capability recorded on ENSv2 - a delegated right, not a handed-over key - and services check that capability before honoring a paid request. A subgraph indexes the full delegation tree and verifies freshness on every read, refusing to authorize against stale data rather than guessing. Payments settle over x402 on Hedera, and every HCS receipt is bound back to the ENS name that permitted it, so the full chain - who allowed this, when, and what happened - is publicly auditable. The result is a kill switch for agent access: revoke the name, and the agent's spending stops everywhere at once, with no key rotation and no service-by-service cleanup.",
+  "how_its_made": "ENSv2 on Sepolia is the source of truth. Each agent gets a Permissioned Resolver with Enhanced Access Control, defining exactly which records it can modify. A registrar built around ETHRegistry handles subname issuance. The contracts are written in Solidity with Foundry, deployed and verified on Sepolia.\nThe Graph indexes every grant, revocation, and expiry through a subgraph with AssemblyScript mappings. Every query returns a provenance envelope containing the deployment ID, indexed block, live chain head, indexing lag, and authorization verdict. The service refuses to authorize against stale data rather than guessing. Freshness is a security control, not a UX feature.\nHedera handles payments. An x402-gated service checks the agent's live capability before accepting a request, settles payment through a real ContractExecuteTransaction using EIP-712 transferWithAuthorization, and writes an HCS receipt bound to the ENS name that authorized it. The receipt can be independently verified through the Hedera mirror node.\nOne of the key security challenges was establishing a trustworthy chain head. An initial high-water-mark approach could silently report data as fresh after a cold start. This was replaced with a real eth_blockNumber RPC call on every authorization check, ensuring freshness is independently verified before a payment is allowed.\nThe system was built with contracts and shared types defined first, followed by parallel ENS, Graph, Hedera, and UI implementation against those interfaces, then integrated and re-verified against live Sepolia and Hedera testnet data. Planning documents, implementation specs, and fix history are included in the repository.",
+  "auto_summary": "A multi-package app that delegates ENSv2-based agent permissions, indexes authorization state with a subgraph, and settles gated payments on Hedera.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/revoke-eth-7cf9e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

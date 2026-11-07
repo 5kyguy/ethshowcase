@@ -1,0 +1,22 @@
+{
+  "id": "30ne0",
+  "slug": "gleipnir",
+  "title": "Gleipnir",
+  "tagline": "Who can rug this protocol? Permission risk scanner for Ethereum smart contracts.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/30ne0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/P01RIxGwQrsPRwBXAwvVmhs028WRxz01HX00I02swsaJqOf4/high.mp4",
+  "demo_url": "https://gleipnir.up.railway.app/",
+  "source_url": "https://github.com/thoraidev/gleipnir",
+  "finalist": false,
+  "description": "Gleipnir makes smart contract permission structures legible for everyone and every agent. Paste any Ethereum contract address to get a plain-English breakdown of who controls it, what they can do, every red flag, and a 0–100 permission risk score.\n\nOver $630M+ was reported lost in DeFi in April 2026 alone. The biggest incidents — Drift ($285M), Kelp DAO ($292M) weren't code bugs. They were permission failures: compromised admin keys, removed timelocks, weak multisig thresholds. The code was audited. The permissions were the vulnerability.\n\nGleipnir extracts every privileged function from verified source code, resolves ownership chains through live on-chain reads (EOA → Gnosis Safe → Timelock → Governor), detects proxy patterns (EIP-1967, Transparent, UUPS), flags red flags (pause + drain combos, unprotected critical functions, missing timelocks), and shows blast radius context via DeFiLlama TVL data.\n\nFor humans, reports include Claude Haiku-powered plain-English explanations. For autonomous agents, a deterministic JSON API returns the same structured risk data with no LLM in the loop enabling pre-transaction permission checks before an agent interacts with any contract.",
+  "how_its_made": "Gleipnir is a Next.js 15 app (TypeScript, Tailwind v4) deployed on Railway. The primary blockchain data source is Blockscout's open-source API no API key required. Etherscan serves as a fallback for source code retrieval. Ownership chain resolution uses Alchemy RPC for live on-chain reads: calling owner(), getOwners(), getThreshold(), getMinDelay(), and reading EIP-1967 proxy storage slots directly.\n\nThe permission extractor is a scope-aware Solidity parser (~690 lines) that distinguishes between contract implementations, interface declarations, and library helpers. It filters standard ERC-20/721/1155 user functions (approve, transfer, transferFrom) from real admin surfaces, detects Aragon-style auth() access control, and handles one-time initializer guards. \n\nThis was the hardest engineering challenge early versions produced severe false positives that made Aave look catastrophically broken.\n\nClaude Haiku generates the top summary paragraph and function-level plain-English descriptions on report pages. It narrates deterministic facts it cannot change callers, categories, scores, or red flags. The API endpoint (/api/v1/check) skips LLM entirely for fully deterministic agent-queryable output.\n\nDeFiLlama's free public API provides blast radius context showing which protocols and how much TVL could be affected if a contract's permissions are abused.\n\nThe entire project was built from scratch during the Open Agents hackathon using my OpenClaw AI agent (Thor) and me. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gleipnir-30ne0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

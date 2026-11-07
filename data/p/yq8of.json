@@ -1,0 +1,30 @@
+{
+  "id": "yq8of",
+  "slug": "pass-public-assembly-sponsorship-system",
+  "title": "PASS (Public Assembly Sponsorship System)",
+  "tagline": "Our app showcases a functional ERC4337 account abstraction implementation that programmatically subsidizes transaction gas fees, depending on a user's inclusion on an onchain allowlist, stored in the custom paymaster.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yq8of/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bv7ncqQWHrcvvLELnhb500BIckBHbb00JyIvqj9Cs6Bos/high.mp4",
+  "demo_url": "https://pass-paris.vercel.app/",
+  "source_url": "https://github.com/public-assembly/pass",
+  "prizes": [
+    {
+      "sponsor": "Biconomy",
+      "sponsor_id": "ke9sy",
+      "placement": "🏊 Biconomy — Pool Prize",
+      "title": "Biconomy"
+    }
+  ],
+  "finalist": false,
+  "description": "With the multi-chain future of Ethereum becoming more apparent every day, the need for cross-chain aggregation of reputation continues to grow. One great tool for aggregating both on-chain and off-chain data sources are merkle trees, which allow you to generate a list of addresses from any data source and store them on-chain. Additionally,  the verification of an address’ presence on a list can be completed on-chain without introducing additional trust assumptions. \n\nPASS (Public Assembly Sponsorship System) integrates the functionality of merkle trees into another emerging feature of Ethereum, Account Abstraction (AA), specifically as implemented in ERC - 4337.\n\nL2s have reduced gas cost enough to where communities can create budgets for subsidizing public activity onchain as a communal good. Our community, Public Assembly (PA) is made up of all types of engineers, designers, creative technologists, an researchers who prioritize storing their collective information on-chain. This build marks the first step towards creating a real interface to facilitate this for our community.\n\nAs Public Assembly’s members continue to contribute towards our collective library of educational resources on-chain, PASS will allow us to subsidize member activity so as to promote the growth of our public archive of information.\n\nWe hope that as PA develops this feature for ourselves it becomes an integral piece of infrastructure that is readily available for other communities to utilize.",
+  "how_its_made": "We began by developing a custom paymaster implementation which programatically determines whether or not to sponsor a user’s transaction based on that user’s presence on an allowlist.  We’re using solady’s MerkleProofLib to validate an addresses inclusion in the merkle tree.\n\nOn our interface, we’re using Airstack’s React SDK to generate an array of token holders based on a collection address supplied by a user. With that array of token holders, we use the deterministic nature of smart accounts to preview the counterfactual address of each address in the array. The smart contract wallet implementation we’re using comes from Biconomy.\n\nNext, we use Lanyard (an open-source API for generating merkle roots) to create a merkle root based on the array of counterfactual addresses.\n\nThis merkle root is passed into a `setMerkleRoot` function that also lives in our custom paymaster implementation. This is the merkleRoot that we use for our inclusion check during the `_validatePaymasterUserOp` check.\n\nThe function that we are actually determining whether or not to sponsor for a user is a “setMessage” function that stores a string in a simple “MessageBoard.sol” contract. Upon a user authentication on the site, we again use Lanyard to check for the user’s counterfactual 4337 address’s inclusion on the merkle root stored in the paymaster implementation. If it is included, they are prompted for a signature upon button submission, which we then pass to the Biconomy SDK which generates an ERC4337 compliant User Operation and submits it to the Biconomy bundler, which finally processes the transaction, with gas costs being covered by the paymaster !!! \n\nIf a user’s counterfactual address is not in the merkle tree, then we instead let them trigger a `traditional` transaction where their wallet is responsible for the gas fees.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pass-public-assembly-sponsorship-system-yq8of",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

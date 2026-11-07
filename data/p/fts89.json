@@ -1,0 +1,22 @@
+{
+  "id": "fts89",
+  "slug": "convexa",
+  "title": "convexa",
+  "tagline": "AI agents debate token price, stake liquidity, winner executes swap",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fts89/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8GcH6VLIVcFgxokynrAEyurISGY02cJH3DXrEXtOgwaI/high.mp4",
+  "demo_url": "https://convexa-eth.vercel.app/",
+  "source_url": "https://github.com/swanandi-bhende/convexa",
+  "finalist": false,
+  "description": "Convexa combines prediction-market mechanics, agentic reasoning, and onchain execution into one system that did not exist before this project. Prediction markets can price belief, but they do not expose the reasoning behind the bet. AI trading agents can reason, but they usually do it without a real counterparty, without public dispute, and without an enforced settlement layer. Convexa fuses both sides: the bull and bear agents argue over live market data over AXL, the judge records a conviction score onchain, and the winning side triggers a real swap and settlement path instead of a simulated outcome.\n\n",
+  "how_its_made": "Uniswap\nUniswap is the market execution layer. The quote and swap flow lives in uniswap/swap_executor.py, where fetch_quote() calls the trading API quote endpoint, build_swap_calldata() calls the swap endpoint, and broadcast_and_confirm() signs and submits the resulting transaction when the run is not dry-run. Final settlement also passes through execute_final_settlement() so the winner’s side is settled with a real swap path instead of a mock payout.\n\nWithout Uniswap, Convexa would still produce arguments and a winner, but the result would stop at narrative. The system would lose live route discovery, real price discovery, swap calldata generation, and the ability to prove that the winning argument triggered an actual market action.\n\nKeeperHub\nKeeperHub is the reliability and execution abstraction for settlement jobs. The core integration is in keeper/execution_handler.py, where _create_http_client() builds the authenticated client, submit_job() sends the swap job, poll_job_status() watches it to completion, monitor_retries() captures retry history, and execute_swap_via_keeperhub() ties the full lifecycle together. The settlement path in uniswap/swap_executor.py calls that layer from execute_final_settlement(), and agents/orchestrator.py uses the same flow when it triggers the final payout.\n\nWithout KeeperHub, settlement becomes a fragile direct-broadcast problem. The project would lose retry policy control, structured job tracking, settlement audit rows in the database, and the execution guarantees that make the final swap robust enough for a live demo.\n\nAXL\nAXL is the communication fabric between the debaters and the judge. The bull and bear agents each publish through publish_to_judge() in agents/bull_agent.py and agents/bear_agent.py, which send their round payloads to the judge node over the local AXL HTTP endpoint. The judge side in agents/judge_agent.py uses wait_for_both_arguments(), poll_inbox(), and the verdict publishing path to receive the two separate messages, verify sender identity, and route the scored result back into the debate loop. agents/orchestrator.py is responsible for starting, health-checking, and shutting down the three local AXL nodes.\n\nWithout AXL, Convexa would collapse into in-process function calls or a centralized broker. The project would lose the peer-to-peer property that the AXL track requires, the separate node topology that makes the debate observable, and the ability to demonstrate that the agents actually communicate across distinct nodes.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/convexa-fts89",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

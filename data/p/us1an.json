@@ -1,0 +1,35 @@
+{
+  "id": "us1an",
+  "slug": "gohealthme",
+  "title": "goHealthMe",
+  "tagline": "Verified health goals with instant USDC payouts — confidential AI oracle, proof-of-human gated.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/us1an/banner/default.jpg",
+  "video_url": "https://stream.mux.com/E02DtqA8F01QCZzjX01RcLK00dX3KMvywmnp02SHmheuDdjg/high.mp4",
+  "demo_url": "https://gohealthme.vercel.app",
+  "source_url": "https://github.com/AndreChuabio/gohealthme",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Best usage of Chainlink Confidential AI Attester",
+      "title": "Best usage of Chainlink Confidential AI Attester"
+    }
+  ],
+  "finalist": false,
+  "description": "Insurers already pay people to be healthy — through opaque points and gift cards that arrive weeks later. GoHealthMe puts that on-chain and makes it private. Anyone funds an initiative pool (sleep, recovery, steps) with USDC and publishes small bounties. A user signs in, funds their account in one tap, joins with a proof that they're a unique human, and gets paid the instant their health goal is verified.\n The hard problem is privacy. A health reward is a tiny, frequent payment — a nanopayment — but if it settles to your main wallet, anyone watching the chain can link \"this address\" to \"hit a recovery goal in the addiction-recovery pool.\" That's a medical disclosure. GoHealthMe closes both ends of that leak: the sensitive health data is judged inside a confidential TEE so it never touches the chain (only a signed verdict does), and the USDC reward is delivered through a shielded Unlink account derived from the user's own signature — so there is no on-chain link between the health goal and the wallet that receives the money. Funding is frictionless (one-tap stablecoin deposit), verification is trust-minimized (a decentralized confidential oracle, not a company), and settlement is instant in native USDC on Arc. It's \"get paid to be healthy\" rebuilt to be private, instant, and trustless.",
+  "how_its_made": "Wallets — Dynamic. @dynamic-labs/sdk-react-core + the Ethereum/wagmi connectors handle sign-in and wallet creation (embedded + external wallets). A useEmbeddedWallet hook exposes the Arc wallet client used to sign every downstream action, including the signature that derives the user's private account.\n\nPrivate nanopayments — Unlink. This is the core. Rewards are tiny (default 0.25 USDC) and routed so they can't be traced back to a health goal. On claim, the browser derives a non-custodial Unlink account from the user's wallet signature (@unlink-xyz/sdk, deriveUnlinkAccount). The server treasury then deposit()s into its own shielded balance and transfer()s to the derived Unlink address — the deposit-transfer pair is what breaks the goal-recipient link. The user can later withdraw() to any wallet. Payouts are idempotent: we mark-claimed before moving funds as an optimistic lock against double-pay, and roll the lock back on failure so a transient error never locks a reward forever.\n\nSettlement — Arc + Circle. Everything settles in native USDC on Arc testnet (chain id 5042002), Circle's USDC-native chain, so escrow and instant payout need no bridging or wrapped tokens. Foundry contracts: HealthPools.sol (pools, World ID nullifier gating, settle, backing, streak multipliers) and HealthVerdict.sol (Chainlink verdict registry + onReport receiver).\n\nConfidential verification — Chainlink Confidential AI Attester. Health data from Junction is judged by Chainlink's Confidential AI Attester running inference inside a TEE. A CRE workflow submits the confidential inference request and returns a DON-signed report into HealthVerdict.onReport; HealthPools.settle() gates on HealthVerdict.canSettle(). Only the verdict — verified / confidence / digest — is ever written on-chain; the raw health data never leaves the TEE.\n\nFunding — Blink. First-time users fund their account in one tap with Blink's \"For Apps\" deposit SDK (@swype-org/deposit): it pulls USDC from an existing funded wallet and settles to our merchant address. It's a decoupled top-up — Blink credits a balance ledger, and subsequent pool actions draw from that balance — so funding feels native and instant before the user ever touches a pool contract.\nProof-of-human — World ID. Joining runs a World ID cloud verification (@worldcoin/idkit); the nullifier gates joinPool on-chain for one-human-one-entry, which is what stops a single user from draining a pool with fake accounts.\n\nStack: Next.js (App Router) for frontend + API routes, server-side treasury/claims/balance ledger, deployed on Vercel.\nHonest/hacky notes: We ship a two-path verdict design — a fast oracle-signer path for the live demo and the full Chainlink TEE + CRE + DON path — plus a Tier-1 gate-proof instance that proves the verdict gate end-to-end (two identical participants, only the verdict-backed one got paid: 2 USDC vs 0). ENS was dropped because Sepolia ENS was mid-v2-migration during the event. Blink's testnet sandbox settles on Base Sepolia, so it's wired as the decoupled funding rail while Arc handles the private reward settlement.",
+  "auto_summary": "A Next.js app and Solidity contracts that fund, verify, and privately pay health-goal rewards in USDC using Arc-based settlement.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/gohealthme-us1an",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

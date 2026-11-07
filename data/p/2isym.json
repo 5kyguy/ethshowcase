@@ -1,0 +1,27 @@
+{
+  "id": "2isym",
+  "slug": "agent-ria",
+  "title": "Agent RIA",
+  "tagline": "RIA — Reconnaissance Intelligence Agent: Live DeFi intelligence that detects, reasons, and acts.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2isym/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UohCa1HN8uBrU3dYHaAca40202Hagu8rbNlFoCUfE1eqs/high.mp4",
+  "demo_url": "https://ria-agent.vercel.app/",
+  "source_url": "https://github.com/arrnaya/AgentRIA",
+  "finalist": false,
+  "description": "RIA (Reconnaissance Intelligence Agent) is an autonomous, multi-agent DeFi intelligence system that combines live on-chain data from The Graph's 15,000+ Subgraphs with autonomous payment execution on Hedera's x402 protocol.\n\nRIA runs a 6-agent LangGraph pipeline — RECON ingests live DeFi data via The Graph's Subgraph MCP and Substreams across Uniswap, Aave, Compound, and Curve using Messari Standardized Subgraphs; SCOUT ranks arbitrage and yield opportunities; RISK scores and sizes positions; ORACLE enriches signals by autonomously paying for external inference via Hedera x402 in HBAR with no API keys or subscriptions; EXEC gates and dispatches actions; AUDIT writes a tamper-proof log to Hedera's Consensus Service.\n\nEvery agent carries an on-chain identity via ENSv2 subnames (e.g. ria-oracle.ria.eth) with isolated permissions through ENSv2's Permissioned Resolver and Enhanced Access Control.\n\nRIA is not a dashboard. It monitors DeFi markets in real time, reasons over live data, and acts — fully autonomously.",
+  "how_its_made": "RIA is built in Python using LangGraph as the multi-agent orchestration framework. The agent pipeline is a StateGraph with conditional edges — each agent passes a typed state object downstream, and routing decisions (e.g. whether EXEC fires or alerts a human) are made by confidence thresholds baked into the graph edges, not hardcoded if-else logic.\n\nThe Graph is the backbone of RIA's data layer. Rather than querying individual protocol APIs, RECON uses The Graph's Subgraph MCP to query 15,000+ Subgraphs in natural language, and a Substreams pipeline for block-by-block liquidation proximity monitoring. The key architectural decision was standardizing all queries on Messari Standardized Subgraphs — this means a single GraphQL schema spans Uniswap, Aave, Compound, and Curve simultaneously. One query pattern, four protocols. This is what made cross-protocol opportunity detection tractable in hackathon time rather than a multi-week integration project.\n\nHedera powers the payment layer. The ORACLE agent needs external signals — price feeds, sentiment, inference — that are gated behind pay-per-request APIs. The hacky-but-elegant solution: we host our own x402-gated inference endpoint via Blocky402 on Hedera testnet, then have ORACLE discover and pay for it autonomously in HBAR. No API key stored anywhere in the codebase. The agent holds the wallet, reads the 402 response, signs the HBAR transfer, and retries — all in one flow. Sub-3 second finality on Hedera means this adds negligible latency to the pipeline. Every payment and action is then logged to Hedera Consensus Service for a tamper-proof audit trail.\n\nENSv2 gives each agent a portable on-chain identity. We register subnames under ria.eth on Sepolia using ENSv2's Permissioned Resolver — ria-oracle.ria.eth can only update its own text records, ria-exec.ria.eth cannot touch oracle's records. Enhanced Access Control enforces this at the resolver level. Agent metadata follows ENSIP-26 so the identities are discoverable by other protocols.\n\nThe LLM backbone is Claude claude-sonnet-4-6 via the Anthropic API, used for tool-calling across all six agents. The most notable architectural choice: ORACLE is the only agent with payment authority. Every other agent is read-only with respect to Hedera. This containment model means a reasoning error in SCOUT or RISK cannot accidentally drain the HBAR wallet — only a deliberate ORACLE invocation can trigger a payment.",
+  "auto_summary": "A Python multi-agent system monitors DeFi data via The Graph, pays for external services on Hedera, and assigns agent identities with ENSv2.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agent-ria-2isym",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

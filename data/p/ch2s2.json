@@ -1,0 +1,27 @@
+{
+  "id": "ch2s2",
+  "slug": "ysm",
+  "title": "YSM",
+  "tagline": "DeFi protocols sell future fees revenue. Investors earn yield as fees flow in. No debt, no dilution.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ch2s2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eVu7elxmWz4nMCccO4wg7Pyw32xoCX2XK8Wq6btOakg/high.mp4",
+  "demo_url": "https://eth-global-cannes-2026.vercel.app/",
+  "source_url": "https://github.com/Mariussgal/ETH-GLOBAL-CANNES-2026",
+  "finalist": false,
+  "description": "YSM is a decentralized marketplace where DeFi protocols sell their future fee revenue in exchange for instant USDC capital. Protocols tokenize a fraction of their fees into Yield Stream Tokens (YST), ERC-20 tokens that give investors a proportional claim on incoming fees over time.\n\nInvestors buy YST at a discount calculated by Chainlink CRE using real on-chain data: fee volatility, protocol reliability, and ETH market conditions. As fees flow in, rewards accumulate automatically via a checkpoint mechanism, no manual intervention required.\n\nEach stream is identified by an ENS subname (e.g. quickswap.ysm.eth) minted at creation, pointing to the deployed Vault. If a protocol defaults, the ENS text record is automatically flagged as DEFAULTED on-chain. Multi-chain fee consolidation is handled via Arc, aggregating fees from Base and Polygon into a single Sepolia Vault.\n\nNo debt. No dilution. No trust assumptions.",
+  "how_its_made": "Our key Integrations:\n\nChainlink CRE : We developed workflows to handle off-chain logic. Workflow #1 (Risk Scoring) calculates dynamic discounts by fetching real-time ETH/USD prices from the Chainlink Sepolia feed (with a Binance fallback) and protocol reliability scores via a Cloudflare Worker proxy. Workflow #2 (Quality Gate) validates protocol history—requiring 30-day average fees ≥ $1,000, an rScore ≥ 0.5, and ≥ 90 days of data—to gate new stream creation. These workflows write reports directly on-chain via EVMClient.writeReport to the StreamFactory\n\nArc & Circle (CCTP V2): Using the Circle Bridge Kit, we enabled programmable USDC settlement. Revenue flows from Arc Testnet to Sepolia via CCTP, where our Router.sol automatically flushes balances into investor vaults.\n\nENS (The Risk Ledger): We utilized ENS as a decentralized reputation system. The Factory mints subnames (e.g., protocol.ysm.eth) for every stream. If a protocol fails to deliver yield for 30 days or the stream ends without the expected yield being delivered, the Vault trustlessly updates the ENS text record to status = DEFAULTED, providing a permanent on-chain risk signal.",
+  "auto_summary": "A decentralized marketplace that tokenizes future protocol fee streams into ERC-20 assets and routes fee revenue to investors with onchain settlement.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ysm-ch2s2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

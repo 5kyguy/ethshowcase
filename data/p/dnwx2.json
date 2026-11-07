@@ -1,0 +1,22 @@
+{
+  "id": "dnwx2",
+  "slug": "queryfi",
+  "title": "QueryFi",
+  "tagline": "AI DeFi analytics priced per query via gasless state channel micropayments. No subscriptions.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dnwx2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cUBaHLG7qQyYnPs00k02UNSKa00JSpDMdU1f02jJ01K2jznY/high.mp4",
+  "demo_url": "https://query-fi-app.vercel.app",
+  "source_url": "https://github.com/kshitij-hash/QueryFi",
+  "finalist": false,
+  "description": "QueryFi is a pay-per-query DeFi analytics agent. You pay $0.01 to $0.10 per question instead of $20-100/month for a subscription you barely use. Yield searches, health factor checks, impermanent loss, portfolio analysis. If you're not asking, you're not paying.\n\nPayments run off-chain through Yellow Network state channels. Deposit USDC once, and each query deducts a gasless micropayment in under 50ms. No wallet pop-ups, no gas, no waiting. It feels like a normal chat app except there's real money moving with every message.\n\nWhen micropayments hit $1, the system auto-settles on-chain across Base Sepolia and Arc testnet in parallel. Both go through Circle Programmable Wallets so the agent has a secure treasury without ever touching a raw private key.\n\nThe AI agent (Gemini 2.5 Flash) has 8 tools for pulling live DeFi data: yields and prices from DeFi Llama, health factors from Aave V3, Uniswap v4 pool state via extsload(), on-chain hook activity monitoring, settlement policy adjustment, IL calculation, and wallet management. It keeps conversation context so follow-ups like \"what about on Arbitrum?\" just work.\n\nThe agent is actually autonomous. It reads v4 pool state, monitors swap volume on the hook, and when it sees high activity with a high payout threshold, it proactively calls setSettlementThreshold() to lower it for faster payouts. No human in the loop.\n\n103 Foundry tests across both hooks (55 Base + 48 Arc) including fuzz tests. Server-side payment verification rejects missing or replayed payments with 402.",
+  "how_its_made": "Frontend is Next.js 16, React 19, RainbowKit, shadcn/ui, Tailwind. The chat UI handles the entire Yellow Network payment lifecycle inline.\n\nYellow Network (@erc7824/nitrolite v0.5.3) is the core payment rail. We wrote a 466-line WebSocket client that handles EIP-712 auth, session creation, per-query state updates with balance reallocation, keepalive pings, and reconnection with exponential backoff. The API validates payment proof (appSessionId + monotonic version) before the agent processes anything.\n\nThe AI agent runs Gemini 2.5 Flash via OpenRouter with 8 function-calling tools. It reads Uniswap v4 pool state through PoolManager.extsload() by computing keccak256 slot offsets for sqrtPriceX96, tick, and liquidity. It reads hook contract storage directly for swap counts and settlement stats. When it spots high volume, it autonomously calls setSettlementThreshold() through Circle's executeContractCall().\n\nSettlement is multi-chain. Micropayments accumulate in Neon Postgres via Drizzle ORM until the $1 threshold, then the settlement service fires on both chains in parallel through Circle Programmable Wallets. On Base Sepolia, Circle Wallet calls recordSettlement() on our v4 hook (deployed via HookMiner CREATE2 for correct afterSwap flag bits). On Arc testnet, a separate Circle SCA wallet (derived via deriveWallet API, same address on both chains) calls depositMicropayment() on ArcSettlementHook.\n\nThe hacky bits: HookMiner CREATE2 mining to get an address whose last bits encode \"afterSwap only.\" And making Circle Wallets work on Arc required casting \"ARC-TESTNET\" as any since the SDK doesn't enumerate it in its blockchain types. Worked perfectly though.\n\n103 Foundry tests total (55 Base, 48 Arc) covering settlement, thresholds, afterSwap tracking, reentrancy, access control, and fuzz.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/queryfi-dnwx2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

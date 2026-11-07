@@ -1,0 +1,22 @@
+{
+  "id": "027v2",
+  "slug": "equinox-fi",
+  "title": "Equinox-fi",
+  "tagline": "Fair, multi-collateral order-book lending on Sui with ZK-privacy, AI-verified matching",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/027v2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZcCEtK3aWellzmvX5S4AbtbPdd01GjLfA2yQCbKfFr4Q/high.mp4",
+  "demo_url": "https://equinox-fi.vercel.app",
+  "source_url": "https://github.com/yeheskieltame/Equinox",
+  "finalist": false,
+  "description": "Equinox is the first fair, order-book-based DeFi lending protocol built natively on Sui. Unlike traditional pooled lending protocols (like Aave or Compound) where users interact with a passive pool at algorithmic rates, Equinox empowers users to become active market makers.\n\nKey Innovations:\n\n1. Peer-to-Peer Order Book: Lenders and borrowers place limit orders with custom parameters—specifying desire interest rates, loan-to-value (LTV) ratios, and duration. This eliminates the spread captured by protocols, allowing direct price discovery.\n2. Multi-Collateral Borrowing: Users can bundle multiple assets (e.g., SUI, ETH, USDC) into a single borrowing position. This maximizes Borrow Power and capital efficiency, allowing users to leverage their diverse portfolio to secure better rates and higher LTVs.\nAI-Enhanced Fair Matching: Our off-chain \"Nautilus\" engine doesn't just match orders algorithmically; it optimizes for fairness and efficiency. It intelligently pairs multi-collateral borrow requests with the best available lend offers, ensuring retail users get priority over bots and wash traders.\n3. ZK-Hidden Orders: Institutional and large retail traders often suffer from front-running. Equinox implements ZK-Hidden Orders, allowing users to place \"dark pool\" style liquidity that is only revealed upon matching, preserving strategy privacy.\n4. Vesting Vault: Users with vested/locked tokens can prove ownership via ZK proofs and use these illiquid assets as collateral, transforming potential sell pressure into deep ecosystem liquidity.",
+  "how_its_made": "Equinox is architected as a set of composable Move modules centered around market.move, loan.move, and vesting.move, tailored for Sui's object capability model.\n\nThe Core Engine & Multi-Collateral Logic: The market.move module maintains dual order books (public and hidden). We engineered a flexible Position struct that supports a vector of collateral assets. When a multi-collateral borrow order is matched, the smart contract aggregates the value of the provided asset basket (SUI, ETH, etc.) to validate the LTV against the lender's criteria in real-time.\n\nZero-Knowledge & Privacy: We utilized Sui's native sui::groth16 module for privacy preservation. Users generate a local ZK proof for their hidden orders, submitting only a hash commitment to the chain. The plaintext details are securely propagated to our Nautilus matching enclave, which verifies the proof before execution without ever revealing the order intent to the public mempool.\n\nTrustless AI Matching: The \"Nautilus\" matching engine runs in a secure enclave. It continuously scans the order book, calculating a Fairness Score for potential matches based on user history, order size, and collateral diversity. When a match is found, it signs the result with an Ed25519 key. The match_orders function in Move explicitly validates this signature (ed25519_verify), ensuring that only fair, optimized matches are executed on-chain.\n\nFrontend & User Experience: The interface is a high-performance Next.js application designed for speed and clarity. It features:\n\n- Dynamic Dashboard: Real-time visualization of positions, net APY, and risk exposure, powered by direct RPC queries.\n- Interactive Order Book: A live, responsive view of market depth.\n- Seamless Onboarding: We use zkLogin to onboard non-crypto native users, abstracting away seed phrase friction entirely.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/equinox-fi-027v2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

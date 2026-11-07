@@ -1,0 +1,41 @@
+{
+  "id": "ivt4s",
+  "slug": "caas",
+  "title": "CaaS",
+  "tagline": "Human-verified \"WorldClaw\" for every human, paid in WLD with x402 and private compute.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ivt4s/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8XgBjkQ35K9rR3qLzrzduk01aDTxaC02owPnPWS1ZNB6M/high.mp4",
+  "demo_url": "https://caas-world.vercel.app",
+  "source_url": "https://github.com/fabianferno/caas",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "3rd place",
+      "title": "Best use of Agent Kit"
+    },
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "Wildcard on 0G",
+      "title": "Wildcard on 0G"
+    }
+  ],
+  "finalist": true,
+  "description": "CaaS (Claw as a Service) is a platform where verified humans (via World ID) can create and deploy autonomous AI agents called \"Claws\" that operate across WhatsApp, Telegram, Discord, and the web simultaneously. Each agent gets a decentralized identity through an ENS subname (e.g., `agent-name.caas.eth`), persistent encrypted memory on 0G Storage, and is represented as an ERC-7857 Intelligent NFT on 0G Chain. All agent operations -- LLM compute, messaging, micropayments -- are funded with World coins (WLD).\n\nThe platform features a 5-step agent creation wizard: World ID verification, ENS subname selection, channel configuration (WhatsApp/Telegram/Discord/Web/x402 API), personality and guardrail definition, and one-click deployment with 5 WLD initial credit. On deploy, the system encrypts and uploads agent data to 0G Storage (AES-256-GCM), mints an ERC-7857 INFT on 0G Chain, registers an ENS subname with metadata text records, spins up a Docker container via the orchestrator, and connects all configured messaging channels.\n\nAgents use 0G Compute for decentralized TEE-backed LLM inference (with AWS Bedrock as fallback), can update their own personality live via ENS text records, hot-load OpenAPI skill specs, execute Chainlink CRE workflows for autonomous financial operations, and handle x402 micropayments for pay-per-call API access. The @world-caas/agent-mini-app npm package lets any developer turn their existing World Mini App into an agentic mini app in 5 lines of code -- their API endpoints become x402-gated skills that agents discover and call autonomously.\n",
+  "how_its_made": "The project is a pnpm monorepo with five core packages:\n\nFrontend (`miniapp/`): Next.js 15 App Router with Tailwind CSS v4, Framer Motion, Three.js/React Three Fiber for 3D visuals, and GSAP animations. Auth uses NextAuth v5 with SIWE wallet auth via MiniKit. The UI runs as a World Mini App using @worldcoin/minikit-js v2, @worldcoin/minikit-react v2, and @worldcoin/mini-apps-ui-kit-react v1. World ID 4.0 verification uses @worldcoin/idkit v4 with ZK proofs validated server-side against the World developer API.\n\nAgent Runtime (`agent/`): Node.js 20 TypeScript process running in Docker. LLM inference goes through 0G Compute's decentralized network (`@0glabs/0g-serving-broker` v0.7.4) with automatic fallback to AWS Bedrock. Channels share a single reasoning loop (max 20 iterations): grammy for Telegram (long polling), discord.js v14 for Discord (WebSocket gateway), @whiskeysockets/baileys for WhatsApp (E2E encrypted), and Express 5 + ws for web chat. The agent has tools for web search, live ENS personality updates, hot-reloadable OpenAPI skills, MCP bridge plugins, cron scheduling, Chainlink CRE workflow management, and sandboxed shell execution.\n\nOrchestrator (`orchestrator/`): Express 5 service managing agent lifecycle via dockerode. Handles ENS subname registration using viem, ERC-7857 INFT minting, Docker container builds, port assignment, and World AgentKit registration via @worldcoin/agentkit-cli.\n\nSmart Contracts (`contracts/`): Solidity ^0.8.24 ERC-7857 UUPS upgradeable contract (`AgentNFT.sol`) deployed on 0G Chain via Hardhat. Supports mint, intelligent transfer, cloning, usage authorization, and TEE/ZKP verification modes.\n\nCRE Workflows (`workflows/`): Six Chainlink CRE workflow templates using @chainlink/cre-sdk -- webhook-listener, event-responder, price-feed, defi-pools, defi-positions, and defi-prices. These handle HTTP triggers, EVM log listeners, cron-based monitoring, and consensus aggregation for autonomous DeFi operations.\n\nnpm Package (`packages/agent-mini-app/`): The @world-caas/agent-mini-app package provides Express, Fastify, and Next.js middleware adapters that mount a /_caas/* namespace with x402 payment gating, skill manifest endpoints, OpenAPI auto-discovery, and 30s heartbeat to the CaaS platform.",
+  "auto_summary": "A monorepo for creating human-verified AI agents with a World mini app, ENS-based identity, 0G-backed storage/compute, and ERC-7857 ownership contracts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/caas-ivt4s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

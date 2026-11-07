@@ -1,0 +1,41 @@
+{
+  "id": "qpagf",
+  "slug": "aqua0",
+  "title": "Aqua0",
+  "tagline": "One USDC deposit backs many stablecoin FX strategies on Arc, run by AI agents.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qpagf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kzsYEEiDual3aSiry4BMp8UYuonD02o1Ov5e4ixhgD00Q/high.mp4",
+  "demo_url": "https://ethglobal-demo.18-207-103-187.nip.io/forex-curve.html",
+  "source_url": "https://github.com/Aqua0-fi/aqua0-ethglobal",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "1st place",
+      "title": "Build an Aqua App - Continuity Track"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "1st place",
+      "title": "Best AI Tooling or AI Use Case with The Graph (Continuity)"
+    }
+  ],
+  "finalist": true,
+  "description": "We built Aqua0, a cross-chain shared liquidity layer, and brought it to Arc for stablecoin FX. One USDC deposit backs several FX strategies at once, such as USDC/ARS and USDC/BRL, without splitting capital, and tokens leave the vault only when a swap settles.\n\nPricing comes from ForexCurve, a new 1inch SwapVM opcode at index 34 based on the Shell v1 and DFX v2 forex curve, which is stateless and solved in closed form. It values the book at the oracle price p, with x as the USDC balance, y = p · FX balance, and the ideal split I = (x + y) / 2. While each side stays within ±β of I, a trade gets exactly the oracle price with no slippage. Past that flat band, each side pays an inventory fee μ = min(δ · m / I, maxFee) · m, where m is its distance past the band, and the total fee is ψ = μx + μy. A trade that increases ψ pays the increase to the pool, and a trade that rebalances the book gets a share λ of the reduction back. Past the halt band ±α the swap reverts, as it also does on a stale or out-of-band oracle price, and every swap pays a proportional fee ε. The defaults are α 0.5, β 0.15, δ 0.5, maxFee 0.25, λ 0.3 and ε 30 bps, and the opcode matches all 979 reference vectors within a few wei.\n\nThe Graph indexes the protocol, and our MCP server, published as the npm package @aqua0/mcp, a Claude Code plugin and a hosted endpoint, lets AI agents in Claude Code or Codex read liquidity, quote, swap and benchmark strategies against onchain markets while signing with Circle wallets. An autonomous keeper agent with its own Circle wallet pays for market data with Circle Nanopayments and rebalances the FX books on its own. As a result, cross-border and agent-to-agent payments can go from intent to a verifiable onchain FX trade without anyone juggling exchanges, indexers or wallets.",
+  "how_its_made": "Aqua0 is a cross-chain shared liquidity layer that lets an LP deposit capital once and use the same liquidity across multiple trading strategies, instead of fragmenting it across separate pools. For ETHGlobal Continuity, we extended Aqua0 onto Arc and built an FX-focused, agent-native execution stack around it.\n\nOn Arc Testnet, we deployed Aqua0's shared-liquidity vault architecture with native USDC as the primary quote asset. The same USDC principal can back multiple FX strategies simultaneously, for example USDC/ARS and USDC/BRL, while the actual tokens remain in the vault and are pulled just in time when a swap settles. This gives much higher capital efficiency than creating an isolated liquidity pool for every currency pair. Users sign in with Privy and trade through Circle developer-controlled wallets, and USDC/BRL prices come from RedStone market data that is signed by 3 of its 5 primary signers and pushed onchain before each swap.\n\nFor 1inch, we integrated the official Aqua and SwapVM stack and built a new SwapVM opcode specifically for foreign-exchange strategies. Our ForexCurve instruction, whose formulas are in the description above, prices a strategy at a live FX oracle, applies a base trading fee, charges an inventory fee as the book becomes imbalanced, refuses a stale or out-of-band oracle price, and halts swaps that would push the book past its halt band. Aqua0's adapter publishes these strategies into Aqua as virtual balances, while the underlying liquidity remains shared inside Aqua0's vaults. We have live USDC/ARS and USDC/BRL strategies and swaps running on Arc Testnet.\n\nFor The Graph, we built an Arc subgraph on Subgraph Studio that indexes the state agents actually need, which includes LP deposits, liquidity commitments, strategy deployments, fills, fees and the liquidity backing each strategy. The Graph acts as the read layer for our MCP, so agents do not have to reconstruct protocol state from raw RPC logs. Our benchmark_fx_strategy tool also composes two Graph products by sending one Messari standardized DEX query unchanged through The Graph Network gateway to 12 subgraphs across 4 protocols and 6 chains, then combining the result with our Aqua0 subgraph. An agent can ask whether a 30 bps BRL strategy is competitive and get a verdict backed by numbers. In our run, BRL liquidity was thin, with about $118k in the deepest pool.\n\nOur MCP layer then turns this infrastructure into an agentic finance interface. An agent can inspect available liquidity, understand which strategies are backed by it, request live swap quotes, compare an Aqua0 FX strategy with liquidity available elsewhere onchain, and prepare or send the next transaction. It installs in one step as a Claude Code plugin or with npx -y @aqua0/mcp.\n\nWe also built an autonomous FX book keeper. It holds its own Circle developer-controlled wallet, wakes when a swap tilts a forex book, and buys oracle and book signals per call with Circle Nanopayments, which use x402 payments batched by Circle Gateway on Arc. OpenAI gpt-5-nano chooses an action inside limits enforced in code, including a data budget, a maximum trade size, a cooldown and spend caps, and a rules-based policy takes over when the model's answer is invalid. The keeper rebalances from its own wallet, is funded with App Kit, and has an ERC-8004 identity that receives reputation feedback after each rebalance. In a live run, a 0.1 USDC swap tilted USDC/BRL to 265 bps, and the keeper brought it back to 30 bps with no human in the loop.\n\nA few parts were hacky. DFX finds each trade by iterating 32 times, but we solve the same curve in closed form as a quadratic per case so it can run as an onchain opcode, and it matches all 979 reference vectors within a few wei. The custom router came out at 24,418 bytes, just under Ethereum's contract size limit. On Arc, USDC is also the gas token, so a wallet's balance change mixes gas with the swap output, and we read the amount received from Transfer logs instead. Arc's public RPC rejects large log queries, so we added retries and caching, plus a request-splitting proxy for a self-hosted Graph Node.\n\nThe longer-term use case is making cross-border payments and agent-to-agent service payments extremely simple. An agent paying a provider in another currency could inspect liquidity, find an efficient FX route, obtain a verifiable quote and execute the payment without a person manually navigating exchanges, bridges, indexers and wallets.\n\nThe Continuity work therefore ties the integrations together. Arc and Circle provide the stablecoin-native execution environment and wallets, 1inch Aqua and SwapVM power the FX strategies, and The Graph plus our MCP make the liquidity and execution layer usable directly by agents.",
+  "auto_summary": "Aqua0 is a cross-chain FX liquidity system on Arc that combines shared-liquidity vaults, 1inch SwapVM strategies, Graph indexing, and agent tooling.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aqua0-qpagf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

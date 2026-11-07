@@ -1,0 +1,27 @@
+{
+  "id": "4k2jm",
+  "slug": "scubaswap",
+  "title": "ScubaSwap",
+  "tagline": "You don't enter Aqua without a wetsuit. ScubaSwap: prove you're human, swap deeper, pay less",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4k2jm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qvi1IDe8WycyOSih1risAxgcdBC02149B1H59v4xqQIM/high.mp4",
+  "demo_url": "https://scubaswap.xyz/",
+  "source_url": "https://github.com/shuva10v/scuba-swap",
+  "finalist": false,
+  "description": "DeFi liquidity is identity-blind: every pool quotes trading bots and humans the same price, even though toxic bot flow is a big reason spreads are wide. ScubaSwap makes personhood a first-class, programmable property of a swap — enforced on-chain, inside the swap itself, with zero-knowledge proofs from World ID.\n\nTwo new SwapVM instructions, deployed in a custom router (ScubaSwapVMRouter) on top of the official, unmodified Aqua contracts: _onlyHumanTaker and _jumpIfHumanTaker — verifies a World ID v4 zero-knowledge proof against World's on-chain WorldIDVerifier during swap execution. The proof's signal is bound to the taker's address, so a proof can't be borrowed, a nullifier registry doesn't allow to reuse the same proofs by bots.\n\nWhy SwapVM, not a pool hook. Because Aqua shares one shipped balance across many strategies, a maker publishes multiple programs against the same capital: an open pool at 0.30% fee, a human tier at 0.05%, and \"the reef\" — a human-only, passport-holders-only pool. Humanness becomes a pricing dimension without fragmenting liquidity, and the credential gate composes into any SwapVM strategy (limit orders, TWAPs) as one instruction. Requirements are maker-declared data, not deployed code: inventing \"passport-only, any age\" liquidity requires zero new contracts.\n\nLive demo flow. Connect a wallet → claim test token dWETH → see two real quotes from the same liquidity (bot price vs human price) → scan a QR with World App → the ZKP verifies on-chain and the discounted quote unlocks → swap settles through Aqua.\n\nThe UI renders it all literally: your wallet is a diver, verification is gear (wetsuit = human proof, mask = passport), fee tiers are ocean depths, and a live \"dive computer\" traces each SwapVM instruction as it executes.\n\nBuilt with: 1inch Aqua + SwapVM (official contracts, custom router), World ID v4 on-chain verification, World Identity Check, IDKit, Foundry, AWS, deployed on the World Chain mainnet.",
+  "how_its_made": "I'm a strong believer in the infinite composability of DeFi and I love hacking on its internals; ZK is my other long-running passion. When I saw the Lisbon sponsor list, the pairing was irresistible: Aqua/SwapVM is literally a DeFi virtual machine — maker strategies are bytecode — and World is the most powerful ZK-based proof-of-human infrastructure in production. Coupling them meant I could make personhood a native instruction of a swap VM. I had no prior hands-on experience with either stack (though I had experience with zkPassport-style projects before,), so the weekend doubled as a deep exploration — and the final shape of the idea only clicked after Friday's sessions with both partner teams.\n\nMy initial plan was Ethereum mainnet, where the v3 World ID router lives — but with v3 support being discontinued, I pivoted to World's native chain and went all-in on the v4. That pivot turned out to be the best decision of the weekend: I ended up with a working app on World Chain mainnet (fast, cheap, reliable — the deploy cost cents), verifying current-generation v4 proofs on-chain. Along the way I hit real gaps — the v3→v4 migration's documentation seams, an orphaned on-chain address book, archived templates with no v4 successor — all logged in FRICTION.md as beta feedback. My honest conclusion flipped mid-weekend: World's infrastructure is more capable than its docs currently let on.\n\nI used AI assistance extensively — code, tests, frontend scaffolding, and research legwork — which compressed what would've been a couple of weeks of solo work into one weekend. The architecture, the debugging at 2 a.m., and every design trade-off were very much human.",
+  "auto_summary": "This project adds World ID proof checks to a custom 1inch Aqua SwapVM router to gate DeFi swap pricing by verified human credentials.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/scubaswap-4k2jm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

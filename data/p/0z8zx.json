@@ -1,0 +1,30 @@
+{
+  "id": "0z8zx",
+  "slug": "rangeseeker",
+  "title": "RangeSeeker",
+  "tagline": "Agentic Liquidity Provision: Speak your strategy, RangeSeeker autonomously hunts Uniswap V3 ranges",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0z8zx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HhTlJP5F00JoRGdHRWdnwdxsQ01xpmUJ6XybB8elvB202Y/high.mp4",
+  "demo_url": "https://rangeseeker.tokenpage.xyz",
+  "source_url": "https://github.com/kibalabs/rangeseeker-app",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "2nd place",
+      "title": "Best Use of Amp Datasets"
+    }
+  ],
+  "finalist": true,
+  "description": "RangeSeeker is the autonomous, intent-driven liquidity agent for Uniswap V3 on Base — the spiritual successor to YieldSeeker, now for concentrated liquidity.\n\nUsers simply describe their desired strategy in plain English (e.g. \"tight range, aggressive fee farming, widen if volatility spikes, emergency exit to USDC under $3000\"). An LLM (Gemini) instantly parses the intent into precise parameters, using real-time 24h implied volatility calculated directly from every swap via The Graph's AMP dataset.\n\nA Coinbase CDP agent wallet is created server-side to hold and manage the user's funds autonomously.\n\nOnce activated, the RangeSeeker agent runs forever: a background worker checks positions every 15 minutes, querying The Graph AMP for pool state and on-chain contracts for position health. When rebalancing is needed (price out of range or near edge), the agent executes in multiple steps: withdraw position, swap to optimal ratio via 0x, and open a new position centered on current price.\n\nThe live dashboard shows glowing active range bands, historical trails, position values, and detailed asset breakdowns. Users can manually trigger rebalances or deposit additional funds anytime.\n\nThe agent wallet holds the funds and positions, with the backend managing all trading decisions based on the user's defined strategy.\n\nRangeSeeker makes active V3 liquidity something anyone can use in under 2 minutes while delivering genuinely autonomous, high-performance results.\n\nThis is what agentic DeFi should look like in 2025.",
+  "how_its_made": "Core stack:\n\nFrontend: React + Typescript + lightweight-charts (and many other libs)\nBackend: Python + Postgresql – creates a real CDP agent wallet on first deploy, stores the private key server-side, signs every transaction from the backend.\nLLM parsing: Gemini 2.0 Flash with volatility context injected – converts natural language → structured strategy JSON in one shot.\nReal-time price: The Graph AMP WebSocket (off-chain monitoring) for live price feeds pulled directly from Uniswap V3 pool events.\nVolatility & volume: Direct SQL queries against The Graph's AMP hosted dataset \"edgeandnode/uniswap_v3_base@0.0.1\" – no subgraph deployment, instant access via duckdb queries, zero lag, used both for strategy suggestions and activity feed explanations.\nParticularly hacky/clever bits:\n\nThe entire autonomous loop runs on a simple 15-minute polling worker with APScheduler – no keepers, no gelato, no custom bots. Every action is signed by the real CDP agent wallet.\nStrategy preview shows the exact range band on the live chart before any transaction is signed.\nActivity feed is LLM-summarized in real-time (\"RangeSeeker widened range because 24h volatility jumped from 3.2% to 5.1%\").\nToken swaps use 0x API for optimal routing and instant execution – no custom DEX aggregation needed.\nPosition health checks trigger automatically when price moves within 10% of range boundaries, ensuring optimal capital efficiency.\nGas is super cheap on Base L2, and the rebalancing flow (withdraw liquidity → swap tokens via 0x → deposit new position) is streamlined through the CDP wallet's smart contract capabilities.\n\nResult: a product that feels years ahead, works perfectly on Base mainnet today, and was shipped in a single weekend by a one-person team.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/rangeseeker-0z8zx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

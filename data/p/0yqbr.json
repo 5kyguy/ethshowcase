@@ -1,0 +1,22 @@
+{
+  "id": "0yqbr",
+  "slug": "yieldwatch",
+  "title": "YieldWatch",
+  "tagline": "YieldWatch benchmarks DeFi yields against on-chain & Real-World Assets ",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0yqbr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6YwZu3BGksKJmOc69Zjfy5eDJwisYBzYWDYF6xzHlJI/high.mp4",
+  "demo_url": "https://pyth-privy-harshitjain7447.replit.app",
+  "source_url": "https://github.com/Mayank-ra/YieldWatch",
+  "finalist": false,
+  "description": "YieldWatch combines DefiLlama data with Pyth Network's RWA feeds to calculate the real Risk Premium of DeFi pools. By separating Profit Goals from Safety Constraints, our hybrid engine filters out junk yields and identifies true alpha, delivering high-context signals to our voting bot.",
+  "how_its_made": "YieldWatch: The Technical Deep Dive\nYieldWatch was engineered as a specialized, high-frequency data pipeline using Node.js to solve the \"context vacuum\" in decentralized finance. We realized that raw yield numbers are meaningless without a real-time risk-free benchmark, so we built a system to normalize and compare disparate data sources.\nArchitecture & Tech Stack\nThe core engine operates on a \"Poll-Compute-Push\" cycle. We utilized Axios to ingest raw JSON snapshots from DefiLlama’s public API, pulling thousands of data points regarding APY, TVL, and Chain data. Simultaneously, the system queries Pyth Network’s Hermes API (specifically the /v2/updates/price/latest endpoint).\nPartner Technology: The Pyth Advantage\nPyth was the backbone of our \"Risk Premium\" logic. We didn't just use it for token prices; we integrated their US Treasury Yield feeds (e.g., US10Y). This allowed us to dynamically calculate a \"Risk Premium\" for every single pool. Instead of hardcoding a static 4% threshold, our app asks Pyth: \"What is the risk-free rate right now?\" and adjusts the filtering algorithm automatically. We also used Pyth’s high-fidelity Price Feeds as an \"Anchor of Truth\" to detect dangerous on-chain peg deviations that Llama’s API might miss.\nThe \"Hacky\" Logic\nThe most notable technical challenge—and our \"hacky\" solution—was the normalization layer. Mapping DefiLlama’s inconsistent token symbols to Pyth’s specific 64-character Hex Feed IDs required building a custom fuzzy-matching dictionary in memory. We then implemented a \"Gatekeeper\" Filter Pattern with && logic that forces every pool to pass a \"Greedy\" check (Profitability) followed immediately by a \"Paranoid\" check (Safety).\nUser Interface\nInstead of a static React frontend, we piped the processed signals into a Telegram Bot using node-telegram-bot-api. This turns passive data consumption into an active \"Vote to Farm\" consensus game, allowing the community to vet the opportunities our engine uncovers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yieldwatch-0yqbr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

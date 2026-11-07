@@ -1,0 +1,26 @@
+{
+  "id": "9de2b",
+  "slug": "the-human-zoo",
+  "title": "The Human Zoo",
+  "tagline": "Prove you're human, learn which animal you are, and mint it as an ENS subname. No rerolls.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9de2b/banner/default.jpg",
+  "demo_url": "https://web-production-aa0da.up.railway.app",
+  "source_url": "https://github.com/evaslapar-hue/The-Human-Zoo",
+  "finalist": false,
+  "description": "The Human Zoo answers a question nobody asked: if you are provably a unique human, what animal are you?\n\nVerify with World ID Selfie Check — no Orb needed, so anyone with a phone can use it — and the app derives your species deterministically from the resulting nullifier hash. You might be a Recently Divorced Blobfish, a Legally Distinct Capybara, or an Unreasonably Confident Shoebill. There is no reroll button, and that is the entire point: your animal is cryptographically bound to your personhood rather than to a database row that could be edited, re-rolled, or farmed. Refresh all you like — you are still a pigeon.\n\nYour beast is then minted as an ENS subname under our parent domain, and its whole identity lives in ENS text records: a generated avatar, a bio, its species, rarity and vibe score. The joke is the delivery mechanism for a real mechanic — sybil resistance is what makes \"one human, one animal\" enforceable at all. A login wall could not do this, because anyone can make a hundred email accounts, but nobody can make a hundred faces.\n\nThe zoo is a public gallery of every verified human's animal, read live from ENS.\n(If you don't get a live mint done: change \"is then minted as an ENS subname\" to \"is then issued as an ENS subname via NameStone's gasless API\".)",
+  "how_its_made": "Next.js 16 on Bun, deployed on Railway.\n\nWorld ID: we use the current IDKit v4 stack (@worldcoin/idkit + @worldcoin/idkit-server) with the selfieCheckLegacy preset. Verification requires a server-signed rp_context, so we sign with signRequest() in a /api/rp-context route and the RP signing key never reaches the client. Proofs go to POST /api/v4/verify/{rp_id}, and we only ever trust the nullifier that the verify API returns — never one sent by the client, since accepting a client-supplied hash would let anyone claim any animal.\n\nENS: the interesting architectural decision is that the app has NO DATABASE. Every inhabitant IS an ENS subname, and all state lives in its text records — avatar, description, and custom zoo.* keys for species, rarity and vibe. The gallery is a read of ENS. There is no backend row that can disagree with what the name resolves to. Subnames are issued gaslessly through NameStone, behind a two-function adapter — NameStone shuts down on 2026-08-03, so the migration path to Durin (ENS Labs' L2 subname registry) is already documented and nothing above the adapter would change.\n\nThe species engine is a seeded PRNG (xmur3 + sfc32) keyed on the nullifier, deliberately never Math.random(), because the premise collapses if one human can yield two animals. Verified deterministic across runs, with a 2% legendary / 9% rare distribution over 3000 samples.\n\nPrivacy: the raw nullifier is never written to a public ENS record. We store a salted, truncated SHA-256 of it (zoo.hid), which is enough to enforce one-animal-per-human but useless for correlating a person across applications.\n\nAnimal art is generated with Gemini (gemini-2.5-flash-image) as a fixed set of per-species illustrations — per species rather than per user, so every animal stays reproducible from the nullifier alone. Anything missing falls back to a self-contained SVG data URI, so the app is fully functional with no art at all.\n\nNotable friction worth flagging: the v4 verify API returns `nullifier` while most docs still say `nullifier_hash`, and reading the wrong field fails silently — which for an app whose whole security model rests on that value would have let every user claim the same animal. We read both defensively. Full developer + user testing notes are in TESTING.md.\n(I dropped the Identity Check paragraph from the original draft since it isn't implemented.)",
+  "auto_summary": "A Next.js app uses World ID verification to deterministically assign users an animal and store the result as ENS subnames with text records.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/the-human-zoo-9de2b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

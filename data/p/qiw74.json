@@ -1,0 +1,20 @@
+{
+  "id": "qiw74",
+  "slug": "graphiti",
+  "title": "Graphiti",
+  "tagline": "Decentrally-sourced live graffiti wall gossiped and direct-synced via libp2p and store on IPFS",
+  "event": {
+    "slug": "hackfs",
+    "name": "HackFS",
+    "start_time": "2020-07-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qiw74/banner/default.jpg",
+  "source_url": "https://github.com/circle-free/crunchy",
+  "finalist": false,
+  "description": "A proof of concept of using libp2p (gossip, direct connections/streams) and IPFS to share and store incremental decentralized updates of shared/community content. The specific project centers around incremental updates to vector artwork, a \"graffiti wall\", in which adding to the artwork may also require a small cost to pin on IPFS/FileCoin. A successful proof of concept opens the door to a similar model of gossiping content, and having users that care about the content pay for it's hosting for a short-period, but long enough for it to build traction, outside of that unique gossip-buble, on a more accessible FileCoin.",
+  "how_its_made": "Front end is React, Material UI, and an SVG drawing library we forked and modified.\n\nWe use libp2p for gossip, stream, and IPFS networking.\n\nWe did not yet get around to the ethers/web3/metamask integration to facilitate the signing of payloads and broadcasting of transactions, but we did get around to using solidity for Ethereum the smart contract.\n\n\n\nIn brief, peers discover each other using bootstrap nodes and signaling servers, and begin gossiping about path user-drawn path elements that make up an SVG. While visually an SVG, the canvas is actually maintained as a DAG, where each new path (line) references a handful of path it is above (or after). The gossiped data is the path and it's parents, as defined by the line's creator. When received by another peer and inserted into the DAG, a client also creates edges between this new path and existing lines, which is then gossiped back around the network. This way, other peers will know where other peers have seen this data. The idea is that, while in the short term a large network may be unclear about the order of individual lines, with enough gossip, the order will converge. There is no consensus or incentivization here, though, so it may be brittle.\n\n\n\nFurther, IPFS is used by individual clients to store DAG checkpoints, which make it easier for new clients to sync, as they only need to stream deltas from others. These CIDs are also gossiped.\n\n\n\nFinally, each piece of data (again, line in this case) contains signed payloads as metadata, which are unique intents to tip the canvas creator. The idea is that, once a canvas becomes popular enough (as evidence of participation) the creator can take all the signed payload and broadcast them as one transaction to the Ethereum blockchain, where a contract will verify all the signatures, and perform the micro (or macro) ERC20 transfers to the creator's address. This process can only be done once the total amount of tip intents passes a threshold.\n\n\n\nNow, the creator can use this to pin the canvas, DAG, and peer info (DHT, bootstraps), so that the canvas can be more visible, perhaps even to non-p2p clients. Currently, you need faith that the creator will use the tips accordingly, but with a Filecoin VM, such a smart contract could allow for crowdsourced pinning funds. This way, just like upvoted or trending social media content gets seen by more on its way up, the same can be true for p2p content.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/graphiti-qiw74",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

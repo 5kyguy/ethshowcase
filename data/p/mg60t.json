@@ -1,0 +1,22 @@
+{
+  "id": "mg60t",
+  "slug": "caplane",
+  "title": "Caplane",
+  "tagline": "A lien registry no one operates. Stops double-pledging without revealing the collateral.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mg60t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4k5aOfaAE02vhiB7ahxLh02Gd016jMis2VayfFPcpdYlE4/high.mp4",
+  "demo_url": "https://caplane.xyz",
+  "source_url": "https://github.com/DavidZapataOh/caplane-ethglobal",
+  "finalist": false,
+  "description": "Offchain, double-pledging is caught by public lien registries like the UCC-1. Onchain there is none, and whoever ran one could rig it. Caplane is that registry with no operator: claims are sealed into an enclave, matched against active liens inside it, and the only function that can write accepts nothing but DON-signed reports. No owner, no pause, no operator wallet. Anyone can check that a claim is already pledged without learning what it is. A full receivables-financing flow runs on top, settling in USDC on Arc. Invoices are the demo; the registry is the project.",
+  "how_its_made": "Four contracts on Arc Testnet with no owner, pause, proxy or setter. A CI rule fails the build if governance appears. The registry's single write path accepts only DON-signed reports from a Chainlink CRE workflow running in AWS Nitro, with the chain selector and a permanent nonce carried inside the signed body, since the DON's signature commits to neither the chain nor the receiver. `borrower` comes from the event, never from the decrypted plaintext: a copyist replaying someone else's ciphertext would register the lien to themselves.\n\nThe hacky part is the enclave. CRE runs Javy on QuickJS, not Node: no `Intl` (so `localeCompare` diverges without throwing), no `Date`, no secure entropy. Canonicalization is hand-rolled and proven byte-identical across bun → javy → `node:wasi`. EIP-712 recovery uses `@noble/curves` synchronously because viem's async verifiers collapse in Javy, and with default `prehash` it silently recovers a different valid address instead of erroring. `ConfidentialHTTPClient` doesn't compile inside `handlerInTee` despite being the client the docs name, so it's the normal `HTTPClient` on `TeeRuntime`.\n\nClaims match k-of-7 on peppered commitments. Measured false-match rate: 1/903 pairs at k=6, Clopper-Pearson 95% upper bound 0.524%, thresholds published on purpose so the rate is checkable. `lienId` is peppered because without it we brute-forced it against the real corpus in 71 ms. The fuzzy index posts to three positions only, since a fourth turned lookup linear at 30.9M gas, past the `eth_call` ceiling. The same schema takes vehicles by VIN at k=7, with no Solidity change and no redeploy.\n\nDebtor confirmation is collected before submission and rides inside the sealed envelope, because CRE can't suspend an execution. The EIP-712 signature is verified in the same run, requiring debtor ≠ submitter and exact agreement on claim, amount, currency and due date.\n\nArc lets the registry and settlement share one chain (CRE supports it and the forwarder lives there), so there is no relayer anywhere in the trust path, and gas in USDC means one unit of account end to end. Privy organization wallets sit behind a 2-of-2 P-256 key quorum, and since `organizations().create()` requires `default_key_quorum_id`, that quorum is a prerequisite rather than an upgrade. A deny-by-default policy sits on top: the app signs up an org, provisions its wallet, and shows a transfer refused by policy. Privy signs but only ever sees ciphertext.\n\nEverything reads back without us: an npm SDK on viem alone that refuses any contract whose `WORKFLOW_NAME()` isn't the frozen one, an MCP server that returns the calldata and block for every answer, and a lookup page that reads chain state from the visitor's own browser in 552 bytes of hand-rolled decoding. Shut our backend off and the registry still answers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/caplane-mg60t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

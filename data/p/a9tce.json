@@ -1,0 +1,26 @@
+{
+  "id": "a9tce",
+  "slug": "aphotic",
+  "title": "Aphotic",
+  "tagline": "Aphotic A redemption-carry vault and a sealed-order batch auction for hBTC, on Sui.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a9tce/banner/default.jpg",
+  "demo_url": "https://aphotic-taupe.vercel.app/",
+  "source_url": "https://github.com/aydi26/sui-lisbon",
+  "finalist": false,
+  "description": "Aphotic — a redemption-carry vault and a sealed-order batch auction for hBTC on Sui.\n\nHashi's return leg runs through a public WithdrawalRequestQueue: who is leaving hBTC, how much, where to and when, in the clear, for the ~1.5–2 h it takes. Exits are rate-limited too, so hBTC trades below par — the discount is the price of that latency.\n\nAphotic crosses that flow before it reaches the queue. Two strategies, one balance sheet.\n\nThe redemption-carry vault buys hBTC below par from someone who wants out now, then redeems it one-for-one through the queue itself. The seller gets immediacy without broadcasting their exit; the vault earns the carry.\n\nThe sealed-order batch auction takes Seal-encrypted orders under a time-lock policy and clears them on-chain in Move: frozen order set, uniform price, twice daily at 06:00/18:00 UTC. Uniform pricing doesn't make front-running hard, it makes it meaningless — everyone executes at the same price at the same instant. Economics use fixed-denomination notes over a Merkle tree, so escrow leaks no size.",
+  "how_its_made": "Aphotic\n\nA redemption-carry vault and a sealed-order batch auction for hBTC, on Sui. ETHGlobal Lisbon 2026, Sui track. Sui testnet, Bitcoin signet. Not audited, not for mainnet funds.\n\nThe problem, in plain terms\n\nHashi is Mysten Labs' native-BTC orchestrator: you send BTC, you receive hBTC on Sui; you burn hBTC, you get BTC back. The outbound leg is fine. The return leg runs through a WithdrawalRequestQueue, and that queue is a public Move object. Every pending request in it exposes four fields, in the clear, with nothing to decode:\n\nsender — who is leaving\nbtc_amount — how much\nbitcoin_address — where to\ncreated_timestamp_ms — when they decided\n\nSo a desk unwinding a position is watched forming in real time, request by request, before a single satoshi has moved on Bitcoin. And it stays visible for the ~1.5–2 hours the withdrawal takes to confirm. This is not a hypothetical: node scripts/verify-onchain.mjs pulls the live event stream, and on 2026-07-26 it printed 25 real WithdrawalRequested / WithdrawalApproved rows, latest timestamp 2026-07-26T05:07:09.822Z.\n\nThere is a second consequence. Exiting is queued and rate-limited, so hBTC trades below par. That discount is not irrationality — it is the market price of the latency.\n\nAphotic crosses that flow before it reaches the queue. Two strategies, one balance sheet.\n\nStrategy 1 — the redemption-carry vault\n\nWe buy hBTC below par from someone who wants out now, then redeem it one-for-one through the queue ourselves, and capture the spread. The seller gets immediacy without broadcasting their exit; we get the carry for absorbing the wait. Between carries, idle capital is lent out rather than sitting dead.\n\nThe vault ships first because it does not need two-sided flow — it works with one seller and one balance sheet.\n\nStrategy 2 — the sealed-order batch auction\n\nOrders are Seal-encrypted client-side under a time-lock policy, so nothing in the batch is readable before it closes. Clearing is then computed on-chain in Move, deterministically, on a frozen order set, at a uniform price, twice daily at 06:00 / 18:00 UTC.\n\nThe auction is the differentiator, but it needs a market to exist first — hence the ordering.",
+  "auto_summary": "Aphotic is a Sui-based hBTC vault and sealed batch auction using Move contracts, client encryption, and keeper services.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aphotic-a9tce",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "37p73",
+  "slug": "cheque",
+  "title": "Chèque",
+  "tagline": "A quick and effective way to send USDC to someone without having to care about what wallet they use.",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/37p73/banner/default.jpg",
+  "video_url": "https://stream.mux.com/i3mDZjldVMhkTTu016EGKFXXjSJIbqj02lr7IWIvJ25TI/high.mp4",
+  "demo_url": "https://github.com/yssf-io/cheque",
+  "source_url": "https://github.com/yssf-io/cheque",
+  "prizes": [
+    {
+      "sponsor": "Circle",
+      "sponsor_id": "x3xey",
+      "placement": "Best Application for Cross-Border Payments",
+      "title": "Best Application for Cross-Border Payments"
+    }
+  ],
+  "finalist": false,
+  "description": "Sending tokens to someone IRL can be cumbersome, they have to have a mobile wallet ready (with an address they are okay doxxing) set up with the correct network, and you have to have these tokens on your own wallet, the gas to send them and the right network.\n\nMy project basically makes this process as easy as it should: you (the person sending money) generate a QRCode on your phone, your recipient can simply scan it with their camera and they'll get access to a signature they can use to claim the money you sent. They are redirected to a website that lets them claim immediately if they have a compatible mobile wallet, but they can also just hold on to that signature and process it later when they have access to their wallet.\n\nThe payer doesn't need to care about how their recipient manages their crypto, likewise the recipient doesn't need to know how the payer manages their crypto. It's like a bank check (hence the name Chèque).",
+  "how_its_made": "There are four subprojects in Chèque:\n* a mobile app, done with React Native, this app integrate Circle's Programmable Wallet API; I first started with the User-controlled wallets but realized it would take too much time to make the WebSDK work on mobile, so I continued with the Developer-controlled wallets, it was fairly easy to integrate while not being too opinionated\n\n* an API server; I had to make this quick backend subproject in order to work with Circle's Programmable Wallets API as it requires computing secrets in order to communicate with it, it was made with Node.js\n\n* a WebApp (React/Tailwind/Vite); it's the website that the QRCode redirects to in order to let the recipient claim their money easily (if they want, and also for the demo); although it's a webapp, it was made to work with mobile (because the user gets there with a QRCode, so using their phone), it has an intuitive interface that lets the user know how much they can claim, and a simple \"Connect Wallet\" button; once connected, the user can just click on \"Claim\" and confirm their transaction\n\n* a Smart Contract (Foundry): the project works thanks to a smart contract containing two important functions, \"lockUSDC\" that the payer calls to create a chèque, and \"claim\" that the recipient calls with the signature encoded in the QRCode in order to claim the money\n\nThere's also a Redis instance (with upstash) I use to persist some data, mainly user ids.\nThe app was built with Expo, the WebApp deployed to Vercel and the API deployed to Render.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cheque-37p73",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

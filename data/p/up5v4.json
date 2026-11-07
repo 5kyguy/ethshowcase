@@ -1,0 +1,35 @@
+{
+  "id": "up5v4",
+  "slug": "yoga",
+  "title": "Yoga",
+  "tagline": "An improved position manager that allows for arbitrary liquidity distribution",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/up5v4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BZXTomHK5yqynfr95WiwRJNCTKZxhpmd7VX5OWEx6xQ/high.mp4",
+  "source_url": "https://github.com/duncancmt/yoga",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Buenos Aires 2025 Finalist",
+      "title": "ETHGlobal"
+    },
+    {
+      "sponsor": "Octav",
+      "sponsor_id": "qk38m",
+      "placement": "2nd place",
+      "title": "Best Octav Widget"
+    }
+  ],
+  "finalist": true,
+  "description": "Yoga the project implements a non-fungible position manager that allows liquidity providers to manage complex, multi-range positions within a single NFT. Unlike traditional position managers that represent one price range per NFT, Yoga can manage multiple sub-positions (different tick ranges) under a single ERC721 token, enabling sophisticated liquidity distribution strategies across price ranges. The contract exposes a simple ABI that allows LPs to simply specify the modification (liquidity delta) they wish to apply, and the contract figures out how to modify the underlying UniV4 position.",
+  "how_its_made": "Built with Solidity and Foundry. with 3 main dependencies: Solady (provides the Red-Black Tree implementation and ERC721), Uniswap v4-core (for liquidity position range management), and forge-std (testing).\n\nThe Red-Black Tree tracks all tick boundaries inside each NFT. Since ticks can be negative, we offset them by 887273 to store as unsigned integers in the tree. The core logic is in _populateActions (174 lines). In this function we figure out what pool manager operations are required to morph the liquidity according to the user's instruction. This can involve splitting existing positions in two and modifying one half, merging adjacent liquidity positions, extending the liquidity range on either end, or even closing out all the positions and burning the NFT. Maintaining the key invariants for logarithmic-time operation on the position ranges managed by Yoga is quite complex. Uses Uniswap v4's unlock pattern: lock the pool, batch multiple liquidity changes, settle everything once.\n\nFrontend has two Next.js apps (standalone + embeddable widget), React 19, Tailwind v4, integrated with Octav API for portfolio tracking.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yoga-up5v4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

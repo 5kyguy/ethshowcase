@@ -1,0 +1,41 @@
+{
+  "id": "xfzya",
+  "slug": "cumulant",
+  "title": "Cumulant",
+  "tagline": "Structured products on prediction markets - baskets, tranches, PPNs, & continuous markets",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xfzya/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3QcZTZQd00mHPDKUfE9m6bpHvAsPZSbDZVlNJozlPlyI/high.mp4",
+  "demo_url": "https://eg-arc-cumulant.vercel.app",
+  "source_url": "https://github.com/notveiker/EG-Arc-Cumulant",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "Best Prediction Markets Built on Arc with Real-World Signal",
+      "title": "Best Prediction Markets Built on Arc with Real-World Signal"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New York 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Cumulant turns prediction markets into a structured-products venue. A prediction market is really a probability distribution over outcomes, and Cumulant lets you trade that distribution four ways: \n\nBaskets - weighted, decorrelated bundles of many markets bought in a single deposit, giving diversified exposure to a \"range\" rather than any single underlying event\n\nRisk Tranches - senior/mezzanine/junior waterfall over a basket, where senior earns a protected coupon and junior takes first loss for leveraged upside\n\nPrincipal-Protected Notes - principal is always returned and deposits are pushed into yield generating strategies across DeFi\n\nDistribution Markets - shape a target probability curve against Polymarket's CLOB-implied odds and get quoted a USDC position sized to the gap, so you're betting on the whole shape of an outcome, not just one side\n\nEvery product is collateralized and settled in USDC, and because Arc uses USDC as its native gas token too, the entire experience is USDC-denominated end-to-end. So there's no separate gas asset for a user to acquire or reason about. The full suite (markets, baskets, tranches, notes) is deployed on Arc testnet against a freely-mintable test USDC, so anyone can run the whole flow.\n\nDynamic is the entire identity and wallet layer. Rather than requiring a browser extension, a user signs in with email / social / passkey and Dynamic provisions an embedded wallet on Arc, and a non-crypto user can custody USDC and sign their own trades from a single log-in. Dynamic also lets one identity link multiple wallets, and Cumulant reads each linked wallet's on-chain positions and merges them into a single portfolio, so you see your whole book across every wallet under one login. Additionally, we use Dynamic to geoblock since the full suite of prediction market markets aren't legally tradeable in the US.",
+  "how_its_made": "Stack — Four Solidity contracts (PredictionMarket, BasketVault, TrancheVault, ProtectedNote) built and tested with Foundry: 63 passing tests including fuzz invariants for market solvency (payouts can never exceed the pool) and the \"payout ≥ principal\" note guarantee + a 3-perspective security self-audit. A TypeScript backend (Express + viem) reads all on-chain state, runs the ML correlation engine that de-correlates basket legs, prices the structured products, and persists the off-chain ledger (transaction history, tranche/PPN positions) in Supabase; it only ever signs server-owned roles (resolver, market-maker sell quotes, faucet). The frontend is Next.js (App Router) + wagmi + viem.\n\nCircle Arc (partner) — the whole suite is deployed on Arc testnet and collateralized in USDC. Arc uses USDC as its native gas token, which is a perfect fit for a USDC-denominated structured-products app. We deploy against a freely-mintable test USDC so anyone can run the full flow end-to-end.\n\nDynamic (partner) — Dynamic is our entire identity + wallet layer, wired in with DynamicContextProvider + DynamicWagmiConnector. The connector bridges Dynamic into wagmi, so we adopted email/social/passkey login and embedded wallets without rewriting a single line of our existing wagmi trading code. The payoff: a non-crypto user logs in with email and gets an embedded Arc wallet (no extension), and because Dynamic supports multi-wallet identities we use useUserWallets to merge a user's positions across all their linked wallets into one portfolio. We also registered Arc as a custom EVM network in Dynamic so it can add/switch automatically, and a deployer-signed faucet mints test USDC straight to the embedded wallet so onboarding needs no gas.\n\nNotable / hacky: \n(1) Baskets are de-correlated by an ML pipeline: a pair-correlation classifier → greedy decorrelation → inverse-variance weighting, gated by a Monte-Carlo VaR/CVaR tail-risk envelope. \n\n(2) Polymarket geo-blocks US IPs, so we route only those requests through a token-gated, allowlisted relay deployed on a non-US Akash provider. \n\n(3) Arc routes USDC transferFrom through a native blocklist precompile that Foundry's script EVM can't execute, so the deploy seeds markets/baskets/tranches via forge and creates the funded note via cast. \n\n(4) Tranches \"ride the PPN rail\" — they reuse the audited protected-note account for principal + maturity and keep the senior/junior waterfall as off-chain metadata, so we shipped tranche trading without a new contract. \n\n(5) An off-chain market-maker (deployer-signed RFQ quotes) lets users exit positions before the underlying markets resolve. All of the fee structure for market-makers and envisioned platform fees are all simulated in buys and sells already!",
+  "auto_summary": "A full-stack Arc testnet app for USDC-collateralized prediction-market products including baskets, tranches, protected notes, and portfolio aggregation.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cumulant-xfzya",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

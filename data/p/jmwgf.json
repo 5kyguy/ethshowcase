@@ -1,0 +1,28 @@
+{
+  "id": "jmwgf",
+  "slug": "near-ai-assistant",
+  "title": "Near AI Assistant",
+  "tagline": "The one-stop decentralized AI chatbot for the Near Protocol ecosystem",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jmwgf/banner/default.jpg",
+  "source_url": "https://github.com/RezaRahemtola/near-ai-assistant",
+  "prizes": [
+    {
+      "sponsor": "NEAR Protocol",
+      "sponsor_id": "5b69q",
+      "placement": "User owned AI is Near",
+      "title": "User owned AI is Near"
+    }
+  ],
+  "finalist": false,
+  "description": "This project aims to provide a one-stop AI chatbot to discover the Near ecosystem 🚀\n\nIt features an AI agent using an open-source model running on the Aleph.im decentralized cloud, and a basic frontend to simplify interactions with it.\n\nThe agent has access to several functions to serve requests about Near as best as possible:\n- Access to realtime search results (Google), which is used to answer questions related to general Near architecture\n- Ability to send testnet NEAR tokens to an address when a user requests it\n- Capable of minting and sending a special ETHGlobal Brussels NFT on Near testnet when a user requests it\n- Able to simplify the understanding of what happened in a testnet transaction with a given hash and sender\n\n❓ It's always better with examples, so here are some questions that this AI is able to handle:\n- What is Near?\n- What are the different transaction actions on Near?\n- Can I please have an ETHGlobal Brussels NFT sent to me at rezarah.testnet? Thanks\n- I want to start using Near, can you send me some tokens on my testnet address random.testnet?\n- I don't understand what this transaction is doing, can you help me? The transaction hash is `hash` and it was send by someone.testnet.",
+  "how_its_made": "For the AI part, the current model used is Nous Hermes 2 Pro - Llama 3 8B, deployed on the Aleph.im network. This means that in runs in serverless VMs on a random node of the network, without logs.\nThe idea is to leverage their confidential VM feature coming this fall (that allows the creation of a secure VM on the host with encrypted hardware like the RAM, storage etc) to guarantee privacy of all the chats.\n\nThis model is pretty good for this use case (function calls and JSON data handling), but combining it with a model with greater context like Phi 3 could be a future improvement.\nThe model deployed on Aleph is then called from our Python code, where it's wrapped in a basic framework with LangChain to give it access to agentic functions mentioned in the description above.\nThose functions use different APIs and external packages, like oxylabs.io (for the search engine calls), near-faucet.io and a custom fork of py-near (to fix some issues with the original version). \nI'm also doing some recursion on the generated data and validation with Pydantic to limit hallucinations.\n\nA simple socket.io server is exposed from the Python code, with which we can interact from the frontend (React TS project with Vite), which is a basic chat app.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/near-ai-assistant-jmwgf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

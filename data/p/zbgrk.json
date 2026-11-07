@@ -1,0 +1,21 @@
+{
+  "id": "zbgrk",
+  "slug": "insider",
+  "title": "Insider",
+  "tagline": "It's a Extension, to place trades on Polymarket directly from your Twitter Feed!",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zbgrk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/B7beyarMcnV01B7ccWEuJpi02T56cUpDpuRM9XrJtH8Vo/high.mp4",
+  "source_url": "https://github.com/kunalshah017/insider",
+  "finalist": false,
+  "description": "Insider is a Chrome extension that brings Polymarket prediction markets directly into the Twitter/X experience. When users scroll through their feed and encounter tweets containing Polymarket links, the extension automatically detects them and injects a fully interactive trading card right into the tweet itself—no need to leave the social media experience.\n\nThe extension enables users to view real-time market prices with animated rolling digit displays, place buy and sell orders using MetaMask wallet integration (with EIP-712 typed data signing), manage their entire portfolio through a sleek popup interface, and even redeem winnings from resolved markets directly from the extension without visiting Polymarket.\n\nA key innovation is the \"Agentic Finance\" pattern: users often don't have USDC.e (Polymarket's trading currency) ready in their wallets. Insider solves this by integrating Uniswap v4 on Polygon, allowing users to swap any supported token (WPOL, WETH, DAI, USDT, native USDC) directly to USDC.e without leaving the trading flow. The swap modal handles Permit2 approvals and Universal Router execution seamlessly.\n\nThe architecture includes a backend server that handles Builder authentication for Polymarket's CLOB API, enabling order attribution while keeping the user's trading experience gasless for order placement. Real-time price updates stream through WebSocket connections, ensuring traders always see the latest odds.",
+  "how_its_made": "Frontend (Chrome Extension):\n\nBuilt with React 18 + TypeScript + Vite using a monorepo structure with pnpm workspaces\nContent scripts use MutationObserver to detect Polymarket URLs in tweets and inject React components into Twitter's DOM\nCustom Ethereum Bridge pattern: since content scripts run in an isolated world without access to window.ethereum, we inject a web-accessible script that communicates via postMessage to interact with MetaMask\nEIP-712 typed data signing for gasless order placement—orders are signed client-side and submitted to Polymarket's CLOB\nReal-time prices via WebSocket subscription to Polymarket's market data feed, with automatic reconnection and heartbeat management\nAnimated price displays using CSS transforms for rolling digit effects\nUniswap v4 Integration (Hacky & Notable!):\n\nIntegrated Uniswap v4's new architecture on Polygon—using the V4Planner and RoutePlanner from @uniswap/v4-sdk and @uniswap/universal-router-sdk\nThe swap flow: Token → Permit2 approval → Universal Router approval → V4_SWAP command execution\nQuotes fetched via eth_call to the Quoter contract, trying multiple fee tiers (0.01%, 0.05%, 0.3%, 1%) to find the best rate\nAll contract interactions happen via the bridge, encoding ABI calls manually and sending through MetaMask\nBackend (Express.js Server):\n\nHandles Builder API authentication using HMAC-SHA256 signatures via @polymarket/builder-signing-sdk\nActs as a secure proxy—the extension sends L2 auth headers, the server adds Builder headers, then forwards to Polymarket CLOB\nRemote signing endpoint for gasless operations\nSmart Contract Interactions:\n\nCTF Contract (0x4D97DCd97eC945f40cF65F87097ACe5EA0476045): Reading balances, approvals, redeeming positions\nCTF Exchange contracts for order execution\nDirect redeemPositions calls for claiming resolved market winnings",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/insider-zbgrk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

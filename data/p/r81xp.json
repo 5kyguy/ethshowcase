@@ -1,0 +1,29 @@
+{
+  "id": "r81xp",
+  "slug": "svinge",
+  "title": "Svinge",
+  "tagline": "RPC Load Balancer",
+  "event": {
+    "slug": "ethindia2022",
+    "name": "ETHIndia 2022",
+    "start_time": "2022-12-02T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/r81xp/banner/default.jpg",
+  "demo_url": "https://svinge.satyamkulkarni.xyz",
+  "source_url": "https://github.com/sk1122/rpc-load-balancer/",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🏊 The Graph — Pool Prize",
+      "title": "The Graph"
+    }
+  ],
+  "finalist": false,
+  "description": "Currently, there are many options for RPC providers in web3, some are better in terms of speed, some are better in terms of availability, and developers have to choose only one between these many options which satisfies their needs and we all know no RPC provider exists that satisfies all of the needs of a web3 developer, we can solve this by giving developers option to load balance their RPC queries between multiple providers. As RPC requests are load balanced between multiple providers, users will get the best possible RPC provider at the time of making the request.\n\n*We are using 2 algorithms to facilitate this - Round Robin & Dynamic Balancing*. Round Robin lets developers switch RPC providers after some successful requests from an RPC provider. Dynamic Balancing lets developers add some weights and options with which we will dynamically balance RPCs and use them.\n\nWe have built a JS/TS SDK which works well with ethers.js and web3.js.\n\nThis makes current interaction with web3 much faster, and easier and reduces the risk of low reliability as dApp will use multiple RPC providers.\n\nThis SDK not just load balances requests between multiple RPC providers but it also caches those request for some amount of time and then invalidates it, you can also choose which methods to exclude from caching, this is very crucial in increasing speed as methods like eth_chainId and similar can be cached for a longer time. It also retries once any requests fail with different provider thus increasing reliability of the whole system.\n\nCheck it out - svinge.satyamkulkarni.xyz",
+  "how_its_made": "I didn't have previous experience in building load balancers from scratch but with some research, I was able to find some algorithms like round robin and dynamic balancing which helped in building this.\n\nCaching is hard. It's not about caching but invalidating the cache at the right time so that data doesn't become stale. As we don't have a background job checking at the correct intervals for invalidating the cache, we had to come up with another way to invalidate the cache at the right moment.\n\nThe dynamic balancing algorithm has multiple weights based on which we do the sorting of RPC providers. This algorithm was particularly hard because sorting based on multiple parameters is hard, we solved this by trying various permutations and arriving at one that works and is very efficient, though have to admit, sometimes it chooses RPC provider which is slow just because its average time is very low because it has more requests than other providers, will improve it once I open source it and bring in the ethereum community to possibly contribute in it.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/svinge-r81xp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

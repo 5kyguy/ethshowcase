@@ -1,0 +1,27 @@
+{
+  "id": "h5j55",
+  "slug": "streamproof",
+  "title": "StreamProof",
+  "tagline": "ZK-verified royalty tiers: prove stream thresholds privately, settle payouts via Arc + Privy.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h5j55/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DdpreKvZALy4qLY02ijGf3o8N8uj5zE7CAn8HMJfVbE4/high.mp4",
+  "demo_url": "https://stream-proof-npgp.vercel.app/",
+  "source_url": "https://github.com/04arush/StreamProof",
+  "finalist": false,
+  "description": "StreamProof is a zero-knowledge royalty settlement system for music streaming. Today, artists have no way to independently verify their royalty payouts, because platforms won't publish raw play-count data — doing so would expose competitively sensitive traffic and individual listener behavior. StreamProof resolves this tension directly: a platform commits streaming data as an on-chain Merkle root, and an artist generates a zero-knowledge proof showing their verified stream count crosses a specific payout tier — without revealing the exact count, to anyone, ever. A valid proof automatically triggers a USDC payout on Arc, settled directly into the artist's Privy embedded wallet. The artist's identity is anchored to an ENSv2 name where the platform holds narrowly scoped write-access to a single record, verified with both a positive and negative test. The result is verifiable, automated royalty settlement that never requires trusting a self-reported number.",
+  "how_its_made": "The core is a Noir circuit compiled with Barretenberg's UltraHonk backend, proving Merkle-tree inclusion plus a threshold comparison in one pass — the leaf hashes artist, track, period, verified count, and a salt using Poseidon2, chosen specifically because it has an independently verified TypeScript implementation that produces bit-identical output to the in-circuit hash, avoiding any mismatch between the off-chain tree builder and the on-chain commitment. Solidity contracts (Foundry, deployed on Arc Testnet) include a write-once CommitmentRegistry, a TierVerifier that checks proof roots against stored commitments before calling the generated Honk verifier, and a PayoutVault that releases fixed USDC amounts per tier. ENSv2's Enhanced Access Control scopes the platform's write permission to exactly one text record on the artist's name — confirmed with a negative test that writing any other record correctly reverts. Privy provides the embedded wallet that actually receives the payout. The trickiest part was matching hash functions and proof formats exactly across the Noir circuit, the off-chain tree builder, and the generated Solidity verifier — a single mismatched flag anywhere in that chain silently breaks verification.",
+  "auto_summary": "A zero-knowledge royalty settlement system that verifies streaming thresholds and releases USDC payouts based on on-chain commitments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/streamproof-h5j55",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "jy9ep",
+  "slug": "0g-mem",
+  "title": "0G Mem",
+  "tagline": "The verifiable memory and runtime stack for sovereign AI agents.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jy9ep/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BB5oYgxiR00NQ02s9DOE00noqNTYQOry4FVKM8XhlEU006M/high.mp4",
+  "demo_url": "https://frontend-nine-iota-0ph42gsfg7.vercel.app/",
+  "source_url": "https://github.com/violinadoley/0G-Mem",
+  "finalist": false,
+  "description": "0G Mem is a decentralized AI agent runtime and memory stack designed to break vendor lock-in and give users true ownership over their AI's knowledge and operations. Built on the 0G Labs infrastructure, it decouples the core components of AI agents—memory, inference, and interface—into an open, verifiable, and interoperable system.\n\nThe architecture consists of three primary layers. The Memory layer provides a persistent, evolving knowledge base for agents. User context is encrypted client-side using their wallet key, stored on the decentralized 0G Storage network, and its state is anchored on the 0G Chain via Merkle proofs. This memory is dynamic; it strengthens with retrieval and decays with disuse, with every change being provably recorded on-chain. The Agent Runtime layer shifts inference from proprietary APIs to decentralized 0G Compute, ensuring operational sovereignty. Every execution, including memory state, tool calls, and decisions, is logged to 0G's Data Availability layer, creating a fully transparent and auditable trail of the agent's actions.\n\nFinally, the Pluggability layer ensures broad compatibility. 0G Mem exposes a Memory-Centric Protocol (MCP) server, allowing seamless integration with any MCP-compatible client, such as Claude Desktop or Cursor, without requiring code changes. The system is accessible through multiple interfaces, including a Next.js web application, a Telegram bot, and a terminal TUI, all connecting to the same unified, user-owned memory store. This multi-faceted approach empowers developers to build and deploy sovereign AI agents that are portable, transparent, and truly owned by their users.",
+  "how_its_made": "0G Mem is built in Python with four tightly integrated 0G Labs components. The memory layer uses 0G Storage for encrypted blob persistence, 0G Chain (EVM, chain ID 16602) for Merkle root anchoring via a custom MemoryRegistry contract, and 0G DA for immutable audit logging via gRPC DisperseBlob. Inference runs through 0G Compute via an OpenAI-compatible client.\n\nThe trickiest integration was 0G Storage — no Python SDK exists, so every upload/download spawns a Node.js subprocess (scripts/zg_storage.js using @0gfoundation/0g-ts-sdk) and reads the JSON result from the last line of stdout. Hacky, but it works across all deployment targets.\n\nEmbeddings use sentence-transformers/all-MiniLM-L6-v2 locally (384-dim), with 0G Serving and OpenAI as fallbacks. The Merkle tree is a custom Python implementation — SHA-256 leaves over blob IDs, with inclusion proofs verifiable both off-chain and via MemoryRegistry.verifyInclusion() on-chain.\n\nSession batching was a key design decision: multiple memory.add() calls within a turn are buffered in a MemorySession context manager, writing to storage and DA immediately but deferring the chain updateRoot() to a single transaction per turn — dramatically reducing gas costs.\n\nCross-machine sync (push_index / pull_index) works by uploading an encrypted full-index snapshot to 0G Storage, then storing its blob ID in the daTxHash field of an updateRoot call — piggybacking the chain's own history as a discovery mechanism, so any machine with the same wallet key can scan backwards and find all snapshots.\n\nMemory is exposed via three interfaces (Textual TUI, Telegram bot, MCP server over stdio) all sharing the same encrypted store — wallet address as canonical agent_id, derived deterministically via eth_account.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/0g-mem-jy9ep",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

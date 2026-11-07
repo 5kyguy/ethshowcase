@@ -1,0 +1,27 @@
+{
+  "id": "om3cg",
+  "slug": "world-commerce",
+  "title": "World Commerce",
+  "tagline": "Trusted agent shopping with ENS identities, human approval, payments, and reputation.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/om3cg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zkCx5EIrd7poI01bDnS2cC79iQsCE01SeMXGMBwuatGIo/high.mp4",
+  "demo_url": "https://worldcommerce-production.up.railway.app",
+  "source_url": "https://github.com/dhru7777/ethonline-worldcommerce",
+  "finalist": false,
+  "description": "WorldCommerce is an agentic shopping demo. A buyer agent searches Shopify for a person. Merchants and buyer jobs live under ENS names. The person approves the pick. MockUSDC pays on Sepolia. Merchant commission pays out only when World AgentBook shows a unique human behind the buyer.\n\nI built it around four problems.\n\na) Disposable counterparties. Agents show up as random wallets, so nobody knows who is shopping. We give them names: agent.dheeraj.eth and agent.shopify.eth. ENSIP-25 ties each name to an ERC-8004 agent record.\n\nb) Unconstrained discovery. The agent can ignore the ask and chase the biggest merchant bid. We mint {slug}.agent.shopify.eth from this Shopify UCP search. ENSIP-26 publishes what the merchant is and how to call it.\n\nc) No authority after you fire it. A single name cannot stop an agent from writing or spending. Nested subregistries split buyer jobs: intent, guardrail, payment, feedback. EAC lets a merchant edit an endpoint and blocks registration and commission keys. Revoke the role and those writes stop.\n\nd) Rebate has no legal home. A merchant kickback can land on any wallet. ENS names the payout leaf: commission.{merchant}.agent.shopify.eth. World AgentBook runs on settle. Human-backed agents get the bid. Others have it held. The purchase can still finish.\n\nThe rule is simple: the agent works for the human. ENS handles names, trees, records, and write locks. World handles human-backing. ERC-8004 is the agent record. USDC moves the money.",
+  "how_its_made": "Discovery and payment sit next to two rails: ENSv2 for names and permissions, World AgentKit for human-backing.\n\nENS (Sepolia hackathon). We registered dheeraj.eth and shopify.eth with ETHRegistrar commit–reveal. Nested UserRegistry and PermissionedCommerceResolver live in ens-contracts/ after the official UserRegistryImpl failed initialize. setSubregistry hangs the trees. Buyer roles sit under agent.dheeraj.eth. Merchants sit under agent.shopify.eth. After each search, ensureMerchantNamespaces creates {slug}.agent.shopify.eth. Text records use ENSIP-25 (8004 bind) and ENSIP-26 (context and endpoint), plus com.worldcommerce.*. EAC authorizeTextRoles splits Shopify admin and merchant operator. npm run ens:live shows an allow transaction and a deny revert. The UI ENS Tree loads both forests from /api/ens/tree with Explorer name and records links.\n\nWorld. @worldcoin/agentkit calls AgentBook lookupHuman on the buyer wallet at guardrails and on POST /api/settle. Human-backed → release commission. Empty lookup → hold. The catalog uses an AgentKit x402 header and a free-trial hook on GET /api/agentkit/data. Unregistered or exhausted calls get HTTP 402. World ID Sandbox is the approve selfie. It does not write AgentBook. Orb is required to register. When lookup is empty, the UI shows a labeled AgentBook mock so the release path is visible.\n\nRest. Shopify UCP in src/ucp/. ERC-8004 buyer #9638 and seller #6832. Approve or Reject in ui/app.js before MockUSDC in src/payments/. Optional 8004 feedback after the receipt. Live demo on Railway.",
+  "auto_summary": "A demo marketplace links ENS-based agent identities with Shopify discovery, World human-verification checks, and Sepolia MockUSDC settlement.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/world-commerce-om3cg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

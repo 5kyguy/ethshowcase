@@ -1,0 +1,41 @@
+{
+  "id": "ah41z",
+  "slug": "hearthside-hangouts",
+  "title": "Hearthside Hangouts",
+  "tagline": "Experience a different way to read with Hearthside Hangouts 🏕️🌟 📚 Start or join bookclubs that match your vibe and (re)discover reading with milestone-based reads and dedicated chapter reviews discussions in both text and exclusive audio rooms.",
+  "event": {
+    "slug": "hackfs2023",
+    "name": "HackFS 2023",
+    "start_time": "2023-06-02T13:00:39.046Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ah41z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QhnqPPu5Ds3g02wMmMDrrsf8MICeFU1M3FPh28h4Y02QE/high.mp4",
+  "source_url": "https://github.com/naomiHauret/hearthside-hangouts",
+  "prizes": [
+    {
+      "sponsor": "nft.storage",
+      "sponsor_id": "4jgzz",
+      "placement": "🥇 NFT & Web3.Storage — Best Use",
+      "title": "NFT.storage and Web3.storage"
+    },
+    {
+      "sponsor": "Huddle01",
+      "sponsor_id": "v693n",
+      "placement": "📱 Huddle01 — Best React Native Use",
+      "title": "Huddle01"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackFS 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Hearthside Hangouts is a mobile app that not helps readers find bookclubs that match their interests, but also have more meaningful conversations thanks to milestone-based reading and drop-in audio rooms, all while being easy to manage for the club creator.\nUsers can :\n- Sign-in with their email/social account\n- Create and customize their profile: they can specify and change their username, bio, and upload a profile picture\n- Create and customize their club: they can specify and change its title, description, genres, upload a cover picture\n- Join/leave clubs\n- Manage the members of their clubs (moderation: set groups as closed to new members, remove the membership of members, delete posts)\n- Define a reading material for their club\n- Setup milestones for their current read, which automatically sets up an audioroom on Huddle01 ;\n- RSVP to a milestone audioroom (which saves the date and link to the audioroom in their calendar app)\n- Join audiorooms\n- Post messages to the club \"lobby\" and to the milestones room\n- Rate books",
+  "how_its_made": "Hearthside Hangouts was created from the tamagui React Native Expo starter, which boostraps a Expo React Native application.\n\n- Authentication/social login: Magic SDK\n- Provider: ethers v5\n- File storage: web3.storage\n- Data schema, data management: Polybase\n- Audioroom: Huddle01\n- Books API: Google Books\n\nThis stack allows Hearthside Hangouts to offer a familiar, seamless, fast web2 user flow to the end-user (no \"sign-in\" pop-ups or transactions to sign), with them not even knowing that they are actually using a wallet under the hood or saving files to IPFS. This also ensures pseudonymity and does not require the user to have funds in a web3 wallet.\n\nThe data are structured and stored in Polybase collections in the following schemas :\n- UserProfile : user profile information\n- SourceMaterial : book information\n- Club : club information\n- ClubMaterial : intermediate table between a Club and a SourceMaterial. This allows us to keep a history of all the books read in a club. ClubMaterial also stores the milestones.\n- ClubMembership: members of the clubs\n- ClubPosts: Posts in a club, which can be either in a permanent clubroom (lobby), a post in a milestone/chapter room, and/or a response to another post.\n- RSVPs: milestone RSVP\n\nThe base user flow is: \n\n1. Sign in via email or social login (handled by Magic SDK)\n\n2. If the user doesn't have a profile (UserProfile), they create one. The profile picture is stored on web3 storage via the web3 storage API.\n\n3. The user creates their club, or browse through the clubs. If they join a club, a new ClubMembership is created.\n\n4. If the user creates a club, the club files (cover picture) stored on web3 storage via the web3 storage API.\n\n5. The user changes the current read by browsing through books, using the Google Books API as a source. When the user selects the book, the data of that book are stored on Polybase in our SourceMaterial collection, using the ISBN of the book (if it has any) as its identifier. Then, a new ClubMaterial is created.\n\n6. When a new current read (ClubMaterial) is created, the club creator can specify the milestones. The milestones are stored as an array of string (which are stringified objects representing the milestones), and for each new milestone, we create a new meeting on Huddle01 via the API. The ID of that meeting is the id of the milestone.\n\n7. Users can RSVP to a milestone event : when they do so, the milestone description + link to the huddle01 room are saved to their calendar, and the RSVP is saved as well on Polybase.\n\n8. Users can post in different channels: club channels like the lobby, book channels (chapters, reviews) and milestones channels. When a user posts a message, a new ClubPost is created. In that ClubPost, we store the id of the channel, as well as the id of the parent post if there are any. This allows us to retrieve and display post threads in a very flexible manner.\n\n--\n\n### Issue and workarounds\n\nI initially planned to build the audioroom feature within the app with Huddle01 or Livepeer SDK but had issue with React Native/Expo (probably due to the starter I use and my lack of experience on) and lacked time to figure out what was going on or build a web UI, so my fallback was to redirect all milestones audioroom to the Huddle01 webapp.\n\nI also planned on using the Push Chat SDK to build my text room features but had issue with the restapi SDK not being fully compatible with React Native, so I ended up building it with Polybase.\n\nTo upload files, I was initially using web3 storage SDK but ended up using the web3storage API endpoint after discovering that the blob() function had a different behaviour between web and React Native.\n\nI was planning on using the open library API to get the table of contents for each book based on their ISBN to create chapter rooms automatically but sadly their API doesn't seem to have a table of contents for each book, and google books also sometimes returns books that don't have a ISBN (which lead us to me creating a custom id for the book). If I had more time, I would have instead tried to hack together a AI-based API that would use public libraries data to generate the table of contents, description, genres and general info for each books, so I wouldn't have to rely on 2 different APIs.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hearthside-hangouts-ah41z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

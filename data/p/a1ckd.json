@@ -1,0 +1,21 @@
+{
+  "id": "a1ckd",
+  "slug": "fusionplusstarknet",
+  "title": "FusionPlusStarknet",
+  "tagline": "Cross-chain Fusion+ swap from Ethereum ↔ Starknet with hashlock, timelock, and native token support.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a1ckd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/camNxWjQvP02wKmj8016OAkPalD1Us2TXnUFvYSXqeaCg/high.mp4",
+  "source_url": "https://github.com/capGoblin/1inch-fusion-starknet",
+  "finalist": false,
+  "description": "Fusion+ Starknet Bridge is a novel extension to the 1inch Fusion+ protocol that enables trustless, cross-chain token swaps between Ethereum and Starknet using a hashlock-timelock-based escrow design.\n\nThe system preserves Fusion’s key principles — no slippage, no MEV, and decentralized order settlement — while extending functionality to non-EVM environments like Starknet. Swaps are bidirectional: users can start from Ethereum or Starknet. The core mechanism uses:\n\nA hashlock to ensure the taker reveals a secret on both chains,\n\nA timelock to allow the maker to refund if the swap is not fulfilled in time,\n\nAn escrow contract on both Ethereum and Starknet that locks the assets until the preimage is revealed.\n\nTo ensure compatibility with 1inch's Fusion+ resolver logic, the Ethereum side fills a Fusion order using fillOrderArgs, where the arguments include the deployed escrow contract address.\n\nDuring the swap, a secret is revealed on either chain, triggering the withdrawal from the respective escrow.\n\n",
+  "how_its_made": "This system is built using a modular architecture, with the following technical stack:\n\n✅ Ethereum (EVM) Side\nSolidity smart contracts extending the 1inch Limit Order Protocol (LOP).\n\nA Source Escrow deployed using CREATE2 to derive the address from order parameters and timelock.\n\nfillOrderArgs() includes the escrow address and enables the Fusion resolver to atomically transfer tokens to the escrow contract.\n\nThe secret preimage can be revealed by the taker on Ethereum to unlock the swap.\n\nDeployed and tested on Ethereum Sepolia testnet.\n\n✅ Starknet Side\nCairo 1.0 smart contracts for Target Escrow functionality.\n\nImplements hashlock (via Pedersen hashing) and timelock logic compatible with Ethereum timestamps.\n\nThe taker reveals the same preimage on Starknet to unlock funds.\n\nUses Starknet messaging bridge for potential fallback and trustless preimage transmission (optional for future extensions).\n\nDeployed and tested on Starknet Sepolia (Goerli Alpha testnet).\n\n✅ Core Components\nHashlock/Timelock Logic: Ensures conditional access to escrowed funds.\n\nImmutables Struct: Contains all metadata used to deterministically compute escrow addresses using CREATE2.\n\nProxy Factory + Proxy Bytecode Hash: Used to precompute and deploy escrows without redundant contract creation.\n\n1inch Resolver Arguments Encoding: Custom calldata with taker-traits bits and encoded escrow address for the fillOrderArgs call.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fusionplusstarknet-a1ckd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

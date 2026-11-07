@@ -1,0 +1,20 @@
+{
+  "id": "gattn",
+  "slug": "lcsa",
+  "title": "LCSA",
+  "tagline": "A desktop app for displaying and interacting with your generative art NFTs",
+  "event": {
+    "slug": "ethonline2021",
+    "name": "ETHOnline 2021",
+    "start_time": "2021-09-17T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gattn/banner/default.jpg",
+  "source_url": "https://github.com/variadiclabs/lcsa",
+  "finalist": false,
+  "description": "Left Click Save As (LCSA) is a desktop app for viewing interactive generative art NFTs. It downloads all necessary data to view your NFTs offline after cryptographically verifying ownership of NFTs being stored. Currently it supports Art Blocks but will support other collections soon.",
+  "how_its_made": "LCSA is written in Flutter for the desktop app, React for the login web app, and Python/Tornado for the backend server. The desktop app uses SQLite as a local database, and the backend uses Postgres 13. Unlike traditional Web3 dApps, most desktop apps do not have native ETH sign on capabilities, so we bridged the gap by generating an activation key client-side. This activation key is a 12-word BIP-39 seed phrase, and its m/44'60'/0'/0/0 derived address is tied to the original address via cryptographic signing, for which we used Moralis single-sign on. This activation key is used to sign a challenge phrase to generate an authentication token, which is used for requests to the backend. The frontend requests on-chain data via the backend, and the backend does not store project script code due to licensing requirements, so it verifies the auth token and proxies the request on to Infura. Every auth token is tied to a set of Ethereum addresses, so any incoming request does not need to provide the Ethereum address as the backend looks this information up in the database. The backend connects to Infura to proxy contract calls and retrieves NFT token owner, token ID, and other metadata from Moralis' NFT endpoint. To retrieve additional info regarding Art Blocks, the backend queries the Art Blocks API and stores metadata in the database. In terms of hacky implementation, the most notable instances were certain error handling situations that were cut out of scope to prioritize completing the project by the deadline. One challenge that we faced was that there was no native BSD-licensed or equivalent Flutter library for deriving addresses from BIP39 seed phrases, so we had to write our own derivation method with inspiration from existing libraries written in Python. Another challenge was rendering JavaScript code properly across different platforms. We used a webview library for Windows that utilizes Edge WebView2 because Native WebView support in Flutter desktop is still not ready, and native execution of JavaScript outside of a sandbox was an unacceptable security risk, whereas Edge WebView2 uses the same security controls as the default Edge browser. Currently, LCSA is optimized for Windows but a macOS version is in the works, and a web version of the app is also being built. Overall, we are proud of the fact that we were able to build a fully functional desktop app for viewing interactive NFTs.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lcsa-gattn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

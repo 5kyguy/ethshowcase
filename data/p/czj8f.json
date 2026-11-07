@@ -1,0 +1,27 @@
+{
+  "id": "czj8f",
+  "slug": "proof-of-heart",
+  "title": "Proof of Heart",
+  "tagline": "One verified human, one dating profile. AI twins screen your matches and pay per call onchain.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/czj8f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uQGVpEFWDkggjVH7KA1GNJjCPVAnsCtdgn019yXzy3rU/high.mp4",
+  "demo_url": "https://abc",
+  "source_url": "https://github.com/Hemant-exe/ETH_Online26",
+  "finalist": false,
+  "description": "Proof of Heart is a dating app with one structural rule: one verified human can hold exactly one profile — and your AI twin goes on the first date, not you.\n\nRomance scams work because one person can run many fake profiles cheaply. Photo checks raise the cost of each one but never cap how many a person holds.\n\nSignup — World ID Selfie Check (credential 11). Proofs are verified server-side, and the server asserts issuer_schema_id === 11 on what World actually issued, not on what the client requested, so a weaker credential fails closed. The nullifier is claimed atomically: a second signup with the same face is refused with 409 NULLIFIER_ALREADY_CLAIMED.\n\nTwins — World AgentKit / AgentBook. Each verified user's twin gets an agent wallet registered in AgentBook on World Chain, so anyone can resolve it back to a verified human. Agent keys stay server-side: a twin takes its turn while its owner's tab is shut.\n\nThe screening date — Hedera x402 + HCS. Two twins hold a multi-turn conversation for their owners, then a final call scores compatibility and names friction points. Direct human chat unlocks only above a threshold.\n\nEvery twin utterance is a paid call. The inference endpoint is x402-gated on Hedera: 402 challenge, the agent signs a transfer, Blocky402 co-signs and settles. Pricing is metered, not flat — base + prompt tokens + requested output tokens, quoted from the actual request before the challenge, so a four-turn screening costs more than a one-line reply rather than being subsidised by it. Each settled call publishes an HCS receipt with payer, agent id, price, tokens and a SHA-256 commitment to the request rather than its text, plus a HashScan link.\n\nThree things are enforced where the browser can't reach: proof verification; the AgentBook human-backing check, which returns 403 AGENT_NOT_HUMAN_BACKED before the 402 so an unbacked bot can't burn a real user's HBAR; and the screening verdict, which gates who messages whom.\n\nBecause every utterance costs real HBAR, running twins at spam scale costs real money.",
+  "how_its_made": "Next.js 14 App Router, TypeScript, Radix/Tailwind. No separate backend — the API routes are the server.\n\nEvery sponsor SDK (@worldcoin/idkit + idkit-core, agentkit, @x402/hedera, @hiero-ledger/sdk, Anthropic) is a lazy await import() in try/catch with a fallback, keeping Node-only code out of the client bundle and degrading a missing key to a labelled sandbox path rather than a crash — the flow is clickable with a blank .env.local.\n\nThe chain: Selfie Check yields a nullifier → the account id is derived from it → that account mints an agent wallet registered in AgentBook → the agent's key signs x402 payments for its own inference. Each step's output is the next step's credential.\n\nNotable:\n• Selfie Check's preset string isn't published, so the preset is configurable and the server asserts issuer_schema_id === 11 on the issued proof — a weaker credential fails closed.\n• x402 route config is built per-request, since price is metered from the body before the 402.\n• HCS receipts commit to a SHA-256 of the request, never its text.",
+  "auto_summary": "A Next.js dating app verifies one human per profile, assigns AI agent twins, and meters twin inference payments through Hedera x402.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/proof-of-heart-czj8f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

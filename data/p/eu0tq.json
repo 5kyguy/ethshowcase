@@ -1,0 +1,22 @@
+{
+  "id": "eu0tq",
+  "slug": "1millimeter",
+  "title": "1millimeter",
+  "tagline": "1Millimeter Exchange is a cross chain swap platform for Ethereum to ICP swaps.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/eu0tq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/o00JP5yTV100SBvEIc7qWunVu00lVt3V2kzwWuds1tVQWc/high.mp4",
+  "demo_url": "https://youtu.be/pY_LQUTEOi8",
+  "source_url": "https://github.com/parth-soni07/1Millimeter-exchange",
+  "finalist": false,
+  "description": "1 millimeter Exchange is a web-based cross-chain DEX that lets anyone swap assets between Ethereum Holesky and the Internet Computer in a single click.  Powered by 1inch Fusion+ intents, an on-chain ICP ↔ ETH bridge and atomic HTLC escrow, every swap is permissionless, MEV-protected and either completes or fully reverts.  The frontend is a lightweight React dApp—connect MetaMask, confirm, done.",
+  "how_its_made": "# 1 millimeter Exchange – Technical Deep-Dive\n\n## Project Goal\nProvide a seamless, trust-minimised bridge for value between Ethereum (Holesky) and the Internet Computer. The user experience must resemble a single-chain swap: connect MetaMask, sign once, and watch funds arrive on the other chain without juggling RPCs or bridges.\n\n## Tech Stack\n\n| Layer | Technology | Purpose |\n|-------|------------|---------|\n| **Smart Contracts** | Solidity 0.8.x | Escrow, Hash-Time-Lock, Fusion Resolver, ICP Bridge contracts |\n|                     | Motoko / Rust canisters | ICP-side resolver & ledger interactions |\n| **Intents**         | 1inch Fusion+ | MEV-proof limit-order execution on the ETH side |\n| **Relayer**         | Node 18, ethers.js, @dfinity/agent | Listens for escrow events, forwards proofs cross-chain, triggers ICP canisters |\n| **Frontend**        | React 18, Vite, TailwindCSS | Single-page dApp with wallet hooks |\n|                     | canvas-confetti            | Visual confirmation burst on swap completion |\n|                     | react-icons                | Chain & token glyphs |\n\n## Deployment Targets\n• Ethereum **Holesky** test-net (verified source code)  \n• Internet Computer main network (canister IDs baked into build)\n\n## Scripts / Tooling\n- **generate-config.sh** – bootstraps every `.env` from one prompt\n- **deploy-holesky.sh**  – Foundry script deploying all ETH contracts and writing addresses to disk\n- **verify-deployment.sh** – Hardhat + Etherscan API verification helper\n- **monitor-system.sh** – bash script hitting health endpoints (relayer & RPC status)\n\n## Key Features\n1. **Intent-Based Swaps** – users post intents executed by off-chain solvers; the Fusion Resolver enforces price and deadline on-chain.\n2. **HTLC Safety Net** – both sides must reveal the same secret within their time-lock window; otherwise funds automatically refund.\n3. **Progress Overlay** – centre-screen modal shows staged messages (sign → swapping → almost done → success tick).\n4. **Token Lore & Onboarding Panels** – gamified educational panels flanking the swap UI.\n\n## Challenges & Solutions\n| Challenge | Solution |\n|-----------|----------|\n| Bridging two execution environments (EVM vs IC) | Lightweight relayer using @dfinity/agent to sign ingress messages and submit proofs back to ETH. |\n| Preserving UX despite cross-chain latency | 10-second staged overlay keeps the user informed while the relayer completes the remote leg. |\n| MEV protection on L2 test-net | Leveraged 1inch Fusion+ Dutch-auction intents which are natively resistant to sandwich attacks. |\n| Handling two wallet paradigms | MetaMask for ETH, Internet Identity for ICP, stitched together with a shared React context so components can query `ethConnected` / `icpConnected`. |\n| Gas optimisation | Foundry benchmarks drove inline assembly in the resolver, achieving < 190 k gas per swap intent fulfilment. |\n\n## Future Work\n- Multi-hop routing (e.g. Holesky → Base → ICP)\n- Zero-knowledge proofs replacing HTLCs for lower latency\n- Mobile wallet deep-links & WalletConnect 2.0\n\n---\n© 2024 1 millimeter Labs",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/1millimeter-eu0tq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

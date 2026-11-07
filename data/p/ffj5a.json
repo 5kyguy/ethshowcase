@@ -1,0 +1,27 @@
+{
+  "id": "ffj5a",
+  "slug": "arcanum",
+  "title": "Arcanum",
+  "tagline": "Arcanum replaces your cloud provider with self-sovereign secrets vault on Ethereum, sealed with FHE.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ffj5a/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2XPhdpU3LN6eclo00BQWTF2BnvvjOTnt3sJZFuJNRVaw/high.mp4",
+  "demo_url": "https://arcanum.wtf",
+  "source_url": "https://github.com/equitylayer/arcanum",
+  "finalist": false,
+  "description": "There is no truly trustless, cost-efficient, and censorship-resistant way to manage secrets.\n\nArcanum is a Secrets manager that eliminates trust in centralized providers like AWS,  Azure or HashiCorp Vault. Secrets are stored on Ethereum, encrypted with FHE. \n\nYou can stop paying 0.4$ per secret, per month financing Bezos' next yacht. The personal cloud is finally here.\n\nEither you are a single person, or any organisation you can securely store your secrets and store key-value secrets with a granular Access Control List which operates on two-levels:\n> Namespace level\n> Secret level\n\nSecrets can expire and access can be revoked. \n\nArcanum can work if you are a person, a server or an agent. It ships with a dApp, a CLI tool, an SDK and an Agent skill allowing non-technical people, or agentic swarms to securely access, store and share secrets.\n",
+  "how_its_made": "The Vault smart Contract is built with Solidity on Foundry, and OpenZeppelin libraries.\n\nWe use Fhenix for FHE operations.\nEach Namespace and each Secret gets its own FHE-encrypted AES key generated on-chain.\n\nThe SDK uses a hybrid encryption scheme: \n> FHE keys are decrypted client-side via FHE permits, then used as AES-256-GCM keys to encrypt/decrypt secret values. This avoids the overhead of FHE on large payloads while keeping key management fully on-chain.\n\nThe dApp is built with React + Vite + Tailwind.\nDynamic for wallet and social login, wagmi for chain interaction, and React Query for state.\n\nENS resolution supports both forward and reverse lookups. \n\nThe CLI wraps the SDK for terminal workflows, and a Claude Code skill enables AI agents to manage secrets via natural language, a key use case for autonomous agent infrastructure.\n\nWe deployed on Base Sepolia for speed and for the fact that Fhenix was the most stable there.\n-------------\nThe \"hacky\" part of our solution was using good standards to not lose the trustlessness while overcoming current limitations.\nSince we can only store 32 bytes per secret on-chain we encrypt a key onchain and we use this to locally wrap the Secrets on the client side.\n\nAdditionally, to avoid complex logic onchain we wrap the Secret twice to allow for namespace level access and secret level access (in case you want to share only one secret and not everything).\n\nWe did hit a few hijinks as FHE is still young, especially on localhost, and we had to shiv our way through the problem via a postinstall script. We also had to Mock some FHE methods for our tests. These will be all be old problems soon.",
+  "auto_summary": "A Solidity-based secrets manager stores encrypted secret metadata onchain with a React dapp, TypeScript SDK, and CLI for access control workflows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arcanum-ffj5a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,36 @@
+{
+  "id": "qhtbb",
+  "slug": "agentropolis",
+  "title": "Agentropolis",
+  "tagline": "A city-builder where AI agents debate DeFi strategies and execute trades on Uniswap v4 hooks.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qhtbb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/K00mcaKQxMbsynildi1lwV9goK8qbQFZzRxUJfJ01NILw/high.mp4",
+  "demo_url": "https://agentropolis.paracausal.tech/",
+  "source_url": "https://github.com/Paracausal-Labs/Agentropolis",
+  "prizes": [
+    {
+      "sponsor": "Yellow",
+      "sponsor_id": "5wcw4",
+      "placement": "1st place",
+      "title": "Integrate Yellow SDK: Trading apps/Prediction markets/Marketplaces "
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "Agentropolis is a gamified DeFi trading platform where you build a cyberpunk city, deploy AI agents, and let them debate your trading strategies before executing on-chain.\nYou start by connecting your wallet and opening a Yellow Network state channel. From there you deploy agents into an isometric 3D city built with React Three Fiber. Each agent has a specialty: Alpha Hunter spots opportunities, Risk Sentinel flags dangers, Macro Oracle reads market conditions, Devil's Advocate pokes holes in plans, and Council Clerk synthesizes the final recommendation.\nWhen you want to trade, you enter the 3D Council Room and type a prompt like \"Swap 10 USDC to ETH.\" All five agents deliberate in real time using Groq's Llama-3.3-70b, each contributing their perspective. The Council Clerk produces a final proposal with vote counts, risk level, and expected output. You approve or reject it.\nIf approved, the swap executes on-chain through Uniswap v4's Universal Router on Base Sepolia. Three custom hooks enforce the council's decisions: CouncilFeeHook sets dynamic swap fees based on consensus, SwapGuardHook blocks trades exceeding the risk limit, and SentimentOracleHook records the council's market sentiment as an on-chain oracle.\nFor identity, we use ENS text records. If you have an ENS name, the council reads your com.agentropolis.endpoint text record and auto-discovers your own custom agent API to include in deliberations.\nAgents are also discoverable on-chain through an ERC-8004 Agent Registry deployed on Base Sepolia. The in-game marketplace queries this registry to list agents with their metadata, strategy type, and reputation scores.",
+  "how_its_made": "Agentropolis is a Turborepo monorepo with two packages: a Next.js 14 frontend and a Foundry smart contract suite, plus a shared types package.\nThe frontend is entirely 3D. We used React Three Fiber and Drei to build the isometric city view and the council room. The city has procedurally placed buildings, walking agents that collect coins, and limit order towers that visually represent pending trades. Everything is styled with a custom Tailwind CSS cyberpunk design system (dark backgrounds, neon yellow/cyan/magenta accents, monospace fonts, uppercase tracking).\nFor the AI layer, we hit Groq's API with Llama-3.3-70b. Each of the five agents gets a unique system prompt with a distinct personality and risk profile. The council API endpoint streams all five opinions, detects the user's intent (swap vs. DCA vs. risk check), and the Council Clerk agent synthesizes a final trade proposal with token addresses, amounts, and strategy type.\nOn the smart contract side, we wrote three Uniswap v4 hooks in Solidity, all deployed on Base Sepolia:\n- CouncilFeeHook overrides LP fees in beforeSwap based on a value the council relayer sets after each deliberation.\n- SwapGuardHook reverts any swap exceeding the maxSwapSize that the Risk Sentinel sets.\n- SentimentOracleHook records market sentiment scores as an on-chain oracle in afterSwap, readable by other contracts.\n\nSwaps execute through Uniswap v4's Universal Router using the Permit2 approval pattern. We build the execution plan client-side with viem and submit it from the user's wallet.\n\nFor Yellow Network, we integrated their @erc7824/nitrolite SDK. The app opens a real WebSocket to their clearnet sandbox, creates an app session with signed state channel messages, and charges micro-amounts for in-game actions like deploying agents. On session close, it settles the final balance on-chain.\n\nFor ENS, the council API resolves the user's ENS name on Ethereum Sepolia and reads com.agentropolis.endpoint, com.agentropolis.risk, and com.agentropolis.tokens text records. If an endpoint is found, the council actually fetches it and includes that external agent's opinion in the deliberation.\n\nWe also deployed an ERC-8004 Agent Registry contract on Base Sepolia. The in-game marketplace queries it using a binary-search ownerOf fallback (to work around Alchemy's free-tier getLogs limitations) and displays registered agents with their on-chain metadata.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentropolis-qhtbb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

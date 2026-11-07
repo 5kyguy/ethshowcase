@@ -1,0 +1,22 @@
+{
+  "id": "zq4ek",
+  "slug": "leashh",
+  "title": "Leashh",
+  "tagline": "Agents fix prod, pay over x402 on Hedera, and can't spend a cent past their ENS limits. That's it. ",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zq4ek/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bGot6Y5T2Fgr53f8JiEN1iA2ptfHrqDtW8J1Z8n5cCM/high.mp4",
+  "demo_url": "https://leash-infra.vercel.app/",
+  "source_url": "https://github.com/Manvith-Shetty/Levy",
+  "finalist": false,
+  "description": "Leash solves a massive problem with AI agents: how to let them spend money without letting them empty your wallet. Right now, if an agent needs to pay for a server or an API, you hand over a private key, and it has unlimited access.\n\nWith Leash, every AI agent gets an ENS name with strict, on-chain spending rules. You can definitively state: “This agent has $5, can only buy AI services, and expires in 30 days.”\n\n**How It Works:**\n\n* **The Family Tree:** Agents form a hierarchy (e.g., parent -> child). A parent can give a child a slice of its budget, but the child *never* gets more money or a longer timeline than the parent. Smart contracts enforce this.\n* **The 6-Step Check:** Before *any* payment happens, Leash checks the agent (and its parents) for: name existence, remaining budget, per-request limits, allowed services, allowed currencies, and expiry. If one check fails, the payment is blocked. No money moves.\n* **The Kill Switch:** One on-chain transaction revokes an agent. Every child under it stops instantly, and rented servers shut down within 20 seconds.\n\n**What Agents Can Actually Do:**\n\n* **Buy AI:** Agents pay per token (via x402) using USDC on Hedera—no subscriptions or API keys needed.\n* **Rent Servers:** Agents can request infrastructure (like a Redis cache) and pay per minute.\n* **Auto-Fix Apps:** A team of agents can monitor a web app, diagnose issues, and pay for simple fixes (like restarting a service) within their limits.\n\nEvery single action is logged publicly on Hedera. It's built on ENSv2 (using Ethereum Sepolia) for permissions, proving agents can be useful *and* financially constrained.",
+  "how_its_made": "Leash is an AI agent framework built on a simple split: the rules live on ENS (Sepolia), and the money moves on Hedera.\n\nThe Rules: Every agent gets an ENSv2 subname. We store their limits—like budgets and allowed services—as simple text records. Because of how ENSv2 works, revoking a parent name instantly shuts down all its child agents. We even restricted transfers so agents can't go rogue and sell their names.\n\nThe Money: Our Rust backend uses the x402 protocol to settle micro-transactions in USDC on Hedera. Hedera’s tiny fees make paying a fraction of a cent per AI request actually viable. Before any money moves, a policy engine verifies the agent's ENS rules, and it only pays for successful LLM responses.\n\nLook, Ma, No Database: We ditched traditional databases entirely. Instead, Hedera Consensus Service (HCS) acts as our audit log, service directory, and cross-provider spending ledger.\n\nWhat it does: Agents can rent Docker containers by the minute or fix broken apps. In our \"autopilot\" setup, three agents team up: one monitors the system, one pays an LLM (like Llama or Qwen) to diagnose issues, and the third pays to execute a fix from a strict, pre-approved menu.\n\nThe Setup: Our React frontend reads directly from Sepolia and Hedera mirror nodes, so it works even if our own backend goes down.\n\nThe Coolest Hack: If you revoke an agent's name on Sepolia, our cleanup loop catches it and literally kills that agent's Docker containers on a completely different server within 20 seconds. It’s real-time, cross-chain mandate enforcement.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/leashh-zq4ek",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

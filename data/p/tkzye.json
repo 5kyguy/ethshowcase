@@ -1,0 +1,29 @@
+{
+  "id": "tkzye",
+  "slug": "sigmawallet",
+  "title": "SigmaWallet",
+  "tagline": " A social wallet that allows users to log-in with well-known providers (i.e. Google, Github, etc) and sign transactions with the credentials from these providers.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tkzye/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ebLO6fj882a02hehIIP3yuaOQSAwsJ53purtwUnFira8/high.mp4",
+  "source_url": "https://github.com/threesigmaxyz/sigma-wallet-all",
+  "prizes": [
+    {
+      "sponsor": "zkSync",
+      "sponsor_id": "y24y0",
+      "placement": "💳 ZKSync — Best Wallet or Smart Accounts",
+      "title": "zkSync"
+    }
+  ],
+  "finalist": false,
+  "description": "SigmaWallet is a wallet that uses account abstraction to allow users to have access to their wallets with well-known web2 providers. Transactions are also signed with these providers allowing for an easy to use experience.  There are 3 main modules of our project: the frontend, the backend and the smart contracts. The front-end, either in the form of a website or a chrome extension, allows users to send transactions and interact with contracts in the respective chain. The users sign the transaction by validating their identity with the chosen provider. The back-end helps in configuring the AuthProvider to include the necessary data. The smart contracts allow for the deployment of the users wallet and handle the interaction of the project with the blockchain.",
+  "how_its_made": "As mentioned in the previous section, the project can be divided into frontend, backend and smart contract.\n - The frontend, written with React and Next.js, works by having the user interact with it via an OAuth Provider.\n - Our frontend then requests authentication to the AuthProvider that, if successful, returns a JWT (Json Web Token) that includes the user identifier.\n - The frontend communicates with the smart contract that then check if there is already a wallet associated with the user account - if there isn't, a new, unique wallet is deployed.\n\nOnce the user has a wallet set-up, it can now interact with the web3 world! The user, through our frontend, sends a transaction request. The frontend sends a transaction intent to the backend that will now handle the interaction with the AuthProvider. The backend, written in Javascript, configures the AuthProvider to include custom claim for the transaction. Then, the frontend requests a new JWT token  to the AuthProvider (by signing a message with their provider) that will now provide a new JWT token with the custom claim. After this, the frontend sends a transaction with JWT to the smart account contract written in Solidity in the blockchain. The JWT signature and claims are validated on-chain and, if valid, the transaction is then redirected to the intended EOA/contract. The user receives a message if the transaction is a success.\nSince auth public keys expire, they need to be automatically updated, we tackle this using Chainlink functions. Through the use of this tool we can maintain and always up to date list of public keys of the supported authentication providers.\nThe contracts, besides being deployed on the Sepolia testnet, are also deployed in ZkSync to take full advantage of the native account abstraction potencial!\nThe novelty of our protocol is that, since the signature is performed by the trusted providers (with support for 2 factor authenticatrion for added security) and the validation is made on-chain, we can achieve a healthy amount of decentralization, since any unsatisfied user can still access their wallet-funds sending the transaction signed with their account directly into the blockchain.\nSo far we've been only using the word \"transaction\" but that's not strictly true, since our protocol is an implementation of the ERC4337, allowing user to sign pseudo-transactions, that are then bundled together with other pseudo-transactions to form the final transaction sent to the blockhain. This allow for a reduction in gas costs, and also allows for the gas to be paid in another currency (like an ERC-20 token) or even by a third-party.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sigmawallet-tkzye",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

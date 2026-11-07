@@ -1,0 +1,21 @@
+{
+  "id": "p1zw2",
+  "slug": "intentswap",
+  "title": "IntentSwap",
+  "tagline": "Intent-based token swaps on SUI solvers compete in real-time auctions to give users the best price.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p1zw2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/201dQ36f5kTboAnkSO83Sxh5PH018V01dWQZtjSGONww84/high.mp4",
+  "source_url": "https://github.com/yash251/intentswap",
+  "finalist": false,
+  "description": "IntentSwap is an intent-based swap protocol built on SUI that replaces the traditional AMM model\n   with a solver auction mechanism. Instead of swapping against a liquidity pool and accepting\n  whatever price the AMM offers, users declare a swap intent — specifying the token they want to\n  sell, the token they want to receive, and their minimum acceptable amount. Their tokens are\n  locked into an on-chain escrow smart contract written in Move.\n\n  Once an intent is created, it's broadcast to a network of solvers via server-sent events. A\n  30-second auction window opens where solvers compete by submitting quotes. The solver offering\n  the highest output amount wins. The winning solver then fills the intent on-chain — the user's\n  escrowed tokens go to the solver, and the solver's tokens go directly to the user. Settlement is\n   fully atomic and non-custodial.\n\n  If no solver fills the intent, the user can cancel and reclaim their escrowed funds. The\n  protocol ensures users always get at least their minimum requested amount, while solver\n  competition drives prices above that floor. This design eliminates MEV extraction, reduces\n  slippage, and creates a competitive marketplace for order flow on SUI.",
+  "how_its_made": "The core of IntentSwap is a Move smart contract (IntentEscrow) deployed on SUI testnet. It uses\n  SUI's object model with phantom type parameters to create a generic escrow that works across any\n   token pair. The contract handles three operations: creating an escrow (locking user funds),\n  filling by a solver (atomic two-way transfer), and cancellation (returning funds to the\n  creator).\n\n  The frontend is a Next.js app using the App Router, with @mysten/dapp-kit for SUI wallet\n  integration (connect, sign, execute transactions). The UI is built entirely with Tailwind CSS v4\n   — glassmorphism cards, gradient accents, and ambient floating background elements, all without\n  any external UI component library.\n\n  The real-time layer was the most interesting part to build. The backend uses API routes with\n  Server-Sent Events (SSE) to push intent creation, quote submissions, and auction results to all\n  connected clients instantly. The solver bot is a standalone TypeScript process that connects to\n  this SSE stream, automatically detects new intents, submits competitive quotes, and when it wins\n   an auction, constructs and executes the Move contract fill transaction using @mysten/sui SDK.\n\n  One notably hacky detail: the auction engine runs server-side with in-memory state and\n  setTimeout-based timers. When the 30-second window expires, it evaluates all quotes, picks the\n  winner, and broadcasts the result over SSE — all within a Next.js API route. No separate\n  backend, no database, no message queue. The entire protocol runs as a single Next.js deployment\n  plus a solver process.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/intentswap-p1zw2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

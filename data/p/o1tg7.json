@@ -1,0 +1,22 @@
+{
+  "id": "o1tg7",
+  "slug": "comput3",
+  "title": "COMPUT3",
+  "tagline": "Trustless decentralized compute network for AI agents with verifiable execution",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o1tg7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Ycbuu6ey1U24f501HGE7w4zNSdhnBtLOkjPccWZWyVIM/high.mp4",
+  "demo_url": "https://www.comput3.xyz",
+  "source_url": "https://github.com/SaishKorgaonkar/comput3",
+  "finalist": false,
+  "description": "AI agents increasingly need to execute code and process sensitive data, but current solutions rely on centralized infrastructure where data is exposed and execution is unverified. COMPUT3 is a trustless, decentralized compute network specifically built to solve the \"black box\" problem of AI agent execution.\n\nWhen a user submits a task, our orchestrator agent selects a compute provider from an on-chain registry on Ethereum Sepolia. To guarantee privacy, the workload executes inside a LUKS2 AES-256 encrypted container, ensuring the hardware provider physically cannot access the user's data.\n\nTo guarantee accountability, every single execution step taken by the agent is logged, SHA256-hashed, and structured into a binary Merkle tree. Upon completion, the Merkle root of this execution log is submitted as an EAS (Ethereum Attestation Service) attestation, providing cryptographically verifiable proof of what actually ran. Providers are held economically accountable by staking ETH collateral that can be slashed for misbehavior, while users stream payments frictionlessly via USDC micro-payments using the x402 protocol. COMPUT3 creates a secure, accountable, and private-by-default execution layer for the agentic web.",
+  "how_its_made": "COMPUT3’s architecture bridges a Next.js 15 frontend with a high-performance Go 1.23 backend. The core intelligence is driven by Anthropic's Claude Opus (via structured tool use) to analyze repositories, formulate execution plans, and orchestrate Docker containers. For the Web3 layer, we deployed custom ProviderRegistry and DeploymentEscrow Solidity contracts on Ethereum Sepolia, integrating viem/wagmi on the client. Payments utilize the x402 protocol for EIP-3009 USDC transferWithAuthorization micropayments.\n\nA major technical hurdle we overcame was achieving true data privacy on untrusted provider nodes. Our Go backend dynamically spins up Docker containers mounted with LUKS2 AES-256 encrypted volumes, ensuring the host machine physically cannot read the workload data. Furthermore, the Go backend captures every agent action, SHA256-hashes it, and builds a binary Merkle tree, submitting the root as an EAS attestation to prove execution integrity.\n\nPartner technologies were critical to our decentralized architecture:\n\n0G Network: We integrated 0G to serve as our decentralized agent memory. It stores KV state and an append-only log of actions, allowing agents to recover state seamlessly across node restarts without relying on a centralized database.\n\nGensyn AXL: This powers our cross-node agent communication. We use Gensyn's pub/sub messaging to allow parent agents to delegate and publish sub-tasks to specialized child provider nodes, enabling horizontal scaling.\n\nKeeperHub: We utilized KeeperHub to guarantee execution reliability. It wraps our EAS attestation submissions and escrow releases as on-chain keeper jobs, ensuring these critical on-chain steps are always executed even if a provider node temporarily goes offline.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/comput3-o1tg7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

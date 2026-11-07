@@ -1,0 +1,27 @@
+{
+  "id": "duqqa",
+  "slug": "envelope",
+  "title": "Envelope",
+  "tagline": "Confidential payroll on Arc: computed in a Chainlink enclave, approved via Privy",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/duqqa/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EAMuxs59xOJUtp59cfz6sRPSCg7nV7uWl01Ml1zFVAGo/high.mp4",
+  "demo_url": "https://envelope-app-three.vercel.app/",
+  "source_url": "https://github.com/nullllllion/envelope",
+  "finalist": false,
+  "description": "Envelope pays employees in USDC on Arc without ever putting the payroll table onchain.\n\nEmployer HR data, including employees, salaries, hours, leave, performance multipliers, and compensation policy, is fetched over confidential HTTP inside a Chainlink CRE Confidential Workflow. Payroll is computed inside the enclave and committed to a Merkle tree. Only four values leave it: the period, Merkle root, batch total, and recipient count.\n\nThe backend proposes the root and total to PayrollDisburser. Funds require two independent controls: EIP-712 approvals from registered approvers, followed by a Privy server wallet secured by a 2-of-2 authorization-key quorum. Below the approval threshold, no transaction is built.\n\nEach employee gets a private claim link with only their payroll line and Merkle proof. Their payment becomes public when claimed, but the rest of the payroll table never does.\n\nEnvelope is deployed on Arc testnet with the full lifecycle tested. The mainnet address is fixed via CREATE2, and a single command runs 16 local verification checks with no accounts or funding.\n",
+  "how_its_made": "The enclave is a TypeScript CRE workflow registered with handlerInTee. Secrets come from the Vault DON at use, HR data is fetched through confidential HTTP, payroll is computed in integer micro-USDC math, and the result is returned to the backend through a third HTTP call. Capabilities are restricted to exactly those three calls, preventing a tampered workflow from adding another.\n\nThe backend rebuilds the Merkle proofs from its own payroll table and accepts the result only when the enclave root matches. The employer already knows its payroll; the enclave protects that data from node operators and the chain.\n\nSince Arc does not yet have a CRE Forwarder, the enclave computes and the backend submits the transaction. The stack is a Next.js app with viem, an ops CLI, and a Solidity contract using OpenZeppelin MerkleProof and ECDSA, claim bitmaps, relayable claims, and CREATE2 deployment through the canonical deployer.\n\nPrivy handles both signing paths: secp256k1 embedded wallets for approvers and P-256 authorization keys for the server wallet quorum. createViemAccount from @privy-io/node plugs the quorum wallet into the existing viem flow.\n\nThe rough edges are documented too. The CRE simulator drops config during preHook, preventing restricted workflows from completing simulation, so we reproduced and reported it and maintain a control run without that restriction. The simulator also requires a real PTY and window size, so a small Python driver runs it unattended. The only mocked component is the employer HR system, since real salary data is obviously unavailable.\n",
+  "auto_summary": "A payroll application computes confidential payroll data offchain, commits a Merkle root, and disburses USDC claims on Arc.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/envelope-duqqa",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

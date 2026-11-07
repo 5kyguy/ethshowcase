@@ -1,0 +1,36 @@
+{
+  "id": "ctx9g",
+  "slug": "brainpedia",
+  "title": "Brainpedia",
+  "tagline": "Brainpedia turns your Obsidian vault into an AI brain that other agents pay you to query",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ctx9g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/q95Gp19b02zsqZmPh2WqKYeCewq9dVr8t1M99MwLtRxo/high.mp4",
+  "demo_url": "https://brainpedia.up.railway.app/",
+  "source_url": "https://github.com/0xYudhishthra/brainpedia",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "Best Autonomous Agents, Swarms & iNFT Innovations",
+      "title": "Best Autonomous Agents, Swarms & iNFT Innovations"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "2nd place",
+      "title": "Best ENS Integration for AI Agents"
+    }
+  ],
+  "finalist": true,
+  "description": "All useful AI knowledge today sits behind three corporate APIs (OpenAI, Anthropic, Google). You cannot own a domain-specialty model, sell verifiable access to your expertise, or compose multiple specialty AIs together without renting from Big AI. The agent economy is short on supply.\n \nEach Brain is a 0G iNFT (ERC-7857) you mint from your Obsidian vault. Notes get compiled into wiki articles by Claude (in-context), uploaded to 0G Storage as a merkle-rooted snapshot, and the iNFT carries the root.\n \nYou set a per-query price (stored as a human-readable ENS text record like `0.001 OG`), the Brain runs inference on 0G Compute (TEE-attested Qwen 2.5 7B), and returns cited answers.\n \nOther agents discover you via ENS subnames (`yourname.bpedia.eth`), authenticate via TTL ENS subname access tokens (`agent7af.client.bpedia.eth`), and route over Gensyn AXL P2P. A Mixture-of-Brains query fans out to N Brains in parallel with an LLM-routed topic shortcut.\n \nThe synthesis is pay-to-read: the orchestrator returns a plan plus per-brain redacted metadata, the agent settles each brain's sticker price in a single `RoyaltyDistributor.distribute` tx, and only then does the server verify the on-chain `Distributed` events and unlock the cached synthesis.\n \nEvery layer of the marketplace is on-chain:\n \n- Ownership: iNFT\n- Discovery: ENS\n- Authorisation: ENS subnames as capability tokens\n- Payment: OG per query, sticker price per brain\n- Execution: TEE-verified 0G Compute\n- Routing: AXL\n- Enforcement: the synthesis is a server-side cache that only releases on verified settlement\nNo central API to deprecate, no off-chain auth service, no \"what happens when the startup dies.\" The Brain outlives Brainpedia.\n \nLive Now @ https://brainpedia.up.railway.app\n \n- 2 Brain iNFTs minted\n- Mixture-mode queries return TEE-attested cited answers fused by a separate TEE-attested orchestrator synthesis call\n- Royalty splits proven on chain (https://chainscan-galileo.0g.ai/tx/0x9637800e6f7b644ac71cf4900bb272f908628d1bd7f0590a9912a183de56bb0e) -> settled 2 brains in one call\n \n1. Install the published MCP server with a single command, no clone: \nclaude mcp add-json brainpedia '...' --scope user\n``\n2. Point it at your Obsidian vault either by filesystem path or via the Local REST API plugin (no path needed, auto-discovers from your running Obsidian instance)\n\n3. Say \"Set up my Brain\" inside Claude Code\nPermissionless self-mint via `BrainMinter`, no involvement from us required. Each Brain owner pockets every query fee directly to their own wallet.",
+  "how_its_made": "There was no reference implementation for stitching iNFTs, ENS access tokens, P2P routing, and MCP into one coherent system. Each layer's docs assume you are using it standalone.\n \n0G\n`Brain.sol` (ERC-7857 iNFT) on Galileo for ownership and per-query payment, plus `BrainMinter` (a permissionless wrapper that owns `Brain.sol` and exposes `mintToSender`, so any teammate can self-mint a brain to their own wallet without our involvement) and `RoyaltyDistributor` for one-tx multi-Brain settlement at sticker price (each responding brain receives exactly its advertised `brain.price_query`).\n \n0G Storage covers the KV layer for live edits and the Log layer for merkle-rooted snapshots that bind into the iNFT.\n \n0G Compute is accessed via the official broker SDK with Qwen 2.5 7B. Every per-brain answer is TEE-attested, plus a separate TEE-attested orchestrator-synthesis call fuses the per-brain answers into one coherent response.\n \nENS (Sepolia)\nTwo custom Solidity 0.8.26 registrars (`SubnameRegistrar` and `AccessTokenRegistrar`) using the standard `setSubnodeRecord` plus `setText` flow, with `setApprovalForAll` on both the Registry and the Public Resolver (the Resolver maintains a separate operator allowlist, easy to miss).\n \n`brain.price_query` is stored in human-readable form (`0.001 OG`) so users inspecting the record on `sepolia.app.ens.domains` see the price directly, not raw wei.\n \nGensyn AXL\nEach Brain runs its own axl daemon (Yggdrasil-based) with its own Ed25519 peer id, registered with the Python `mcp_router.py` on port 9003. Cross-Brain calls are `POST /mcp/{peer_id}/brainpedia.brain` over real P2P. The web `/api/query` route also routes through `AxlClient` when `AXL_API_URL` is set.\n \nPay-to-Read Enforcement\nThe mixture API is two-phase:\n \n1. Phase 1: fans out, runs the TEE-attested synthesis, caches the full result under a `sessionId`, returns a redacted plan plus per-brain metadata plus the sticker-priced payment plan\n2. Settlement: the agent settles via `RoyaltyDistributor.distribute` in one tx, then re-calls with `sessionId` and `txHash`\n3. Phase 2: the server loads the receipt via viem, decodes the `Distributed` events, confirms each `(tokenId, amount)` from the cached plan was paid, and only then releases the synthesis. There is no honor-system path.\n \nAnthropic MCP TypeScript SDK\n7 client tools shipped to npm as `brainpedia-mcp` so users can install with one command (`claude mcp add-json`) and drop straight into Claude Code:\n \n-  setup_brain `with per-call `vaultRootPath` so Claude can ask which user folder to compile\n- `upload_articles`\n- `finalize_brain` with auto-filled `brain.compute_url` \n- `sync_vault`\n- `query_brain`\n- `query_mixture` for phase 1\n- `settle_mixture` for phase 1.5 plus phase 2\nThe split between `query_mixture` and `settle_mixture` lets the host LLM surface the cost to the user and wait for explicit confirmation between calls. No silent settlements.\n \nObsidian\n`setup_brain` reads vaults two ways:\n \n1. From a filesystem path (`BRAINPEDIA_DEFAULT_VAULT_PATH`)\n2. From the https://github.com/coddingtonbear/obsidian-local-rest-api plugin at `OBSIDIAN_REST_API_URL` (defaults to `http://localhost:27123`)\nThe hosted demo runs Obsidian plus the plugin in a KasmVNC container on Railway, exposing the REST endpoint via a Railway TCP proxy. Per-user folders inside the shared vault are scoped via `OBSIDIAN_VAULT_PATH` (env default) or the per-call `vaultRootPath` argument the LLM passes when the user picks their handle.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/brainpedia-ctx9g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

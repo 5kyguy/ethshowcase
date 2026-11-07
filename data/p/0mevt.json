@@ -1,0 +1,20 @@
+{
+  "id": "0mevt",
+  "slug": "least-imperfect-governance",
+  "title": "Least imperfect Governance",
+  "tagline": "Democracy in broken, spreading out the control among a larger chunk of people helps solves many issues.",
+  "event": {
+    "slug": "ethindia2022",
+    "name": "ETHIndia 2022",
+    "start_time": "2022-12-02T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0mevt/banner/default.jpg",
+  "source_url": "https://github.com/shramee/ethin22",
+  "finalist": false,
+  "description": "## Problems with democracy\n\n> A tiny percentage of people making decisions for the masses\n\nA miniscule percentage of the population makes the decisions for the whole country. This allows others the opportunity to incentivise these handful of people to make favorable decisions for them. If the number of people actually participating in the decision making was far greater, say around 1%. This would be much harder.\n\n> Half the people choosing the person to lead are below average intelligence.\n\nTry to imagine how low the average intelligence is, now imagine the 50% of the population under it. Devastating isn't it? Our livelihoods are basically in hands of entities these people choose for us.\n\n## Solutions\n\nThe ministries each have a contract which automated [registration](#how-are-users-registered-to-participate-in-governance) based on a simple criteria. There's no concept of citizenship. Location contract that tracks where the people live. Anybody can join the ministry.\n\nThe challenge of **competence** of participating voters is met with a basic quiz covering prerequisites for governing effectively.\n",
+  "how_its_made": "## Challenges\n\nHaving the quiz was really complicated, we want to be able to check the quizzes online but it was challenging because the number of possibilities of input wouldn't be infinite and it'd be possible to try the combinations. Adding a salt wouldn't work either because salt can not be stored privately.\n\n### Using VDF (Verifiable Delay Function)\n\nWe start with a secure random salt and use it to hash the solution. This salt is then passed through a VD function before it’s saved on chain. Making it really expensive to calculate backwards.\n\nThis keeps the solution safe for a while until VDF’s delay is exceeded. Because of the nature of quiz staying up for long periods of time this is not viable. Not to mention we need to delegate computation resources for the entire delay period to check the results.\n\nRemnants of the code for this can be found in `contracts/src/vdf`\n\n### Solving with privately held salts\n\nFirst member of the contract submits a quiz, the solution to the quiz is hashed with a private salt which is never saved on chain.\n\nThe applicants keep solving and their solutions are saved as jobs for later resolution, at a later point the original quiz master (ideally an expert in the field) periodically sends their private salt to the chain help evaluate the pending jobs for evaluating applicants.\n\nTo promote decentralization in this approach multiple quiz masters can participate, participants can be assigned a new test from another expert in case the original poster is not available to provide the solution salt in an acceptable timeframe.\n\nOne of my very educated friends tell me that this is what is referred to as **commitment schemes**.\n\nThis part is a work in progress.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/least-imperfect-governance-0mevt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

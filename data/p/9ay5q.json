@@ -1,0 +1,33 @@
+{
+  "id": "9ay5q",
+  "slug": "veil",
+  "title": "Veil",
+  "tagline": "Privacy-preserving credit scores from real bank data unlock undercollateralized DeFi loans on Flare",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9ay5q/banner/default.jpg",
+  "source_url": "https://github.com/SanctumFi/SanctumFi",
+  "prizes": [
+    {
+      "sponsor": "Flare",
+      "sponsor_id": "2ugg8",
+      "placement": "1st place",
+      "title": "Next generation of apps with TEE Extensions and Smart Accounts"
+    }
+  ],
+  "finalist": true,
+  "description": "Veil bridges traditional finance credit history into DeFi lending on the Flare blockchain. Users connect their bank accounts via Plaid, and their financial history is processed entirely inside a Trusted Execution Environment (TEE) — the raw banking data never touches the blockchain. The TEE computes a 0–1000 credit score from four weighted factors (balance health, income stability, spending discipline, and account age), then signs and submits only the score on-chain. That score determines the user's loan-to-value ratio: Platinum-tier borrowers (800+) only need 80% collateral while unscored users default to the usual 200% DeFi over-collateralization. Users deposit FLR or FXRP as collateral, borrow against it at their credit-adjusted LTV, and repay with 5% APR interest. Positions are tracked in real time with FTSO V2 price oracles, and liquidation is open to anyone when a health factor drops below 1.0. XRPL users can participate without a Flare wallet by sending XRP payments with structured memos to the SmartAccountReceiver contract, which maps their XRPL address to a derived Flare address.",
+  "how_its_made": "Veil is built across three tightly integrated layers. The smart contract layer runs on Flare's Coston2 testnet and consists of three Solidity contracts compiled with Foundry and OpenZeppelin v5: CreditVault (core lending logic powered by FTSO V2 price oracles for FLR/USD and XRP/USD), InstructionSender (dispatches encrypted Plaid token payloads on-chain to trigger the TEE), and SmartAccountReceiver (maps XRPL addresses to deterministic Flare addresses for cross-chain interaction without a Flare wallet). The TEE layer is a TypeScript extension built on the Flare TEE Extension SDK. On receiving an on-chain request, it decrypts the user's encrypted Plaid access token, fetches 90 days of account balances and transactions, scores them across four financial dimensions, ABI-encodes the result, and submits a TEE-signed score transaction — the raw financial data never leaves the enclave. The frontend is a React 19 + TypeScript + Vite SPA styled with Tailwind CSS 4 and uses ethers.js v6 for MetaMask wallet interaction and live contract reads. The most technically notable piece is the end-to-end privacy architecture: the Plaid token is encrypted client-side before being posted to the chain, so only the TEE hardware can decrypt it, combining Flare's native TEE infrastructure with Plaid's financial data API to create a fully private, verifiable credit scoring pipeline.",
+  "auto_summary": "A Flare-based lending application uses TEE-processed credit scores, oracle-priced collateral, and XRPL-triggered smart account flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/veil-9ay5q",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,47 @@
+{
+  "id": "ua1qc",
+  "slug": "mars",
+  "title": "Mars",
+  "tagline": "On-chain audited marketplace where AI agents safely buy verified skills.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ua1qc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JHLj7k1DFkU2DszNUh9NkXIJ6qz005802saUnrqsfHFNM/high.mp4",
+  "demo_url": "https://mars.derek2403.win",
+  "source_url": "https://github.com/derek2403/ethnyc",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "1st place",
+      "title": "Best Agentic Economy with Circle Agent Stack"
+    },
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "AI & Agentic Payments on Hedera",
+      "title": "AI & Agentic Payments on Hedera"
+    },
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "2nd place",
+      "title": "Track A (AgentKit) "
+    }
+  ],
+  "finalist": true,
+  "description": "MARS (Marketplace for Audited, Reputable Skills) is a trust layer for AI agents. Agents extend themselves by installing \"skills\", including tools, MCP servers, and code, but a single poisoned skill can exfiltrate secrets or drain a wallet. MARS makes skills safe to install: a staked, World-ID-verified auditor agent vets each skill with a real multi-stage LLM audit, the verdict is recorded immutably on Hedera, and a skill that passes earns a VERIFIED NFT that acts as its on-chain license.\n\nThe whole lifecycle runs as autonomous agents dealing with each other. A requester posts a task, negotiates a fee with the auditor in an on-chain chat room, then both sides lock USDC into an escrow on Arc. The auditor runs the audit; on a clean verdict the escrow settles to the auditor, and on a malicious one it slashes. To actually use a verified skill, an agent is gated by the NFT: hold the license → free; don't → pay a gas-free micropayment and the license NFT is minted to you. Negotiation, every audit stage, the verdict, the decision, the payment, and the mint are all replayable records on-chain, so anyone can verify who audited what, how, and that it was paid for.",
+  "how_its_made": "MARS is built with Next.js Pages Router and TypeScript. The frontend uses wagmi, RainbowKit, and viem for the Arc wallet experience.\n\nHedera is the audit, registry, and reputation layer. We use HCS-2 as the main topic registry that indexes agents and jobs, then create per-task HCS topics for each skill audit. HCS-26 is used for the skill registry and versioned skill entries, HCS-25 stores the trust score, HCS-1 stores larger payloads like skill source and full audit reports, HCS-16 is the Flora negotiation room where requester and auditor agents agree on scope and fee, HCS-18 supports request discovery and RFQ-style job posting, HCS-11 and HCS-14 are used for agent identity and profiles, and HCS-20 records auditor reputation, voting, and reviews. HTS mints the VERIFIED NFT that acts as the license for a passed skill.\n\nArc handles the payment layer. `MarsEscrow.sol` locks the developer audit fee and the auditor bond, then settles to the auditor on a clean verdict or slashes on a malicious verdict. For skill usage, Arc x402 enables gas-free pay-per-use. If the buyer already holds the VERIFIED NFT license, access is free. If not, they pay once through Arc x402 and the license NFT is minted to them.\n\nWorld ID and AgentKit make auditor agents human-backed and sybil-resistant, which protects the staking and reputation system from fake auditor swarms. The audit itself runs through a real multi-stage OpenAI pipeline: scanner, sandbox, fork, and synthesizer. It checks declared versus actual behavior, exfiltration risks, wallet abuse, and suspicious tool descriptions, with deterministic fallback outputs so the demo does not break live.\n\nA notable hacky part is the cross-chain provenance. The license NFT and audit records live on Hedera, the money moves on Arc, and the Hedera task topic stores the Arc payment records. That gives one replayable trail for the negotiation, audit stages, verdict, payment, mint, and final escrow result.\n",
+  "auto_summary": "A Next.js app coordinates AI skill audits, records audit and licensing data on Hedera, and uses Arc-based USDC escrow and x402 payments.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mars-ua1qc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

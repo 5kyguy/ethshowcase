@@ -1,0 +1,21 @@
+{
+  "id": "6a9sw",
+  "slug": "grimoire",
+  "title": "Grimoire",
+  "tagline": "Grimoire: a language for agents to express financial intent with readable, deterministic execution.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6a9sw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jQWV01Rf02RIiCCydZAXhuD00Z300pnclXv1HUdsJ98YSwU/high.mp4",
+  "source_url": "https://github.com/franalgaba/grimoire",
+  "finalist": false,
+  "description": "Grimoire is a domain-specific language and execution runtime for expressing DeFi strategies as human-readable \".spell\" files that compile down to a deterministic intermediate representation. Designed for autonomous AI agents, it bridges high-level financial intent — swaps, lending, borrowing, bridging — with protocol specific execution across venues like Aave V3, Uniswap, Morpho Blue, Hyperliquid, LI.FI, and Yellow Network. Strategies are portable: swap a protocol by changing an alias, not rewriting logic. The compiler pipeline (tokenizer → parser → AST → transformer → IR) produces an executable artifact that the runtime interprets step-by-step with full state persistence, provenance tracking, and an auditable ledger. An advisory boundary lets AI judgment coexist with deterministic execution via structured \"advise\" statements and replay. Spells are cast through a CLI that supports simulation, dry-run transaction building, and live on-chain execution — following a progressive trust workflow from prototype to production.",
+  "how_its_made": "Grimoire is built entirely in TypeScript on the Bun runtime, structured as a monorepo with three packages — core (compiler + runtime), cli, and venues — managed via Bun workspaces and Changesets for versioning. The compiler is fully hand-rolled: an indentation-aware tokenizer tracks indent/dedent with a stack-based approach (similar to Python's), feeding into a recursive descent parser that produces a full AST with source spans, which is then transformed and lowered into an executable IR. Venue adapters follow a uniform interface — each translates high-level actions (swap, lend, bridge) into protocol-specific calldata using partner SDKs: @aave/client for Aave V3, @uniswap/v3-sdk and @uniswap/sdk-core for Uniswap, @morpho-org/blue-sdk-viem for Morpho Blue, @across-protocol/app-sdk for bridging, and @nktkas/hyperliquid for Hyperliquid L1. For the hackathon tracks, we built custom REST-based integrations for LI.FI (cross-chain swap+bridge composition) and Yellow Network (stateful NitroRPC session lifecycle), plus ENS text-record hydration via a --ens-name CLI flag that pulls spell params from onchain identity. The runtime is pure — it takes persistent state in, executes steps, and returns final state out — backed by a dual SQLite store that auto-detects bun:sqlite or falls back to better-sqlite3. The advisory boundary is probably the hackiest part: AI judgment expressions (**should we rebalance?**) compile to advisory steps that call into a pluggable model backend via Pi SDK, and their outputs are recorded in the ledger so they can be replayed deterministically in subsequent runs — giving you \"record once with AI, replay forever without it.\" The CLI is Commander.js with ora spinners, and the entire VM mode flips the execution model: instead of the CLI interpreting the IR, the LLM agent itself becomes the interpreter, running spells in-session with venue metadata tools as its I/O substrate. All partner integrations (Aave, Uniswap, Morpho, LI.FI, Yellow, ENS, Across) plug in as swappable adapters — change an alias, not your strategy.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/grimoire-6a9sw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

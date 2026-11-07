@@ -1,0 +1,21 @@
+{
+  "id": "x3sps",
+  "slug": "sndefi",
+  "title": "sndefi",
+  "tagline": "Trustless token escrow & instant swaps via HTLC on Starknet connection Fusion +",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x3sps/banner/default.jpg",
+  "video_url": "https://stream.mux.com/slP02kU00BnBWuVNfdqNgwqKqCBq8jjnrHcE102p00SOcRY/high.mp4",
+  "source_url": "https://github.com/eth-global-online-unite-defi/sn-contracts",
+  "finalist": false,
+  "description": "This project implements a Hashed-Timelock Contract (HTLC) escrow on Starknet so two parties can swap any ERC-20–compatible tokens without needing to trust each other or a central exchange.\n\t1.\tCreate escrow – the sender locks tokens in the contract, supplying the receiver’s address, a Poseidon hash of a secret, a timelock, and a unique order_id.\n\t2.\tWithdraw – the receiver reveals the secret before the timelock expires and the contract automatically transfers the funds.\n\t3.\tCancel & refund – if the timelock passes without the secret being revealed, only the sender can cancel and reclaim the tokens.\n\nThe contract emits rich events (EscrowCreated, EscrowWithdrawn, EscrowCancelled) so off-chain indexers or front-ends can track state in real time. Mapping order_id → escrow_id makes integration with order-book or marketplace UIs straightforward.",
+  "how_its_made": "\tSmart contract – Written in Cairo 1 for Starknet. It stores each escrow in a custom Escrow struct inside a Map, calculates a deterministic escrow_id with Poseidon hashing, and safeguards every state transition with explicit assert guards and custom error messages.\n\t•\tToken transfers – Uses OpenZeppelin’s IERC20Dispatcher interface so any token that follows the OZ ERC-20 standard works out-of-the-box. Balances are checked before locking funds and before refunds to prevent race conditions.\n\t•\tSecurity levers\n\t•\tu256 amounts → accommodates L2-sized transfers.\n\t•\tTimelock & secret‐hash pattern → guarantees either atomic settlement or full refund.\n\t•\tOrder-ID mapping → prevents duplicate orders and simplifies cross-contract integrations.\n\t•\tTooling – Compiled and tested with Scarb + Cairo-test, deployed via Starkli.\n\t•\tFront-end (optional) – A lightweight React/MobX dashboard consumes Starknet.js event streams, letting users generate secrets off-line, fund the escrow in one click, and watch the countdown timer until either withdrawal or refund is possible.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sndefi-x3sps",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,33 @@
+{
+  "id": "0r3u4",
+  "slug": "pisgah",
+  "title": "Pisgah",
+  "tagline": "Verified diagnostic workflows for hospitals from lab to delivery, on-chain.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0r3u4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uLecBj3O7Yhyf01M9qLYxvGVo6bYvIn00iEz3Da00vMdsU/high.mp4",
+  "prizes": [
+    {
+      "sponsor": "Dynamic",
+      "sponsor_id": "xrzks",
+      "placement": "Best use of Dynamic Javascript SDK (any framework)",
+      "title": "Best use of Dynamic Javascript SDK (any framework)"
+    }
+  ],
+  "finalist": false,
+  "description": "Pisgah is a diagnostic workflow platform that coordinates the entire patient journey — from doctor order to lab result to prescription to medication delivery. An AI clinic assistant, registered in AgentBook and backed by a verified human, drafts clinical interpretations that the doctor reviews and approves. Every facility — clinic, lab, pharmacy — has a verifiable ENS identity with on-chain metadata. Lab results, prescriptions, and deliveries are each attested on World Chain. Patients access their records through World App, gated by World ID, and receive a one-time delivery code that only they can reveal.\n\nWe built this for Nigeria, where 80–90% of clinics are paper-based, 20–30% of patients never return for their results, and prescriptions are handwritten slips that anyone can reuse or fake. Pisgah replaces all of that with a verifiable, end-to-end digital chain where the doctor stays in control and every step has provenance.",
+  "how_its_made": "The project uses Next.js 16 with Drizzle ORM and Neon Postgres — one app that serves both the provider dashboard and the patient experience inside World App, deployed on Vercel. For provider login, we used Dynamic's JavaScript SDK and built our own email OTP flow from scratch — no pre-built widgets. The user enters their email, gets a code, and we verify it by calling Dynamic's API directly. On the backend, we check the JWT against Dynamic's public key. This gave us full control over the login experience while Dynamic handles identity under the hood.\n\nFor patients, we used MiniKit walletAuth so they sign in seamlessly inside World App. Before they can see sensitive information — like lab results or their delivery code — they must verify with World ID. We deliberately scoped these as two separate verifications, so proving your identity to view results doesn't automatically unlock your delivery code. Each action requires its own proof. The AI clinic assistant uses AgentKit. It has its own wallet registered in AgentBook on World Chain, backed by a real verified human. When the assistant generates a draft, it signs the request and our server checks two things: is the signature valid, and is this agent actually human-backed? If either check fails, nothing gets generated. The assistant even has its own ENS name — like assistant.clinic.pisgah.eth — with public metadata describing what it does and which facility it belongs to.\n\nFor facility identity, we used ENS through NameStone. When a hospital signs up, we automatically create ENS subnames under pisgah.eth for every department — clinic, lab, pharmacy, and the AI assistant — each with its own wallet. Instead of resolving names on-chain (which kept getting rate-limited), we use NameStone's public API, which turned out to be much faster and more reliable.\n\nFor trust and provenance, we used EAS on World Chain Sepolia. At three key moments — when a lab result is uploaded, when a prescription is issued, and when a delivery is confirmed — we create an on-chain attestation. Only hashes go on-chain, never actual medical data. Every attestation shows up in the app as a clickable link to the blockchain explorer so anyone can verify it.\n\nOne thing we're proud of: each hospital's AI assistant has its own encrypted private key stored in the database using AES-256-GCM — so every hospital gets its own cryptographic identity without any keys sitting in plaintext.",
+  "auto_summary": "A Next.js healthcare workflow app that manages provider operations, patient access, identity verification, and on-chain attestations for clinical events.",
+  "scores": {
+    "originality": 7,
+    "practicality": 9,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pisgah-0r3u4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

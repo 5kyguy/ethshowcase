@@ -1,0 +1,34 @@
+{
+  "id": "4ekut",
+  "slug": "ens-bound-agent-auth",
+  "title": "ENS-bound agent auth",
+  "tagline": "Verifier-gated AI agents — live, revocable on-chain authority published on ENS, fleet ∩ agent.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4ekut/banner/default.jpg",
+  "demo_url": "https://oakgroup.eth.link",
+  "source_url": "https://github.com/estmcmxci/steg-alpha",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "3rd place",
+      "title": "Best ENS Continuity Integration"
+    }
+  ],
+  "finalist": true,
+  "description": "Steg gives AI agents a live, revocable on-chain license instead of a static API key. Each agent is an ENS name (e.g. steg.oakgroup.eth) whose authority is published directly on ENS as three records — credential, policy, revocation. Before any action, a verifier resolves that authority FRESH from L1 (no indexer, no cache) and checks the agent's signed request against \"fleet ∩ agent\" — the most-restrictive intersection of the agent's own policy and a fleet-wide ceiling. Allowed → it executes; denied or revoked → no funds move.\n\nThe agent is a real autonomous wallet: a Privy server wallet that signs and executes on its own, with the user logging in only for identity. We demo a verifier-gated ETH→USDC swap on Base that runs only within authority (proven live: 0.0005 ETH → USDC, tx on Base).\n\nThe fleet ceiling lives on the org's apex name, gated by a 2-of-2 Safe (operator + a hardware co-signer). An operator can tighten it from the web and instantly reconstrain every agent — allow flips to deny with zero changes to the agent itself. The agent is also a full-tier identity: ENSIP-26 discovery + ERC-8004 on-chain registration (#55275 on Base) + ENSIP-25  binding, all verifiable from a public RPC. The whole app is open source and shipped to IPFS at oakgroup.eth.link.",
+  "how_its_made": "Verifier core, in typescript with viem, runs in two stages:\n\n1. verifyAuth — authentication only, fail-fast, with exact 1:1 deny reasons\n2. checkPolicy — authorization against the intersection of fleet policy ∩ agent policy\n\nAuthority comes from three ENS text records — credential, policy, and revocation — issued as offchain CCIP subnames via NameStone, and resolved fresh from L1 on every evaluation.\n\nIdentity is composed from:\n\n• ENSIP-26: agent-context + agent-endpoint for discovery\n• ENSIP-25: agent-registration[registry][id], ERC-7930 encoded\n\nThat registration is bound to an ERC-8004 Identity Registry entry on Base — specifically agent #55275 — and the agent self-registers using its own wallet.\n\nThe agent wallet is powered by Privy server wallets. the agent signs requests and executes actions directly. swaps run through the Uniswap Trading API for ETH → USDC on Base; because it uses native ETH, no approval flow is needed.\n\nThe backend is a Cloudflare Worker that holds all secrets and exposes Privy-token-gated /agent/* routes. the conversational layer lives separately: an OpenAI Agents SDK + ChatKit brain on Railway, which forwards the user’s Privy token to the Worker.\n\nThe tier-1 authority root is the fleet envelope on the apex ENS name, owned by a 2-of-2 Safe:\n\n• the operator EOA\n• a seed-derived Ledger co-signer\n\nIt also uses an ERC-7730 clear-signing descriptor.\n\nThe web operator panel performs the entire 2-of-2 flow client-side in viem:\n\n• the operator connects with RainbowKit/wagmi\n• signs the SafeTx EIP-712\n• the app co-signs as the Ledger\n• the operator executes\n\nSo the operator key never leaves the wallet.\n\nFrontend is a Vite + React SPA with Privy login and RainbowKit/wagmi. it’s pinned to IPFS via Pinata, with the contenthash set on oakgroup.eth through the same 2-of-2 Safe, and is live at oakgroup.eth.link.",
+  "auto_summary": "An ENS-based authorization system verifies agent permissions onchain before a Privy wallet executes swaps through the Uniswap Trading API.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ens-bound-agent-auth-4ekut",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

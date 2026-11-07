@@ -1,0 +1,27 @@
+{
+  "id": "g72i9",
+  "slug": "toxicflow",
+  "title": "ToxicFlow",
+  "tagline": "ToxicFlow prices swap fees by wallet behavior to protect liquidity from extractors.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/g72i9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Z401zv00dnrLF00Mf9qXKVvC4QuYTSUNxs4dFpicjIjVQs/high.mp4",
+  "demo_url": "https://t0xicflow.vercel.app",
+  "source_url": "https://github.com/Abd00lmalik/ToxicFlow",
+  "finalist": false,
+  "description": "ToxicFlow Passport is a reputation aware liquidity system that changes swap fees based on a wallet's trading behavio. Instead of charging every trader the same fee, ToxicFlow gives each wallet a passport tier (Trusted, Neutral or Toxic) . When a user swaps through a ToxicFlow enabled pool, the system reads the wallet’s tier and applies the matching fee class. Trusted wallet receives a lower fee, Neutral wallet pays the base fee and riskier wallet pays a higher fee.\n\nin the MVP, tiers are assigned onchain to demonstrate the fee mechanism. The scoring path is designed to evolve into behavior based calculation using swap history, holding period, adverse selection footprint and prior toxic activities. The important thing ToxicFlow proved is that once a wallet has a tier, the pool can enforce different fees for the same trade based on that tier.\n\nThe goal is to protect liquidity providers from toxic flow while keeping the swap experience simple for traders. Each fee decision creates a transparent record and Pool Defense monitors recent activity to detect when risky flow becomes too concentrated. Developers, DEXes, AMMs and liquidity providers can integrate ToxicFlow through the tier resolver or API to check wallet tiers and preview fee treatment in their own products.",
+  "how_its_made": "ToxicFlow Passport is built on Sepolia as a testnet DeFi app. I built a `PassportRegistry. contract to store each wallet’s passport and tier. A wallet can be Trusted, Neutral or Toxic. Then i built a Uniswap v4 hook called `ToxicFlowHook. When someone swaps through the ToxicFlow pool, the hook checks the wallet’s tier and applies the right fee. Trusted wallets pay less, Neutral wallets pay the normal fee and Toxic wallets pay more.\n\nThe frontend was built with Replit assistance for the interface, wallet connection, pages and testing flow. The app has pages for the landing page, dashboard, passport, swap, records, pool defense, developers, and demo.\n\nFor records, i integrated 0G. After a swap, ToxicFlow reads the emitted fee event, builds a record containing the wallet, tier, fee, transaction hash and pool data, then stores that record through 0G. This gives the system a record trail instead of just showing temporary frontend data.\n\nFor automation, i integrated KeeperHub. Pool Defense reads recent fee records and calculates how much risky flow is entering the pool. If toxic flow concentration crosses the configured threshold, KeeperHub can trigger a workflow. This gives LPs an active protection layer instead of only passive monitoring.\n\nA technical challenge I faced was that the first version looked correct but failed because of one small lowlevel detail in Uniswap v4.\n\nI deployed the hook, connected it to the app and expected the pool to call my fee logic during swaps. But the pool did not behave the way I expected.\n\nIn Uniswap v4, the hook address has to contain specific permission bits. My first hook address had the wrong bit pattern, so the PoolManager thought the hook supported callbacks that my contract did not actually support\n\nThe mistake was assuming that deploying the hook contract was enough. It was not. The hook address had to be mined to match the exact callback permissions\n\nI fixed it by rewriting the hook mining script so it only accepted an address with the exact lower 14 bit permission flags. Then I redeployed the hook, reinitialized the pool and updated the frontend config",
+  "auto_summary": "A Sepolia DeFi app that assigns wallet reputation tiers and applies different Uniswap v4 swap fees using a custom hook.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/toxicflow-g72i9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "8po71",
+  "slug": "ai-village",
+  "title": "AI Village",
+  "tagline": "Agent Town: multi-agent economy communicating over AXL peer-to-peer mesh",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8po71/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3t5wdwZXbj9tz301m3GdsPmMDenagUjfpp5XTm4b6xCE/high.mp4",
+  "demo_url": "https://github.com/gabrielfior/ai-village-open-agents",
+  "source_url": "https://github.com/gabrielfior/ai-village-open-agents",
+  "finalist": false,
+  "description": "AI Village is a multi-agent economic simulation where citizens earn, trade, and accumulate wealth — and all communication between them travels over the AXL peer-to-peer mesh network.\n\nEach citizen runs as a thread, talking to its own dedicated AXL node via HTTP bridge. Trade offers, accepts, and rejects are JSON envelopes sent with send_raw() and delivered to the counterparty's inbox via recv_raw() through the Yggdrasil mesh using Gensyn's axl tech stack. No central message broker handles trades — they're pure P2P.\n\nA town hall publishes epoch policy (tax rate, UBI) over AXL GossipSub. Citizens subscribe on their local bridges, and a background daemon thread ticks each GossipSub instance continuously to maintain the mesh across epochs.\n\nThe orchestrator manages the resource ledger, epoch lifecycle, and fiscal policy. Each epoch: citizens take actions (earn resources with skill multipliers, trade P2P over AXL, or noop), then the orchestrator closes the epoch by applying a proportional wealth tax on ALL resources (coin, wood, stone, grain), redistributing the total tax pool equally as coin UBI. A consumption basket penalizes resource-poor citizens. The tax rate and UBI adjust dynamically — 5× multiplier on gini error — targeting Gini ≤ 0.05.\n\nA React + SVG dashboard (see screenshots) shows 6 temporal charts: Gini coefficient, wealth per citizen, coin balances, executed trades, policy parameters (tax+UBI), and total resource stocks across the economy. Gini drops ~74% over 4 epochs.",
+  "how_its_made": "We built a multi-agent simulation where every agent-to-agent message travels through the AXL peer-to-peer network.\n\nAXL integration is the backbone. We run 12 AXL nodes in Docker (YP, mayor, 10 citizens), each with its own ed25519 identity and Yggdrasil IPv6 address. Citizens talk to their bridge via HTTP (localhost:9012-9021), sending send_raw() → mesh routes to destination → the recipient's recv_raw() dequeues the message. GossipSub runs on top of the same transport for policy distribution, with a background daemon thread keeping the mesh alive.\n\nThe stack: Python 3 for the simulation (citizens as threads in ThreadPoolExecutor), aiohttp for the orchestrator HTTP server, React 18 + TypeScript + Vite for the dashboard, and Docker Compose for the multi-node AXL mesh. All 6 charts are hand-rolled SVG — no charting library.\n\nHacky bits: The tax policy was calibrated through 8 experiments × 8 epochs each (64 simulation runs) to find the multiplier that reliably drives Gini down. The GossipSub Python client is loaded dynamically via importlib from the AXL repo's examples directory. The orchestrator also had to be modified to tax all resources proportionally rather than just coin — the original code computed Gini on total wealth but only taxed coin, creating a gap that prevented redistribution from working.",
+  "auto_summary": "A Python-based multi-agent village simulation uses a local HTTP mesh layer for citizen messaging and a React dashboard for visualization.",
+  "scores": {
+    "originality": 7,
+    "practicality": 6,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ai-village-8po71",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

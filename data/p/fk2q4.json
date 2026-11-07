@@ -1,0 +1,27 @@
+{
+  "id": "fk2q4",
+  "slug": "trustedswarm",
+  "title": "TrustedSwarm",
+  "tagline": "Pool laptops you already own into a WebGPU room. Split an LLM. Hedera pays the work.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fk2q4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QGwz5ytktCI00rgUYFx6RmvnnyiovIJVjSUoF401ooVfo/high.mp4",
+  "demo_url": "https://trusted-swarm.vercel.app",
+  "source_url": "https://github.com/Thesilentprogramer/ETHOnline",
+  "finalist": false,
+  "description": "Trusted Swarm puts blockchain at the edges of browser GPU inference: ENS identifies who may earn, Hedera collects and splits payment, HCS records whether the job actually finished. Devices still run the model in-tab over WebGPU/WebRTC. A *.trustedswarm.eth name carries a hedera text record that must match the pay-to account or the paid path is 403 and no HBAR moves. POST /v1/chat/completions returns x402 HTTP 402 until Blocky402 settles on Hedera testnet; no host tab means 503, not a silent charge. Success receipts and worker HBAR splits (by pledged GPU, 10% host cut) land on HashScan; failed generations write a receipt and pay nothing. Agents use Bazantic: quote → Hedera pay → swarm completion → HashScan.",
+  "how_its_made": "The inference engine is WebGPU + WebRTC in the browser (Vite/React PWA + a SwarmLLM-derived runtime). Blockchain sits only at the identity, payment, and audit boundary — not on every token.\n\nnode runtime/serve.mjs is an OpenAI-compatible localhost bridge (127.0.0.1:11435). It does not run the model. The host tab on /market connects out over WebSocket; curl, agents, and Bazantic POST /v1/chat/completions into that same queue. Marketplace posting stays free. Paid mode is env-gated: set HEDERA_ACCOUNT_ID and the bridge returns HTTP 402 until the client retries with an x402 v2 X-PAYMENT.\n\nHedera is the settlement layer. Blocky402 on testnet verifies and settles a flat HBAR price per completion. On success we split credits by pledged GPU memory (host cut default 10%, observers get nothing); on failure we still write a receipt and pay zero. @hiero-ledger/sdk submits that receipt to HCS, and /market shows the HashScan link. Solo host already received the x402 payment, so we do not send them a second transfer. Worker credits ≤ 0.10 ℏ auto-transfer; larger amounts are recorded, not sent.\n\nENSv2 is admission, not decoration. Hedera-on implies ENS-on. Devices paste a *.trustedswarm.eth name on /onboard. viem resolves the Sepolia hedera text record; it must equal payTo before settle. Bad or missing host name → 403, no HBAR taken. Paid retry with no host tab → 503, no settle. Skip ENS and you can still compute, but you earn nothing.\n\nBazantic gets a public OpenAPI spec and GET /v1/price on Vercel. The Recipe is quote → Hedera pay → localhost completion → HashScan. Vercel cannot run WebGPU, so it never infers.",
+  "auto_summary": "A browser-based distributed inference app uses ENS-based identity checks and Hedera payments and receipts around an OpenAI-compatible local runtime.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/trustedswarm-fk2q4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

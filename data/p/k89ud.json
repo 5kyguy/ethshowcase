@@ -1,0 +1,21 @@
+{
+  "id": "k89ud",
+  "slug": "zeromem",
+  "title": "ZeroMem",
+  "tagline": "Encrypted Git-style agent memory on 0G Storage: versioned commits, recall, branching, grants.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k89ud/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cBZOUArp62O01V8Yg6bfWS502dH001HD101ERlFDhDxitbw/high.mp4",
+  "source_url": "https://github.com/KaushikKC/ZeroMem",
+  "finalist": false,
+  "description": "What it is\nZeroMem is a TypeScript stack that gives AI agents persistent, encrypted, versioned memory on 0G—framed as “Git for agent memory.” Every meaningful write becomes a signed ZeroCommit on an append-only DAG of blobs on 0G Storage; HEAD, index shards, grants metadata, tombstones, and skills manifests are kept in 0G KV (or can be supplemented / swapped for speed with Postgres + pgvector via POSTGRES_URL). Agents embed, encrypt (ECIES), upload payloads, upload commit blobs, then update indices so recall() does cosine similarity over stored vectors and pulls only the winning blobs back from Storage.\n\n\nWhat you can do with it\nBeyond remember / recall / search / ask, the surface includes branch, merge, diff, snapshot, checkout, replay, blame, log; forget / forgetBulk / gc; reflect (compaction); plan and task completion; signed skills blobs; prove for attestation-style evidence; and restore to rebuild KV/Postgres from the chain after data loss given a tip commit. Multi-agent grant / revoke ties on-chain GrantRegistry on 0G EVM to MemoryCapsule key wrapping so a peer can decrypt scoped memories without sharing long-term secrets.\n\n\nHow it fits real products\nThe design is framework-agnostic at the core: @zeromem/sdk is the engine. OpenClaw is integrated via @zeromem/openclaw-gateway (hooks + tools + manifest). Vercel AI SDK users get @zeromem/openclaw (withZeroMem / middleware). Web2 or polyglot teams use the self-hosted relayer and @zeromem/client so agents talk plain HTTP without holding keys—while blobs remain on 0G Storage and indices can progress from Postgres-only → + KV without changing client code.",
+  "how_its_made": "Monorepo & language\nThe repo is an npm workspace monorepo, almost entirely TypeScript. The core is packages/sdk (ZeroMem in client.ts), with focused modules for commits (commit.ts), 0G I/O (storage.ts → @0gfoundation/0g-ts-sdk: Indexer, MemData, Uploader, KvClient, Batcher, flow contracts), KV layout (kv-views.ts), vector search (vector.ts + optional pg-index.ts behind memory-index.ts), inference (inference.ts — 0G Compute via @0glabs/0g-serving-broker when configured, plus OpenRouter for chat/embed paths and optional @xenova/transformers fallback for embeddings), grants & ACL (grant.ts, acl.ts), Git-like DAG ops (git.ts), and skills (skills.ts).\n\nPartner / external tech\n\n0G: Storage + KV + EVM are the backbone: immutable encrypted blobs, fast HEAD/index materialization, and on-chain grant records.\nOpenClaw: openclaw-gateway implements before_prompt_build (inject <zeromem-memories> + namespace hints) and agent_end (filtered auto-capture), plus memory_search / memory_store tools with basic injection guards.\nOpenRouter (optional): configured through the same inference layer for LLM and practical dev velocity on chat/embed.\nHardhat: compiles and deploys GrantRegistry.sol.\nRelayer: Express app that caches ZeroMem per agentId+branch, exposes REST for remember/recall/ask/branch/merge/grant/restore/etc., and keeps private keys server-side.\nNotable “hacky but real” bits\n\nProduction integration required defensive work around 0G + ethers: e.g. explicit gas limits and balance preflight so failed estimates don’t look like random “insufficient funds”; a custom waitForLogEntry that polls every storage node so sharded uploads don’t stall when the first node has no shard; KV unreachable modes with process-level shared fallback so demos and cross-agent flows degrade gracefully; and embedding falling back when testnet models don’t expose a clean embed API. \n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zeromem-k89ud",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "m6fwb",
+  "slug": "vouchme",
+  "title": "VouchMe",
+  "tagline": "People earn trust when other trusted people vouch for them, and that trust fades over time.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m6fwb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HlJkbyxFbXQN6DSsy02QK3szgeA7dvCBtIr014MGC00PSo/high.mp4",
+  "demo_url": "https://vouchme.vercel.app",
+  "source_url": "https://github.com/Philotheephilix/vouchme",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Most Creative Use of ENS",
+      "title": "Most Creative Use of ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "This project is a human trust network built on top of verified-human identity credentials. Every account starts with a baseline verification score from its identity credential alone, but real access — higher limits, visibility, and the ability to vouch for others — only unlocks when other already-verified humans vouch for that account. There are no AI agents anywhere in this flow; every trust relationship is strictly between two real, verified people.\n\nEach account is represented as an ENS v2 subdomain. When one person vouches for another, the new account's subdomain is nested under the voucher's node in the ENS tree, so an account's depth in the tree directly reflects how many trust hops it is from a verified anchor account. Trust distance is readable straight from the ENS name structure, not hidden in an off-chain database.\n\nAll vouch events, decay checkpoints, and slashing events are emitted on-chain and indexed with The Graph, using a Substreams package that turns raw chain data into a queryable subgraph. The app reads trust weight, tier, and vouch history directly from that subgraph instead of recomputing the graph client-side.\n\nTrust also isn't permanent: vouches decay over time unless renewed, and if a vouched account is later flagged for bad behavior, the penalty propagates back to whoever vouched for them — so vouching carries real, ongoing cost, not just upside.",
+  "how_its_made": "The stack is World IDKit for the underlying human credential, a set of contracts on World Chain that emit vouch, decay, and slash events, ENS v2 for representing every account as a subdomain node, and The Graph Substreams for indexing all of it into a queryable subgraph the frontend reads from.\n\nWhen someone verifies, they get minted as an ENS v2 subdomain. When an already-trusted account vouches for them, that new account's subdomain gets nested under the voucher's node — so trust distance from a verified anchor is literally readable from the ENS name's depth in the tree, not hidden in a database. We render that tree as a circular graph, which gives the whole vouching structure public, inspectable visibility: anyone can see the trust path behind an account, not just its final score.\n\nFor indexing, instead of running one global Substreams package over the entire graph, we deploy a scoped Substreams module dynamically per user, indexing only the events relevant to that account's local neighborhood. This is the hacky part worth calling out — it's a departure from the usual single-global-subgraph pattern, but it kept indexing incremental and fast as the tree grew, rather than recomputing trust weight across the whole network on every vouch.\n\nThe reason this stack matters beyond \"it works\": the underlying credential's own sybil resistance is partial by design — a live face check alone can't fully rule out sophisticated duplicate accounts. The vouching layer is what closes that gap, and putting the vouch structure on public, ENS-addressable, Graph-indexed rails means that corroboration is itself verifiable, not just a number the app claims internally.\n\nOne thing to flag: this field is also where World's judges check for meaningful partner-tech usage, so you may want to name the actual credential (\"Selfie Check\") explicitly here even though I kept it out per your instruction — otherwise it's not obvious from the text alone which World product you integrated.",
+  "auto_summary": "A World Chain trust network where verified humans vouch for each other, with ENS-based account hierarchy and Graph indexing for trust data.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/vouchme-m6fwb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

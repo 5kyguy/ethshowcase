@@ -1,0 +1,27 @@
+{
+  "id": "yfa52",
+  "slug": "basecamp-pass",
+  "title": "Basecamp Pass",
+  "tagline": "World ID proves who you are. A soulbound Ethereum key proves you may enter. The door needs both.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yfa52/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uEGq2cRLWhn76CQfznmK3Y6Xrj75Z02r9VVy9YZTf1bE/high.mp4",
+  "demo_url": "https://basecamp-pass.vercel.app",
+  "source_url": "https://github.com/TORU-AI/basecamp-pass",
+  "finalist": false,
+  "description": "Basecamp Pass is a digital key for vacant houses (akiya) and guesthouses in Japan, built for travelers and working-holiday makers who need a home base: stay, leave luggage, travel, come back.\n\nA stranger getting the key to a home is a trust problem, and Japanese minpaku law requires an identity check and a guest register for every guest. Basecamp Pass splits the problem in two:\n\n- World ID answers \"who is this person?\" The guest proves a passport or My Number Card in World App (the contract holder also passes a live face check at check-in). We never see the document.\n- Ethereum answers \"may this person enter this room right now?\" The property manager issues a non-transferable (soulbound, ERC-5192) access key with a room id and a time window, and can revoke it in an emergency.\n\nThe door opens only when both are true. In our production demo the same person, verified with a real My Number Card, was DENIED before a key existed, GRANTED after the key was minted on Sepolia, and DENIED again after the key was revoked. World ID succeeded every time; only the on-chain key changed.\n\nGuests need no wallet and see no crypto words, only a boarding-pass style \"Digital Key: Room 101, valid until Sep 30\". No personal data goes on chain: only a holder address, the room id, the time window and the status. Hosts can invite a friend, who verifies with World ID and receives a key for exactly the stay window; it expires on chain by itself.\n\nNext steps: e-contract for fixed-term leases, JPYC payment before the key is minted, and a real smart lock (SwitchBot / SESAME) behind the existing lock adapter.",
+  "how_its_made": "Next.js 16 on Vercel with Neon Postgres. World ID via IDKit 4: the server signs each request (RP signing key stays on the server), the proof is bound to a signal per moment (host check-in, invite code, door), and it is verified with the Developer Portal v4 verify API. We use the legacy document preset (passport / My Number Card) because World ID 4.0 any(passport, mnc) constraints returned credential_unavailable for a real My Number Card holder, and we request the live face check (require_user_presence) in production.\n\nThe access key is our own Solidity contract (OpenZeppelin 5 ERC-721 + ERC-5192): _update reverts on any transfer and approvals revert, so keys cannot be sold or passed on. Each key stores only roomId, validFrom, validUntil and revoked, and hasValidAccess(user, roomId) is the single rule the door calls. It is compiled with solc-js and deployed and called with viem on Ethereum Sepolia.\n\nTo avoid wallets for guests, the server derives one holder address per person from the World ID nullifier plus a server secret (HMAC). The same person always maps to the same address, and the address cannot be linked back to the nullifier without the secret.\n\nWe tested the contract end to end on a local anvil chain with the same library the app uses (15 checks: A granted, B denied, wrong room, transfer reverts, not-yet-valid, expired, revoked), then ran the full flow in production with a real World App and My Number Card.\n\nHacky notes: in the World staging simulator every identity returned the same nullifier, so we could not test two people in staging and reported it to the World team; the simulator also cannot do the face check, so presence is requested in production only.",
+  "auto_summary": "A Next.js app issues and verifies time-limited soulbound room-access NFTs gated by World ID verification and server-side access checks.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/basecamp-pass-yfa52",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

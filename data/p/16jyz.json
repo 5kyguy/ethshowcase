@@ -1,0 +1,27 @@
+{
+  "id": "16jyz",
+  "slug": "payeelock",
+  "title": "PayeeLock",
+  "tagline": "Recover unpaid invoice balances without rewriting completed onchain payments.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/16jyz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/E6GTIneyLKqib3htceDm7xPGKRwqM02z01V2BHcqdfKt4/high.mp4",
+  "demo_url": "https://payeelock-liart.vercel.app/",
+  "source_url": "https://github.com/Hijanhv/payeelock",
+  "finalist": false,
+  "description": "PayeeLock is a recovery protocol for approved supplier payments. If a supplier's payout wallet becomes unsafe, a constrained guardian can pause the unpaid invoices, but it cannot move funds or choose a new recipient. The supplier proposes a replacement wallet and the buyer accepts the exact same invoice set onchain. Previously paid value stays final, only the unpaid balance moves, and every authorization signed before recovery becomes stale.\n\nAnyone can use it today. Connect a wallet at payeelock-sentinel.vercel.app and the app deploys your own vault where your wallet is the buyer: register a supplier, prefund an invoice, pay it with a signed authorization, pause the supplier, and complete recovery. A separate review mode walks through a completed Sepolia case between Meridian Labs and Harbor Systems, where 2,400 MockUSDC was paid before the incident, 11,600 was settled after recovery, and an old queued payment reverted with zero tokens moved.",
+  "how_its_made": "I built the PayeeLock vault in Solidity and tested it with Foundry, including replay, expiry, wrong-beneficiary, freeze, exact-invoice-set recovery, fee-on-transfer, partial-payment fuzz cases, and factory ownership isolation. EIP-712 payment signatures bind the beneficiary, supplier epoch, invoice nonce, amount, expiry, chain ID, and contract. A permissionless factory deployed on Sepolia creates a vault and its payout resolver in one transaction with the caller as buyer, so anyone can run their own workspace. ENSv2 on Sepolia is the supplier identity and authority layer: a Permissioned Resolver lets an invoice publisher edit invoice text but not the payout address. A Privy server wallet is the freeze-only guardian under a default-deny policy scoped to one chain, one PayeeLock deployment, and freeze(bytes32). The recovery monitor reads indexed history from a deployed Graph Subgraph, confirms current state through Sepolia RPC, and may request only that freeze call. The Graph also indexes payment, recovery, and ENS events for the case review. The frontend uses Next.js and viem, signs typed data in the browser, and is hosted on Vercel. The repository is a Turborepo with separate web, Foundry, and Subgraph workspaces plus isolated Anvil lifecycle tests.",
+  "auto_summary": "A Sepolia-based invoice payment vault lets buyers pause compromised supplier payouts and migrate unpaid balances to a replacement wallet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/payeelock-16jyz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

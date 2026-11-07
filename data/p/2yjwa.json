@@ -1,0 +1,21 @@
+{
+  "id": "2yjwa",
+  "slug": "agentflow-defi",
+  "title": "AgentFlow DeFi",
+  "tagline": "AI DeFi agents with gasless trading, cross-chain rebalancing, and MEV-resistant Uniswap v4 hook",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2yjwa/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cVYoHbvPOaNUQIEzLT5z02fu6CTt3009Ft4n02Gy4RTVoU/high.mp4",
+  "source_url": "https://github.com/akirawuc/hackmoney2026",
+  "finalist": false,
+  "description": "\nAgentFlow is an autonomous AI-powered DeFi agent platform that enables intelligent automation of trading strategies, liquidity management, and capital allocation across multiple blockchain networks. Users connect their wallet and configure strategies — portfolio rebalancing, cross-chain arbitrage, and yield optimization — which the agent engine continuously evaluates and executes. Trading happens gaslessly through Yellow Network state channels, where hundreds of micro-swaps execute per session with zero gas costs. Cross-chain operations leverage LI.FI bridge aggregation to move USDC between Base and Arbitrum when yield gaps or arbitrage opportunities arise. A custom Uniswap v4 hook enforces on-chain authorization and risk controls (max swap size, daily volume limits) while batching swaps per block to prevent MEV extraction. Strategy configurations are stored as ENS text records, making agent behavior fully decentralized and portable. The platform includes a real-time multi-chain dashboard showing balances, session stats, active strategies, and bridge quotes — giving users full visibility into their autonomous DeFi operations",
+  "how_its_made": "AgentFlow is built as a pnpm monorepo with a Next.js 14 frontend (React 18, wagmi, RainbowKit, Tailwind CSS), a TypeScript core engine, and Solidity smart contracts compiled with Foundry. The core agent engine (`@agentflow/core`) implements a strategy pattern where three pluggable strategies (RebalanceStrategy, ArbitrageStrategy, YieldStrategy) produce prioritized decisions that an Executor routes to either Yellow Network state channels (off-chain) or on-chain transactions. The Yellow Network integration (`@agentflow/yellow`) manages state channel sessions — opening channels with USDC deposits, signing off-chain trade messages with wallet keys, batching trades, and settling on-chain — enabling gasless high-frequency trading. Cross-chain bridging uses the LI.FI SDK (`@lifi/sdk` v3.4.0) to aggregate routes between Base and Arbitrum with fee and time estimates. The Uniswap v4 hook (`AgentFlowHook.sol`) is deployed via CREATE2 address mining to match required hook permission flags, implementing `beforeSwap` for authorization/risk checks and `afterSwap` for analytics events. Daily volume limits reset using `block.timestamp`, and `swapsPerBlock` tracking enables batch privacy without exposing individual trades. ENS integration (`@agentflow/ens`) stores strategy JSON in text records with Zod schema validation on load, providing type-safe decentralized configuration with automatic fallback defaults. All domain types use Zod for runtime validation across package boundaries. The frontend uses TanStack React Query for async state and wagmi hooks for real-time balance fetching across chains.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentflow-defi-2yjwa",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

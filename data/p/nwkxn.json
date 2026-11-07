@@ -1,0 +1,22 @@
+{
+  "id": "nwkxn",
+  "slug": "effe",
+  "title": "Effe",
+  "tagline": "Privacy-preserving swap gating on Uniswap v4 using ZK group membership proofs",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nwkxn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VnTDbzyBm9wctrMql1qex3ARqGtfIau5cXpll300mha00/high.mp4",
+  "demo_url": "https://effe-production.up.railway.app/",
+  "source_url": "https://github.com/otaliptus/effe",
+  "finalist": false,
+  "description": "https://effe-production.up.railway.app/\n\nEffe is a Uniswap v4 hook that enforces compliance gating without revealing trader identities. The allowlist is a Semaphore group -- an on-chain Merkle tree of identity commitments. To swap, a trader generates a Groth16 zero-knowledge proof that their commitment is in the tree and passes it as hookData to the router. \n\nThe hook's beforeSwap function calls the Semaphore verifier on-chain: valid proof means the swap executes, missing or invalid proof means the transaction reverts. The only thing visible on-chain is a nullifier hash -- not the trader's identity or address. This gives you composable, privacy-preserving swap authorization at the protocol layer. \n\nThe project includes verified contracts on Ethereum Sepolia and a live web demo where you can join the group, generate proofs, execute authorized swaps, and see unauthorized swaps revert on-chain.",
+  "how_its_made": "The core is a Solidity hook contract (ZKComplianceHook) built against the Uniswap v4 hook interface. It integrates with the Semaphore protocol for on-chain ZK proof verification -- Semaphore uses Groth16 SNARKs over a Poseidon-based Merkle tree. \n\nI wrote a custom HookedSwapRouter that forwards arbitrary hookData through the PoolManager.swap call so the proof reaches beforeSwap. Contracts were developed and deployed with Foundry, using CREATE2 salt mining to get a hook address whose lowest bits match the required permission flags (beforeSwap only). \n\nThe frontend is a vanilla HTML/JS app served by a Node.js backend (TypeScript, using viem for all chain interactions). Proof generation runs server-side via @semaphore-protocol/proof (snarkjs under the hood). ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/effe-nwkxn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

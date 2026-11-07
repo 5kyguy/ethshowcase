@@ -1,0 +1,27 @@
+{
+  "id": "j0ozr",
+  "slug": "sidekey",
+  "title": "sidekey",
+  "tagline": "Trade from the wallet you already own, signed with Google. No popups. Your key stays in charge",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/j0ozr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Z5sAxO1CQuPdio6oSM1NM9m00KsCUeubb8KmlbxpFJH4/high.mp4",
+  "demo_url": "https://sidekey-five.vercel.app/",
+  "source_url": "https://github.com/vwakesahu/sidekey",
+  "finalist": false,
+  "description": "Sidekey lets you trade from the wallet you already own with the speed of a Google-login app, without ever opening that wallet again.\n\nApps like fomo made crypto feel instant: log in with Google, tap a token, done. But that magic lives in a fresh embedded wallet. Your real money, history, and positions sit in a MetaMask you've had for years, and that wallet still needs a popup for every approve, swap, and bridge. Sidekey closes that gap.\n\nHow it works:\n\n1. Sign in with Google. Privy creates an embedded wallet that is upgraded in place to a ZeroDev Kernel smart account via EIP-7702. It signs headlessly, and a paymaster covers its gas.\n2. Connect your wallet and link it once. Your wallet signs a single scoped grant to the Google account: 5 USDC per day, plus a 50 USDC tier that stays locked. On MetaMask this is one ERC-7715 Advanced Permissions confirmation; on any other wallet it's gasless EIP-2612 permits. That is the last time your wallet opens.\n3. Buy. One sponsored UserOperation from the Google account pulls USDC from your wallet, swaps it on Uniswap v3, and delivers native ETH back to your wallet. Your address never changed, your funds never sat anywhere else, and no popup appeared.\n4. Go over the limit, prove you're human. A buy above 5 USDC opens World ID. Only after a verified proof does the server release the 50 USDC permission your wallet already signed. Cancel, and the cap stays at 5. Above 50 is refused outright.\n\nYour original key remains root: it can revoke the permission at any time, and the Google account can never do anything outside what you granted.",
+  "how_its_made": "Stack: Next.js 16, viem 2.56, wagmi + RainbowKit, Privy (@privy-io/react-auth), ZeroDev (@zerodev/sdk 5.5, Kernel v3.3), World ID (@worldcoin/idkit 4.3 + idkit-server), Uniswap v3 SwapRouter02 + QuoterV2, Circle USDC on Sepolia, coss ui for the interface. Foundry and anvil for the fork-based audit before touching real chain.\n\nTwo wallets, one grant. The Google side is a Privy embedded wallet. We use Privy's useSign7702Authorization to sign an EIP-7702 delegation to ZeroDev's Kernel v3.3 implementation, but we never send a type-4 transaction ourselves: the ZeroDev bundler carries the authorization inside the first UserOperation, so the wallet is upgraded and executes its first trade in one sponsored op. The paymaster sponsors everything, so the Google wallet holds zero ETH for the whole demo.\n\nThe user's own wallet signs exactly one grant. On MetaMask we request ERC-7715 Advanced Permissions (wallet_requestExecutionPermissions, erc20-token-periodic) with two entries in one confirmation. On other wallets we fall back to two EIP-2612 permits on Circle's Sepolia USDC, which we verified exposes permit/nonces/DOMAIN_SEPARATOR on-chain. The 50 USDC \"human\" permission is signed at link time but held server-side, released only after a World ID proof is verified through the Developer Portal API. No private key exists anywhere in the app or env.\n\nThe buy. One UserOperation from the Kernel account batches: permit (first time only) → transferFrom user → Kernel → approve router → multicall[exactInputSingle, unwrapWETH9] with recipient set to the user's wallet, so native ETH lands back at the same address that paid. Quotes come from QuoterV2 with 1% slippage.\n",
+  "auto_summary": "A Next.js demo that links an embedded smart account to an existing wallet for gas-sponsored token purchases with permissioned spending limits.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sidekey-j0ozr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

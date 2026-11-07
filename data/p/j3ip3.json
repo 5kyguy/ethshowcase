@@ -1,0 +1,36 @@
+{
+  "id": "j3ip3",
+  "slug": "lotta-rolls",
+  "title": "Lotta Rolls",
+  "tagline": "Lottery Fractionalization by the man himself (Vitalik). Sell EV positive lottery tickets based on your NFTs.",
+  "event": {
+    "slug": "ethnewyork2022",
+    "name": "ETHNewYork 2022",
+    "start_time": "2022-06-24T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/j3ip3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cRsIf8NrMe3aKnJX9DvcuAHeP01IwRcUQvsBZAMtxvoY/high.mp4",
+  "demo_url": "https://flip-frontend.vercel.app/",
+  "source_url": "https://github.com/0xBeans/ETH-NY-LottaFlips",
+  "prizes": [
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🚀 Optimism — Just Deploy!",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "OpenSea",
+      "sponsor_id": "e8ob5",
+      "placement": "🥇 OpenSea — Best Integration",
+      "title": "OpenSea"
+    }
+  ],
+  "finalist": false,
+  "description": "In a recent blog post, the man himself, Vitalik Buterin goes over an interesting idea for degens - explanation is also paraphrased from Dave White.\n\nImagine Alice has an NFT worth 10 ETH and she has a high risk tolerance. Also imagine Bob who also has a high risk tolerance but has less than 10 eth, but is very interested in Alice's NFT. Alice can put her NFT up in a lottery that works like so:\n\nAlice will sell Bob a lottery ticket for anywhere from 10% to 50% of the NFT value. Let's say he buys the ticket for 50% of the value, he would give her 5 ETH and she would give him a 50% chance to win the NFT by flipping a coin. If it came up heads, Alice would keep the NFT. If it came up tails, Bob would get the NFT - regardless, Alice gets 5 eth.\n\nSimilarly, if Bob only paid 1eth for the lottery ticket (10% of the value), they could roll a 10-sided die. If it came up 1, Bob would get the NFT, and if it came up 2 through 9, Alice would keep it (a 10% chance to win the 'lottery' for Bob).\n\nThis appeals to degens as this is completely and totally fair and the potential payout is quite high (instant profit for Alice while retaining her NFT or a potential to get a valuable NFT at a huge discount for Bob). The amount of ETH Bob pays is exactly equal to the expected value of the lottery ticket he receives. We realized... if people want lotteries and ponzis, give them lotteries and ponzis ;) 🤷‍♂️",
+  "how_its_made": "We built this on Optimism and built our own VRF. Chainlink offers VRFs but unfortunately they are not on Optimism (at least we didn't find docs for it). Regardless, our random numbers use commit/reveal schemes to generate cheaper random numbers that are verifiable on chain. Unfortunately generating random numbers is not trivial on a deterministic blockchain. Our VRF works by hashing known values such as lottery participants (msg.senders) that can be easily verified on chain (we emit events with these values when new lotteries are created) - this is the 'commitment' of the random number. When participants are ready to 'roll' the dice, we actually generate the random number by signing the committed hash with a private key off-chain and using that signature as the RNG ('entropy') - this also emits an event with the signature (this is the 'reveal' aspect of the random number). Participants can take the corresponding public key (in the contract) to verify that we did not tamper with any values. We make sure the 'reveal' happens a few blocks after the 'commit hash' to prevent front running. We built this on Optimism for the cheaper transactions fees along with the recent interest for L2 NFTs (ever since Vitalik tweeted about Optipunks). Our entire frontend is in react and we use Alchemy RPCs. Lastly, the contracts are in solidity with 99% of it built and deployed via Foundry. We wanted to gate the lotteries to verifiable collections (so ppl can't set up lotteries for scam collections), so each collection is a minimal proxy to a lottery contract. This allows for cheap deployments and enough control for collections.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lotta-rolls-j3ip3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

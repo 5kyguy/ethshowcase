@@ -1,0 +1,21 @@
+{
+  "id": "dxkja",
+  "slug": "nexus",
+  "title": "Nexus",
+  "tagline": "Infrastructure for frictionless payments with USDC from any chain into Arc chain. ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dxkja/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8EWXp8jCetoj5fujARYL2r00iGc3W00sXgkY4llwI6WEw/high.mp4",
+  "source_url": "https://github.com/rusrio/ethglobal-nexus",
+  "finalist": false,
+  "description": "Nexus is a project designed for e-commerce.\nIt democratizes e-commerce through a “tap-and-pay” infrastructure for buyers and “plug-and-play” integration for merchants.\n\nThe project consists of:\nA React library\nAn on-chain protocol\nA dashboard for merchants\n\nNow, why is it so convenient for merchants and customers?\n\nLet's say you are a merchant who wants to create a store and needs a payment provider, and you want this payment provider to accept USDC without users having to switch chains, bridge, or even know what is going on behind the scenes.\nAll you have to do is import the React library, configure a couple of parameters, and you can have customers paying USDC from any chain, without friction.\nAll those payments will be consolidated into one on the Arc chain (Testnet), and the merchant can use the dashboard to check their balance, withdraw funds, or view recent purchases.\nWith Nexus, merchants can also boost their sales by creating referral campaigns through the dashboard, in which a percentage of each sale will be given to the person who gets a sale through the link.",
+  "how_its_made": "The core of Nexus is a set of Solidity smart contracts developed with Foundry and deployed on the Arc Testnet. The main contract, NexusVault.sol, acts as a centralized treasury that accepts incoming USDC transfers and manages the logic for the on-chain affiliate payouts.\n\nFor the cross-chain architecture, I integrated Circle's CCTP (Cross-Chain Transfer Protocol). Nexus utilizes the depositForBurnWithCaller function on source chains (Sepolia, Base Sepolia, Arbitrum Sepolia integrated for this MVP, but any chain supported by Circle CCTP can be easily integrated) to securely burn USDC.\n\nOn the frontend, I built a custom React SDK (nexuspay-react) using TypeScript, Wagmi, and Viem. This library abstracts the complex CCTP flow into a single component (<NexusPayment />) that any dApp can import. The demo shop and merchant dashboard are built with Next.js  and styled with Tailwind CSS.\n\nPartner Technologies:\n\nCircle CCTP: Essential for the permissionless bridge. Nexus listens for the MessageSent event, fetch the attestation from Circle's API, and submit it to the destination chain.\nArc Testnet: Serves as our unified settlement layer, allowing  to consolidate liquidity from multiple L2s into one environment.\nNotable Hack / \"Magic\": To achieve a \"gasless\" experience for merchants without deploying a complex backend infrastructure for this hackathon, I implemented a \"Serverless Operator Relayer\". The frontend SDK itself detects when the Circle attestation is ready and automatically executes the final claim transaction on Arc Testnet using a burner operator wallet. This simulates a production grade relayer service, allowing the merchant to receive funds instantly without paying gas or signing a second transaction.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nexus-dxkja",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

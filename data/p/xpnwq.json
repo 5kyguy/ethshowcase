@@ -1,0 +1,22 @@
+{
+  "id": "xpnwq",
+  "slug": "the-live-like-project",
+  "title": "The Live-Like Project",
+  "tagline": "Decentralized Live Streaming",
+  "event": {
+    "slug": "hackfs",
+    "name": "HackFS",
+    "start_time": "2020-07-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xpnwq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/beopVzJYoB002thHG1Zlj7jMT01GT00AccleDZ8sg6NJYc/high.mp4",
+  "demo_url": "https://ipfs.io/ipfs/QmeRBkSU9XsHyAt7EutyqKoxLGJ6Evj7a7vSd3if8ZGnSo",
+  "source_url": "https://github.com/SionoiS/live-like",
+  "finalist": false,
+  "description": "This project allow anyone to live stream with several different video quality similar to big platforms.\r\n\r\nThe first part is the streamer app, it bridge the gap between the transcoding app FFMPEG and IPFS.\r\n\r\nThe second part is the viewer app, it receive and reconstruct the live stream in HLS format to be used with any compatible media player.",
+  "how_its_made": "The streamer app first launch FFMPEG to transcode video receive on a local UDP address. I use OBS studio to feed that address with a live view of my screen. The app also starts an HTTP server configured to receive the 4 stream variants; 1080p60, 720p60, 720p30, 480p30 in HLS format. Video data is then sent to IPFS via HTTP. IPFS chunks and hashes the 4 video segments then I create a DAG node to tie the 4 segments plus the previous node. This node hash is finally publish with GossipSub on the topic \"livelike\".\n\n\n\nOn the other side.\n\n\n\nThe viewer app subscribe to the same topic and receive the hash of some node. The node received contains a link to the previous one and so the stream can be reconstructed if needed. Nodes also links to the 4 video segments. Those hashes are used to keep updated HLS playlists of the stream variants and they are served via HTTP to any compatible player. The HLS player continuously call the local IPFS gateway with the hash of the video segment it wants and play the video.\n\n\n\nVoila!",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/the-live-like-project-xpnwq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

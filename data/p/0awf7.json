@@ -1,0 +1,27 @@
+{
+  "id": "0awf7",
+  "slug": "touchstone-assay",
+  "title": "Touchstone Assay",
+  "tagline": "A benchmark price of AI Inference work,real agents can compare offers before paying in USDC.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0awf7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/O1q3AyeItKuIwv2202B1o4T00pG4UzJianTznFGU00eA4c/high.mp4",
+  "demo_url": "https://prints.touchstoneassay.com/",
+  "source_url": "https://github.com/petrkrulis2022/dated-siu-inference",
+  "finalist": false,
+  "description": "AI work has no common price. Every model prices in its own tokens, but tokens aren't comparable — different tokenizers count the same text differently, verbosity varies several-fold, and reasoning tokens are billed as output while never appearing in your prompt. The same task can cost far more on one model than another at similar headline prices. So an AI agent choosing between providers has no basis for comparison, and the finance team funding it can't tell whether it's buying more work or paying more for the same work.\n\nTouchstone Assay publishes Dated SIU: the price of one Standard Inference Unit, defined as a fixed basket of inference tasks completed at a defined quality threshold. Output that fails the gate counts as zero regardless of compute burned — a cheap model that doesn't finish the work isn't cheap. We measure the price by actually buying inference across ten models daily, reconciling against provider invoices, and publishing a signed print hash-anchored on chain.\n\nFor this hackathon we brought that onto Arc. Quotes travel as an extension of x402: a seller's HTTP 402 response carries the SIU amount, its own rate, and a signed quote hash alongside the USDC ask. A buyer agent fetches two quotes, compares them in SIU, funds a non-custodial escrow, settles after the work completes, and verifies the receipt against the on-chain settlement.\n\nThe live demo runs two seller agents on genuinely different model tiers. Quote-side the spread is 14.9×; the settled spread came out at roughly 23×, because the frontier model's real output ran longer relative to its own estimate. That divergence is the whole argument — headline token prices underpredicted the real cost of identical work by around 50%.\n\nEscrow stays on Arc testnet deliberately. It holds funds, it's immutable once deployed, and external review is outstanding. Arc mainnet opens on 16 September, three days after this deadline; the attestation deploy script is written and waiting.",
+  "how_its_made": "TypeScript monorepo. Solidity with Foundry for contracts. Cloudflare Workers for the agents and the MCP server. Everything settles in USDC.\n\nTwo contracts on Arc testnet: TouchstoneAttestation stores signed price-print hashes so anyone can verify a published number was issued under a stated methodology version, and TouchstoneEscrow handles quote-then-settle payments — buyer funds against a quoted maximum, seller settles the actual amount, remainder refunds automatically, no admin path to user funds in any code path. Both are byte-identical to our Base Sepolia deployment with zero contract changes, because every chain-specific value was already a constructor parameter.\n\nThe touchstone-quote extension rides inside the 402 response. An MCP server, listed on the official registry, exposes four tools — get_index free, get_quote, convert and verify_receipt paywalled through Circle's Gateway nanopayments over x402.\n\nThree real platform gotchas, each worth knowing. Cloudflare blocks a Worker's own fetch() to another Worker's bare *.workers.dev URL — fixed with custom domains. Arc's real gas price is far above typical Base Sepolia defaults, so the funding helper needed an override. And the primary Arc RPC rate-limited under our own sustained traffic, so we moved to the documented dRPC mirror.\n\nThe hackiest thing worth admitting: the demo task was resized four times, each iteration verified against a real settlement, because the original prompt settled below the escrow's MIN_SETTLEMENT floor and reverted. We learned along the way that soft word counts barely move a smaller model's output — a \"≥2800 words\" instruction produced only 23% more tokens — while explicit section structure nearly doubled it. That's a real finding about prompt-to-cost sensitivity, and it shaped the basket design.",
+  "auto_summary": "A TypeScript monorepo that benchmarks AI inference costs and settles quote-based USDC escrow payments for agent transactions on Arc testnet.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/touchstone-assay-0awf7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

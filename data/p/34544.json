@@ -1,0 +1,35 @@
+{
+  "id": "34544",
+  "slug": "ensignv2",
+  "title": "ENSignv2",
+  "tagline": "Your ENS name is the wallet. Lose your phone and your mom can hand it back, by name.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/34544/banner/default.jpg",
+  "video_url": "https://stream.mux.com/M3iS1GPYdg4L01eAYYqAm102bvlq5D8wSPQUkCq9KXE3M/high.mp4",
+  "demo_url": "https://ensignv2.vercel.app/",
+  "source_url": "https://github.com/LeoFranklin015/ENSign",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Best ENS Continuity Integration",
+      "title": "Best ENS Continuity Integration"
+    }
+  ],
+  "finalist": false,
+  "description": "Your ENS name is the wallet.\n\nYou pick leo.ensign.eth, approve with Face ID, and that's it. One transaction mints the name and deploys a passkey wallet at an address derived from the name itself. Nothing to write down, nothing to install, no gas to pay.\n\nBut if there's no seed phrase, what happens when you lose your phone?\n\nThat's the part we built. Your guardians are names too. Add your mom and she becomes mom.recovery.leo.ensign.eth, a real subname under yours. You pick how many have to agree, two of three, whatever you want. And because she's a name and not an address, she can move to a new wallet and still be your guardian. Nothing to re-enrol, nothing to keep in sync.\n\nYour mom doesn't need a wallet at all. Add her email, and when someone tries to recover your account she gets a message asking if this is really you. She hits reply. That's her whole job.\n\nBehind that, the DKIM signature her email provider already puts on the reply gets turned into a zkEmail proof and checked on chain. So she proves the reply came from her, without her email address ever landing on chain. And the same reply can't be used twice, because your account's nonce is baked into what she signs.\n\nYou don't even have to be there. The recovery page is public and keyed by your name, so a friend can open it from their laptop while you're standing there with a dead phone. Once enough guardians say yes, your new passkey goes in after a short delay, and you can cancel during that window if it wasn't you. We pay for both transactions, because someone locked out of their wallet has no ETH, and your mom shouldn't have to pay to help you.\n\nAnd your mom can't do anything else. The only thing recovery can ever do to your account is add a key. It can't move your money, can't remove you, can't change who your guardians are. Not even if every one of them turned on you at once.",
+  "how_its_made": "Foundry and Solidity on ENS v2's staging deployment. Claiming a name registers the subname and deploys the smart account in one transaction, at an address derived from the name. The account is ERC-4337 with WebAuthn for passkey signatures and can hold more than one key, which is what makes recovery possible at all. Pimlico bundles and sponsors, so a new user never has to hold ETH.\n\nWe kept verification logic out of the recovery manager on purpose. It stores an opaque blob per guardian and, when a recovery is attempted, hands that blob and a proof to a provider contract and asks a yes-or-no question. Adding a method is writing one small contract rather than touching what already works. We shipped three: an ENS name, a backup wallet, and an email.\n\nENS is the recovery method itself, not a lookup bolted on top of one. A guardian is a name under yours, and whoever owns that name is who gets to approve. Ownership is read at the moment of recovery, so a guardian can move wallets and stay your guardian, and a name that lapses drops out of your quorum on its own. One ENS v2 tip: bind a guardian to the name's resource, not its token id. Token ids get regenerated when roles change, and a guardian bound that way breaks\nquietly.\n\nFor zkEmail we self-hosted the whole thing, prover and relayer, because the hosted prover was down and their deployed verifier turned out to be built against an older circuit than the prover now produces, so valid proofs failed on chain. We generated a verifier from the circuit our prover actually uses and deployed that instead. We also skipped their EmailAuth contract, which wants an instance deployed per guardian, and bound the account, its nonce and the new key into the\ntext the guardian's email signs so a reply authorizes exactly one recovery.",
+  "auto_summary": "A smart-account wallet system ties account creation and recovery to ENS names, including guardian subnames and optional zkEmail-based approvals.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ensignv2-34544",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

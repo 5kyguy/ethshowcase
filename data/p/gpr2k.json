@@ -1,0 +1,27 @@
+{
+  "id": "gpr2k",
+  "slug": "hank0",
+  "title": "Hank0",
+  "tagline": "ENS names as trading permissions for a Uniswap v4 permissioned pool holding a tokenized stock",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gpr2k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2Kkf8yIh9y3OxUhSbZ02lZDf019ELMf489sI1l9T7N79s/high.mp4",
+  "demo_url": "https://hanko-app.vercel.app",
+  "source_url": "https://github.com/bertankofon/Hanko",
+  "finalist": false,
+  "description": "In September 2026 the SEC's Innovation Exemption defined a Tokenized Securities Venue as doing two things: running AMM pools for permissioned participants, and setting the standards for who may access them. Uniswap v4 permissioned pools cover the first. The second is left to the venue, and the interface Uniswap gives you is one function returning a flag for an address.\n\nHanko answers that function with ENSv2. A cleared investor holds a name under let's say swap.tnvda.eth or lp.tnvda.eth, and the shape of the name is the permission. Every swap and every liquidity deposit resolves it live.\n\nBecause it's ENS, three things come free. Names expire, so access lapses on its own. They're registered without the transfer role, so clearance can't be sold to a wallet the venue never cleared. And an investor can open names for their own trading bots / AI Agents inside their own registry without asking the venue. Revoke the investor and every bot under them stops in the same transaction, because a child of a lapsed name has nothing left to resolve through.\n\nEverything on the site is read from Sepolia. ",
+  "how_its_made": "The checker is a Solidity contract implementing Uniswap's IAllowlistChecker. checkAllowlist(account, token) turns the address into a lowercase hex label, looks it up in two ENSv2 UserRegistries, and returns the bytes2 flags (0x0001 swap, 0x0002 liquidity). If no direct name resolves, it tries agent delegation: the label is looked up in an index registry whose entries point at an investor's own registry through the resolver field, then walks back up to check the investor's name is still alive. Putting the pointer in ENS rather than a mapping means expiry and revocation semantics are inherited, not reimplemented.\n\nEach investor gets a UserRegistry proxy from ENS's VerifiableFactory, and names are granted with EnhancedAccessControl roles that deliberately exclude transfer.\n\nThe pool is a real v4 permissioned pool on Sepolia: PermissionsAdapter wrapping a mock tNVDA, PermissionedHooks, PermissionedPositionManager. Two things cost us time and are worth writing down. UniversalRouter v2.1.2 is the default entry in Uniswap's deployment file and it cannot do permissioned swaps; you need v2.2. And the adapter has to be registered as a wrapper on the PoolManager itself, not just the router, which is only documented in Uniswap's own integration tests.\n\n67 Foundry tests, most of them forked against live Sepolia so the ENS and Uniswap contracts under test are the real deployed ones. Frontend is Next.js reading state directly over viem, with the audit trail pulled from event logs.",
+  "auto_summary": "A Sepolia-based demo combines ENSv2 registries with Uniswap v4 permissioned pools to gate swapping and liquidity by on-chain name ownership.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hank0-gpr2k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

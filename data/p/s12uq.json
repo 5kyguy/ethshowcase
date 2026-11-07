@@ -1,0 +1,22 @@
+{
+  "id": "s12uq",
+  "slug": "boscon-space",
+  "title": "Boscon Space",
+  "tagline": "A trustless satellite oracle that turns real RF signals into verifiable evidence.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s12uq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iceI01kln2G2JalZa600rOsMrPp9Ng8cXJ1LlQrSqAtXk/high.mp4",
+  "demo_url": "https://boscon-space.vercel.app",
+  "source_url": "https://github.com/SHLOK333/Boscon-space",
+  "finalist": false,
+  "description": "Boscon Space turns signals from satellites into evidence you can actually trust. Using an RTL-SDR, we capture the radio signals satellites send to Earth and measure how their frequency changes as the satellite moves across the sky. We compare that real signal against the satellite’s predicted orbit and Doppler curve using SGP4 to check whether the observation physically matches the claimed satellite. The resulting PASS/FAIL evidence is recorded on-chain on Arbitrum, while The Graph makes the observations and satellite-agent relationships easy to query. Hedera Consensus Service (HCS) adds a tamper-evident chain of custody: hashes of the recorded RF evidence are continuously streamed to a Hedera topic, creating a public timestamped trail that can later be used to detect if a recording was altered or replayed. AI agents can then discover verified observations, evaluate their reliability, and pay for evidence programmatically through x402.",
+  "how_its_made": "Boscon Space starts with something simple: a satellite sends a radio signal, and an RTL-SDR records it. The hard part is proving that the signal actually came from the satellite someone claims it came from.\n\nA satellite moving across the sky constantly changes the frequency we receive because of the Doppler effect. But the signal also contains errors from the receiver, oscillator, timing, noise, the satellite's changing position, and the accuracy of the orbital data. We therefore can't just look for a frequency and say “that's the satellite.” Our Python pipeline uses NumPy, Skyfield and SGP4 to reconstruct the satellite's expected motion and Doppler curve, then fits only the receiver-related error. What remains is the part that should be explained by the satellite's orbit. We measure the fit with RMSE and correlation, and then make the problem harder by testing the claimed satellite against other possible satellites. For our METEOR-M2 3 observation, the system searched 643 candidates and ranked the correct satellite #1, without being given its identity.\n\nThat physics result is then sent to our smart contract on Arbitrum Sepolia. We don't submit “PASS” or “FAIL”; we submit the measurements and let the contract apply the rules itself. This makes the verification reproducible instead of trusting whoever uploaded the observation.\n\nThe Graph makes those on-chain results easy for applications and AI agents to query. An agent can look at an observation, inspect a station's previous history, and make a decision without understanding blockchain internals.\n\nHedera provides the second layer of trust. We continuously hash the RF recording and stream those hashes to Hedera Consensus Service, creating a public timestamped trail. The recording itself doesn't need to be stored on-chain, but anyone can later check whether the evidence was modified or replayed. Hedera's x402 integration also lets agents pay for evidence automatically using HBAR.\n\nFinally, AI agents can discover observations, evaluate the reliability of the station, purchase evidence, and verify what they received.\n\nSo the core idea is: we don't trust the radio signal, we don't trust the seller, and we don't trust the submitted verdict. We make the physics, blockchain, provenance, and payment layers check each other.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/boscon-space-s12uq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "ez5pv",
+  "slug": "privyflow",
+  "title": "PrivyFlow",
+  "tagline": "MEV-resistant dark pool DEX on Uniswap v4 using commit-reveal",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ez5pv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PMxxoQmE8LHZtXYBw6EFJ9018O5RDnt7CpJq5C4M16sw/high.mp4",
+  "demo_url": "https://privyflow.vercel.app/",
+  "source_url": "https://github.com/0xfdbu/hackmoney2026",
+  "finalist": false,
+  "description": "PrivyFlow is a dark pool DEX built on Uniswap v4 that eliminates MEV extraction through cryptographic commitments. Users commit to swap amounts using keccak256 hashes without revealing trade details, then execute after a mandatory 10-block delay (~2 minutes) that prevents frontrunning and sandwich attacks. The system utilizes a specialized DarkPoolHook with the BEFORE_SWAP flag that intercepts transactions to verify commitments on-chain before allowing settlement through the Uniswap v4 PoolManager. Liquidity providers can add concentrated or full-range liquidity to ETH/USDC pools with customizable fee tiers (0.01%-1%), while traders enjoy hidden amounts and protected execution. The commit-reveal scheme ensures that bots cannot extract value from pending transactions since amounts remain encrypted until the reveal phase, after the privacy delay has passed.",
+  "how_its_made": "The project uses Solidity 0.8.26 with Foundry for smart contract development, deploying three core contracts to Sepolia: CommitStore (manages commitments and enforces 10-block delays), DarkPoolHook (Uniswap v4 hook with BEFORE_SWAP flag 0x04 for validation), and SwapRouter (handles settlement). The frontend is built with React 18, TypeScript, and Vite, styled with Tailwind CSS, and uses Wagmi/Viem for blockchain interactions. The commit-reveal flow generates client-side salts, computes keccak256(commitment, amount, minOut, salt), and stores commitments locally until the reveal phase. We integrated Reown AppKit for wallet connection and used Uniswap v4's PoolManager for actual swaps. A particularly hacky aspect was handling the pool initialization check—since Uniswap v4 reverts when querying non-existent pools, we implemented error-state detection in Wagmi with retry: false to distinguish between uninitialized pools and non-existent ones, routing users accordingly without infinite loading states.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/privyflow-ez5pv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

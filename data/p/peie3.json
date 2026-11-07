@@ -1,0 +1,27 @@
+{
+  "id": "peie3",
+  "slug": "passportcreds-node",
+  "title": "PassportCreds Node",
+  "tagline": "White-label Compliance Passport for regulated onchain access — powered by Chainlink + Privy",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/peie3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5m7OM9QBzGcVefwy02BscdoBYTGoaZaQiB7Z8013RIlW4/high.mp4",
+  "demo_url": "https://passport-creds-node-web.vercel.app/",
+  "source_url": "https://github.com/nodeproptech-inc/passport-creds-node",
+  "finalist": false,
+  "description": "PassportCreds by Node is a white-label Compliance Passport for regulated onchain access. It started as an internal problem at Node PropTech: how do you verify investors accessing a regulated deal room are KYC-cleared and accredited — without storing sensitive documents and without building a bespoke integration for every compliance provider?\n\nA wallet connects via Privy Embedded Wallet, uploads compliance evidence, and the Chainlink Confidential AI Attester evaluates it inside a TEE. No PII leaves the enclave. The verdict is delivered via webhook to our backend, which triggers a Chainlink CRE workflow — the sole authorized writer to our smart contracts on Base Sepolia. CRE writes verified claims to ClaimRegistry and mints or updates a soulbound Compliance Passport (ERC-721 + ERC-5192). The AccessGate contract reads the passport and unlocks the Node PropTech Deal Room.\n\nNo raw documents are stored. No PII is written onchain. Only keccak256 hashes.",
+  "how_its_made": "Frontend: Next.js 14 with TailwindCSS and Privy Embedded Wallet for social/email login — no browser extension needed.\n\nBackend: NestJS on Railway with Prisma + PostgreSQL. It orchestrates verification sessions, calls the Chainlink Confidential AI Attester, receives the verdict via webhook, and triggers the CRE workflow with a verificationId only — no PII, no raw documents ever cross that boundary.\n\nChainlink Confidential AI Attester: we send compliance documents (KYC/AML and Accredited Investor evidence) to a TEE running Gemma4 with structured system prompts. The model returns a minified JSON verdict — approved, confidence, reasonCode, summary. The document is discarded. Only a keccak256 attestation hash goes onchain.\n\nChainlink CRE: a TypeScript workflow running on Railway. It is the only actor with CRE_UPDATER_ROLE — the sole key allowed to write to our smart contracts. It fetches the sanitized result from our backend, validates it, hashes the verificationId for replay protection, and fires two transactions: ClaimRegistry.submitClaim and CompliancePassport.syncPassport.\n\nSmart contracts: three Solidity contracts deployed and verified on Base Sepolia via Foundry. ClaimRegistry stores verified claims. CompliancePassport is a soulbound ERC-721 + ERC-5192 passport with status derived live from ClaimRegistry. AccessGate is a stateless read contract that answers canAccessDealRoom and canAccessInvestorArea.\n",
+  "auto_summary": "This project issues and updates onchain compliance passports after offchain document verification and uses them to gate regulated application access.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/passportcreds-node-peie3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

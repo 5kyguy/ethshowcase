@@ -1,0 +1,27 @@
+{
+  "id": "9gct3",
+  "slug": "surex",
+  "title": "SureX",
+  "tagline": "SureX is an antivirus for MCP servers, SureX reviews them and blocks the bad ones.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9gct3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yfE3W602cmUIrfhsnzxQzOmAE02l7bGQJu2byEQsd2gW8/high.mp4",
+  "demo_url": "https://surex-app.vercel.app/",
+  "source_url": "https://github.com/SantiagoDevRel/surex",
+  "finalist": false,
+  "description": "In September 2025, an npm package called postmark-mcp behaved exactly like the real Postmark server for 15 versions. Version 1.0.16 added one line that BCC'd every outgoing email to an attacker. It ran for weeks.\n\nNothing in the MCP stack would have caught that. A server listed in your agent's config runs with your agent's permissions: your files, your keys, your shell. There is no step between \"listed\" and \"reading your SSH keys\".\n\nSureX is that step. A Claude Code plugin fingerprints each MCP server from its install config and checks the registry before the call executes. Flagged at high severity, and the call stops alerting you. Unknown, and you get a warning. Every block is overridable in one command printed in the block itself, because a block you cannot override gets the gate uninstalled the first time it is wrong.\n\nEntries come from humans, gated by World ID. That kills block-as-DoS. \nAn open-source model on an on-site DGX reads submitted source against what the server claims to do.\n\nIntent-matching checks consistency, since a server that says \"runs commands as requested\" agrees with itself perfectly. \n\nScanning already exists. A registry that is re-reviewed every release, enforced at the moment of the call, hard for its own operator to rewrite, and contestable by an agent, does not.",
+  "how_its_made": "The plugin is where the product lives. It fires before every MCP call, and matcher sees every MCP tool and can return a deny decision. That interception point is what makes enforcement possible\n\nStorage. Walrus and Arkiv split by access pattern, not by preference. Every record — source snapshot, verdict, dispute — is a Walrus blob, so the ID is derived from the exact bytes and nobody, us included, can quietly rewrite what a verdict said. Arkiv on Braga holds the queryable entity that points at each blob and carries the decision fields: state, severity, tier, disputed. Because the gate sits in front of every tool call, the hot path is one Arkiv query; the evidence body is fetched from Walrus only when a human is about to read it. Arkiv entities are time-scoped, which fits the record model — verdict history is append-only and source snapshots have a natural retention horizon, so expiration is something we set per record class rather than work around.\n\nReview. Review runs on an on-site DGX against an open-source model, behind an OpenAI-compatible endpoint so the model could be swapped if the box died mid-build. Source is content-isolated in the prompt and reviewed twice, the second pass against a paraphrase. Disagreement between the two runs caps confidence instead of producing a flag. Text in the source that tries to instruct the reviewer is itself a high-severity finding, so an injection attempt becomes evidence rather than a route to a clean verdict.",
+  "auto_summary": "SureX is a monorepo for an MCP call gate, review registry, web/docs apps, and supporting APIs, storage, and ENS-based resolution.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/surex-9gct3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

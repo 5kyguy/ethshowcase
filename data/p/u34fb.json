@@ -1,0 +1,22 @@
+{
+  "id": "u34fb",
+  "slug": "zkwhisper",
+  "title": "ZKWhisper",
+  "tagline": "Fully ZKfied wallet with sovereign social recovery protocol.",
+  "event": {
+    "slug": "superhack",
+    "name": "Superhack",
+    "start_time": "2023-08-04T19:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/u34fb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cBPknyw3V7zzJhKx4IY63WiRcglM8lzIpRAvCQYq2WQ/high.mp4",
+  "demo_url": "https://github.com/aayush4vedi/ZKWhisper",
+  "source_url": "https://github.com/aayush4vedi/ZKWhisper",
+  "finalist": false,
+  "description": "Current wallet recovery mechanisms always come with a big trade-off. Either you rely 100% on yourself (push the responsibility to the user), or you sacrifice sovereignty by trusting your private key to some centralized entity.\n\nWith this project I present Zero Knowledge based Sovereign Social Recovery wallet, a non-custodial recovery mechanism that tries to bring the best of both worlds.",
+  "how_its_made": "## Sign Up\n\n1. wallet creation: user can create a new wallet/onboard an existing one with ZKWhisper contract. \n2. Signup returns a zk-identity proof for user. Wallet’s private keys are always kept off chain and never revealed. All the circom circuits are run on client side, never revealing any secrets of the calculation.\n3. User downloads this identity-proof.\n\n## Login(skip)\n\n- I need to submit my identity proof to log in\n- Only logged in users can start a recovery setup\n\n## ZK-social Recovery Setup\n\n- Since most wallet apps allow wallet importing with either private key or mnemonic phase- user can opt out to use any of these in recovery setup.\n- User selects number of guardians(N) and quorum(K) as the minimum number of threshold shares required to recover the wallet.\n- The key here is the disconnection between guardians. whole idea is build on the assumptions that guardians are not aware of each other and only the user can reach out to **********K********** guardians to be able to create the secret key\n- We also add a proof of inclusion in each share: that is the merkle root and merkle tree path; which will come handy in validating them later.\n- We distribute these shares to guardians offline and can delete the secret without any worries. Nothin else is required.\n\n## Recovery\n\n- user collects K number proofs from his guardians\n- Now these shares could be tempered with or simply invalid- invalid/malicious\n- So first we do validation of each share. For this we check if all of them contain the same values of merkle root(inclusion proof) and each of them the tree path can construct the same merkle tree. If not we can exit early and tell the users to collect from some other guaridans\n- Then the user tries to computes (in-browser) the recovery string in a verifiable way using the circuits. And send the resulting witnesses to the smart contract for verification.\n- If all goes through, the user is able to recover their sercret.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkwhisper-u34fb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

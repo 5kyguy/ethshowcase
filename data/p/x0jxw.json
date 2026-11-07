@@ -1,0 +1,35 @@
+{
+  "id": "x0jxw",
+  "slug": "bfb",
+  "title": "BFB",
+  "tagline": "One-tap, one-signature exit from any DeFi position - loans, LP, staking, tokens - all to USDC",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x0jxw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CfXrT01h7MmWQv5DbNNTq5QrOF02555Sua3A8QcQQMFjM/high.mp4",
+  "demo_url": "https://backstop-next-gules.vercel.app/",
+  "source_url": "https://github.com/mfeinLearn/bfb",
+  "prizes": [
+    {
+      "sponsor": "LI.FI",
+      "sponsor_id": "1nz66",
+      "placement": "Best User Experience",
+      "title": "Best User Experience"
+    }
+  ],
+  "finalist": false,
+  "description": "The problem\nExiting DeFi today is slow and risky. To reach cash you have to repay loans, withdraw collateral, pull liquidity, and swap every token one by one - 15-20+\ntransactions and signatures. The market moves while you are still clicking, and users get stuck half-exited.\n\nWhat BFB does\nBFB is a one-tap panic button. Users connect a wallet, BFB scans the whole portfolio, shows a guaranteed-minimum USDC quote, and exits everything in one\nsignature. A single atomic transaction flashloan-repays the Aave loan from its own collateral, sells the collateral, unwinds Uniswap V3 LP positions, and\nsweeps the remaining tokens - all to USDC, with 0 upfront capital. It handles loans, collateral, Uniswap V3 LPs, liquid staking tokens, and loose tokens. In a\nreal mainnet test, a ~$23 portfolio (Aave debt + Uniswap V3 LP + tokens) closed to USDC in a single signature.\n\nLive demo: https://backstop-next-gules.vercel.app",
+  "how_its_made": "Stack\nBFB runs on LI.FI's Composer SDK. The whole exit compiles into one atomic program executed by the Composer VM through a per-user CREATE3 proxy: flashloan ->\naave.repay (mode exact, onBehalfOf the signer) -> aToken transferFrom (after the repay, so Aave's finalizeTransfer health-factor check passes) -> lifi.zap\nwithdraw -> lifi.swap -> flashloanRepay. Aave v3 supplies the flashloan that repays the variable debt and is repaid from the freed collateral, so the user\nneeds 0 upfront capital. For Uniswap V3 we pull the position NFT, run decreaseLiquidity + collect, then swap the freed tokens; the amounts are pre-quoted\noff-chain via simulateContract. Swaps route through Uniswap and an on-chain-AMM allow-list.\n\nThe single signature comes from Dynamic + EIP-5792 wallet_sendCalls over EIP-7702: a type-0x4 transaction delegates the EOA to a smart account that runs the\nfull 8-9-call batch (approvals + flashloan exit + sweep + LP unwind) atomically, with a graceful fallback to sequential transactions on non-5792 wallets.\nAlchemy drives wallet scanning, token pricing, and on-chain position detection (Aave reserves multicall, UNDERLYING_ASSET_ADDRESS round-trip). viem signs\nclient-side; Next.js serverless route handlers build the transaction.\n\nHacky part\nPre-existing positions can't be replayed in the server simulator (the EOA-to-proxy approval is only signed at execution), so they compile under allow-revert\nwith run.assumptions for the swap legs, pinned to an on-chain-AMM allow-list because RFQ/signature DEXs revert when replayed. The hardest part was bundling a\n3-protocol unwind (Aave + Uniswap V3 LP + token sweeps) into one EIP-7702 signature, with the flashloan funded entirely by the position's own collateral.",
+  "auto_summary": "A Next.js app that scans a wallet’s DeFi positions and builds single-signature exit transactions using LI.FI Composer and Dynamic.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bfb-x0jxw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,34 @@
+{
+  "id": "1fih3",
+  "slug": "private-cloud",
+  "title": "Private Cloud",
+  "tagline": "This project provides a remotely accessible, privacy oriented storage platform of sorts based on IPFS and Waku, with the objective of bridging the gap between mobile use and easy at home storage.",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1fih3/banner/default.jpg",
+  "source_url": "https://github.com/filoozom/private-cloud-ipfs-waku-devconnect",
+  "prizes": [
+    {
+      "sponsor": "IPFS & Filecoin",
+      "sponsor_id": "9zj01",
+      "placement": "🏆 Filecoin — Grand Prize",
+      "title": "IPFS & Filecoin"
+    },
+    {
+      "sponsor": "IPFS & Filecoin",
+      "sponsor_id": "9zj01",
+      "placement": "Grand Prizes",
+      "title": "Grand Prizes"
+    }
+  ],
+  "finalist": false,
+  "description": "Current decentralised storage solutions are generally complicated to use. For IPFS, you need to know about pinning services or how to run a node (or more likely a cluster thereof) yourself. On Swarm, you need to buy postage stamps, which involves a complicated onboarding flow to crypto. In addition to that, none of these services can realistically be used from a mobile phone, at least not without using a centralised API to do the heavy lifting.\n\nIn a lot of cases, users just want to store their data and potentially make it accessible to their friends. The idea of this project is to provide a tool to manage just that, with the added benefit of being privacy oriented. Basically, it's a base for a Google Drive of sorts, except self-hosted and without any centralised parts, while still remaining easy to use and compatible with mobile phones.",
+  "how_its_made": "The general idea is to have three components:\n- A companion app that is easy to install and runs on a computer that is always connected to the internet, be it a desktop, server, Dappnode or even just a small Raspberry Pi. This will host and serve the data through IPFS.\n- A protocol to make it possible to push data to that node and retrieve it, without requiring port forwarding, VPNs or centralized services. Based on Waku.\n- An application that uses the protocol to indirectly connect to companion apps.\n\nOn a higher level, the application initially needs to be linked to one or multiple companion apps. This is done for example by scanning a QR Code displayed by the companion app. This then negotiates encryption keys for all following communications. Once that is done, the app can send requests to the companion apps through Waku in a fully encrypted and private way.\n\nOn a more specific level:\n1) The companion displays a public key to be used for ECIES encryption\n2) The application then sends a message on a specific topic (which is a hash of the public key) to register. The message includes the name of the device and is signed.\n3) The companion app recovers the public key from the signature and links its own unique public key to the one recovered from the application. This ensures that even if multiple users use the same companion app, or if one user uses multiple different companion apps, it would not be possible to link any of the users to any of the companion apps, as the topics and keys are always different. It also prevents attackers from front-running registrations.\n4) The companion app continues to listen on the topic linked to its unique public key, forming a channel that can basically be used like an API.\n5) The application sends storage requests or anything else it wants to implement. In this example, the companion app includes a Helia IPFS node and makes data available through the IPFS network, but in theory we could also implement SSH over this for example.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/private-cloud-1fih3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "85tw9",
+  "slug": "civicord",
+  "title": "civicord",
+  "tagline": "Verifiable record of UK candidate websites: what responded, redirected, and changed — on ENSv2",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/85tw9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BRJDFqEr2g8902Zupl1UYAeA3nRcMYY43TgN00L17XVg00/high.mp4",
+  "demo_url": "https://civicord.pages.dev",
+  "source_url": "https://github.com/sneldao/civicord",
+  "finalist": false,
+  "description": "**Civicord is an open, longitudinal record of political candidate websites — tracking which URLs still respond, where they redirect, and what changed after an election.**\n\nCandidate websites routinely rot, disappear, or get repurposed after elections. The UK has strong underlying infrastructure — Democracy Club provides stable candidate IDs, while Campaign Lab and the UK Web Archive provide election-era web data — but there is no open system connecting these into a per-candidate, longitudinal record of what happened to each website.\n\nCivicord starts with Campaign Lab’s April 2025 scrape of **2,375 UK candidate websites**, keyed to Democracy Club person IDs. During this event, we audited all 2,375 sites: **64% still respond ~17 months later**, while 363 have DNS/connection failures, 372 return HTTP errors, and 659 redirect elsewhere. Importantly, responding does not mean surviving: our demo candidate returns HTTP 200 but now leads to a domain-sale page. Civicord preserves the evidence behind these observations as archived excerpts with copyable citations.\n\nThe integrity layer is **ENSv2**, and it is central to how Civicord works. Each candidate receives an ENSv2 subname under Civicord’s UserRegistry on Sepolia (`p{id}.civicord.eth`), with Permissioned Resolver records containing the candidate name, original URL, and audit status. Anyone can verify these records directly from the browser without a wallet.\n\nENSv2’s **Enhanced Access Control** also lets Civicord separate identity from write authority. Our demo grants a delegate permission to update one field on one candidate record; the write succeeds, the permission is revoked, and the next write reverts. This provides a practical model for allowing candidates, parties, or authorized agents to maintain specific records without controlling the namespace.\n\nThe site’s on-chain data is indexed through our **The Graph** subgraph and exposed to the browser as a live GraphQL view. A **Bazantic** gateway provides metered, machine-accessible access to the dataset via x402.\n\nThe architecture is election-agnostic: **roster → audit → record → verify → publish**. The UK is the proving ground, but the same pipeline can work with electoral registries in other countries.\n\nOur goal is a public-good layer for electoral web history: **per-candidate records journalists can cite, datasets archivists can reuse, and verifiable infrastructure agents and researchers can build on.**",
+  "how_its_made": "**Pipeline:** Python 3.11+ with `httpx`; the CLI uses `argparse` and `asyncio` for download → ingest → audit → report. Campaign Lab’s April 2025 scrape is normalized from **2,767 candidacies to 2,375 unique websites**, keyed by Democracy Club person IDs. The async auditor uses HEAD with GET fallback, follows redirects, runs at 12-way concurrency with jitter, and performs a deliberately labeled heuristic content check. Tests and linting use pytest, ruff, and pre-commit.\n\n**Frontend:** Astro 7 on Node 24, fully static with zero backend. A prebuild step converts pipeline CSVs to JSON and generates ~3,000 pages at build time. The constituency map uses equal-seat hexes based on ONS boundary data. Each candidate page has a **Verify on-chain** action that calls a Cloudflare Pages Worker, which performs a raw `eth_call` against the Permissioned Resolver; verification requires no wallet.\n\n**ENSv2:** Civicord deploys its own UserRegistry and PermissionedResolver on Sepolia, with one `p{id}.civicord.eth` subname per Democracy Club ID. A resumable publisher mints the records idempotently. The key integrity mechanism is **Enhanced Access Control**: `eac_demo.py` executes real Sepolia transactions demonstrating **grant → delegate write → readback → revoke → reverted write**, with the transaction log committed to the repo.\n\n**Data access:** A same-origin worker proxies our The Graph Subgraph Studio endpoint, allowing the UI and six WebMCP browser-agent tools to query the live indexed registry. Bazantic wraps the dataset with x402 metering for machine-accessible usage.\n\n**Why the partner technologies matter:** ENSv2 provides role-scoped authority over individual civic records without requiring Civicord to build and audit its own permission system. The Graph turns registry events into a queryable ledger for the UI and agents. Bazantic provides the metering layer for programmatic access.\n",
+  "auto_summary": "Civicord audits political candidate websites over time and publishes per-candidate web records with on-chain ENSv2 attestations and a static browser interface.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/civicord-85tw9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

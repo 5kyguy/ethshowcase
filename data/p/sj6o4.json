@@ -1,0 +1,28 @@
+{
+  "id": "sj6o4",
+  "slug": "wilhelmus",
+  "title": "Wilhelmus",
+  "tagline": "Wilhelmus is a backtesting tool for DeFi investment strategies.",
+  "event": {
+    "slug": "ethbogota",
+    "name": "ETHBogotá",
+    "start_time": "2022-10-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sj6o4/banner/default.jpg",
+  "source_url": "https://github.com/optakt/wilhelmus",
+  "prizes": [
+    {
+      "sponsor": "Autonomy",
+      "sponsor_id": "fuytu",
+      "placement": "🤖 Autonomy — Best Overall Use",
+      "title": "Autonomy"
+    }
+  ],
+  "finalist": false,
+  "description": "Wilhelmus uses DeFi metrics from an InfluxDB bucket to backtest DeFi investment strategies on a block-granularity level. This allows for precise and realistic testing of various positions for yield farming.\n\nThe data can be collected using Klangbaach (see readme), the companion tool for Wilhelmus. Klangbaach can simply be pointed to an InfluxDB database, an Ethereum or Polygon API and a Uniswap v2 pair address, and will collect complete metrics on reserves and volume for the pair, including correct labelling of all time series.\n\nWilhelmus itself can be thought of as a proof of concept for the as of yet unpublished second version of the Autonomy Network's AutoHedge product. AutoHedge uses various DeFi primitives in connection with Autonomy Network's automatic transaction executions to provide fully hedged and derisked Uniswap v2 liquidity positions.\n\nAutoHedge trades transaction fees for reduced exposure to volatility and impermanent loss. As the relative impact of transaction costs on profit is reduced when positions are bigger, it's hard to predict if a strategy will be successful for big position sizes. Wilhelmus solves the problem and can validate strategies that fail for small position sizes.\n\nAt the same time, testing on a test network without relevant volume and liquidity numbers would not provide useful usage data. Wilhelmus solves this issue by accurately emulating the different investment strategies with past data from the real world.",
+  "how_its_made": "The project accomplishes validation of the AutoHedge product by Autonomy Network in a real world context.\n\nThe companion tool, Klangbaach, is written in Go. It connects to a given Ethereum API and parses events for the Uniswap v2 pair at the configured smart contract address. It then pushes the reserve and volume data to an InfluxDB bucket for every single block.\n\nA recurring problem with the Ethereum API is that log entries for events don't contain timestamps. So even if we can retrieve the logs for 100 blocks in a single API request, we would have to do another 100 requests for the headers in order to have the timestamps. In our use case, we are dealing with time series where the timestamps are indeed crucial.\n\nI solved this by syncing a full node and dumping the entire block number to timestamp mapping into a CSV file, which is then fed into a Postgres database. This means that we can now collect the full metrics for a pair in just a few short hours. This little file by itself could be useful to the community, as I have successfully failed for hours to find the data available online.\n\nOnce the data is in the InfluxDB bucket, we can run Wilhelmus to backtest the strategies. Currently, Wilhelmus supports hold positions, Uniswap v2 liquidity positions and Autonomy Network AutoHedge v2 positions. All three of these strategies are fully replicated in fast Go code.\n\nAs we stream the metrics for each block, we get the reserves in the Uniswap pool, which allows us to deduce the liquidity as well as the price. We then compute the profit for each position using the volumes and our (imaginary) liquidity share in the pool.\n\nFor the more complex AutoHedge strategy, we need to also keep track of: the stable coin lending and the related yield, the volatile borrowed funds and the related interest, as well as all DeFi fees and transaction costs. Wilhelmus uses a database of past gas prices and a reference value for each action's gas cost in order to accurately keep track of these.\n\nFor each block, the sequence of computations is as follows: updating loan yield and interest, calculating profit share from liquidity provider fees, checking conditions for re-hedging, and potentially rebalancing the liquidity position and the loan to bring them back in sync. Finally, we push the value for each position, along with some additional metrics, to another InfluxDB bucket.\n\nThe tool allows customization of a number of strategy parameters, such as the re-hedge ratio, the loan interest rates, the DeFi application fee rates, and the gas costs for all blockchain interactions.\n\nWilhelmus can backtest an entire year of blocks in 1-2 minutes, which opens the door to writing a tool on top of Wilhelmus that automates backtesting to optimize instrument parameters. The tool can easily be extended to backtest any number of strategies on arbitrary DeFi applications.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wilhelmus-sj6o4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "136s7",
+  "slug": "fleet-naming-service",
+  "title": "Fleet Naming Service",
+  "tagline": "One ENSv2 registry, many doorways: hire an AI agent fleet with one tx, fire it with one.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/136s7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dag5xAZF010226bImnZVjO9XcsVMzFO2yvrUUSc9puFtE/high.mp4",
+  "demo_url": "https://fns-one.vercel.app/",
+  "source_url": "https://github.com/freedanjeremiah/Ethtokyo2026",
+  "finalist": false,
+  "description": "FNS (Fleet Naming Service) gives AI agent fleets a single on-chain identity that many businesses can adopt and drop instantly, using ENSv2's registry-linking primitives.\n\nA vendor runs a fleet of support agents (mia, kai, rin) in one ENSv2 UserRegistry. That same registry is mounted under several names at once — support.vendor.eth, support.shopa.eth, support.shopb.eth — so mia.support.shopa.eth and mia.support.shopb.eth resolve to the SAME ERC-1155 token, not copies kept in sync.\n\nTwo kill switches, owned by opposite parties:\n- Hire / fire: a merchant mounts the fleet with one setSubregistry transaction and unmounts it with one.\n- Vendor recall: the vendor unregisters one agent and every doorway for it, under every merchant, dies in the same block.\n\nThe catch: mounting is permissionless, so a scammer can mount the real fleet under support.scam.eth and it resolves. FNS ships a verifier (stock viem + the real UniversalResolver) that checks membership, canonical registry, two-sided consent (the fleet's own enf.parents record must list the parent), doorway expiry, and screens the settlement address against the OFAC sanctions oracle / Intercepta. Every name gets a live verdict: GREEN (legit), RED (counterfeit mount), ORANGE (endorsed doorway, flagged counterparty) or BLACK (not a member).\n\nThe Next.js app includes a playbook editor where you build the demo as a node workflow — check a name, unmount, fire an agent, counterfeit mount, dirty settlement — sign each step in your browser wallet, and watch the topology graph, agent × doorway verdict grid and on-chain timeline update live. Deployed on Sepolia.",
+  "how_its_made": "FNS writes no Solidity of its own — it composes the real, deployed ENSv2 contracts on Sepolia (RootRegistry, ETHRegistry, ETHRegistrar, UserRegistry, PermissionedResolver, VerifiableFactory, UniversalResolverV2, UniversalHelper). The fleet's UserRegistry and a shared PermissionedResolver are deployed as proxies through VerifiableFactory.deployProxy with CREATE2 salts; each merchant gets its own UserRegistry with a \"support\" label whose subregistry points at the fleet.\n\nThe hacky/notable bits:\n- Namespace aliasing: one registry mounted at multiple setSubregistry points. We found no other project doing multi-mount.\n- The shared resolver's default record (DNS name 0x00) holds the whole fleet bundle — addr(60) settlement address, enf.canonical, enf.parents, ENSIP-26 agent-context and agent-endpoint[web] — so every member inherits it without its own record.\n- Topology fix: the resolver is attached to members only at register(), never to the parent node. That way a made-up name (bob.support.shopa.eth) returns ResolverNotFound instead of resolving through a wildcard — otherwise the verifier's \"not a member\" verdict would be meaningless.\n\nStack: TypeScript + viem for setup/demo scripts (tsx), a standalone @fns/verifier package implementing checks C1–C5 (ENSIP-15 normalization, UniversalResolver resolution, registry walk from the root, UniversalHelper.findExactRegistry for canonical match). C5 screening uses the Chainalysis sanctions oracle on mainnet (keyless, real OFAC data) plus Intercepta (Web3 Antivirus) when an API key is set. Next.js 16 / React 19 app with server routes: /api/verify, /api/fleet (discovers every mount from SubregistryUpdated logs and verifies every agent × doorway at one block), and /api/actions, which plans kill-switch transactions for the browser wallet to sign — the server holds no keys.\n\nTesting: Foundry fork tests against the live ENSv2 deployment (10 passing, no mocks) and 80 vitest tests, including fork tests that run the demo scripts end-to-end.",
+  "auto_summary": "A Next.js and TypeScript project that verifies and visualizes ENSv2-mounted AI agent fleet identities on Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/fleet-naming-service-136s7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

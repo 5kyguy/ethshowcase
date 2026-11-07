@@ -1,0 +1,35 @@
+{
+  "id": "xdrwx",
+  "slug": "paygate",
+  "title": "PayGate",
+  "tagline": "Team payments with built-in approval rules, settled instantly in stablecoins.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xdrwx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kOQ8jwtmr8DB00HAXovmz6Z6rlSBo2sL6IsEYncxPkGg/high.mp4",
+  "demo_url": "https://www.usepaygate.xyz/",
+  "source_url": "https://github.com/bharathbabu3017/ethonline-2026-hack",
+  "prizes": [
+    {
+      "sponsor": "Privy",
+      "sponsor_id": "ijybm",
+      "placement": "Best B2B financial product",
+      "title": "Best B2B financial product"
+    }
+  ],
+  "finalist": false,
+  "description": "PayGate is a treasury and spend-management tool for companies that pay  contractors, vendors and staff in stablecoins. Today most teams route every  payout through one person with wallet access — a bottleneck, a single point of  failure, and an approval trail that lives in email. PayGate replaces that  with a shared company treasury where every payment carries an enforced rule:  who can approve it, how many of them, and up to what amount.  A company signs up with an email and gets a Privy organization wallet as its  treasury — no seed phrase, no key for anyone to lose. Admins then define  approval groups, each backed by its own Privy key quorum and spending policy:  \"Payroll — HR, one approval, up to 10,000 USDC\", \"Grants — the four-person  committee, two approvals, up to 50,000\", \"Vendors — finance, two approvals, no  ceiling\". Groups attach to the treasury as scoped additional signers with  override_policy_ids, so Privy evaluates only the policy of whoever actually  signs. That's what lets one wallet enforce genuinely different limits per team  instead of needing a wallet per budget.  Any team member raises a payment — payee (an external address or a teammate by  name, resolved to their Privy embedded wallet), amount, asset and an attached  invoice. Before submitting they see exactly which rule will govern it and who  must approve. Payments under a group's threshold clear on the requester's own  signature; larger ones wait for a second approver. Approvals are signed in  each approver's browser with their own Privy key via  useAuthorizationSignature() — PayGate only relays the signature and never  holds signing material, so even a fully compromised backend cannot manufacture  an approval. Once enough signatures exist they're submitted together and  Privy verifies them against the treasury's key quorum before anything moves.  The treasury holds multiple assets — USDC, EURC, WETH and native ETH — with  per-asset balances and per-asset limits, handling both native value transfers  and ERC-20 calldata. Changing the rules is itself an approved action:  attaching a group is owner-level at Privy, so it requires the same sign-off as  a large payment. Everything lands in an audit trail recording who acted,  when, and the on-chain transaction, exportable to CSV with approvers included.  Settles in USDC on Base Sepolia. Live at usepaygate.xyz.",
+  "how_its_made": "Stack: Next.js 16 (App Router) with React 19 and TypeScript, Tailwind 4,  Prisma 7 against Postgres (Neon, provisioned through Vercel), and viem 2 for  chain reads and calldata encoding. Privy via @privy-io/react-auth 3 in the  browser and @privy-io/node 0.34 on the server. Deployed on Vercel at  usepaygate.xyz, settling on Base Sepolia.  How the pieces fit. Org setup runs a fixed sequence against Privy: create  users → create key quorums → create a spending policy → create the  organization → create the treasury wallet with entity: {type: 'organization'}  and the member quorum as an additional_signer carrying override_policy_ids.  Approval groups are the same shape — each one is a quorum plus a policy,  attached as another scoped signer, which is what lets a single wallet enforce  different limits depending on who signs. Payments store the exact transaction  at submit time so every approver signs identical bytes; signatures are  collected and submitted together, comma-delimited in the  privy-authorization-signature header. Prisma holds what Privy doesn't know  about: invoices, memos, roles, group membership and the audit trail.  The notable hacky parts:  @privy-io/node@0.34's public client is missing methods the docs show —  users.create, keyQuorums.create, and the entire organizations service exist  only on a private underlying client. I reach it through one narrow cast that  names exactly the surface used, typed with the SDK's own param types, so an  SDK change surfaces as a type error rather than at runtime.  I built the whole approval flow on Privy intents first, then had to tear it  out. intents.authorize() doesn't exist on either client — only the  IntentAuthorizeInput type ships — and the REST endpoint rejected signatures  built to the documented payload spec across eleven variants, including the  intent_id and timestamp fields that appear in the browser SDK's types but not  the server's. Separately, POST /v1/wallets/authenticate rejects valid Privy  access tokens on this app, so no server-side user signing key can be issued at  all. The way through was to sign in the browser with  useAuthorizationSignature() and have the server merely relay — which turned  out to be the better architecture, since PayGate then never touches signing  material.  additional_signers is replaced wholesale on a wallet update. Attaching a new  group by sending just that group would have silently detached every other one,  including the original member quorum and its capped policy — it would have  demoed perfectly and quietly broken every other rule. desiredSigners()  rebuilds the complete list every time.  Smaller things that mattered: invoice types are sniffed from magic bytes  rather than trusting Content-Type or the extension, and stored as Bytes in  Postgres because Vercel's filesystem is ephemeral. Money is integer base units  as BigInt everywhere with per-asset decimals — which caught a real bug where  the dashboard was adding micro-USDC to wei. Balances are cached server-side  for 10s after the public RPC started throttling under polling. Privy caps  display_name at 50 characters, which silently broke org creation for longer  names until I truncated.",
+  "auto_summary": "PayGate is a web app for creating shared company treasuries with approval-based stablecoin payment requests and audit tracking.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/paygate-xdrwx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

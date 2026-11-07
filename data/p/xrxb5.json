@@ -1,0 +1,22 @@
+{
+  "id": "xrxb5",
+  "slug": "chakra",
+  "title": "Chakra",
+  "tagline": "Chakra is a liquidity aggregator for Arc that deliver hyper-optimized executable swap.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xrxb5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2cOyrccjJmJ5tQmTNTVQrwRh8zXP6eLQd01KMtskXzwk/high.mp4",
+  "demo_url": "https://chakra-ag.vercel.app",
+  "source_url": "https://github.com/mangekyou-labs/chakra",
+  "finalist": false,
+  "description": "Problem: Arc stablecoin liquidity is split across isolated DEX venues with different pool mathematics, factories, and swap interfaces. Single-pool routes often suffer avoidable slippage; wallets and payments apps otherwise maintain separate venue adapters and routing logic. Users see one venue's price instead of an executable comparison.\n\nSolution & impact: Chakra provides a production routing layer (web + API) for route discovery, split optimization, and wallet-ready transaction building (quote + build_tx) on Arc Testnet — improving execution quality, increasing venue utilization, and giving wallets and dApps a single USDC/EURC integration entry point. The user authorizes in their own wallet. Chakra never holds keys and never submits.\n",
+  "how_its_made": "Components\nThe implementation is these pieces.\nAggregator contract. The public swap entrypoint. splitSwap pulls tokenIn from the user through Permit2, executes one or more SubRoutes (a one-path swap is one entry; a split is several), checks minAmountOut, transfers tokenOut to msg.sender, and sweeps leftover catalog tokens to the sender. Factory allowlist gates every hop. An empty Permit2 signature skips permit(). Splits cannot share a pool. The contract does not retain funds after the call.\n\nchakra-market-data-worker. The single writer of market state. Discovers pools, watches Arc logs, and publishes the routing graph and per-pool reserves or ticks under the chakra: Redis prefix.\n\nchakra-api-server. Stateless HTTP API. Quotes, encodes unsigned splitSwap calldata, and serves tokens, balances, stats, health, and readiness. Horizontal replicas read the same Redis. The API does not submit transactions.\n\nrouter-engine. In-process PathFinder (BFS), QuoteEngine (local pool math), and SplitOptimizer (Brent on two paths, pairwise merge on more).\n\ndex-adapters. Per-venue discovery, log matching, and quote math for Xylo, Presto, UnitFlow V2.5 (30 bps xy=k), and generic xy=k / stable / CLMM factories on the seed list.\n\nRedis. Routing topology (chakra:snapshot:*), live pool state (chakra:pool:xyk|stable|clmm:*), factory allowlist (chakra:factories), and additive swap analytics (chakra:analytics:*).\n\nSwap UI and @chakra-ag/sdk. Browser UI and TypeScript client for quote, build, sign, and submit. A public dashboard is at https://chakra-ag.vercel.app/stats.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/chakra-xrxb5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

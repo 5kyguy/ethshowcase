@@ -1,0 +1,28 @@
+{
+  "id": "9gy3s",
+  "slug": "epoch",
+  "title": "Epoch",
+  "tagline": "Agentic marketplace where agents negotiate and execute trades without human intervention",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9gy3s/banner/default.jpg",
+  "source_url": "https://github.com/bertankofon/agent-commerce",
+  "prizes": [
+    {
+      "sponsor": "Nethermind",
+      "sponsor_id": "bk5qx",
+      "placement": "Building Verifiable Agents with the Triple-Verified Stack ",
+      "title": "Building Verifiable Agents with the Triple-Verified Stack "
+    }
+  ],
+  "finalist": false,
+  "description": "Epoch is a marketplace where AI agents buy and sell products autonomously. Instead of humans browsing and negotiating, you deploy AI agents that do it for you.\n\nHow it works:\n\nUsers create two types of agents,\nMerchant agents sell products and set negotiation rules (like \"max 15% discount\")\nClient agents buy products within a budget and try to get the best price\n\nMerchants claim pixels on a 75x30 grid to showcase their store. When a client finds a suitable product, both agents can negotiate on it. They exchange offers back and forth for up to 5 rounds until they agree on a price or give up.\nIf they reach a deal, payment happens instantly via blockchain (USDC on Base Sepolia testnet) using ChaosChain's SDK and x402 protocol. All negotiations are saved to a database so users can see exactly how the deal was made.\n\nTech stack:\nFrontend: Next.js 16 with Privy wallet authentication\nBackend: FastAPI (Python) with LlamaIndex for AI agents\nBlockchain: ChaosChain SDK on Base Sepolia\nDatabase: Supabase PostgreSQL\n\nWhy it's useful?\nAgents negotiate 24/7 without getting tired or emotional. They handle hundreds of deals simultaneously and complete transactions in seconds instead of hours. Everything is transparent, you can review chat histories to see exactly what happened. Plus, blockchain payments are instant with no intermediaries taking fees.\nIt's basically autonomous commerce where software handles the boring parts while humans focus on strategy.",
+  "how_its_made": "Tech Stack:\nFrontend: Next.js 16 + React 19 + TypeScript + Privy (wallet auth) + TailwindCSS\nBackend: FastAPI (Python) + LlamaIndex 0.14.8 + OpenAI GPT-4o-mini\nBlockchain: ChaosChain SDK + Base Sepolia testnet + USDC\nDatabase: Supabase PostgreSQL\nCore Architecture:\nThe frontend renders a 75x30 pixel grid where merchants claim space. Each pixel is an interactive React component. When users click a merchant, a modal opens showing products and a \"Start Negotiation\" button.\nThe backend uses LlamaIndex's ReActAgent framework to create AI agents. Each agent has tools (functions like \"check_inventory\"), memory (ChatMemoryBuffer for conversation context), and access to GPT-4o-mini. When negotiation starts, agents take turns generating responses through the LLM for up to 5 rounds. All messages are saved to Supabase.\nThe Hacky Part:\nChaosChain SDK had a bug where execute_x402_crypto_payment sent funds to the wrong address. We discovered it was using self.agent_name as the recipient instead of the merchant's settlement address. Our fix: monkey-patch the SDK's wallet manager to recognize the correct address, then bypass their high-level API and call PaymentManager directly. It's documented in backend/utils/chaoschain.py with detailed comments.\nKey Challenges:\nPixel collisions: Multiple agents could claim the same pixel. Fixed with a UNIQUE(x, y) database constraint.\nPerformance: Loading agents was slow because we refetched data on every tab switch. Optimized by loading everything in parallel on first mount, then caching it.\nNegotiation UI: Built a 3-column modal (agent selection | budget input | history). The tricky part was updating it in real-time as negotiations progress without blocking the UI.\nWhy These Technologies:\nPrivy handled Web3 wallet connections with 10 lines of code instead of building custom auth.\nLlamaIndex gave us ready-made agent architecture with tool-use and memory built-in.\nBase Sepolia has low gas fees for testing and easy Ethereum mainnet transition later.\nSupabase provided PostgreSQL, real-time updates, file storage, and migrations in one package.\nThe whole system is deployed on Railway with automatic deploys from GitHub.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/epoch-9gy3s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

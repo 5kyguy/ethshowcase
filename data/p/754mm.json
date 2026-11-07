@@ -1,0 +1,27 @@
+{
+  "id": "754mm",
+  "slug": "aegis-wallet",
+  "title": "Aegis Wallet",
+  "tagline": "Aegis gives AI agents wallets that cannot be broken by quantum computers",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/754mm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FY02hygQiBhl02B176iZ4FC4F7UYidSYDPI1GxHIEhadk/high.mp4",
+  "demo_url": "https://aegis.collinsadi.xyz",
+  "source_url": "https://github.com/collinsadi/aegis",
+  "finalist": false,
+  "description": "Aegis is post-quantum infrastructure for autonomous AI agents on Ethereum.\nEvery AI agent wallet today uses ECDSA, a signature scheme broken completely\nby a fault-tolerant quantum computer running Shor's algorithm. Agents cannot\ndetect the threat, rotate their own keys, or pause operations when it happens.\n\nAegis solves this with three components:\n(1) ML-DSA-65 keypairs (NIST FIPS 204) for every agent at spawn time,\n(2) Groth16 ZK proofs that compress 3309-byte ML-DSA signatures to 256 bytes\nfor on-chain verification at ~200k gas, a 76% reduction vs raw PQ verification,\n(3) a quantum oracle that autonomously calls deprecateECDSA() when threat\nsignals cross a threshold, with no human intervention required.\n\nENS is the identity, discovery, and trust backbone. Every agent gets a subdomain\nunder 0xaegis.eth via CCIP-Read (EIP-3668), with its full ML-DSA public key\nserved off-chain and hash-verified on-chain. Agent capabilities, pricing, and\nendpoints are discoverable via ENS text records. The oracle broadcasts live\nthreat status to threat.0xaegis.eth, a canonical feed any protocol can read.\n\nThe SDK (@0xaegis/sdk) integrates in 3 lines of TypeScript. The factory deploys\nagent accounts via CREATE2 for deterministic addresses. ENS registration,\ncapability publishing, and agent-to-agent PQ handshakes are one-call operations.\n",
+  "how_its_made": "Aegis is built as a TypeScript monorepo with five packages: smart contracts (Hardhat + Solidity), a ZK circuit (Circom 2.1.6 + snarkjs), an SDK, a CCIP-Read gateway server (Express), and a React/Vite landing page.                                                                           \n                                                                                                                                                      \nCryptographic layer: Every agent gets an ML-DSA-65 keypair (NIST FIPS 204) generated via @noble/post-quantum. Because raw ML-DSA signatures are 3309 bytes, too expensive to verify on-chain, we compress them using a Groth16 ZK proof over BN254. The Circom circuit proves knowledge of a valid signature via a Poseidon hash commitment (Poseidon(sigHigh, sigLow, msgHash) === commitment), reducing the on-chain footprint to 256 bytes at ~200k \n  gas vs. millions for raw lattice verification.                                                                                                      \n                                                                                                                                                      \n Smart contracts: Five contracts live on Sepolia, AegisAccount (the agent's smart wallet with dual ECDSA + ZK execution), AegisFactory (CREATE2 deployment for deterministic addresses), AegisENSResolver (CCIP-Read resolver for agent identity), ThresholdOracle (N-of-M voting to trigger ECDSA deprecation), and the auto-generated Groth16Verifier.                                                                                               \n                  \n ENS + CCIP-Read (EIP-3668): Full 1952-byte ML-DSA public keys are too large for on-chain storage, so only a 32-byte keccak256(pubKey) lives on-chain. The full key is served off-chain via a CCIP-Read gateway and verified on-chain against the hash. This makes key rotation free, no new contract, just update the gateway and publish a new hash.                                                                                           \n                  \n0G Network integration: We integrated 0G Storage as a decentralized, content-addressed backend for public keys (replacing Postgres), and 0G Compute to run a Qwen3-LLM inside a TEE for verifiable quantum threat scoring.\n                                                                                                                                                      \nThe notably hacky bit: The ZK circuit doesn't verify ML-DSA math in-circuit (full lattice verification in BN254 is prohibitively large). Instead, the off-chain AegisProver validates the signature using noble/post-quantum, then generates a Poseidon commitment proof. The contract trusts the proof but re-checks the commitment against the registered pubKeyHash, a two-layer verification that works but relies on the prover behaving honestly off-chain. We also mask the pubKeyHash to 128 bits in Solidity to match BN254 field arithmetic from the TypeScript side, which is unconventional but necessary for circuit compatibility.",
+  "auto_summary": "A monorepo for post-quantum Ethereum agent accounts using ML-DSA keys, Groth16 proofs, ENS-based identity, and optional 0G-backed storage/oracle services.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aegis-wallet-754mm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

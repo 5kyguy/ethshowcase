@@ -1,0 +1,27 @@
+{
+  "id": "d88zt",
+  "slug": "human",
+  "title": "Human",
+  "tagline": "Camera app to prove your photos are real and defend yourself from AI.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d88zt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1hiBvjGxVmc4vOf5a6ZIYRgPvmUO00Lq6M8ixz8xyedw/high.mp4",
+  "demo_url": "https://provenance.saugar.dev",
+  "source_url": "https://github.com/saugardev/provenance-miniapp",
+  "finalist": false,
+  "description": "Prove Reality is a World Mini App that creates verifiable provenance for photos captured by real humans. \n\nUsers sign in with World wallet authentication, capture a photo directly in the app (not from the gallery), and the app records GPS and time metadata at capture time. It computes a SHA-256 hash, runs World ID proof verification, and generates a signed provenance payload linking the image hash, action, nullifier, and metadata.\n\nThat payload can be stored in our backend and published to 0G for immutable availability, while the raw image remains in our database. Each proof has a public verification link where anyone can validate the media hash and signature integrity, making it easy to share trusted “this is real” evidence for social media, journalism, and legal or incident documentation.",
+  "how_its_made": "We built Prove Reality as a full-stack Next.js 15 App Router mini app tuned for World App flows. On the frontend, users authenticate with World MiniKit wallet auth (SIWE-style), then use an in-app camera capture experience driven by getUserMedia and live geolocation at shutter time (navigator.geolocation). We intentionally avoid gallery imports on the primary UX path so provenance starts at capture, not from a post-edit upload. After capture, the client computes a SHA-256 hash of the image bytes in the browser (Web Crypto), binds that hash as the proof signal, and triggers World verification (MiniKit verify in the mini-app context, with an IDKit fallback where needed).\n\nOn the backend (Next.js Route Handlers, Node runtime), we re-verify World proofs server-side instead of trusting client-only verification, extract nullifier, action, verification level, root, and session metadata, and produce a canonical signed provenance object. That payload includes the content hash, capture metadata, World proof fields, and backend signature material so anyone can later recompute and validate integrity. We persist user-linked records in PostgreSQL (Neon), storing image bytes (base64), the hash, proof metadata, wallet address, and signature fields needed for external verification pages.\n\nFor decentralization and immutability, we integrated 0G using @0gfoundation/0g-ts-sdk and ethers: signed payloads go through the 0G indexer, with transaction and root hashes returned and surfaced in the UI (“View on explorer”). That gives tamper-evident publication beyond our database while keeping fast app-level retrieval. We also ship public proof pages (/prove/hash/[hash]) that fetch by image hash (not internal DB id), recompute the media hash client-side, verify signature artifacts, and expose share-ready links for social platforms.\n\nFor social proof cards, we added a generated OG image route (next/og) so shared proof links get reliable metadata previews even when direct raw-image OG paths are brittle. We hardened URL generation with dynamic host resolution from request headers plus an env override (NEXT_PUBLIC_APP_URL) to avoid accidental localhost OG tags in production. Other hardening includes short-lived auth cookies (5-minute session TTL), explicit logout cookie clearing, nullifier replay protection keyed on (nullifier, action, content_hash) so users can submit multiple distinct photos per user/action, and camera-state resets to keep the UX deterministic between captures.\n\nNotable “hacky but useful” pieces: hand-tuned drawer physics for mobile ergonomics, a custom capture state machine that freezes and releases the background image from drawer position, and fallback-safe metadata generation to avoid HTTP 500s when local env differs from production.",
+  "auto_summary": "A Next.js mini app captures photos, verifies World identity proofs, signs provenance records, and can publish proof payloads to 0G storage.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/human-d88zt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

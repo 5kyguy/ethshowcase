@@ -1,0 +1,30 @@
+{
+  "id": "x2qv0",
+  "slug": "zk-recover",
+  "title": "Zk Recover",
+  "tagline": "A Safe{Core} Protocol Plugin for Zero Knowledge Wallet Recovery ",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x2qv0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eb7TTOOhyP00ajxBWiLPVLLmNNBJoHgemVG4Iuk2KIUI/high.mp4",
+  "demo_url": "https://www.youtube.com/watch?v=1SVTpXa-oxQ",
+  "source_url": "https://github.com/WillSchiller/eth-paris-23",
+  "prizes": [
+    {
+      "sponsor": "Safe",
+      "sponsor_id": "weaax",
+      "placement": "🏦 Safe — 🥉 Safe{Core} Protocol",
+      "title": "Safe"
+    }
+  ],
+  "finalist": false,
+  "description": "For a more succinct version of these notes see slides: https://docs.google.com/presentation/d/1Zm8EBLAy-2sWXOCH6sI1fA0Ls-DqVYG2VsZS4bHJDjQ/edit?usp=sharing\n\nThe Plugin uses a Zk circuit written in noir. The circuit can prove that the prover knows some preimage to a public hash. The preimage contains some secret information required to recover the account. The prover can provide a proof to prove they know the secret information without revealing the actual data.\n\nThe Zk circuit has been designed to allow a blend of both third-party and personal secrets. This grants you the flexibility to adjust the balance based on your risk tolerance. Whether you are more comfortable taking on 3rd party custodial risk, or you prefer more personal risk, the system's threshold can be modified to suit your unique preferences.\n\nIn the future, to circumvent a scenario where a single third-party could hinder your account recovery, you can choose to distribute trust across different third-party entities and require only a threshold of 3rd parties to recover. \n\nThe plugin contract uses a mapping to track the address of the verifier contract for each safe wallet. Once a correct proof is provided the plugin adds a new safe owner to recover the account and the verification contract is voided to prevent replay attacks.\n\nA user can call the setproofVerifier function again to set up a new circuit once the recovery process has been completed. \n\n\nThe UX is improved because a user could lose their private key and regain access to their account so long as they remember some memorable facts. At the same time security is not decreased because we can make use of 3rd parties to maintain security. Crucially through Zk technology we do not need to trade self custody for 3rd party security because a 3rd party never has enough info to access our wallet. Especially if we make use of multiple 3rd parties. \n\nOther consideration and further reading (time-based one-time passwords): https://netsec.ethz.ch/publications/papers/ZeroTwo.pdf \n\nLink to safe wallet: https://app.safe.global/transactions/history?safe=gor%3A0x503e83f02d35497A57CD07AD094614be6De8ab2b\n",
+  "how_its_made": "Foundry is used for testing and deploying. I would love to learn more about safe and build some tasty foundry safe templates. \n\nNoir is used for the zk circuits and to auto-generate the verifier contract.  We are using u8 instead of u256 for simplicity but production we should use u256 and a better hashing algo: pedersen hash for example. The Preimage could be changed to an array with any number of elements. \n\nTo create the plugin safe{Core} protocol is used. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zk-recover-x2qv0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

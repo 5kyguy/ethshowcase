@@ -1,0 +1,35 @@
+{
+  "id": "4n4jz",
+  "slug": "lastbrief",
+  "title": "LastBrief",
+  "tagline": "Draft up a “Brief”, write down your most significant words and the most important message, and designate to who you would like to send to. It is encrypted and can be only decrypted by the addressee which will be automatically sent when you are not able to do it yourself.",
+  "event": {
+    "slug": "ethbogota",
+    "name": "ETHBogotá",
+    "start_time": "2022-10-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4n4jz/banner/default.jpg",
+  "demo_url": "https://youtu.be/9G767-AB5Jg",
+  "source_url": "https://github.com/williamvp10/LastBriefFrontEnd",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏗 Polygon — Deployed on Polygon",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Pocket Network",
+      "sponsor_id": "vr4u8",
+      "placement": "🏊‍♂️ Pocket Network — Pool Prize",
+      "title": "Pocket Network"
+    }
+  ],
+  "finalist": false,
+  "description": "This Project Combines IPFS decentralized storage with Assymetric Encryption for secure storage, Gelato Ops Smart contract scheduling to check for user inactivity, push protocol for notification sending to Deliver a Brief-Leaving feature that notifies your Heirs of what you left them encrypted upon your death.\n\nLastBrief allows a user to upload a file, specify a list of Heirs addresses, and a pingPeriod that when passed without any activity notifies the Heirs on where the Brief is stored and that they can decrypt it with their public keys.\n\nWhen a user uploads a file, the pingPeriod, and a list of ethereum public addresses to our React Frontend, the file is encrypted with gpg, uploaded to ipfs, and the hash is passed to the smart contract to be stored without anyone being notified of the upload (strangers cant decrypt anyway and Heirs who can don’t know). Gelato Ops calls the function checkOwnersStatus everyday to loop over users to check last activity via timestamps. For each user, if the period specified by them is close to an end without activity (3 days left) they are notified by a notification by push protocol. If there is still no response, the Heirs are notified and are given the IPFS hash and are told that they can decrypt it and that the Owner left them that.\n\nUse Cases?\nWant to leave eternal intimate words to significant others? A will? \nSecret Agents can leave epic messages behind (sherlock season 5 maybe?).\n",
+  "how_its_made": "Frontend: ReactJS and typescript. There is a dynamic form to add Heirs addresses that are then added to the array to be passed to the contract in the format: [\"address1\",\"adddress2\"]\n\nan impressive feature is a will writing/editing space if the user doesnt want to upload they can write and edit colors, bold, indentation, and many other features.\n\nSmart Contract: smart contract is in solidity, it is a simple contract, has mappings from addresses to Owner structs and uses that to keep track of their Brief hashes, info, and death status.\n\nGelato: Gelato is an interesting smart contract automation tool. To use that, we choose the network, connect wallet and deposit some mumbai polygon to pay for function calls, and give the contract address on the mumbai network to Gelato; then, it should be able to find the contract and functions from the ABI and then we can choose a function name and a schedule for the function to be called on. Unfortunately, there is a bug from their side where they try to find the contract on etherscan even though we’re connected to polygon, and there is a manual ABI option that cannot detect the function, and there was no one from the team to solve the issue in time, so we did not make it work. I used gelato before, but it was interesting to try it again on Polygon.\n\nPush Protocol: Push protocol is one of the sponsor solutions that made this happen! Notifying people on such important matters made us choose to utilize it. To utilize it we took 50 DAI from the faucet and started an alias channel on the mumbai network after making the original on the goerli network. Then we added our contract address as a delegate. For the code implementation, they had an easy interface that we integrated into our smart contract in the loops that sent notifications to Heirs and Owners.\n\nPocket network: we used a pocket network as a decentralized endpoint provider. We put the URLs of the target networks endpoints and credentials; it was very simple.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lastbrief-4n4jz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

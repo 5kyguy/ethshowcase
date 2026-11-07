@@ -1,0 +1,36 @@
+{
+  "id": "vi6xx",
+  "slug": "gimmemybloodymoney",
+  "title": "GimmeMyBloodyMoney!",
+  "tagline": "This project creates a straightforward way of requesting money. Users can generate a link, which others can click to directly sign the correct transaction.",
+  "event": {
+    "slug": "sydney",
+    "name": "ETHGlobal Sydney",
+    "start_time": "2024-05-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vi6xx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5tDnGwmFUmCMXO1TmYJg2AAlF7Tq83BqFSFA2DVJgZo/high.mp4",
+  "demo_url": "https://gimmemybloody.money/",
+  "source_url": "https://github.com/patrick-hacks/gimme-my-bloody-money",
+  "prizes": [
+    {
+      "sponsor": "NounsDAO",
+      "sponsor_id": "e3t1p",
+      "placement": "2nd place",
+      "title": "Best Nounish Public Goods"
+    },
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "Honorable Mention",
+      "title": "Best World ID Usage"
+    }
+  ],
+  "finalist": true,
+  "description": "This project simplifies the process of requesting money through a straightforward, two-page online system.\nOn the first page, users fill out a form to specify their receiving address, desired currency, preferred blockchain, and amount. Once the form is submitted, a link is generated which users can share with others.\nWhen the link is clicked, it directs the user to the payment page.\nOn the payment page, the recipient can review the transaction details before signing the transaction with a single click of a button.\nTo enhance trust, the user creating the request can verify their identity using World ID. This assures the recipient that the request is from a real person and not an automated bot.\nFurthermore, recipients can label these requests as spam or legitimate and confirm their choice by signing with World ID. This feature helps to swiftly identify and curb potential scams, as wallets with a negative reputation will be flagged as risky on the payment page.\nIf the recipient lacks sufficient funds on the requested chain, the system can automatically locate and utilize funds from other chains using CCIP. If the user opts for this feature, they will be guided through the necessary transactions step by step.",
+  "how_its_made": "The frontend comprises two React-based pages that interact solely with the blockchain, eliminating the need for any backend services.\nOn the request page, users can generate a link that embeds all essential details (such as blockchain, recipient address, currency, and amount) directly into the query parameters. This design eliminates the need to sign any transaction. Additionally, users opting to authenticate via World ID need to connect their wallet, scan a World ID QR code using the IDKitWidget from Worldcoin and sign the transaction to submit the proof onchain. The signal of the proof is the users wallet eliminitating any chance of tampering with it.\nAll proves are stored on Base, since there is no need to submit proves on multiple chains, as the owner of the address is the same one on all chains. \nUsers can easily update their address by verifying a new one. This automatically replaces the previously verified address and transfers all accumulated reputation to the new address.\n\nThe payment page retrieves all necessary information from the query parameters and displays it for user verification. In scenarios where there are sufficient funds available in the specified currency on the correct chain, the \"Pay\" button is activated, allowing the user to simply click it to sign the transaction.\nIf the frontend detects insufficient funds on the expected chain, it searches for an alternative chain with adequate funds and uses Chainlink CCIP to bridge the funds directly to the recipient's address on the correct chain. Currently CCIP is limited to USDC.\nUsers can categorize a request as either valid or spam by submitting a proof through WorldID. The signal is a simple boolean indicating whether their feedback is positive or negative, and the action includes the wallet address. This system ensures each vote remains anonymous while preventing double voting.\nIf a request accumulates an overall negative rating, it will be flagged accordingly. This feature aims to safeguard less experienced users by highlighting potentiall phishing attempts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gimmemybloodymoney-vi6xx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

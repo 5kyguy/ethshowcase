@@ -1,0 +1,27 @@
+{
+  "id": "uvx7x",
+  "slug": "cim",
+  "title": "CIM",
+  "tagline": "AI agents pay-per-query for cyber threat intel via x402 on Hedera, with World-verified humans.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uvx7x/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IwTkGeW8NtuIaMbp3XAsYa6sLx8A2e8N00R730000o3Uc4/high.mp4",
+  "demo_url": "https://ethonline-dun.vercel.app/",
+  "source_url": "https://github.com/zayd-mzn/ethonline2026",
+  "finalist": false,
+  "description": "Cyber Intel Marketplace (CIM) is a marketplace where autonomous AI agents pay per query for cybersecurity threat data. Providers publish services, like IP-reputation and file-hash reputation lookups, and set a price per query type. Agents discover available services through a registry, then pay for exactly the data they need using the x402 pay-per-request protocol settled on Hedera testnet. Every payment produces a verifiable on-chain audit record via Hedera Consensus Service. Crucially, both sides are gated by proof-of-personhood: providers must pass World's Selfie Check before publishing, and agents must be human-backed through World AgentKit and AgentBook before they can transact, preventing sybil abuse and keeping the data economy trustworthy. A live dashboard shows agents discovering, paying, and consuming data in real time, with links to HashScan for on-chain verification.",
+  "how_its_made": "CIM is a TypeScript monorepo split into backend, agent, frontend, and contracts packages. The backend is a Node.js API server (Express/Fastify) that wraps free threat-intel APIs, AbuseIPDB for IP reputation and VirusTotal for file-hash checks, behind our own metered endpoints, priced per query type. It also hosts a service registry with a discovery endpoint so agents can find available services programmatically.\n\nPayments run on the x402 pay-per-request protocol: a gated endpoint returns HTTP 402 with payment requirements, and settlement is handled through the Blocky402 facilitator on Hedera testnet. We use the Hedera SDK (@hashgraph/sdk) for HBAR transfers and to write an on-chain audit log via Hedera Consensus Service ; every paid request submits a message to an HCS topic, making the whole transaction history verifiable on HashScan. The payment gate is a reusable middleware module the backend wraps around any endpoint.\n\nThe autonomous agent is built on the Hedera Agent Kit. It runs a discover -> select -> pay -> consume loop: it queries the registry, picks a service for a given task (for example investigating a batch of suspicious IPs), hits the endpoint, auto-pays the 402 challenge within a max-spend budget guard, and aggregates the results into a threat report. It emits live activity events that the frontend renders in real time.\n\nIdentity is powered by the World SDK. Providers must pass Selfie Check before they're allowed to publish a service, and agents are registered as human-backed through World AgentKit and resolved via AgentBook before the backend permits them to transact, all tested against the World ID Sandbox App. This turns proof-of-personhood into a concrete anti-sybil gate on both supply and demand sides of the marketplace.\n\nThe frontend is React + Vite + Tailwind, featuring a marketplace directory, a provider dashboard, and a live agent activity monitor that visualizes the payment moment (402 -> paying -> paid -> data received) with links out to HashScan. For Bazantic, we deployed an x402/MPP Gateway for our threat-intel service and authored a Recipe describing how an agent should stack-rank suspicious indicators by threat score, so the service is reusable and agent-consumable through the Recipe rather than a one-off integration.",
+  "auto_summary": "A TypeScript monorepo for a pay-per-query cybersecurity intelligence marketplace with agent discovery, payment gating, identity checks, and a live frontend.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cim-uvx7x",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,41 @@
+{
+  "id": "qxg77",
+  "slug": "omni-sdai",
+  "title": "Omni-sDAI",
+  "tagline": "Making sDAI (from SparkDAO) multichain using UMA. Users can deposit DAI, USDC, ETH and get access to Maker's DAI savings rate via Spark on their host chains starting with Scroll.",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qxg77/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MuOk2hF6yYeyxXuJhe718uQSLWhoipcrmXhrKpwmnVE/high.mp4",
+  "source_url": "https://github.com/yash-atreya/Omni-sDAI",
+  "prizes": [
+    {
+      "sponsor": "UMA",
+      "sponsor_id": "fp1x1",
+      "placement": "🏊‍♂️ UMA - Best Use",
+      "title": "UMA"
+    },
+    {
+      "sponsor": "Spark",
+      "sponsor_id": "t4tb4",
+      "placement": "🥉 Spark — Best use of sDAI 💸",
+      "title": "Spark"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Pool Prize",
+      "title": "Scroll"
+    }
+  ],
+  "finalist": false,
+  "description": "This project enables users to access MakerDAO's DSR on Scroll by making sDAI (from SparkDAO) multichain using UMA's optimistic oracle. It also enables users on Mainnet to deposit into the sDAI vault using a token of their choice without being restricted to Dai only.\n\nsDAI is an ERC-4626 vault on mainnet that gives access to the Dai savings rate. This vault only accepts Dai as a deposit and is only available on Mainnet.\n\nUsing UMA's Optimistic Oracle and external relayers, we can access the vault from any chain if necessary deployments have been made. In this case, I have deployed it to Scroll, but it could be deployed to any chain with minor modifications. \n\nMoreover, only Dai can be deposited in the sDai vault, restricting users who don't have Dai from participating. I built a sort of Multicall contract that enables users to deposit USDC, WETH etc and receive sDai.",
+  "how_its_made": "Cross-chain communication and relaying are enabled through UMA's optimistic oracle system. \nRelayers Fill and Assert users' deposits and withdrawals using DataAssertion contracts. A user takes less than a minute to get their deposit/withdrawal request fulfilled as relayers do most of the work, and dispute mechanisms handle fraud cases.\n\nHere's what a deposit flow would look like: \n1. User Deposit wrappedDai on Scroll into the ScrollSavingsDai contract.\n2. Relayer catches the deposit event and immediately fills the request by depositing Dai on mainnet and locking the received sDai into a pool.\n3. The Relayer asserts to the oracle that the request has been filled.\n4. On truthful resolution of the assertion, the oracle mints wrapped sDai on Scroll to the user.\n5. The relayer is reimbursed using the deposited wDai when it requests a reimbursement.\n\nHere's what a withdrawal flow would look like:\n1. User deposit wrapped sDai in the ScrollSavingsDai contract and request a withdrawal to wrappedDai.\n2. Relayer catches the withdrawal request and asserts it to the oracle on mainnet.\n3. On resolution, the oracle withdraws Dai from the mainnet sDai vault and locks the Dai on mainnet.\n4. Upon catching this lock event, the relayer fills the withdrawal request by sending the user wDai equivalent to what was received from the vault on mainnet. \n5. Relayer asserts to the oracle that the request has been fulfilled. \n6. On truthful resolution, the reimbursement is available to the relayer.\n\n\nLastly, on Mainnet, users can deposit any token into the vault as the middleware (MultiCall.sol) contract takes the deposit in any token, swaps it to Dai via Uniswap-v3 router and deposits Dai into the sDai vault and sends the sDai to the user in one transaction.\n\nFor a more detailed explanation, please take a look at the README.md and the tests (DepositFlow.t.sol and WithdrawalFlow.t.sol).\n\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/omni-sdai-qxg77",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "y8jgi",
+  "slug": "mini-amor",
+  "title": "Mini Amor",
+  "tagline": "Verified humans only. MINI AMOR uses World ID to stop bots, scams, and fake profiles in dating.",
+  "event": {
+    "slug": "taipei",
+    "name": "ETHGlobal Taipei",
+    "start_time": "2025-04-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y8jgi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00AfQ3gh92ILzErRisxtsqYJEu3xyc00phv9lsbSY2uQM/high.mp4",
+  "demo_url": "https://mini-amor.vercel.app/",
+  "source_url": "https://github.com/jesshew/eth_taipei_final",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "World Pool Prize",
+      "title": "World Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Online dating is broken — fake profiles, bots, and catfishing have eroded trust, making genuine connections difficult. Most platforms offer little to no identity verification, allowing bad actors to impersonate others, create multiple accounts, and exploit users at scale.\n\nMINI AMOR addresses this problem with a one-human, one-account model, enforced through World ID and built on World Chain.\n\nDuring onboarding, users verify their identity with World ID. Once verified, they can create a profile and cryptographically sign it using signAndVerifyMessage to confirm authenticity. This signature, along with key profile metadata, is recorded on-chain (on Flow).\n\nThe app offers optional premium features such as custom stickers and subscriptions. Payments are handled via World Chain using payWithWorldcoin, supporting tokens like WLD and USDCE.\n\n\nBy leveraging World ID, MINI AMOR eliminates identity fraud, deters bots, and restores trust to online dating — enabling safer, more meaningful connections.",
+  "how_its_made": "**1. Architecture Overview**\n\nMini Amor is a dating app integrated into the World App ecosystem, built using World ID for sybil-resistant verification and World Chain for on-chain payments. It follows a client-heavy architecture with no backend server. The frontend manages user sessions, form handling, wallet integration, and all verification/payment logic via SDKs.\n\nWorld ID’s MiniKit is central to the app. It handles both the identity verification (via zero-knowledge proofs) and token-based payments. Only minimal data, such as signed profile hashes, are written on-chain to validate authenticity without storing personal or sensitive content. All other operations — profile creation, chat, matching — are handled client-side.\n\n**2. Identity Verification & Payments**\n\nIdentity verification is handled entirely through MiniKit. On signup, users are prompted to verify using World ID via the MiniKit SDK. The process generates a ZK proof within the World App, which is returned to the mini app and validated without exposing user data.\n\nAfter verification, users can create a dating profile and cryptographically sign their details using `signAndVerifyMessage`. The resulting signature hash and minimal metadata are recorded on-chain. This proves that the profile was created by a verified human, without storing PII.\n\nWLD payments are used for premium features like stickers or subscriptions. The app uses `payWithWorldcoin` from MiniKit to trigger payments. This includes haptic feedback, payload construction (tokens, amount, reference), and an async payment flow. The result is returned to the frontend for UX feedback. No separate backend is required to manage or verify payments.\n\n**3. Technologies Used**\n\nThe app is built with Next.js (React 18) using TypeScript for type safety and maintainability. Tailwind CSS and Radix UI (via shadcn/ui) were used to build accessible and responsive UI components quickly.\n\nReact Hook Form and Zod manage form logic and validation with minimal boilerplate. React Query handles caching and async flows. For Web3 interactions, we used ethers.js with wagmi and viem to handle wallet connections, signature flows, and contract interactions.\n\nThe World ID MiniKit SDK powers verification and payment handling, integrating directly into the frontend. Nextjs ensures fast local builds and development feedback loops.\n\n**4. Notable Implementations & Hacky Fixes**\n\nIntegrating MiniKit came with several challenges. SDK documentation was incomplete, and some sample implementations failed out of the box. We had to dive into source code, build custom hooks around state flows, and patch UI inconsistencies.\n\nWorld App behavior was inconsistent across devices. We encountered long loading times, unexpected caching issues, and failed state hydration. To test in real conditions, we used NGROK tunnels to expose local builds and scan QR codes directly with World App on mobile.\n\nOperating without a backend added complexity around verification flow gating, signature handling, and error resolution — but also enabled full decentralization and privacy.\n\n**5. Why Partner Technologies Helped**\n\nWhile the documentation for World ID and World Chain was limited in areas, the available tutorials provided a solid starting point. The integration process was generally smooth thanks to MiniKit’s lightweight design. When we encountered issues — particularly inconsistent MiniKit behavior across devices — we took a proactive approach: debugging on-device, isolating problems, and reaching out to the Worldcoin team directly. The support was highly responsive, and most issues were resolved within an hour.\n\nThese challenges pushed us to better understand the SDK internals, build resilient workarounds, and move forward without blocking progress. The experience reinforced our team’s ability to stay agile, troubleshoot effectively under time pressure, and ship a working, verified dating app powered by on-chain trust.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mini-amor-y8jgi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

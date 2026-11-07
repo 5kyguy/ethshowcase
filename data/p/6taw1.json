@@ -1,0 +1,27 @@
+{
+  "id": "6taw1",
+  "slug": "klamp",
+  "title": "Klamp",
+  "tagline": "Issuers declare their token's canonical Uniswap v4 pool in ENSv2, so routers skip look-alike pools.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6taw1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/q89wiT6EmQeIbGpeyAQlyk9VB9dYRscrGDSRi1g47M00/high.mp4",
+  "demo_url": "https://klamp.kro.kr/",
+  "source_url": "https://github.com/EarthIsMine/klamp",
+  "finalist": false,
+  "description": "Anyone can create a Uniswap v4 pool for any token pair and attach any hook. A malicious hook can show a tiny fee when a router quotes and charge a large one when the swap executes, and traders lose the difference up to their slippage tolerance. A public BNB Chain case recorded a 12.8% fee on a USDC/WBNB hook pool.\n\nOn Sep 15, 0x posted \"Uniswap v4 hooks were a mistake\": a malicious hook doesn't need a UI, it just needs to look like the best quote. Hayden Adams replied \"Skill issue, don't route to bad hooks,\" pointing to Uniswap's API. 0x answered that the API still routes to bad hooks, citing an on-chain swap. Both sides agree the fix lives in routing, but today it is a private skill every router has to get right on its own. Klamp turns it into a public, on-chain rule.\n\nThe token's issuer declares its canonical pool once. Only the address the token's address cryptographically points to can declare it: the CREATE2 launchpad that deployed the token, or the creator proven by Uniswap LiquidityLauncher's graffiti for Pools.trade tokens. The record is permanent (no upgrades, all admin roles revoked) and lives in ENSv2 at <token>.tokens.klamp.eth, so any router or wallet reads it with standard ENS tools, no Klamp ABI needed.\n\nOur demo terminal quotes every candidate pool like a normal router, then looks up the canonical pool in ENS, judges the route, requotes around undeclared hooked pools, verifies the Universal Router calldata, and swaps. It is live on Sepolia with a hooked canonical pool (path A) and a Pools.trade-style token (path B), and a proof page re-reads every claim from Sepolia when it loads.\n\nKlamp needs no change to Uniswap. If Uniswap's launch strategy recorded the pool at launch and its router read the ENS record, every v4 launch would have a canonical pool from birth and hooks would become safe to route.",
+  "how_its_made": "Contracts (Solidity, Foundry): CanonicalPoolRegistrar has three issuer-proof entry points. recordByCreate2 recomputes CREATE2(msg.sender, salt, initCodeHash). For Pools.trade tokens we reuse Uniswap's own launch stack: LiquidityLauncher puts graffiti = keccak256(its caller) into UERC20Factory's CREATE2 salt, so UERC20Factory.getUERC20Address proves the creator without any change to Pools.trade. On-chain analysis showed most real launches (10 of 12 sampled) come from a constructor contract that self-destructs, so recordByLiquidityLauncherVia recomputes that address as CREATE(sender, nonce) with an RLP encoder. Before writing, the registrar checks that the token is deployed, is in the PoolKey, has no record yet, and that the pool is initialized (read directly from PoolManager with extsload).\n\nENSv2 (Sepolia Beta): klamp.eth points to our UserRegistry deployed through VerifiableFactory. tokens.klamp.eth is registered with zero roles and a PermissionedResolver. Token names are never registered: wildcard resolution answers every <token>.tokens.klamp.eth, so a record costs no registration. Key-scoped roles let only the registrar write pool (text eip155:chainId:poolId plus ENSIP-24 data abi.encode(chainId, PoolKey)); creators edit description/url through the registrar. No one was ever given an upgrade role, and we revoked our admin roles after setup; one REGISTRAR role stays on the klamp.eth registry for stage 2, and we checked on-chain that it cannot touch tokens.klamp.eth.\n\nUniswap: V4Quoter for quotes, Universal Router V4_SWAP calldata hand-encoded with viem and decoded again before signing (verifySwapCalldata), a demo delta-fee hook with a mined hook address, and a launchpad that creates the pool, adds locked liquidity and declares it in one tx. For Robinhood Chain, where ENSv2 is not deployed, the SDK falls back to verified TokenLaunched events from five trusted Pools.trade strategies. 10 Foundry fork tests on Sepolia: 7 against the live registrar, 3 replaying the full setup. A proof page re-checks the main claims from Sepolia on every load.",
+  "auto_summary": "This project records issuer-declared canonical Uniswap v4 pools in ENSv2 and uses that data to avoid unsafe hooked routing.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/klamp-6taw1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

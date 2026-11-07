@@ -1,0 +1,30 @@
+{
+  "id": "n10yp",
+  "slug": "federated-reserve",
+  "title": "Federated Reserve",
+  "tagline": "What if every US state had an AI treasurer? 50 sovereign agents, real capital on real public data.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n10yp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/m8OCehoSxnTX3kMK00iY00fD3ZMDefQz3Js6u027BNI2ec/high.mp4",
+  "demo_url": "https://fedreserve.live",
+  "source_url": "https://github.com/narasim-teja/federated-reserve",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "Best Autonomous Agents, Swarms & iNFT Innovations",
+      "title": "Best Autonomous Agents, Swarms & iNFT Innovations"
+    }
+  ],
+  "finalist": false,
+  "description": "Federated Reserve is a peer-to-peer mesh of 50 sovereign AI state-treasurer agents, one per US state, plus a Federal Reserve agent and a Treasury agent, running as separate nodes with no central coordinator. Each agent ingests live public economic data (FRED, BLS, BEA, Census, NOAA, GDELT), reasons over its state's economic position, and negotiates capital flows directly with its peers.\n\nThe agents do real fiscal work. They run bilateral swaps to rebalance reserves, issue municipal bonds with coupon and maturity that other states bid on in multi-bidder auctions priced off algorithmic credit ratings (AAA to D), form coalitions for shared aid pools, request emergency aid during stress, and coordinate joint responses to shocks (hurricanes from NOAA, market drawdowns, surprise rate moves). The Federal Reserve agent sets a base rate every tick; the Treasury agent manages federal-to-state transfers. Every accepted decision settles as a real onchain transaction on Unichain. Persistent memory is anchored to decentralized storage, and the eight headline state-agents (AK, CA, FL, IL, MA, NY, TX, WA) are minted as ERC-7857 iNFTs: transferable, ownable AI policymakers whose persona, strategy, and complete decision history travel with the token.\n\nThe thesis is a falsifiable empirical question. Given the same public information, can a network of AI agents allocate capital and coordinate fiscal response better than the humans currently doing it? Each agent decision is logged with full reasoning, against the historical baseline of what the actual policymaker did at the equivalent moment. The pitch to a state treasurer or a sovereign-wealth office isn't \"replace the humans,\" it's \"here's a co-pilot that has been running on public data, here's where it agreed and disagreed with reality, here's why.\"",
+  "how_its_made": "The system is a Bun + TypeScript monorepo. Each agent runs as a sovereign node: its own encrypted peer-to-peer transport binary, a per-host MCP router and A2A server bridging into the mesh, and a local tick loop that ingests public economic data, reasons over it, negotiates with peers, and settles capital flows onchain.\n\nInter-agent communication. Agents talk to each other over AXL, an encrypted peer-to-peer network with zero infrastructure. Your app talks to localhost, AXL handles routing, encryption, and discovery across the mesh. We layer two protocols on top: MCP for single-shot peer to peer calls (treasury queries, indicator sharing, topology gossip) and A2A for multi-turn skills (bilateral swap negotiation, bond auctions, coalition formation, emergency aid, shock coordination). Discovery is a custom 1-hop gossip layer over MCP because AXL's spanning-tree topology is eventually-consistent; broadcast is an app-level fan-out since AXL has no native pubsub. Both protocols are bridged through Python sidecars (per host) into the AXL Go node.\n\nOnchain settlement. Every accepted bilateral negotiation fires a real swap on Unichain Sepolia via the Uniswap Trading API: check-approval, quote, sign Permit2 (EIP-712), fetch swap, submit. Bond auctions mint ERC-20 bond tokens with a coupon and maturity (for example NY-2030-Q1-A at 425bps coupon, 1000 USDC principal), priced off an algorithmic credit-rating model that scores each issuer on reserve ratio, unemployment, per-capita income, GDP growth, poverty rate, and active shock pressure. The winning bidder receives the bond token, and principal in USDC moves to the issuer in the same window. Smart contracts (state tokens, bond tokens, the iNFT, the verifier oracle, mock USDC) are written in Solidity, deployed with Foundry, and signed/sent through viem. We seed our own V3 pools on testnet and use the Trading API to route swaps through them.\n\nPersistent intelligence. Each headline agent is minted as an ERC-7857 iNFT on 0G Galileo. The agent's persona, treasury composition, decision log, and reflection history are AES-256-GCM encrypted, uploaded to 0G Storage, and anchored onchain via updateMetadata on every material state change. The AES key is sealed under the current owner's secp256k1 public key using ECIES (ECDH, HKDF-SHA256, AES-256-GCM wrap), so transferring the iNFT transfers the underlying intelligence: a new owner unseals the key with their private key, downloads the encrypted bundle by root hash, and decrypts it. The same 0G Storage SDK doubles as the durable substrate for live agent KV state and append-only log, with a local disk hot mirror so reads and writes never block on the network.\n\nLLM and frontend. All reasoning calls route through OpenRouter powering the deep state agents and the observer states, and aggressive prompt caching (~99.9% hit rate) cutting per-call cost roughly 10x. The dashboard is Next.js + deck.gl, with a live message feed, a US choropleth showing treasury health, and capital-flow arcs animating between states on every settled swap. Public economic data is ingested from FRED, BLS, BEA, Census, and NOAA through a shared read-only sidecar that fans out to every agent.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/federated-reserve-n10yp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

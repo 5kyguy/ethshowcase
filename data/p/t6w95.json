@@ -1,0 +1,22 @@
+{
+  "id": "t6w95",
+  "slug": "uniyield",
+  "title": "UniYield",
+  "tagline": "“One-click cross-chain USDC deposits into an ERC-4626 vault that auto-optimizes DeFi yield.”",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/t6w95/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sHYAf02q5RBlTIkCC002V665P9IvnzKT19RYNYuw8Tf01c/high.mp4",
+  "demo_url": "https://uniyield.vercel.app/",
+  "source_url": "https://github.com/UniYield/uni-yield-core",
+  "finalist": false,
+  "description": "UniYield is a cross-chain USDC yield vault that uses LI.FI as a universal cross-chain transport and execution layer to dramatically simplify DeFi user experience, while keeping all yield logic fully on-chain and protocol-native.\n\nUsers can deposit USDC from any chain (Base, Arbitrum, Polygon, BNB, etc.) in a single action. LI.FI handles route discovery, bridge selection, swaps, and destination execution across chains, abstracting away cross-chain complexity that would normally require multiple transactions and manual decisions. Rather than acting as a simple bridge, LI.FI is used to compose arbitrary on-chain actions: after moving funds to the chosen destination chain, LI.FI performs the required approvals and directly calls UniYield’s vault contract.\n\nOn the destination chain, UniYield takes over. Capital is deposited into an ERC-4626 vault where all accounting, share minting, and risk controls are enforced on-chain. The vault automatically allocates USDC across lending venues such as Aave, Morpho, and Compound based on real-time rates and configurable thresholds, and can rebalance over time. Users receive a single standardized vault share token, instead of managing multiple protocol-specific receipt tokens.\n\nBy cleanly separating responsibilities, UniYield demonstrates a powerful architectural pattern: LI.FI as the any-to-any cross-chain execution layer, and UniYield as the on-chain yield engine. This design enables true one-click cross-chain DeFi, remains fully non-custodial, and can naturally extend to new destination chains and strategies in the future.",
+  "how_its_made": "UniYield is built around a modular ERC-4626 vault implemented using a Diamond (EIP-2535) architecture, where each facet acts as an adapter to an underlying lending protocol (Aave, Morpho, Compound). This allows strategies to be added, removed, or reconfigured without redeploying the vault, while keeping accounting, share minting, and risk controls fully on-chain.\n\nLI.FI is used as a cross-chain transport and execution layer, not as a simple bridge. The frontend queries LI.FI’s routing APIs to discover optimal any-to-any routes, including swaps, bridges, and execution costs. On the destination chain, LI.FI composes execution by performing ERC20 approvals and calling the vault’s deposit function directly, enabling a true one-click cross-chain deposit flow. This cleanly separates concerns: LI.FI handles routing and execution, while UniYield focuses purely on on-chain yield logic.\nThe frontend is built with React and wagmi/viem, and exposes rich LI.FI route metadata (tools used, fees, ETA, and step breakdown) to make cross-chain execution transparent. A temporary “bridge-to-self” mode was added to validate LI.FI integration end-to-end before vault deployment, demonstrating a pragmatic, hackathon-driven development approach.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/uniyield-t6w95",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

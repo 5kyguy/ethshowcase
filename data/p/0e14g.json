@@ -1,0 +1,42 @@
+{
+  "id": "0e14g",
+  "slug": "oathlock",
+  "title": "OathLock",
+  "tagline": "Escrow contract for payment of eCommerce with real shipment result onchain (EAS).",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0e14g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/x3xhpDx5i1X01Pn36caVlmJuJDJNbW7rxa02wPMi7Yw5Q/high.mp4",
+  "demo_url": "https://oathlock.ngrok.io/ui/ethereum-collection.html",
+  "source_url": "https://github.com/rtree/OathLock",
+  "prizes": [
+    {
+      "sponsor": "Zircuit",
+      "sponsor_id": "qiqkw",
+      "placement": "1st place",
+      "title": "Best App Idea"
+    },
+    {
+      "sponsor": "Flow",
+      "sponsor_id": "fjaae",
+      "placement": "Flow Builder Pool Prize",
+      "title": "Flow Builder Pool Prize"
+    },
+    {
+      "sponsor": "Nora",
+      "sponsor_id": "o599i",
+      "placement": "Best Use of Nora for AI Coding",
+      "title": "Best Use of Nora for AI Coding"
+    }
+  ],
+  "finalist": true,
+  "description": "OathLock reveals onchain reputation of past eCommerce transaction as past payment with dispute, that were going through this excrow contract, were stored into EAS: Ethereum Attestation Service.\n\nOathLock also has builtin seller aligned incentive design for dispute resolving, which results in good person takes good financial benefit in long term.\n\n--------------------\nWhat it solves\nGlobal e-commerce is ~$5T in 2025 (≈+12% YoY) and projected to surpass $7T by 2030, yet ~$500B is lost annually to counterfeit and fraud—especially in fashion, cosmetics, and electronics.  OathLock reduces these losses by making reputation an enforceable, portable primitive: sellers and buyers accumulate negative-only attestations that cannot be gamed with fake positives.\n\n--------------------\nHow it works at a glance.\n\n1) Buyer opens an Oath (seller, expiry) and deposits USDC. Past attestations are visible before committing.\n\n2) Seller verifies the Oath and buyer's past attestations also, ships, and commits a tracking hash (deadline-gated).\n\n3) Buyer inspects on arrival:\n     Approve ->  immediate release to seller (even before expiry)\n     Dispute (non-delivery/counterfeit with evidence URL) -> no refund, but a negative attestation is recorded\n\nX) At expiry: Anyone can call settle(id) to guarantee liveness.\n      not shipped -> refund to buyer; \n      shipped -> full payment to seller. \n\nThis design removes the free-riding incentive for malicious buyers while crowd-sourcing high-signal evidence against bad sellers. When a seller’s fraud is confirmed by accumulated attestations, harmed buyers receive an information-provider reward—prioritizing prevention of future damage while keeping settlement rules simple and predictable.\n",
+  "how_its_made": "- Contracts & Tokens\n\n    - OathLockEAS.sol (EVM) — escrow state machine: createOath(), sellerShip(), buyerApprove(), buyerDispute(), settle().\n\n   -  USDC (ERC-20) as the settlement asset; amounts locked/released by contract rules.\n\n- Attestations & Reputation\n\n   -  Integrates EAS (Ethereum Attestation Service) for immutable negative-only reviews and dispute tags (e.g., NON_DELIVERY, COUNTERFEIT, ABUSE).\n\n  -  Both sides accrue histories (buyers’ dispute habits are also visible), enabling markets to price trust over time.\n\n  -  Emits a full audit trail:\nOathCreated, SellerShipped, BuyerApproved, BuyerDisputed,\nSettledToSeller, RefundedToBuyer, Expired.\n\n- Chains and limitations\n\n    - Flow EVM (mainnet/testnet) with EAS integrations\n    - Zircuit mainnet with no EAS integration, but expecting their scam transaction takedowm feature.\n\n- Extensiblility\n    Rolling reserves, AI risk scoring, community arbitration (ERC-792/Kleros), automation for time-based settlement, cross-chain flows, and AVS-style watchers slot in without changing the MVP’s core.\n\n- Notable hacks / choices\n\n     - One-shot dispute before deadline to prevent spam and last-minute griefing.\n\n    -  Negative-only scoring to avoid review-gaming; quantity + tags > easily faked positives.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/oathlock-0e14g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

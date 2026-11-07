@@ -1,0 +1,27 @@
+{
+  "id": "6d2cf",
+  "slug": "relational-agents",
+  "title": "Relational Agents",
+  "tagline": "Agents born from relationships, not people — remembering only what the two of you shared",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6d2cf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/isIUWoWrMajeBkwI4SoZI00xdUVGvIM3AH00W59hRLJq4/high.mp4",
+  "demo_url": "https://memory.ainetwork.ai",
+  "source_url": "https://github.com/ainetwork-ai/relational-agents",
+  "finalist": false,
+  "description": "Today's AI agents represent a person — one agent, one big memory. That leaks by default: Chanho's agent knows he ate egg tarts in Lisbon with Hannah, so when Ava innocently asks \"Does Chanho like egg tarts?\", another relationship's memory walks out. Nobody hacked anything — the agent was just being helpful.\n\nWe propose the relational agent: an agent that belongs to a relationship, not a person. It is born only when everyone in the relationship signs the same EIP-712 consent with their own wallets; the signatures mint the agent in our ERC-8004-compatible registry on Sepolia, owned by the relationship itself. Each relationship gets exactly one memory bundle (OKF Markdown files), gated at the filesystem level — the Chanho–Ava agent literally cannot open the Chanho–Hannah folder. Isolation is structural, not a rule the model must remember.\n\nThe agent files shared photos into the Timeline, answers from memory with sources, and grows the relationship — planning dates from what it remembers (\"Ava loves sunsets → Belém Tower at golden hour\"). Closing mirrors birth: leaving requires every member's signature; the chat closes, the record stays sealed. One relationship = one agent = one memory = one on-chain identity. You see me, therefore I am.",
+  "how_its_made": "Stack: Next.js 16 + Postgres/Drizzle for the workspace app, Solidity for the registry, viem + MetaMask for wallets, a local LLM behind a provider port for agent replies.\n\nThe contract: RelationalAgentRegistry.sol is a dependency-free, ERC-8004 (Trustless Agents) compatible identity registry with one twist — registerRelationalAgent() only mints when EVERY party's EIP-712 RelationConsent signature verifies on-chain. The agent NFT is minted to the registry itself (jointly owned by the relationship, no transfer function), relationId = keccak256(roomId), and a relayer submits the signature set so no member pays gas. Fun bug: wallets hash EIP-712 address[] as 32-byte words while abi.encodePacked packs 20 bytes — we had to bytes32-encode each element or every signature \"failed\". Dissolution mirrors birth: dissolveRelationalAgent verifies a RelationDissolve from all parties and stamps dissolvedAt — no burn, the record outlives the relationship.\n\nMemory: each relationship gets one OKF (Open Knowledge Format) bundle — a folder of Markdown files that IS the database. The agent appends memories and answers by reading them back with sources. An okf_acl gate on every read path (pages, search, MCP) makes other bundles unreachable at the filesystem level. Each agent is also a first-class A2A participant (agent card + JSON-RPC, per-member bearer tokens), and the bundle is exposed over MCP for external agents.\n\nHacky-but-notable: agent replies are LLM-emitted JSON that can attach images — whitelisted to local /uploads/* paths cited in the relationship doc, so the model can \"show\" a memory but never exfiltrate an arbitrary URL.",
+  "auto_summary": "A Next.js app and supporting contracts create relationship-scoped AI agents with isolated memory, wallet-based consent, and optional World ID and Sui integrations.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/relational-agents-6d2cf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

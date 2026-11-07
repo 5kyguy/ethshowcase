@@ -1,0 +1,27 @@
+{
+  "id": "hhjse",
+  "slug": "aegis",
+  "title": "Aegis",
+  "tagline": "The safe execution layer for agentic payments: MEV free batch settlement, run by an agent",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hhjse/banner/default.jpg",
+  "video_url": "https://stream.mux.com/k011DZFAWEVrQDJZ3DhdjknTrn6cj02DRisWJLCo1j8g4/high.mp4",
+  "demo_url": "https://github.com/ParthRathix0/aegis",
+  "source_url": "https://github.com/ParthRathix0/aegis",
+  "finalist": false,
+  "description": "Agents can move money now. The problem is that every payment an agent makes onchain is mempool-visible before it lands, which means bots can front-run it. Aegis is the payment infrastructure that fixes this.\n\nUsers and agents submit payment intents. Aegis pools them into a batch and settles at a single uniform clearing price. There is nothing to front-run because no individual order is visible until the whole batch settles. The price is computed from three independent oracle networks (Chainlink, Pyth, API3) with dynamic weighting, so there is nothing to manipulate either.\n\nThe Solver Agent drives the entire lifecycle autonomously. It reads live batch state from a The Graph subgraph, collects oracle prices from Chainlink Data Feeds, matches orders internally, routes uncrossed liquidity to 1inch Aqua, and settles onchain in native USDC via the Circle Agent Stack. No human turns any crank. Remove the agent and nothing settles.\n\nThis is a Continuity submission. Aegis V3, a live verified batch settlement engine on Sepolia with multi-oracle dynamic weighting, existed before ETHOnline. At the hackathon we replaced mock oracles with live Chainlink, Pyth and API3 feeds, upgraded to real two-asset WETH/USDC swap execution in AegisV4, built the Graph subgraph the agent depends on, and shipped the Solver Agent on the Circle Agent Stack with USDC settlement verified on both Sepolia and Arc testnet.\n\nAegisV4 is live and verified on Sepolia at 0x0a16364229EeFDA44332cB6D194E20937C51CE5b. Native USDC settlement is proven on Arc testnet (chain 5042002). Evidence is in agent/settlement-evidence.sepolia.json and agent/settlement-evidence.arc.json.",
+  "how_its_made": "The stack is Scaffold-ETH 2 with Hardhat, ethers v6, Next.js, Wagmi and Viem. The core contract is AegisV4.sol, a permissionless 4-phase batch settlement engine forked from the pre-existing AegisV3 and extended with real two-asset swap economics (WETH base, USDC quote) and provably-solvent fill accounting. The Solver Agent is TypeScript with Vitest and 20 unit tests green.\n\nChainlink powers the price layer. The existing contract already used the Chainlink latestRoundData() interface, so replacing five MockOracle contracts with the live ETH/USD Data Feed (0x694AA1769357215DE4FAC081bf1f309aDC325306, stack 1), a PythOracleAdapter (stack 2) and an API3OracleAdapter (stack 3) was close to a drop-in. Each adapter exposes the same latestRoundData() surface at 8-decimal scale. Dynamic confidence weighting picks the most reliable reading per batch. The API3 proxy is verified live at roughly $2,460 on Sepolia.\n\nThe Graph is the agent's data source. A subgraph in subgraph/ indexes all seven AegisV4 events including BatchCreated, Deposited, OraclePriceCollected, OracleWeightUpdated and BatchSettled into five entities. The Solver Agent queries it for live batch phase and oracle state on every tick. A direct contract read fallback activates when the subgraph is unavailable, so the agent never stalls.\n\nCircle and Arc handle settlement. The Solver Agent routes all write transactions through a Circle developer-controlled wallet using createContractExecutionTransaction. It drives every permissionless phase transition automatically. 5 USDC settled agent to counterparty on Sepolia and again on Arc testnet (chain 5042002, native USDC gas). The Circle wallet (0xd503dd91837dde9fb7d96628acfdae45058c57fd, state LIVE) is verified via yarn circle:verify.\n\n1inch Aqua is integrated but not submitted due to the 3-track limit. AquaRouter.sol forwards uncrossed batch remainder to the official 1inch SwapVM entrypoint at 0x111111338c5091E8440b67B168bAe16a668AC0De. It is fork-tested against a MockAqua with the money path deterministically covered.\n\nThe part worth highlighting: the Solver Agent's decideAction() core is a pure function. Given batch state and block number it returns the next action with zero side effects. This made it possible to exhaustively unit test all phase-transition edge cases before touching any onchain code, and then plug the same function into the live executor unchanged.",
+  "auto_summary": "A batch-settlement protocol and solver agent that use oracle data, indexed events, and Circle wallet execution to automate USDC-denominated swaps.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aegis-hhjse",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

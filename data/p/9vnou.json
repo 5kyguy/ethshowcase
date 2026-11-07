@@ -1,0 +1,41 @@
+{
+  "id": "9vnou",
+  "slug": "lotus",
+  "title": "Lotus",
+  "tagline": "A directional liquidity for big holders, sell on the way up, never re-buy.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9vnou/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HXf00P2OZpNJ8oSywsbD4bDitRjzxtHc91MM02I00fHiyM/high.mp4",
+  "demo_url": "https://lotusfi.vercel.app/",
+  "source_url": "https://github.com/Lotusfi/Lotus_main",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "2nd place",
+      "title": "Build an Aqua App"
+    },
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Best Uniswap API Integration"
+    }
+  ],
+  "finalist": true,
+  "description": "Lotus is one-way directional liquidity, a maker primitive where inventory only moves one way and never trades back.\nA normal range order is reversible: if price falls back through it, it re-buys the asset you just sold, so you round-trip your inventory. Big holders therefore avoid on-chain depth. Lotus makes liquidity a directional intent: a maker deposits BASE across ascending price bins, takers buy cheapest-first, and once a bin fills the proceeds become claimable and can never re-enter the market, a monotonic invariant, no keeper, no oracle.\nFull cycle: entry via a single LI.FI Composer Flow (swap → createLadder from any token/chain); fills from the same ladder exposed on two venues, a 1inch SwapVM ONEWAY_FILL opcode and a Uniswap v4 hook, both converging on one frozen core; idle inventory earns yield in a real ERC-4626 vault (Morpho/Aave), recalled just-in-time on a fill; claim withdraws proceeds that never reverse.",
+  "how_its_made": "Contracts: Foundry, Solidity 0.8.30, via-IR. A frozen core (LotusPositionManager) holds all ladder/fill/claim logic behind one seam, _quoteBins and _consumeBins share identical math, so a static quote always equals the swap. Every venue routes through the same recordFill.\n\n1inch Aqua: LotusSwapVMRouter is SwapVM inherits the real 1inch SwapVM and adds three custom opcodes (ONEWAY_FILL, ONEWAY_FILL_BEST, ONEWAY_FILL_LIFI) via _instructions(); native settlement moves QUOTE↔BASE, maker is an EIP-1271 signer.\n\nUniswap v4: Lotusv4Hook is a custom-curve hook (beforeSwapReturnDelta) filling the same ladder, proceeds minted as ERC-6909 then settled via the PoolManager.\n\nLI.FI Composer: the maker entry is one signed Flow (@lifi/composer-sdk): swap → approve → rawCall(createLadderFor) compiled via /compose — deploy a ladder from any token in one signature.\n\nYield JIT: idle inventory sits in a real ERC-4626 vault (Morpho/Aave), recalled just-in-time inside the fill; a failed recall reverts the swap — no keeper, no oracle.\n\nHacky bits: a fork test proves the deployed 1inch router on Base is an older 28-opcode build (extruction at index 32 reverts); we size the Composer ladder off the route's guaranteed minimum and use createLadderFor so the maker is the EOA, not the proxy; CREATE2 salt-mining gives the v4 hook its permission flags. 159 tests, many forking real Base state.",
+  "auto_summary": "Lotus is a directional on-chain liquidity protocol with a shared core accessed through LI.FI Composer, 1inch SwapVM custom opcodes, and a Uniswap v4 hook.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lotus-9vnou",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

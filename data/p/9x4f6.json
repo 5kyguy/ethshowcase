@@ -1,0 +1,27 @@
+{
+  "id": "9x4f6",
+  "slug": "kairos",
+  "title": "Kairos",
+  "tagline": "Kairos auctions temporary Uniswap v4 app-fee rights through sealed bids.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9x4f6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EwvWd7d13tfJwYGO00UF99GvsMTDEyCaCeVqMEJKEN00U/high.mp4",
+  "demo_url": "https://kairos-lemon-delta.vercel.app",
+  "source_url": "https://github.com/Sarnav07/Kairos",
+  "finalist": false,
+  "description": "Kairos turns a temporary trading privilege into an open, accountable market. Bidders first commit a domain-bound hash, then reveal a funded MockUSDC bid. The highest valid reveal wins a fixed-time right to route one KRA/KRB pool through an authenticated Uniswap v4 executor without paying Kairos's 5 bp application surcharge. The pool's 25 bp LP fee remains unchanged.\n\nThe workstation makes the full lifecycle legible: fixed scheduling, encrypted local secret recovery, allowance and balance preflight, wallet-confirmed commit/reveal/refund/proceeds actions, live countdowns and event evidence, and a value calculator for comparing expected surcharge savings with bid and gas cost. A one-click local rehearsal proves the full interaction even if a public RPC or wallet is unavailable during judging.\n\nThe auction, executor, fee hook, MockUSDC, KRA/KRB tokens, and hook-enabled pool are deployed on Unichain Sepolia. Kairos clearly separates verified deployment receipts, local simulation receipts, and the still-pending public two-bidder auction rehearsal.",
+  "how_its_made": "Kairos is a Solidity and React implementation built around unmodified Uniswap v4 core. PFDAAuction implements fixed-window sealed first-price commit/reveal allocation. Commitments bind chain ID, auction address, auction ID, bidder, bid amount, and salt; equal bids favor the earlier commitment. Successful revealers recover their fixed bond, non-revealers forfeit it, and pull-based settlement keeps operations bounded.\n\nPFDAExecutor authenticates the active winning caller and scopes eligibility to the current pool swap. PFDAFeeHook uses v4 hook accounting to collect a separate 5 bp application surcharge from ordinary callers and waive only that component for the eligible executor path. It does not modify the configured LP fee or claim to waive a native Uniswap protocol fee. PFDAHookDeployer mines the CREATE2 address bits required by v4 hook permissions.\n\nThe Vite/React/TypeScript workstation uses viem for Unichain Sepolia reads and explicit wallet writes. It validates immutable wiring, encrypts bid recovery records locally with AES-GCM, checks commitment recovery before reveal, surfaces event receipts, and models fee-right value without presenting a quote or forecast. Foundry unit, integration, fuzz, invariant, and real-v4 tests cover the contracts; Vitest covers domain binding, the vault, dashboard, wallet runtime, and value arithmetic.",
+  "auto_summary": "A Solidity and React project that auctions temporary eligibility for a custom Uniswap v4 swap surcharge waiver.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kairos-9x4f6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

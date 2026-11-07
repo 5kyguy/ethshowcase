@@ -1,0 +1,34 @@
+{
+  "id": "bat5v",
+  "slug": "riverswap",
+  "title": "RiverSwap",
+  "tagline": "Auction-Managed AMMs: A market for DeFi liquidity provider optimization",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bat5v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yaB4knnzuCKASUJ53ZKNmoWGZFsCOuPVMFxOOk9Zd6g/high.mp4",
+  "source_url": "https://github.com/matcha-bros/river-swap",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "1st place",
+      "title": "Build an Aqua App"
+    }
+  ],
+  "finalist": true,
+  "description": "RiverSwap is \"am-AMM: An Auction-Managed Automated Market Maker.\" built on top of 1inch SwapVM and Aqua.\n\nWe fix two major issues with conventional AMMs:\n1 - Liquidity providers (LPs) systematically bleed money to arbitrage bots, a cost that has been coined \"loss versus rebalancing\" or LVR.\n2 - LPs have their assets locked in the pool of liquidity. They surrender custody and the ability to use capital for anything else (lending, collateral, governance…)\nThese issues are not easy to fix:\n1 -\n    a) Increasing the trading fees to 'give back' value to LPs makes the protocol less competitive for swappers.\n     b) Finding the 'right' fee is hard. Worse, it may change dynamically depending on market conditions. Yet many conventional AMMs still offer static fees.\n2 -By design of AMMs current implementations, funds are locked.\n\nRiverSwap comes to the rescue.\n1 - Inspired by Adams et al., we auction the right to set and to capture the trading fee. LPs are now compensated by the rent created by the highest bid. The complex problem of setting the 'right' fee is now 'solved' by market participants.\n2 - We build on 1inch's Aqua, a shared liquidity layer, so LPs never lock their assets in a pool contract at all. Funds stay in the LP's own wallet and are only pulled atomically at the exact moment a swap executes. The same capital stays fully self-custodial and can keep working elsewhere.\n\nWe expect this protocole to be more competitive for both LPs and swappers, leaving less money to arbitragers. \n\nOur core contribution is to\na) implement Adams et al.'s research using 1inch's SwapVM and Aqua.\nb) extend the original research to Uniswap-V3-style concentrated liquidity (rather than Uniswap-V2-style liquidity).",
+  "how_its_made": "River Dex uses 1inch's SwapVM and Aqua to build an auction-managed automated market maker (am AMM). It came down to two major pieces of work:\n\n1) a new SwapVM opcode that makes the fee auction possible\n2) a Tycho indexer integration that reconstructs a single liquidity pool out of distributed orders.\n\n1) The core of the build is a custom SwapVM opcode, _aquaAccountedDynamicFeeAmountInXD. It does two things at once: it applies a dynamic fee that's read at swap time rather than hardcoded, and it accounts the fees generated through Aqua so we can track exactly how much each pool produces per period. \n\n2) Because SwapVM liquidity is order based and distributed, there's no single pool contract holding reserves; the \"pool\" is really a universe of individual signed orders and a solver can't just read a reserve to price it. So we built a Tycho integration to index that universe of active order and  reconstruct the pool state off-chain. ",
+  "auto_summary": "RiverSwap builds an auction-managed AMM on top of 1inch Aqua and SwapVM, with contracts, scripts, UI, and Tycho-related indexing work.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/riverswap-bat5v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

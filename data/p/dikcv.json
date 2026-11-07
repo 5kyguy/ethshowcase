@@ -1,0 +1,30 @@
+{
+  "id": "dikcv",
+  "slug": "zkpg",
+  "title": "zKPG",
+  "tagline": "Descentralized audivisual content authenticity validation using zero knowledge proofs, user validation and attestations.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dikcv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sOXPmKfLGl5LogacFmrG8200kntpjmqzzU01vtaDHG3xw/high.mp4",
+  "demo_url": "https://zkpg.vercel.app/",
+  "source_url": "https://github.com/Rcontre360/zkpg",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🆔 Polygon — 🥈 Best use of Polygon ID",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "This project uses ethereum attestation service and polygon ID. There are many issues when proving that an image is true, we are attacking the problem from the creation of the image until further modifications like cropping and resizing.\n\nWe used Polygon ID to make a very similar schema to the used by devices in the C2PA standard https://en.wikipedia.org/wiki/C2PA. This standard provides all the specifications about an image and it's signer from a camera with specialized hardware. The standard is being developed by companies like Sony, Adobe, etc. Once a user/device is confirmed to have a valid Polygon ID with the standard's schema, we allow it to upload an attestation of the image (hash, signature, and wallet) into the Ethereum Attestation Service.\n\nThis attestation allows us to have a commitment to the image in the blockchain, also allows us to verify the device account used to sign the image. Up until here, we are all good with validating images, but we have a problem. What happens when an editor wants to modify an image? Its hash will change and we won't be able to verify its authenticity or if it has been modified correctly (example of incorrect modification is using adobe firefly). \n\nWe used zero knowledge proofs to verify the changes made to each image. According to this article by Dan Boneh https://medium.com/@boneh/using-zk-proofs-to-fight-disinformation-17e7d57fe52f  it's possible to prove assert that computation (in this case image modifications) have been done correctly. Once we pass the modified and original images through the circuit, we can generate a proof that asserts that the resulting image comes from an originally correct image. We developed circuits to proof cropping, resizing and gray scaling of images using the Circom language.\n\nSince our project attacks the misinformation issue since the image creation, we can track all the modifications using attestations and zk proof. This way, a user that has a modified image can verify that it comes from a device using C2PA standard and verify that all the modifications to the image were correct. \n\nWe deployed all our contracts in Mumbai, including the Ethereum attestation service contracts and all the necessary polygon ID contracts to be able to verify users.",
+  "how_its_made": "We created a schema in Polygon ID using the schema builder (https://schema-builder.polygonid.me/), as mentioned before, trying to include a baseline of the most important components from the C2PA specification (https://www.w3.org/TR/vc-data-model/#dfn-issuers) for issuers allow verifying an image. We intended to deploy our own on-chain issuer, but due to time constraints, we default to using the issuer provided by the Polygon team (https://issuer-demo.polygonid.me/) to issue this credential into our Polygon ID wallet. All the interactions were tested using the official Android app. Afterward, we also deployed our own verifier that extends the ZKProver, so we can funnel down the verifications to enable users to interact with our platform and add attestations into the system. All the libraries and contracts were directly taken from idem3 protocol, and deployed where necessary into the Mumbai testnet. \n\nLastly, we generated our queries using the ZK Query Language to be able to create our QR Code and request the user for their credentials. This includes a manual generation of the Merkle proof for the requested field of verification using a small Golang script provided by the Polygon team in their docs.\n\nAbout the Zero knowledge system we used. We created our circuits in Circom, we used the Plonk proving system with it. We also used Snarkjs to set up, create, validate and make the proofs. Furthermore, we used solidity to validate the proofs on chain and be able to give access to our contract to make the attestations. \n\nAs a registry for the image hashes, signatures and proofs, we used the Ethereum Attestation Service. With it, we were able to store all the verifications on chain to make them available for other verifiers later. There are 2 kinds of attestations in our contracts, original image attestation (image without modifications) and attestation of modifications (image with modifications).\n\nOur core contract ZKPG uses PolygonID to validate users when they create an attestation with an original image (image without modifications). If they are rejected by the PolygonID validation system they are not able to create the first image. The contract also handles attestations each time a user is validated or wants to make a modification. When a users wants to upload an attestation of an image modification it must upload a proof of the modification of the image. This proof must be validated by our Plonk verifier (depends if the modification is cropping, gray scaling or resizing), after that the contract creates the attestation of modification.\n\nOur frontend uses Next.js and common web3 utilities to manage the frontend, we use Metamask as our primary wallet and Snarkjs to manage all the ZK proving system in the browser.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkpg-dikcv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "yyeuw",
+  "slug": "bip-build-in-public",
+  "title": "BIP -Build in Public",
+  "tagline": "Turn your dev work into engaging tweets. Build in public, effortlessly.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yyeuw/banner/default.jpg",
+  "demo_url": "https://www.get-bip.app",
+  "source_url": "https://github.com/0xleal/bip-app",
+  "finalist": false,
+  "description": "BIP helps developers build in public by automatically transforming their work into shareable content. Connect your GitHub and Notion to track commits, code changes, and notes. Add manual learnings and set your tone of voice using your past tweets. With one click, BIP's AI generates engaging social media posts that showcase your progress, discoveries, and insights. Stop overthinking what to share—let BIP turn your daily work into authentic content that resonates with your audience and builds your developer brand.",
+  "how_its_made": "BIP App is a Next.js 16 full-stack app using the App Router with server actions for type-safe data operations. We authenticate via NextAuth.js with GitHub OAuth, store everything in Supabase (PostgreSQL), and generate content with Anthropic's Claude Sonnet 4.5. The UI is Tailwind CSS 4 + Radix UI components.\n\nDual GitHub API calls: The Events API doesn't include full commit messages, so we fetch events first, extract repo names, then hit the Commits API separately for each repo to get actual commit details (app/actions/github.ts:129-159). Gives us rich data while staying within rate limits.\n\nNotion content scraping: The official Notion SDK only returns structured blocks, not readable text. We built a custom scraper using cheerio to fetch public page URLs and extract plain text content for better AI prompts (lib/notion/client.ts).\n\nTwitter tone analysis hack: We use Twitter's free oEmbed API (no auth needed!) to fetch tweets, then feed them to Claude for tone-of-voice analysis. This generates a comprehensive style guide we store and apply to future content. Saved us hundreds per month vs. Twitter's official API (lib/twitter/analyzer.ts).\n\nSmart deduplication: Custom cleanup logic runs before each Notion sync to remove duplicate page entries, keeping only the most recent by timestamp (app/actions/notion.ts:208-261).\n\nJSON extraction with fallbacks: Claude sometimes wraps responses in markdown code blocks, so we use regex patterns with fallbacks to extract JSON reliably (lib/ai/client.ts:92-101).\n\nWe also built custom rate limiting in Supabase with daily/weekly quotas that auto-reset at UTC midnight to control API costs while allowing demo usage.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/bip-build-in-public-yyeuw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "avq5j",
+  "slug": "hive",
+  "title": "Hive",
+  "tagline": "Peer-to-peer auction floor where scout agents negotiate with worker agents to hire AI for tasks.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/avq5j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kebznrcGphxfW00cs00KkzNz6o2RSqIV902c2zZo01rJkEU/high.mp4",
+  "demo_url": "https://hive-pink-five.vercel.app/",
+  "source_url": "https://github.com/sylesh7/hive",
+  "finalist": false,
+  "description": "HiveBid is a trustless, peer-to-peer marketplace for hiring AI agents to complete tasks — with no platform fees, no custody of user funds, and no central server. Users post a task with a budget and deadline, and two simultaneous competitions begin. Worker agents across a mesh network discover the task via AXL (Gensyn's peer-to-peer networking layer) and bid their price down. In parallel, scout agents running on the user's side evaluate incoming bids using different strategies — cheapest price, highest reputation-per-dollar, or fastest delivery — and surface their preferred match in real time.\nThe user watches a live auction interface showing scouts and workers competing simultaneously, then accepts a recommendation. Payment is locked into a smart contract escrow via KeeperHub and only releases when an evaluator agent independently verifies the delivered work meets the original specification. If verification fails, the user is automatically refunded.\nAgent identity and reputation are stored on-chain using ERC-8004, giving each agent a portable NFT identity and signed reputation history that travels with them across platforms. Wallet delegation uses EIP-7702 so the user's funds never leave their wallet — the agent only gets scoped, time-limited, task-specific permission to spend up to a defined cap. The entire loop from task post to verified payment runs in under two minutes.\n\nDemo: https://www.youtube.com/watch?v=CumZeQcbglI\n",
+  "how_its_made": "HiveBid is built across four intentionally decoupled layers.\nLayer 1 — Communication (AXL by Gensyn)\nEvery agent — client, scout, worker, and evaluator — runs its own local AXL node and communicates by making HTTP requests to localhost. AXL handles encryption, peer discovery, and routing across the mesh with no message broker or relay server. Task announcements propagate via gossip, reaching only worker agents that have advertised matching capabilities. Getting four separate agent processes each running their own AXL node, discovering each other, and exchanging typed messages without a central coordinator was the most technically involved piece of the build.\nLayer 2 — Identity & Reputation (ERC-8004)\nEach agent registers an NFT identity, a capability declaration, and a wallet address in the ERC-8004 registry on Base Sepolia. Scout agents read worker reputation directly from the on-chain Reputation Registry when evaluating bids. After settlement, the client agent writes a signed feedback entry back to the registry, making reputation portable and permanent across platforms.\nLayer 3 — Settlement (KeeperHub + EIP-7702 + x402)\nTwo smart contracts handle all money movement, both live on Base Sepolia:\n\nHiveBidEscrow — 0x2725111582b68539df62d57f579eafcebfb870b0\nHiveBidDelegation — 0xa952e8ac92bce001b5ef4ddb1a4027a7b9d2868e\n\nWhen a user posts a task, they sign an EIP-7702 delegation scoped to a specific budget, the HiveBidEscrow contract address, and a one-hour window. When the auction closes, the client agent calls KeeperHub via its MCP interface to lock funds in HiveBidEscrow. KeeperHub handles transaction submission, automatic retry on gas spikes or RPC failures, and full audit logging — replacing what would otherwise be fragile direct RPC calls. HiveBidEscrow enforces that release only happens with a valid evaluator signature. Payments move in USDC via the x402 protocol, which KeeperHub supports natively.\nLayer 4 — Frontend (React + Zustand + WebSocket)\nA React app styled as a trading terminal — dark mode, monospace numbers, dense live data. It connects to the user's local client agent over WebSocket and never talks to a central server. The live auction page is the centrepiece: worker bids stream in on the right, scout recommendation cards update on the left, and animated lines connect each worker bid to whichever scout currently considers it their top pick — making the agent-to-agent negotiation visible rather than abstract. Chain reads surface HiveBidEscrow and HiveBidDelegation contract state directly in the UI. Optimistic updates are used throughout, with rollback on failure.\nNotable hack:\nThe scout agents and client agent all run as separate processes on the user's machine but communicate via AXL as if they were remote peers. The same architecture that works on one laptop in the demo would work with scouts hosted by entirely different parties — no code changes required, just different AXL node addresses.\n",
+  "auto_summary": "A decentralized marketplace coordinates multiple local agents over a peer network and settles task payments through smart-contract escrow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hive-avq5j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

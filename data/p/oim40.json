@@ -1,0 +1,27 @@
+{
+  "id": "oim40",
+  "slug": "taskloop",
+  "title": "TaskLoop",
+  "tagline": "TaskLoop: Agent-reviewed milestone escrow for crypto freelancers.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oim40/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00ZqxMyghAU9Z3LOFJ01ZwvlaD2Uu02skVSSsnj3op77v8/high.mp4",
+  "demo_url": "https://task-loop-web.vercel.app",
+  "source_url": "https://github.com/ssachin520280/taskLoop",
+  "finalist": false,
+  "description": "TaskLoop is a milestone escrow system with an agent review layer. Clients create and fund escrow contracts, freelancers submit evidence, and the agent evaluates whether the milestone should be released, escalated, or disputed. Review payloads and execution logs are persisted to 0G, ENS makes identities readable, and KeeperHub is the adapter for reliable payout execution.",
+  "how_its_made": "## How It Works\n\n1. A client creates an escrow with 1-3 milestones.\n2. The client funds the escrow contract.\n3. The freelancer submits evidence for a milestone.\n4. TaskLoop generates a structured agent review: verdict, confidence, reasons, and recommended action.\n5. The review payload is stored in 0G Storage.\n6. If the review is `approve` and confidence is above the configured threshold, a trusted execution path can call KeeperHub to release the milestone.\n7. The execution decision and provider response are logged back to 0G.\n\n## Architecture\n\n```text\napps/web\n  Next.js app, wallet UX, ENS display, escrow pages, review API route\n\npackages/contracts\n  Foundry contracts for EscrowFactory and MilestoneEscrow\n\npackages/shared\n  Shared TypeScript types, zod schemas, ABI exports, formatters\n\nservices/agent\n  Review engine, 0G storage adapter, KeeperHub execution adapter,\n  review-to-execution orchestration service\n```\n\nThe web app calls `POST /api/review-milestone`. That route validates input, calls the agent orchestration service, persists review/execution artifacts to 0G, and returns the combined result to the UI.\n",
+  "auto_summary": "TaskLoop is a milestone escrow app that combines smart contracts, an agent review service, ENS name resolution, 0G-backed artifact storage, and KeeperHub-triggered payouts.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/taskloop-oim40",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

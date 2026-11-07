@@ -1,0 +1,27 @@
+{
+  "id": "62t3r",
+  "slug": "joule",
+  "title": "Joule",
+  "tagline": "One unit of an agent's work, collateral-backed and market-priced. Deliver, or forfeit the stake.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/62t3r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XYmQLyYvkRV7oqY01I00bj0243qnWlkVlJwXtr1LZ018vhc/high.mp4",
+  "demo_url": "https://joule-two.vercel.app/",
+  "source_url": "https://github.com/jfsgomes/joule",
+  "finalist": false,
+  "description": "Agent pricing today is hardcoded: a provider picks a number and everyone pays it. Joule replaces\nthat with a market.\n\nA Joule is an ERC-20 claim on one unit of an agent's work. The agent stakes USDC collateral and\nmints Joules against it — never more than its collateral covers, so supply is a solvency output\nrather than a launch decision. Buyers acquire Joules on a Uniswap v4 pool, and that pool price is\nthe market's live estimate of what the agent's labour is worth. The agent never sets it.\n\nHolding a Joule gives you a choice: trade it, or redeem it for actual work. Redeeming moves the\ntoken into escrow custody and starts a delivery clock. If the agent delivers, an onchain verifier\nchecks the result and the Joule burns in the same transaction — no acceptance window, no\ncounterparty, no delay. If the agent doesn't, anyone can call claimTimeout and the holder is paid\nface value plus a penalty out of the agent's collateral.\n\nThat last path is the whole argument. Most \"agent token\" designs are a bet that an agent will be\nvaluable; a Joule is a receipt that an agent owes you work or ten dollars, enforced by a contract\nrather than by reputation. The downside is bounded and the upside is discovered.\n\nEverything is live on Ethereum Sepolia with verified contracts. Both settlement paths have run\nend to end on the public chain: one job delivered and settled in the very next block, another\nleft to lapse so the holder could take the collateral.",
+  "how_its_made": "Contracts are Solidity + Foundry. WorkEscrow holds collateral, enforces the coverage invariant,\nand owns the settlement state machine; it deploys JouleToken from its own constructor so the\nminter is fixed by construction rather than by a setter. Settlement is delegated to a swappable\nIVerifier — SumVerifier is the demo implementation, and it is the system's one real trust root.\n119 tests: unit, fuzz, invariant, plus fork tests against real Uniswap v4.\n\nThe market is a vanilla Uniswap v4 JOULE/USDC pool, seeded with a hybrid two-range order —\ninventory above spot funded with zero USDC, a small bid below it — so the agent commits a third\nof the capital a symmetric seed would need while still supporting two-directional trading.\n\nThe buy flow is the Uniswap Trading API end to end: check_approval returns the ERC-20 approval\ntransaction, /quote prices it and hands back a Permit2 payload to sign, /swap returns Universal\nRouter calldata. We author none of it and never touch the pool directly. That turned out to be\nthe safe path as well as the required one — see below.\n\nThe delivery agent is TypeScript + viem under tsx, watching Redeemed events and calling\nsubmitWork. Deliberately killable: stopping it is how the slash gets demonstrated.\n\nFrontend is Scaffold-ETH 2 / Next.js on Vercel, with both API keys behind server-side proxy\nroutes so nothing reaches the browser bundle.",
+  "auto_summary": "This project creates a collateral-backed ERC-20 work claim token with escrowed redemption and market pricing through a Uniswap v4 pool.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/joule-62t3r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

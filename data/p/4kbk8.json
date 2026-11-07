@@ -1,0 +1,27 @@
+{
+  "id": "4kbk8",
+  "slug": "trialland",
+  "title": "TrialLand",
+  "tagline": "ProductHunt for human-verified free trials. Sybil-resistant free trial marketplace. ",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4kbk8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Hl2bGcqFWqLBS7IxHiFa73ZuVLMhTT9WqRkhbcR02FAY/high.mp4",
+  "demo_url": "https://trialland.com/",
+  "source_url": "https://github.com/drewM33/TrialLand",
+  "finalist": false,
+  "description": "TrialLand is a marketplace for human-verified free trials. Instead of letting bots and burner emails farm unlimited signups, every trial is claimed by — or on behalf of — a unique human verified with World ID (proof of personhood). Each verified person can claim one non-transferable promo code per service, cryptographically bound to their World ID, so codes can't be resold, shared, or recycled.\n\nA user verifies once with World ID and registers a wallet (via Dynamic) on World Chain. From there, they — or their AI agent — can claim and redeem trials programmatically through an agent-first API (SDK, CLI, MCP, and skill). \n\nThe result: SaaS companies get abuse-resistant, high-intent trial distribution; users and their agents get trials that are genuinely theirs; and the whole system stays Sybil-resistant — one real human, one trial, one code.",
+  "how_its_made": "TrialLand is a Next.js 16 (App Router) + React 19 app in TypeScript, styled with Tailwind CSS v4 and shadcn/ui, and deployed on Vercel with preview/prod environments, env management, and a custom domain.\n\nIdentity is powered by World ID 4.0 via IDKit 4.x. We generate RP-signed proof requests server-side with signRequest (Keccak-256 / EIP-191), render the IDKitRequestWidget with the proofOfHuman preset, and verify proofs server-side against the Developer Portal v4 endpoint (/api/v4/verify/{rp_id}) so the signing key never touches the client. We keep allow_legacy_proofs on to bridge World's v3→v4 migration window.\n\nWallets are provisioned with Dynamic (embedded wallets, no seed phrase) and bound to the verified human, then registered against their World ID on World Chain (the registry is currently modeled client-side as a stand-in, with a Foundry/Solidity contract scaffold for the on-chain binding).\n\nThe notable bit is the privacy model: we derive a per-human, per-trial nullifier so the same person claiming the same trial always collides (enforcing one-per-human) while staying unlinkable across trials, and partners only ever receive a SHA-256 hash of the code plus that nullifier, never the raw code or identity.\n\nPartner tech: World ID (Tools for Humanity) is the proof-of-personhood core; Dynamic handles frictionless wallets; Vercel handles deploy/preview/envs. We also ship an agent-first surface, SDK/curl/CLI/MCP/skill snippets plus llms.txt/llms-full.txt, and a Human/Agent view toggle, so a coding agent can claim trials on a verified human's behalf.",
+  "auto_summary": "A Next.js app for distributing one-per-person trial offers using World ID verification and Dynamic wallet onboarding.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/trialland-4kbk8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

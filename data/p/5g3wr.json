@@ -1,0 +1,26 @@
+{
+  "id": "5g3wr",
+  "slug": "galvanic",
+  "title": "Galvanic",
+  "tagline": "A margin account where a crypto crash can liquidate your crypto, but never your tokenized bond.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5g3wr/banner/default.jpg",
+  "demo_url": "https://galvanic-app.vercel.app/",
+  "source_url": "https://github.com/x-maues/Galvanic",
+  "finalist": false,
+  "description": "Galvanic is a cross-margin lending account that lets you post a tokenized real-world bond and volatile crypto as one pool of collateral, without accepting that a crash in the crypto can force a sale of the bond. Normally cross-margin collateral is fungible: when the volatile leg crashes, the protocol sells whatever pays off the debt fastest, often the asset that did nothing wrong. Galvanic's vault computes two outcomes side by side from the same debt: under pooled margin, a shortfall reaches into the bond; under the firewall, it can't. Borrowing power on the bond is withdrawn and new borrowing restricted instead, and the protocol absorbs the loss.\n\nOn our live demo account, a bond issued through Hedera's Asset Tokenization Studio is genuinely load-bearing — the crypto alone can't support the loan — and a 92% crash in the crypto mark liquidates the crypto leg while leaving the bond's KYC-gated holder register untouched. Every step settles on Sepolia and Hedera testnet, with transaction hashes to check.\n",
+  "how_its_made": "Galvanic is three systems:\n\ncontracts-sepolia (Solidity + Hardhat) holds CryptoMarginVault (crypto and attested-RWA valuation, health factor, and previewLiquidation for the counterfactual), ProtectedCollateralRegistry (records a claim on the Hedera note, never moves it), and FirewallMarginExecutor, the only address allowed to write a verdict.\n\ncontracts-hedera issues the bond through Hedera's Asset Tokenization Studio (Factory + Business Logic Resolver): KYC-gated issuance, a real 2.5% coupon corporate action read back from an on-chain record-date snapshot, and a KYC revoke/restore we prove by making a transfer actually revert mid-demo.\n\nThe decision itself runs in cre-workflow, a Chainlink CRE workflow registered with cre.handlerInTee on AWS Nitro. The health floor, close factor and exposure cap load as CRE secrets inside the enclave, never in config or logs. The Hedera mirror node is read directly for the bond's balance, so there is no bridge and no wrapped token. subgraph/ sends one query, written once against Messari's standardized Lending schema v3.1.0, unmodified, to live Aave v3, Compound v3 and Spark Lend, which sets the collateral mark, raises the required health factor under market stress, and caps borrowing against external exposure.\n\nThe frontend is Next.js and Tailwind, calling the real `cre workflow simulate` CLI server-side and settling the enclave's own report bytes on Sepolia. The one honest gap: Chainlink Confidential Workflow deployment access is a permission we don't have yet, so the executor currently accepts the report from an operator key instead of the CRE Forwarder. One owner-only call switches that, and the decision logic itself is unchanged either way.\n",
+  "auto_summary": "Galvanic combines Hedera-issued tokenized bond collateral, Sepolia lending contracts, and a Chainlink workflow for margin and liquidation decisions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/galvanic-5g3wr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

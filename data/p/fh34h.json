@@ -1,0 +1,34 @@
+{
+  "id": "fh34h",
+  "slug": "hyperspeed-bridge",
+  "title": "Hyperspeed Bridge",
+  "tagline": "Hyperspeed Bridge is a lightning fast native to native bridge that uses the Hyperlane protocol to execute bridging transactions instantly before finality is reached. The bridge is secured against reorgs through an Insurance Fund, which caps the max bridgeable amount.",
+  "event": {
+    "slug": "singapore2024",
+    "name": "ETHGlobal Singapore",
+    "start_time": "2024-09-20T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fh34h/banner/default.jpg",
+  "source_url": "https://github.com/Tranquil-Flow/hyperspeed-bridge-fork",
+  "prizes": [
+    {
+      "sponsor": "Rootstock",
+      "sponsor_id": "ggpyp",
+      "placement": "Best Runes or Ordinals project on Rootstock",
+      "title": "Best Runes or Ordinals project on Rootstock"
+    },
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "Best Infrastructure",
+      "title": "Best Infrastructure"
+    }
+  ],
+  "finalist": false,
+  "description": "Hyperspeed Bridge uses a modified version of Hyperlane to create an instantly executing bridge, before finality is reached.\n\nNormally in bridges, finality must be reached before a bridging transaction can be processed to prevent the bridge contract from losing funds due to a reorg of the chain the user initially deposited funds on. This can result in very long bridging times depending on the chain - Bitcoin can take 30 mins or more to resolve finality for instance.\n\nHyperspeed Bridge solves this issue by creating an Insurance Fund. If a reorg occurs, the Insurance Fund pays out the bridge contract to ensure the bridging protocol suffers no losses. Users are incentivized to deposit funds into the Insurance Fund as it receives a portion (20%) of the fees taken on outbound and inbound bridging transactions. Additionally, the Insurance Fund utilizes it's assets in a yield generating DeFi income stream. Finally, Hyperspeed Bridge has implemented a basic version of the EigenLayer slashing mechanism on Hyperlane such that validators will not be slashed for validating before finality is reached, but will be slashed for malicious actions. The funds from this slashing is distributed to the Insurance Fund depositors. \n\nHyperspeed Bridge has also added functionality on top of Hyperlane to allow for the bridging of different value native coins. In this demo, an Ethereum <-> Rootstock bridge has been deployed that allows the bridging between ETH and RBTC, with prices fetched from Chainlink & Umbrella Network. This route was chosen due to the relatively long finality periods of both of these chains, as well as being a way to connect the two largest blockchain ecosystems by $ value (Ethereum & Bitcoin).\n\nThe amount of value that can be transferred at any time is defined as:\nAmount of USD value on the inbound chain's Insurance Fund - The USD value of transactions that are being bridged and have not yet reached finality. In this way, users are only ever able to bridge an amount of funds that is secured by the Insurance Fund.\n\nReorgs are detected purely onchain by sending and storing key information about the protocol during each user's bridging transaction. On each chain, every time a bridging transaction is run information is stored on an index on the outbound chain and inbound chain. If a reorg were to happen, then the value at this index would be reset. Afterwards, when a user makes a bridging transaction, it will attempt to store this value on the inbound chain but run into a data collision. This indicates to the system a reorg has occurred, the transaction is filed separately and funds are pulled from the Insurance Fund to balance the system.\n\nMost of the bridging fees (80%) are distributed to the liquidity providers who put up liquidity that users can use to access the bridge.\n\nInitial Commits were made in: https://github.com/Tranquil-Flow/hyperspeed-bridge\n\nThese changes were then ported into the main submitted repo: https://github.com/Tranquil-Flow/hyperspeed-bridge-fork\nThe modifications we ported on the Hyperlane-monorepo are on that PR: https://github.com/Tranquil-Flow/hyperspeed-bridge-fork/pull/1\n\nFrontend is built in: https://github.com/Tranquil-Flow/hyperspeed-bridge-ui\n\nInsuranceFund on Ethereum: 0x7e05c160EeF912304e0718615EAE9BbAE8F5E9C6\nInsuranceFund on Rootstock: 0xbCb715478a95e6157aD395273477371424FF6b66\n\nNativeChallengerV1 (rootstock): 0x0163EE73720988ae1bD8816Fa5Cb586633a69b65\n0x6eF12190b6aC5c4929652DDa05F21b86bee2c9E9 (point Holesky)\n\nECDSAStakeRegistry (holesky): 0xA509d6507B0Fc18691Af03c406F35b41F03b7c17\nHSM (holesky): 0x722d2c3c18f161edF8778A2Dd4F5893A3dA89540\nRemoteChallengerV1 (Holesky): 0xCaDE4a9F4F06c10353c06920fBE055976D000943\nSlasher: 0xFb91dd18A1Ac21e6dEB70FD242410fD96aea9c8C\n",
+  "how_its_made": "The following technologies have been utilized for this project:\n\n- Hyperlane: The Hyperspeed Bridge builds on top of the core Hyperlane protocol, editing it to fit it's intended purpose. Oracles are integrated to facilitate native to native transfers between assets of different values (ETH and BTC). The data being sent cross chain includes additional parameters for tracking the $ value of the bridge liquidity, $ value of the Insurance Fund and bridge transaction information to detect reorgs.\n\n- Rootstock: The bridge connects Ethereum to Rootstock so that users can bridge funds between the Ethereum & Bitcoin ecosystem, as well as being able to take advantage of a much faster bridging time compared to others that must wait on the long finality of Rootstock.\n\n- Chainlink: On the Ethereum contract the ETH/USD price feed is used for converting between ETH and USD. A user deposits ETH, but sends a USD value cross chain. The contract receives a USD value and converts it to ETH to forward to the user.\n\n- Umbrella Network: Same implementation as Chainlink, but for the Rootstock contract.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hyperspeed-bridge-fh34h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

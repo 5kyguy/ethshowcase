@@ -1,0 +1,27 @@
+{
+  "id": "4bcvt",
+  "slug": "tap-pay",
+  "title": "Tap Pay",
+  "tagline": "Turn two Android phones into an ENS-verified NFC terminal with ETH-to-USDC payments.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4bcvt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MUv6cjmFOv4016yJ02qV4u8zTo8HJctAf8CufS5LTk6vI/high.mp4",
+  "demo_url": "https://tap-pay.xyz/",
+  "source_url": "https://github.com/gitaugakwa/tap",
+  "finalist": false,
+  "description": "Tap turns two ordinary Android phones into a secure point-of-sale for cash-heavy merchants. A merchant enters a USDC price and broadcasts a signed payment request over NFC or QR. Before any Pay button appears, the customer’s phone verifies the request signature and resolves the merchant’s live *.tap.eth identity through ENSv2, ensuring that the name belongs to the signing wallet. Tampered, expired, foreign, or unresolved requests fail closed. The customer can pay directly in USDC or select ETH; Uniswap v3 swaps a bounded amount of ETH for the exact USDC requested, so the merchant receives the price they set. Both phones observe the onchain settlement and show success. Tap is also structured as reusable TypeScript SDKs that wallets and point-of-sale applications can integrate.",
+  "how_its_made": "Tap is a Bun monorepo with an Expo/React Native Android application, a pure TypeScript core SDK, a React Native NFC SDK, and Solidity contracts tested with Foundry. Each phone creates and stores its own wallet key using Expo SecureStore. The merchant signs an EIP-712 payment request containing the merchant, token, amount, nonce, expiry, chain, contract, and ENS name. Android HCE broadcasts the request as an NDEF URL; the customer reads it using react-native-nfc-manager, with QR and verified Android App Links as fallback transports.\nENSv2 on Sepolia is the trust layer. We registered tap.eth, configured a dedicated UserRegistry and Permissioned Resolver, and used Enhanced Access Control to grant our custom TapMerchantRegistrar only the roles required to issue subnames and write merchant records. Merchants can self-register a direct *.tap.eth name from the app. During every payment, the SDK uses live ENS resolution to confirm that the signed merchant name resolves to the signing wallet. Nothing from the NFC payload is trusted or displayed before this verification succeeds.\nPayments settle on Base Sepolia through TapPay, which validates signatures, expiry, amount, and replay protection before transferring USDC and emitting a merchant-specific Paid event. For ETH payments, our additive TapSwapPay adapter queries Uniswap v3 QuoterV2 across multiple fee tiers, selects the cheapest exact-output route, applies a visible maximum-input bound, and calls SwapRouter02 atomically. Unused ETH is refunded, while any swap or settlement failure reverts the complete transaction. The SDK also supports standard ERC-20 input through Permit2. This preserves the original signed request and ensures the merchant always receives the exact USDC amount requested.",
+  "auto_summary": "A Bun monorepo for Android in-person crypto payments using NFC/QR, ENS-based merchant verification, and optional Uniswap-routed settlement.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tap-pay-4bcvt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

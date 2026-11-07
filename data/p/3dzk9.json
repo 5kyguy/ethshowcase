@@ -1,0 +1,22 @@
+{
+  "id": "3dzk9",
+  "slug": "private-launchpad",
+  "title": "Private-Launchpad",
+  "tagline": "Encrypted on-chain auctions: private bids, public settlement, no trusted parties.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3dzk9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OF00f00eJzB1pFq01Ca00D02w55ySeVJC01zuyIbLXAHMXPB00/high.mp4",
+  "demo_url": "https://private-launchpad-auction.vercel.app/",
+  "source_url": "https://github.com/tomi204/private-launchpad",
+  "finalist": false,
+  "description": "We’re building a fully on-chain, privacy-preserving token sale system on Ethereum Sepolia using Zama FHEVM. Users deposit payment tokens publicly via a Uniswap v4 hook, but submit bids privately: their max price (and spend/qty) stays encrypted. A batch (uniform-price) auction computes a single clearing price and allocations without revealing individual bids or allocations. Settlement is permissionless: winners claim encrypted sale tokens and everyone can withdraw refunds, with authorization enforced by cryptographic KMS decryption proofs (no TEE, no relayers required). Deposits are rehypothecated into a lending adapter while idle, then unwound to fund claims and refunds, keeping capital productive throughout the auction.",
+  "how_its_made": "We split the system into three on-chain modules and wired them end-to-end with Hardhat on Ethereum Sepolia.\n\nA Uniswap v4 Hook (MixerLiteHook) is used as an execution-layer integration point rather than a pricing primitive. The hook does not modify AMM pricing or swap outputs. Instead, it attaches structured logic to the swap lifecycle. During afterSwap, optional hookData can atomically register a bid by creating a bidId and recording the payer, receiver, refund address, and encrypted claim key. The same bid can also be registered via a standalone function, so the swap path is a composability feature rather than a strict requirement.\n\nBid parameters (max price and max spend/quantity) are encrypted client-side using Zama’s FHEVM SDK and only ciphertext handles are stored on-chain. The auction contract performs a batch, uniform-price clearing: encrypted bids are compared homomorphically to determine demand at a candidate price, and a single clearing price and per-bid allocation/cost are produced without revealing individual bids.\n\nThe hook also acts as the settlement custodian. Deposited payment tokens are immediately parked in a lending adapter under the contract’s ownership. When swaps occur, the hook’s beforeSwap and afterSwap phases implement a liquidity shuttle: funds are temporarily withdrawn from lending to ensure liquidity is available to the PoolManager, and any remaining balance is redeposited afterward. After the auction finalizes, users make their results decryptable via KMS proofs and call the hook to settle: sale tokens are transferred to the receiver and refunds are paid out, unwinding the lending position only as needed.\n\nClaims are permissionless and authenticated using Zama KMS decryption-proof verification (EIP-712 signatures checked on-chain), allowing the receiver to prove authorization without relayers or trusted execution hardware.\n\nThe key design decision is that the hook is not used to change AMM pricing, but to embed structured financial logic directly inside the swap lifecycle. This allows atomic bid registration and capital management while keeping the auction computation separate from the AMM, simplifying accounting and avoiding custom routing or multi-transaction flows.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/private-launchpad-3dzk9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

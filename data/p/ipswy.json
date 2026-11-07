@@ -1,0 +1,28 @@
+{
+  "id": "ipswy",
+  "slug": "1up",
+  "title": "1UP",
+  "tagline": "Unlock liquidity on your staked 1inch tokens while benefitting of full staking potential !",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ipswy/banner/default.jpg",
+  "source_url": "https://github.com/acollette/1UP",
+  "prizes": [
+    {
+      "sponsor": "1inch Network",
+      "sponsor_id": "if0ri",
+      "placement": "🥇 1inch — Best Yield Optimization Protocol 🦄 ",
+      "title": "1inch Network"
+    }
+  ],
+  "finalist": false,
+  "description": "This project has for objective to make a yield optimizer for staked 1inch (related to Fusion mode). This optimizer will enable the following:\n-Stake your 1inch for max duration and UP power.\n-Get liquidity on your staked tokens.\n-Keeping max duration, thus max UP power constant as long as there is demand while always being able to withdraw (depending of underlying pool conditions).\n-Receive tokens that represent your share of staked tokens, and get extra incentives by earning trading fees in a stable pool.\n",
+  "how_its_made": "This project was built with Solidity and uses the ERC4626 Vault.\nERC4626 as a tokenized vault will help us manage an asset and distribute profits to the vault \"shareholders\". As in our case, no assets are held by the Vault, some modifications had to be done to the totalAssets() function for the accounting (amongst others).\n\nA Balancer stable pool is linked to the Vault and composed of 1inch/1UP tokens (1UP = ERC20 issued by the vault).\n\nThe Vault works as the following:\n\n--Deposits--\n-A user deposits 1inch tokens.\n-In the same transaction, 1inch is staked and UP gets delegated to a resolver.\n-User gets 1UP tokens, which is their share of the vault minted upon deposit.\n\nnote: As long as people are depositing, the duration of the staking will extend, keeping UP to the max. This will happen every 30 days, if new deposits are still made, period extends with 30 days.\n\n--Claim--\n-Anyone can claim rewards when those are available by calling claimRewardsFromDelegate().\n-Claiming will automatically transfer the rewards (1inch) to the Balancer Pool, putting liquidity at disposition of stakers willing to exit their position. This would happen by swapping 1UP tokens to 1inch tokens inside the pool.\n-The Vaults accumulates LP tokens of the Balancer Pool that it will account for in his totalAssets() and will redistribute when Vault ends.\n\n--Withdraw--\n-Anyone will be able to call the withdraw function once the total duration of staked 1inch tokens from the vault has passed. This will end the vault and sends all 1inch previously staked back to the vault.\n-This function will also remove the liquidity from the Balancer Pool, those 1inch tokens will account as extra rewards and be claimable from the pool.\n\nAlso note that 1UP holders will have the possibility to provide liquidity to the Balancer Pool and accrue trading fees. \n\nIn the future a specific Balancer Vault could be setup as well with additional incentives. A rebalance function in order to delegate to the most promising resolvers could also be implemented inside the vault.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/1up-ipswy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

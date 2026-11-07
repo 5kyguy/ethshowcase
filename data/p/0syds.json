@@ -1,0 +1,22 @@
+{
+  "id": "0syds",
+  "slug": "wishd",
+  "title": "WishD",
+  "tagline": "Wishd — DeFi by wishing it. Browser-native agent: speak intent, sign in your own wallet.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0syds/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4yYcB9pS02HupNd4vUS4mQdSo2N475uxh02iQRs4PbYIs/high.mp4",
+  "demo_url": "https://wishd.simula.online/",
+  "source_url": "https://github.com/kmadorin/cryptobrocalls",
+  "finalist": false,
+  "description": "Wishd is a browser self-evolving agent for DeFi. \n\nType you intent, e.g. \"swap 0.001 ETH for USDC\" or \"lend 50 USDC on Compound\"or choose pre-built intents in  Composer pills — and it picks the right widget, fetches the quote, prepares the bundle. You sign in your own wallet. \n\nNo CLI, no skills to write, no agent wallet holding your money.\n\nScheduled tasks and execution layer is built with KeeperHub. When something should run on a schedule — auto-compound, DCA — the agent recommends a KeeperHub workflow and scopes a Porto session-key for it: which token, how much, until when. You grant it once. The workflow runs deterministically in KeeperHub. Deployment is made via KeeperHub MCP. In future you it will be possible to describe, create  and edit workflows in plain English",
+  "how_its_made": "The core is a Next.js 15 app with a Claude Agent SDK loop running on the server. \n\nInstead of the agent returning text that the frontend then has to interpret, it emits a typed event stream over SSE — `tool.call`, `chat.delta`, `widget.render`, `widget.patch` — and the browser is more or less a renderer for whatever the agent decides to show. \n\nThe page you see is whatever widget the agent rendered last. To make that work, every protocol  lives in its own folder under `plugins/` exporting an intent schema, a `prepare()` function, and a widget component. The agent loads them at boot, and adding a new one is dropping in a folder. Keepers follow the same shape.\n\nFor swaps we use the Uniswap Trading API on mainnet and the L2s it covers. \nThe Trading API doesn't reach Sepolia, though, and most of our demo runs there, so on testnet we fall back to the V3 contracts directly (QuoterV2 for pricing, SwapRouter02 for execution) and prepend the ERC-20 approval as an extra call inside the Porto bundle — so even with the workaround the user still only signs once. \n\nThe wallet layer is Porto, which gave us account abstraction and session-keys for free. The interesting part there is automations: when the agent recommends a recurring workflow (auto-compound, DCA), it calls into KeeperHub over MCP, and KeeperHub asks the user to grant a scoped Porto session-key — token, spend cap, expiry — through a delegation modal. \n\nWe actually forked KeeperHub for this and added a Porto plugin so workflows could request and consume those delegations cleanly; that fork is live at `kh.sumula.online`. The result is that the agent never holds funds and never signs at runtime: it prepares, the user signs once, KeeperHub executes deterministically from there.\n\nThe piece I'm most fond of is `widget.patch`. Because widgets are mounted from SSE events, the agent can patch a widget that's already on screen — a quote refreshes without unmount, the swap card visibly \"fills in\" as tool calls return, the activity sidebar tails the same stream and shows the agent's tool log live.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wishd-0syds",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

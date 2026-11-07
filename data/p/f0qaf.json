@@ -1,0 +1,41 @@
+{
+  "id": "f0qaf",
+  "slug": "decistream",
+  "title": "DeciStream",
+  "tagline": "Decentralized multiplayer streaming platform. channel subscribers will own NFT to make channel decisions",
+  "event": {
+    "slug": "hackfs2023",
+    "name": "HackFS 2023",
+    "start_time": "2023-06-02T13:00:39.046Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f0qaf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NeI9RycqwfLYf9pXdGG6Qe7Zq6suDVVrFW02AmxDxHAA/high.mp4",
+  "source_url": "https://github.com/vinhyenvodoi98/DeciStream",
+  "prizes": [
+    {
+      "sponsor": "Push Protocol",
+      "sponsor_id": "10a1v",
+      "placement": "2️⃣0️⃣ Push Protocol — Top 20",
+      "title": "Push Protocol"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🏊‍♂️ ENS — Integration Prize",
+      "title": "ENS"
+    },
+    {
+      "sponsor": "Tableland",
+      "sponsor_id": "eov0f",
+      "placement": "🏊 Tableland — Pool Prize",
+      "title": "Tableland"
+    }
+  ],
+  "finalist": false,
+  "description": "DeciStream is a multiParticipates Streaming platform inspired by \"Twitter Spaces\" or \"Joe Rogan Experience\" streams. where streamers can participate in making content for the stream such as discussing an interesting topic.\n\nDeciStream focuses on decentralized values. For example, each channel is an erc721 when a subscriber will be minted an erc721 token to be able to participate in that channel's DAO activities such as voting for the next stream participant. Besides the video is also the erc721 that owned by the content creator.\n## Function\n- [x] Integrated ENS (Ethereum name service)\n- [x] Send and Receive notifications from Push protocol (Ethereum Push Notification Service)\n- [x] Streamer can create Channel\n- [x] Subscribe to interesting channels\n- [x] Create Stream\n- [x] Invite others to join the stream as **participants** (multiParticipates Streaming)\n- [x] Release that stream for others to join as **spectators**\n- [x] Export video to erc721\n---\n### Future function\n- [ ] Create channel's DAO ( 50% done)\n- [ ] Add **Chat** feature using Push Protocol\n- [ ] Release streams only for channel subscribers\n- ...",
+  "how_its_made": "## Stream Platform ( [LivePeer](https://docs.livepeer.org/) )\nI use /room and /stream feature to be able to create multi-participant streams\n\n## Database ( [tableLand](https://tableland.xyz/) )\n\n<img src=\"https://github.com/vinhyenvodoi98/DeciStream/blob/master/images/database.png\" />\n\nI use 4 tables namely Channels, Steams, Videos, Subscriptions.\n- The Channels table will store the user's address and the address of the smartcontract video and subscription.\n- The Stream table will store the backplayId and streamId values that are needed by the livePeer to be able to watch the stream.\n- Videos table to store Video NFT values including video_erc721_address, owner_address and tokenId\n- Subscriptions table stores NFTs representing channel subscribers\n\n### How i update table\nTo ensure the correctness of the data in the database i added functions to ERC721 so that whenever nft is minted or transferred, it updates their value in the table.\n\nFile: Master.sol\n```Master.sol\n\n  ...\n\n  function insertSubcription(address erc721contract, address subscriberAddress ,uint256 newTokenId) external onlySubcriptions {\n    TablelandDeployments.get().mutate(\n      address(this),\n      _tables[\"Subscriptions\"],\n      SQLHelpers.toInsert(\n        \"Subscriptions\",\n        _tables[\"Subscriptions\"],\n        \"subscription_erc721_address,subscriber_address,tokenId\",\n        string.concat(\n          SQLHelpers.quote(Strings.toHexString(erc721contract)),\n          \",\",\n          SQLHelpers.quote(Strings.toHexString(subscriberAddress)),\n          \",\",\n          Strings.toString(newTokenId)\n        )\n      )\n    );\n  }\n\n  function updateSubcription(address erc721contract, address to, uint256 tokenId) external onlySubcriptions {\n    string memory setters = string.concat(\n      \"subscriber_address=\",\n      SQLHelpers.quote(Strings.toHexString(to)) // Wrap strings in single quotes\n    );\n\n    string memory filters = string.concat(\n      \"subscription_erc721_address=\",\n      SQLHelpers.quote(Strings.toHexString(erc721contract)),\n      \"and tokenId=\",\n      Strings.toString(tokenId)\n    );\n\n    TablelandDeployments.get().mutate(\n      address(this),\n      _tables[\"Subscriptions\"],\n      SQLHelpers.toUpdate(\n        \"Subscriptions\",\n        _tables[\"Subscriptions\"],\n        setters,\n        filters\n      )\n    );\n  }\n  ...\n\n```\n\nFile: Subcriptions.sol\n```Subcriptions.sol\n  ...\n  function mint() external {\n    uint256 newTokenId = _tokenId.current();\n    _mint(msg.sender, newTokenId);\n    _tokenId.increment();\n\n    Master(_masterAddress).insertSubcription(address(this), msg.sender, newTokenId);\n    ....\n  }\n\n  function _transfer(address from, address to, uint256 tokenId) internal override virtual {\n    super._transfer(from, to, tokenId);\n\n    Master(_masterAddress).updateSubcription(address(this), to, tokenId);\n  }\n  ...\n```\n\n## Notification ( [Push protocol](https://push.org/) )\nI am using notification feature from push protocol\n\nCurrently I'm using 2 notification templates\n\n- Notice new subscriber to the channel\n- Notice someone invited to join the stream\n\n## Naming ( [ENS](https://app.ens.domains/) )\nTo make accounts more readable i use ens.\nIf an account already owns ENS, it will display Ens avatar and Ens name instead of wallet address\n\n## Storage ( [nft.storage](https://nft.storage/) )\nI use storage video and metadata of Nft",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/decistream-f0qaf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

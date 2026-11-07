@@ -1,0 +1,22 @@
+{
+  "id": "v5b4g",
+  "slug": "sonar",
+  "title": "Sonar",
+  "tagline": "Sonar turns AI prompts into verified, on-chain operations for autonomous runtime fleets",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v5b4g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8KvGlbItFdAFZAH4ihcWPjDUTRN3MXmAx5VhAH0001BKI/high.mp4",
+  "demo_url": "https://sonar-henna.vercel.app/",
+  "source_url": "https://github.com/francoperez03/sonar",
+  "finalist": false,
+  "description": "Sonar is a live demo for secure AI-agent key rotation. An LLM can coordinate the full workflow, but it never sees or handles private keys. The agent triggers a KeeperHub workflow that generates, funds, distributes, and deprecates wallets on Base Sepolia. Before any runtime receives a key, the Operator verifies its cryptographic identity with a signed challenge. Real runtimes like \"alpha\", \"beta\", and \"gamma\" pass; a clone such as \"alpha-clone\" is rejected. This demonstrates a safer pattern for agent automation: let the AI orchestrate sensitive infrastructure without giving it direct access to secrets.",
+  "how_its_made": "\nSonar is built as a TypeScript monorepo with separate apps for the Operator, MCP server, demo UI, landing page, runtime, and KeeperHub poller. The LLM talks through an MCP tool layer, so it can request actions like listing runtimes, rotating alpha, simulating a clone attack, or resetting the demo, without ever receiving a private key.\n\nThe Operator is a Node.js/WebSocket service that manages runtime identity. Each runtime registers with an Ed25519 public key and must later sign a challenge before receiving any wallet material. The demo UI is a React/Vite app that listens to the Operator stream and renders the rotation path in real time: agent request, KeeperHub workflow, runtime receive, and Base Sepolia deprecation.\n\nKeeperHub runs the workflow that generates fresh wallets, funds them, distributes them through the Operator, and records deprecation on-chain. Base Sepolia gives the demo verifiable contract evidence. The clone attack is intentionally real: a fake runtime opens a WebSocket with a fresh keypair while claiming to be alpha, and the Operator rejects it with a pubkey mismatch.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sonar-v5b4g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

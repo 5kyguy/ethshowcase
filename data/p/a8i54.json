@@ -1,0 +1,22 @@
+{
+  "id": "a8i54",
+  "slug": "aurum",
+  "title": "Aurum",
+  "tagline": "non-custodial recurring payments via signed eip-712 intents and a relayer.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a8i54/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TrmJsB1BKAYqkfKmffDI5F4yQYxrkCktD00ZAdQQ5Gj00/high.mp4",
+  "demo_url": "https://aurum1866.vercel.app/",
+  "source_url": "https://github.com/tanctl/aurum",
+  "finalist": false,
+  "description": "Aurum is a non-custodial, cross-chain recurring payments protocol designed to make automated on-chain subscriptions verifiable and trustless. Subscribers authorize recurring payments by signing EIP-712 intents, which are published to Avail DA for tamper-proof storage. These intents act as cryptographic payment instructions which a relayer simply executes, never holding user funds. Every execution is recorded as an event on-chain and indexed in real time via Envio HyperIndex and HyperSync, so merchants and auditors can independently verify every transaction through public endpoints and explorer links.\nWhile the current implementation runs a single relayer instance, it’s designed to evolve into a distributed network of staked relayers that earn fees for honest execution and face slashing for missed or invalid transactions.",
+  "how_its_made": "The automation layer is written in Rust with Axum as the HTTP surface and Tokio for scheduling. Incoming intents are verified with ethers-rs (EIP-712 digest + signature recovery), inserted into Postgres via sqlx, and mirrored to Avail using `avail-rust-client` with an sr25519 key so the raw payload is provable off-chain. \nA scheduler task acquires advisory locks, rehydrates the intent from cache (or re-downloads it from Avail), queries allowance/balance on Sepolia and Base through ethers providers, then invokes `SubscriptionManager::executeSubscription` with a padded gas limit. Each execution is recorded locally and the service sources analytics data from HyperSync, raw RPC, or Envio HyperIndex, the code treats them as interchangeable backends so the API keeps serving even if one fails.\nThe on-chain logic lives in two contracts. `SubscriptionManager.sol` holds the EIP-712 domain, does fee calculations, and emits events such as `SubscriptionCreated` and `PaymentExecuted`. `RelayerRegistry.sol` tracks bonded relayers, consecutive failures, and implements cooldown-based slashing so only staked actors execute payments. \nAnalytics are handled by Envio. The `envio-indexer/` package defines Rescript handlers that map contract events to Hasura tables (Payments, MerchantPerformance, RelayerPerformance, IndexerMeta). Envio CLI streams HyperSync data (with the provided token) and exposes GraphQL at `indexer.dev.hyperindex.xyz`. Because pnpm flattens modules differently from what Envio expects, the package scripts export `NODE_PATH=./node_modules:./generated/node_modules` so the CLI and generated code resolve correctly without global installs.\nThe frontend is a Next.js 15 dashboard. React Query pulls from both the Rust REST endpoints and Envio’s GraphQL API to render revenue timelines, chain/token mix, latency metrics, and relayer stats. Wallet integration is handled by wagmi/viem with RainbowKit. The subscriber flow displays the decoded intent, signs via `useSignTypedData`, and sends the payload directly to the backend. Immediately after a successful submission the app calls `primeDemoData`, which produces the same records HyperIndex would eventually publish, allowing explorers and verification views to show consistent data even if indexing is still catching up. The app ships on Vercel with linting and an indexedDB/localStorage polyfill to stay SSR-safe.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aurum-a8i54",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

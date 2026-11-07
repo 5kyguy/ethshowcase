@@ -1,0 +1,26 @@
+{
+  "id": "snyca",
+  "slug": "omamori",
+  "title": "Omamori",
+  "tagline": "AI payment agent for the elderly: family rules in ENSv2, Intercepta screening, World ID approval.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/snyca/banner/default.jpg",
+  "demo_url": "https://omamori-tokyo.vercel.app",
+  "source_url": "https://github.com/ben-harper27/omamori",
+  "finalist": false,
+  "description": "Japan's tokushu sagi scams took a record ¥142.3 billion in 2025, and people over 65 bore 59% of the losses. As elderly people start letting AI assistants pay for shopping, prescriptions and taxis, scammers will manipulate the agent instead: prompt injection is ore-ore fraud for AI.\n\nOmamori is a payment agent that stays safe even when it is fooled. The family owns an ENS name and issues the agent a subname (obaachan.tanaka.eth) whose text records hold the spending policy: a hard limit, an approval threshold, a monthly budget, trusted sellers and the family approver. The agent can read those records but ENSv2 access control stops it from changing them. Before every payment it reads the policy fresh, has Intercepta screen the payee, token and payment authorization, and runs one deterministic decision function. Small, clean payments go through over x402. Scams are refused with reasons. Large or unusual payments wait for a family member to approve through World ID. If the family revokes the name, the agent stops, and sellers refuse it too.",
+  "how_its_made": "TypeScript monorepo (bun). A pure decide() function with a unit test per rule is the only path to money; screening, the ENS policy read and the decision run inside the signer, so only a \"pay\" decision can produce a signature.\n\n- ENSv2 (Sepolia beta): family UserRegistry, a PermissionedResolver per agent, Enhanced Access Control granting the agent key ROLE_SET_TEXT on \"description\" only, a non-transferable subname, revocation via unregister, ENS names for sellers (the agent only trusts a seller name whose addr matches the payTo), and a seller-side check of the payer's name. The agent's attempt to raise its own limit is a real transaction that reverts onchain: https://sepolia.etherscan.io/tx/0x9d73174846993e7d1e070f5a3584921afd283c907faace638115326ce440369c\n- Intercepta: Quick Scan Address, Scan Token and Scan Message on every payment before signing, Deep Scan on the seller side, fail-closed when screening is unavailable.\n- World ID for Agents: OIDC device grant; the backend validates the id_token against World's JWKS, checks sub against the approver in ENS, and binds each approval to one payment's terms hash (single use, 10-minute expiry).\n- x402 v2 on Base Sepolia with the public facilitator; sellers are x402-protected Next.js route handlers.\n- Monthly cap uses the larger of the ledger and the agent wallet's onchain USDC outflow, so the database can't lower it.\n- Claude (Anthropic API tool runner) is the conversational layer; it only proposes purchases.\n- Next.js 16 + shadcn + TanStack Query on Vercel, Neon Postgres for approvals and the log, viem throughout.\n- Built solo with Claude Code as the coding agent, from a spec written up front (notes/spec.md). See the README \"AI tools\" section for exact attribution.",
+  "auto_summary": "An AI payment agent enforces ENS-stored spending rules, screens x402 payments, and requires human approval for risky transactions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/omamori-snyca",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "nw7uj",
+  "slug": "ladder",
+  "title": "Ladder",
+  "tagline": "CEX-style WETH/USDC grid on 1inch Aqua + SwapVM. Custom opcodes; rungs re-arm in-wallet.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nw7uj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KgneONYI7j3kgFqWxzq638e9d9GULvz2dcZLSWAR77E/high.mp4",
+  "demo_url": "https://aqua-ladder-six.vercel.app/",
+  "source_url": "https://github.com/jaydip676/EthOnline2026",
+  "finalist": false,
+  "description": "Ladder is a CEX-style grid we shipped as maker liquidity on official 1inch Aqua. The pair is WETH/USDC on Base. You approve Aqua once; the tokens never leave the wallet. We did not redeploy Aqua - that registry is 1inch's. What we built is LadderRouter (SwapVM pointed at that Aqua), GridManager to ship discrete rungs, and LadderLens so the UI can tell which rungs would actually quote. A rung is a price, not a curve. When a bid fills, Aqua push() flips inventory and the ask on that same rung is live with no extra maker transaction. WalletGuard caps each quote to a live share of the real wallet at quote time. CoverageGuard stops the quote if coverage is below the maker's floor. Both sides have already filled on Base through LadderRouter.swap.\n\nHere is the contract - https://basescan.org/address/0xD810CD7E5Aa03848596a86277fffc6a50DA1121b",
+  "how_its_made": "Contracts are Foundry, Solidity 0.8.30. We left official 1inch Aqua in place and subclassed 1inch SwapVM as LadderRouter.\nLadderOpcodes extends AquaOpcodes so 1inch's stock instructions still run; we added five of our own, then fall through to theirs. \nOracleEnvelope reads Chainlink ETH/USD. WalletGuard, CoverageGuard, RungQuote, and ProtocolFee sit in the same table. \nGridManager builds every rung as one program - envelope, WalletGuard WETH, WalletGuard USDC, CoverageGuard, fee, RungQuote, salt and ships it through Aqua. \nTakers call LadderRouter.swap. \nThe UI is Next.js, viem, wagmi, and RainbowKit. A small TypeScript resolver quotes those rungs and hedges leftovers through the 1inch Swap API.\n\nhttps://basescan.org/address/0xD810CD7E5Aa03848596a86277fffc6a50DA1121b",
+  "auto_summary": "A Foundry and Next.js project that builds and operates a grid-trading app on 1inch Aqua using a custom SwapVM router.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ladder-nw7uj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

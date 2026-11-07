@@ -1,0 +1,20 @@
+{
+  "id": "hx6e0",
+  "slug": "lisan",
+  "title": "Lisan",
+  "tagline": "Lisan (short for Lisan Al-Gaib, the voice from the outer world) uses Layer Zero to send block hashes between chains. Once one chain has another chains block hashes on it, you can use Zero Knowledge proofs to recreate and evaluate a remote chains state.",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hx6e0/banner/default.jpg",
+  "source_url": "https://github.com/hooperben/lisan",
+  "finalist": false,
+  "description": "Lisan uses LayerZero to send block hashes and block numbers from one chain to another. An example, on network A, we can send block hash A and block number a to contract L on network B, where it's written to a solidity mapping as:\n\noffWorldRecords[chainId][blockNumber] = blockHash;\n\nNow, any time we want to use this blockhash on network B, we can just look it up by chain id and block number.\n\nOn network B, we can use this blockhash value to prove things happened on network A. In the example done for this hackathon, I was able to prove the details of this transaction on ETH sepolia:\nhttps://sepolia.etherscan.io/tx/0xe58e296c754c47a64a396d353e38c35146db30957449e747dbe97db0e77b4e61\n\non polygon amoy:\nhttps://amoy.polygonscan.com/tx/0xbfc5a3cff200c3350d45c8993bfc026e4da281787677bc4131835983817dd527\n\nThis is a pretty primitive example, but it demonstrates the core functionality of being able to prove other events happening on other chains, just using a block hash from that chain.",
+  "how_its_made": "The bulk of the complexity of this project is in the zero knowledge circuits that allow for evaluation and proving of block hashes written to remote networks by layer zeros oracles. I have written these circuits in Noir, a zero knowledge programming language. I have made heavy use of the vLayer noir library to construct these proofs, including it's oracle RPC which is used in proof generation.\n\nThe general flow of how a test case of current functionality currently works is:\n\n- deploy our contract suite, which uses hardhat to deploy solidity contracts to eth sepolia and polygon amoy. More details on contract architecture can be found in the projects README.md\n- complete a transaction on a testnet (in our example case, a transfer of sepolia eth to a certain address, equal to a certain value)\n- get the block number of this transaction on eth sepolia, and call the layerzero contract on this network which gets the blockHash for this given bock number, and sends it to a given destination network (polygon amoy)\n- now, we construct our proof of our transaction details to use on our destination network. This is done using the nargo CLI as the current noir proving libraries can be a bit tricky to work with in typescript. This proving generation also makes use of noir oracle functions, which uses the vlayer RPC to retrieve transaction details.\n- now we have our proof, we can use it to prove that this transaction happened on eth sepolia, on poylgon amoy\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lisan-hx6e0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

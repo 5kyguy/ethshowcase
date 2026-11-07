@@ -1,0 +1,29 @@
+{
+  "id": "iijxs",
+  "slug": "smartsave",
+  "title": "smartsave",
+  "tagline": "smartsave - an app for auto-saving bitcoin on Base powered by AI agents.",
+  "event": {
+    "slug": "agents",
+    "name": "Agentic Ethereum",
+    "start_time": "2025-01-31T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iijxs/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KNxGydIQqlckmcAgKqe8Qmc2QPPeMKXk2gaaNPzXkf00/high.mp4",
+  "source_url": "https://github.com/janndriessen/coinsave",
+  "prizes": [
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "AgentKit Pool Prize",
+      "title": "AgentKit Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Smartsave is an app designed to transform the way you save Bitcoin by automating your investment strategy with the power of AI on the Base network. Imagine an intelligent system that not only helps you set aside Bitcoin effortlessly but also optimizes your savings based on real-time market trends and personalized financial goals.\n\nAt its core, smartsave tackles the common challenge of inconsistent saving habits by leveraging advanced AI agents. These smart agents continuously analyze market data and user behavior to determine the best moments to auto-save, ensuring every buy is strategically timed. With an intuitive, user-friendly interface, smartsave makes it simple for everyone—from crypto newcomers to seasoned investors—to build a robust Bitcoin reserve without the need for constant manual intervention. Of course, this app could work for any asset.\n\nSecurity and efficiency are at the heart of our solution. By integrating directly with AgentKit by Coinbase and the Base blockchain, smartsave guarantees transparency and safety for every transaction, while our AI-driven approach adapts to market fluctuations, providing a dynamic and risk-aware saving experience.\n",
+  "how_its_made": "smartsave has three main components: the app, api and agents.\n\nThe app is build with Swift and SwiftUI. It uses the API (implemented in Next.js/Typescript and hosted on vercel) to communicate with the agents. The agents are based on Coinbase's AgentKit. \n\nThe app calls in total four endpoints on the vercel API (implemented with Next.js).\n- /accoount: to init/create/deploy the agents (will auto-create wallet with agentkit for user)\n- /balance: to retrieve the cbBTC balance for the given account\n- /dca: to configure the DCA settings for the agents\n- /transactions: to fetch transactions for given account of the user (used in the app to display the bars graph and transactions list)\n\nThe agents project uses Fastify to expose an API that can be called from the API hosted on vercel.\n\n1. Core Features:\n- Automated Bitcoin buying on Base network using cbBTC with ETH\n- Price monitoring using CoinGecko API\n- Gas fee analysis using BlockNative API\n- DCA (Dollar Cost Averaging) implementation\n\n2. Main Components:\n- `runAgents.ts`: Main code that coordinates buying decisions\n- `coingecko.ts`: Price fetching and analysis from CoinGecko\n- `blockchative.ts`: Gas fee analysis from BlockNative\n- `constant.ts`: Configuration constants like contract addresses\n\n3. Key Workflows:\n- Fetches current BTC/ETH prices\n- Analyzes 7-day price averages\n- Checks gas fees on Base network\n- Agents makes buy/no-buy decisions based on:\n  - Price trends\n  - Gas fee conditions\n  - DCA target amounts\n\n4) Two Agents are used\n\nOracle Agent: Acts as decision maker: \n- Processes price and gas data- \n- Returns yes/no decision for buying\nEvaluates market conditions through natural language\n\nWallet Agent\n- Handles transaction execution\n- Manages DCA tracking\n- Performs ETH to cbBTC swaps\n\nInteracts directly with Base network\nThe system works sequentially:\n\nOracle Agent decides if market conditions are favorable\nIf yes, Wallet Agent checks DCA amount and executes trade\nIf no, cycle waits for next interval\n\n5. APIs Used:\n- CoinGecko API for crypto prices\n- BlockNative API for gas fees\n- Base network for transactions\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/smartsave-iijxs",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

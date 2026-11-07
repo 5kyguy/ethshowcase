@@ -1,0 +1,36 @@
+{
+  "id": "e0bey",
+  "slug": "arcbeam",
+  "title": "ArcBeam",
+  "tagline": "Send USDC to anyone, anywhere. No native token needed. USDC is all you need!",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e0bey/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rSs2Qqpc00BVNiqS1tebg02k2Ohp3yHrrwihHd7WI00VL8/high.mp4",
+  "demo_url": "https://arcbeam.vercel.app/",
+  "source_url": "https://github.com/kavehtehrani/arcbeam",
+  "prizes": [
+    {
+      "sponsor": "Circle",
+      "sponsor_id": "x3xey",
+      "placement": "Best Crosschain USDC Experience with Circle's Bridge Kit and Arc",
+      "title": "Best Crosschain USDC Experience with Circle's Bridge Kit and Arc"
+    },
+    {
+      "sponsor": "Privy",
+      "sponsor_id": "ijybm",
+      "placement": "Best App Using Native Gas Sponsorship with Privy",
+      "title": "Best App Using Native Gas Sponsorship with Privy"
+    }
+  ],
+  "finalist": false,
+  "description": "ArcBeam is a cross-chain USDC payment app that solves the biggest friction point in multi-chain payments: needing native tokens for gas. I built it using Circle's Bridge Kit for secure USDC transfers via CCTP, Privy's embedded wallet system for seamless onboarding, and Pimlico's gas sponsorship so users never need ETH, MATIC, or any other native token. The whole flow is gasless. You just need USDC.\n\nWhen you want to send USDC from Arc to Base (or any supported chain), the app handles everything. Privy creates an embedded wallet automatically (no  popups), sponsors the gas for token approvals and bridge transactions through Pimlico, and Circle's CCTP protocol burns USDC on the source chain and mints it on the destination. I also integrated EIP-7702 authorization for more advanced gasless operations.\n\nBeyond basic bridging, I added payment requests. You can generate shareable links or QR codes to request USDC on any chain. There's a unified balance viewer to see your USDC across all chains, and real-time progress tracking so you know exactly what's happening during each bridge step. The goal is making cross-chain payments as simple as sending a Venmo request.  No crypto knowledge required, just login and go. If you don't look under the hood, you might not even notice that it's an on-chain app.",
+  "how_its_made": "The stack is Next.js 16 with TypeScript on the frontend, using Privy for embedded wallet creation and authentication. Circle's Bridge Kit handles the actual CCTP bridging logic contracts that burn USDC on source chains and mint on destinations. The tricky part was making everything gasless.\n\nPrivy provides an EIP-1193 provider from their embedded wallet, which I wrap with custom transaction wrappers. The EIP-7702 wrapper intercepts eth_sendTransaction calls and detects transaction types by function selectors. When gas sponsorship is enabled, it converts these regular transactions into EIP-7702 UserOperations by signing an authorization for a Simple Account contract, then routing through Pimlico's paymaster with sponsorship policies.\n\nThe hackiest part is the provider wrapping chain. Circle Bridge Kit expects a standard EIP-1193 provider, but I needed to inject gas sponsorship transparently. So I created two wrapper layers: PrivyTransactionWrapper for basic Privy gas sponsorship, and EIP7702TransactionWrapper that sits on top and converts transactions to UserOperations when EIP-7702 is supported. The wrapper caches smart account clients per chain to avoid recreating them, and handles conditional sponsorship logic for Arc Testnet (only sponsors mint when Arc is source, only sponsors approval/burn when Arc is destination).\n\nFor the bridge flow itself, I use viem and wagmi for chain interactions, with ethers.js for contract calls since Circle's Bridge Kit uses ethers internally. Payment requests use URL parameters to encode recipient, chain, and amount, with QR code generation to easy sharing.\n\nPartner tech benefits: Privy's embedded wallet means zero wallet setup friction. Users just login with email/social. Circle's Bridge Kit abstracts away all the CCTP complexity (attestation waiting, message passing) into a simple bridge() call. EIP-7702 is the secret sauce that makes the entire process seamless. It lets me turn regular EOAs into smart accounts temporarily via authorization signatures, so I can use account abstraction features without deploying contracts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/arcbeam-e0bey",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

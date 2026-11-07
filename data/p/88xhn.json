@@ -1,0 +1,26 @@
+{
+  "id": "88xhn",
+  "slug": "nota-entitlements",
+  "title": "Nota Entitlements",
+  "tagline": "Programmable onchain receipts that prove what an agent purchased and control how it’s redeemed.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/88xhn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Owp6MI8H02zrNdgUfhGhoT8ZUXOQr3ued4ldpPmaA9EE/high.mp4",
+  "source_url": "https://github.com/notaxyz/entitlements",
+  "finalist": false,
+  "description": "Nota is a programmable receipt protocol for agent commerce. Payments prove that money moved, but they don’t prove what was actually purchased or what the buyer is entitled to afterward.\n\nNota binds a seller-signed, itemized purchase commitment to an onchain payment, creating a verifiable receipt that can later be used as a credential for redemption.\n\nFor ETHOnline, I extended Nota with an entitlement and redemption layer. A buyer can prove ownership of a valid receipt and redeem the purchased resource using a secret-based commitment. Possessing or stealing the receipt alone is not enough to redeem it, and successful redemptions cannot be replayed.\n\nThe demo shows the complete flow: verifying the seller’s signed purchase data, purchasing through EIP-3009, creating the onchain receipt, rejecting an attempted redemption with only a stolen receipt, successfully redeeming with the correct secret, and rejecting a replay.",
+  "how_its_made": "Nota is built as a set of Solidity contracts on top of the existing Nota receipt protocol.\n\nThe purchase flow uses seller-signed EIP-712 quotes and USDC EIP-3009 authorization for gasless-style payment settlement. Before purchasing, the client independently hashes the itemized document and verifies that it matches the metadata commitment signed by the seller, including checking that the line items equal the amount being charged.\n\nThe ETHOnline work adds an entitlement/redemption layer on top of the receipt system. The buyer commits to a secret-derived purchase reference before purchase. After the receipt is created, redemption requires knowledge of the corresponding secret. The contracts reconstruct and verify the commitment, check receipt ownership and entitlement, and prevent the same redemption from being consumed twice.\n\nThis separates payment, proof of purchase, and fulfillment while keeping them cryptographically connected.",
+  "auto_summary": "A Solidity-based receipt and redemption system ties seller-signed purchase commitments to onchain payments and one-time entitlement redemption.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nota-entitlements-88xhn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

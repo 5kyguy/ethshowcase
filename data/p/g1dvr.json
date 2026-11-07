@@ -1,0 +1,34 @@
+{
+  "id": "g1dvr",
+  "slug": "scholardao",
+  "title": "ScholarDAO",
+  "tagline": "Democratize research using a decentralized peer-review mechanism, reputation system of scientists, validators & papers, and a citations indexer.",
+  "event": {
+    "slug": "hackfs2021",
+    "name": "HackFS 2021",
+    "start_time": "2021-07-30T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/g1dvr/banner/default.jpg",
+  "source_url": "https://github.com/scholardao/monorepo",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "⭐️ HackFS Finalist",
+      "title": "ETHGlobal"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "Best new subgraph runner up",
+      "title": "The Graph"
+    }
+  ],
+  "finalist": true,
+  "description": "ScholarDAO is a protocol for decentralized, autonomous publishing of scientific research.\r\nWe achieve this using a\r\n- peer-review system, where scientists are incentivized to give honest & thorough reviews; and validators (who are akin to journals/editors) have incentives to publish the best papers.\r\n- reputation system of scientists\r\n- citations/impact factor index\r\nBy default, the ownership of a paper lies with its author(s), who can raise funds to support their work, and potentially sell their work.\r\n\r\nAuthors can provide tips to validators as an incentive\r\n\r\nSteps:\r\n1. Author submits a draft, locks in a tip, and sends request to validators. When the draft is submitted, a NFT (ERC721 token) is minted, which is owned by the author.\r\n2. Validators receive requests and reply if they want to proceed to the next step (they also provide a promised deadline for publishing/rejecting)\r\n3. Author sees replies from validator(s) and selects one of them.\r\n4. Now the paper becomes a Preprint, and other scholars in the network can start reviewing the preprint.\r\n5. The validator and author can reach out to potential reviewers off-chain and ask them to review the paper.\r\n6. The validator needs to get the reviews done, and take a decision (Accept/Reject/Revise) within the deadline.\r\n7. If the validator accepts the paper, it becomes “Published”.\r\n\r\nNote:\r\n* In the UI implementation, we have merged steps 2 & 3 into validator assignment step\r\n* To become a validator, one needs to submit collateral to the DAO, which can be slashed if deadlines are not met.\r\n* To prevent Sybil attacks, we were going to use chainlink for validator & scholar identity verification (by reading tweets containing their eth addresses), but got stuck after getting our external adapter set up (and decided to skip verification).\r\n* Since all these steps are happening on ethereum, we wrote a subgraph which tracks events and stores data when a new paper is created, which leads to change in the number of citations.\r\n\r\nAs an example, we calculate the H-index of scholars, which is the maximum value of h such that a given author has published at least h papers that have each been cited at least h times.",
+  "how_its_made": "We used solidity to write smart contracts for the DAO, and used ethers.js library with a React frontend to interact with the smart contracts. We are storing papers and review files on IPFS using web3.storage (which also persists cid to Filecoin). For the reputation system, we use TheGraph, which listens to solidity contract events like paper creation, and based on that updated the number of citations of papers. With this, we are also able to calculate the H-Index of scholars. For testing this we used rinkeby testnet, hardhat, and the metamask wallet.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/scholardao-g1dvr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

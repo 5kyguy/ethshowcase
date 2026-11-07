@@ -1,0 +1,27 @@
+{
+  "id": "h4vwb",
+  "slug": "ai-clearing-desk",
+  "title": "AI Clearing Desk",
+  "tagline": "AI clearing desk for tokenized fund trades, paid and settled on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h4vwb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9UDRdXoBozsY02ZyyKZqS4CfACee01pBxKq8gh9MTC6jg/high.mp4",
+  "demo_url": "https://ethglobal-online-2027.onrender.com",
+  "source_url": "https://github.com/AceVikings/ethglobal-online-2027",
+  "finalist": false,
+  "description": "The Conformance Desk clears secondary-market trades in tokenized private-credit fund units. A seller locks the exact units in a Hedera Asset Tokenization Studio hold. Before the trade can clear, a Privy-controlled buyer agent pays 0.01 testnet USDC through Hedera x402 for an independent data-quality verdict. The service checks six live lending deployments through The Graph, signs an APPROVE or DENY decision, and binds it to that exact trade. The ClearingEscrow contract then executes or releases the hold. The result is verified through Hedera Mirror Node and anchored to Hedera Consensus Service for public replay.",
+  "how_its_made": "We built the asset and settlement layer with Hedera ATS, an EVM ClearingEscrow contract, Mirror Node, and HCS. ATS issues the fund units and locks them in a buyer-specific hold, which prevents the units from being spent twice while a decision is pending.\n\nThe buyer is an Ethereum server wallet managed by Privy and paired with a Hedera ECDSA account. Privy signs the Hedera transaction-body hashes remotely, so the buyer’s payment key is never exported into our application. A local policy checks the network, USDC token, recipient, fee payer, and maximum price before allowing the wallet to pay.\n\nThe verdict endpoint uses Hedera x402 and Blocky402 to charge 0.01 canonical testnet USDC. Payment verification happens before any data work, and settlement happens before the signed verdict is returned.\n\nThe Graph is the evidence layer. One standardized Messari Lending v3.1 query checks six pinned deployments across Aave, Compound, Morpho, and Spark. We combine live Gateway data with Subgraph MCP schema inspection, then run deterministic checks for indexing errors, freshness, schema agreement, deployment identity, and market invariants. Missing or invalid Graph evidence fails closed, so no verdict means no trade.\n\nThe final authorization commits to the asset, seller, buyer, amount, hold, policy, payment reference, action, expiry, and one-use nonce. After settlement, the agent confirms the contract event, ATS balance change, consumed nonce, Mirror Node finality, and HCS audit record. Our completed testnet run passed all 11 replay checks and transferred exactly one SPCF unit to the Privy-controlled buyer.",
+  "auto_summary": "A multi-package app that clears tokenized private-credit trades using Hedera settlement, The Graph-based evidence checks, and Privy-managed wallets.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ai-clearing-desk-h4vwb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

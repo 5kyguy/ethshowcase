@@ -1,0 +1,41 @@
+{
+  "id": "qyepd",
+  "slug": "glassbox402",
+  "title": "Glassbox402",
+  "tagline": "Google Analytics for x402 - Convert any API into an x402. Track every payment in one dashboard.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qyepd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uJq6TypYHp1sboYsMiUx7aqY5R8WOYojLqkPvxLmuBs/high.mp4",
+  "demo_url": "https://youtu.be/yFHJIv2xSRU",
+  "source_url": "https://github.com/dhernz/Glassbox402",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "AI & Agentic Payments on Hedera",
+      "title": "AI & Agentic Payments on Hedera"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Lisbon 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "GlassBox402 converts APIs into an x402. \n\n1. One npm package. x402ify turns any existing API into an x402 API in minutes. No code, and your upstream key never leaves your machine.\n\n2. Hedera, Base and Solana. One flag picks where it settles, so there is no separate payment integration to build per chain.\n\n3. One dashboard. Revenue across every API you have wrapped, which endpoints are called, payment and usage trends, and pricing policies, including charging humans and AI agents differently.\n\nMachines can pay for it directly. No signup, no key, no human.",
+  "how_its_made": "At a high level: x402ify wraps any API in an x402 paywall, the paywall streams every payment event into a hub, and the hub feeds a live dashboard. The protocol layer is the official @x402 packages rather than a reimplementation, which is what makes the whole thing chain-agnostic.\n\nx402ify, the npm package\n- A Node CLI that builds a Hono app around x402ResourceServer and HTTPFacilitatorClient\n- paymentMiddleware gates every route, then the paid request is proxied upstream with the operator's key injected server-side, so the buyer never sees it\n- Handles the three auth patterns real APIs use: header keys, Bearer tokens and query-param keys, plus both REST and GraphQL shapes\n- Each chain is a preset of facilitator, scheme, network id and price format, so adding a network is a config entry, not a rewrite\n- Published on npm, so anyone can wrap their own API today\n\nHedera, where it settles\n- Settlement runs through the blocky402 facilitator, the textbook Hedera x402 flow\n- The resource server holds no private key. The facilitator and the buyer's wallet do the signing, so an operator monetizes an API without custodying anything\n- Two Hedera services, not one. The transfer moves the value, and the Hedera Consensus Service records what it was for: every settled payment writes a receipt to a public HCS topic with the lane, buyer, price and settlement transaction\n- That makes the dashboard auditable instead of trusted. Read the topic off the mirror node with none of our code in the loop and it has to match the payments table row for row\n- Account lazy-create means a judge connects a fresh MetaMask 0x address and their Hedera account is created by their first payment, so onboarding an EVM user is a side effect, not a step\n\nWorld ID, for human versus agent pricing\n- The hub verifies a Selfie Check proof once against World's v4 endpoint, then mints a short-lived HMAC session token bound to the rp-scoped nullifier\n- The gateway checks that signature locally on every request, so human pricing adds zero latency per call and cannot be faked with a header\n- Binding to the nullifier instead of the wallet means one human is one session, no matter how many wallets their agent rotates through\n\nThe Graph\n- A real Uniswap v3 subgraph is one of the monetized APIs, at 0.02 HBAR per GraphQL query\n- The repo ships an MCP server with two tools, list_paid_apis and paid_fetch, so any Claude or GPT agent becomes a paying customer of it and the payment lands on the dashboard mid-answer\n\nThe dashboard\n- Frontend fed by a WebSocket event stream from the hub\n- The hub aggregates analytics and appends every event to a replayable tape\n- Everything is scoped to the connected wallet: a lane belongs to whoever it pays out to",
+  "auto_summary": "A monorepo that wraps existing APIs behind x402 pay-per-request gateways, streams settlement events to a hub, and shows analytics in a dashboard.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/glassbox402-qyepd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

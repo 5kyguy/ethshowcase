@@ -1,0 +1,27 @@
+{
+  "id": "jtw1k",
+  "slug": "intentgraph",
+  "title": "IntentGraph",
+  "tagline": "From a question to on-chain data, pay-per-query for The Graph, priced natively in HBAR via x402",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jtw1k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jmI012DOkIPpT1k00L358ybjpQH6tt01jCJkuy2lwZgI8Y/high.mp4",
+  "demo_url": "https://intentgraph-production.up.railway.app/",
+  "source_url": "https://github.com/anoop04singh/IntentGraph",
+  "finalist": false,
+  "description": "IntentGraph gives AI agents paid access to The Graph’s subgraphs through a verifiable Hedera payment flow. Describe the data you need, let your agent unlock the toolkit, and follow the evidence from discovery to the final query result.\n\nWhat you can do\nAsk for blockchain data in natural language. Your agent translates the request into discovery, schema inspection, and GraphQL calls.\nAccess The Graph without managing a Graph key. The service operator supplies the upstream credentials.\n\nPay for a bounded access session. One confirmed payment unlocks the toolkit for the advertised duration and usage allowance.\nInspect how an answer was produced. The playground shows tool arguments, returned data, and a settlement receipt alongside the answer.\nUse your preferred agent. Connect an MCP-compatible client, or try the hosted Gemini demonstration in your browser.\n\nIntentGraph is useful for developers exploring protocols, analysts inspecting indexed activity, and agent builders who need a clear path from a data request to paid tool access. Available data depends on the subgraphs discoverable through the upstream service, their schemas, and their indexing status.",
+  "how_its_made": "We built IntentGraph as a TypeScript application with a React/Vite frontend and an Express backend. It turns a natural-language request into a payment-gated workflow for discovering and querying blockchain data.\nThe core integration is The Graph’s Subgraphs MCP. Our server authenticates with an operator-owned Graph API key, discovers the upstream tools and their JSON schemas, and registers those tools using the MCP TypeScript SDK. Users never need their own Graph key. Initially, only unlock_data_access is available; the actual data-tool handles remain disabled.\nCalling the unlock tool returns an x402 v2 quote denominated in native HBAR on Hedera testnet. The payer signs the exact requirements locally, and our backend uses Blocky402 to verify and settle the payment. Only after confirmed settlement do we call .enable() on the tools and notify the agent that its toolkit has changed. SQLite stores payment receipts, canonical transaction IDs for replay protection, and usage statistics.\nThe interactive playground uses Gemini’s function calling through a real MCP client connection. Gemini requests access, then the server signs the payment using a shared, faucet-funded Hedera testnet wallet. Each visitor gets a separate MCP session. After unlocking, Gemini searches subgraphs, checks deployment activity, inspects the selected schema, and builds a bounded GraphQL query. Streamed events power the frontend console, showing tool calls, responses, payment receipts, and the final answer.\nThe most interesting implementation detail is that payment changes the agent’s available tools mid-conversation. We gate the real tool handles rather than merely telling the model not to use them. We also preserve Gemini’s function-call metadata across turns while keeping payment proofs and private keys out of model context and browser responses.",
+  "auto_summary": "A TypeScript app that gates AI agent access to The Graph subgraph tools behind verifiable Hedera x402 payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/intentgraph-jtw1k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

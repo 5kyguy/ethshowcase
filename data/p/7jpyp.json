@@ -1,0 +1,35 @@
+{
+  "id": "7jpyp",
+  "slug": "ballast",
+  "title": "Ballast",
+  "tagline": "Ballast - leveraged, oracle-anchored liquidity on 1inch Aqua",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7jpyp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/gVZ9UUfU005NQ6E8a9IeV5K9apRhblE01nhtsGSEimMOs/high.mp4",
+  "demo_url": "http://localhost:3000",
+  "source_url": "https://github.com/mcmoodoo/Ballast",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "4th place",
+      "title": "Build an Aqua App"
+    }
+  ],
+  "finalist": false,
+  "description": "Ballast helps an LP make their liquidity work harder, without taking on the usual risk that comes with it.\n\nThe problem: in a normal AMM, an LP faces a trade-off. To offer tight prices (low slippage) on big trades, you need a lot of capital sitting in the pool. And when markets move fast, the pool's price can fall out of line with the real market price. When that happens, arbitrage traders buy from the pool at the stale, wrong price and the LP loses money.\n\nBallast fixes both sides of that trade-off with two pieces:\n\n1. Leverage - the pool quotes prices as if it held several times more capital than it actually does. This makes its prices much tighter (less slippage) without requiring the LP to lock up more money. I add a safety check so the pool can never promise more tokens than it really holds.\n2. An oracle anchor - before each trade, the pool checks the real market price from a Chainlink price feed. If the pool is about to sell at a price that's too generous (inviting the arbitrageurs to drain the LP), it caps the trade at the fair market price instead. The trade still happens - just at a price that protects the LP.\n\nLeverage gives the pool depth while the Chainlink anchor keeps that deep, leveraged pool honest so the LP doesn't get picked off.\n\nThe price feed is read on-chain, inside the trade itself, and it directly sets how many tokens change hands - it's part of the TX.\n\nProof: I ran it on a FORKED ethereum mainnet using real WETH and USDC and the real Chainlink ETH/USD feed. On a pool deliberately knocked 2x off-market, a trader could grab ~11.9ETH for 10,000 DAI without the anchor. With the anchor on, the same trade is capped to the fair 5.94 WETH and the LP keeps the difference.\n\n17 automated tests demonstrate that.\n",
+  "how_its_made": " Stack: 1inch SwapVM and Aqua, Solidity, Foundry for tests and the demo, Chainlink Price Feeds for prices.\n\n  I wrote two custom opcodes:\n  - Leverage — the pool quotes prices as if it held more capital than it does, so trades get tighter prices. It has a check that prevents quoting more tokens than the\n  LP actually holds.\n  - Oracle anchor — before each swap it reads the Chainlink price and caps the trade at fair value if the pool is about to give the trader too good a deal.\n\n  Both run on every swap, anchor first, then leverage.\n\n  Chainlink: the price feed is read on-chain inside the swap, and the price sets how many tokens change hands — it's not just displayed. The opcode handles different\n  token decimals (e.g. WETH 18 vs USDC 6), trade direction, and stale-price rejection.\n\n  Two technical notes:\n  - I pointed Foundry's remappings at the libraries already installed for the original template instead of reinstalling them. This required matching the template's\n  exact compiler settings (viaIR, optimizer runs, EVM version) so the opcode lookups resolved correctly.\n  - The Chainlink ETH/USD feed quotes price in the opposite orientation my code expects, so I wrote a small adapter to invert it. That let me use the real feed directly\n  and run the demo on a fork of Ethereum mainnet with real WETH and DAI.",
+  "auto_summary": "A Solidity project that extends 1inch SwapVM/Aqua with leveraged AMM and oracle-anchor swap instructions tested on local and mainnet-fork setups.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ballast-7jpyp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

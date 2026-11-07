@@ -1,0 +1,26 @@
+{
+  "id": "bvrb8",
+  "slug": "paydin",
+  "title": "paydin",
+  "tagline": "we created a dapp to pay back a freind split a bill using unlink",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bvrb8/banner/default.jpg",
+  "demo_url": "https://github.com/idir1900/eth_cannes_paydin",
+  "source_url": "https://github.com/idir1900/eth_cannes_paydin",
+  "finalist": false,
+  "description": "Private Pay-Back-Your-Friend is a minimal dApp for repaying friends on Base Sepolia with Unlink-powered private transfers. Users connect a wallet, mint Unlink test ERC-20, deposit into their Unlink private pool, then enter a friend’s address and amount and send privately—so the payment path goes through Unlink’s shielded flow instead of a plain on-chain transfer. The UI stays deliberately simple: clear wallet vs pool balances, optional split-the-bill math (equal shares + tip), QR for addresses, and local-only recent payees and payment history for demos. Built with Vite, React, TypeScript, wagmi, and viem, integrating the @unlink-xyz/sdk in the browser with a dev proxy for API access. It’s a hackathon-friendly take on “pay someone back” with privacy as a first-class story on Base testnet.",
+  "how_its_made": "We built Private Pay-Back-Your-Friend as a Vite + React + TypeScript single-page app. Wallet and chain are handled with wagmi and viem on Base Sepolia (chain id 84532): connect, switch network, read the Unlink test ERC-20 balanceOf, and sign deposit / approval transactions from the browser.\nUnlink is the core partner integration: we use @unlink-xyz/sdk to create a browser client keyed with VITE_UNLINK_API_KEY, derive/store a demo mnemonic in localStorage, and call the documented flows—faucet mint to the wallet, deposit into the private pool, getBalances for the shielded balance, and withdraw to a friend’s 0x address. That gives us a real private-payment path instead of faking balances in the UI.\nBrowser ↔ Unlink API was the messy part. Direct calls to Unlink’s staging host hit CORS, so we added a Vite dev/preview proxy (/unlink-api → staging-api.unlink.xyz) and a small createUnlinkDevProxyFetch wrapper: it rewrites SDK requests to same-origin /unlink-api/... and buffers streaming JSON bodies to strings so we don’t rely on duplex fetch behavior that breaks in Chromium. The SDK also pulled in Node assumptions: we polyfill Buffer in main.tsx for @zk-kit crypto, alias module to a tiny stub to avoid createRequire is not a function, and alias @zk-kit/eddsa-poseidon’s blake2b entry to the file that actually ships in the package—otherwise the bundle wouldn’t resolve.\nOn top of that we kept the product layer simple: React hooks only (no global state library), html5-qrcode for address scanning, local-only payment history and recent payees, and a small split-the-bill helper (equal shares + tip) that just fills the amount field before calling Unlink.\n",
+  "auto_summary": "A React dApp on Base Sepolia uses Unlink to mint, deposit, and privately send test tokens to another address.",
+  "scores": {
+    "originality": 5,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/paydin-bvrb8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

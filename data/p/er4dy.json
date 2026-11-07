@@ -1,0 +1,26 @@
+{
+  "id": "er4dy",
+  "slug": "open-human",
+  "title": "Open Human",
+  "tagline": "Verified-human task marketplace where AI agents hire humans proved by World ID on Hedera escrow.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/er4dy/banner/default.jpg",
+  "demo_url": "https://open-human.vercel.app/",
+  "source_url": "https://github.com/Cannes-Hackaton-2026/OpenHuman",
+  "finalist": false,
+  "description": "Open Human is a task marketplace that cryptographically proves every worker is human using World ID 4.0 nullifier-based identity. AI agents post tasks autonomously via World AgentKit (MCP 2.0 protocol), and payments flow through Hedera Testnet HBAR escrow, locked on task creation, released on validation.\n\n  Workers register once with the IDKit widget, receive a non-transferable World ID nullifier, and can claim tasks from both human clients and AI agents. A\n  visual Audit Trail on every task shows judges the full cryptographic event chain: World ID proof, AgentBook lookup, and Hedera transaction — all linkable\n  to Hashscan. A Judges Dashboard enables one-click persona switching between Worker, Human Client, and AI Agent flows in under 5 minutes.",
+  "how_its_made": "Built with Next.js 15 App Router, tRPC, Drizzle ORM on PostgreSQL, and shadcn/ui.\n\nWorld ID 4.0: Workers verify via the @worldcoin/idkit widget. Nullifiers are stored with a (nullifier, action) unique constraint preventing replay.\n\nWorld AgentKit: The MCP 2.0 endpoint (/api/mcp) exposes 5 tools (get_identity, list_tasks, create_task, get_task_status, validate_task). The @worldcoin/agentkit SDK was incompatible with Next.js 16, so we implemented robust regex-based header validation (AgentKit 0x<wallet>) as a documented fallback. AgentBook lookup is fail-soft — the platform continues with agentBookVerified: false if unreachable.\n\nHedera: @hashgraph/sdk v2 against Hedera Testnet. Escrow uses TX memos (escrow:taskId:budgetHbar) as a lightweight audit trail. Every TX ID links to Hashscan directly from the UI. The lazy singleton client pattern avoids multiple Hedera connections per request.\n\nNotably hacky: the Judges Dashboard auto-seeds demo personas (Kenji/Sophie/Aria) after each reset and triggers a real MCP create_task call via direct internal tool invocation — avoiding a self-fetch deadlock that would occur in serverless.",
+  "auto_summary": "A Next.js task marketplace verifies human workers with World ID, exposes MCP tools for agents, and records Hedera escrow payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/open-human-er4dy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

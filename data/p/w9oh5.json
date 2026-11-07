@@ -1,0 +1,27 @@
+{
+  "id": "w9oh5",
+  "slug": "verigate",
+  "title": "VeriGate",
+  "tagline": "Verifiable Gate Agent for private eligibility, 0G memory, iNFTs, and onchain receipts.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w9oh5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/C4HLfrtsicWeh3M02YKprlqMM5Qm3YnZHdqatJR1tuHA/high.mp4",
+  "demo_url": "https://youtu.be/jV2zf1njsjg",
+  "source_url": "https://github.com/Skottbie/VeriGate",
+  "finalist": false,
+  "description": "VeriGate is a proof-gated RSVP agent for Web3 events. Organizers describe eligibility rules in natural language — \"ETH holders only, wallet addresses hidden, one RSVP per person\" — and the agent compiles them into a locked EligibilityPolicy via 0G Compute. Attendees submit a zkTLS-attested eligibility proof — in the demo, ETH holder status — with wallet addresses and exact balances redacted. A deterministic verifier evaluates the redacted proof against the locked policy — no LLM involved in the pass/fail decision. If approved, a verifier receipt and event-scoped nullifier are recorded on-chain. KeeperHub executes mintWithVerifiedReceipt on Sepolia, bound to that receipt. 0G Storage anchors every step as a persistent shared agent memory (policy, compute receipt, proof metadata, audit record, pass execution memory). ENS publishes event identity under verigate-agent.eth with text records (policyHash, verifier, passContract, auditPointer) that any observer can independently resolve and verify. A GateAgent iNFT on 0G Galileo stores encrypted event intelligence and supports verifier-checked iClone and iTransfer per ERC-7857. Core thesis: AI compiles and explains policy. Proof and deterministic code decide eligibility.",
+  "how_its_made": "VeriGate is Node.js ESM + vanilla HTML RSVP Studio + Solidity contracts. No frontend framework or build step — the single-page app calls the Node.js API directly.\n\n0G: 0G Compute (live inference) turns organizer intent into a structured EligibilityPolicy JSON and returns a compute receipt with promptHash and outputHash. Six contracts on 0G Galileo (chainId 16602) handle event registry, nullifier registry, verifier receipts, and EventPassSBT. 0G Storage (Turbo indexer) stores eight object types per event under a scoped memory namespace — policy, compute receipt, redacted proof metadata, audit record, execution plan, manifest, pass execution memory, and GateAgent encrypted metadata. The GateAgent iNFT (ERC-7857, contract 0xcD6c201A59F97291dabD45DA1456798D142F9f5e on 0G Galileo) stores encrypted policy intelligence, implements intelligentDataOf, authorizeUsage, iTransfer, and iClone, with a GateAgentDataVerifier checking transfer receipts on-chain.\n\nENS: verigate-agent.eth (Sepolia) is the agent identity. The backend writes 11 text record fields per event (policyHash, verifier, passContract, auditPointer, etc.) and the frontend resolves them live, cross-checking resolved policyHash against the current workflow. Not hard-coded.\n\nKeeperHub: Direct Execution calls EventPassSBT.mintWithVerifiedReceipt(recipient, receiptId, tokenURI) on Sepolia. The contract validates the verifier receipt before minting. Pass recipient is a fresh client-generated wallet — not the ETH holder source wallet — protecting source wallet privacy at the execution layer.\n\nzkTLS: Server-side attestation verification proves eligibility claims (ETH holder status in the demo), then strips wallet addresses, exact balances, and API request bodies before the proof reaches the verifier.\n\nNotable: The X-API-Key header format documented in KeeperHub's API docs returned 401 during our integration — Authorization: Bearer <token> is what actually works. Reproducible steps in keeperhub-builder-feedback.md for the feedback bounty.\n\nFull end-to-end flow is verified on live networks: 0G Galileo (chainId 16602) and Sepolia — all transactions on-chain, no mocks.",
+  "auto_summary": "VeriGate compiles event eligibility rules into verifiable policies, checks privacy-preserving proofs, and records gated RSVP and pass issuance data on-chain.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/verigate-w9oh5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

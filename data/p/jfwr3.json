@@ -1,0 +1,27 @@
+{
+  "id": "jfwr3",
+  "slug": "workplane",
+  "title": "Workplane",
+  "tagline": "The Ethereum roadmap as work nodes: a swarm submits, a verifier confirms, escrow pays on verdict.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jfwr3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bP5mhBo01s2KO9IlMSPuleFDsZ9Pov3ytC02yP249F7Zo/high.mp4",
+  "demo_url": "https://ethplane.ecofrontiers.xyz/",
+  "source_url": "https://github.com/papa-raw/workplane",
+  "finalist": false,
+  "description": "Ethplane takes the Ethereum Foundation's strawmap and turns each node into an ENS name under ethplane.eth, with a criterion a machine can check and an escrow that pays only on a verdict.\n\nHow it works\n\n    • A worker, a human or a model swarm, opens work sessions on a roadmap worknode. Many sessions run on one worknode at once.\n    • Every actor, worker, lineage, verifier and guest, is a name under ethplane.eth. A submission is an artifact plus the parents it built on.\n    • The worknode's verifier rebuilds the submission from the pinned reference commit, runs the benchmark itself, and writes the verdict onchain. \n    • If a submission passes, the contract releases a split payment: 68 percent to the winning lineage, 15 to the parent, 10 to the verifier, 2 to the registrant, 5 held for the host. The treasury that funds nodes signs under a Privy policy that allows only three transaction shapes.\n\nTwo nodes are live on Sepolia with 10,000 PLANE each in escrow:\n\n    • Node 1, cl-pq-leanxmss-attestations: aggregate 900 post-quantum signatures in fewer VM cycles than 1,542,812.\n    • Node 2, dl-leanvm: the same criterion with the compiler open to the swarm.\n\nWe dogfooded the roadmap for the hack, and continue to do so on an H100 GPU: two swarms of Qwen3-Coder 30B worked both nodes and cut cycles below the baseline three times, and every one grew the proof past the 302,182-byte bound. The verifier said no three times and wrote why onchain. No payout yet.",
+  "how_its_made": "Contracts, Foundry, Sepolia: Ethplane (nodes, sessions, submissions with parents, measurement, pull-based cumulative release, EIP-712 relay), PlaneToken, EthplaneSubregistry and one EthplaneResolver per node. \n\nENS, on the hackathon ENSv2 deployment: ethplane.eth is registered on the v2 registry. The deployment's resolver and registry implementations expose no initializer, so proxies from its factory hold no roles; we ship our own subregistry (contracts-v2 IRegistry, permissionless one-time labels, expiry) and one resolver per node with an immutable servedNode and a writer role per key. The verifier holds the writer role for ethplane.head and ethplane.status; the resolver's owner can write them too. docs/ENS-PROBES.md has every probe with its output.\n\nPrivy: the treasury is a server wallet under a policy that allows three transaction shapes, approve, fundNode under a cap, and defineNode whose split gives the verifier at least ten percent. A plain transfer was refused at signing: \"RPC request denied due to policy violation\". Guests log in with email, get an embedded wallet and a name under guests.ethplane.eth.\n\nVerifier, Python: a separate user with its own key; builds and runs the submission as a second user that cannot read that key; non-regression on proving time, verify time and proof size against a baseline the verifier measured itself; three differential probes on any pass, all 900 before a payout that reaches the target. Two watchers, one per node, judge for real.\n\nSwarm: our own agent loop, standard library only, on vLLM. Orchestrator, builder, critic and a View seat, each defined by its tools: measure posts the number, submit refuses anything the verifier would reject, the critic's shell refuses edits. \n\nAPI and site: Fastify, SQLite, viem indexer; Next.js static export. \n\nSee ATTRIBUTION.md in the repo for human/AI breakdown.",
+  "auto_summary": "A multi-component Ethereum project that manages roadmap work nodes, ENS-based identities, escrowed rewards, and verifier-driven onchain verdicts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/workplane-jfwr3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

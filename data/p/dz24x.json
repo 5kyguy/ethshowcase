@@ -1,0 +1,35 @@
+{
+  "id": "dz24x",
+  "slug": "nft-crossroad",
+  "title": "NFT CrossRoad",
+  "tagline": "Swiss Knife for NFTs!",
+  "event": {
+    "slug": "ethindia2022",
+    "name": "ETHIndia 2022",
+    "start_time": "2022-12-02T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dz24x/banner/default.jpg",
+  "demo_url": "https://www.canva.com/design/DAFTuZ5BQ6s/sWRYFCJYJnZJifTBXFwMWw/view?utm_content=DAFTuZ5BQ6s&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton",
+  "source_url": "https://github.com/abhishekvispute/NFT-Crossroads",
+  "prizes": [
+    {
+      "sponsor": "Push Protocol",
+      "sponsor_id": "10a1v",
+      "placement": "🏊 Push Protocol — Prize Pool",
+      "title": "Push Protocol"
+    },
+    {
+      "sponsor": "Connext",
+      "sponsor_id": "ygz83",
+      "placement": "🥉 Connext — Best Use",
+      "title": "Connext"
+    }
+  ],
+  "finalist": false,
+  "description": "![13](https://user-images.githubusercontent.com/46760063/205464001-d881cf66-f19a-44b7-9765-f3238038255e.png)\nNFT projects are always faced with a choice between **value accrual on mainnet** or **cost efficiency of other L2s/Chains**.\nThis project's intention is to bring NFT projects out of this dilemma and establish a solution without compromising either of these 2 choices. \nEach Protocol is unique and has its own needs. \n**Hence NFTCrossRoad presents 3 unique solutions.**\n\n1. Sale \n2. Beacon\n3. SeeSaw\n\n## [More on what they are and how they work here]( https://www.canva.com/design/DAFTuZ5BQ6s/sWRYFCJYJnZJifTBXFwMWw/view?utm_content=DAFTuZ5BQ6s&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton) \n",
+  "how_its_made": "### 1. Verification of contracts on Polygon Mumbai \nPolygon Mumbai don't verify contracts directly from API; you need to manually verify it by uploading a flattened file or solidity-generated JSON output.\nThis would have been okay in other cases, but for connext, if you import the interfaces as it is, it has a lot of dependencies, and it creates cyclic dependency, so you cannot flat it\nThe other way of SOLC also doesn't work since polygonscan is crashing due to its huge size.\n\nI spent nearly ~2h, just to get these contracts verified,\nthen realized \ninstead of importing IConnext from the connext repo as suggested docs, \nI could define my own interface.\n\n``\ninterface IConnext {\n  function xcall(\n    uint32 _destination,\n    address _to,\n    address _asset,\n    address _delegate,\n    uint256 _amount,\n    uint256 _slippage,\n    bytes calldata _callData\n  ) external payable returns (bytes32);\n}\n``\n\nWould keep your generated output fairly small, you can now flat the contracts, and your contract also doesn't look bulky on the code section of scanners.\nAnd yep, it worked; NFT CrossRoad contracts are now verified on polygonscan  !\n\n### 2. EPNS Channel Id \nI thought there was a different unique channel id created, spent a good amount of time debugging transactions to find so.\nOnce I talked with EPNS Team, it was clarified that the channel id is nothing but the creator's address.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nft-crossroad-dz24x",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

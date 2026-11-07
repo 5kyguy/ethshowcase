@@ -1,0 +1,30 @@
+{
+  "id": "dnymr",
+  "slug": "macaque",
+  "title": "Macaque",
+  "tagline": "Macaque allows anyone to spin up their own Macaque Virtual Trading Chains",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dnymr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/P00JMVngYL99BOwQCendU3vgdpOa02H00mBRQ00l1wcMabU/high.mp4",
+  "demo_url": "https://macaqueswap.vercel.app",
+  "source_url": "https://github.com/ETHOnline2025/contract",
+  "prizes": [
+    {
+      "sponsor": "EVVM",
+      "sponsor_id": "gatm1",
+      "placement": "Most Innovative Use of EVVM’s Execution Function",
+      "title": "Most Innovative Use of EVVM’s Execution Function"
+    }
+  ],
+  "finalist": false,
+  "description": "Macaque is a decentralized software stack that enables anyone to spin up their own Macaque Virtual Trading Chain (MVTC) for slippage-free cross-chain cryptocurrency trading. Unlike building a standalone appchain like Hyperliquid (which requires launching an entire L1 blockchain with validators, consensus mechanisms, and infrastructure), MVTCs run as virtual blockchains inside smart contracts using EVVM technology—drastically reducing deployment complexity and costs for builders. For app builders, this means you can launch a CEX-speed trading platform in hours instead of months, without managing validator sets, bridge security, or custom chain infrastructure. The platform uses a Central Limit Order Book (CLOB) matching engine that processes orders off-chain for speed while keeping all bookkeeping and settlements transparently on-chain. Users get slippage-free trading across multiple blockchain architectures thanks to CAIP10 standard integration, allowing deposits on one chain and withdrawals to another seamlessly. Builders inherit the security of established chains like Ethereum or Base rather than bootstrapping their own validator set like Hyperliquid. The system is fully chain-agnostic, so builders can target any EVM ecosystem without being locked into a single chain architecture or having to convince users to bridge to a new L1. For traders, it delivers the speed of Hyperliquid with the flexibility of multi-chain support and the security of settled L1s. In essence, Macaque democratizes the ability to launch Hyperliquid-style trading platforms by removing the massive infrastructure burden and making it accessible to any builder.",
+  "how_its_made": "We extended the core EVVM contract to natively support CAIP-10 identifiers by adding an entirely new balance tracking system (caip10Balances mapping) that operates alongside the traditional EVM address-based balances, enabling truly chain-agnostic bookkeeping for Cosmos, Bitcoin, and Solana users without forcing them through synthetic address conversions. Our Trading contract leverages EVVM's executor authorization pattern, which we extended to include an authorizedTradingContract mechanism that allows the Trading contract to directly manipulate EVVM balances via addAmountToUserCaip10() and removeAmountFromUserCaip10() functions—essentially giving our orderbook direct write access to the core ledger. We implemented a particularly hacky dual-tracking system where deposits and withdrawals update both EVVM's EVM address balances (for native chain operations) AND CAIP-10 native balances (for cross-chain operations) in parallel, ensuring consistency across both indexing systems while maintaining backward compatibility with existing EVVM infrastructure. The fee structure deeply integrates with EVVM's staking contract by querying isAddressStaker() to provide 50% fee discounts to stakers, and we use EVVM's NameService to resolve usernames to addresses on EVM chains, allowing users to deposit/withdraw using readable names instead of hex addresses. We also implemented the Fisher/Relayer executor pattern where off-chain nodes can execute user-signed transactions and earn 20% of withdrawal fees as rewards—this required extending EVVM's signature verification utilities to support new message formats like \"withdrawWithExecutor\" with proper domain separation using the EVVM ID.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/macaque-dnymr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

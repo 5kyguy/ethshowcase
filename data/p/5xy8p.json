@@ -1,0 +1,35 @@
+{
+  "id": "5xy8p",
+  "slug": "traverse",
+  "title": "Traverse",
+  "tagline": "Traverse automatically generates security reports for EVM smart contracts on Ethereum, Optimism, and Polygon. It uses static analysis to identify frequently-missed bugs and vulnerabilities, and allows users to vote on security too.",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5xy8p/banner/default.jpg",
+  "demo_url": "https://traverse-sepia.vercel.app/",
+  "source_url": "https://github.com/siddhantsharma301/traverse",
+  "prizes": [
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "🏊‍♂️ Worldcoin — Pool Prize",
+      "title": "Worldcoin"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🛠 Optimism — Best Developer Infra/Tooling",
+      "title": "Optimism "
+    }
+  ],
+  "finalist": false,
+  "description": "Traverse generates security reports for EVM smart contracts using open source tools such as Trail of Bits’ Slither. These tools check for known patterns of vulnerable code in source code using static analysis methods. The reports generated from these tools are then stored on IPFS and Filecoin using Web3.storage. \n\nOur frontend gives users two ways to explore security reports for each. First, users can explore security reports for recently deployed verified contracts on Ethereum, Polygon, and Optimism. Second, users can search by contract address and view the security report for the contract. For each contract, users can view a table of all vulnerabilities (if any). The table includes information such as the impact of the vulnerability, confidence level of the vulnerability, a description of where it exists, and which rule it violates. The user can utilize this information to pinpoint affected lines and functions and resolve it. Traverse has Worldcoin integration as well, allowing users to vote on whether they believe a contract is actually safe or not. This gives a layer of human verification, as people can get a better understanding of whether the issues are critical. This poll is viewable by other visitors of Traverse.\n\nOn the backend, Traverse generates the security reports and stores a mapping between contract addresses and IPFS CIDs. If Traverse encounters a contract address that has never been encountered before, it will generate a security report, upload to IPFS, and store it in the mapping. Otherwise, Traverse fetches the existing CID for the contract and fetches the security report. This saves the effort of recomputing security reports every time a contract address is submitted or viewed!",
+  "how_its_made": "The backend uses Node.js and Express. Slither runs in the background whenever requests are made to endpoints to generate security reports. Slither checks for common vulnerability patterns in Solidity source code. The reports are stored on IPFS and Filecoin using Web3.Storage. If a contract address has already been seen (so a report has already been stored on IPFS), we maintain a mapping between contract address and IPFS CID. This allows for quick access of security reports and no need to regenerate reports for contracts. To aggregate verified contracts across Ethereum, Polygon, and Optimism, we leverage Etherscan, Polygonscan, and Optimscan APIs respectively. We scrape all three to get the most recent 100 verified contracts from each and return the data to display to our frontend.\n \nThe frontend uses Next.js, React, and TailwindCSS. Our frontend provides two ways to utilize our security reports. The first is to view recently verified contracts and access/generate security reports for each contract. The second is to enter a contract address and view the security report. The frontend displays the vulnerabilities in a table format, outlining the impact, confidence level, description, and checker rules for each vulnerability in the contract. Worldcoin allows users to vote on whether contracts are truly secure or not. This integration allows us to have real users provide human input as to whether the vulnerabilities found are truly critical or not. On the other hand, it allows humans to vote on whether contracts that do not display traditional vulnerable patterns have hidden vulnerabilities.\n \nUsing sponsor technology such as IPFS/Web3.storage and Worldcoin was definitely useful for us. Having IPFS allows us to store our security reports in a decentralized manner, so the data can be accessed around the world and have duplication. IPFS and Web3.storage also speeds up our runtime if we encounter the same contract several times across different users. Worldcoin integration allows us to verify whether the visitors of our website are human, and if they are, they add a human layer of verification to our automatically generated reports. It doesn’t need blind trust on static analysis tools: humans can vote on the correctness of the report or the security of the contract. Deploying our tool onto Ethereum, Polygon, and Optimism allows us to test our methodology on several EVM compatible chains and rollups and show-cases the usability of our tool. Not to mention, leveraging APIs from tools such as Etherscan, Polygonscan, and Optimscan allowed us to scrape basic verified contract data and display it on our website. In the future, we can expand this to any EVM compatible chain and run similar static analysis tools. \n \nWe were impressed by our project in several ways. First, we were impressed by how leveraging IPFS/Web3.storage allowed us to prevent duplication of security reports, and also allows other users to access them. Second, we were impressed by the fact we could even create this tool to perform static analysis on Solidity code across EVM compatible chains and generate automatic security reports publicly. It felt almost magical that we got it working in the first and even more so after creating a frontend and backend around viewing and generating the reports! Lastly, we were impressed by how we could leverage cutting-edge AI research tools to power our project. We explored using OpenAI Codex to retrieve functions from the Solidity code for each contract address and generate unit tests automatically. We then used Foundry fuzz testing to automatically generate a wide variety of inputs to run on these unit tests and display the results. As cool as the idea was, it was too costly and compute-heavy to deploy. However, we were really impressed by the capabilities and how we could dynamically generate tests for verified contracts on chain and generate useful information for all users.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/traverse-5xy8p",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

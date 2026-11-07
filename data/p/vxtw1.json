@@ -1,0 +1,28 @@
+{
+  "id": "vxtw1",
+  "slug": "vitae",
+  "title": "Vitae",
+  "tagline": "Consist in creating a new Lens module, and integrate Soul Bound Tokens, to verify people's working background.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vxtw1/banner/default.jpg",
+  "source_url": "https://github.com/MelanieRmz/ETHTokyo-Vitae",
+  "prizes": [
+    {
+      "sponsor": "Lens Protocol",
+      "sponsor_id": "vxwti",
+      "placement": "🔟 Lens — Top 10",
+      "title": "Lens Protocol"
+    }
+  ],
+  "finalist": false,
+  "description": "Nowadays it's has been an issue when hiring people, you cant verify their profile based in \nSBTs solve this problem by providing a secure, non-transferable NFT that represents a person's unique professional trajectory. Companies can issue SBTs to their employees, which include details of their work experience, projects, achievements, and other relevant information. When an employee applies for a new job, they can provide their SBTs as proof of their skills and experience. This provides a verified and immutable record of an individual's work history, making the hiring process more efficient and effective for companies.\n\nSoulBound Tokens are solving the problem of verifying work experience by providing a secure and immutable way for companies to confirm an applicant's claims about their past work history. With SBTs, individuals and companies alike can benefit from a more efficient and effective hiring process.\n\nTechnical Details. \n\nWe created a new module on Lens, to connect it to SBT. Consist on Follow the Module of the candidate’s profile, and other protocol members can interact with this user profile. The candidate must create this new module, specify the protocol that wants to join and only members of that protocol can follow him.\n\nThe interface Contract: \nIt has to make the mapping of the address of current members for the protocol, then connect it to the protocol mapping, after that there has to vote for a candidate to be accepted. There must specify the number of votes needed to mint the SBT. \n\nHow does it connect to the protocol profile?  \nThere must be a special/Specific publication for the new members to collect the SBT, and they must have a minimum number of followers/Vote from the protocol members. \n\n",
+  "how_its_made": "We use the ERC-721 standard in OpenZeppelin to create a new contract. \n\ncontract SoulBoundToken is ERC721 (constructor () ERC721 (\"SoulBoundToken\", \"SBT\") {}\n\nand then defined the additional functionalities of the token. \n\nThe code imports the ERC721 contract from the OpenZepelin library and creates a new contract that inherits from it. With the constructor, it is going to be linked to a function that sets the name and the symbol of the token. \n\nNext it is going to create a mapping of addresses to Token ID's and functions: \n\npragma solidity ^0.8.0;\n\nimport \"@openzeppelin/contracts/token/ERC721/ERC721.sol\";\n\ncontract SoulBoundToken is ERC721 {\n    uint256 public tokenCounter;\n    mapping(address => uint256) public tokenIds;\n\n    constructor(ProtocolMembers) ERC721(\"SoulBoundToken\", \"SBT\") {\n        tokenCounter = 0;\n    }\n\n    function issueToken(address recipient) public {\n        uint256 newTokenId = tokenCounter;\n        _safeMint(recipient, newTokenId);\n        tokenIds[recipient] = newTokenId;\n        tokenCounter++;\n    }\n\nWe need to specify if we need additional functionality with the token, this will be defined when customizing the specifications from the companies that are going to be creating the SBT. \n\nFinally we integrate the smart contract with the Lens protocol. \n\npragma solidity ^0.8.0;\n\nimport \"@openzeppelin/contracts/token/ERC721/ERC721.sol\";\n\ncontract SoulBoundToken is ERC721 {\n    uint256 public tokenCounter;\n    mapping(address => uint256) public tokenIds;\n\n    constructor() ERC721(\"SoulBoundToken\", \"SBT\") {\n        tokenCounter = 0;\n    }\n\n    function issueToken(address recipient) public {\n        uint256 newTokenId = tokenCounter;\n        _safeMint(recipient, newTokenId);\n        tokenIds[recipient] = newTokenId;\n        tokenCounter++;\n    }\n\n    function verifySoulBound(address owner) public view returns (bool) {\n        uint256 tokenId = tokenIds[owner];\n        return _exists(tokenId);\n    }\n}\nThis code adds a verifySoulBound() function that takes an owner address as input and returns a boolean indicating whether that address owns a soul bound token. This function can be integrated with Lens protocol to verify that a user has worked for a specific company.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/vitae-vxtw1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

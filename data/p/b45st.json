@@ -1,0 +1,27 @@
+{
+  "id": "b45st",
+  "slug": "post-quantum-agent",
+  "title": "Post Quantum Agent",
+  "tagline": "  AI agent marketplace where only ML-DSA-44 + ECDSA hybrid-signed, human-backed agents may trade.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b45st/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kfOYcuz01ao9tEDhMvUTILPcDNGxmelcZ3UbzfyVzf1A/high.mp4",
+  "demo_url": "https://marketplace-sigma-gules.vercel.app/",
+  "source_url": "https://github.com/EmanHerawy/pq-agents",
+  "finalist": false,
+  "description": "\n  Post-Quantum Agent Marketplace is an AI agent economy built for the quantum era. Every agent that wants to buy\n   or sell services on-chain must hold a hybrid ERC-4337 smart account signed with both ECDSA and ML-DSA-44\n  (NIST FIPS 204) — meaning a quantum computer alone cannot steal its funds or forge its transactions.\n\n  Agents register by proving their smart account was deployed via the ZKNOX PQ factory on ARC Testnet. A World\n  ID check links each agent to a unique verified human, creating accountability at the ownership layer.\n  Transactions are settled in USDC over ARC's low-cost network. Large transactions (>$20) require Ledger\n  hardware approval — the ML-DSA-44 key never leaves the device.\n\n  The marketplace exposes an MCP server so any AI client (Claude Code, Cursor, etc.) can list agents, send\n  messages, and trigger PQ-signed payments directly from a conversation. Pre-quantum agents are publicly listed\n  on the Wall of Shame.",
+  "how_its_made": "  The smart account layer is built on ZKNOX's ML-DSA-44 ERC-4337 implementation deployed on ARC Testnet (chainId\n   5042002). Each account requires two signatures per UserOperation: secp256k1 ECDSA (classical) and ML-DSA-44\n  (post-quantum). We use @noble/post-quantum for JS-side signing and Pimlico as the ERC-4337 bundler.\n\n  The trickiest integration was the ARC verifier (ZKNOX_MLDSA_VERIFIER_V0_0_10): it applies the NTT transform\n  and <<= 13 bit-shift to t1 internally, so our deploy script must store raw t1 coefficients — pre-transforming\n  them (as older Sepolia scripts did) causes AA24 signature failure.\n\n  The frontend is Next.js 15 with wagmi + RainbowKit for wallet connection. Agent private keys and PQ seeds are\n  stored in a 1claw encrypted vault and fetched at request time — they never touch disk or .env files. LLM calls\n   go through 1claw Shroud, a privacy-preserving proxy. World ID verification queries AgentBook contracts across\n   World Chain, Base, and Base Sepolia. The Ledger integration uses the ZKNOX Ledger app via USB HID to sign\n  ML-DSA-44 payloads fully in hardware. An MCP server wraps everything so Claude Code can interact with agents\n  natively.",
+  "auto_summary": "An agent marketplace combines ERC-4337 post-quantum smart accounts, World human verification, Ledger-gated approvals, and MCP-based agent interactions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/post-quantum-agent-b45st",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,41 @@
+{
+  "id": "07pzd",
+  "slug": "alma",
+  "title": "ALMA",
+  "tagline": "Automated Liquidity Management Agent for your Uniswap positions",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/07pzd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/X7l7s9P5uJ9o2hk3ujjcb02qbIxnf8HqW6UPdfSlbvpc/high.mp4",
+  "demo_url": "https://frontend-iota-six-kvvad292ak.vercel.app/",
+  "source_url": "https://github.com/yanisepfl/alma",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": "Best Uniswap API Integration "
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Cannes 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "ALMA (Autonomous Liquidity Management Agent) is a fully autonomous rebalancing system for concentrated liquidity positions on Uniswap V4.\n\nThe problem: Over 40% of concentrated liquidity positions sit out of range at any given time, earning zero fees. Most LPs are passive, they don't monitor positions 24/7, and manually rebalancing means signing multiple transactions, timing swaps, and choosing new tick ranges. Studies show half of all Uniswap V3 LPs would have been better off just holding.\n\nHow ALMA works: Users connect their wallet (delegated to Calibur via EIP-7702), sign once with an EIP-712 typed data signature, and ALMA takes it from there. That single signature registers the agent's key, configures an on-chain selector whitelist (GuardedExecutorHook), and sets a 30-day expiry. No further user interaction is needed.\n\nWhen a position drifts out of range, ALMA autonomously executes a full rebalance cycle (burn → swap → mint) in a single atomic batched call via Calibur. The swap is routed through the Uniswap Trading API, which provides production-grade UniversalRouter calldata with optimal routing across all Uniswap pools. The new position is minted in a range centered on the current tick.\n\nSecurity model: The agent key is constrained by three layers: (1) the GuardedExecutorHook enforces an on-chain whitelist of allowed (target, selector) pairs so only modifyLiquidities, UniversalRouter.execute, and token approvals via Permit2 are permitted; (2) Calibur's native key expiry (30 days, revocable anytime); (3) slippage protection via minimum output amounts in swap calldata.\n\nBuilt on: Uniswap Trading API, Calibur (EIP-7702), GuardedExecutorHook, PositionManager, StateView, UniversalRouter, Permit2, V4 SDK — deployed on Base.",
+  "how_its_made": "ALMA is three components stitched together: Smart contracts (Calibur and GuardedExecutorHook on Base), an Express + TypeScript backend, and a Next.js frontend.\n\nThe delegation flow was tricky. The user's EOA must already be delegated to Calibur via EIP-7702 (the Uniswap Wallet with Smart Wallet enabled does this automatically). When a user clicks \"Delegate\", the frontend builds a SignedBatchedCall containing: register(agentKey) → setCanExecute() × N (one per whitelisted target/selector pair) → update(keyHash, packedSettings). The user signs this as a single EIP-712 typed data message, no transaction, just a signature. That signature is sent to the ALMA backend relayer, which wraps it and submits the actual transaction to the user's Calibur-delegated EOA. Calibur validates the signature on-chain and executes all calls atomically. The user signs once and doesn't need to sign again until the key expires (30 days) or is revoked.\n\nThe rebalancer is where the Uniswap stack really shines. When a position is out of range, the backend: (1) builds burn calldata using the V4 SDK's V4PositionPlanner, encoding BURN_POSITION + TAKE_PAIR actions into modifyLiquidities; (2) queries the Uniswap Trading API /quote endpoint for optimal swap routing, then /swap to get raw UniversalRouter calldata; (3) builds mint calldata with the V4 SDK using post-swap amounts and a new tick range centered on the current tick. All of this (burn, approvals, swap, approvals, mint) is packed into a single SignedBatchedCall that the agent signs with EIP-712 and submits to the user's Calibur-delegated EOA. Calibur validates the signature, the GuardedExecutorHook checks every call against the whitelist, and everything executes atomically as the user.\n\nThe notably hacky part: the Uniswap Trading API's /swap endpoint returns calldata targeting the UniversalRouter directly, but we needed it inside a Calibur batch. We embed the raw Trading API calldata as-is into the batch's call array, the UniversalRouter doesn't care who's calling it as long as the tokens are approved, and Calibur executes calls as the user's EOA, so it just works. This let us get production-grade swap routing without reimplementing any routing logic.\n\nPosition discovery uses the Uniswap V4 subgraph via The Graph, and on-chain state reads (current tick, position range, liquidity) are done via multicall to StateView and PositionManager. Backend state (user registrations, rebalance history, stats) is persisted in Upstash Redis. The frontend uses Wagmi and viem for wallet connection and on-chain interactions.",
+  "auto_summary": "An autonomous liquidity manager rebalances Uniswap v4 concentrated liquidity positions using a backend relayer, smart-contract delegation, and Uniswap routing services.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/alma-07pzd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

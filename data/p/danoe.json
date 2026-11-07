@@ -1,0 +1,27 @@
+{
+  "id": "danoe",
+  "slug": "dedns-over-devpn",
+  "title": "DeDNS-over-DeVPN",
+  "tagline": "DDoV: anonymous browsing via attested, no-log relays - paid per-session on Arc via x402.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/danoe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01IbQ99AiL00oIolgtCRfTITyIaV5JCq006t6a0100OKCaVM/high.mp4",
+  "demo_url": "https://dvod-web.alexnskd.workers.dev/",
+  "source_url": "https://github.com/AlexNaskida/DeVPN-over-DeDNS",
+  "finalist": false,
+  "description": "DDoV (DeDNS-over-DeVPN) is a marketplace for anonymous internet access with enforceable, revocable permissions. A user pays for a time-boxed session at a chosen bandwidth tier (Lite/Standard/Turbo), and their device opens an encrypted tunnel to an authorized relay operator. That operator's tunnel-termination, DNS-resolution, and outbound-proxy logic runs inside a Chainlink CRE confidential handler, so the operator's own machine cannot read or log the user's traffic - attested and independently verifiable, not just promised.\n\nWhich relays are currently authorized lives in an ENSv2 registry (hierarchical subnames like bob.dvod.eth) that separates the operational key (updates endpoint/capabilities) from the payout address (where earnings go), so a compromised operator key can't redirect funds. A permissionless watchdog contract - not a human admin - automatically revokes any relay whose attestation report stops matching its published, audited build hash, and the client fails over to a healthy relay within seconds.\n\nWhen you pay for a VPN with a your card, the payment itself ties your name to the service - you're exposing exactly the identity a VPN is supposed to protect. Paying in crypto avoids that: no card, no name, no linkage back to you, which is why DDoV settles exclusively through Arc/x402 rather than any card rail. Since payment is x402-gated and settles in USDC on Arc, as a single batched per-session purchase - never a per-packet or per-DNS-query transaction, so the latency budget for live browsing stays intact.\n\nThe one-line pitch: browse without your ISP, your relay operator, or the sites you visit ever being able to link \"who\" to \"what\" — provably, not on our word. It's a full VPN-shaped privacy layer, not DNS-only, and the README states plainly which pieces (ENSv2, Chainlink CRE, Arc/x402, automatic vs. manual revocation) are genuinely live versus honestly labeled as simulated at demo time.",
+  "how_its_made": "DDoV is a pnpm + Turborepo TypeScript monorepo, built spec-first: the architecture, phase plan, and design system are laid out up front and drive implementation phase by phase, with small feature-branch commits merged into dev and tagged phase-completions merged into main -never a single end-of-day dump.\n\nThe shared type layer (packages/session-spec) uses Zod to define the session, tier, and ENSv2 capability-record schemas, plus an explicit session state-machine transition table (BROWSING → QUOTED → PAID → TOKEN_ISSUED → TUNNEL_OPEN → ACTIVE, with RELAY_REVOKED/RELAY_UNREACHABLE both routing through an automatic FAILOVER_SELECT) so every transition is validated in code, not just diagrammed.\n\nFour partner technologies each do one job, deliberately non-overlapping: ENSv2 hierarchical subnames + permissioned resolvers register relay operators and separate their operational key from their payout address, so a compromised operator key can never redirect earnings; Chainlink CRE runs the tunnel/DNS/proxy logic inside a confidential, attested handler so the operator's own machine can't read traffic; Arc settles USDC; x402 gates session purchase/renewal only - never per-packet - to keep DNS/browsing latency real.\n\nThe design system enforces its own discipline in code: an --accent token is reserved by convention to exactly three UI moments (countdown, tier highlight, failover/revocation), documented alongside the token values themselves rather than left to hope.",
+  "auto_summary": "A monorepo for buying time-limited privacy relay sessions, managing relay identity in ENSv2, and refreshing attestation data via Chainlink CRE.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/dedns-over-devpn-danoe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

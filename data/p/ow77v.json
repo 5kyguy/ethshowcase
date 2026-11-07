@@ -1,0 +1,27 @@
+{
+  "id": "ow77v",
+  "slug": "bizzet",
+  "title": "Bizzet",
+  "tagline": "bizzet is a wallet built for business operations, from receiving sales to managing team funds.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ow77v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JlYw3KfQmfDSI6Y202yySTNOkGaoXIH801WzbjtugjEAE/high.mp4",
+  "demo_url": "https://youtu.be/kH3ZtLZ5pBA",
+  "source_url": "https://github.com/bizzet-labs/bizzet",
+  "finalist": false,
+  "description": "bizzet is a wallet designed around the actual operations of a real business. Sales go straight into each store's own wallet without a payment processor or settlement wait in between, and then flow up from each store to the headquarters wallet, including payments made on other chains, which are automatically bridged, converted to the currency the business chose, and gathered into a single ledger at headquarters.\n\nOn top of the basics of receiving, holding, and sending funds, bizzet adds what a team needs to run a business. Organizations are modeled as groups (headquarters and its stores, including online shops), and each group has its own wallet. Members join a group with a role—Owner, Approver, or Viewer—that decides what they can see and do, and policies such as requiring two approvals for withdrawals from headquarters are enforced on-chain. Members sign in and approve transactions with a passkey on their own device, so no one has to manage private keys or seed phrases, and they never pay gas fees themselves. A dashboard shows balances, withdrawals, members, and funds still in transit between chains, scoped to each member's role and group.\n\nPayment settings such as the receiving currency and wallet address live in one on-chain name per store, so changing them once updates every sales channel.",
+  "how_its_made": "The repo is a pnpm monorepo (`apps/wallet`, `apps/dashboard`, `packages/contracts`, `packages/db`) managed with Biome and Lefthook. Both apps are SvelteKit + Svelte 5 + Tailwind v4, and the dashboard's login/session runs on better-auth backed by Drizzle ORM over Neon serverless Postgres.\n\nEach group's wallet is a Gnosis Safe, and `packages/contracts` (viem/ox + Hardhat) contains the raw calldata builders instead of relying on the Safe SDK, since we needed control that the SDK doesn't expose: `encodeSafeInitializer` bundles enabling the Safe4337Module (EntryPoint v0.7, for ERC-4337 gasless transactions) and creating each member's passkey signer into one MultiSend inside the Safe's own `setup()` call, so a group launches pre-configured — module enabled, owners set, passkey signers deployed — in a single transaction. We also hand-wrote the EIP-712 `SafeOp` typed-data struct for Safe4337Module v0.3, since no SDK covers it, and `predictSafeAddress` reproduces the factory's CREATE2 computation so the wallet can show a group's address before it's ever deployed.\n\nMembers never hold a private key: passkeys (P-256, via SafeWebAuthnSignerFactory) become Safe owners directly, so a device's biometric signature is what satisfies the Safe's approval threshold, and an ERC-4337 Paymaster covers gas so members never touch it. For payouts, an on-chain name (ENSv2 subname per store) holds the receiving currency and address as text records, so every sales channel reads the same source of truth. Cross-chain sales are swept home by an external keeper (Gelato/Chainlink Automation) whose on-chain permission is scoped to a single destination — the home Safe — using Circle's CCTP v2 for the actual USDC transfer and Uniswap for any JPYC conversion, so the automation can move funds without ever being able to steal them.",
+  "auto_summary": "A monorepo for a business wallet system using Safe-based group wallets, passkey approvals, dashboard management, and ENS-linked store payment settings.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bizzet-ow77v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

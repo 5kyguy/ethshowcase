@@ -1,0 +1,29 @@
+{
+  "id": "a2vdt",
+  "slug": "depegsentinel",
+  "title": "DepegSentinel",
+  "tagline": "DepegSentinel: Dynamically adjusts fees to punish depegs and reward peg-stabilizing trades.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a2vdt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/M9IKvGCGdzDBIvngEMjMqcFvBRHLNkqVANYym00HlQTM/high.mp4",
+  "source_url": "https://github.com/0xNilesh/Depeg-Sentinel",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": " Build with Uniswap v4 Hooks "
+    }
+  ],
+  "finalist": true,
+  "description": "# DepegSentinel – Dynamic Fee & Depeg Resolver Hook for DEXs\n\n## Overview\nDepegSentinel is a Uniswap V4 hook designed to automatically safeguard pegged and liquid token pools from depegging events. Whether it’s stablecoins like USDC/USDT, liquid staking tokens like stETH/WETH, or protocol-native assets like kHYPE/HYPE, DepegSentinel ensures pools maintain a healthy peg by dynamically adjusting fees based on real-time market data.\n\nUnlike static fee models, DepegSentinel actively monitors price feeds and modifies trading costs to penalize behaviors that worsen a depeg and incentivize trades that help restore the peg.\n\n## Problem It Solves\n- Pegged assets can diverge from their intended value due to large trades, liquidity shocks, or market stress.  \n- Current DEX pools rely on static fees, which don’t account for real-time risk during depeg events.  \n- Traders that worsen the peg unintentionally or intentionally can cause cascading liquidity issues and losses for LPs.  \n- Protocols need a way to automatically penalize destabilizing trades and reward stabilizing trades without manual intervention.  \n\n### Example\n- **USDC depeg events** in the past have caused temporary losses for LPs.  \n- A recent **Hyperliquid pool (kHYPE/HYPE)** lost ~80% of its peg in one event.  \n- Manual intervention or reactive mechanisms are too slow to protect liquidity.  \n\n## Core Functionality\nDepegSentinel operates as a hook attached to Uniswap V4 pools, performing the following:\n\n### Real-Time Price Monitoring\n- Integrates with **Pyth Network** to fetch live market prices for pegged assets.  \n- Tracks deviations from the ideal 1:1 peg or expected ratio for liquid staking tokens.  \n\n### Dynamic Fee Adjustment\n- **If a trade worsens the peg:**  \n  Fees for the trader increase dynamically, discouraging destabilizing trades.  \n- **If a trade helps restore the peg:**  \n  Fees are reduced, incentivizing stabilizing behavior.  \n\n### Automatic LP Protection\n- Reduces **impermanent loss** for liquidity providers during volatile depeg events.  \n- Ensures pool prices remain closer to the target peg without requiring manual intervention.  \n\n### Seamless DEX Integration\n- Fully compatible with **Uniswap V4 hooks**, leveraging `BEFORE_SWAP` and `AFTER_SWAP` triggers.  \n- Supports multi-asset pools, including stablecoin-stablecoin, liquid staking token pools, and protocol-native token pairs.  \n\n### Customizable\n- Thresholds for depeg sensitivity can be configured.  \n- Supports multiple price sources, dynamic fee caps, and hook-specific logic per pool.  \n\n## Benefits\n- **Automatic Depeg Resolution:** Reduces the risk of LP losses due to sudden peg divergence.  \n- **Trader Incentives Aligned:** Encourages actions that stabilize the pool.  \n- **Seamless Integration:** Works natively with Uniswap V4 without major contract rewrites.  \n- **Dynamic Risk Management:** Pool fees adapt in real-time to market conditions.  \n- **Cross-Asset Compatibility:** Works for stablecoins, liquid staking derivatives, and protocol-specific tokens.  \n\n## Use Cases\n- **Stablecoin Pools:** USDC/USDT, DAI/USDC, USDT/DAI  \n- **Liquid Staking Pools:** stETH/WETH, rETH/ETH  \n- **Protocol Asset Pools:** kHYPE/HYPE, other project-specific tokens  \n- **Depeg Protection for Multi-Asset AMMs:** Pools vulnerable to market shocks or liquidity withdrawals  \n\n## Why It’s Innovative\n- Traditional AMMs rely on fixed fees or manual risk management.  \n- DepegSentinel introduces a **feedback loop** that automatically penalizes destabilizing trades and rewards stabilizing trades.  \n- It’s the **first hook** that directly ties trader behavior to peg stability, using reliable on-chain price oracles.  \n",
+  "how_its_made": "## How It Works (Technical Flow)\n\n### Trade Initiation\n- Trader submits a swap on the pool.  \n\n### Before Swap Hook (`BEFORE_SWAP`)\n- DepegSentinel reads the current pool price and market peg from **Pyth**.  \n- Calculates the expected deviation if the trade executes.  \n\n### Fee Computation (`_getFee`)\n- If trade worsens the peg, fee increases proportionally to deviation.  \n- If trade improves the peg, fee is reduced, rewarding stabilizing behavior.  \n\n## Why It’s Innovative\n- Traditional AMMs rely on fixed fees or manual risk management.  \n- DepegSentinel introduces a **feedback loop** that automatically penalizes destabilizing trades and rewards stabilizing trades.  \n- It’s the **first hook** that directly ties trader behavior to peg stability, using reliable on-chain price oracles.  \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/depegsentinel-a2vdt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "wrxop",
+  "slug": "plain-safe",
+  "title": "Plain Safe",
+  "tagline": "A local-first, privacy-focused Safe multisig UI with no backend.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wrxop/banner/default.jpg",
+  "video_url": "https://stream.mux.com/T2oTMUr52hplgpVi6cFvubUFeGddMjJ01okl01S02B2ems/high.mp4",
+  "demo_url": "https://plainsafe.gregskril.com",
+  "source_url": "https://github.com/gskril/plainsafe",
+  "finalist": false,
+  "description": "Plain Safe is a static, local-first interface for Safe multisigs. It replaces the hosted transaction service with a direct connection to an RPC chosen by the user. Add or create a Safe, build a transaction, review the exact call and its hashes, collect owner signatures through a link, code, or JSON file, and execute once the threshold is met. A co-signer can open a shared transaction and recompute its hashes and recover its signatures before connecting a wallet or making a network request.\n\nThe review screen checks the Safe proxy and implementation against known code hashes, decodes calldata, highlights sensitive actions such as owner changes and delegatecalls, and simulates execution where the RPC supports it. It displays the EIP-712 domain hash, message hash, and Safe transaction hash so signers can compare them independently. The app also offers token balances, a local queue, onchain history rebuilt from RPC logs, an offline Verify page, and Uniswap swaps quoted from onchain contracts.\n\nThere is no backend, analytics, or Safe Transaction Service. An in-app network guard allows the chosen RPC by default, blocks other destinations unless the user enables an explicit capability, and shows every attempted request in a live log. The app can be built as static files and distributed through IPFS.",
+  "how_its_made": "Plain Safe is a Vite/React/TypeScript static app. viem handles chain reads, Safe transaction hashing, ABI encoding and decoding, and contract calls; wagmi is used only for wallet connection, signing, chain switching, and sending transactions. Effect provides schemas for validating saved records and shared packages and services for RPC-backed work. IndexedDB stores settings, Safes, the transaction queue, and local history. TanStack Query coordinates reads, and wouter handles fragment routes so a compressed transaction package can travel after the URL's # without being sent to the host.\n\nWe built a network guard that installs before the app and wraps fetch, WebSocket, XMLHttpRequest, EventSource, and sendBeacon. It starts with an empty allowlist, logs allowed and blocked attempts, and permits only configured RPC origins plus capabilities the user enables. Safe authenticity is inferred from the proxy and singleton bytecode hashes rather than trusting VERSION(). Imported packages are schema-checked, all three EIP-712 hashes are recomputed, signatures are recovered, and owners are checked against pinned-block chain state. Safety warnings come from decoded calldata rather than descriptive text. Simulation uses eth_simulateV1 where available and a Safe fallback otherwise.\n\nThe Uniswap flow reads v3/v4 quotes onchain and builds a transaction, then decodes Universal Router commands for review. A Web Worker scans Safe events backward to reconstruct onchain history without an indexer. Tests cover pure transaction logic and Mainnet integration paths; the release tooling computes a reproducible IPFS CID.",
+  "auto_summary": "A static React app for creating, reviewing, signing, and executing Safe multisig transactions directly through user-selected RPC endpoints.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/plain-safe-wrxop",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

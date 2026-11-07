@@ -1,0 +1,26 @@
+{
+  "id": "fmwzu",
+  "slug": "chai",
+  "title": "chai",
+  "tagline": "Social app that enables account signup with .eth ens usernames",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fmwzu/banner/default.jpg",
+  "demo_url": "https://app.chai.sh/",
+  "source_url": "https://github.com/jijichai/chai-app",
+  "finalist": false,
+  "description": "Chai issues every new account a self-custodial ENSv2 subname of chaish.eth at signup and displays it as the user's handle throughout the app. The problem: atproto's identity layer bottoms out in DNS, so handle resolution runs through ICANN registrars. ENSv2 fixes that — subnames are ERC-1155 tokens under a hierarchical registry (PermissionedRegistry deployed via VerifiableFactory on Sepolia). Continuity: builds on the PDS (Personal Data Server)/AppView (Server)/client/explorer we shipped at Synthesis hackathon. MVP live at app.chai.sh. Custody (Privy pregenerated wallets) and client-side ENS handle resolution are next-iteration work.",
+  "how_its_made": "Chai extends the existing signup Cloudflare Pages Function (functions/api/create-account.ts) to also mint an ENSv2 subname. The registrar wallet key lives in Cloudflare env vars and signs via ethers 6 in the Workers runtime. The PermissionedRegistry for chaish.eth was deployed via ENS Labs' VerifiableFactory proxy; the Function replays the same register() call the ENS Explorer wizard makes. After minting we write a sh.chai.n.ens record (see: https://pds.chai.sh/at://did:plc:7yd7s7p4iu4tawdvs4zilxa2) to the user's PDS so the client's useDisplayHandle hook renders .chaish.eth throughout the app. Hacky bit worth flagging: handle→DID resolution uses a string substitution (.chaish.eth → .chai.sh) that works because our mint pins the naming convention 1:1. Proper ENS resolver against UniversalResolverV2 is next-iteration work.",
+  "auto_summary": "This project extends an atproto-based social app to mint ENSv2 subnames at account creation and use them as user handles.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/chai-fmwzu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

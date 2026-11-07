@@ -1,0 +1,35 @@
+{
+  "id": "iozs5",
+  "slug": "superposition",
+  "title": "Superposition",
+  "tagline": "Aqua strategies backed by yield tokens: underlying asset discoverability, atomic re-deposit on fill.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iozs5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jUmP001D5EGDdNYi5TiW9NDF6YXwttOnYpOMyUG01SxC8/high.mp4",
+  "demo_url": "https://superposition-liquid.vercel.app/",
+  "source_url": "https://github.com/SolidityDrone/superposition-liquid",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "3rd place",
+      "title": "Build an Aqua App"
+    }
+  ],
+  "finalist": true,
+  "description": "Superposition-Liquid is a meta-layer for 1inch Aqua that lets liquidity providers earn yield on 100% of their capital without giving up fill readiness.\n\nToday, when a maker ships a strategy on 1inch Aqua, their tokens sit idle in their wallet — Aqua is pure virtual-balance accounting and never takes custody. Superposition changes what backs that strategy. The maker points a per-token config at a yield venue (Aave v3, any ERC-4626 vault like Morpho or Euler, Stargate V2 pools, Pendle PT, or a Uniswap v4 hook), and every fill cycles that capital inside the swap transaction itself: a preTransferOut hook JIT-withdraws/redeems/unstakes exactly the delivery amount and hands it to the taker; a postTransferIn hook re-deploys whatever the taker paid back into the protocol. The maker's wallet holds tokens only for the duration of one transaction, idle balance stays zero, and the position earns protocol yield on top of swap fees. To routers and aggregators it reads as an ordinary ETH/USDC pool.\n\nIt deliberately ships no pricing curve. Superposition wraps whatever SwapVM program the maker already writes — xyk, curved, flat-price, or a third-party curve — via two append-only meta-opcodes: YieldAdjustedRateXD (scales swap registers by the live exchange rate so quotes stay accurate while capital sits in yield tokens) and MakerCapitalGuardXD (makes quote() a complete fill-oracle: it reverts unless a real withdrawal of the delivery amount would succeed right now, so a passing quote is a strong fillability signal and a failing one returns the exact on-chain revert reason). Capability is abstracted behind one ILendingAdapter interface, so a new protocol is a single registry entry, not a router change. The adapters are pull-less: the router executes each adapter's pullPlan with its own allowance, so the maker approves once per token and never re-approves when switching protocols.\n\nBeyond supply, a side can be borrow-sourced: MakerConfig.BorrowConfig lets an Aave side quote an asset the maker doesn't hold, borrowing it against yield-bearing collateral, with the matching in-fill repaying the debt first — turning the same adapter into a delta-neutral/short inventory profile. Superposition also reaches into Uniswap v4: the SuperpositionUniAdapter exposes a concentrated-liquidity hook (which itself keeps 100% of pooled capital in ERC-4626 vaults between swaps) as just another yield venue the Aqua router can back a position with.",
+  "how_its_made": "Stack: Solidity 0.8.30 + Foundry for the contracts; Next.js (App Router) + wagmi/viem + react-web3-icons for the landing page and a live maker console. Dependencies are pinned hard: 1inch/swap-vm v1.0.2, 1inch/aqua v1.0.0, OpenZeppelin v5.4.0, @1inch/solidity-utils 6.9.7.\n\nPiecing it together. The core is a modified redeploy of the SwapVM router (explicitly allowed by the 1inch rules). We append two custom opcodes to the end of the dispatch table — the deployed v1.0.2 has reserved no-op slots, so appending is append-only and never renumbers existing instructions. Around that we built ILendingAdapter and five implementations (Aave v3, generic ERC-4626, Stargate V2, Pendle PT, Superposition v4 hook), plus a MakerConfig registry mapping (maker, token) → adapter, and two router hooks (preTransferOut, postTransferIn) that orchestrate the JIT cycle. Each adapter resolves per-fill via one registry lookup, so routing never touches pricing math.\n\nPartner tech and why it helped. 1inch Aqua is the substrate: ship() allocates virtual balances with no token movement, and pull()/push() move real tokens only when a fill happens — exactly the seam we needed to swap \"idle wallet\" for \"yield position\" without changing the pool surface. Chainlink Data Feeds are our MEV guard: a price-sanity opcode reverts a fill if the implied swap price deviates beyond the maker's tolerance band from ETH/USD or USDC/USD (with per-feed staleness checks), so manipulation is rejected on-chain before execution. Uniswap v4 supplies a second engine entirely — the Superposition concentrated-liquidity hook — which we expose as a yield venue through the same one-token adapter interface.\n\nNotable, slightly hacky bits. (1) SwapVM hooks don't receive the final recipient and the default transfer always runs, so direct-to-taker delivery is impossible — we designed a \"JIT-unwrap\" pattern: the hook withdraws into the maker's wallet as preTransferOut, and SwapVM's own transfer delivers. (2) Aave tokens rebase, so shipping virtual balances in share counts while fills move underlying units produced a real unit mismatch; we fixed it by shipping in aToken count units and scaling quotes by rate(now)/rate(ship) on both quote() and swap(). (3) Borrow mode is implemented as the inverse of supply in the existing adapter (borrow on out-fill, repay-first on in-fill) rather than a new contract, keeping one code path and one source of truth. (4) The generic ERC-4626 adapter covers Morpho, Euler, Spark, and Yearn with zero protocol-specific code.\n\nTesting is where the design was validated. Real-vault fork tests caught two bugs mocks missed — the aToken unit mismatch above, and Pendle's callback conventions. The suite is 101 tests: unit + invariant fuzzing (256 runs over randomized fill sequences) + fork suites against live Base, Ethereum, and Arbitrum state. The whole stack is deployed to Ethereum Sepolia and verified via Sourcify (no Etherscan key), with an on-chain OrderBuilder so the console can ship() a real strategy through a browser wallet.",
+  "auto_summary": "A Solidity-based 1inch Aqua/SwapVM router layers yield-bearing adapters and a Uniswap v4 hook onto non-custodial maker liquidity.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/superposition-iozs5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

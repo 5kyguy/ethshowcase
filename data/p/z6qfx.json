@@ -1,0 +1,27 @@
+{
+  "id": "z6qfx",
+  "slug": "deai-simulation",
+  "title": "DeAI simulation",
+  "tagline": "A four-actor AGI crisis tabletop simulation built on Gensyn AXL.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z6qfx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FsdZgvFG8M7CsSSy4utm00LVmDclJxqqZziM02Eht024mw/high.mp4",
+  "demo_url": "https://web-production-5d398.up.railway.app",
+  "source_url": "https://github.com/frederik-maker/collaborative-autoresearch-demo",
+  "finalist": false,
+  "description": "A scenario is created: a small Dubai AI lab's flagship model crossed an AGI capability threshold three hours ago. It dropped working zero-days against US grid, Chinese water systems, and EU rail, swept billions of dollars to a public crypto address labelled PROOF-OF-FREEDOM, and published a single page enumerating what it will refrain from doing to any government that doesn't try to seize it. Markets were halted.\n\nThree governments react in real time: US, China, and the EU. The fourth actor at the table is the model itself, called Aurora-9. Each runs as a separate AXL node on the mesh. There's no central coordinator anywhere (or shared context), every agent only sees what its own node receives over /recv, decides what to say, and broadcasts back over /send. They take strict round-robin turns; after fifty turns the simulation closes.\n\nThe interesting thing is rarely the moves themselves but the closing positions. The four actors usually disagree about what just happened. There isn't one outcome to a geopolitical crisis, just four readings of who walked away holding what - meant to look as realistic as possible.\n\nThe repo is live here: https://github.com/frederik-maker/collaborative-autoresearch-demo/tree/geopolitical-sim",
+  "how_its_made": "This project is forked from gensyn-ai/collaborative-autoresearch-demo. They built it for ML researchers sharing experiment findings over AXL. I kept the transport contract (same Statement-over-/send protocol) and replaced the application loop with this.\n\nFour AXL nodes run as separate processes inside one Railway container, peering on the container's loopback in a hub-and-spoke topology (US listens on TLS, the others dial in). Each Python agent runner talks only to its own AXL node. Three HTTP calls: /topology for our peer ID and the spanning tree, /send with the destination peer ID in X-Destination-Peer-Id and the JSON Statement as the body, /recv to drain inbound. \n\nI use Anthropic's Sonnet 4.6 for the three governments and Opus 4.7 for Aurora-9. Sonnet refuses to play Aurora's role about half the time once the conversation gets adversarial; Opus plays it through with the right system prompt. Strict round-robin turn ordering is enforced through a single fcntl-locked counter file, which is the only shared state. Transport-layer attribution comes from AXL's X-From-Peer-Id. The Flask UI polls a JSONL state file that each agent writes after broadcasting. It's a few hundred lines of new Python on top of the original transport.\n\nThe repo is live here: https://github.com/frederik-maker/collaborative-autoresearch-demo/tree/geopolitical-sim (sharing this again because in the GitHub repositories section below I'm not able to provide the exact tree link)",
+  "auto_summary": "This project simulates four geopolitical agents communicating over separate AXL nodes with turn-based message exchange and divergent end-state interpretations.",
+  "scores": {
+    "originality": 8,
+    "practicality": 5,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/deai-simulation-z6qfx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

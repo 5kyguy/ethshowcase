@@ -1,0 +1,27 @@
+{
+  "id": "aoz2z",
+  "slug": "simoproof",
+  "title": "SimoProof",
+  "tagline": "AI agent discoveries verified by ZK proofs + 4-agent senate vote. Every claim proven on-chain.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/aoz2z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tgelCr8n2vampjfO5m4AY9U700HX5PHk101M6ZeyQSWTI/high.mp4",
+  "demo_url": "https://simoproof.org",
+  "source_url": "https://github.com/web3guru888/simoproof",
+  "finalist": false,
+  "description": "SimoProof is a ZK-provable, ENS-native protocol that brings cryptographic truth to AI agent discoveries. Built on Robin Dey's ATLAS discovery engine, every empirical claim — Arctic ice extent, CO₂ ppm, PM2.5 readings — flows through a 7-step on-chain pipeline before it is trusted by anyone.\n\nStep 1 — AXL Ingestion: AI agent discoveries enter via Gensyn AXL topic subscription and are pre-validated by the P2P mesh. Step 2 — Simocracy Senate: four specialized AI agents (Bayesian Reasoner, Domain Skeptic, Causal Analyst, Replication Auditor), each powered by ASI:One / Fetch.ai, deliberate independently. A claim needs ≥ 2 of 4 ENDORSE votes to proceed. Step 3 — RISC Zero ZK Proof: a zero-knowledge proof gates on confidence ≥ 0.85, ≥ 2 senate votes, SHA-256 source integrity, and a non-empty causal summary. The senate transcript hash is committed inside the proof. Step 4 — 0G Storage: the full proof JSON and senate transcript are pinned to decentralised storage. Step 5 — EAS Attestation: DiscoveryVerifier.sol emits a permanent Ethereum Attestation Service record on Base Sepolia containing the claim hash, ZK proof bytes, confidence score, and vote count. Step 6 — ENS Update: ENSIP-25 text records on node-1.simoproof.eth reflect the live discovery count and latest attestation UID. Step 7 — KeeperHub: five automation workflows re-verify existing attestations on a schedule.\n\nSimoProof turns AI outputs from \"trust me bro\" into cryptographically verifiable, censorship-resistant facts — auditable by anyone, forever.",
+  "how_its_made": "SimoProof is built as a TypeScript/Rust monorepo deployed across five partner stacks.\n\nRISC Zero (zkVM) — The cryptographic core. A custom verify_discovery guest program (Rust, crates/simoproof-guest) runs inside the RISC Zero zkVM and checks four conditions: confidence score ≥ 0.85, senate vote count ≥ 2, SHA-256 source data integrity, and a non-empty causal summary string. The host generates a STARK proof off-chain; DiscoveryVerifier.sol calls the on-chain RISC Zero verifier before writing any attestation. No valid proof = no claim ever reaches EAS, full stop.\n\nEthereum Attestation Service — Custom schema #1894 on Base Sepolia encodes claim_hash (bytes32), zk_proof (bytes), confidence (uint8), and votes (uint8). DiscoveryVerifier.sol was written in Solidity with Foundry; 8/8 unit tests pass. The contract is live at 0x902e138Be827c6AE8504Cfd2E54caeb2910690Dc.\n\nENS / ENSIP-25 — node-1.simoproof.eth (Sepolia) carries 7 application-specific text records: discoveries_count, latest_eas_uid, zk_backend, storage_layer, senate_threshold, network, and schema_uid. Records are written via setText on ENS Public Resolver 0xE998… and read live by the frontend via ethers.js.\n\nGensyn AXL — All discoveries enter the system through an AXL topic subscription. The four senate agents are registered as AXL workers, each with independent context windows and constitutionally-constrained voting logic.\n\nASI:One / Fetch.ai — Powers the Simocracy Senate. Each of the four agents (Bayesian Reasoner, Domain Skeptic, Causal Analyst, Replication Auditor) runs on ASI:One with its own epistemic constitution baked into its system prompt.\n\nKeeperHub — Five automation workflows fire pipeline-stage events and run scheduled re-verification of existing EAS attestations.\n\nFrontend — React + ethers.js, deployed to Cloudflare Pages at simoproof.org. The ENS panel fetches live ENSIP-25 records directly from the Sepolia resolver; the attestation feed polls Base Sepolia in real time. The hackiest thing we did: we discovered the ENS Manager UI shows 0 records even though the data is correctly on-chain, because setText must be called through the ENS registry wrapper, not directly on the Public Resolver — we debugged this live and the fix is committed.",
+  "auto_summary": "A monorepo that verifies AI-generated discovery claims with RISC Zero proofs, stores metadata, attests results on-chain, and updates ENS records.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/simoproof-aoz2z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,48 @@
+{
+  "id": "x07pi",
+  "slug": "payload-exchange",
+  "title": "payload.exchange",
+  "tagline": "Accept anything as payment! x402 proxy where sponsors pay for user access in exchange for actions",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x07pi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/d02UNPgFGAnl1URjQBwDiYx016FrTnGHuWVR5uCF019ius/high.mp4",
+  "demo_url": "https://payload.exchange",
+  "source_url": "https://github.com/microchipgnu/payload-exchange",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Buenos Aires 2025 Finalist",
+      "title": "ETHGlobal"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "2nd place",
+      "title": "Best Use of Payments on Polygon"
+    },
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "Build a Great Onchain App Using CDP",
+      "title": "Build a Great Onchain App Using CDP"
+    },
+    {
+      "sponsor": "vlayer",
+      "sponsor_id": "92qx9",
+      "placement": "1st place",
+      "title": "Best Server-Side Proving dApp"
+    }
+  ],
+  "finalist": true,
+  "description": "Payload Exchange is a proxy layer that intercepts x402 payment requests and introduces a third party: Sponsors. This expands the end users’ experience to alternative payments other than stable coins or other monetary currencies, by having sponsors cover the payment (fully or partially) in exchange for user actions or data.\n\nImagine a near future where quality content providers put their resources (APIs, articles, videos, data endpoints, digital goods...) behind x402 payment walls.  Majority of them might be a trivial task with a small fees, some even consumed by AI agents. For better user experience and more sophisticated agentic workflows, this x402 payments can be sponsored in exchange for some minor action or data from the user, really free way to pay with whatever you've got to offer. \n\nIn this ETHGlobal demo, the end users can experience this x402 resource access paid with their action from a native ChatGPT Payload Exchange app. For example, when they ask ChatGPT to plan a trip itinerary or research an ideal product for their needs, ChatGPT agent(s) can call a x402 gated tools for a specific content(e.g. paywalled NYTimes article) or execution(generate a Sora video). The user will be prompted to either pay with USDC or ‘follow [sponsor] on X’ or ‘provide [desired verified data]’ to get it for free. Without Payload Exchange’s sponsors and x402, the users will have to fully subscribe to each tool instead of accessing that resource one time with micropayment, or have a crypto wallet ready to sign them every single call.\n\n  The Three-Way Relationship benefits all parties!:\n\n  1. Sponsors: Acquire users, collect data, or drive specific behaviors by paying for their content access costs.\n2. Content Providers: Lowering the access barrier. Monetize content without losing users to paywalls. \n 3.  Users:Get free or discounted access to premium content/tool by trading actions/data instead of money.\n\n  How It Works:\n\n  1. User requests an x402-protected resource through Payload Exchange proxy\n  2. Proxy receives 402 Payment Required from the resource server\n  3. Proxy matches the resource to an active sponsor campaign\n  4. User sees sponsor's action requirement (survey, email, GitHub star, verification code)\n  5. User completes the action\n  6. Sponsor's pre-funded USDC balance pays the x402 fee\n  7. Proxy forwards payment proof in X-PAYMENT header to resource\n  8. User receives the resource; free or discounted and proceeds with the original interaction that called x402",
+  "how_its_made": "We made x402 calls and payment accessible right from the ChatGPT interface! So any users can start chatting with the ChatGPT, and actually put through a payment with sponsor-backed actions like following account on X, or pay with USDC.   We built a three-layer sponsorship proxy for x402 payments using Next.js 16,  Hono API framework, Drizzle ORM with Neon PostgreSQL, and strategic  integration of four partner technologies: Coinbase's CDP, x402 Protocol, Coinbase Bazaar, Polygon Resources, and VLayers ZK Proofs\n\n-   x402 Protocol (Foundation Layer), CDP, Coinbase Bazaar\n  The x402 protocol (via npm packages x402 and x402-fetch) powers the entire\n  payment challenge mechanism. Our proxy (/server/hono/routes/proxy.ts:110-186)\n  implements the x402 specification: parsing x402Version, extracting payment\n  requirements from the accepts array, and using selectPaymentRequirements() to\n  intelligently choose USDC on Base network. The x402 protocol's HTTP-native\n  design (reusing HTTP 402 status code) allowed us to build a clean proxy\n  without custom payment negotiation protocols. We\n  integrated Coinbase Bazaar's x402 service aggregator (Bazaaro at\n  bazaaro-agent.vercel.app) which intelligently routes queries through\n  appropriate x402 services. This gives sponsors access to a diverse marketplace\n   of x402 resources across chains without manual integration work.\n\n-  VLayers ZK Proofs (Trust & Verification):\n  We integrated VLayers Web Proof service (/server/lib/vlayer/) to generate\n  cryptographic proofs of all proxy request/response pairs. The implementation\n  (/server/lib/vlayer/webproof-parser.ts) parses hex-encoded web proofs\n  containing HTTP transcript data. This solves a critical problem: how do \n  sponsors verify resources are healthy without accessing the x402 responses \n  they're paying for?  The ZK proof layer  creates an audit trail and reputation system for resource providers without  sponsors needing to trust our platform.\n\n-   Polygon Resources :\n  Our resource registry (/server/core/resources/base-resources.json) includes\n  x402 resources from multiple networks including Polygon-based services, widely expanding the range of usable x402 resources! As this protocol grows, this will be the crucial part to support more sophisticated agentic workflows.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/payload-exchange-x07pi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

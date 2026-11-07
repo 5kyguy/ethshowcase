@@ -1,0 +1,36 @@
+{
+  "id": "y7gdh",
+  "slug": "enju",
+  "title": "Enju",
+  "tagline": "Swap cross-chain, earn rewards, unlock NFTs, and grow your 3D island with Enju + Fusion+.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y7gdh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FQMIxyAH2r957o4XKxz0000h2ondGKn2axDVLy1oEKdKw/high.mp4",
+  "demo_url": "http://152.228.163.97:5173/",
+  "source_url": "https://github.com/Nairod36/Enju",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "3rd place",
+      "title": "Extend Fusion+ to Tron"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Unite DeFi 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Enju is a playable DeFi hub that turns serious cross-chain operations into a game.\n\t•\tBridge gameplay. Atomic HTLC bridges between Ethereum, NEAR and TRON pay out ENJU-RWD reward tokens each time you move liquidity.\n\t•\tSwap gardening. One-click swaps between ETH, USDC, USDT, DAI, WBTC and more via the 1inch API grant XP and plant trees on your floating island.\n\t•\tEvolving island. Every XP point visibly expands your procedurally generated Three.js world—more trees, new terrain and hidden chests.\n\t•\tToken-gated collectibles. Chain-mascot animal NFTs—Elephant (ETH), Tiger (TRON), Fox (NEAR)—and other décor are bought in an in-game shop exclusively with the ENJU-RWD tokens you earned by bridging.\n\t•\tProgression & achievements. Level-ups unlock larger islands, cosmetic slots and future questlines.",
+  "how_its_made": "Short PPT explication :\n https://drive.google.com/file/d/1NG_QVKbdm_RcoRfLYYhUS9v9aXW8pK2hsPMwUWR0jVI/view?pli=1\n\n\n\nOn-chain layer\n\t•\tHTLC contracts — Solidity (Ethereum & TRON TVM) + Rust (NEAR), forked from 1inch Fusion+ and sharing a single SHA-256 hash-lock plus synchronised timelocks across all three VMs.\n\t•\tCrossChainCore.sol — Ethereum entry-point that instantiates the official 1inch EscrowFactory and stores the NEAR/TRON destination inside the escrow immutables.\n\t•\tTronFusionBridge.sol — first TVM port of Fusion+; opcode-mapped by hand to respect TRON’s 3 s blocks and Base58 addresses.\n\t•\tENJU-RWD (ERC-20) — reward token minted/burned by the Bridge Resolver\n\t•\tAnimal & décor NFTs (ERC-721) — purchasable only with ENJU-RWD inside the in-game marketplace; metadata and island snapshots pinned to IPFS for permanence.\n\nOff-chain services\n\t•\tBridge Resolver (Nest.Js) — monitors Init events on Ethereum, NEAR and TRON simultaneously, fetches FX rates (CoinGecko primary, Binance fallback, 30 s cache), signs the opposite leg, mints reward tokens and pushes XP / tree-growth events over WebSockets.\n\t•\tSwap Router — slim wrapper around the 1inch Swap API for six tokens (ETH, USDC, USDT, DAI, WBTC, NEAR); triggers the same real-time island updates but skips reward-token minting.\n\t•\tTimelock-normaliser — micro-lib that offsets expiries so an ETH→NEAR→TRON round-trip always leaves a 30-minute rescue margin whatever the chain cadence.\n\t•\tPrice-oracle service\n\nFront-end\n\t•\tReact 18 + TypeScript — component model with strict types; URL routing mirrors bridge state machines.\n\t•\t@react-three/fiber + Three.js — renders procedurally generated islands (Perlin noise, GLTF assets exported from Blender).\n\t•\tZustand + IndexedDB — stores wallet connections, XP and island state locally, with periodic IPFS uploads so progress follows the user across devices.\n\t•\tWallet SDK layer — MetaMask, TronLink and NEAR Wallet Selector wrapped behind a single useWallet() hook for uniform signing UX.\n\nDatabase & API\n\t•\tPostgreSQL + Prisma ORM — durable storage for user profiles, transaction logs and island diffs (event-sourced).\n\t•\tNestJS REST & WS — modular services (/bridges, /rewards, /islands, /1inch) documented via Swagger; real-time channels broadcast bridge lifecycle, XP gains and NFT drops.\n\t•\tRedis — low-latency cache for price quotes, WebSocket fan-out and session data.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/enju-y7gdh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

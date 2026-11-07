@@ -1,0 +1,27 @@
+{
+  "id": "b9dpi",
+  "slug": "consent-ledger",
+  "title": "consent-ledger",
+  "tagline": "A consent record for body-scan data, so an AI pipeline has to ask before it generates.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b9dpi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/021jSiCewwY7hxjyUHlZKCYi8j8IiU3b02GdTJ023gmK5Y/high.mp4",
+  "demo_url": "https://consent-ledger.yoshitatsu.workers.dev",
+  "source_url": "https://github.com/sakuraozation/consent-ledger",
+  "finalist": false,
+  "description": "A model's body data does not only get used for the shoot they were paid for. Sometimes it is\nused to build an AI model of them — and not on the internet, but in the studio, on the day.\nToday neither the model nor their agency can do anything about it.\n\nconsent-ledger is the record that makes the question answerable. A generation pipeline asks\nbefore it produces anything, and gets one of four answers, each with a reason written to be\nshown unchanged: allow, deny, ask, revoked.\n\nThe line the product is drawn along is not media type. The images from a shoot — print,\nsocial, a lookbook — an agency has handled for decades, and an enquiry about them goes to the\nagency. What gets generated from someone's body data is different: not part of the shoot, not\npriced in the booking, usually not in the contract at all. So that stays with the person.\n\nThat split decides who answers. A scope the agency holds and has not agreed to returns deny,\nand the reason says to ask them. A scope the person kept has no desk to ask — so the request\ngoes to them, on their phone, and nothing is generated until they answer or the deadline\npasses.\n\nWho may speak for whom lives on ENSv2 (Sepolia), one role per scope on the person's own name.\nRemoving a role refuses the next request without anything being written in our database.\n\nBuilt for the agency, not against it. Representation — the calls, the scheduling, the\nnegotiation — stays with people and is growing. We take the one part a contract can hold.",
+  "how_its_made": "Cloudflare Workers with Hono JSX, server-rendered with no client bundle, and D1 for the\nledger. Nothing stores an image or scan data — the subject is a World ID pairwise subject, so\nthe record says \"this human\" without saying who.\n\nWorld ID for Agents: the authorization-code flow returned invalid_request for every\ncombination I tried, including a deliberately bogus client_id, which ruled out missing\nparameters. Switching to the OIDC device authorization flow with HTTP Basic worked first try,\nand it is the better fit anyway — the caller is a pipeline with no redirect. The ID token is\nverified against the issuer's JWKS before anything is written. One undocumented thing cost me\nan hour: /api/v2/verify rejects requests with no User-Agent using an nginx 403 HTML page, and\nWorkers' fetch sends no UA by default, so res.json() fails with \"Unexpected token '<'\" and\nhides the cause.\n\nIDKit gates the one action nobody may do on the person's behalf. A dedicated action was\ncreated through POST /api/v2/create-action so the verification ledger separates it from the\napproval flow.\n\nENSv2 on Sepolia: app.ens.dev never emitted a transaction for me, so I read the verified\ncontract source from Blockscout and called the ETHRegistrar directly — mint MockUSDC, approve,\nmakeCommitment, commit, wait MIN_COMMITMENT_AGE, register. makeCommitment takes no\npaymentToken and register does, which is not obvious from the docs. The resolver is a\nPermissionedResolver deployed through VerifiableFactory. The blog post describes\ngrantSetterRoles, but the deployed contract has authorizeTextRoles/DataRoles/AddrRoles/\nNameRoles instead — and the real thing is better, because per-text-key scoping expresses\npartial delegation with no contract of my own: consent.campaign-print is a role the agency\nholds, consent.ai-generation is one they do not.\n\nThe running service reads that role on every /check, and the chain wins over the database. If\nthe chain cannot be read, the verdict falls to \"ask\" rather than \"allow\" — the failure this\nproject exists to prevent is not a crash, it is a silent yes, so every failure path is shaped\nas \"do not return allow here\". That is what the tests hold: bun test against real SQLite with\nthe real migrations, run in CI on every push.\n\nOne measurement worth passing on: a load-balanced public RPC served a stale block right after\na write, so a revocation appeared not to take effect for a few seconds. Pinning a single node\nbrought it to 0.4s.",
+  "auto_summary": "A Cloudflare Workers service records consent decisions for AI generation requests and checks ENS-based delegation plus World ID verification before allowing actions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/consent-ledger-b9dpi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

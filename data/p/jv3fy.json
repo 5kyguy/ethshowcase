@@ -1,0 +1,26 @@
+{
+  "id": "jv3fy",
+  "slug": "instant-wallet",
+  "title": "instant wallet",
+  "tagline": "A mobile wallet where you choose: send crypto publicly or privately. [WIP, unfortunately]",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jv3fy/banner/default.jpg",
+  "demo_url": "https://github.com/R-O-S-T/inst/actions/runs/23994608423/artifacts/6275282706",
+  "source_url": "https://github.com/R-O-S-T/inst",
+  "finalist": false,
+  "description": " Instant is a privacy-first mobile crypto wallet on Base where every transaction has a simple choice: public or private.\n\n  Sign in with just your email — no seed phrases, no extensions. A smart account is deployed in the background, gaslessly. The 3-step\n   send flow (pick token → enter amount → confirm) includes a \"Send privately\" toggle. When enabled, the sender-recipient link is\n  broken through a ZK privacy pool, completely invisible to the user.\n\n  If your email is compromised, rotate your wallet's signing key to any photo. Pick an image, set a password, and your photo\n  deterministically becomes your new private key — same wallet address, same assets, new signer. Your photo is your cold storage.\n\n  Multi-token support (ETH, ULNKm, USDC) with real-time balances. Dual login: email or image key. All privacy operations run\n  client-side on the device. No backend needed for core flows.",
+  "how_its_made": "The mobile app is built with Expo/React Native in a pnpm monorepo (apps/mobile, apps/backend, packages/shared).\n\n  Dynamic SDK v4 handles auth and embedded wallets using their new client-based architecture — createClient() with ReactNative and\n  Viem extensions, no providers. The Dynamic WebView runs at the app root for the MPC wallet iframe.\n\n  Safe v1.4.1 is the primary wallet via permissionless.js and Pimlico's ERC-4337 bundler + paymaster. Every user gets a gasless smart\n   account on first login. Key rotation uses Safe's swapOwner() to replace the Dynamic signer with an image-derived key without\n  changing the wallet address.\n\n  Unlink SDK runs fully client-side for ZK private transfers. The Unlink seed is derived from the Dynamic wallet's\n  signMessage(\"unlink-seed-v1\") → SHA-256 → 32-byte seed, so there's no separate backup. During key rotation, the seed is\n  XOR-encrypted with the image private key's hash and stored locally, then decrypted on image login — preserving private pool\n  balances across auth methods.\n\n  Hacky bits worth mentioning:\n  - Hermes engine doesn't support import.meta — needed Babel's unstable_transformImportMeta for the Unlink SDK\n  - Unlink SDK uses Node.js createRequire internally to load EdDSA crypto — we shimmed it in Metro config to route directly to the\n  @zk-kit/eddsa-poseidon/blake-2b CJS module\n  - permissionless.js crashed at module scope in Hermes (\"protocol\" undefined) — all imports are lazy (dynamic import() inside\n  functions) with a hardcoded EntryPoint address to avoid importing from viem/account-abstraction\n  - Dynamic's MPC wallet doesn't expose the raw private key, so we wrap the signer with viem's toAccount() to prevent\n  eth_requestAccounts calls that crash permissionless\n  - BigInt.prototype.toJSON polyfill in the entry point because the Dynamic WebView can't serialize BigInt in UserOperations\n  - Image key derivation: image bytes → SHA-256 → PBKDF2 (3000 iterations) → BIP39 mnemonic → HD key at m/44'/60'/0'/0/0. Same image\n  + password = same key, every time.\n\n  Moralis provides token balances and transaction history with client-side caching (60s/30s TTL). Viem is the on-chain backbone.\n  Everything runs on Base Sepolia.",
+  "auto_summary": "A React Native mobile wallet on Base Sepolia combines Dynamic authentication, Safe smart accounts, and Unlink-based private transfers.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/instant-wallet-jv3fy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

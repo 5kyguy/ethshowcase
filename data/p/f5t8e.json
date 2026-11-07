@@ -1,0 +1,53 @@
+{
+  "id": "f5t8e",
+  "slug": "toaster",
+  "title": "Toaster",
+  "tagline": "Experience the ultimate UX-friendly Uniswap V3 investment tool! Our platform combines gasless transactions, auto-compounding, and auto-rebalancing for a seamless DeFi journey. Simplify your trades with ease and efficiency. Your go-to for stress-free Uniswap V3 investing! ",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f5t8e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/n8ZuekitP3EU9EeCBa2pluuUIXVWnY54hglsGEFiKZY/high.mp4",
+  "source_url": "https://github.com/swimmiee/ethistanbul-toaster-contract",
+  "prizes": [
+    {
+      "sponsor": "Chiliz",
+      "sponsor_id": "pj01t",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "1inch Network",
+      "sponsor_id": "if0ri",
+      "placement": "1st Place",
+      "title": "Most Innovative Application on top of 1inch Network's Fusion API"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "Deploy on Scroll",
+      "title": "Deploy on Scroll"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "Polygon zkEVM DeFi Challenge",
+      "title": "Polygon zkEVM DeFi Challenge"
+    }
+  ],
+  "finalist": true,
+  "description": "Uniswap V3 is a top-tier investment in DeFi, but its intricacies make it challenging for newcomers and even intermediates. The investment process involves multiple steps:\nFirst, users need to prepare a token pair with an exact ratio, calculating and swapping to achieve this ratio.\nSecond, users must approve this token pair.\nThird, users are required to define a price range for their position.\nFinally, users need to sign the investment in Uniswap V3.\n\nToaster solved all of these problems.\n\nBasically, the toaster contract acts as a liquidity manager, maintaining a single large position and storing users' liquidity shares following ERC-4626 standards. Chainlink Automation triggers the **`performUpkeep`** function, compounding or rebalancing every 100 blocks, depending on whether the position is within or outside the specified range.\n\nThis autonomous management system liberates users from continuously monitoring their positions. Instead, they can entrust their assets to the toaster contract, which handles fee collection, ratio rebalancing through swaps, and reinvestment, ensuring optimal auto-compounding within the designated price range.\n\nAdding to its value, the toaster contract uses Chainlink Function to determine the next price range when the current price deviates, leveraging price volatility data for transparent and decentralized decision-making.\n\nUntil now, we've discussed how positions are managed. Let's delve into the process of investing in a position.\n\nInvesting in UniswapV3 necessitates swapping one token for another to achieve an exact ratio. This process is intricate as the ratio relies on the user-defined price range and current price, causing it to fluctuate with every block time and becoming non-deterministic. Simply put, achieving precise ratios in such conditions is nearly impossible.\n\nTo simplify this complexity, we integrated 1inch's fusion mode SDK with our toaster contract. Swapping tokens to achieve precise ratios is streamlined through 1inch's fusion mode, where user-signed messages trigger resolvers on the fusion API, executing swaps akin to an auction. Notably, users enjoy gas fee exemptions for these swaps, courtesy of the fusion mode.\n\nUpon completion of an order, the toaster contract's **`fillOrderPostInteraction`** function, acting as a callback mechanism, is triggered, enhancing the seamless functionality of our position manager contract.\n\nAfter completing the swap through 1inch, we precisely adjust the ratio within the Uniswap V3 pool to match the mathematically calculated exact amount. This meticulous process allows users to minimize the remaining investment funds to an extremely minimal extent. This functionality resembles the \"zap\" feature offered in PancakeSwap on UniswapV2, but in V3, the presence of varying liquidity per tick demands far more intricate calculations.\n\nEven when collecting fees, compounding, or rebalancing the position due to deviating from the price range, swaps are essential. In these instances, we once again utilize a similar mechanism—initially swapping a substantial amount through 1inch and then fine-tuning the liquidity ratio using our zap function.",
+  "how_its_made": "Our project aims to simplify and streamline the investment process in Uniswap V3, which traditionally involves a complex series of steps for users. Initially, investing in Uniswap V3 required users to approve both Token A and Token B, set price ranges, swap the tokens within these ranges, and then execute the investment. This process was not only cumbersome but also involved multiple transactions, resulting in high gas fees.\n\nTo address these challenges, we leveraged the \"fusion mode\" feature from 1inch, which revolutionizes the swapping experience. Fusion mode essentially allows users to request a swap, and a group of resolvers finds the best prices for the swap. Moreover, the fillOrderTo function within these resolvers includes a postInteraction feature, enabling users to customize actions to be executed after the swap, akin to a callback function.\n\nWe capitalized on this functionality to facilitate seamless investment in Uniswap V3 immediately after a swap occurs. Within our ToasterPool contract, we manage a single substantial position, eliminating the need for users to determine price ranges or balance token ratios. Our system takes care of aligning these ratios accurately.\n\nDespite the accuracy of swaps via 1inch, there was still a need to precisely adjust the ratios. To address this, we developed a \"zap\" feature in our Toaster contract. This zap function meticulously fine-tunes the ratios, ensuring precise alignment even after the swap occurs via 1inch.\n\nOur project simplifies the Uniswap V3 investment process, significantly reducing the complexities users previously faced. By integrating 1inch's fusion mode and developing the zap feature within our Toaster contract, we've enhanced efficiency, reduced user burden, and optimized investment procedures within the Uniswap ecosystem.\n\nIn the scenario where a position moves beyond its designated price range, necessitating a rebalance, we integrated the Chainlink Function into our solution. This function facilitates the on-chain feeding of external world data. Specifically, we collected on-chain volatility data for token price ratios using the Chainlink Function. Leveraging this, we determine the price range for tokens that require rebalancing based on recent volatility data for token price ratios.\n\nThis operation occurs every 100 blocks using Chainlink Automation. If the position remains within the designated price range, instead of initiating a rebalance, we implement an auto-compounding effect by reinvesting the accumulated fees until that point.\n\nBy integrating Chainlink Functionality and leveraging volatility data to manage and adjust token price ranges dynamically, we ensure that our system remains responsive to market fluctuations. This approach not only enables effective rebalancing but also maximizes yield through the reinvestment of accrued fees when positions remain within the specified price boundaries.\n\nCertainly, I can elaborate on how you've integrated Metamask's Snap functionality to enhance security and provide a more visual representation of the Uniswap V3 investment process in chains where 1inch isn't supported, like Linea.\n\nWhen dealing with chains where 1inch isn't available, we've utilized Metamask's Snap feature to safeguard users against potential scam sites during transaction processes. By incorporating this feature, users are protected from inadvertently engaging in transactions on dubious platforms.\n\nMoreover, within the Metamask app, we've introduced a more immersive and detailed visualization of the Uniswap V3 investment process. Through visual elements and enhanced user interface components, users can have a step-by-step visual representation of how their investment in Uniswap V3 unfolds. This approach aims to simplify the complex process of interacting with the Uniswap protocol, making it more accessible and user-friendly.\n\nBy leveraging Metamask's Snap feature for security and enhancing the user experience through visual aids within the app, we're not only ensuring a safer environment for transactions but also empowering users with a more intuitive understanding of their investment journey within Uniswap V3 on unsupported chains like Linea.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/toaster-f5t8e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

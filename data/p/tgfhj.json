@@ -1,0 +1,29 @@
+{
+  "id": "tgfhj",
+  "slug": "circles-subscriptz",
+  "title": "Circles Subscriptz",
+  "tagline": "Circles users can now securely, trustlesly & smoothly authorize recurring payments.",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tgfhj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IK900Rc008WMVmcCM00kMUJfVkfi502D00h1Jt8yXqoOp01ic/high.mp4",
+  "source_url": "https://github.com/deluXtreme/subi",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Big Blockscout Explorer Pool Prize",
+      "title": "Big Blockscout Explorer Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Subi is an automated subscription system for Circles that enables secure, seamless recurring payments directly from a user’s account. It allows users to subscribe to services by specifying a recipient, amount, and frequency—while retaining full control (i.e. cancel at any time). The system ensures payments are executed reliably and without manual intervention, even with Circles’ complex transfer logic. A user-friendly interface makes it easy to set up and manage subscriptions with just a few clicks.",
+  "how_its_made": "Most Notable hacks:\n- constructing a deterministic module proxy deployment to streamline module installation into a single transaction. The first transaction in the batch requires contract deployment address, that needs to be fed into the construction of the follow-up transactions.\n- batched payment collections: Similar to above, but leveraging EIP-7702 for an EOA multisend.\n- Parsing Circles flow matrix data for on-chain validation of recipients and transfer amounts in trust-based payment paths.\n\nKey Technologies: Safe, Circles API & Smart Contracts, Silverback, EIP-7702, create2. \n\n1. The subscription contracts utilize Zodiac Modules exposing a permissioned subscribe & permissionless redeem payment functions. Due to the proxied nature of an individual user's SubscriptionModule a SubscriptionManager provides a single source for data availability that is relevant to both payment collection services and the user interface. The contract master copy is available on chain, making new proxies easily deployable by new users.\n\n2. A Silverback bot automates subscription redemptions using a single private key. Since redemptions are permissionless, this key poses no risk to user funds. The system is open—anyone can deploy their own bot to perform automated redemptions.\n\n3. Single Click Module \"installation\" is streamlined by leveraging create2 together with a multisend transaction on the Safe consisting of deployModuleProxy (with create2), enableModule, registerModule & setModuleApproval.\n\n4. The Circles API is used by the payment service to construct the flow matrix required for invoking payments—note that Circles transfers are not simple ERC20 transfers.\nEach redemption requires computing a valid trust-based payment path through the Circles network, then encoding it into trusted avatars (vertices), directional flows (edges), recipient validation logic (streams) and compact sender/receiver encoding (packed coordinates).\n\n5. UI is able to detect whether a subscription module is enabled on a connected account through the subscription manager. The subscribe button is disabled if the UI detects that the user has not yet installed the module (this is a one time transaction). If installed, the user can subscribe to whatever recurring payments they would like.\n\n6. (Time permitting) the collection service can leverage EIP-7702 by batching multiple redemptions whenever it encounters several \"matured\" payments simultaneously.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/circles-subscriptz-tgfhj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

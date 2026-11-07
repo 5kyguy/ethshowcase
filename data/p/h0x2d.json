@@ -1,0 +1,21 @@
+{
+  "id": "h0x2d",
+  "slug": "governor-alpha-vote-splitter",
+  "title": "Governor Alpha Vote Splitter",
+  "tagline": "Vote Splitter lets users 'rent out' their votes for Governor Alpha (Compound-style) governances.",
+  "event": {
+    "slug": "marketmake",
+    "name": "MarketMake",
+    "start_time": "2021-01-15T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h0x2d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YibYSrtgYr9aXQ02g6tuhtiNs7V8q36k2ybgPabM6mCE/high.mp4",
+  "source_url": "https://github.com/withtally/tally-marketmake-hackathon",
+  "finalist": false,
+  "description": "Voter Splitter lets owners of on-chain governance tokens temporarily transfer their voting power to someone else.  \r\n\r\nHow it works:\r\n\r\n1. Users can lock governance tokens in a vault and receive that many ERC20 vote tokens.  After creation, the user controls the vault and the wrapped tokens.\r\n2. The user can sell the vault, which is an ERC721 NFT. The vault controls the underlying votes on e.g. Compound for a few months.\r\n3. At any time, the owner of the vault can close their position by redeeming enough wrapped tokens to cover the underlying tokens in the vault. They will receive the original governance tokens.\r\n3. Every 50000 blocks – about every 3 months – all outstanding vaults expire. Anyone can close an expired vault by redeeming enough wrapped tokens to cover the underlying tokens in the vault.\r\n\r\nCONTRACT:\r\n`createVault(uint256 amount)` - locks `amount` of underlying governance tokens in a vote vault. Caller receives `amount` of wrapped governance tokens and an NFT that represents the vault.\r\n\r\n`closeOwnVault(uint vaultId)` - the owner of the given vault can close their vault by redeeming enough wrapped tokens to cover the balance of the tokens locked in the vault.\r\n\r\n`closeExpiredVault(uint vaultId)` - anyone can close an expired vault by redeeming enough wrapped tokens to cover the balance of the tokens locked in the vault.\r\n\r\nVAULT:\r\n`vote(uint proposalId, bool support)` - votes yea/nay on the given `proposalId` on the underlying governance.\r\n\r\n `delegate(address delegatee)` - delegate to someone on the underlying governance, with vote weight equal to the locked tokens.\r\n\r\nalso implements ERC721 functions such as `transferFrom(address from, address to, uint256 tokenId)`\r\n\r\nWRAPPED TOKEN:\r\nimplements ERC20 functions such as `transfer(address recipient, uint256 amount)`\r\n\r\n\r\nThe vault owner can call `closeOwnVault()` if they have enough wrapped governance tokens to cover the underlying tokens in the vault. Closing the vault redeems the wrapped tokens for the underlying tokens.\r\n\r\nEvery 50000 blocks, all vaults expire. Anyone can call `closeExpiredVault()` on an expired vault if they have enough wrapped governance tokens. Closing the vault redeems the wrapped tokens for the underlying tokens.",
+  "how_its_made": "VoteSplitter is built with some fantastic tools! We've been doing hackathons for years now, and we're always impressed how quickly the development tools improve.\n\n\n\nSMART CONTRACT LAYER:\n\n\n\n- We built the smart contracts in Soldity. \n\n- We used @openzeppelin/contracts library for things like ERC20 and ERC721 contracts.\n\n- We use hardhat for building and compiling the contracts\n\n- Typechain! We're glad that we can use typescript for writing our unit tests instead of javascript.\n\n- Waffle for writing smart contract tests\n\n\n\n\n\nWEB3 FRONTEND\n\n\n\n- We built a React frontend with chakra UI components for users to communicate with the on-chain contracts\n\n- We use ethers to send transactions to the blockchain\n\n - The app also uses eth-hooks for some helper methods for reading data from the contracts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/governor-alpha-vote-splitter-h0x2d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

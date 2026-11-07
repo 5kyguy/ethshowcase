@@ -1,0 +1,20 @@
+{
+  "id": "z0os9",
+  "slug": "battle-frog",
+  "title": "Battle Frog",
+  "tagline": "Noir-Battle: an on-chian battle game for FrogCrypto leveraging Noir ZKDSL",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z0os9/banner/default.jpg",
+  "source_url": "https://github.com/alexkeating/noir-battle",
+  "finalist": false,
+  "description": "Frontend uses the Zupass Passport Package (downgrade to version 0.5 for compatibility) for popup selection of user's zk-eddsa-frog-pcd.\n\nUser requests a battle ID from the server.\nzk-eddsa-frog-pcd with the same battle ID will fight each other.\n\nThe frogs are committed to the server along with\n- Move Score, an aggregate score of the frog's stats is also sent to the server;\n- Battle ID;\n- An EdDSA proof for all the above (?)\n\nThe server receives and validates that:\n- the zk-eddsa-frog-pcd is valid (signed by Zupass Server Owner);\n- the user's semaphore identity matches that contained in the zk-eddsa-frog-pcd;\n- the user has committed the zk-eddsa-frog-pcd to battle;\n- the user has committed the battle ID inside the proof.\n\nThen the server submits the proof to an on-chian merkle tree.",
+  "how_its_made": "We initially wanted to implement MACI in Noir, but found it a bit too difficult.\nThen we thought about implementing Semaphore, but found it already done.\n\nThen we attended the Zupass Talk just to figure out how they went about implementing Semaphore, and it lead us down a rabbithole about PCD.\nAround that time, we realized that we are interested in extending Zupass into a game, something like a battle.\n\nWe wanted to hide the stats of the frogs so that no information is leaked, but it seems like it cannot be accomplished with Noir alone.\nAs a result, we shifted to a more trusted model, where the server will receive the move score, but will not publish it to the opponent. The rest of the component remain trustless due to the verifiability provided by SNARKs.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/battle-frog-z0os9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

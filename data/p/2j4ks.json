@@ -1,0 +1,30 @@
+{
+  "id": "2j4ks",
+  "slug": "prove-me-wrong",
+  "title": "Prove Me Wrong",
+  "tagline": "Tag ProveMeWrong on X. Bet YES/NO in-tweet; AI resolves, contract pays",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2j4ks/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aqgb01YYvy2YgwEHLUB1HW01QBFok7iWIuJ02x1jZmcfS4/high.mp4",
+  "demo_url": "https://prove-me-wrong-theta.vercel.app/",
+  "source_url": "https://github.com/RealWooblay/prove-me-wrong",
+  "prizes": [
+    {
+      "sponsor": "Flare Network",
+      "sponsor_id": "2ugg8",
+      "placement": "3rd place",
+      "title": "MAIN TRACK: use protocols on Flare blockchain"
+    }
+  ],
+  "finalist": true,
+  "description": "Instant, autonomous prediction markets. 🔮⚡️\n\nProve Me Wrong lets anyone turn a tweet into a mini “bet me” arena.\nYou write a claim (“Bitcoin will top $150 k by 2026”), tag ProveMeWrong, and publish. A small widget pops up under the tweet so friends can tap YES or NO with their crypto wallet. Behind the scenes a swarm of AI agents keeps watch on news sites, block-explorers and official APIs. The moment fresh, reliable evidence appears, the agents decide the outcome, set the odds as more votes come in and time progresses then after a resolution is found the Flare smart contract pays winners automatically. \n\nNo moderators, no waiting—just tweet, bet, and let the bots settle it. 🔮⚡️",
+  "how_its_made": "🏗️ Architecture Overview\n    •    Market Generator – CLI/API that posts a claim, writes it to DB, mints YES/NO pools and LP vaults on Flare.\n    •    Browser Extension – scans every X.com timeline for prove-me-wrong tweets authored by the viewer; swaps the tweet’s link for an inline React widget with live odds and a custom WalletConnect button.\n    •    Market Coordinator – Railway-friendly daemon thread that polls open markets hourly and sends IDs to the Resolver via uAgent messaging.\n    •    Market Resolver – AI pipeline (ASI-1 Mini + scraper) that decides outcomes and pushes signed results on-chain.\n\n⸻\n\n🤖 AI-Powered Resolution\n    •    ASI-1 Mini API – custom prompt chain: search latest evidence → reason → JSON verdict + confidence.\n    •    Scraping fallback – aiohttp + BeautifulSoup behind a Cloudflare-Workers proxy when sites block requests.\n    •    Evidence links + reasoning pinned to IPFS; hash stored in the verdict TX for auditability.\n\n⸻\n\n⚡ Real-Time Orchestration\n    •    Coordinator thread (instead of cron) keeps Railway happy.\n    •    uAgents mesh\n    •    manager_agent broadcasts UAResolutionRequest for every open market.\n    •    resolver_agent gathers evidence, calls ASI-1 Mini, signs and returns UAReply.\n    •    P2P redundancy & Innovation-Lab compliance baked in.\n\n⸻\n\n🌐 Blockchain Layer (Flare)\n    •    Bonding-curve AMM for YES/NO tokens.\n    •    Contracts trustlessly read the signed verdict and release payouts.\n    •    Ready to consume Flare Data Connectors.\n\n⸻\n\n💾 Storage\n    •    SQLite for local hacking, PostgreSQL on Railway—same SQLAlchemy models in Generator and Resolver.\n    •    Resolutions auto-archived after 30 days.\n\n⸻\n\n🔗 Service-to-Service API\n    •    All internal calls are JSON over HTTPS on one Railway domain (/gen, /res, /agent).\n    •    Keeps deployment, SSL and env-var juggling trivial.\n\n⸻\n\n🚀 Deployment & Tooling\n    •    Docker multi-stage images: generator, resolver, extension build, front-end docs.\n    •    Railway handles container hosting, secrets and auto-scaling.\n    •    GitHub Actions ships to Railway and tags Docker Hub nightly.\n\n⸻\n\n🎯 Notable Tech Decisions\n    1.    Browser-extension overlay sidesteps Twitter’s iframe limits while keeping UX fully in-tweet.\n    2.    Cloudflare-Worker proxy eliminates CORS and per-origin throttle on scrapes.\n    3.    uAgent abstraction means any third party can spin up their own resolver and challenge or mirror ours—true decentralisation of truth.\n\n⸻\n\n🔑 Stack Summary\n    •    Backend: FastAPI · SQLAlchemy · Python async/await\n    •    AI: ASI-1 Mini · BeautifulSoup\n    •    Agents: uagents 0.11 (manager_agent, resolver_agent)\n    •    Blockchain: Solidity · Web3.py · Flare Network\n    •    DB: SQLite (dev) · PostgreSQL (prod)\n    •    Extension/Front-end: React · Tailwind · custom WalletConnect\n    •    Deploy: Docker · Railway",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/prove-me-wrong-2j4ks",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

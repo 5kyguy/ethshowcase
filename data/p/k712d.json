@@ -1,0 +1,29 @@
+{
+  "id": "k712d",
+  "slug": "shadow-rollup",
+  "title": "Shadow Rollup",
+  "tagline": "A rollup that tracks the gas consumption of every smart contract in another rollup by re-deriving it from L1 with a custom execution engine",
+  "event": {
+    "slug": "superhack",
+    "name": "Superhack",
+    "start_time": "2023-08-04T19:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k712d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00Kq1Tzpb24rPXxwi6C0101vHRS9makyRoDj1ZdI02xwANA/high.mp4",
+  "source_url": "https://github.com/therealbytes/indexer-rollup",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Superhack 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "A rollup's defining feature is that its entire state can be derived solely from L1 data. This project leverages this to create a rollup that exactly mirrors another rollup, except for some additional rules in its execution engine.  These rules record the gas used by each smart contract and save that data onchain. Like a typical OP Stack rollup, this special blockchain can be fault-proven* in another chain, enabling trustless access to gas consumption data.\nImagine a rollup operator like Optimism or Base that wanted to reward builders on its network by sharing a portion of collected rollup fees based on their onchain impact. For trustless distribution, data about a builder's impact—such as usage of their contracts, generated fees, and processed ETH—would have to be available on the chain where funds were to be distributed. While the generic execution engine of OP Stack rollups doesn't index this information, this project's approach can be used to make the required data accessible in them without needing to modify their source code.\n\n*Optimism's Fault Proof System is still in development",
+  "how_its_made": "First, I forked the OP Stack's rollup node. I added a few lines of golang code to op-geth to make it track the gas usage of smart contracts and store that data in a mapping in the storage trie of a hard-coded account. Then I slightly modified op-node (also golang) to support re-deriving another L2 with a modded execution engine.\n\nSecond, I extended the Optimism monorepo's local devnet setup code to optionally include an indexer rollup node. I used make, python, docker, and docker-compose.\n\nFinally, I built a demo where users can prove the gas consumption of a smart contract in the original L2 through a web client. I used solidity and foundry for the contract that validates proofs and vanilla HTML, JS with ethers.js and chart.js, and CSS with Tailwind for the client.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/shadow-rollup-k712d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

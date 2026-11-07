@@ -1,0 +1,27 @@
+{
+  "id": "j9sf2",
+  "slug": "aegis-protocol",
+  "title": "Aegis Protocol",
+  "tagline": "Trustworthy AI support agent for Web3: ENS identity, on-chain tools, TEE-verified inference on 0G",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/j9sf2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aRAVsL01uSPc2TYbJIAA12f6XlPF9fXGN8jdQJTKecls/high.mp4",
+  "demo_url": "https://github.com/devAsmodeus/Aegis-Protocol/blob/main/docs/DEMO.md",
+  "source_url": "https://github.com/devAsmodeus/Aegis-Protocol",
+  "finalist": false,
+  "description": "Aegis Protocol is a self-deployable AI support agent for Web3 communities — DAOs, protocols, dApps. It targets a uniquely-Web3 problem: scammers impersonate official support in Discord and Telegram and drain user wallets. Generic chatbots (Intercom, Drift) can't help — they have no on-chain context, no verifiable identity, and no proof of inference.\n\nAegis fixes all three. Identity: each agent operates under an ENS subname (e.g. support.project.eth) registered on the AegisRegistry contract on 0G Chain, so impersonation is detectable by any client. On-chain context: the agent reads live wallet state, simulates suspicious transactions before recommending them, and looks up protocol state via web3.py. Verifiable inference: every reply produces a Receipt with sha256-hashed input, output, and retrieved chunks — the audit trail is reproducible without trusting Qdrant or any other infra component.\n\nTelegram and Discord channel adapters ship out of the box. KeeperHub-compatible scheduled tasks (upstream healthcheck, agent-session rotation, document refresh) run via an HMAC-authenticated webhook so external schedulers can drive maintenance without holding admin credentials. The system is multi-tenant from day one — projects can self-host their own agent without trusting a central operator.\n\nBuilt solo in 9 days for ETHGlobal Open Agents 2026. 158 unit tests pass offline, mypy --strict clean, CI green on every PR.",
+  "how_its_made": "Backend: Python 3.12, FastAPI, async SQLAlchemy 2 with asyncpg, Postgres 16, Redis 7, Qdrant. AI/RAG: FastEmbed (BGE-small-en-v1.5, 384-dim), BM25 + dense + RRF hybrid retrieval, optional FlashRank reranker. Agent runtime is a bounded async tool-loop with a Protocol-based tool registry (rag_search, inspect_wallet, simulate_tx, ens_resolve, registry_lookup); every step writes a Receipt with sha256-hashed input, output, and retrieval chunks.\n\nWeb3: web3.py for ENS forward and reverse resolution and EIP-137 namehash + label-hash helpers. AegisRegistry.sol (Solidity 0.8.24) on 0G Chain holds ENS-namehash → owner + KB CID + active flag, with owner-only deactivate and updateKb modifiers. ENS subname registration goes through the standard ENSRegistry.setSubnodeRecord path.\n\nChannels: AIOgram for Telegram and discord.py for Discord, sharing a single Channel Protocol plus an in-memory adapter for deterministic tests.\n\nKeeperHub: a ScheduledTask Protocol + KeeperRegistry + three real tasks (healthcheck_upstreams, rotate_agent_sessions, refresh_documents). The /v1/keeper/tasks/{name}/run endpoint validates HMAC-SHA256 over the raw request body against a deployment-side secret, with constant-time compare and 503 if the secret isn't configured. The /v1/admin surface is bearer-token protected and read-only.\n\nArchitectural pattern that paid off: every external surface (LLM client, retriever, registry, resolver, channel, receipt sink) is a Protocol with a real implementation plus a deterministic stub. mypy --strict catches drift between them, and 158 unit tests run offline without docker because the stubs are defaults.\n\nTooling: uv for packaging, Ruff for lint and format, mypy --strict, pytest with asyncio_mode=auto, pre-commit, GitHub Actions running pip-audit + bandit + CodeQL + dependency-review on every PR. Alembic migrations for the multi-tenant schema (tenants, agents, documents, receipts, audit_log).\n\nNotable design choice: receipts content-hash the retrieved chunks (sha256 of the actual chunk text) instead of pointing at Qdrant point IDs. The audit trail stays valid even if Qdrant is later rebuilt or wiped — judges can reproduce any receipt by re-hashing the chunks themselves.",
+  "auto_summary": "A multi-tenant Web3 support agent backend that verifies agent identity with ENS-linked records and serves Discord and Telegram channels.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aegis-protocol-j9sf2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

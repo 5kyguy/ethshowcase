@@ -1,0 +1,26 @@
+{
+  "id": "5hvga",
+  "slug": "nomad-finance",
+  "title": "Nomad Finance",
+  "tagline": "Borrow against idle BTC with fixed term loans - no interest rate changes and no liquidation risks.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5hvga/banner/default.jpg",
+  "video_url": "https://stream.mux.com/G49AfKQZx5CBjesD02m5Kr4f7fOiEkG00A01qjUdU2eKm4/high.mp4",
+  "demo_url": "https://nomadfinance.io/",
+  "source_url": "https://github.com/AngSin/eth-lisbon",
+  "finalist": false,
+  "how_its_made": "I had never wrote a move smart contract before, but I had created rust programs for solana before so I was able to pick this up easier than expected using Codex with Karpathy-guidelines skill & the Sui-pilot skill.\n\nBasic concepts were standard there were events (similar to EVM), and I had to listen for specific events to ensure that my backend would be up to date, the main source of truth was still the smart contract but for lower latency I decided to use a database.\n\nSince data was only being updated when users created loan offers or accept loans, and I don’t expect a large amount of txs rushing in, I thought using a webhook & event based architecture would work well. I used TypeScript AWS Lambdas connected to inodra.com web hooks (had to pay $49 for access to 5 webhooks) along with a server less database (DynamoDB). In a production environment I would probably create a long running rust service (to handle higher loads), potentially also use SQS for queueing, throttling and dead-letter queues. It was kind of hacked together quickly, but in production a PostgreSQL database would make more sense.\n\nFor the frontend, I used the standard React, TypeScript stack, served using AWS Cloudfront and S3.\n\nTo manage all the code and infra in one monorepo, I used AWS CDK with TypeScript so one GitHub pipeline would deploy it all (Landing page, app frontend, lambda code & infra changes).\n\nFor debugging, like issues with webhook handling, I gave codex access to my AWS CLI as well as the `sui client` CLI and it could query quickly and find out issues",
+  "auto_summary": "A Sui-based lending app lets users use tokenized Bitcoin collateral to accept fixed-term loan offers through Move contracts and a serverless web stack.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nomad-finance-5hvga",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

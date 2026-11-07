@@ -1,0 +1,27 @@
+{
+  "id": "hrf4v",
+  "slug": "mirr0tech",
+  "title": "mirr0tech",
+  "tagline": "AI + formal verification turn an RWA legal agreement into the smart contracts that enforce it.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hrf4v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/028nuLKn969Bl89NEAFmFZ8Z4o00Vvk4j7wPFhka57kSg/high.mp4",
+  "demo_url": "https://legalmirror.github.io/mirr0tech/",
+  "source_url": "https://github.com/LegalMirror/mirr0tech",
+  "finalist": false,
+  "description": "Tokenizing a real-world asset is expensive: platforms charge $50k–$100k upfront, a $1M–$5M raise costs $75k–$200k all in, and legal counsel and transfer-agent fees come on top. Most of that cost is people: paralegals reading the agreement and engineers hand-writing the smart contracts. So only large institutions can tokenize today.\n\nmirr0tech lets financial institutions and asset-holding businesses do it themselves. Upload the legal agreement (we demo a real Securitize/BlackRock transfer-agent agreement). Multiple AI models deliberate over it and extract every rule, and each rule must quote the document verbatim. The rules become an abstract syntax tree, which compiles to Solidity. Formal verification proves the on-chain logic matches the reading on every possible input, so a hallucinated rule can't reach the chain. A human approves, and the policy is frozen and hashed on chain.\n\nThe result is a permissioned token and a Uniswap v4 hook. Investors verify with World ID before they can receive or trade shares. The issuer chooses which credential is required and for which actions. An unverified wallet is refused, and every on-chain refusal names the clause of the agreement it enforces.",
+  "how_its_made": "Pipeline: document → normalize + SHA-256 → AST of rules and terms (each with a verbatim quote) → DNF bitmasks per rule → CompiledPolicy.sol. Facts are three-valued (true / false / not established), and unknown never satisfies a requirement. Before emitting anything, the compiler proves the Solidity evaluator (PolicyEval.sol) and the JS interpreter decide identically over every one of the 3^k fact assignments, and refuses to emit if they don't. The LLM never writes code: extraction is schema-validated JSON, and the compiler fills fixed, audited templates. Reverts carry LegalClauseViolation(clauseId, policyHash), and the clause table's hash is committed on chain, so a front end can't swap the sentence it shows.\n\nNoolog: extraction is a multi-model deliberation (Astra, Fable and GPT-OSS-Safeguard). Models propose rules and critique each other, and every claim comes back verified, contested, unverified or wrong, with a confidence score. A quote that isn't in the document is rejected.\n\nWorld ID: IDKit v4 with the passport/document credential. The server validates the proof, binds it to the investor's wallet via the signal, scopes the nullifier per action, and attests identityVerified on chain. The issuer picks the credential and the actions it gates (mint, transfer, …), and that choice is bound to the policy hash.\n\nUniswap v4: MirrorPolicyHook runs the compiled policy in beforeAddLiquidity, beforeRemoveLiquidity and beforeSwap. The hacky part: a restricted token can't tell which pool a PoolManager transfer belongs to, so the hook sets a transient-storage approval that the token consumes in _update. That makes the hook the token's only door into Uniswap: anyone can create a pool, but a hookless one reverts with NoPolicyDoor. We mined the hook address for its permission bits.",
+  "auto_summary": "This project converts legal agreement terms into verified on-chain policy logic for permissioned token issuance, transfers, and Uniswap-based trading.",
+  "scores": {
+    "originality": 9,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mirr0tech-hrf4v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

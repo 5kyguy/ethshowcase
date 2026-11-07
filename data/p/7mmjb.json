@@ -1,0 +1,27 @@
+{
+  "id": "7mmjb",
+  "slug": "capability-descent",
+  "title": "Capability Descent",
+  "tagline": "Capped, revocable spending authority for AI agents: real HBAR settles, over-budget is refused",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7mmjb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iRP3EYMJb6xTyS02CpFo7Ry9lOggirgwon8h7PewF5vM/high.mp4",
+  "demo_url": "https://github.com/Mulaydm10/ehl-switzerland-hackathon",
+  "source_url": "https://github.com/Mulaydm10/ehl-switzerland-hackathon",
+  "finalist": false,
+  "description": "Capability Descent gives autonomous agents delegated spending authority that is capped, attenuable, and revocable. A parent agent grants a child agent an HBAR allowance; that child can grant a smaller allowance onward, never a larger one. Every paid request is checked against the allowance before a price is quoted, so an over-budget request is refused with a machine-readable reason and no settlement is ever attempted. Authorized requests settle real HBAR on Hedera testnet through x402 and the Blocky402 facilitator, and each settlement is re-verified against consensus via the Mirror Node instead of trusting the facilitator receipt. Revoking a child propagates to its subtree while sibling grants keep spending, which the recorded demo shows end to end. ENS provides agent identity and the parent/child link. Every claim in this submission maps to a row in RESULTS.md, which also lists the claims we could not prove.",
+  "how_its_made": "Three TypeScript packages, deliberately split by what they are allowed to touch. core/ is pure allowance algebra over bigint: no clocks, no network, no SDKs, no randomness, with fast-check property tests for attenuation and conservation through delegation depth 5, so a child grant can never exceed its parent and spent can never exceed limit. chain/ holds the live integrations: the x402 Hedera scheme via @x402/fetch and Blocky402's testnet facilitator, the Hiero SDK for signing, a Mirror Node client that re-verifies each settlement against consensus rather than trusting the receipt, and ENSv2 forward/reverse resolution through the canonical Universal Resolver plus write calldata for the deployed PermissionedResolver. surface/ is the x402-gated resource server, the payer, an MCP server so an LLM agent can spend under the same caps, and the demo control plane. Two hacky-but-load-bearing details. First: the Hedera SDK silently parses a bare hex ECDSA key as ED25519, which produced INVALID_SIGNATURE with no hint; the signer now derives candidate keys of both types and matches them against the account key that consensus publishes, refusing before it signs anything. Second: our ENS write calldata originally targeted selectors that do not exist on the deployed resolver, and an absent selector reverts without data, which our own preflight classified as a permission refusal, so both live tests passed against a contract declining to exist; we now assert every selector against eth_getCode bytecode. ENS onchain publication is built and preflighted up to the broadcast but not broadcast, and RESULTS.md marks that row blocked rather than claiming it.",
+  "auto_summary": "A TypeScript project that enforces delegated spending limits for agents and settles approved requests via x402 on Hedera testnet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/capability-descent-7mmjb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

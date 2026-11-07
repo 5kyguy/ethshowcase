@@ -1,0 +1,27 @@
+{
+  "id": "bps0m",
+  "slug": "moor",
+  "title": "Moor",
+  "tagline": "Range orders on 1inch Aqua, Ledger-signed, ENSv2-named. Agent proposes, Ledger decides.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bps0m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nKgLFArKNdGD2SLfyQDWQXRRFv61yXdXYn8Eh48zLgo/high.mp4",
+  "demo_url": "https://getmoor.vercel.app",
+  "source_url": "https://github.com/salviega/moor",
+  "finalist": false,
+  "description": "Moor turns the waiting time of holding into productive capital. The holder defines a buy or sell strategy and authorizes it once from their Ledger; after that signature, the position runs on its own, asking for nothing else while it's active.\n\nThrough 1inch Aqua, the holder is the maker of a price range: tokens never leave the wallet, but the position earns a fee on every trade that crosses that range, and once the price reaches the defined condition, the order fills with no additional signature.\n\nEvery position is registered as its own name in ENS, with the strategy carried inside its records — readable by any application, not just Moor. An agent monitors price and state and can propose adjustments by writing directly onto that name, but it never has permission to sign anything or move capital: the agent proposes, the Ledger decides.",
+  "how_its_made": "The Live App is Next.js (App Router) + TypeScript. It never touches a private key — every write goes through Ledger's Wallet API (@ledgerhq/wallet-api-client-react), and every read goes through viem via TanStack Query. Position parameters and the model's output both validate against the same Zod schema, so the trust boundary is shared code, not a convention.\n\nThe chain layer is 1inch Aqua and SwapVM, deployed unmodified from their official sources on Sepolia, plus a small custom MoorRegistrar — it's the only contract Moor wrote, and it never touches Aqua or holds an approval. ship/dock are always called by the holder's own wallet, so the maker is always the Ledger, never a Moor contract.\n\nIdentity runs on ENSv2's Sepolia beta: each position is its own subname, and who can write which text record is an on-chain role, not an app-level rule — that's what lets an autonomous agent (a Supabase Edge Function, running every 5 minutes, with Groq's gpt-oss-120b for structured proposals) write exactly 8 keys and nothing else, provably, without trusting our backend.\n\nWhen the holder's EOA is EIP-7702-delegated to Simple7702Account — the one delegate Ledger's Ethereum app whitelists — the whole opening session (approve, ship, name) collapses into one executeBatch signature instead of three. Every signable function ships with an ERC-7730 Clear Signing descriptor, captured against an emulated Speculos and submitted to the community registry.",
+  "auto_summary": "A Next.js and Solidity project for creating self-custodial Aqua trading positions linked to ENS-managed metadata and agent proposals.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/moor-bps0m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

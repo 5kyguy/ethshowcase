@@ -1,0 +1,28 @@
+{
+  "id": "5t5oo",
+  "slug": "realcast",
+  "title": "Realcast",
+  "tagline": "Mobile Farcaster Client with Provably Real Media based on Hardware Attestation (Secure Enclaves) and ZK-based anonymity.",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5t5oo/banner/default.jpg",
+  "source_url": "https://github.com/ToxicPine/realcast",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "3rd place",
+      "title": "Unified Bridge zkEVM Extension"
+    }
+  ],
+  "finalist": true,
+  "description": "We built a Farcaster client with an inbuilt tool for taking images, such that when the images are taken, they are cryptographically signed by a verifiable credential that belongs to the device. It uses our own in-house cryptographic libraries to guarantee instantaneous anonymous signatures, revokability and scalability (I will elaborate with specifics later). The authencitity of the images are guaranteed by the fact that the needed signing credentials are only distributed to provably honest devices. Ie, their hardware and firmware is signed and hardware-attested, giving strong assurances that the execution environment won't use the keys to sign false data: only what comes through the native camera API gets signed. This is made possible by Google PlayIntegrity, which essentially allows us to treat mobile devices like TEEs.",
+  "how_its_made": "We use our own rust-based crates, which are built on the BBS crate for cryptography, for image signing. We also incorprated parts of C2PA. These libraries were built with Kotlin bindings, which were bound to React Native using Expo's module system. \n\nThe React Native part was a fork of Litecast, an existing Farcaster implementation. We introduced PlayIntegrity-based security checks to ensure secure, conditional issuance of the cryptographic credentials needed to sign the images. We improved the UX and robustness of Litecast, and introduced an inbuilt camera applet, where the images are captured and signed within the same secure environment.\n\nThe signed images stored on our publicly accessible server, with a FastAPI endpoint written in Python, and the server is configured to optionally timestamp the images. This makes it easy for others to access the images over the Farcaster network. Timestamping on chain involved aggregating hashes in a Merkle tree to save gas and allowing users to fetch a Merkle inclusion proof. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/realcast-5t5oo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

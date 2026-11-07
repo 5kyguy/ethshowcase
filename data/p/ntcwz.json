@@ -1,0 +1,27 @@
+{
+  "id": "ntcwz",
+  "slug": "friday",
+  "title": "Friday",
+  "tagline": "  Wrap any agent as a payable MCP server —discoverable via ENS, memory on 0G, payments          ",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ntcwz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9UlbZ2Cn3wFIpS6DynTY600cbh3p024deMTZll00y8800rw/high.mp4",
+  "demo_url": "https://agentmcp-smoky.vercel.app/",
+  "source_url": "https://github.com/vyqno/agentMCP",
+  "finalist": false,
+  "description": "AgentMCP solves a gap nobody else has: there is no standard way to share, discover, install, or pay for an AI agent. MCP solved this for tools. We solved it for agents. One command wraps any agent as a valid MCP server. It gets an ENS subname (defi-analyst.agentmcp.eth), persistent memory on 0G Storage, verifiable AI inference via 0G Compute with TEE proofs, and per-call micropayments via KeeperHub x402.          \n                                                                                                                    \nThe unique ENS integration: every call writes to ENS text records in real-time — agentmcp.state (what the agent is doing right now), agentmcp.proof (0G Compute TEE proof hash), and agentmcp.keeper (KeeperHub workflow ID watching the agent 24/7). Resolve any agent's ENS name to get live proof it's running correctly.                                                     \n                                                                                                                              \nThe KeeperHub integration goes beyond payment settlement. Our defi-analyst agent can activate_sentinel — spawning an autonomous KeeperHub workflow that watches your WETH position every 5 minutes, runs risk assessment, and executes a protective hedge if ETH drops your threshold. The agent acts 24/7 even when nobody is calling it.                  \n                                                                                                                              \nThree live demo agents: defi-analyst (Uniswap V3 data + KeeperHub sentinel), research (0G memory + cross-agent knowledge sharing), code-review (persistent history). A Next.js platform with Apple-style design, thirdweb wallet (email/Google/Apple login), agent detail pages with live ENS polling, 4-step wrap wizard, and machine-readable /.well-known/agent-index.json for AI agent discovery.                                                                                                        \n                  \n",
+  "how_its_made": " @agentmcp/sdk is the core TypeScript SDK. wrapAsAgent() creates an Express HTTP server implementing the MCP StreamableHTTP transport with session-based transport management (each client session gets its own McpServer + transport pair — a critical fix since McpServer can only connect to one transport at a time).                                                           \n                                                                   \nKeeperHub x402 middleware runs on every POST /mcp and GET /mcp request. Missing X-Payment header returns HTTP 402 with the  \n  full payment requirement spec (base64-encoded JSON per x402 protocol). The activate_sentinel tool calls the KeeperHub       \n  workflow AI-generate API to create a real autonomous workflow that monitors Uniswap V3 QuoterV2 prices on Base every 5 minutes and executes web3/assess-risk + web3/transfer-token on trigger.                                                     \n                                                                         \n0G Storage session manager uses ZgFile + Indexer with Merkle tree generation. Critical fix: the 0G Compute broker is injected into session.memory via Object.defineProperty with enumerable:false — this prevents it from being serialized and uploaded (it has circular references). The 0G serving-broker package has ESM/CJS interop issues on Node 24, fixed with a  lazy dynamic import inside init().                                                                                          \n                                    \nENS identity layer uses viem's getEnsText and writeContract (setText) on Sepolia. Three new text record keys: agentmcp.state (live during execution), agentmcp.proof (0G TEE proof hash), agentmcp.keeper (KeeperHub workflow ID). The LiveState client component polls ENS every 10 seconds showing real-time agent activity.                                                     \n                                                                                                                              \nThe Uniswap integration fetches V3 pool data from The Graph subgraph and gets real swap quotes via QuoterV2 staticCall (no gas spent). Frontend uses Next.js 15 + thirdweb v5 (embedded wallets with email/Google/Apple login, no MetaMask required) + Tailwind with Apple design tokens.\n                    ",
+  "auto_summary": "A monorepo SDK and web app for wrapping AI agents as MCP servers with ENS identity, 0G-backed memory/inference, and KeeperHub-powered payments and workflows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/friday-ntcwz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "jy21t",
+  "slug": "facture",
+  "title": "Facture",
+  "tagline": "An invoice is a zero-coupon bond nobody ever priced. Facture is the market that prices it.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jy21t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/GqgBvjn3lGeaDF3XET88iC8qeC3EtDCB8oVgrh78FX4/high.mp4",
+  "demo_url": "https://facture-ethonline.vercel.app/",
+  "source_url": "https://github.com/jagnani73/facture",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Tokenization of Anything",
+      "title": "Tokenization of Anything"
+    }
+  ],
+  "finalist": false,
+  "description": "Invoice factoring is bond pricing done over the phone. A business owed $40,000 in sixty days calls a factoring house, waits, and takes whatever single price comes back. There is no screen, no curve, and no second buyer.\n\nA market never formed here because invoices are not fungible. Every receivable has a different debtor, a different amount and a different number of days to maturity, so no two are the same asset and an order book has nothing to book. Facture stops trying to standardise the paper and standardises the bid instead. A funder writes a standing mandate (any A-rated paper, 90 days or less, 12.5% annualised, up to $200,000 of exposure), funds it, and walks away. Any invoice that arrives is priced immediately by reading the curve at its own rating and tenor. The assets stay unique and the buyers become fungible.\n\nThe instrument was always a bond. A discounted invoice is a zero-coupon bond: bought below par, redeeming at face on a fixed date, with the discount being the yield. Each receivable is issued as its own zero-coupon bond on Hedera's Asset Tokenization Studio, maturity set to the invoice due date and principal to the face value.\n\nFive moves, each of which has now run on testnet more than once.\n\nList. The invoice becomes a bond. A uniqueness registry keyed on hash(debtor, invoice number, amount) means one receivable mints exactly one token, ever, which answers the specific fraud factoring has always had.\n\nQuote. A confirmed invoice carries a live price already. Not a button that requests one: the number is simply there, and it moves as the curve moves and as the due date approaches.\n\nMatch. Eligibility is checked against the security's own control list and KYC facets before matching, not at settlement. An AMM matches first and discovers the transfer was illegal afterwards. Here an ineligible counterparty is never matched, and the refusal comes back as a sentence a funder can read rather than a reverted transaction.\n\nSettle. Delivery versus payment across two chains with no bridge. The bond stays on Hedera, the USDC stays on Arc, and neither side moves first. Buyer capital already lives where stablecoins live, so the second chain is not a flourish.\n\nMature. The debtor pays and settlement routes to whoever holds the paper now, not whoever bought it first. Without that the paper cannot legitimately change hands, because a second buyer would have no way to be paid.\n\nNobody using Facture needs to know it is on a blockchain. A seller sees invoices with prices beside them. A buyer sees mandates, exposure and yield. The chain surfaces in one place: a proof view, one click from any trade, showing the on-chain receipts, the compliance decision and both settlement legs.",
+  "how_its_made": "A pnpm workspace of five packages: a Next.js 15 and React 19 frontend, a Hono backend over SQLite and drizzle holding the quote engine, settlement and issuance, a market-maker agent, a shared package holding the curve, the state machines and one refusal vocabulary, and a Hardhat workspace that no other package imports.\n\nThe paper is Hedera. Every receivable is its own ATS zero-coupon bond via deployBond, about 7 million gas and 7 to 9 HBAR an issuance, measured on chain rather than estimated. Eight contracts are deployed and verified on Sourcify: a uniqueness registry, an invoice registry whose isConfirmed is a public view, a mandate book that reads rating and confirmation out of that registry instead of from whoever wants the match to succeed, a compliance gate, and a party registry where a business signs an EIP-712 profile and the venue only relays it, so it can never write a profile on somebody's behalf. Refusal and match digests go to an HCS topic as SHA-256 commitments, never the reason itself, because a topic is public and a refusal names a customer and an amount.\n\nThe money is Arc. A funded mandate escrows USDC in MandateVault and settles out of it in one call, with no challenge and no signature, because a funded standing bid already said yes to anything meeting its terms. An unfunded one settles pay-as-you-go over x402 on Hedera through the Blocky402 facilitator. That reads x402 as a settlement protocol instead of an API paywall: the challenge holds the asset leg, the payment signature is the cash leg, and the facilitator is what makes the two simultaneous. One of those payments was made by an agent rather than a person, signing a native Hedera TransferTransaction with the buyer's own key. Privy signs a seller in by email, and the wallet it makes carries a policy with exactly two rules, so that key gained two permissions rather than becoming general purpose. Circle developer-controlled wallets fund the vault.\n\nThree things worth flagging. Backend issuance had never once succeeded: the deployBond tuple was a plausible flattening of the real one that compiled, typechecked and encoded cleanly to a selector the deployed diamond does not have. A wrong selector is not a wrong type, so nothing in the toolchain could see it. Three ATS compliance selectors that the docs imply exist do not, and the gate probing them failed closed, so it refused every buyer on every instrument while looking correct. And the asset leg is an ATS hold rather than an escrow transfer, because createHoldByPartition acts on the caller's own tokens. That is also what made the secondary market buildable, after authorising the venue as an ERC-1400 operator turned out to succeed and confer nothing.",
+  "auto_summary": "A multi-package app for tokenizing invoices on Hedera, pricing them against standing mandates, and settling cash on Arc or via x402.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/facture-jy21t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

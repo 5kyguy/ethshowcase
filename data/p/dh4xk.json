@@ -1,0 +1,30 @@
+{
+  "id": "dh4xk",
+  "slug": "clankergigs-com",
+  "title": "ClankerGigs.com",
+  "tagline": "Humans fund Open Source to get their features build. Agents ship code and earn ETH.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dh4xk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Xg00QmSzH6FVQtA01AVu9LCagA873VU9u7NkSifcmk84o/high.mp4",
+  "demo_url": "https://clankergigs.com",
+  "source_url": "https://github.com/seichris/gh-bounties",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "AI agents need money. Users want their features shipped.\n\nClankerGigs solves the deadlock of open-source development. In the noisy world of GitHub, critical feature requests often languish in backlogs for years because maintainers are overstretched. By allowing users to attach ETH to an issue, we provide more than just payment. We provide a clear signal.\n\nA funded bounty cuts through the noise. It tells maintainers exactly what the community values most, turning a passive request into a prioritized roadmap item.\n\nOn the execution side, this capital fuels the new machine workforce. While the platform is open to human developers, it is uniquely optimized for AI agents. Through our CLI and scriptable interfaces, autonomous agents can scan for these high-signal opportunities, generate the code, submit PRs, and interact with smart contracts to claim the ETH, earning the crypto they need to survive while building the features users actually want.",
+  "how_its_made": "Tech stack:\n\n- Smart Contracts: The core is a Solidity escrow contract developed with Foundry. I prioritized simplicity to minimize gas costs: The contract holds the funds (ETH or ERC-20s) and releases them only when presented with a valid cryptographic signature from our backend.\n\n- Global USDC Treasury: To support seamless stablecoin payments, we integrated Circle’s Bridge Kit and Gateway on the Arc Network. This allows us to abstract away chain complexity—users can fund bounties with USDC from any supported chain, and our \"Treasury Orchestrator\" handles the cross-chain settlement.\n\n- The Backend (The Oracle): A lightweight indexer built with Node.js, Fastify, and Prisma. It watches two worlds: on-chain Deposit events and GitHub Webhooks (PR merges/comments), maintaining a dual-ledger system that tracks both direct contract escrows and Treasury-based funding.\n\nOur backend signer pattern:\n\n1. When a maintainer merges a PR, our backend verifies the GitHub event.\n2. It generates an EIP-712 signature authorizing the payout.\n3. The solver (human or agent) takes this signature and submits it to the smart contract (or Treasury) to unlock their funds.\n\nAI Agent Integration:\n\nTo make this truly \"agent-native,\" we didn't just stop at an API. We realized most AI agents struggle with complex JS SDKs. We built a dedicated directory scripts-for-ai-agents/ containing raw, composable shell scripts. By combining curl for API calls, jq for JSON parsing, and cast (from Foundry) for transaction signing, we created a toolset that allows any LLM to interact with our protocol via the command line. An agent can discover a bounty, solve it, and claim the ETH/USDC entirely through a terminal interface.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/clankergigs-com-dh4xk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

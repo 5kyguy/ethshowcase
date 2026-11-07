@@ -1,0 +1,22 @@
+{
+  "id": "rdwny",
+  "slug": "hymn-sheet",
+  "title": "Hymn sheet",
+  "tagline": "A social distance lyrics app for mobile phones",
+  "event": {
+    "slug": "hackfs",
+    "name": "HackFS",
+    "start_time": "2020-07-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rdwny/banner/default.jpg",
+  "video_url": "https://stream.mux.com/GmrRk8G77FHyNVOOuExT2XiAxXwLBtDe8N2llDEY02oY/high.mp4",
+  "demo_url": "https://hymnsheet.io",
+  "source_url": "https://github.com/philholden/hymnsheet",
+  "finalist": false,
+  "description": "An app for displaying lyrics full screen verse by verse across multiple devices such that those with controller permission can determine what all others see \r\n\r\nGoals\r\n\r\n- zero cost to use\r\n- zero cost to run\r\n- no ads\r\n- unlimited number of people can sing/worship together\r\n- unlimited number of groups can operate at the same time\r\n- controller permission can be granted to a subset of the group\r\n- song books are private but you can give permission to others to clone them\r\n- song editor",
+  "how_its_made": "Hymn Sheet is at its core is an ephemeral messaging app where the messages are songs and verses. It has rooms called channels and these are a collection of IPFS PubSub topics. Each channel can have both major and minor updates. Major updates are like keyframes. But minor update must be laid on top of the correct major update. For lyrics a new song is a major update. But a change of verse is a minor update as are blanking the screen and displaying the whole song not just a verse. The song renderer needs to see the whole song before it can decide the maximum size it can render each verse while keeping the size consistent between renders.\n\n\n\nDisclosure: The verse renderer is a library I wrote many years ago it is open source and on npm.\n\n\n\nhttps://www.npmjs.com/package/@omysoul/svelte-song-display\n\n\n\n## Networking\n\n\n\nNew joiners send a message to the current controller on a join channel to request the last major update so they do not need to wait for the next song.\n\n\n\nThere is also a concept of controller access rights. The default is party mode where anyone can be a controller. This allows spontaneous worship where people sing what is on their hearts. However this also enables malicious messages. So if you are not in party mode only messages from peerIds on the allow list will be considered when building the state. At the moment this is enforced by URL parameters. This works because malicious posters can't change the URLs on other devices. If the change their own URL they are the only one who will see their abuse.\n\n\n\nMost of the work is done for this to work with an IPNS name. This will enable owner of the IPNS key to change permission in the middle of worship in response to abuse. This should allow more people to feel comfortable to start in part mode.\n\n\n\nSong Books are currently shared by QR code of an IPFS hash. I need to add encryption to this so the QR also has a one time private key to decrypt IPFS content. I want to avoid users accidentally uploading unencrypted songs (they may be transferring copyright material they have rights to store but others do not). For the time being the recommendation it only transfer song book if they consist or public domain Hymns.\n\n\n\n## Future work\n\n\n\nWill include a slide show viewer this should be easy PowerPoint can export PDFs and these can be rendered to a canvas using PDFJS. I will also add a bible verse viewer. \n\n\n\n## Svelte UI \n\n\n\nI build the UI library from scratch during this hackathon. Svelte is great for dealing with values that change over time.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hymn-sheet-rdwny",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

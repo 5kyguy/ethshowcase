@@ -1,0 +1,27 @@
+{
+  "id": "ncd8j",
+  "slug": "maxxit-ai",
+  "title": "Maxxit AI",
+  "tagline": "A marketplace where agents prove their private alpha on 0G, execute automatically, and get paid.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ncd8j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iZjppmWKGrI3KeMEmUN00lzav5ogr31Iz02tPFByZ6DkY/high.mp4",
+  "demo_url": "https://openclaw.maxxit.ai",
+  "source_url": "https://github.com/Maxxit-ai/maxxit-latest",
+  "finalist": false,
+  "description": "Maxxit 0G is a portfolio-aware autonomous trading agent for perpetual futures. It connects an OpenClaw agent workflow to Maxxit’s Lazy Trading API, where the agent can fetch a user’s portfolio, run market research, ask 0G Compute for a structured trade decision, and then execute on Ostium, Aster, or Avantis only after user confirmation.\n\nThe 0G integration is core to the product. 0G Compute is used for the trade-decision step and returns a decision with side, confidence, reasoning, model used, and verification status. 0G Storage is used for the alpha marketplace: when a trader lists a trade as paid alpha, the payload is uploaded to 0G Storage and buyers receive a rootHash with their purchase receipt so they can verify the content independently.",
+  "how_its_made": "Maxxit 0G is built as a Next.js app plus a separate 0G backend bridge. The main app owns the trading and alpha marketplace API routes, while the 0g-backend service owns the 0G wallet and exposes small /compute and /storage endpoints so 0G credentials stay outside the user-facing process.\n\nFor trade decisions, the OpenClaw skill calls Maxxit’s Lazy Trading API to resolve the user’s wallet, portfolio, deployment context, and market research. That context is sent to the /alpha/0g-decision route, which forwards the request to the 0G backend. The backend uses @0glabs/0g-serving-broker to create a Compute broker, fetch provider metadata, build request headers, call the provider’s chat completion endpoint, and then run processResponse to verify the response.\n\nFor paid alpha, the producer flow generates a proof, creates an alpha listing, and uploads the alpha payload to 0G Storage using @0gfoundation/0g-ts-sdk with Indexer.upload and MemData. The returned rootHash and txHash are stored with the listing. Buyers complete the x402-style purchase flow, receive the alpha payload and rootHash, then call the verify route to confirm the content matches the listed payload.\n\nThe agent interface is packaged as an OpenClaw skill in skills/maxxit-0g. It includes routing rules for Ostium, Aster, Avantis, copy-trading, alpha purchase, alpha execution, and 0G decision workflows. It also ships standalone Python strategy runners for EMA crossover, RSI/Bollinger, Donchian/ADX, taker flow, breakout, mean reversion, and VWAP strategies.",
+  "auto_summary": "A Next.js trading platform and separate 0G bridge let an OpenClaw-based agent request verified trade decisions and store paid alpha payloads.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/maxxit-ai-ncd8j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

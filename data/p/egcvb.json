@@ -1,0 +1,27 @@
+{
+  "id": "egcvb",
+  "slug": "machi-vouchers",
+  "title": "Machi Vouchers",
+  "tagline": "Japan's town shopping vouchers on Sui: shop-only, paid to the shop instantly, with a stamp rally",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/egcvb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aa5eZVM9bGY2VINJpsroMBEk02mjroxUiNN1SfY7Hy7g/high.mp4",
+  "demo_url": "https://machi-vouchers.vercel.app",
+  "source_url": "https://github.com/Hypovolemic/machi-vouchers",
+  "finalist": false,
+  "description": "Every year Japanese towns fund premium shopping vouchers: residents pay ¥10,000 and get ¥12,000 to spend at local shops. Most programs are still on paper, so shops count used vouchers and carry them back to get paid, and the city that funds the premium sees a final report rather than where its money went.\n\nMachi Vouchers rebuilds the program on Sui. A chamber of commerce launches a program; the city deposits the premium into a shared vault on chain; residents buy a set and get two kinds of voucher: small-shop vouchers (中小店舗券) that only work at small and independent shops, and any-shop vouchers (共通券) for every registered shop. Both are Sui Closed-Loop Tokens, so they can only be spent through the program's shop check and can't be sent to anyone else.\n\nWhen a resident pays, one transaction spends the voucher and pays the shop the same amount from the vault, so the shop is paid immediately. Staff give a stamp with +1 and Confirm. Stamps from five different small shops release a ¥500 bonus, and each shop also keeps its own stamp card. The resident's card can be added to a phone's wallet (tested in Google Wallet); the pass shows balances and stamps copied from Sui, its QR is the resident's Sui address, and the back links to the last transaction on Suiscan.\n\nThe city dashboard shows what the subsidy achieved: subsidy deposited, sets sold, vouchers spent and the share at small shops, the vault, shops with no takings to follow up, and every onchain event behind the numbers.\n\nThe live demo runs on Sui testnet with demo accounts that the server signs for, so anyone can try it without a wallet; every action is a real testnet transaction with a Suiscan link. Demo yen (dJPY) only.",
+  "how_its_made": "The core is a Sui Move package (edition 2024). A shared Program object holds the vault (Balance<DJPY>), the shop registry, stamp cards and the last-stamp table, plus both voucher TreasuryCaps, which move in at launch so vouchers can only be minted by buy and claim_bonus. Each voucher type has a TokenPolicy that allows only spend, and only with a ShopRule approval that pay_local / pay_any add after checking the shop is registered, active, small (for small-shop vouchers) and inside the use period. There is no rule for transfer, to_coin or from_coin. The shared Clock enforces sale and use windows and one stamp per shop per Japan-time day; the fifth distinct small shop sends a BonusTicket. 19 Move tests cover buying, payouts, the refusals, stamps, the bonus and the refund to the city at close.\n\nThe app is Next.js 16 (App Router) on Vercel. Route handlers use the Mysten Sui TypeScript SDK over gRPC: they decode the Program object and dynamic fields from BCS, read each shop's dJPY takings, and count stamps per shop from the package's Stamped events. Payments are programmable transaction blocks that join and split the resident's voucher Tokens and call pay_local or pay_any in one transaction.\n\nNotably hacky: to let judges try it without a wallet, the server holds testnet keys for a demo resident and six demo shops and signs for them, one transaction at a time per signer with an explicitly chosen gas coin. Rule breaks are sent to the contract instead of being blocked in the app, so the refusal you see is the Move abort itself (for example check_shop abort 8), caught in the SDK's pre-signing check.\n\nWallet passes are issued through PassEntry's API: the pass fields are copied from chain state after every payment, stamp and bonus, the QR is the resident's Sui address, and the back names the last transaction with its Suiscan link.\n\nBuilt solo with AI assistance (Claude Code), disclosed in docs/ai-usage.md.",
+  "auto_summary": "A Sui-based voucher payment system for municipal shopping programs with on-chain issuance, spending, shop payouts, stamps, and an admin dashboard.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/machi-vouchers-egcvb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

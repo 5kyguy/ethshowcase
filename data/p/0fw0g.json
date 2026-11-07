@@ -1,0 +1,28 @@
+{
+  "id": "0fw0g",
+  "slug": "predictx",
+  "title": "PredictX",
+  "tagline": "I built a binary prediction market that bets can results in two options using protokit at mina protocol.In that zkapp users permissionlesly can create and make bets.",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0fw0g/banner/default.jpg",
+  "source_url": "https://github.com/codekaya/ETH_global_bangkok",
+  "prizes": [
+    {
+      "sponsor": "Mina Protocol",
+      "sponsor_id": "6wi0d",
+      "placement": "2nd place",
+      "title": "zkGaming on Mina"
+    }
+  ],
+  "finalist": true,
+  "description": "I used  protokit to create my zkapp and the contract contains of this core functions:\nCreate Bets: Users can create new bets with a specified minimum stake amount and description. Each bet is assigned a unique betId, and records starting and ending timestamps, initialized based on the current block height and a fixed duration (e.g., 100 blocks).\n\nPlace Bets: Participants can stake a specified amount on a binary outcome (yes or no) for an existing bet. The contract ensures the stake exceeds the minimum required amount and updates the total amounts staked on each outcome (yesBetAmount and noBetAmount). Stakes are tracked using state maps (stakedToYes and stakedToNo) that map a combination of betId and the user's public key to the staked amount.\n\nClose Market: After the ending timestamp has passed, the market can be closed using the closeMarket method. This method sets the bet's isOver flag to true and records the outcome (result). Currently, the result is hardcoded as true as a placeholder, pending integration with an external oracle for real-world data.\n\nClaim Winnings: Users can claim their winnings after the market is closed by invoking the claimWinnings method. The contract calculates the amount owed to the user based on their stake and the final outcome, and transfers the corresponding tokens using the mint function from an injected Balances module.",
+  "how_its_made": "I built this project by starting with the ProtoKit starter template, which was instrumental in getting a head start on developing zkApps for the Mina Protocol. ProtoKit provided a solid foundation and streamlined a lot of the initial setup, especially when dealing with zero-knowledge proofs and smart contract development.\n\nFor the frontend, I chose Next.js because it's a powerful framework for building server-rendered React applications, and it integrates well with modern JavaScript tools. Next.js made it easier to manage routing, server-side rendering, and provided a great developer experience overall.\n\nOn the contracts side, I used o1.js along with ProtoKit. o1.js is essential for interacting with Mina's cryptographic primitives and building out the smart contract logic. Combining it with ProtoKit's modules allowed me to construct the contracts more efficiently and take advantage of pre-built components tailored for the Mina ecosystem.\n\nRegarding the development environment, ProtoKit has specific requirements that I had to adhere to:\n\nNode.js v18.18: This version was necessary due to certain dependencies that ProtoKit relies on. To manage this, I used NVM (Node Version Manager), which made switching between Node.js versions seamless without affecting my global setup.\n\npnpm v9.8.0: Instead of the usual npm or yarn, pnpm was recommended because of its efficient package management and disk space optimization. It was a bit of a learning curve initially, but it proved to be faster and more reliable for this project.\n\nOne of the more challenging aspects was ensuring all these technologies played nicely together. There were moments when dependencies conflicted or certain modules didn't transpile correctly. I had to dive deep into the build configurations, tweaking webpack settings within Next.js to accommodate the specific needs of o1.js and ProtoKit modules.\n\nI didn't necessarily use any external partner technologies, but the synergy between ProtoKit and o1.js was crucial. ProtoKit's abstractions simplified many complexities around zkApp development, while o1.js provided the necessary cryptographic functions.\n\nAs for any hacky solutions, there were a few instances where I had to get creative:\n\nCustom Module Resolutions: Some modules didn't resolve correctly out of the box, so I had to adjust the tsconfig.json and webpack configurations to ensure everything compiled without errors.\n\nAsync Handling in Contracts: Dealing with asynchronous operations in smart contracts isn't straightforward. I had to implement custom hooks and middleware to manage state and side effects effectively, ensuring that the frontend stayed responsive and data remained consistent.\n\nState Management: Instead of going with heavier state management libraries, I opted for Zustand for its simplicity and minimal boilerplate. This decision kept the codebase lean and more maintainable in the long run.\n\nOverall, piecing everything together was a rewarding challenge. The combination of Next.js, ProtoKit, and o1.js allowed me to build a functional zkApp on the Mina Protocol, and along the way, I gained a deeper understanding of how these technologies interact under the hood.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/predictx-0fw0g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

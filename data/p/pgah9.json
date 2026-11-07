@@ -1,0 +1,35 @@
+{
+  "id": "pgah9",
+  "slug": "dark-pools",
+  "title": "Dark Pools",
+  "tagline": "Dark pool on Canton: orders stay private via selective disclosure, settled atomically on-ledger",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pgah9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PfKmDJDmDCAP1RZepvzV00bTNSjKocKTova01PhnBdydw/high.mp4",
+  "demo_url": "https://darkpools.cc",
+  "source_url": "https://github.com/BootNodeDev/cn-hackathon-darkpools",
+  "prizes": [
+    {
+      "sponsor": "Canton Foundation",
+      "sponsor_id": "ddg6s",
+      "placement": "Private DeFi & Capital Markets",
+      "title": "Private DeFi & Capital Markets"
+    }
+  ],
+  "finalist": false,
+  "description": "Dark Pools is a dark pool trading venue built on Canton Network. Traders post limit orders that only they and the venue can see, so there is no public order book and no pending transactions to front-run. The venue matches crossing buy and sell orders and settles both legs of the swap in a single atomic transaction, priced at the midpoint of the two limit prices. The privacy comes from Canton's selective disclosure at the ledger level, not from an added cryptography layer. The venue never holds funds and cannot set the price or move assets outside a valid fill. The contracts are generic over the Canton token standard, so any compliant token can trade.\n\nPresentation: https://docs.google.com/presentation/d/1rHMiunV6VltBWwHatGk2ql_JBvJxSm6K4PpG72Y0uNE/edit?usp=sharing",
+  "how_its_made": "The on-ledger logic is written in Daml: a DarkPool contract per trading pair, hidden Order contracts (signatory the trader, observer the venue), and a transient FillAuthority used to settle. \n\nThe notable part is the two-stage FillAuthority authority chain, which assembles the buyer, the seller, and the venue together for just the settlement step, so both legs execute atomically while each trader's order, fill, and remainder stay private from the other. Pricing, crossing checks, and the midpoint are computed and validated on-ledger. The contracts depend only on the Canton token-standard allocation interfaces, with no issuer-specific code, and are covered by Daml Script tests including privacy and adversarial-venue cases. \n\nOff-ledger, a venue backend (order API plus the matching and settlement engine) runs on Digital Ocean and submits matches to Canton DevNet through Seaport. The frontend dApp is hosted on Vercel, and signing happens in the browser with the Carpincho wallet. The Dark Pool DARs are built to .daml/dist and deployed to Canton DevNet via Seaport.\n\nPresentation: https://docs.google.com/presentation/d/1rHMiunV6VltBWwHatGk2ql_JBvJxSm6K4PpG72Y0uNE/edit?usp=sharing",
+  "auto_summary": "A Canton-based dark pool application uses Daml contracts, a TypeScript backend, and a React frontend to privately match and settle token trades.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/dark-pools-pgah9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

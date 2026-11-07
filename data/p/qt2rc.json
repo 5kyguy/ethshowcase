@@ -1,0 +1,21 @@
+{
+  "id": "qt2rc",
+  "slug": "fusion-universal-kit",
+  "title": "Fusion Universal Kit",
+  "tagline": "A universal SDK 1inch Fusion+ atomic swap protocol across any EVM and Bitcoin-based chains.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qt2rc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/k1NAiK702QkJQVQQWaR8bHPOc0202WK8pAm6pzIuMoOpd00/high.mp4",
+  "source_url": "https://github.com/Envoy-VC/fusion-universal-kit",
+  "finalist": false,
+  "description": "Fusion Universal Kit is an atomic swap protocol that enables trustless, decentralized exchanges between Ethereum Virtual Machine (EVM) chains and Bitcoin. Built as an extension of the Fusion+ protocol from 1inch, this kit provides a complete solution for cross-chain asset swaps with enhanced security and user experience.\n\n## 🔄 How Atomic Swaps Work\n\nThe Fusion Universal Kit enables trustless cross-chain swaps through a six-step process that ensures both parties can either complete the swap or recover their funds. The entire process is orchestrated through Hash Time-Locked Contracts (HTLCs) on both chains, creating a secure bridge between EVM and Bitcoin networks.\n\n**Step 1: Order Creation and HTLC Setup**\n\nThe swap begins when a maker creates an order specifying the assets they want to exchange. For example, Alice wants to swap 0.001 ETH for 0.0001 BTC. The system generates a unique hashlock (a cryptographic hash of a secret) that will be used to coordinate the swap across both chains. The taker then creates a Bitcoin HTLC using this shared hashlock, which locks the Bitcoin funds in a special address that can only be unlocked by revealing the secret or after a timeout period.\n\n**Step 2: Escrow Deployment and Bitcoin Funding**\n\nOnce the Bitcoin HTLC is created, the maker deploys an EVM escrow contract that locks their ETH. This escrow contract uses the same hashlock as the Bitcoin HTLC, creating a cryptographic link between the two chains. The taker then funds the Bitcoin HTLC by sending the specified amount of Bitcoin to the HTLC address. At this point, both assets are locked in their respective chains, but neither party can access the other's funds without cooperation.\n\n**Step 3: Secret Revelation and Asset Claiming**\n\nThe critical moment occurs when the maker reveals the secret (the preimage of the hashlock) to claim their Bitcoin from the HTLC. This revelation happens on the Bitcoin network through a special transaction that includes the secret in the witness data. Once the secret is revealed on-chain, it becomes publicly visible to everyone, including the taker.\n\n**Step 4: Cross-Chain Completion**\n\nWith the secret now publicly available, the taker can use it to withdraw the ETH from the EVM escrow contract. The escrow contract verifies the secret matches the original hashlock before releasing the funds. This completes the atomic swap - Alice receives her Bitcoin, and Bob receives his ETH, all without requiring trust between the parties or any centralized intermediary.\n\n",
+  "how_its_made": "### HTLC Script Structure\n\nThe Bitcoin HTLC uses a sophisticated script that enables both claim and refund scenarios:\n\n```\nOP_IF\n  OP_SHA256\n  <hashlock>\n  OP_EQUALVERIFY\n  <receiverPublicKey>\n  OP_CHECKSIG\nOP_ELSE\n  <locktime>\n  OP_CHECKLOCKTIMEVERIFY\n  OP_DROP\n  <senderPublicKey>\n  OP_CHECKSIG\nOP_ENDIF\n```\n\n### Key Features\n\n- **P2WSH Address**: Uses native SegWit for better efficiency\n- **Dual Paths**: Supports both claim (with secret) and refund (after timeout)\n- **Time-Locked Refunds**: Automatic refund capability after locktime\n- **Signature Verification**: Secure multi-signature requirements\n\n### Claim Transaction Structure\n\n```\n// Witness Stack for Claim: <signature> <secret> <1> <witnessScript>\nconst witnessStack = [\n  signature,           // Receiver's signature\n  secret,             // Revealed secret\n  Buffer.from([1]),   // Choose IF branch\n  witnessScript       // Full HTLC script\n];\n```",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fusion-universal-kit-qt2rc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

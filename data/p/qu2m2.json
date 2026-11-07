@@ -1,0 +1,35 @@
+{
+  "id": "qu2m2",
+  "slug": "ens-drive",
+  "title": "ENS Drive",
+  "tagline": "Google Drive - style sharing for ENS names: share with a team, not each subname with each person.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qu2m2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/C01u86sNfi00LECJJaXkrU00jYJ00YnX4eGwOyhuwv7t1HE/high.mp4",
+  "demo_url": "https://ens-drive.vercel.app/",
+  "source_url": "https://github.com/krishnan74/eth-tokyo-2026",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "2nd place",
+      "title": "Best Use of ENSv2"
+    }
+  ],
+  "finalist": true,
+  "description": "ENSv2 already built the directory tree: every name can have its own registry, so names nest like folders (orbit-dao.eth › protocol › vault). What's missing is the sharing layer. ENSv2's Enhanced Access Control (EAC) grants permissions one address on one name, in each folder's own registry, so there is no way to say \"everyone on core-devs may manage every name under protocol, including the ones we create tomorrow.\" Today a team either copies every member onto every name and registry, or routes every action through a shared contract such as a Safe, where members stop acting as themselves.\n\nENS Drive adds that permission layer with Cascade, a relationship-based access control (ReBAC) rule built into EAC itself. A name grants a role to a team contract, like sharing a folder with a group, and the team's members inherit that role on every name below it, checked live on every call: through up to three folders, up to four teams per folder, and teams inside teams. Add someone to a team once and they can manage every name; remove them once and their access is gone everywhere. Nothing is written to the names, and nothing EAC does today is replaced: the only new contract is a subclass of ENSv2's own PermissionedRegistry that overrides its role lookup.\n\nThe live demo is a shared-drive view on real ENSv2 beta contracts on Sepolia, for a fictional DAO, orbit-dao.eth. A new contributor, alex.orbit-dao.eth, can't edit the protocol's contract names (vault, oracle, bridge). Dragged into core-devs, they can edit all three at once; moved into auditors, a team inside the security council that's shared one folder up on orbit-dao.eth, they still can; turning off \"sharing flows into subfolders\" takes it away. An attempt to add an always-yes group is refused on-chain. After each action an \"On-chain, just now\" card says in plain words what the contracts checked, and \"Behind the scenes\" replays the mined transaction's full call tree. The first, one-folder version is still there in a second tab.",
+  "how_its_made": "The core is one contract, CascadeSubregistryV2 (contracts/src/CascadeSubregistryV2.sol), a subclass of ENSv2's PermissionedRegistry built against ensdomains/contracts-v2@48b3e2d, the source matching the ENSv2 beta on Sepolia. It overrides EAC's role lookup, _getRoles, the documented hook the stock registry already overrides for approved operators, and its write-side check, _checkRoles. Because both are virtual, every permission check inside ENS's unmodified code runs the new version. It returns the caller's own grants, plus, for each team the registry names, the roles that ancestor registries grant that team on the path down to this registry, if the caller is a member. Cascade doesn't add a check; it changes the answer to the one check ENS already runs.\n\nThe write-side check is lazy and role-aware: the caller's own roles first (owners pay no external lookup), then one folder at a time; a team is asked about membership only when its grants cover a role still missing, and the walk stops as soon as every requested role is covered. Because inheritance only adds roles, that gives the same yes/no as the full union; a differential fuzz test and a Halmos proof check it. On Sepolia a member's write through one level costs 97,665 gas (the first, full-union version: 165,723); an owner's write is unchanged at 36,971.\n\nThe hard parts were making that safe. Each level must point back down (getSubregistry on the parent returns the child) before its grant counts, so a registry can't claim a parent that doesn't claim it. Admin role bits are masked off, so members can use a role but never grant it; nothing is inherited at the registry root, so registering names, upgrading, or changing the teams stay native-only. Adding a team needs a dedicated root role and a contract that declares the team interface through ERC-165. Every external lookup is a read-only STATICCALL with a gas cap and a bounded return size, and fails closed: a test showed that Solidity's try/catch does not catch undecodable return data, so a team contract returning one byte would have reverted every permission check on the registry, including the owner's. Because grants are read against each parent's current EAC resource, re-issuing or letting a parent name expire ends the team's authority automatically.\n\nEAC can report how many accounts hold a role but not which ones, so the registry names its teams with pointers and treats the parents' grants as the authority: a pointer alone grants nothing. A team is anything with an isMember(address) view: TeamRegistry (plain EAC), NestedTeam (teams of teams, three levels), and adapters for a Hats role and a Safe's owners, tested on a fork against the real Hats v1 and Safe 1.4.1.\n\n71 Foundry tests (unit, fuzz and invariant, including a v1/v2 equivalence invariant, hostile teams, gas caps, and parent re-issue, expiry and transfer) plus 3 Halmos symbolic proofs, for all inputs: v1's rule (a member gets exactly the regular half of the parent's grant, never an admin bit, nothing at the root), v2's lazy write check agreeing with the full union across two teams and two levels, and a parent that doesn't point back down contributing nothing. Deployment and wiring on Sepolia, including registering orbit-dao.eth through the ENSv2 beta registrar's commit–reveal, are viem scripts. A shared TypeScript core feeds a terminal demo and a Next.js 16 + wagmi web UI hosted on Vercel; its \"Behind the scenes\" panel replays each transaction with Foundry's cast run (public Sepolia RPCs don't serve trace APIs) and decodes the call tree into names.",
+  "auto_summary": "A Foundry- and Next.js-based project that extends ENSv2 permissioned registries with inherited team-based access across subname hierarchies on Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ens-drive-qu2m2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

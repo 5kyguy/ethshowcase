@@ -1,0 +1,29 @@
+{
+  "id": "8gmgj",
+  "slug": "salona",
+  "title": "Salona",
+  "tagline": "A non-custodial system enabling BTC holders to earn stablecoin yield by selling covered calls.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8gmgj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/s8RcjwCxTsr35VMFKdi201oLEZDzEFvmhURwIiaadtuM/high.mp4",
+  "source_url": "https://github.com/goeticb/salona",
+  "prizes": [
+    {
+      "sponsor": "Babylon Labs",
+      "sponsor_id": "6162g",
+      "placement": "Bitcoin Trustless Vault in Ethereum DeFi",
+      "title": "Bitcoin Trustless Vault in Ethereum DeFi"
+    }
+  ],
+  "finalist": false,
+  "description": "DeFi Volatility Yield Protocol — Earn Upfront Yield on BTC\n\nThis project introduces a Bitcoin-native volatility yield protocol that allows BTC holders to earn instant stablecoin premiums by selling single-expiry covered calls and cash-secured puts, all while retaining full self-custody of their BTC.\n\nBTC collateral is locked inside Trustless Bitcoin Vaults—Taproot UTXOs with pre-signed spend paths that only unlock when a valid BitVM3 zero-knowledge proof of the HyperEVM option state is submitted. These vaults ensure that settlement is cryptographically enforced rather than dependent on any custodian.\n\nLiquidity is sourced via an off-chain RFQ relayer network, where sellers broadcast EIP-712 signed quotes and buyers accept them off-chain. Settlement is performed atomically on-chain through OptionManager.fillOrder(...), which verifies signatures, transfers USDT₀ premiums, and mints option records tied to specific vault IDs.\n\nAt expiry, an ExpiryController reads the BTC/USD price from an on-chain oracle feed (pull model: Hermes → updateFeeds → contract consume). It determines ITM/OTM status and emits RequestProof events for BitVM3 workers.\n\nOff-chain BitVM3 provers then generate the correct exercise/no-exercise proof, submit it to the Bitcoin vault, and a reconciler/light-client watches the Bitcoin spend. Once observed, it finalizes settlement on HyperEVM via OptionManager.finalizeOption(...) and OptionVault.finalizeVaultSpend(...).\n\nThe design guarantees:\n\nNo liquidations (positions are fully collateralized)\n\nImmediate premium payouts\n\nTrustless, cryptographic enforcement of settlement\n\nCross-chain coherence between Bitcoin and HyperEVM\n\nThe operational surface includes keepers for oracle updates, BitVM3 proof workers, RFQ relayers, and reconciler nodes. Remaining risks involve Bitcoin reorgs, oracle staleness, BitVM3 challenge windows, and RFQ operational risks—but all are mitigated through timelocks, replay protection, and decentralized validation.",
+  "how_its_made": "This project is designed by combining Bitcoin Taproot trustless vaults, BitVM3 zero-knowledge proof circuits, and an EVM-based options engine deployed on HyperEVM. BTC collateral lives natively on Bitcoin inside a Vault UTXO with pre-signed spend paths. The protocol never holds keys; instead, settlement is enforced by a BitVM3 prover that generates a ZK proof of the option’s final state on HyperEVM.\n\nOn HyperEVM, we implemented three core components:\n\nOptionVault - anchors Bitcoin vault metadata and proof states;\n\nOptionManager - verifies off-chain RFQ signatures (EIP-712), transfers USDT₀ premiums, and mints option records;\n\nExpiryController - reads the BTC/USD price from a pull-based oracle flow (Hermes → updateFeeds → on-chain consume) and emits RequestProof for BitVM3 workers.\n\nWe use an off-chain RFQ matching layer to aggregate liquidity and reduce gas. Sellers sign orders off-chain; relayers submit them to fillOrder(...) for atomic premium settlement. A lightweight reconciler watches Bitcoin and calls back into HyperEVM to finalize options after the vault spends. Hybrid architecture (Bitcoin + HyperEVM + off-chain proof workers) required careful state binding, replay protection, and a custom workflow for synchronizing expiry, proof generation, and final settlement.\n\nThis setup allowed us to create a fully noncustodial, cross-chain, cryptographically enforced options protocol without centralized trust assumptions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/salona-8gmgj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

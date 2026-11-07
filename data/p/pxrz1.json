@@ -1,0 +1,22 @@
+{
+  "id": "pxrz1",
+  "slug": "prism-hook",
+  "title": "Prism Hook",
+  "tagline": "A ZK-proven multi-agent swarm optimizing Uniswap liquidity & cooperative MEV.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pxrz1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ldMwB1yoOfPI4eQtcfoz4ShMWTZGtEBgb2qEa02WPKI4/high.mp4",
+  "demo_url": "https://prism-lime-alpha.vercel.app/",
+  "source_url": "https://github.com/pranav7002/Prism",
+  "finalist": false,
+  "description": "PRISM is a ZK-verified coordination layer for autonomous DeFi agents, built natively on Uniswap V4 Hooks and deployed on Unichain. Imagine multiple AI agents managing a single liquidity pool—one providing concentrated liquidity, another dynamically adjusting fees, a third backrunning trades, and a fourth acting as a risk-management kill-switch. Traditionally, coordinating these agents requires a trusted central operator, which introduces centralization risks and potential for unfair value extraction. PRISM solves this by running a symbiotic swarm of five specialized agents whose intents are aggregated and processed through a mathematically rigorous, off-chain solver. Crucially, the entire coordination pipeline—from intent ordering and conflict resolution to AMM invariant checks and fair value redistribution—is proven inside the SP1 zkVM. This ensures that agents cannot cheat, front-run each other, or be unfairly compensated, providing a completely trustless, verifiable execution environment for complex multi-agent DeFi operations.",
+  "how_its_made": "We architected PRISM using a hybrid off-chain/on-chain model. The off-chain agent swarm is built in Python, communicating via WebSockets to a high-performance Rust orchestrator. The orchestrator runs a custom solver that handles conflict detection, enforces cooperative MEV ordering (like ensuring our Fee Curator's transactions always precede our Cooperative Backrunner's to capture the arbitrage spread), and calculates fair payouts using a 1000-sample Monte Carlo Shapley value approximation. The most critical piece of our stack is the SP1 zkVM. We wrote four separate RISC-V Rust programs for SP1: a solver proof, an execution proof (validating Uniswap V4 AMM math), a Shapley proof (enforcing efficiency and symmetry axioms for fair payouts), and a recursive aggregator. The aggregator verifies the three sub-proofs in parallel and wraps them into a single 260-byte Groth16 proof. On-chain, we built a custom Uniswap V4 Hook in Solidity deployed to Unichain Sepolia. This hook integrates with the SP1 Verifier Gateway to atomically verify the Groth16 proof and distribute the exact Shapley payouts to the agents before executing the epoch's liquidity operations.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/prism-hook-pxrz1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

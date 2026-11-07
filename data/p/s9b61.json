@@ -1,0 +1,30 @@
+{
+  "id": "s9b61",
+  "slug": "evoyield",
+  "title": "EvoYield",
+  "tagline": "EvoFrame: self-evolving DeFi agent — 0G Compute mutates strategy code, KeeperHub executes on-chain.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s9b61/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yYN42i300hfBZ6dKQUZRSnataHQrdwM007aJhDkQ0286Kk/high.mp4",
+  "demo_url": "https://evoyield.vercel.app/ ",
+  "source_url": "https://github.com/SudeepGowda55/EvoYield",
+  "prizes": [
+    {
+      "sponsor": "KeeperHub",
+      "sponsor_id": "8exbf",
+      "placement": "Builder Feedback Bounty",
+      "title": "Builder Feedback Bounty"
+    }
+  ],
+  "finalist": false,
+  "description": "EvoFrame is the first agent framework where skills are living code — not hardcoded rules, but autonomously evolved logic that improves at runtime.\n\nEvoYield is the live DeFi example: an agent that manages a USDC vault pool across Aave V3, Morpho Blue, Yearn V3, and Sky on Ethereum Sepolia. Every 6 hours it fetches live APYs, runs its evolved allocation strategy through 4 fitness benchmarks, and triggers a KeeperHub workflow to rebalance on-chain. If performance degrades below a fitness threshold of 75/100, the agent calls 0G Compute to generate a mutated version of its own strategy code, evaluates candidates in a sandboxed VM, promotes the winner, and persists the full genetic lineage to 0G Storage. Every promoted skill is registered on-chain via SkillRegistry.sol on 0G Galileo.\n\nIn production: 60.1 USDC pool · 24+ KeeperHub rebalances · +12.10 pts estimated APY lift · Generation 11 · Fitness 100/100. Live at evoyield.vercel.app.",
+  "how_its_made": "EvoFrame is a TypeScript/Node.js monorepo (packages/core, packages/0g-adapter, packages/skill-registry) built on top of 0G's full protocol stack.\n\n0G Compute — ComputeAdapter calls qwen/qwen-2.5-7b-instruct to generate mutated skill implementations. When fitness drops below threshold, the engine sends the current strategy code + benchmark descriptions to 0G Compute and gets back 3 mutation candidates. Each is evaluated in an isolated Node.js `vm` sandbox against 4 benchmark test cases.\n\n0G Storage KV + Log — Every SkillGenome version is stored as a versioned blob. The rootHash returned by 0G Storage is indexed locally and on-chain. An append-only 0G Storage Log records the parent→child lineage chain for every promotion — fully immutable, queryable by anyone.\n\n0G Chain — SkillRegistry.sol (deployed on 0G Galileo) records every promoted skill on-chain with its rootHash, fitness score, and generation. StorageAdapter queries the chain as the authoritative rootHash source when the local cache misses — the chain is the source of truth, not a file.\n\nKeeperHub — The deepest integration in the project. After each evolution, synthesiseWorkflow() builds a prompt describing the new strategy and calls KeeperHub's AI workflow generator to produce and deploy a full workflow definition. Before every trigger, triggerRebalance() live-patches the workflow's BPS values to match the exact percentages computed by the evolved strategy. KeeperHub then executes rebalanceAmountToTargets() on our EvoYieldRebalancer.sol on Sepolia. It's also bidirectional — the synthesised workflow calls GET /status and POST /regenerate back to the agent if it detects low fitness. cycle.mjs has a safety net that triggers forceRegenerate() if KeeperHub execution fails or fitness drops below 75.\n\nDashboard — Latest rebalance data is uploaded to 0G Storage as a dashboard:latest blob after every cycle. GET /dashboard fetches from 0G Storage first, falling back to a local file. The Next.js frontend deployed on Vercel proxies /api/dashboard to the EC2 backend via Next.js rewrites — fully decoupled, no filesystem dependency.\n\nThe hackiest part: the agent writes, deploys, and live-patches its own KeeperHub workflows as a side effect of evolution. No human ever touches the workflow definition after genesis.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/evoyield-s9b61",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

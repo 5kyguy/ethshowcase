@@ -1,0 +1,27 @@
+{
+  "id": "v6m92",
+  "slug": "mandate",
+  "title": "Mandate",
+  "tagline": "On-chain spending limits for autonomous DeFi agents that hold even when the agent is compromised",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v6m92/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QVvDd1W4AR6BmYW2jQ9osDJvI8sBeK3xWVG1xFH87Fg/high.mp4",
+  "demo_url": "https://mandate-rho.vercel.app/",
+  "source_url": "https://github.com/nisargpatel7042lva/mandate",
+  "finalist": false,
+  "description": "Imagine you hire an AI agent to trade for you and tell it \"only use Uniswap, and never risk more than $10,000 at a time.\" Normally that rule lives inside the agent itself, in its config or instructions. That's a problem, because if the agent gets hacked, tricked, or just makes a mistake, nothing stops it from breaking its own rule. This already happened in real life. In 2026 a compromised agent wallet lost about $150,000, twice. Another sent 1000 times more than it meant to after a crash. A wave of memory poisoning attacks drained an estimated $45 million from trading agents on Solana.\n\nMandate moves the rule outside the agent's control entirely. The owner writes the agent's limits once, as a record on ENS. The agent can read it but cannot change it. A background service copies that record onto a smart contract so it can be checked instantly. Every time the agent wants to trade, the system checks the published limit and the agent's live reputation, pulled through The Graph. Only if both check out does the trade go through, settling in real USDC on Arc. If not, no money moves. The outcome writes back to the agent's public reputation either way, so its track record builds over time instead of being guessed at.\n\nWe also built MandateGate, using 1inch's SwapVM. Instead of only checking permissions before a trade, this opcode checks them inside the swap itself, so the rule can't be skipped even by a bug elsewhere. We proved this with four real Sepolia transactions: one allowed trade that went through, one blocked trade that reverted on chain, one that only worked because we changed permissions after the contract was already live, and one against a real concentrated liquidity position instead of a simple swap. All contracts are verified and publicly viewable.\n\nNothing here is simulated. The agent is really registered on Sepolia, the data feeds are live, and our public server returns real answers to anyone who queries it. We've completed 9 real settlements on Arc worth $12.71, and 10 real reputation entries written by a second account, since an agent can't rate itself. One honest gap: our dashboard still uses the simpler off-chain check for its own trades. MandateGate is proven on chain but not wired into the main app yet, a real capability sitting ready rather than something clickable today.\n\nBuilt for ETHOnline 2026. Submitting for ENS, The Graph, and 1inch.",
+  "how_its_made": "The app runs on Next.js and TypeScript, talking to the blockchain through Viem. The contracts are written in Solidity and built with Foundry. We run our own subgraph on The Graph, and also read from a separate public ERC-8004 subgraph on Base.\n\nThe flow: an owner writes an agent's permission limits into an ENS text record on Sepolia, using ENSv2's newer per-name resolvers. A relayer copies that record into a contract called PermissionMirror, so it can be checked instantly on chain. When a trade is proposed, we combine two live signals into one trust score, our own subgraph's sync history and the agent's real ERC-8004 reputation. No reputation yet is treated as unknown, never as zero. If the trade passes, it settles in real USDC on Arc, whose native currency is USDC itself, so it's a plain value transfer with no token contract or approval step. The result then writes back to the agent's reputation from a second account, since an agent cannot rate itself.\n\nThe part we're proudest of is \"MandateGate\", a custom opcode built on 1inch's SwapVM. Normally our check runs before a trade is attempted. MandateGate moves that same check inside the swap itself, so it cannot be skipped. We built it by reading the real SwapVM source directly, since the pattern we were originally told to follow does not actually exist in the codebase. We found the real one ourselves and extended 1inch's official router in code, without editing any of their files.\n\nTo prove a blocked trade really reverts on chain, we had to broadcast a transaction we already knew would fail. Foundry's own tool refuses to send anything its simulation shows will revert, so we pulled the exact transaction data it had prepared and sent it manually with a fixed gas limit, skipping that check. That got us a real, mined, failed transaction instead of just a simulated one.",
+  "auto_summary": "A Next.js and Solidity project that stores agent trading permissions in ENS, mirrors them onchain, and enforces them during swaps using 1inch SwapVM.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mandate-v6m92",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

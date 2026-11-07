@@ -1,0 +1,27 @@
+{
+  "id": "t9np7",
+  "slug": "exitlane",
+  "title": "ExitLane",
+  "tagline": "ExitLane lets treasuries pre-authorize secure exits before market emergencies.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/t9np7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CtqbnAwA00l9jy01gdYi7Qven7H49HM6EseBr2SVNKRz00/high.mp4",
+  "demo_url": "https://exitlane.vercel.app",
+  "source_url": "https://github.com/0xDanki/exitlane",
+  "finalist": false,
+  "description": "ExitLane is a pre-authorized emergency exit system for onchain treasuries. Crypto markets operate continuously, but treasury teams and multisig signers may not be available when prices move sharply. Giving an autonomous agent unrestricted wallet access solves the speed problem by creating an even larger security risk.\n\nWith ExitLane, an operator defines and signs a narrowly constrained EIP-712 Exit Mandate in advance—for example: “If ETH falls below $2,000, sell no more than 5 WETH into USDC with maximum 1% slippage.” An AI copilot can translate the operator’s natural-language request into an untrusted draft, but the operator must review and sign the final mandate.\n\nExitLane monitors live market evidence from The Graph. A deterministic policy engine verifies the trigger, signature, amount, assets, recipient, approved Uniswap route, slippage, expiry, chain, evidence freshness, and one-time nonce. If every condition matches, a restricted Privy signer can execute the validated Uniswap transaction. Any changed field, expired mandate, stale evidence, incorrect signer, or replay attempt is blocked.\n\nAI provides an evidence-grounded explanation of what happened and why, but it can never authorize execution or override the policy engine. ExitLane’s Attack Lab makes these security guarantees visible by demonstrating that mutations to transaction amounts, recipients, routers, calldata, chains, and nonces are rejected.\n\nExitLane gives organizations the speed of automation without handing an agent unrestricted control of treasury funds: pre-authorize the emergency plan, not the wallet.",
+  "how_its_made": "The architecture deliberately separates market observation, mandate signing, policy evaluation, AI assistance, transaction construction, and execution so that no single external service—or language model—can move funds on its own.\n\nTreasury operators authenticate through Privy and use a Privy wallet. They create an EIP-712 Exit Mandate that binds the signer, treasury, input and output tokens, maximum amount, trigger price, slippage limit, approved execution target, recipient, chain, validity period, and one-time nonce.\n\nThe Graph is ExitLane’s live market-evidence layer. We used the Subgraph MCP in Cursor to discover and inspect suitable Subgraphs, then query live Base mainnet WETH/USDC data through The Graph Gateway. \n\nA pure, deterministic policy engine compares that evidence against the signed mandate using integer or fixed-point values. When triggered, the backend requests a real quote and execution payload from the Uniswap Trading API. It independently validates the tokens, amount, recipient, router, chain, slippage, deadline, and calldata-derived execution hash before allowing the restricted Privy signer to execute on Base Sepolia.\n\nAnthropic is used only as a constrained operator copilot. It converts natural-language instructions into an untrusted mandate draft and produces an evidence-grounded explanation of the final policy result. Its structured output is validated with Zod, and it cannot approve execution, generate trusted calldata, alter policy, or access signing credentials.\n\nA notable part of the demo is Attack Lab, which deliberately mutates the amount, recipient, router, token, calldata, chain, expiry, and nonce. Each mutation is evaluated against the same authorization path to visibly prove that the mandate cannot be reused for a different transaction.\n\nLive Base mainnet evidence and Base Sepolia execution are clearly labeled so the demo remains real without risking mainnet treasury funds.",
+  "auto_summary": "A Next.js app that pre-authorizes and validates constrained treasury exit trades using signed mandates, market data, AI drafting, and restricted execution.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/exitlane-t9np7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "kd5p5",
+  "slug": "fiado",
+  "title": "Fiado",
+  "tagline": "Verified-human store credit: AI pays USDC on Arc, World ID = one human, Ledger gates exceptions.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kd5p5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/W7bM9bLCmABkkGoB11WqA1FCIQhIHx77FqGvuSEHsE8/high.mp4",
+  "demo_url": "https://youtube.com/shorts/vyuNPv1xYMU?feature=share",
+  "source_url": "https://github.com/Alexovate/fiado-ethglobal-ny-2026",
+  "finalist": false,
+  "description": "Fiado is verified-human store credit for the places where informal tabs already work but don't scale. A shopper whose card is declined scans a QR, proves with World ID that they are a real, unique human, and requests credit. One verified human gets exactly one credit line — World ID makes Sybil attacks (one person opening many lines) impossible, and it's enforced server-side, not just in the UI.\n\nA treasury operator signs the AI agent's mandate once on a physical Ledger: max per transaction, max total outstanding, registered merchants only, time-boxed. Inside that envelope the agent scores each request and settles instantly — USDC flows straight from the smart contract on the Arc blockchain to the merchant, with no human in the loop. That's the 99% case.\n\nWhen a request steps outside the mandate — too large, low confidence, a new merchant, an anomaly — the agent stops and escalates. A human credit officer sees the AI's assessment and the borrower's history, can ask follow-up questions, and approves by physically signing on the Ledger. Only then does the contract release the funds. Repayment raises the future line.\n\nAccess without cash-out fraud, without duplicate identities, with autonomy that scales but cannot run unchecked.",
+  "how_its_made": "Smart contract: a CreditLine contract in Solidity deployed on the Arc testnet (chainId 5042002), settling the ERC-20 USDC at 0x3600...0000. It holds the per-human credit state, the agent mandate (caps + registered merchants + expiry), and verifies every disbursement against an EIP-191 signature via ecrecover — the backend key signs autonomous payouts, the Ledger key signs the mandate and every escalation.\n\nWorld ID: World ID 4.0 (IDKit 4.x) gates onboarding. The frontend collects the proof; the backend verifies it against the v4 verify endpoint and stores the nullifier, so one human maps to exactly one credit line. The \"one human, one line\" rule is enforced in the backend before any contract call, not just visually.\n\nAgent: a deterministic scoring + routing service decides AUTO vs ESCALATE from amount, confidence, merchant registration and repayment history, and emits a full policy trace so every decision is auditable.\n\nLedger: the physical device is the trust layer. The operator signs the agent mandate once, and signs each exception, over WebHID directly in Chrome — the device lights up and the human confirms on hardware. No emulation.\n\nHacky bits we're proud of: signing scheme is EIP-191 personal_sign over keccak256(abi.encode(...)) that exactly matches the contract's _eth(keccak256(...)) + ecrecover, cross-verified between viem and cast. IDKit 4.x (WASM) breaks under Vite's dev optimizer, so the live World flow only runs from the production build — we ship that. A DEMO_SCALE_DIVISOR lets big UI amounts settle as tiny on-chain values so a single faucet drip covers the whole demo while the mechanism stays fully real.\n\nStack: Solidity + Foundry, Node/TypeScript backend (viem), Vite + React + Tailwind v4 + framer-motion frontend. Clean-room hackathon build — not production code.",
+  "auto_summary": "Fiado provides World ID-gated store credit and settles merchant payouts in USDC through a Solidity credit contract with Ledger-approved exception handling.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/fiado-kd5p5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "jg5ax",
+  "slug": "zenden",
+  "title": "ZenDen",
+  "tagline": "Generate personalized meditations on-demand straight from your Farcaster client for $0.01 USDC.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jg5ax/banner/default.jpg",
+  "demo_url": "https://zenden.3vl.ca",
+  "source_url": "https://github.com/danimbrogno/pod402",
+  "finalist": false,
+  "description": "Zen Den is a Web3 meditation platform that generates personalized meditation episodes on demand using AI.\n\nCore Features:\nAI-generated meditation content from user prompts (e.g., \"gratitude\", \"sleep\", \"anxiety relief\")\n\nReal-time audio streaming: OpenAI TTS converts sentences to speech as they’re generated.\n\nSix voice options (Alloy, Echo, Fable, Onyx, Nova, Shimmer) and 13 ambient background tracks.\n\nFFmpeg transcodes mixed audio to MP3 in real time.",
+  "how_its_made": "Architecture:\nTurbo repo with TypeScript. Backend: Express + tRPC. Frontend: React + React Router.\n\nReal-Time Audio Streaming:\nUses web-audio-engine for a Node.js-compatible AudioContext that pipes to streams. \n\nFlow:\n- Pre-loads all 13 ambient WAV files (30–94MB) into memory at startup\n- OpenAI streaming (gpt-5-nano) generates text sentence-by-sentence via regex detection\n- Each sentence is converted to speech via OpenAI TTS and scheduled sequentially using AudioContext.currentTime\n- Writes a WAV header with 0 frames (unknown length), pipes through PassThrough, and uses FFmpeg to transcode WAV→MP3 in real time, streaming to the HTTP response\n\nWeb3 Integration:\n- x402 Payments: x402-express middleware protects /stream. Client uses x402-fetch with a custom hook; requires type assertion for Wagmi wallet client compatibility\n- Farcaster: SDK for mini-app context, Wagmi for wallet connections\n\nNotable Hacks:\n- Pre-loads entire ambient files into memory for instant playback\n- Async generators for sentence-by-sentence flow control with timeout handlers\n- Graceful handling of client disconnects (EPIPE/ECONNRESET) in FFmpeg streams\n\nPartner Technologies:\n- Coinbase x402: $0.01 USDC micropayments",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zenden-jg5ax",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

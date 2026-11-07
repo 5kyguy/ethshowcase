@@ -1,0 +1,35 @@
+{
+  "id": "gj44b",
+  "slug": "pythia",
+  "title": "Pythia",
+  "tagline": "A peer to peer verifiable infrence mesh to turn a prompt into market move on Delphi",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gj44b/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Lpzx7SO5802tcYvpIpe9C1QeHxUo61d02TU4bjgtduhWY/high.mp4",
+  "demo_url": "https://pythia-zeta.vercel.app/",
+  "source_url": "https://github.com/LogicalGuy77/pythia",
+  "prizes": [
+    {
+      "sponsor": "Gensyn",
+      "sponsor_id": "zaxt3",
+      "placement": "2nd place",
+      "title": "Best Application of Agent eXchange Layer (AXL)"
+    }
+  ],
+  "finalist": true,
+  "description": "Pythia is a peer-to-peer, verifiable inference mesh for turning market questions into prediction market actions. Independent inference nodes run local LLMs inside Gensyn REE, generate cryptographic receipts for their outputs, and expose inference as an MCP service over AXL’s P2P network.\n\nA coordinator discovers connected peers, sends the same prompt to each node, collects their model outputs and REE receipts, and verifies that the responses were produced reproducibly and were not tampered with. It then extracts probability estimates from the verified outputs and aggregates them into a consensus forecast.\n\nWhen connected to Delphi, Pythia can convert that verified consensus into an on-chain market move. If the consensus is strongly positive it buys YES, if strongly negative it buys NO, and if the signal is uncertain it abstains; trades are only allowed when enough peer receipts verify successfully.",
+  "how_its_made": "Pythia is built as a Python-first orchestration layer around Gensyn’s AXL and REE stacks, with a TypeScript bridge for Delphi and a React dashboard on top. Each inference peer runs inference_node.py, a Flask MCP JSON-RPC service that registers an infer tool with the local AXL MCP router. When a prompt arrives, the node wraps it with a probability-focused system prompt, calls REE to run Qwen2.5-3B locally, finds the generated receipt in the REE cache, and returns both the model output and cryptographic receipt.\n\nThe coordinator is the control plane. It queries AXL’s /topology endpoint to discover peers, sends the same prompt to every peer through AXL’s /mcp/{peer_id}/infer route, collects outputs, validates receipts, and can re-run REE verification to prove the inference was reproducible. It then parses probability estimates from the verified model responses, computes a consensus, and applies simple trading thresholds: buy YES above the upper confidence bound, buy NO below the lower bound, otherwise abstain.\n\nFor Delphi integration, we built a small Node/Express delphi_bridge because Delphi’s SDK is TypeScript-native while the coordinator is Python. The bridge exposes HTTP endpoints for markets, wallet state, quotes, and trades, and enforces the important safety rule: no trade unless enough verified peer receipts are supplied. The dashboard is a Vite/React app backed by api_server.py, which streams the whole run over Server-Sent Events so users can watch peer discovery, inference, receipt verification, consensus, and the final Delphi transaction in real time.",
+  "auto_summary": "A Python coordinator queries peer inference nodes over AXL, verifies REE receipts, aggregates probabilities, and can trigger Delphi trades through a TypeScript bridge.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pythia-gj44b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

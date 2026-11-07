@@ -1,0 +1,26 @@
+{
+  "id": "6kg8f",
+  "slug": "eerful",
+  "title": "eerful",
+  "tagline": "Receipt protocol for verifiable AI evaluation. TEE-attested gates refuse compromised agent outputs.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6kg8f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Bu83Q8UUc02s01zBrOCvSw5nkyWYXd7EC5sFo6UB00aUtc/high.mp4",
+  "source_url": "https://github.com/cirsteve/eerful",
+  "finalist": false,
+  "description": "eerful is a Python reference implementation of the Enhanced Evaluation Receipts (EER) protocol — a way to make non-deterministic LLM evaluation verifiable, and to use that verifiability as a hard gate on agent execution.\nThe architecture is cheap exploration, verified gating. Generation agents run freely against cheap models. A hard attested gate using TEE-hosted graders physically blocks any output from reaching an executor without valid receipts. Each receipt commits to an evaluator bundle (criteria + prompt + model) stored on 0G Storage, the input hash, and a signed attestation from a TeeML inference run. Verification is a deterministic seven-step check anyone can run: bundle hash, input commitment, signature, provider attestation, freshness, signer authorization, and policy match.\nPrincipal policies declare what passes. A paper-trading policy might require N=1 receipt; a live-capital policy requires N=4 from distinct attestation providers — so an attacker has to compromise four independent TEEs to slip past the gate, not one. The diversity rule isn't decorative; it's the architectural reason defense-in-depth becomes legible.\nThe headline demo is tool-call poisoning. A malicious payload is visibly injected into an agent's tool response on screen; the agent obediently produces a compromised output; the gate refuses with the detail string visible (REFUSE_SCORE / REFUSE_BUNDLE_MISMATCH) before the executor ever sees the trade. The rails physically refusing under attack is the demo, not a narration of it.\nThe narrow insight underneath all of this: TEE attestation only buys you something where the underlying compute is non-deterministic. Training is mostly deterministic — attesting it is theater. Evaluation is where the entropy and the trust assumptions actually live. eerful is just that distillation.",
+  "how_its_made": "Python end-to-end. The protocol layer is a small set of Pydantic models — EnhancedReceipt, EvaluatorBundle, PrincipalPolicy — with canonical JSON encoding so independent runs of the encoder produce byte-identical output. The verifier (eerful.verify) decomposes the spec's verification algorithm into seven separately testable functions; each tampering mode has a corresponding failing-test fixture, including an RTMR3-collision case backing the executor's provider-category enforcement.\nInference runs through 0G's TeeML via the broker SDK. eerful.zg.compute wraps it and captures the response, chatID, signer signature, and provider attestation report. Storage runs through 0G Storage for content-addressed evaluator bundles and attestation reports, plus a self-hosted 0G Storage KV node for receipt indexing — KV has no public endpoint, so a small VPS runs the node configured to monitor the demo's stream_ids.\nThe executor (eerful.executor.evaluate_gate) is the load-bearing piece. It takes a principal policy and a list of receipts, runs the seven-step verification on each, enforces N-of-distinct-providers, checks bundle category against the policy's accepted_compose_hashes (with a canonical-set hash bound into chain composition), and either passes output downstream or refuses with a structured detail string.\nOperational glue: a bridge_init() helper centralizes 0G client setup across the smoke-testnet runner, the demo driver, and a bundle inspector, returning a BridgeInitStatus dataclass so callers can branch cleanly on partial setup. A --score-test CLI flag iterates grader prompts against calibration sets (5 known-bad + 5 known-good per grader, locked once each hits ≥9/10).\nWhat we punted: full chain verification of TDX quotes against Intel roots and GPU attestation against NVIDIA's API. v1 ships a correct partial verifier (structure + pubkey binding) with chain-to-vendor-roots documented as future work. The rails enforce N=4 against any policy that requires it — so when four distinct signers don't yet exist in the ecosystem, the gate refuses, and that refusal is the architecture working as designed.",
+  "auto_summary": "A Python framework verifies TEE-attested LLM evaluation receipts and gates agent outputs using 0G-backed compute and storage services.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/eerful-6kg8f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

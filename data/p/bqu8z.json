@@ -1,0 +1,27 @@
+{
+  "id": "bqu8z",
+  "slug": "bolt",
+  "title": "BOLT",
+  "tagline": "Lock beneficiary funds on Arc via Privy policy + World Selfie Check. Public verification included.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bqu8z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WzRIGXLkVEmMpZ3Z5sVnXWVEoSjAKuU16zin9cfMmDY/high.mp4",
+  "demo_url": "https://bolt-priv.vercel.app/",
+  "source_url": "https://github.com/shane2512/ETHonline26",
+  "finalist": false,
+  "description": "BOLT-Beneficiary Only Ledger Transfers\n\n\n\n\nBOLT answers a fundamental question: how does a business prove it can't spend customer money?\n\nBy making it impossible. BOLT locks customer accounts using Privy policies enforced inside a secure enclave. The policy runs before the signing key is reassembled—unauthorized transactions are refused before a signature can ever exist.\n\nWhen a beneficiary claims their money, they prove identity via World Selfie Check, then a key quorum of business owners approves the unlock. The transfer settles as USDC on Arc. Every obligation, balance, and state change is recorded on-chain and indexed by The Graph.\n\nAnyone—regulator, auditor, customer—can visit the public page and cryptographically verify the money's location and amount. No trust in the business required. Just math",
+  "how_its_made": "BOLT is built on three load-bearing sponsors working together, each doing irreplaceable work:\n\nPrivy enforces the core lock. We compile a policy that decodes USDC calldata and constrains transfer._to (not just transaction.to—the latter points to the token contract, not the payee). The policy runs inside Privy's secure enclave before the signing key is reassembled. No unsigned paths, no app-layer overrides. Key quorum signatures are required to widen the policy.\n\nArc is where the money lives. Every obligation, every balance, every settlement is USDC on Arc testnet. The subgraph indexes all events in real-time.\n\nWorld gates access. Beneficiaries prove identity via Selfie Check (IDKit) before claiming. We discovered and worked around a React 19 incompatibility in the widget, switching to the raw IDKit.request() API from @worldcoin/idkit-core with identical results.\n\nTechnical stack: Next.js 15 frontend + API routes (TypeScript strict), Solidity contract (BoltRegistry) on Arc via Hardhat, Postgres + Drizzle for workflow state, AssemblyScript subgraph for indexing. Device IDs tracked via localStorage to implement repeat-verification skip (FR-8.8).\n\nNotable hack: Obligation accrual must record the on-chain ObligationAccrued event before inserting the Postgres row. If you reverse the order, the settlement call later reads a stale Postgres obligationId, tries to settle on-chain, and reverts after the money has already transferred—leaving state inconsistent. We discovered this the hard way and backfilled evidence.",
+  "auto_summary": "A monorepo for a beneficiary payout workflow that combines Privy policy-controlled wallets, Arc-based USDC settlement, World ID verification, and Graph indexing.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bolt-bqu8z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

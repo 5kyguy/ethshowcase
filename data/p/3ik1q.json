@@ -1,0 +1,21 @@
+{
+  "id": "3ik1q",
+  "slug": "accmsm",
+  "title": "AccMSM",
+  "tagline": "Optimizing KZG MSM for Data Availability Sampling using Pippenger+NAF+GLV — ~3.9x faster",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3ik1q/banner/default.jpg",
+  "video_url": "https://stream.mux.com/v1YM101SCtLd2aK9jvKkJmKkxzVnzw17XjoPQY7UJCvk/high.mp4",
+  "source_url": "https://github.com/only4sim/AccMSM",
+  "finalist": false,
+  "description": "This project designs and analyzes a tailored Multi-Scalar Multiplication (MSM) algorithm to accelerate KZG polynomial commitments used in Data Availability Sampling (DAS). Targeting the fixed, trusted-setup points (e.g., 4096 setup elements) common in Ethereum designs, it combines an optimally windowed Pippenger bucket method with signed-digit recoding (NAF) and GLV endomorphism decomposition. By precomputing endomorphism images of the fixed bases and recoding scalars into NAF, the online phase replaces costly scalar multiplications with many cheap point additions and bucket accumulations. An implementation-agnostic operation-counting evaluation shows this hybrid approach eliminates main-loop scalar multiplications and yields about a 3.9× equivalent-cost speedup over a naive MSM. The work includes methodology, complexity analysis, and practical trade-offs (storage vs. runtime), and outlines extensions such as FPGA/ASIC acceleration, richer precomputation schemes, and production-client integration to further reduce validator resource requirements.",
+  "how_its_made": "This project is a theoretical and algorithmic research effort focused on optimizing Multi-Scalar Multiplication (MSM) for Data Availability Sampling. The core methodology involved:\n\nAlgorithm Design & Analysis:\n\nStarted with Pippenger's bucket method as the foundation, analyzing optimal window sizing (c=12 for n=4096 points)\nIntegrated Non-Adjacent Form (NAF) signed-digit recoding to halve bucket counts from 2^c to 2^(c-1), reducing memory and addition operations\nApplied Gallant-Lambert-Vanstone (GLV) endomorphism decomposition on BLS12-381 curve, splitting 256-bit scalars into two 128-bit operations using the computationally cheap endomorphism φ\nPrecomputed and stored φ(Pᵢ) for all 4096 trusted setup points, trading doubled storage for halved runtime\nEvaluation Framework:\n\nBuilt an implementation-agnostic operation-counting simulator in Python to avoid language/interpreter overhead skewing benchmarks\nDefined a rigorous cost model: 1 unit for elliptic curve addition, 256 units for scalar multiplication (conservative ratio reflecting real-world performance gaps)\nCompared Naive MSM (direct computation) vs. Optimized Pippenger across exact operation counts\nKey Technical Achievements:\n\nCompletely eliminated scalar multiplications from the main computational loop, replacing 4,096 expensive multiplies with 270,312 cheap additions\nAchieved 3.9x equivalent-cost speedup through pure algorithmic restructuring\nThe \"hack\" here is recognizing that fixed-base MSM in DAS allows aggressive precomputation—storing endomorphism images upfront makes the online phase dramatically faster\nTechnologies Used:\n\nPython for prototyping and operation counting\nMathematical analysis grounded in elliptic curve cryptography (BLS12-381 curve properties)\nNo partner APIs/frameworks—this is foundational algorithmic research\nThe approach is deliberately vendor-agnostic and implementation-independent, providing a blueprint that can be integrated into any Ethereum client (Rust/Go/C++) or ported to hardware accelerators (FPGA/ASIC) for further gains.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/accmsm-3ik1q",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "nrusi",
+  "slug": "fare",
+  "title": "Fare",
+  "tagline": "Pay-per-request APIs on Hedera: lookups and AWS jobs, priced in HBAR via x402.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nrusi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cRt102jRxWZUYJJhm7ctdE5WEkPCh3r3N01mZHNt8Eetk/high.mp4",
+  "demo_url": "https://fare-production.up.railway.app",
+  "source_url": "https://github.com/ducnmm/fare402",
+  "finalist": false,
+  "description": "Fare sells two paid APIs on Hedera. Agents pay HBAR per HTTP request using x402 / Blocky402. Price scales with the ask.\n\nLookups return live Hedera account summaries and recent transactions from the public Mirror Node. One unit is 0.001 HBAR. Asking for more rows costs more (limit=25 is 4 units).\n\nJobs accept a short Node.js script. AWS Lambda runs it and returns stdout, stderr, and exit code. Timeout meters the price.\n\nThere is no UI. A small client handles 402, signs a Hedera transfer, and retries. After settle we optionally write account, amountTinybars, and txId to HCS topic 0.0.10320508 as a public receipt.\n\nLive: https://fare-production.up.railway.app\nRepo: https://github.com/ducnmm/fare402\nVideo: https://youtu.be/p7db4KH2slc",
+  "how_its_made": "Resource server is Express plus @x402/express and ExactHederaScheme from @x402/hedera. We do not run a facilitator. Quotes and settlement go through Blocky402 (https://api.testnet.blocky402.com). Amounts are native HBAR (asset 0.0.0) in tinybars, not USDC.\n\nLookups proxy Hedera Mirror Node REST, retry on 502/timeout, and page transaction lists in chunks of 25. Jobs invoke AWS Lambda (Node 22) via @aws-sdk/client-lambda when AWS_SANDBOX_LAMBDA_ARN is set. FARE_JOB_LOCAL=1 is a local child_process fallback for development only.\n\nThe paying client wraps fetch with @x402/fetch, registers ExactHederaScheme, and sets spend controls to HBAR. HCS audit is fire-and-forget so a hung topic submit cannot block PAYMENT-RESPONSE.\n\nMerchant is deployed on Railway. Secrets stay in a gitignored .env. The repo was created during this event and is public at https://github.com/ducnmm/fare402.",
+  "auto_summary": "An Express service sells Hedera Mirror Node queries and metered Node.js job execution via x402 payments settled in HBAR.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/fare-nrusi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

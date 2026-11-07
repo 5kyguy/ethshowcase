@@ -1,0 +1,29 @@
+{
+  "id": "ircqn",
+  "slug": "yield-circle",
+  "title": "Yield Circle",
+  "tagline": "Decentralized savings circles with World ID. Fair rotating payouts, yield, zero fraud risk.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ircqn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PLkPNo011wPxgR01jeIjEsUgoUv013wLbdc4pzPw00yrUZk/high.mp4",
+  "source_url": "https://github.com/0xpetern/Yield-Circle",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "World Pool Prize",
+      "title": "World Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Yield Circles is a decentralized savings circle application built on World Chain that solves the critical trust problem in group savings. Traditional rotating savings and credit associations (ROSCAs) face fraud risks where one person can take all the money and disappear, leaving others with nothing.\n\nOur solution combines World ID verification with smart contract fairness mechanisms to create a trustless, fraud-proof savings system. Each participant must verify their unique human identity using World ID, preventing bots and duplicate accounts. The smart contract ensures fairness through a redeposit mechanism: when a recipient claims the pot, they only receive the pot minus their own deposit, which stays in the circle. This prevents recipients from running away after claiming.\n\nKey features include rotating payouts where participants take turns receiving the accumulated pot, yield generation where 10% of deposits go to yield strategies rewarding long-term participation, withdrawal fees that disincentivize early exits, and emergency withdrawals requiring 80% consensus for true emergencies. All transactions are on-chain, transparent, and immutable.\n\nThe application is built as a World Mini App using Next.js 15, integrated with World ID via MiniKit for seamless authentication, and deployed on World Chain for low-cost, fast transactions. The smart contract is written in Solidity and manages all circle logic, deposits, withdrawals, and payouts programmatically.\n\nYield Circles addresses a real-world problem affecting millions of people worldwide who participate in informal savings groups but face trust issues. By leveraging World ID for human verification and blockchain for transparency, we create a solution that enables safe, fair, and profitable group savings without requiring trust in a central coordinator or other participants.",
+  "how_its_made": "Yield Circles is built as a World Mini App using Next.js 15 with TypeScript, leveraging the App Router for optimal performance. The frontend integrates seamlessly with World ID through MiniKit, which handles authentication, verification, and blockchain transactions through a unified SDK.\n\nThe core architecture consists of three layers: the React frontend for user interaction, Next.js API routes for server-side World ID proof verification, and Solidity smart contracts deployed on World Chain for on-chain logic. The smart contract (YieldCircleVault.sol) manages all circle state, deposits, withdrawals, and rotating payouts programmatically, ensuring fairness through immutable code.\n\nWorld ID integration is critical—we use MiniKit.commandsAsync.verify for human verification with Device-level verification (hackathon-friendly, no Orb required). Each user must verify before joining a circle, preventing bots and duplicate accounts. The verification proof is verified server-side using World ID's verification API to ensure authenticity.\n\nFor blockchain interactions, we use MiniKit.commandsAsync.sendTransaction to call smart contract functions. The transaction format includes ABI-encoded function calls with native ETH value transfers. A notable implementation detail: we convert ETH amounts to hex strings for the value parameter, as MiniKit requires hex format for native token transfers.\n\nThe smart contract implements a rotating payout system where the first depositor becomes the recipient. When claiming, recipients receive the pot minus their deposit (which is redeposited), preventing fraud. We track yield separately—10% of each deposit goes to a yield strategy pool, rewarding long-term participation.\n\nFor the hackathon demo, we implemented a wallet switcher component that allows testing with multiple wallets by storing addresses in localStorage, enabling us to demonstrate multi-user scenarios on a single device. The UI uses a professional gradient design with card-based layouts, built entirely with inline styles for maximum control and hackathon speed.\n\nDeployment uses Hardhat for contract compilation and deployment to World Chain mainnet (chain ID 480). The contract address is registered in the World ID Developer Portal's Contract Entrypoints, which is required for MiniKit transaction simulation to succeed. All transactions are simulated before execution to prevent failures.\n\nThe project leverages World Chain's low fees and fast finality, making micro-transactions feasible. World ID's proof system ensures one human per account without requiring KYC, making it accessible globally. MiniKit's unified SDK eliminates the need for separate wallet connectors, RPC providers, or transaction builders—everything works seamlessly within World App.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yield-circle-ircqn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

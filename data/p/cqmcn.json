@@ -1,0 +1,27 @@
+{
+  "id": "cqmcn",
+  "slug": "state-capsule",
+  "title": "State Capsule",
+  "tagline": "State capsule is a continuity protocol for multi-agent systems. ",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cqmcn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/T00LvGBJZVDHJXM5PQp1SB0202gwQjSvSglBCc6iUobNIQ/high.mp4",
+  "demo_url": "https://demo-ui-mu.vercel.app/",
+  "source_url": "https://github.com/Ghost-xDD/state",
+  "finalist": false,
+  "description": "State Capsule is a continuity protocol for multi-agent systems. When an AI agent crashes, resets, loses context, or hands work to another specialist, the next agent usually has to rebuild the task from logs. State Capsule fixes this by saving the actual actionable state of the task into signed, verifiable capsules.\n\nEach capsule stores the goal, verified facts, constraints, decisions, pending actions, current holder, provenance, and next action. A fresh process can restore the latest capsule by task ID, verify the handoff chain, and continue from structured state instead of starting over.\n\nThe core product is `@state-capsule/sdk`, a reusable TypeScript SDK for creating, updating, restoring, and verifying capsules across processes, nodes, and agent frameworks.\n\nOur demo, MaintainerSwarm, uses four agents — Triager, Reproducer, Patcher, and Reviewer — to investigate and fix a GitHub repo bug. We kill the Reproducer mid-task, then a fresh Reproducer restores the capsule and continues from the saved facts, decisions, and next action without shared memory or manual log reconstruction.",
+  "how_its_made": "State Capsule is built as a pnpm TypeScript monorepo with packages for the core SDK, contracts, ENS integration, framework adapters, and the MaintainerSwarm demo. The core SDK defines the capsule schema, ed25519 signing, parent-linked capsule chains, restore logic, storage adapters, migrations, and verification helpers.\n\nWe use 0G as the durability and verification layer. Signed capsule payloads are stored on 0G Storage, while a CapsuleRegistry Solidity contract on 0G Chain anchors capsule heads and rejects stale-parent writes. The SDK also includes a 0G KV adapter, but for the live demo we used blob persistence plus chain anchoring because public KV sync latency was too slow for reliable stage recovery.\n\nMaintainerSwarm runs four specialist agents — Triager, Reproducer, Patcher, and Reviewer — as separate nodes coordinated through Gensyn AXL. AXL handles live messages and handoffs; State Capsule handles durable state and recovery. ENS task pointers expose live task state such as holder, capsule head, log root, and status.\n\nWe also built adapters for OpenClaw, LangChain.js, and Vercel AI SDK, plus a deterministic record/replay demo mode so the kill-and-resume flow can be shown reliably while still exercising real capsule creation, verification, restoration, and handoff logic.",
+  "auto_summary": "A TypeScript monorepo for signed checkpointing, restoring, and verifying multi-agent task state with demo agents and optional chain, storage, ENS, and AXL integrations.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/state-capsule-cqmcn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

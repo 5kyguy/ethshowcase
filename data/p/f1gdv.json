@@ -1,0 +1,42 @@
+{
+  "id": "f1gdv",
+  "slug": "karma-proof",
+  "title": "Karma Proof",
+  "tagline": "Turning real-world public good into onchain proof and rewards.",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/f1gdv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eByoM02T3M2VtI82wwPVr4Hk6bnqtxmATzGWjrLMQyp8/high.mp4",
+  "demo_url": "https://karma-nine.vercel.app",
+  "source_url": "https://github.com/0xAkuti/karma",
+  "prizes": [
+    {
+      "sponsor": "vlayer",
+      "sponsor_id": "92qx9",
+      "placement": "Best use of Email Proofs",
+      "title": "Best use of Email Proofs"
+    },
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "1st place",
+      "title": "Best Blockscout SDK Integration"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Prague 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "## The problem:\nToo many real-world public good goes unrecognized and unrewarded, like donating blood, volunteering, planting trees, or cleaned up the beach. Governments and local organizations sometimes reward these efforts, but their programs are often limited to specific regions, depend on external funding, and require a lot of manual effort—making them hard to scale globally.\n\n## Our solution:\nWe build Karma Proof app to bring real-world good deeds on chain. \nUsing vlayer's email proof technology, users can upload their email showing their public good actions (e.g. donating to wikipedia) and turn them into onchain proof. In return, they earn Karma Points and soulbound NFTs. This allow users to build public reputation onchain, while earning real-world perks like discounts, free transport, or access to events.\n\nWe want to makes good deeds Visible, Verifiable, Valued. Karma Proof is a step towards building a global public good system that’s transparent, scalable, and self-sustaining. \n\n## Key Features:\n- Easy verification: Users upload .eml files to verify real-world actions.\n- Karma points: non-transferable, soulbound ERC-20 tokens. Integrated with Blockscout Merit so that users can swap Karma points with Merits to access web3 perks/ airdrops.\n- Soulbound NFTs: we designed six main NFT types to represent public good in different domains- Time, Care, Gift, Knowledge, Ecology, Access. \n- To encourage adoption, we designed gamified features like streaks, leaderboards, and campaigns (e.g., “Blood Donation Week”). Users can also share Karma NFTs with friends on Twitter.\n- Reward shop: users can spend Karma points to redeem Web2 rewards globally.\n",
+  "how_its_made": "## Core Architecture & Innovation\nKarma Proof is a privacy-preserving charitable verification platform that combines zero-knowledge email proofs, soulbound NFTs and tokens on Flow, and Blockscout integration to create verifiable on-chain reputation.\n\n## vlayer.xyz - ZK Email Verification\nvlayer powers our core verification mechanism through their email proof system. As an example we implemented a custom EmailDomainProver that extracts donation amounts from Wikipedia confirmation emails using regex pattern matching.\nThe technical implementation processes .eml files client-side, generates cryptographic proofs off-chain via vlayer's prover network, then verifies these proofs on-chain through our KarmaProofVerifier contract to mint soulbound NFTs for collecting and soulbound ERC20 that can be redeemed by partners or used as a scoring tool, e.g., for airdrops to real users that do good. This allows users to prove charitable donations without exposing email addresses, payment details, or personal information—only the donation amount and proof hash reach the blockchain.\n\n## Flow Blockchain - Soulbound NFT Infrastructure\nFlow hosts our complete smart contract ecosystem optimized for social impact applications where transaction costs matter. Our implementation includes:\nERC-5484 Compliant Soulbound NFTs: KarmaNFT.sol implements the full ERC-5484 standard with custom burn authorization mechanics. We store BurnAuth values in ERC721's extraData field using bit-packing to minimize storage costs.\nDual Token Economy: KarmaNFT for collection/reputation and KarmaToken for rewards, both implementing transfer restrictions to maintain soulbound properties while allowing minting/burning redeem.\nIntegrated Verification Pipeline: KarmaProofVerifier directly connects vlayer proofs to NFT minting, automatically issuing both reputation NFTs and proportional karma tokens based on verified donation amounts or other metrics depending on the action..\nThe contracts leverage Solidity libraries for gas optimization and implement role-based access control for secure minting operations.\n\n## Blockscout Integration - Transaction Tracking & Rewards\nBlockscout provides comprehensive transaction infrastructure through multiple integration points:\nTransaction Monitoring: We built custom React hooks (useTransactionStatus) that poll Blockscout's v2 API for real-time transaction status. The system tracks confirmations, gas usage, and revert reasons, providing immediate user feedback during proof verification and token  minting.\nSDK Integration: The full Blockscout App SDK provides transaction popups and notifications. Our TransactionPopupListener component handles custom events to trigger explorer views directly from the app interface.\nMerits Rewards Bridge: We implemented the complete Blockscout Merits authentication flow using SIWE (Sign-In With Ethereum). Users can exchange karma tokens for Blockscout Merits through a custom shop interface that handles nonce generation, message signing, and session management:",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/karma-proof-f1gdv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

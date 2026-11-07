@@ -1,0 +1,30 @@
+{
+  "id": "kqvdi",
+  "slug": "eepy-cat",
+  "title": "eepy cat",
+  "tagline": "Proof of sleep incentive mechanism to promote and reward positive sleeping habits",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kqvdi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/C5aYxBwKOB1qH19hypYTYbWeKokugn4JlqZP1EnjOkk/high.mp4",
+  "demo_url": "https://exp://j91vtte-anonymous-8082.exp.direct",
+  "source_url": "https://github.com/enjojoy/eepy-cat",
+  "prizes": [
+    {
+      "sponsor": "Curvegrid",
+      "sponsor_id": "5e2gc",
+      "placement": "Best use of MultiBaas",
+      "title": "Best RWA Tokenization Project"
+    }
+  ],
+  "finalist": false,
+  "description": "Eepy Cat is a privacy-first \"Proof of Sleep\" mobile application designed to reclaim human attention from the 24/7 digital economy. Unlike traditional sleep trackers that harvest and monetize intimate biometric data, Eepy Cat operates on a strictly \"Don’t reveal, verify\" basis.\n\nBuilt using Expo (React Native) and Circom, the app monitors device gyroscope data entirely client-side. When a user initiates a sleep session, the app calculates a cumulative movement score locally. Upon waking, instead of uploading raw sensor data to a server, the device generates a Zero-Knowledge Proof (Groth16). This cryptographic proof attests that the user remained \"still enough\" to be sleeping, without revealing their specific sleep patterns or exact movements. This proof is submitted via Curvegrid MultiBaas to our Solidity verifier contract, which validates the ZK proof on-chain and mints $EEPY reward tokens to the user, updating their sleep streak in a trustless, private manner.\n\nHowever, simply launching a token isn't enough; the incentives must be sustainable. This leads to the second part of our project: the Mechanism Design Dashboard.\n\nTo engineer a robust economy for Eepy Cat, we built a sophisticated simulation engine using Next.js and Genkit. This dashboard allowed us to model complex behavioral economics before. Instead of treating users as a monolith, we modeled distinct psychographic archetypes. We got inspiration from Motivaction, a company that segments the Dutch population based on values and status. We remodelled this for the crypto economy, for the risk-seeking \"100x Degen\" to the complexity-averse \"Traditional User.\"\n\nWe simulated how these groups react to specific mechanism dimensions, including Time Preference (instant vs. vested rewards), Tech Complexity (friction), and Risk Appetite. By running these simulations, we were able to fine-tune the Eepy Cat reward structure to maximize healthy sleep adoption while minimizing extractive behavior, proving that we can build apps that are not only technically private but economically viable. This can be found at https://studio--studio-1679253439-69e11.us-central1.hosted.app/",
+  "how_its_made": "The main part of the project is Eepy Cat, a cross platform iOS and Android app that runs the Proof of Sleep App (the user interface). The second part is our Mechanism Design Dashboard, which is the economic engine we used to model how different types of individuals would behave given incentives.  \n\n1. The Zero-Knowledge Mobile Stack with zk-SNARKs \nWe built the mobile application using React Native (Expo). The core logic relies on expo-sensors to access the device's gyroscope. We implemented a continuous polling loop that calculates an Accumulated Kinetic Energy score over the sleep duration. The more movement, the higher the score, meaning the more likely that the user had not been sleeping. \n\n    The ZK Circuit: We wrote a \"LessThan\" circuit in Circom 2.1. It takes the user's actual movement score (private input) and the maximum allowed movement (public input) to generate a proof.\n\n    Client-Side Proving: We utilized snarkjs and groth16 directly within the mobile JavaScript environment. A notable \"hacky\" challenge was polyfilling Node.js core modules (like crypto and buffer) into the React Native runtime to allow the WASM-based witness generation to execute smoothly on the phone CPU without crashing the UI thread.\n\n2. The Integration Layer (Partner Tech)\nTo verify the proofs on-chain, we deployed a Solidity Verifier contract and a SleepRewardManager on Base Mainnet.\n\n    Curvegrid MultiBaas: We used MultiBaas as our middleware. Instead of the mobile app communicating directly with the blockchain (which exposes RPC endpoints and requires complex wallet management for the user), the app sends the ZK proof to our intermediate Express server. This server then routes the transaction through the MultiBaas API. This streamlined our contract calls (verifyProof and mint) and abstracted the complexity of gas management and nonce tracking.\n\n3. The Simulation Dashboard & AI\nThe dashboard is a Next.js application using Tailwind and Recharts for visualization.\n\n    The Simulation Engine: We wrote a TypeScript logic engine that models psychographic archetypes (e.g., \"Sybil Harvester,\" \"Diamond Monk\") against incentive parameters (Complexity, Speculation, Friction).\n\n    Google Genkit: We integrated Google Genkit (using the googleai/gemini-2.5-flash model) to act as an \"AI Economist.\" We serialize the entire simulation state, from user segment sensitivities and current incentive mechanism stats into a prompt. Gemini can be used to analyze the adoption gaps and returns structured JSON suggestions to tune the mechanism parameters (e.g., \"Increase public goods alignment by 10% to capture the 'Protocol Architect' segment\"). This turns raw data into actionable economic strategy.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/eepy-cat-kqvdi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

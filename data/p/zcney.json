@@ -1,0 +1,22 @@
+{
+  "id": "zcney",
+  "slug": "nocturne",
+  "title": "nocturne",
+  "tagline": "Nocturne enables cross-chain trading of RWA tokens while keeping your holdings private.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zcney/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SYfmblzSBZysb1torw7VA3r1ag00I23Shsq01Eb5AcB54/high.mp4",
+  "demo_url": "https://nocturne-rwa.vercel.app/",
+  "source_url": "https://github.com/nocturne-protocol/oapp_layerzero_iexec",
+  "finalist": false,
+  "description": "Nocturne is a private-token platform that brings real-world assets on-chain while keeping user balances fully hidden.\nUsers can buy and trade tokenized shares of stocks or other assets without ever revealing how much they own.\n\nTo create these assets, Nocturne buys the real stock and mints a private token that represents it. Then Users interact only with these private tokens, enjoying the value of the underlying asset while keeping their holdings confidential.\n\nNocturne works across multiple blockchains. Thanks to LayerZero, users can invest from any supported chain—Base, Arbitrum, and more—while the privacy engine stays consistent everywhere.\n\nUnder the hood, all sensitive operations run inside iExec’s confidential computing. The TEE handles encrypted amounts, updates balances privately, and guarantees both security and correctness.\n\nThe result is simple: connect your wallet, explore assets, and invest privately, securely, and on any chain.",
+  "how_its_made": "We built Nocturne as a cross-chain private-asset flow. \nThe dApp frontend encrypts the user’s trade amount in the browser with Nocturne’s public key, then calls a PrivateERC20 contract on the user’s chain with (stockId, encryptedAmount). That contract uses LayerZero endpoints to send an omnichain message to Arbitrum, where an iExec TEE iApp is triggered.\n\nInside the TEE we decrypt the amount, read the encrypted balances, update them, then re-encrypt and send the new encrypted balances back on-chain. \nA second LayerZero hop delivers this payload to the original PrivateERC20, which emits an encrypted BalanceUpdated event that the frontend decodes to show the user their new private balance.\n\nThe “hacky” bit is that balances are never stored in plaintext: we only move ciphertext through LayerZero and contracts, and do all decryption/re-encryption inside the iExec enclave, effectively giving us private, omnichain stock exposure with standard ERC20 + messaging primitives.\n\nWe developed the whole system using Hardhat 3, leveraging its new solidity testing framework and multi-chain test environments to simulate cross-chain flows end-to-end.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nocturne-zcney",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

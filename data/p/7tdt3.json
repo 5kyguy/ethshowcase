@@ -1,0 +1,27 @@
+{
+  "id": "7tdt3",
+  "slug": "chain-hound",
+  "title": "Chain Hound",
+  "tagline": "ChainHound: AI wallet verification that traces funds, analyzes risk, and investigates activity data.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7tdt3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ocI01ErFnJfI02dmD1UM00ImZXC2bEi6IoS00BOdE5fpBSQ/high.mp4",
+  "demo_url": "https://chain-hound-nu.vercel.app/",
+  "source_url": "https://github.com/shubu258/Chain-Hound-",
+  "finalist": false,
+  "description": "Chain hound is an integration agent, other platfform can integrate and check any interacting wallets risk score and decide do they want to interact with that wallet or not.\n\nEvery stolen crypto wallet leaves a trail, but almost every tool that reads that trail is a locked, human-only dashboard that won't explain how it reached its conclusion. ChainHound is different: give it a wallet address, and it tells you — with receipts — how risky that wallet actually is.\n\nUnder the hood, it pulls the wallet's real transaction history live: on-chain transfers directly from an RPC node, plus swap and lending activity from The Graph's Subgraph MCP (Uniswap V3 and Aave V3). That evidence gets scored by an AI model, but the model never invents the number — it only explains a risk score and a set of flags that are calculated deterministically from the actual data. If the model can't score a wallet, it says so explicitly, rather than quietly returning nothing.\n\nThere are two ways to investigate. Wallet Analysis checks a single address on its own history. Fund Trace goes one hop further: it independently re-verifies the wallet's most recent counterparties too, and rolls everything into one trail-level verdict — because a clean wallet fed by a risky one shouldn't get a free pass just because you only checked the first hop.\n\nEvery wallet ChainHound touches also gets a real, human-readable identity: it's registered on ENSv2 (on Sepolia) with its own subregistry, and named with a pronounceable label instead of a 40-character hex string — so a report reads like names, not noise.\n\nFinally, this isn't just a website. The same risk-verification logic is published as paid, machine-callable APIs through Bazantic — an agent, a wallet app, or a protocol's withdrawal guard can pay a few cents, ask \"is this wallet safe?\" in code, and get back a verdict plus supporting evidence, with no login, no dashboard, and no human in the loop required.",
+  "how_its_made": "ChainHound is a Next.js frontend (Vercel) talking to a Node/Express backend (Railway) that runs the actual investigation pipeline. Given a wallet address, it fetches on-chain transfers directly via ethers.js/Alchemy, pulls swap and lending activity from The Graph's Subgraph MCP, and feeds both into Gemini/Claude for risk scoring — the model only explains numbers we calculate deterministically, it never invents a score. A \"Fund Trace\" mode re-runs this same pipeline on the wallet's recent counterparties, one hop out, and rolls everything into one pass/fail trail verdict.\n\nPartner tech, and why it mattered:\n\nThe Graph — Subgraph MCP gives us live Uniswap V3/Aave V3 data, not a cached snapshot. We run swaps and lending as two parallel Gemini conversations, each on its own API key, so one category hitting a free-tier rate limit doesn't block the other.\nENS — every wallet gets registered on ENSv2 (Sepolia) with a real subregistry: the root wallet owns its own namespace, counterparties become subnames under it. Addresses are turned into pronounceable labels (adjective-noun-number), and the registrar actually resolves a label back before trusting it's free, retrying on a genuine collision.\nBazantic — we exposed the same risk-verdict logic as priced x402 Gateways and wrote a Recipe that chains two of them: pull the risk verdict, and if it's flagged, automatically pull Uniswap activity as supporting evidence — one paid call, two services, one combined answer.\nHacky/notable bits: the browser UI streams NDJSON progress live as the pipeline runs (we hit — and fixed — a bug where our own Next.js proxy was silently buffering the whole stream, making \"live\" progress arrive all at once). We also deliberately strip ENS registration from the Bazantic-facing API, since sequential on-chain writes are the slowest part of the pipeline and an agent asking \"is this wallet risky\" needs a fast answer, not a pretty name.",
+  "auto_summary": "ChainHound analyzes wallet transaction and protocol activity to produce explainable risk assessments and expose them through a web app and APIs.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/chain-hound-7tdt3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

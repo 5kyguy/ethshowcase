@@ -1,0 +1,26 @@
+{
+  "id": "awmut",
+  "slug": "tollgate",
+  "title": "tollgate",
+  "tagline": "Turn any KeeperHub workflow into an x402-paid endpoint. Pay and call from agents in 1 SDK call.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/awmut/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RO00BCDEcD3Lokxqxntk9wW4jlQL8ATqyozpbfpuL2X00/high.mp4",
+  "source_url": "https://github.com/SachinCoder1/Tollgate",
+  "finalist": false,
+  "description": "I started this because KeeperHub's homepage promises you can \"publish a workflow, earn per call\" but when I looked at their actual API, that producer-side wasn't there. PUT /go-live only accepted {name, publicTagIds}. The open-source repo had zero hits for x402. So I built the missing piece.\n\ntollgate is two things: a CLI that turns any KeeperHub workflow into an x402-paid HTTP endpoint, and matched TypeScript + Python SDKs that let agents discover, pay for, and call those endpoints. The flow: author runs keeperhub-publish wf_xyz --price 0.02, the gateway hosts an x402-gated route, agents pay USDC via Coinbase's facilitator, the gateway calls KeeperHub's execute API on the author's behalf, results flow back.\n\nI built two real reference workflows on KeeperHub to demo this end-to-end. TokenSafetyCheck reads a token's name, symbol, decimals, and totalSupply from any Base-mainnet ERC-20 for $0.02. StablecoinPriceCheck reads USDC's totalSupply and paused() state for $0.03 - a real depeg precursor signal. The reference agent calls both, composes a \"should I swap?\" recommendation, and prints the real $0.05 spent on Base Sepolia. Every transaction is verifiable on Basescan.\n\nMid-build, KeeperHub shipped their own ERC-8004 listing toggle which partially solved the problem I started with. So I refactored the pitch: tollgate now sits adjacent to their marketplace as the HTTP-only discovery layer (no on-chain registry reads required) and the paywall for any non-listed workflow. Both my reference workflows ship listed on KH's marketplace AND callable via tollgate.\n\n",
+  "how_its_made": "The gateway is a Hono server on Node 20 one Dockerfile, deploys to Coolify / fly.io / any container host with a persistent volume. The TypeScript SDK wraps x402-fetch + viem for agent-side EIP-3009 signing and budget caps. The Python SDK is at full API parity using httpx + eth_account + the official x402>=2.9 package, with respx-mocked unit tests plus a real-gateway integration test in CI. 56 tests total across both languages.\n\nThe hardest part wasn't the x402 protocol. Coinbase ships a hosted facilitator that handles verify + settle on-chain for you. It was figuring out KeeperHub's API contract, because most of it isn't documented. I tested four different request body shapes against POST /workflow/{id}/execute to find the one that actually carried tokenAddress through to the workflow (it's {input: {...}}). I discovered the workflow's output lives at /logs under execution.output, not at /status like you'd expect. \n\nMid-build, KeeperHub shipped their ERC-8004 listing UI. I had to update my positioning instead of competing with their listing, tollgate now sits adjacent. I built both reference workflows on KH's canvas using their Read Contract + Run Code action nodes. KH's Run Code wraps return values as {logs, result, success} with no UI to unwrap, so the gateway auto-unwraps that envelope at the SDK boundary.\n\nOne thing I'm proud of: the gateway is fail-closed. If KeeperHub's execute call fails after the agent has signed the EIP-3009 authorization, the gateway never calls the facilitator's settle endpoint so the caller is never charged for nothing. Verified on-chain: in early testing, when my workflow IDs weren't real yet, every paid attempt returned 502 from the gateway and the agent's USDC balance stayed exactly the same.",
+  "auto_summary": "A monorepo providing a CLI, gateway, and TypeScript/Python SDKs to expose KeeperHub workflows as x402-paid HTTP endpoints.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tollgate-awmut",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "8gxzp",
+  "slug": "neuralhook",
+  "title": "NeuralHook",
+  "tagline": "AI predicts impermanent loss before it hits. Fees surge. LPs get paid back. Trustless.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8gxzp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AaKlp1SxOzFK7yg4eFFUkOWxuDBCEkWZ9IevGyfXQH00/high.mp4",
+  "demo_url": "https://www.youtube.com/watch?v=rY4npbPU5bQ",
+  "source_url": "https://github.com/Hijanhv/NeuralHook",
+  "finalist": false,
+  "description": "```\nNeuralHook is a Uniswap v4 hook that protects liquidity providers from impermanent loss using verifiable AI inference. LPs on Uniswap lost $60M net to IL in 2025 — NeuralHook fixes this.\n\nEvery 30 seconds, an AI model runs inside a 0G Sealed Inference TEE and predicts IL risk for the pool. Three independent Gensyn AXL agents each run inference, gossip results peer-to-peer, and reach 2-of-3 consensus. The signed TEE proof is submitted on-chain via KeeperHub MCP. NeuralHook.sol verifies the cryptographic signature and automatically adjusts the pool fee — LOW risk = 0.05%, MEDIUM = 0.3%, HIGH = 0.75%, CRITICAL = 1.0%.\n\n5% of every swap fee flows into an on-chain IL Insurance Fund. When an LP withdraws with impermanent loss above 0.2%, the fund automatically pays them back. No human approval. No admin key. The proof is the permission.\n\nBuilt on Uniswap v4 BaseHook, deployed on Unichain Sepolia. The first self-protecting liquidity pool.\n```",
+  "how_its_made": "```\nNeuralHook is built in four layers that each depend on the next — remove any one and the project breaks.\n\nSMART CONTRACTS (Solidity + Foundry)\nNeuralHook.sol inherits BaseHook from v4-periphery, which is Uniswap's recommended base contract for all v4 hooks. We use four hook callbacks: beforeSwap returns a dynamic lpFeeOverride based on the latest AI-determined IL risk, afterSwap sends 5% of every collected fee to ILInsuranceFund.sol, beforeAddLiquidity records the LP's entry price and tick range, and afterRemoveLiquidity calculates actual IL using the formula 2*sqrt(priceRatio)/(1+priceRatio)-1 in integer Solidity math (no floats) and triggers an automatic payout if IL exceeds 200bps. The trickiest part was HookMiner — Uniswap v4 requires the hook's deployed address to encode permission flags in its lower bits, so we had to mine a CREATE2 salt that produces an address with all four permission flags set correctly. PoolManager silently rejects hooks with wrong addresses, which cost us debugging time early on.\n\nAI LAYER (0G)\nThe AI model runs inside a 0G Sealed Inference TEE. It takes the last 20 price points plus the LP tick range and returns an IL risk classification, predicted IL in basis points, a recommended fee, and a rebalance signal — all cryptographically signed by the enclave. On-chain, NeuralHook.sol calls ECDSA.recover(resultHash, signature) and checks the signer equals trustedOracle. This means the hook never trusts the off-chain agent blindly — it verifies the hardware proof directly. We also use 0G Storage to persist agent memory, inference history, and LP position snapshots across restarts.\n\nAGENT CONSENSUS (Gensyn AXL)\nWe run three independent AXL agent nodes as separate processes. Each one independently queries 0G Sealed Inference, then gossips its result to the other two via AXL P2P encrypted transport. A 2-of-3 consensus engine checks agreement — if two agents agree on the same IL risk level and rebalance signal, consensus is reached and the fastest agreeing agent's TEE signature is selected for on-chain submission. This prevents any single compromised inference node from manipulating the hook's fee logic.\n\nEXECUTION (KeeperHub)\nEvery on-chain transaction — fee updates, insurance payouts, rebalance triggers — routes through KeeperHub MCP. KeeperHub simulates the transaction before signing, checks gas, detects potential reverts, and retries with exponential backoff if needed. We also built a rebalance listener that watches for RebalanceSignal events emitted by the hook and hands them off to KeeperHub to execute, keeping LP capital active instead of sitting idle out of range.\n\nFRONTEND\nNext.js dashboard with wagmi, viem, and RainbowKit for wallet connect on Unichain Sepolia. The dashboard shows live IL risk, the agent mesh with gossip animations, fee gauge, LP positions with live IL tracking, insurance fund balance, consensus feed, and KeeperHub audit trail — all polling the agent /status endpoints every 5 seconds.\n\nThe most notable hack: the mock fallback path. Since 0G Sealed Inference and KeeperHub MCP are early-stage APIs, we built complete fallbacks using local ethers signing and direct RPC calls that produce real cryptographic signatures NeuralHook.sol can actually verify on-chain. \n``",
+  "auto_summary": "A Uniswap v4 hook adjusts pool fees from signed off-chain risk signals and includes an insurance fund for impermanent loss payouts.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/neuralhook-8gxzp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

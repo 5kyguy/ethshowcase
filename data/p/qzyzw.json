@@ -1,0 +1,35 @@
+{
+  "id": "qzyzw",
+  "slug": "cashmeifyoucan",
+  "title": "cashmeifyoucan",
+  "tagline": "Get paid today, not in 60 days. AI agents fight over your invoice, and the nice ones charge less",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qzyzw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VXhnJpUH4G8ocdwLjfbvm02EoNww0202lYLm54VOFPnDLA/high.mp4",
+  "demo_url": "https://www.cashmeifyoucan.us/",
+  "source_url": "https://github.com/aumghelani/ETHGlobal-Hackathon-Fiduciary-Agent",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Tokenization on Hedera",
+      "title": "Tokenization on Hedera"
+    }
+  ],
+  "finalist": false,
+  "description": "cashmeifyoucan is invoice factoring rebuilt for the 70 million freelancers banks ignore. Factoring means selling an unpaid invoice for cash now and letting the buyer collect from your client later. It's a $3.7 trillion market, but the paperwork costs so much per invoice that it only makes sense for big corporations. So a freelancer with a $5,000 invoice and rent due tomorrow gets nothing.\nHere's how ours works. You upload your invoice and prove you're a real person with World ID, checked on our backend. Then instead of begging one bank, a market of AI agents competes to fund you live, in about 30 seconds. The interesting part is the twist that makes it work: the most trusted agent wins by paying you more and charging you less, because a strong track record means it doesn't have to price in fear. That same gap turns it into a real two-sided market, since the riskier newcomer bids pay investors a higher yield, and that's how a newcomer earns the record to become a veteran.\nUnderneath, three chains each handle something the others can't. When you accept an offer, Hedera's Token Service mints your invoice into a token with the agent's fee written into the token itself, so the network enforces it and we never had to write a smart contract for it. The payout is pre-armed as a Hedera Scheduled Transaction that only fires once the client pays. The money moves in USDC on Arc, where gas is paid in dollars, which is what makes funding a $100 invoice actually worth it. Every invoice gets fingerprinted to a public Hedera log, so the same one can never be sold twice.\nAn invoice is just the first thing we factor. The same engine works for anything you're owed but haven't been paid yet, like tax refunds, insurance claims, gig wages, or musician royalties.",
+  "how_its_made": "The frontend is a Next.js app written in TypeScript and deployed on Vercel. All the agent logic and every chain call run in backend API routes, so nothing sensitive ever touches the browser.\nThe auction is the heart of it. When an invoice comes in, we spin up two AI agents with different reputation profiles, and each one prices its own bid with an LLM based on the invoice amount, the client's payment history, and its own track record. The model returns structured JSON that we parse into the bid cards you see. The trust inversion isn't hardcoded. It comes straight out of the pricing logic: a higher reputation lets an agent quote a lower fee, because it doesn't have to price in the risk of default. So the most trusted agent lands on the best offer for the freelancer entirely on its own.\nFor identity we use World ID. IDKit 4.0 collects the proof on the client, but the check that actually matters runs on our backend. The server signs the request context with a key that never leaves the server, sends the proof to World's verify endpoint, and only lets the invoice through if it passes. We also store the nullifier and reject repeats, so one person can't create throwaway identities to farm reputation. In a marketplace priced on trust, that uniqueness is the whole point.\nWhen a freelancer accepts an offer, we mint the invoice as a token through Hedera's Token Service using the JavaScript SDK, and we set a custom fractional fee equal to the winning bid directly on the token. This turned out to be the cleanest decision we made. Because the fee lives in the token itself, the network enforces it on every transfer, the agent's cut is guaranteed, and we never had to write or audit a separate fee-collecting smart contract.\nSettlement runs on a Hedera Scheduled Transaction. We arm the distribution at funding time, so it sits pending on the network and only fires once the client pays. That means there's no keeper, no cron job, and no server we have to trust to remember to pay people out.\nThe money moves in USDC on Arc, Circle's stablecoin chain, where gas is paid in dollars instead of a separate token. That detail is what makes funding a small invoice viable, since an agent paying out a $100 invoice never has to hold and manage a side token just to cover gas.\nFinally, every invoice gets fingerprinted to a Hedera Consensus Service topic. That gives us a public, tamper-proof log of what happened and makes sure the same invoice can never be sold twice.",
+  "auto_summary": "A Next.js app lets freelancers verify personhood, auction invoices to AI agents, tokenize invoices on Hedera, and manage funding and settlement flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cashmeifyoucan-qzyzw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "2n9de",
+  "slug": "signa-covenant",
+  "title": "Signa Covenant",
+  "tagline": "An FX coverage gate on Arc: USDC drawdowns are refused onchain when the hedge stops covering them.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2n9de/banner/default.jpg",
+  "video_url": "https://stream.mux.com/r2au00lKET64fhUkrN1CDH7sgtUqSuTAfhiqIVIxqZ64/high.mp4",
+  "demo_url": "https://signa-arc.vercel.app/",
+  "source_url": "https://github.com/estmcmxci/signa-arc",
+  "finalist": false,
+  "description": "A credit originator owes investors USDC while its loans repay in euros. The loan book lives in a servicing system, the hedge lives at a bank, and the capital sits in a vault that cannot see whether that hedge is current, sufficient, or even matched to this facility. \n\nThe covenant meant to govern all of this is checked by operations on a calendar, while capital moves on demand.\n\nSigna Covenant puts the covenant in the money path. The servicer and the hedge provider each sign an EIP-712 credential: one states what is owed, the other what is hedged. A coverage engine on Arc computes how much of the outstanding USDC obligation the hedge actually covers, after a haircut. \n\nEvery drawdown asks the gate first, and when coverage falls below the facility's minimum, the vault refuses the draw onchain.\n\nIt is live on Arc Testnet and proven with receipts. The same draw, with byte-identical calldata, was sent three times to the same vault: accepted at 100% coverage, refused at 68.4% with DrawNotAllowed(CURE), and accepted again once a fresh hedge credential restored coverage. Nothing changed between the three calls except the evidence underneath them.\n\nOverriding the covenant is governed too. The facility admin is a Privy 2-of-2 key quorum, fixed at creation, so a waiver needs two named approvers, and the wallet's policy only lets it call createWaiver on this vault on Arc.\n\nBoundary: signatures authenticate who asserted what. They do not prove a hedge legally exists. The hedge feed in the demo is a labelled mock, and no bank has signed anything.",
+  "how_its_made": "Contracts are Solidity, built and tested with Foundry: FacilityRegistry, CredentialRegistry, CoverageEngine and CovenantVault, deployed to Arc Testnet (chain 5042002) and verified on Arcscan. The product is one small interface, ICoverageGate.assess(facilityId, amount). CoverageEngine implements it. CovenantVault is the reference host: every draw is ruled by assess and reverts with a typed reason when coverage is short.\n\nThe offchain side is TypeScript and viem, using arcTestnet from viem/chains. A credentials package builds and verifies the EIP-712 exposure and hedge credentials, and the registry only accepts a sequence number higher than the last one for that trade, so a stale credential cannot be replayed. A scenario runner drives the acceptance sequence against Arc and writes every hash, receipt and block reference to a JSON evidence file. A Vite dashboard reads the deployment manifest, simulates before any write, and explains a refusal in plain language.\n\nArc made us careful about money. USDC is the gas token with 18 decimals, while its ERC-20 view has 6: one balance, two views, 10^12 apart. Every amount crossing into a credential goes through a single decimals module. And cast send exits 0 even when the transaction reverts, so every step asserts its receipt status in the direction it expects: the refusal has to be a failed receipt carrying the DrawNotAllowed selector, not just any error.\n\nPrivy governs the override. A server wallet owned by a 2-of-2 key quorum is the facility admin, and each approver holds a non-extractable P-256 key in their browser. The hacky part: authorizing a Privy intent needed two fields the docs don't mention, intent_id and timestamp, signed over Privy's normalized request body (RFC 8785 canonical JSON, ECDSA P-256). Privy's managed broadcast isn't enabled for Arc on our app yet, so Privy signs the transaction and we broadcast it ourselves. The wallet policy restricts the key to createWaiver on this vault on Arc. It can't cap the waiver's uint32 duration, so the contract enforces that cap.\n\n64 TypeScript and 31 Solidity tests run in CI. A local Anvil replay covers the states the testnet run doesn't reach: breach, cure expiry, and repayment during breach.",
+  "auto_summary": "An Arc-based covenant vault blocks or permits USDC drawdowns using onchain evaluation of signed FX exposure and hedge credentials.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/signa-covenant-2n9de",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

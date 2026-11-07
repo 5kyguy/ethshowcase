@@ -1,0 +1,35 @@
+{
+  "id": "2g5bs",
+  "slug": "pampalo-private-swap",
+  "title": "Pampalo Private Swap",
+  "tagline": "Private money on Pampalo - shield tokens, then send + swap privately on public Uniswap liquidity",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2g5bs/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VrWy6n2gLsIE6DRyEmNqhAmLSmpe1oBv02ofcRPfnOOw/high.mp4",
+  "demo_url": "https://pampalo.com",
+  "source_url": "https://github.com/pampalodotcom/ethglobal-nyc-2026",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "Best Uniswap Stack Contribution",
+      "title": "Best Uniswap Stack Contribution"
+    }
+  ],
+  "finalist": false,
+  "description": "Pampalo is private money on Base. You shield your normal tokens (USDC, ETH) into private notes, and from there you can send them to people or swap them, USDC ↔ ETH, without anyone on-chain seeing who owns what.\n\nThe whole project is client side first: your encryption keys are derived from your passkey (WebAuthn PRF), and the backend only ever stores ciphertext and public material - even a full database leak reveals nothing about you or your notes, your mnemonic, or who you paid.\n\nCompliance is baked in too (monthly USD caps plus a wait-and-contest window on deposits), so it's not a complete free-for-all. Basically a wallet where privacy is the default instead of a bolt-on.",
+  "how_its_made": "The core is a set of ZK circuits written in Noir, proven client-side with UltraHonk (bb.js wasm running in the browser - no trusted server generating your proofs). Private notes live in an append-only Poseidon merkle tree on an immutable Solidity contract on Base; spending a note means a nullifier plus a membership proof, which breaks the link to its history.\n\nThe private swap is its own circuit plus a PampaloSwapV3 contract that's a superset of the core - it nullifies the input note, swaps against Uniswap v3's SwapRouter02 in the same transaction, and mints the output note at a fixed target (any surplus is forfeited, so there's no separate minOut).\n\nThe backend is Convex and deliberately minimal - ciphertext and public material only, with keys derived from the passkey PRF. The ethglobal-nyc-2026 repo holds the core circuits and contracts; the actual client-side swap implementation - proof generation, note selection, the merkle mirror, and the whole UI - lives in the pampalo repo. The fiddly parts were getting Noir + bb.js running smoothly in the browser, and resuming Ignition deploys on Base when its nonce manager kept falling out of sync.",
+  "auto_summary": "A privacy-focused wallet protocol on Base uses Noir proofs, Merkle-tree notes, and Solidity contracts to shield, transfer, and swap assets privately.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pampalo-private-swap-2g5bs",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

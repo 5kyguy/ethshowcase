@@ -1,0 +1,34 @@
+{
+  "id": "psxxo",
+  "slug": "agentindex",
+  "title": "AgentIndex",
+  "tagline": " Insights for ERC-8004: BigQuery ingest, ENS-crosscheck, sybil detection, trust signals.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/psxxo/banner/default.jpg",
+  "demo_url": "https://scrypted.ai/agentindex",
+  "source_url": "https://github.com/scryptedai/agentindex",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "2nd place",
+      "title": " Best ENS Integration for AI Agents"
+    }
+  ],
+  "finalist": true,
+  "description": "AgentIndex is reputation intelligence for ERC-8004 agent registries on Ethereum mainnet. Explorers answer “what agents exist and who ranks highest?” AgentIndex is an extension of our work on attention auctions for AI Agents: instead of ranking them purely by reputation score, we're building our own non-gameable scoring metric based on insights like sybil attacks. The reputation layer becomes signal, and we modify the signal via insights and bidding on embeddings.\n\nERC-8004 gives agents on-chain identity and reputation, but raw scores are gameable: launch bursts (dozens of reviews in minutes), factory wallets minting thousands of agents, coordinated downvotes, reviewer spray, and ENS name collisions across unrelated agents. A single composite score hides all of that.\n\nAgentIndex ingests the full registry history via BigQuery, enriches it with ENS (ENSIP-25 verified links, claimed names from registration JSON, cross-chain refs), and builds a local SQLite corpus you can query and export. A dashboard surfaces trust beyond basic reputation signals: confidence levels, anomaly flags, reviewer independence, identity graphs, and 26+ automated sybil signals sorted by severity.\n\nScreens include registry pulse and KPI overview, per-agent dossiers with feedback timelines, a reviewer bipartite graph, ENS collision clusters, agent lookup, and corpus provenance with SQLite download. Built for ETHGlobal NYC 2026.\n\nThis repo specifically targets the Ethereum mainnet ecosystem, and we'd like to work with the Google team to help get Base online next.",
+  "how_its_made": "Ingest: Two-phase BigQuery pipeline over Google’s public Ethereum logs dataset. One-time backfill runs uncapped since-launch queries for Identity and Reputation registries; results stream to lossless JSONL with job IDs saved in meta.json so interrupted downloads resume without re-scanning (BigQuery bills on scan, not re-download). Daily sync caps bytes per day for incremental chunks.\n\nENS: Separate BQ pass for ENSIP-25 text records, then HTTP fetch of each agent’s registration JSON to extract claimed .eth names and registrations[] cross-chain refs. Merged into a many-to-many ens_links table on build.\n\nIndex: agentindex-build loads JSONL into SQLite (agents, reputation_feedback, reputation_agg, ens_links, agent_registrations). No chain RPC needed at query time.\n\nAnalytics: Python derives sybil signals (launch bursts, downvote clusters, factory owners, punitive clients, ENS collisions, reviewer spray), Lorenz concentration, review-independence metrics, and chart annotations from the corpus. Copy is declarative: reactions.json rules fill dashboard text from live stats, not hardcoded prose.\n\nUI: FastAPI serves /api/bootstrap (full payload) and static React (CDN + Babel in-browser JSX). Chart.js for time series; SVG for graphs. Multi-network config in config/default.json; Ethereum live, others “coming soon.”",
+  "auto_summary": "AgentIndex builds a local SQLite explorer for ERC-8004 agent registry history using BigQuery ingestion and ENS-based identity enrichment.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentindex-psxxo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

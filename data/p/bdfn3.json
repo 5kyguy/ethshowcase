@@ -1,0 +1,71 @@
+{
+  "id": "bdfn3",
+  "slug": "convexswap",
+  "title": "ConvexSwap",
+  "tagline": "ConvexSwap allows large trades to be streamed over time to reduce slippage and price impact while also minimizing for gas.",
+  "event": {
+    "slug": "ethnewyork2022",
+    "name": "ETHNewYork 2022",
+    "start_time": "2022-06-24T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bdfn3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QTQXFA1gLmdsMCFO4eWJs7uc14MOvjlOLV00a1rJl1mw/high.mp4",
+  "source_url": "https://github.com/foobarbaz-inc/eth-nyc-global",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Grants Program",
+      "sponsor_id": "026zc",
+      "placement": "🥇 Uniswap Grants Program — Best Integration",
+      "title": "Uniswap Grants Program"
+    },
+    {
+      "sponsor": "Swivel",
+      "sponsor_id": "2ixf3",
+      "placement": "🥉 Swivel — Best Use",
+      "title": "Swivel"
+    },
+    {
+      "sponsor": "BitDAO",
+      "sponsor_id": "493ck",
+      "placement": "🏃‍♀️ BitDAO — Best Use",
+      "title": "BitDAO"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🚀 Optimism — Just Deploy!",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "🥇 Chainlink — Best Use",
+      "title": "Chainlink"
+    },
+    {
+      "sponsor": "Covalent",
+      "sponsor_id": "f7o0p",
+      "placement": "🥇 Covalent — Best Use",
+      "title": "Covalent"
+    },
+    {
+      "sponsor": "Superfluid",
+      "sponsor_id": "x59d1",
+      "placement": "🤑 Superfluid — Top DeFi Project",
+      "title": "Superfluid"
+    },
+    {
+      "sponsor": "1inch Network",
+      "sponsor_id": "if0ri",
+      "placement": "🥉 1Inch — Best Use",
+      "title": "1inch Network"
+    }
+  ],
+  "finalist": false,
+  "description": "While executing large trades, there is often a high amount of slippage. As these orders get close to completion, the swap price increases drastically, and therefore the trade ends up being expensive and capital inefficient. Additionally, with large trades on the blockchain, the security risks are heightened as nothing is reversible. ConvexSwap solves both of these problems by streaming the trade over time. The stream cannot only be stopped at any time for security purposes, but also prevents a price shock on the exchanges and ensures that there is time for liquidity pools to revert to their average volume, so slippage will be lower. While streaming leads to price impact, it increases the gas fees as multiple transtaction happen to complete the trade. This leads to a convex cost function for any trade that can be solved for deterministically. Our trading platform solves for this optimal value of streaming time with lowest slippage and gas fees. ",
+  "how_its_made": "Frontend: We used reactJS to build a Uniswap-like user interface. Our interface is integrated with @WalletConnect, which can be used to connect with any WalletConnect-compatible wallet. We used WalletConnect instead of a chrome extension since it's more secure, especially for large trades which our platform specializes in. For the backend, we used APIs offered by @Covalent to find the historical data used to model our forecasted transaction and solve the convex optimization problem of maintaining low slippage and gas fees for the stream. We used Covalent APIs first to fetch the liquidity pools such as WETH and USDT and extracted the average price per day for the past 30 days. We used the data to model Stablecoins as mean-reverting assets and  Eth as a lognormal variable. Later, we used the topic hash for SWAPS on @uniswap to filter our swap events for blocks within each interval to identify the average gas price and average gas spend for each day. We also used @Swivel Finance API to get a reference for the risk-free rate. Using the risk-free rate, we accounted for the fact that a streaming trade can earn interest on its remaining part while a non-streaming trade does not. On the smart contract side, we used @Superfluid for streaming into our contract, which used a mix of @Uniswap and @1inch for executing trades of the assets. We used @Chainlink keepers to periodically call the smart contract to conduct the swaps periodically. Finally, we deployed our contracts on @Polygon and @Optimisim to further optimize for gas. It is worthy to mention that above all, this platform could be used for DAO tooling and treasury management as 1) it efficiently executes large trades which happen frequently for DAO treasuries, and 2) streaming a swap is fundamentally more secure as the DAO has the option to stop the stream if they suspect something is wrong. Therefore it could be quite useful for large treasuries such as @BitDAO. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/convexswap-bdfn3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,29 @@
+{
+  "id": "dypsh",
+  "slug": "blindsig",
+  "title": "BlindSig",
+  "tagline": "Private transfers via shielded addresses using ZK proofs, ENS-registered keys, and a UTXO pool",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dypsh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bXCorYxHyGHLTSnO00kxj00LRL02qgS7mTHRoGL36wKBVU/high.mp4",
+  "demo_url": "https://blindsig.xyz",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "BlindSig enables private cryptocurrency transfers using shielded addresses and zero-knowledge proofs. Users generate a stealth key pair (pk_spend + pk_view), encoded as a single Bech32 \"peek1...\" address and registered on ENS under the custom text record \"com.blindsig\" — allowing anyone to resolve a recipient's shielded address directly from their ENS name without a separate registry contract.\n\nUser Flow\n1. Register on BlindSig and get the Shielded Address\n2. Connect with ENS and register this Shielded address as a record\n3. Deposit Shielded ETH to BlindSig\n4. Send funds privately using Shielded Address or ENS\n\nFunds are sent through a shielded UTXO pool powered by a 2x2 join-split scheme: each transaction consumes 2 input notes and creates 2 output notes. Notes are Poseidon hash commitments stored in an on-chain Merkle tree, and nullifiers derived from the owner's secret key prevent double-spending. A single unified Circom circuit handles deposits, withdrawals, and fully shielded transfers, with Groth16 ZK-SNARK proofs ensuring value conservation, note ownership, and Merkle inclusion — all without revealing sender-recipient links on-chain.",
+  "how_its_made": "Shielded Address Format - Shielded addresses encode two BN254 public keys — pk_spend and pk_view — into a Bech32 string with the prefix peek1....\nThese addresses are stored as ENS text records under the key: \"com.blindsig\". This allows resolving shielded addresses directly from ENS.\n\nZK Layer Architecture - The zero-knowledge layer is built using Circom 2.1 and a single transact circuit implementing a 2×2 join-split scheme:\n- 2 input notes consumed\n- 2 output notes created\nThis unified circuit supports:\n- Deposits\n- Withdrawals\n- Shielded transfers\nusing a commitment–nullifier model:\n- Notes are represented as Poseidon hash commitments and inserted into a Merkle tree.\n- Nullifiers (Poseidon hash of secret key + random secret) prevent double-spending.\n- Merkle inclusion proofs verify note existence.\n\nNotable optimization (hack) - Merkle inclusion checks are conditionally enforced by multiplying the constraint by the input amount. For deposits (where input amount = 0), Merkle verification is skipped — allowing one single circuit to handle all transaction types.\nProofs are generated using Groth16 via snarkjs on BN254.\n\nOn-Chain UTXO Pool -The smart contract ShieldedUTXOPoolLedger.sol manages the shielded UTXO pool on-chain:\n- Uses @zk-kit/incremental-merkle-tree (depth = 20)\n- Verifies Groth16 proofs against 8 public signals\n- Tracks spent nullifiers to prevent double-spends\n- Supports ETH and ERC20 assets via SafeERC20\n\nENS Record Example - https://sepolia.app.ens.domains/akhilpraj.eth?tab=records\nExample Tx - https://sepolia.etherscan.io/tx/0x34b2a6d0bf94a8effe41a0a3ac5f5945d07c1a589ecaec178f08e4c021f61b37",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/blindsig-dypsh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

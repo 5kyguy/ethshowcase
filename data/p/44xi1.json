@@ -1,0 +1,27 @@
+{
+  "id": "44xi1",
+  "slug": "mesh402",
+  "title": "Mesh402",
+  "tagline": "3D for AI agents: one HTTP request, one x402 payment, one production-ready GLB.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/44xi1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/A00jBK7LGqn01gEYZ9x89Q8mX6uQxGfoW78o5WLcydIlw/high.mp4",
+  "demo_url": "https://mesh402.onrender.com/",
+  "source_url": "https://github.com/ValenteCreativo/mesh402",
+  "finalist": false,
+  "description": "Mesh402 gives AI agents instant access to 3D generation without accounts, subscriptions, provider API keys, or SDK integrations. An agent makes a single HTTP request describing the asset it needs, receives an HTTP 402 payment requirement, pays with its own wallet on Hedera, and gets back a production-ready GLB.\n\nBehind that simple interface, Mesh402 turns 3D generation into a machine-purchasable capability. It handles payment verification and settlement through x402 and Blocky402, invokes Tripo, waits for generation to complete, persists the asset, and returns a stable URL the agent can immediately consume.\n\nWe also built an autonomous demo using Qwen through Nebius: the agent decides when it needs a real 3D asset, selects the Mesh402 tool, pays, waits for generation, receives the GLB, and continues its task—all without a human manually operating the 3D provider.\n\nMesh402 turns “I need a 3D asset” into one programmable transaction: request → 402 → pay → GLB. Agents shouldn't subscribe to tools. They should buy capabilities.",
+  "how_its_made": "Mesh402 is a TypeScript/Node.js service that turns Tripo's 3D generation API into an agent-purchasable capability using x402 payments on Hedera. A request without payment receives an HTTP 402 with x402 v2 requirements for hedera:testnet. Blocky402 verifies and settles the caller's HBAR payment, and only after successful settlement does Mesh402 invoke Tripo v3, poll the generation task, persist the resulting GLB, and return a stable asset URL.\n\nWe built two ways to consume the capability. In the autonomous demo, Qwen3-235B through Nebius Token Factory receives generate_3d_asset as a function-calling tool and decides when a user's request requires purchasing a real 3D asset. Separately, POST /api/v1/generate exposes the same x402 capability to external agents, which receive the 402 response and sign with their own Hedera wallet rather than giving Mesh402 custody of their key.\n\nThe frontend is built with Vite and Three.js and visualizes the real execution path: intent → tool call → 402 → Hedera settlement → Tripo → 200 → GLB. We deployed the full application as a persistent Node service on Render, with server-side credentials, persistent asset storage, execution locks, and protection against duplicate paid generations. We also preserve a verified replay of a real autonomous run so judges can inspect the exact transaction and generated asset without spending credits.\n\nThe key engineering idea is that Mesh402 doesn't expose another subscription-based AI interface: it puts a machine-readable payment boundary directly in front of a capability, allowing agents to discover a price, pay, and consume the result programmatically.",
+  "auto_summary": "This project exposes 3D asset generation as a paid HTTP service using x402 on Hedera and includes agent and frontend consumers.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mesh402-44xi1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

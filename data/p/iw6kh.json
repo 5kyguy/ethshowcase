@@ -1,0 +1,35 @@
+{
+  "id": "iw6kh",
+  "slug": "stablesettle",
+  "title": "StableSettle",
+  "tagline": "The on-chain firewall for AI agents: spawn a budget-capped USDC treasury in 15 seconds.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/iw6kh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8jpq5LhMOklFxA028rxdR4Zwzvv022ro1yicfMLnDC00LA/high.mp4",
+  "demo_url": "https://stable-settle-web.vercel.app/",
+  "source_url": "https://github.com/whereissam/StableSettle",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "StableSettle is the on-chain firewall for AI agents. One command spawns an agent with its own wallet, an ENS name, and a budget-capped vault on Arc (where USDC is gas). Every payment passes a single Solidity spend() gate — lifetime cap, per-tx limit, 24h velocity cap, and recipient allowlist — so overspending, or paying an address the owner didn't approve, reverts on-chain, even under prompt injection. Driven by plain-English MCP tools.",
+  "how_its_made": "The contract (the whole point). AgentVault.sol is written in Solidity and deployed on Arc, Circle's chain where USDC is the native gas token — so the treasury, the spend, and the spending cap all live in one contract instead of being split across a token and a gas asset. Every payment runs through a single spend() gate that checks a lifetime budget cap, a per-transaction ceiling, a rolling 24h velocity limit, and an opt-in recipient allowlist before any money moves — and reverts  (BudgetExceeded, RecipientNotAllowed, DailyLimitExceeded) if any is crossed. The agent never holds the funds; it only holds an AGENT_ROLE that lets it request a spend. Built and tested with Foundry (56 vault tests, 92 repo-wide).\n\n  The MCP server (the agent interface). A TypeScript MCP server (@modelcontextprotocol/sdk) exposes six tools — spawn_agent, fund_agent, topup_gas, agent_pay, agent_pay_x402, get_agent —  so the whole product is driven from Claude in plain English; the tool descriptions do the work, no CLI flags. It speaks both stdio (local .mcp.json) and Streamable HTTP (hosted, bearer-token auth) from the same code.",
+  "auto_summary": "StableSettle combines Solidity vault and escrow contracts with an MCP server to govern AI-agent payments, identity, and human-verification flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/stablesettle-iw6kh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

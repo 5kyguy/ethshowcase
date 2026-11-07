@@ -1,0 +1,22 @@
+{
+  "id": "a1dv9",
+  "slug": "era",
+  "title": "era",
+  "tagline": "Coding agent powered by a multi-persona swarm: sealed inference on 0G, iNFT personas, ENS subnames",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a1dv9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WCIqHpcrMQaRi9zUHaWp00Ki84tVL2Ho6JC0101tV7qK3E/high.mp4",
+  "demo_url": "https://github.com/vaibhav0806/era-multi-persona",
+  "source_url": "https://github.com/vaibhav0806/era-multi-persona",
+  "finalist": false,
+  "description": "era is a Telegram-driven coding agent where every task fans out to a 3-persona swarm — planner, coder, reviewer — each running as a sealed-inference LLM on 0G Compute, with evolving per-persona memory on 0G Storage, and minted as ERC-7857 iNFTs on 0G Galileo. Every persona invocation produces a sealed receipt, an append-only audit-log entry on 0G Storage, and an on-chain Invocation event tied to the persona's iNFT token.\n\nCustom personas can be minted live: /persona-mint <name> <prompt> uploads the prompt to 0G Storage, mints a new iNFT, registers an ENS subname on Sepolia under vaibhav-era.eth, and writes 4 text records (inft_addr, inft_token_id, zg_storage_uri, description). Subsequent /task --persona=<name> runs route through that persona — its tokenID shows up in on-chain Invocation events.\n\nVerifiable: iNFT contract 0x33847c5500C2443E2f3BBf547d9b069B334c3D16 on chainscan-galileo, 5+ minted personas, 20+ Invocation events from real /task runs.",
+  "how_its_made": "Three layers. First, era-brain — a standalone Go SDK (github.com/vaibhav0806/era-multi-persona/era-brain) exposing 5 interfaces: Persona, MemoryProvider, LLMProvider, INFTRegistry, IdentityResolver. Reusable beyond era. Each interface has unit tests via simulated.Backend or in-memory stubs, plus a build-tagged live test against real testnets.\n\nSecond, the orchestrator: Go 1.25, Telegram Bot API, SQLite + goose migrations, Docker-isolated containers per task (Pi-in-Docker as the coder slot — gets the persona's prompt prefixed to its task description). The orchestrator imports era-brain and wires Brain.Run([planner, coder, reviewer]).\n\nThird, on-chain. EraPersonaINFT is a Foundry-built fork of ERC-7857 (Solidity 0.8.24, OpenZeppelin v5.6.1) deployed to 0G Galileo at 0x33847c5500C2443E2f3BBf547d9b069B334c3D16. Go bindings via abigen v1.17.2. Sealed inference on 0G Compute uses TEE-attested responses (Zg-Res-Key header), model qwen-2.5-7b-instruct, with OpenRouter fallback. ENS subnames on Sepolia via NameWrapper.setSubnodeRecord — dynamic registration as part of /persona-mint. ENSIP-1 namehash implemented in pure Go, no third-party deps.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/era-a1dv9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

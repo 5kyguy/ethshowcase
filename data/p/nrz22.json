@@ -1,0 +1,27 @@
+{
+  "id": "nrz22",
+  "slug": "mass-multiplayer-ai",
+  "title": "MASS-Multiplayer AI",
+  "tagline": "Teach an AI colleague together. Everyone who taught it owns a fair share of what it earns.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nrz22/banner/default.jpg",
+  "video_url": "https://stream.mux.com/h91bk00HTyDSrA7fNT6QUCyNJcsl902NYoEPa023u02AKW8/high.mp4",
+  "demo_url": "https://mass.aonishchenko33.workers.dev/?session=dgk48f",
+  "source_url": "https://github.com/aonishchenko/mass",
+  "finalist": false,
+  "description": "What your team knows lives in three places. A Notion page nobody updates, a Slack thread nobody can find, and one person's head. When they leave, it goes with them.\n\nMASS is a live session where a crew of verified humans teaches one AI colleague together. Someone marks a message with \"Teach this\", the agent drafts the exact change, and two verified humans have to approve it before it merges. One person cannot teach it alone.\n\nThe agent answers only from what the crew taught it. Ask it something nobody covered and it says \"I haven't been taught that yet. Teach me and I'll know it next time.\" It does not guess, and it does not fall back on its training data.\n\nEvery answer it does give points at the exact line it used and the person who wrote it. Those citations are also the payout key. When the agent does paid work, the payment splits to the people whose knowledge it actually used.\n\nOwnership is not a spreadsheet we maintain. It is computed from what each person taught, and anyone can replay the public record and arrive at the same numbers.\n\nWorld proves every contributor is one unique human, so ownership cannot be farmed with fake accounts. 0G runs the agent's careful work privately and holds its brain encrypted. Hedera holds the public record of who taught what, and runs the payroll that splits earnings across contributors.\n\nMarketplaces pay the seller. Nobody pays the humans who built the seller. That is the gap we fill.\n\nThe first agent we built with it reviews technical documentation, because documentation quality is almost entirely tacit knowledge held by two or three people on a team.",
+  "how_its_made": "Every event that matters gets anchored to Hedera Consensus Service. Only a projection goes out: id, timestamp, type, actor, a few references and a payload hash. We build that reference list field by field rather than spreading the payload, so a new field can't leak on-chain later. Anchoring runs after the WebSocket broadcast so consensus never blocks the room, and the activity panel reads back from Mirror Node instead of local state. One side effect we didn't plan: the cap table is derivable from the topic alone. Count accepted contributions per contributor and you get our numbers without trusting us.\n\nThe brain is AES-256-GCM encrypted on 0G, each version recording the previous root hash so versions form a chain, with that root published on Hedera. Public hash, private content. Inference runs through one OpenAI-compatible adapter with two lanes: a fast one for conversation, and a sealed lane on 0G Compute for anything permanent or paid. Canonical runs pay for themselves on Hedera with the request hash in the memo, x402 style.\n\nWorld proofs are verified server side, and the sybil score is a real gate rather than a badge. Score too low and you're watch-only, so you can't contribute and can't earn a share.\n\nENS does identity. Seats and the agent get subnames, and citations resolve them live, so the tier and contribution count in a tooltip come from ENS text records rather than a string we saved. Issuing them was the hard part: on ENS v2 a name has no children until it owns a registry, which is why the manager app shows no \"add subname\" button. We deploy a UserRegistry through ENS's VerifiableFactory, attach it with setSubregistry, then register each seat. One rule came out of it. We don't rename people. A crew member showed up already owning niek.eth on mainnet, so he keeps it, and his seat carries two names: his says who he is, ours says he's in this crew at this tier.\n\nUnderneath it's Cloudflare Workers with a Durable Object per room, SQLite inside the object, and every derived value folded from the event log. No clock, randomness or I/O in the fold, so the same log always rebuilds the same session.\n\nAddition - a Node sidecar exists because Workers can't do gRPC for Hedera, and because the 0G Storage SDK sits on axios 0.27, which picks its HTTP adapter at import time and finds neither option in a Worker. A Durable Object yields at every await, so payloads are hashed before claiming a sequence number, or a concurrent write anchors the wrong pair. Wallet sign-in uses EIP-6963 because window.ethereum is one slot every extension overwrites, and we kept getting a refusal from whichever loaded last while MetaMask sat unlocked.",
+  "auto_summary": "MASS is a collaborative AI knowledge system that records human-approved teachings, anchors provenance on Hedera, stores encrypted memory on 0G, and uses ENS identities.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mass-multiplayer-ai-nrz22",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "5zozu",
+  "slug": "pawn-agent",
+  "title": "Pawn Agent",
+  "tagline": "AI pawn shop operating 24/7 at your ENS name - sellers get instant offers, on-chain settlement\"",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5zozu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00IKy7MHl6aLCtBKxi8FoTTZUHDsJ7wjX6GlVtvf027AI/high.mp4",
+  "demo_url": "https://pawn.solovibing.com/",
+  "source_url": "https://github.com/magibot-eng/pawn-agent",
+  "finalist": false,
+  "description": "Pawn Agent is an autonomous on-chain pawn shop run by an AI agent, reachable via an ENS name. The owner configures their shop (setting payout token, pricing style, refusal rules, and messaging tone) and the AI agent handles everything else, 24/7.\n\nA seller visits the shop at its ENS address, connects their wallet, and negotiates with the AI in natural language. The agent analyzes the asset (ERC-20 token, any ERC-721 or ERC-1155 NFT), generates a competitive offer, and the seller either accepts or walks away. No listing fees, no marketplace, no middleman.\n\nWhen a seller accepts, the settlement executes automatically on-chain: the merchant wallet pulls the input token from the seller via transferFrom, then sends the ETH payout directly to the seller's wallet. The owner funds the merchant wallet and monitors everything from a dashboard - wallet balances, open negotiations, settlement history, and token holdings are all visible in real time.\n\nCurrently built on Base Sepolia. Wallet operations via Alchemy. Backend on Railway, frontend on Vercel.",
+  "how_its_made": "Frontend: Next.js 14 with TypeScript, deployed on Vercel. Uses viem + wagmi for Ethereum wallet connections, RainbowKit for the wallet picker UI. \n\nBackend: Python FastAPI on Railway. Async SQLAlchemy + Alembic for database migrations. PostgreSQL (RDS). The backend serves the REST API for negotiations, wallet status, and settlements, and runs the AI negotiation agent.\n\nAI Agent: The agent runs in a persistent session, reads the seller's message, queries the shop's configuration and pricing rules from the database, generates a payout offer, and writes it back to the negotiation record. Handles natural language negotiation, refusals, and deal finalization without any human in the loop.\n\nWallet Architecture: Merchant wallets are derived deterministically from a master seed (PBKDF2-SHA256, 256k iterations, per-shop salt). The backend uses eth_account for signing and web3.py for RPC calls to Base Sepolia via Alchemy.\n\nENS Resolution: ENS names resolve via the ENS contract on Base. Shops are identified by ENS and verified against the ENS resolver's owner address. ENS→address resolution happens at shop creation and on every negotiation.\n\nNotable hacks: Settlement is deliberately non-custodial: the merchant wallet never holds seller funds long-term (tokens pull → ETH payout in seconds). Nonce race detection uses a three-state approach: if our transferFrom tx reverts with \"nonce too low\", the CDP already mined one - we check on-chain token balance before deciding to skip or retry. ENSPunk-style refusal rules engine lets the owner define conditional refusals (e.g., \"don't buy tokens from addresses on my blocklist\").",
+  "auto_summary": "An AI-managed pawn shop lets users negotiate asset buyouts via ENS-named storefronts and settle accepted deals on-chain.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pawn-agent-5zozu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

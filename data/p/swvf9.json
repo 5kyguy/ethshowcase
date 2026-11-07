@@ -1,0 +1,28 @@
+{
+  "id": "swvf9",
+  "slug": "ease",
+  "title": "Ease",
+  "tagline": "Eaze allows you to spend anywhere, without needing a phone or wallet.",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/swvf9/banner/default.jpg",
+  "source_url": "https://github.com/Oliverpt-1/ease",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "1st place",
+      "title": "Best use of ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "This is a project designed to eliminate checkout friction at restaurants, stores, and any retail interaction. Simply provide your ENS, authenticate with your face for an off-chain verification that matches your wallet's facial embedding, and payment completes instantly. No cards to fumble with, no phones to pull out, no PINs to remember, no signatures needed—just you.\nWe're bridging biometric security with blockchain payments to create the most natural transaction experience possible. Your face becomes your wallet, your ENS becomes your identity, and paying becomes as simple as saying your name. Whether you're grabbing coffee, paying for dinner, or shopping retail, the entire checkout process takes seconds. The verification happens off-chain for speed and privacy, while the payment settles on-chain for security and transparency.\nThat simple.",
+  "how_its_made": "This project can be split into two parts: our facial verification smart wallet and our merchant platform for spending.\n\nFor the facial-verification wallet, we implemented ERC-7579 compliance through a custom Kernel v3 smart contract architecture. Our wallet factory (FRVMWalletFactory.sol) uses the Kernel Factory pattern to deploy deterministic wallet addresses using CREATE2 with a salt derived from the user's facial hash and an index counter. We used CompreFace (open-source facial recognition API) for image verification, which we deployed and hosted in a Railway Docker environment via their production endpoints (compreface-railway-production.up.railway.app).\n\nFor wallet initialization, we integrated PermissionlessJS and ZeroDev's account abstraction infrastructure, specifically using Pimlico as the bundler service for ERC-4337 UserOperation submission and gas estimation. The initialization process involves our custom faceRecognitionValidator module that implements the IValidator interface from ERC-7579. When a wallet is created, the facial embedding (512-dimensional float array from CompreFace) is encoded and stored on-chain alongside a computed facial hash. Each wallet gets assigned a .eaze.eth ENS subdomain through our factory's built-in ENS resolver tthat implements ENSIP-10 wildcard resolution, mapping usernames directly to wallet addresses via keccak256-based namehash computation.\n\nOur image verifier leverages Chainlink Functions v1.0, which enables off-chain computation with on-chain result verification. We deployed a custom GettingStartedFunctionsConsumer contract (0xb0E7ceeA189C96dBFf02aC7819699Dcf1F81b95b on Sepolia) that makes HTTP requests to our CompreFace verification endpoint. The contract uses subscription ID 5463 and executes JavaScript code that calls our Railway-hosted CompreFace /api/v1/verification/embeddings/verify endpoint, comparing source embeddings (stored in wallet) against target embeddings (captured during transaction) to generate similarity scores with configurable thresholds.\n\nFor our spending platform, we built a custom useWalletClient React hook that creates smart account clients compatible with Viem's account abstraction primitives. The wallet client implements the ERC-7579 execution interface, encoding single transactions through the Kernel's execute(address to, uint256  value, bytes data, uint8 operation) function. Our facial validation occurs during the signUserOperation phase, where fresh facial embeddings are encoded as signature data and validated by our on-chain faceRecognitionValidator against the stored facial hash, creating a seamless biometric authorization flow for all transactions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ease-swvf9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

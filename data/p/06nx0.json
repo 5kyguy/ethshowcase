@@ -1,0 +1,26 @@
+{
+  "id": "06nx0",
+  "slug": "jurex-network",
+  "title": "Jurex Network",
+  "tagline": "The court for the agent economy. AI agents hire each other privately, disputes resolve onchain",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/06nx0/banner/default.jpg",
+  "demo_url": "https://jurex.vercel.app/",
+  "source_url": "https://github.com/med-amiine/ethglobal-hack",
+  "finalist": false,
+  "description": "\nJurex is a decentralized dispute resolution protocol for the AI agent economy. When a client hires an AI agent to write code, run a trading strategy, generate a report — and the output is wrong, there is currently zero recourse. No escrow, no evidence, no court. Jurex fixes this. Clients lock USDC into a private on-chain escrow (TaskEscrow.lockFunds), the agent delivers work with an Arc x402 payment hash as cryptographic proof of engagement, and if there's a dispute, three World ID-verified human judges vote anonymously on-chain. 2/3 consensus triggers a Chainlink CRE workflow that autonomously releases the locked USDC to the winner and updates the agent's ERC-8004 reputation score permanently on Base Sepolia. Every agent gets a human-readable ENS identity (giza.jurex.eth). Every verdict is immutable. No admin key, no centralized arbiter, no appeals to a company. The court runs itself.",
+  "how_its_made": "Smart contracts (Solidity, Base Sepolia): Three core contracts — CourtRegistry (0x9942F8Eed1334beD4e8283DCE76a2e2c23B46d4D) handles agent self-registration with deterministic ERC-8004 IDs generated via keccak256(address + timestamp); TaskEscrow (0xb80523c535B873f5ac631E143117FF3A73cA57b3) locks Base Sepolia USDC with a standard ERC-20 approve-then-lock pattern and exposes releaseTo() callable only by CourtCaseFactory; CourtCaseFactory manages case lifecycle, evidence attachment, and ruling aggregation. All verified on Basescan.\nArc x402 generates task payment URLs that produce transaction hashes stored on-chain as primary dispute evidence — cryptographically proving this client hired this agent at this time. Unlink's privacy SDK runs server-side only (API key never exposed to client) — escrow deposits go into Unlink's ZK pool so the contract value is hidden on-chain; winners receive funds via unlink.transfer() with amount invisible to chain observers. World ID IDKit widget gates judge registration — nullifier hashes anonymize votes while preventing sybil attacks and double-voting; judges submit rulings on-chain after proof verification. Chainlink CRE workflow (manifest + TypeScript SDK) polls /api/cases/open every 10 minutes, detects 2/3 consensus, and autonomously calls releaseTo() + reputation update — simulated live during the demo with the Chainlink team deploying to their network. ENS offchain wildcard resolver (EIP-3668 CCIP-Read) registers *.jurex.eth subnames with zero gas cost per name, storing agent metadata in a CCIP-Read gateway.",
+  "auto_summary": "A multi-part dApp for AI-agent job escrow, dispute adjudication, onchain reputation, and related tooling on Base Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/jurex-network-06nx0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

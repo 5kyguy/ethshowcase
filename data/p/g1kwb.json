@@ -1,0 +1,27 @@
+{
+  "id": "g1kwb",
+  "slug": "cubic",
+  "title": "Cubic",
+  "tagline": "Cloudflare for agent actions. Agents get capabilities - credentials never leave",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/g1kwb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/h201D94uhkPiA801025y00BAV2upAQLwvja00i5lhrXEsnBU/high.mp4",
+  "demo_url": "https://cubic-theta.vercel.app/",
+  "source_url": "https://github.com/DxcMint868/cubic",
+  "finalist": false,
+  "description": "Cubic is an authorization gateway for AI agents - \"Cloudflare for agent actions.\" It sits between an agent and its tools and deterministically decides every action: the agent's tool call is normalized into a structured intent, evaluated against onchain identity, live reputation, task budget and tenant policy, and answered with ALLOW, DENY, or ESCALATE. Allowed actions get scoped, 5-minute capabilities instead of reusable credentials. Every step — intent → decision → capability → execution → payment → result — is recorded as an audit event and fingerprint-anchored to Hedera Consensus Service, so anyone can verify the record wasn't rigged. The LLM drafts then the policy decides.",
+  "how_its_made": "We built Cubic, an authorization gateway for AI agents, in TypeScript. The gateway sits between an agent and its tools. When an agent wants to do something, the gateway turns that request into a structured intent and runs it through a deterministic policy engine - a set of written rules, not another LLM judgment - which answers allow, deny, or escalate. Five developer tools are exposed through the standard MCP protocol, and every decision, execution, and payment lands in a Postgres audit trail that shows the full story of what the agent did and who authorized it.\n\nEach agent has its own identity registered onchain under the ERC-8004 agent-identity standard. We read their reputation live from The Graph's Agent0 subgraph - one of our agents is a contractor with real negative feedback onchain, so the gateway escalates its every move; a page in our console shows the exact query and The Graph's raw response to prove the number comes from the indexer that tracks immutable data.\n\nWhen an agent needs to spend money, it doesn't get a wallet key. Instead, a paid security-scanner service quotes $0.25 over the x402 payment protocol; the gateway checks the agent's task budget, then settles the payment in HBAR on Hedera testnet through the Blocky402 facilitator. The receipt is a real transaction anyone can open on Hedera's HashScan explorer.\n\nDangerous actions like merging code, moving funds are blocked until a human signs off. The approver signs with their own wallet, our server cryptographically verifies the signature, and that signature becomes part of the event's fingerprint, which we anchor to Hedera's Consensus Service. If anyone later asks \"who approved this AI decision, and can I trust the record?\", the answer is on-chain.",
+  "auto_summary": "A TypeScript gateway mediates AI agent tool calls with policy checks, short-lived capabilities, paid service execution, and auditable Hedera anchoring.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cubic-g1kwb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

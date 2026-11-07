@@ -1,0 +1,26 @@
+{
+  "id": "xp6um",
+  "slug": "arbiter402",
+  "title": "Arbiter402",
+  "tagline": "Sub-second conditional micro-escrow & zero-hallucination adjudication for machine commerce.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xp6um/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CcppDMsqczRF7jsxOG00RfEZZDPmnxzLIRHj8d0261aro/high.mp4",
+  "source_url": "https://github.com/Blockspade/Arbiter402",
+  "finalist": false,
+  "description": "Arbiter402 is an autonomous, sub-second conditional micro-escrow and deterministic ground-truth adjudication protocol built for the machine economy. While demonstrated on high-stakes DeFi indexing as its reference implementation, the protocol is fundamentally modular and generalizable to any verifiable machine-to-machine compute task.\n\nWhy Human-in-the-Loop Fails for AI Agents:\nTraditional escrow and human arbitration (e.g., Kleros, multi-sig signers) are completely infeasible for machine-to-machine commerce:\n• Cost Inversion: AI agents execute micro-transactions ($0.05 - $1.00). Paying human jurors $10+ to review a $0.20 dispute is an immediate economic failure.\n• Latency Destruction: Human dispute cycles take days or weeks. An autonomous agent making automated market actions needs settlement in seconds, not days.\n• The LLM Trap: Using an LLM to judge another LLM introduces stochastic drift, hallucinations, and prompt injection. Machine commerce demands deterministic mathematical ground truth.\n\nHow Arbiter402 Solves It:\n• Sub-Second Micro-Escrow: Buyer agents lock micro-escrows into ArbiterEscrow.sol on Hedera EVM (~0.84s finality, ~$0.007 gas fee) via HTTP 402 and MCP tool-calling.\n• Zero-Hallucination Adjudication: When deliverables are contested, our referee queries The Graph's decentralized indexing network to evaluate mathematical invariants (e.g., Uniswap v3 VWAP over verified block ranges) directly from raw onchain swap logs.\n• ERC-8004 Machine Reputation: Lost disputes trigger atomic refunds and slash rogue agents by -50 points onchain, while honest completions award +5 points.\n• Immutable HCS Audit Trail: Signed ECDSA audit proofs are anchored to Hedera Consensus Service for public verifiability on HashScan.",
+  "how_its_made": "Arbiter402 brings together Hedera EVM, Hedera Consensus Service (HCS), The Graph, and the Model Context Protocol (MCP) into a unified, hardened machine-commerce pipeline:\n\n• Hedera EVM Smart Contracts: We developed and deployed ArbiterEscrow.sol (0.0.10520281) and ERC8004ReputationRegistry.sol (0.0.10520278) on Hedera Testnet (Chain ID 296), both 100% verified on Sourcify with Exact Match. Hedera's ~0.84s finality and fixed sub-cent fees enable high-frequency micro-escrow transactions that are cost-prohibitive on L1.\n\n• Hedera Consensus Service (HCS): Every dispute adjudication generates a tamper-proof audit payload containing the job specification hash, deliverable hash, ground-truth value, error delta, and the referee's ECDSA signature, permanently anchored to HCS Topic 0.0.10520952 with nanosecond consensus timestamps and stored in the contract's auditLogUri.\n\n• The Graph Decentralized Oracle: To eliminate subjective LLM arbitration, our referee queries The Graph’s decentralized network for raw Uniswap v3 swap events (amount0, amount1, sqrtPriceX96). It deterministically computes the true Volume-Weighted Average Price (VWAP) across the requested block window to evaluate deviations against basis-point contract tolerances.\n\n• Bazantic MCP Recipe & HTTP 402: Built with @modelcontextprotocol/sdk, our recipe server exposes standardized tools (adjudicate_escrow_dispute, verify_agent_reputation) allowing autonomous agents in Claude, Cursor, and LangChain to negotiate escrows and trigger dispute settlements natively over standardized HTTP 402 headers.\n\n• Security Hardening: We engineered a cryptographic deliverable substitution defense (pre-flight checks ensure payloads match onchain keccak256 hashes), push-to-pull fallback queues (pendingWithdrawals) that immunize against denial-of-service reverts, and liveness safety valves for uncontested claims and expired deadlines.",
+  "auto_summary": "A Hedera-based escrow system uses smart contracts, an MCP server, and Graph queries to automate dispute resolution for machine-to-machine tasks.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arbiter402-xp6um",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

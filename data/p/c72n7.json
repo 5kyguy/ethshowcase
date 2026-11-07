@@ -1,0 +1,35 @@
+{
+  "id": "c72n7",
+  "slug": "pay-my-api",
+  "title": "Pay My API",
+  "tagline": "Zero-code, self serve platform to monetize your Web2 APIs using crypto, protect them with authentication and rate limits AND get a bonus dashboard to monitor them.",
+  "event": {
+    "slug": "roadtoweb3",
+    "name": "Road to Web3",
+    "start_time": "2022-02-03T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c72n7/banner/default.jpg",
+  "demo_url": "https://paymyapi.com/",
+  "source_url": "https://github.com/NaikAayush/paymyapi",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "⚡️ Polygon - Best Web2 to Web3",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🥇 The Graph - Best New Subgraph",
+      "title": "The Graph"
+    }
+  ],
+  "finalist": false,
+  "description": "The use case is simple - you just made a super fancy web API to identify cats in a picture and you want to share it with the world. But, hosting an API like that costs money and you don't want people abusing it. You also do not want to setup and maintain a payment gateway and authentication using API keys. This is where Pay My API comes in. You register your API on the Pay My API dashboard and add pricing plans with rate limits and monthly caps. You then get a unique link to share with anyone who wants to use your API.\r\n\r\nYou can subscribe to an API by starting a Superfluid stream - you only pay for as long as you want to use the API. You are given a secure API key, generated entirely in your browser, that you can use to authorize your API calls. Every request counts towards your monthly quota while being performant AND being eventually consistent with the blockchain data. Abuse is prevented by enforcing the per second rate limit defined while making the plan.\r\n\r\nThe setup for an API developer is a simple 3-step process:\r\n1. Setup the PayMyAPI Proxy service: this can be run alongside the main API service and inside docker. During setup, you provide the URL of the API you want to enhance.\r\n2. Register your API on the dashboard: with a message and the Proxy's URL.\r\n3. Add your pricing plans and done!",
+  "how_its_made": "The PayMyAPI contract is implemented in Solidity. We decided to store all data on-chain since the data is only text and numbers and having it on the chain provides finality. We have setup a The Graph subgraph to quickly and efficiently query this nested and complex data. Doing the same queries on the chain would be a lot less efficient. This allows the frontend application to be quick and responsive.\n\n\n\nSubscribing to a API is done via Superfluid. Tokens are streamed to the API developer instead of an upfront payment. This allows users to try out APIs and stop paying if the service isn't any good. Also prevents the API developer from absconding the with money. With this pricing model, Superfluid seemed like the perfect choice for payments in PayMyAPI.\n\n\n\nThe proxy service maintains throughput by caching results from the blockchain. Once an API token is approved, it is added to the local cache and subsequent requests are much faster. Similarly, the monthly quota is cached locally on the proxy. A counter is incremented for every request from the user and saved locally. This counter is exposed through an internal endpoint of the proxy. Using a combination of Chainlink API requests (deployed using an Operator + a custom chainlink node) and Chainlink keepers, the local count is synchronized with the blockchain. Every 5 minutes, the Chainlink Keepers execute a method on the contract that looks through active subscriptions, sends requests to the Proxy URLs (through Chainlink) and if there are unsynchronized counters for a user, they are updated on the blockchain.\n\n\n\nCovalent is used inside the proxy service to synchronize the latest data from the blockchain into the local cache, in real time.\n\n\n\nThe webapp is implemented in Angular and the proxy service in Express and TypeScript. We also made use of Alchemy, Hardhat, Polygonscan, Remix and Metamask throughout the project.\n\n\n\nCode for The Graph subgraph can be found here: https://github.com/NaikAayush/paymyapi/tree/main/the-graph/paymyapi\n\nThe frontend/webapp is here: https://github.com/NaikAayush/paymyapi/tree/main/webapp\n\nThe Proxy Service is here: https://github.com/NaikAayush/paymyapi/tree/main/proxy\n\nAll of the contract is here: https://github.com/NaikAayush/paymyapi/tree/main/contracts\n\nJob spec for Chainlink API call: https://github.com/NaikAayush/paymyapi/blob/main/contracts/jobspec.toml\n\nChainlink code: https://github.com/NaikAayush/paymyapi/blob/a1232b31b97510ca42d7ad4d5d637b522bfbe68e/contracts/contracts/PayMyAPI.sol#L262\n\nSuperfluid code: https://github.com/NaikAayush/paymyapi/blob/a1232b31b97510ca42d7ad4d5d637b522bfbe68e/contracts/contracts/PayMyAPI.sol#L64",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pay-my-api-c72n7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

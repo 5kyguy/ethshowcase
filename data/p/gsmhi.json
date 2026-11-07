@@ -1,0 +1,21 @@
+{
+  "id": "gsmhi",
+  "slug": "yaytso",
+  "title": "yaytso",
+  "tagline": "A silly platform for creating your own uniquely patterned egg.  The user, or rather egg-mage, uploads an image file that then textures a 3D egg. If they would like to conjure their egg onto the Ethereum blockchain and world, they are guided to do so.",
+  "event": {
+    "slug": "nfthack",
+    "name": "NFTHack",
+    "start_time": "2021-03-19T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gsmhi/banner/default.jpg",
+  "demo_url": "https://yaytso.art",
+  "source_url": "https://github.com/aklevecz/yaytso",
+  "finalist": false,
+  "description": "This project is a frontend oriented tool for generating egg NFTs with a pattern given by the user. The user uploads an image, which is then cropped and sized to 200x200 for consistency, and applied as a texture to a 3D egg that has been rendered from a simple GLTF file. Within that process an additional 2D image is constructed by taking the cropped image, shrinking it further, and applying it to the background of a egg masked SVG. This SVG accompanies the NFT as its 2D image representation and also functions as the construct that enforces uniqueness later in the actual minting process.\r\n\r\nIf the user accepts their design, the SVG and GLTF are blobbed and sent to a very simple node service. This service handles pinning the two files to nft.storage, then takes the generated CIDs and constructs the metadata for that NFT, and similarly pins it to storage. The service then returns the metadata CID and the SVG CID to the client, at which point the user is prompted to sign the transaction. Within the transaction the metadata CID is sent along with the token URI and the SVG CID is compared to a mapping of tokenIds => SVG CIDs to check whether this NFT is a duplicate. Upon this naive duplicate check, the transaction is either reverted or the NFT is minted to the user's address.\r\n\r\nThe application also functions as a pseudo-wallet and holistic egg viewer. As there is a view that will render eggs that belong to the connected wallet and another view that renders all of the eggs of all of the users.\r\n\r\nIn terms of its form and function, this project aims to provide creative tools for those who are both familiar and unfamiliar with the technology behind NFTs. It is a form of play and encouraging feedback that helps bridge certain gaps that are easier crossed when one is not thinking too hard. It is also provides depth with its various views while leveraging the nature of NFTs being extendable to whatever platform supports them. I really enjoy the idea of creating little worlds that come to life with people's creative past time, and utilizing NFTs in that paradigm gives them a bolstered sense of permanence and intrinsic value.",
+  "how_its_made": "The frontend is a Typescript React app with a very simple hashrouter, which seems to play nicely with IPFS. THREE.js is used in each view for rendering various egg views. I designed most of the icons and elements in Adobe Illustrator and used one of my past utils scripts to change them into simple React components. I also used ethers for the contract interactions and wallet connections.\n\n\n\nThe contract was built in Solidity, and is more or less a boilerplate ERC721 contract with the additional naive duplicate control.\n\n\n\nI used a simple single route Node express server that deploys to Google Cloud Run that I occasionally plop into projects for tasks like these. It felt better to do that than to expose my nft.storage write keys in the frontend.\n\n\n\nThe static build of the site is hosted on IPFS using Fleek.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yaytso-gsmhi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

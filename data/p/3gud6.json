@@ -1,0 +1,27 @@
+{
+  "id": "3gud6",
+  "slug": "playces-fun",
+  "title": "Playces.fun",
+  "tagline": "Show up. Play. Earn. Set up an event page, invite friends, and play head-to-head. ",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3gud6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xbmvruJEkgnynSX4oACo38pxcwov8ThqpCYZSjTPBNk/high.mp4",
+  "demo_url": "https://playces.fun/",
+  "source_url": "https://github.com/Vib-UX/playce",
+  "finalist": false,
+  "description": "Playces is a venue arena: check in, play head-to-head, earn onchain. Integrations are the product.\n\nPrivy: email/Google login creates an embedded wallet. Fund Base USDC with useFundWallet, then play. Blink: both players stake USDC into StakeEscrow on Base; winner takes the pot. Lichess: hosts pick friendly/rated, time control, and $0.25–$100 stake; Playces opens the challenge and reads the result. ENSv2 on Sepolia: pick a custom label and get {name}-{event}.playce.eth under playce.eth, registered on the Permissioned Registry with resolver records. Chainlink CRE reports the chess winner on-chain; CCIP mints the Ethereum-rep win badge Sepolia-to-Sepolia.\n\nLoop: Privy wallet → fund USDC → Blink stake → Lichess or 67 → ENS ticket → CRE/CCIP payout.\n\n",
+  "how_its_made": "Next.js plus a Node WebSocket server. Partners sit on one path: identity, money, match, settlement.\n\nPrivy (@privy-io/react-auth) creates the embedded wallet and signs API calls. useFundWallet onramps USDC onto Base; we EIP-6963-announce that wallet so Blink can deposit without a second login.\n\nBlink deposits to StakeEscrow on Base. Chess rooms store a custom stakeAmount; the Blink signer and /api/stake/confirm require that exact amount.\n\nLichess is the chess VM (/api/challenge/open). Redis + WS poll game/export until the game ends.\n\nENSv2 on Sepolia: register on the Permissioned Registry with EAC roles (renew, resolver, subregistry; not transferable), then resolver multicall for addr + text. Gas is sponsored. Missing config returns 503, not a fake name.\n\nChainlink CRE reads Lichess and calls ChessArbiter to settle the pot. CCIP (ProofSender on Arbitrum Sepolia → ProofReceiverPass on Ethereum Sepolia) mints the Ethereum-rep badge.\n\nNotable: Blink was a fixed $0.25 rail; we made it per-room without changing the escrow contract. ENS writes use the parent-owner minter so users never pay Sepolia gas. Lichess “rated” only counts if both players are logged into Lichess.",
+  "auto_summary": "A Next.js app for event-based head-to-head games with embedded wallets, onchain staking, ENS subname tickets, and contract-based settlement flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/playces-fun-3gud6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

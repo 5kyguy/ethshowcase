@@ -1,0 +1,27 @@
+{
+  "id": "cdtok",
+  "slug": "encore-rwa",
+  "title": "Encore-RWA",
+  "tagline": " Fund live events, get paid automatically from ticket revenue — split on-chain, no under-reporting.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cdtok/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nQMX4DyY3DQIUR3kPmTB2kI5crA6LEECeKRpYO02O01F8/high.mp4",
+  "demo_url": "https://encore-rwa.vercel.app",
+  "source_url": "https://github.com/MohiniVasisth/Encore-RWA",
+  "finalist": false,
+  "description": "Encore is a programmable revenue-security protocol built on Hedera. Event organizers need cash before a single ticket sells — but banks won't lend against future ticket sales, and revenue-share deals rely on trusting the organizer's word. Encore fixes both: an organizer sells a token representing a fixed share of ticket revenue (say 18%), verified investors buy in upfront, and every ticket sale is split automatically on-chain by a TicketEscrow smart contract — the organizer's cut paid out immediately, the investor pool locked until settlement.\n Built on Hedera's Token Service and Smart Contract Service, tickets are minted as NFTs with a built-in 10% resale royalty that keeps paying investors even after resale. Every transaction — every split, every payout — is publicly verifiable on HashScan and the Mirror Node. This demo walks through the full lifecycle on Hedera testnet: offering terms, KYC-gated funding, ticket sales, resale, compliance controls, settlement, and a live on-chain health dashboard.\n  ",
+  "how_its_made": "Encore runs two Solidity contracts on Hedera's EVM — FundingVault.sol (the all-or-nothing raise: KYC-gated invest(), finalize(), refund-if-failed) and TicketEscrow.sol (splits every ticket sale between organizer and investor pool the instant it's paid, tracks an on-chain accounting\n  invariant, and lets holders claim() pro-rata payouts after settlement). Both are written and tested with Hardhat, then deployed to Hedera testnet.Alongside the EVM side, we lean hard on the Hedera Token Service for everything that doesn't need custom logic: the mUSD stablecoin, and the ticket NFT collection, minted natively with a built-in 10% resale royalty (a CustomRoyaltyFee with TicketEscrow as the fee collector) — so resale payouts to investors happen automatically at the protocol level with zero custom code, instead of us having to write and audit royalty-splitting logic ourselves. That's the clearest case of a partner technology (HTS) directly shrinking our attack surface and our code. The backend is Node/Express, orchestrating both worlds from one service layer: @hashgraph/sdk for native HTS operations (token creation, KYC, freeze, associate) and ethers.js over Hedera's JSON-RPC relay for contract calls — one request can touch both in sequence. Off-chain JSON state tracks display metadata (activity feed, settlement snapshots) that doesn't belong on-chain. The revenue-right security token runs in a MOCK mode standing in for Hedera's Asset Tokenization Studio, so the compliance flow (KYC/freeze gating transfers) is demoed against a lightweight mock contract with the same interface ATS would expose.The hackiest deliberate choice: there's no browser wallet in this build. Four pre-created testnet accounts (admin, organizer, investor1/2, fan) have their keys held by the backend, and a role-switcher in the UI picks which one signs each call — that's what makes a from-scratch live demo deterministic and fast instead of fighting wallet popups mid-presentation. Wallet connect (HashPack/MetaMask via the relay) is scoped as real future work, not a permanent shortcut. We also had to patch around a flaky quirk in Hedera's JSON-RPC relay, which occasionally throws a malformed unhandled rejection mid-poll for a transaction receipt — we catch it at the process level so one flaky relay response doesn't crash the whole\n  demo server.",
+  "auto_summary": "A Hedera-based ticketing and revenue-sharing application that combines Solidity contracts with native token operations and compliance-oriented backend workflows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/encore-rwa-cdtok",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

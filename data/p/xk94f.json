@@ -1,0 +1,27 @@
+{
+  "id": "xk94f",
+  "slug": "t3-trade",
+  "title": "T3 Trade",
+  "tagline": "An agentic trading environment for your existing AI subscriptions, with enforced risk limits.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xk94f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CYD024YUeewKQ7HdgvGDq901CXr8QvqDV900800JyuHQhwI/high.mp4",
+  "demo_url": "https://t3trade.pages.dev",
+  "source_url": "https://github.com/TaraxioT/t3trade",
+  "finalist": false,
+  "description": "T3 Trade is an open-source agentic trading environment. It gives coding agents a trading workspace with charts, market research, backtests and missions that have a strategy, an expiry and a maximum-loss budget. You can use supported agent providers through their existing CLI logins.\n\nAn agent can read the market, publish a plan and wake when a price level or candle condition changes. The server checks every proposed order before signing. Position increases require an exchange-native stop, retries use deterministic order IDs, and the user can pause, reduce, close or revoke a mission even when the agent is offline. Perpetual-futures execution is restricted to Hyperliquid testnet. Research works without a signer.\n\nT3 Forge extends this workflow to Ethereum research. Agents can build typed detectors that combine external sources with onchain swap facts from The Graph. Generated code must pass typechecking, tests and host-reviewed acceptance cases in an isolated container before installation. Each detector retains its evidence and can be armed or disarmed without granting permission to spend. The repository also contains a fixed Uniswap v4 fee hook for a dedicated Sepolia testnet pool, with expiring policies and an owner-controlled pause.\n\nT3 Trade is an alpha built on the open-source T3 Code workspace. The contribution is the trading and research system around that workspace, including deterministic risk checks, market-data recording, event-driven missions and sandboxed detector development. It does not promise returns or offer unattended trading with real funds.",
+  "how_its_made": "We forked T3 Code to reuse its agent conversations, repository workflows and desktop shell, then added the trading domain. The web client uses React and TypeScript, the desktop app uses Electron, and the server uses Effect services with SQLite persistence. Typed WebSocket contracts connect the client to server commands. Persisted events drive read models and queued side effects, so the UI sends intent while server-side services enforce policy.\n\nThe Hyperliquid adapter owns exchange reads and local signing. A 17-check preview validates mission authority, sizing, leverage, market freshness, risk reservations and stop requirements before an order can proceed. Reconciliation treats exchange positions, orders and fills as authoritative. Pure accounting rules and property tests cover budget exhaustion and reservations.\n\nFor Ethereum research, The Graph provides indexed Uniswap swap facts. Source adapters verify deployment identity, indexing errors and freshness before evidence can count as current. The repository includes a Rust Substreams package and a cursor-based ingestion path for pool observations. T3 Forge compiles agent-authored TypeScript detectors in a digest-pinned Docker image with no network, a read-only root and a non-root user. Generated tests and separate host-reviewed acceptance cases gate installation. Missing or stale evidence produces an unknown reading.\n\nThe Solidity Uniswap v4 hook is fixed code. It binds to one pool, supports expiring fee policies and falls back to its baseline fee when a policy expires or the owner pauses it. Its authority is separate from Hyperliquid signing. General Uniswap swap drafts currently stop with an explicit broadcaster-missing refusal; a draft is not presented as an executed trade.\n\nThe difficult part was separating what an agent may propose from what the host may execute. We kept permissions, spending limits, idempotency and reconciliation in typed services rather than prompts, and made the user's reverse actions work without a running model.",
+  "auto_summary": "An agent-driven trading and Ethereum research workspace with server-enforced execution controls, The Graph-backed detectors, and a Uniswap v4 fee hook.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/t3-trade-xk94f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

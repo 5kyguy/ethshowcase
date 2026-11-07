@@ -1,0 +1,27 @@
+{
+  "id": "uyeam",
+  "slug": "aquavol",
+  "title": "AquaVol",
+  "tagline": "AquaVol uses custom SwapVM instructions for self-custodial options with dynamic pricing.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uyeam/banner/default.jpg",
+  "video_url": "https://stream.mux.com/e8ACX1NMOupXo02GBLGRUu71h9lvcwxVTovcRdpdp901o/high.mp4",
+  "demo_url": "https://aqua-vol.vercel.app/",
+  "source_url": "https://github.com/0xPkhatri/AquaVol",
+  "finalist": false,
+  "description": "Onchain options are difficult to trade because liquidity is fragmented, pricing changes continuously with volatility and time, and many implementations stop at minting an option token without providing a programmable secondary market. AquaVol connects the full lifecycle: collateralized option creation, Aqua virtual liquidity, SwapVM-based pricing and execution, onchain trading, and exercise.\n\nAlice creates a covered WETH CALL by locking WETH inside an immutable OptionSeries contract. The resulting CALL tokens are exposed through Aqua as reusable virtual maker liquidity. Bob can then purchase the live CALL with avUSD through a custom SwapVM router.\n\nInstead of using a static option price, AquaVol extends SwapVM with custom pricing instructions. One instruction calculates Black-Scholes fair value from strike, expiry, guarded Uniswap V3 WETH/avUSD TWAP data, and registered implied volatility. A second instruction applies inventory-aware pricing using the maker’s remaining Aqua virtual balance. As CALL inventory decreases, the next ask automatically increases.\n\nAquaVol is deployed on Base Sepolia with a live WETH $4,000 CALL market. The frontend lets users connect MetaMask as either a Liquidity Maker or Option Buyer, execute real onchain trades, inspect Aqua balances, and verify transactions and contracts on BaseScan. It also includes a strategy workspace for exploring simulated strikes, PUTs, multi-leg positions, and expiry payoff diagrams while clearly separating simulations from the live market.\n",
+  "how_its_made": "AquaVol is built with Solidity 0.8.30 and Foundry on top of the official 1inch Aqua and SwapVM contracts. The core innovation is a custom SwapVM router with AquaVol-specific pricing instructions. One instruction computes the option’s Black-Scholes fair value from spot price, strike, expiry, and implied volatility, while another applies inventory-aware skew using the maker’s live Aqua virtual balances. Together, these instructions turn SwapVM from a generic swap execution engine into a programmable options market maker. Aqua handles self-custodial virtual-balance accounting and settlement, while the computation-heavy option pricing logic is isolated in a dedicated pricing engine to keep the custom router deployable.\n\nThe OptionSeries contract implements a fully collateralized European covered CALL. It locks one WETH for every CALL minted, accepts strike payment during the exercise window, burns exercised CALL tokens, transfers WETH to the holder, and allows the writer to redeem any remaining collateral after settlement.\n\nSpot pricing comes from a project-seeded Uniswap V3 WETH/avUSD pool on Base Sepolia. The oracle verifies the canonical factory, pool identity, token pair, fee tier, a complete 30-minute TWAP window, observation freshness, harmonic liquidity, tick deviation, and configured price bounds. A bounded volatility registry supplies the implied-volatility input consumed by the custom SwapVM pricing instruction.\n\nAquaVol programs are executed through SwapVM and settled using Aqua virtual balances. When a trader purchases CALL inventory, the maker’s Aqua balance changes; the inventory instruction reads that new state and automatically reprices the next trade. This makes each SwapVM execution state-aware rather than using a static option price.\n\nThe pricing implementation is validated against an independent Python Black-Scholes reference model and deterministic test vectors. Foundry unit, fuzz, invariant, integration, and settlement tests cover the option lifecycle, custom SwapVM instructions, oracle safeguards, Aqua accounting, real token transfers, and inventory-based repricing.\n\nThe frontend is built with React, TypeScript, Vite, and viem. MetaMask signs transactions directly on Base Sepolia. A maker can mint CALLs, expose them as Aqua liquidity, refresh pricing inputs, and manage inventory. A buyer can approve avUSD and execute a protected exact-output CALL purchase through the custom SwapVM router, then inspect the resulting token transfers, Aqua balance updates, and confirmed settlement on BaseScan.",
+  "auto_summary": "AquaVol is an onchain options market that uses 1inch Aqua/SwapVM for execution and a guarded Uniswap V3 TWAP oracle for pricing inputs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/aquavol-uyeam",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "057yv",
+  "slug": "lamplighter",
+  "title": "Lamplighter",
+  "tagline": "Lamplighter watches your lending position and defends it before liquidation hits.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/057yv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tHuN8pMB5XMqN1ajJI00nNuAD3NeQQyfv6EqRXTahmyE/high.mp4",
+  "demo_url": "https://drive.google.com/drive/folders/1XHO5r_EABP1t47sUDI_BVseLztY5iY9p?usp=sharing",
+  "source_url": "https://github.com/mxh-0/Night-Watchman",
+  "finalist": false,
+  "description": "Lamplighter is an agent that keeps watch over leveraged lending positions so they don't get liquidated while you're not looking. It pulls live health-factor data from Aave, Compound, Spark and a few other protocols through the Graph, using one shared query since they're all built on the same standardized schema underneath. When a position it's watching crosses a risk threshold, it repays part of the debt automatically using USDC that's been pre-approved, capped by limits the owner sets themselves so it can never spend more than they're comfortable with. It's meant to be the thing that reacts in the ten minutes you're asleep or away from your screen, not a replacement for actually managing your own risk.\n",
+  "how_its_made": "The contracts are Solidity, built and tested with Foundry — a vault contract holds each user's USDC and only lets an authorized agent spend it if the owner's own preset caps and health-factor threshold actually allow it. The risk-scoring side is a TypeScript service that queries Messari's standardized lending subgraphs on The Graph — the same GraphQL query works across Aave v3, Compound v3, Spark and more, since they all share the same schema, which is really the whole point of using The Graph here instead of hitting each protocol's own API separately. The decision of when and how much to defend lives inside a Chainlink CRE Confidential Workflow, so the trigger threshold stays private instead of sitting in a public contract where it could get front-run. Once it decides to act, it settles the defense on Arc using Circle's USDC-native chain. The hackiest part is probably the demo fixture: we deployed our own tiny mock lending pool on testnet just so we could force a live liquidation scenario on stage, since you can't exactly crash real Aave on command.",
+  "auto_summary": "A monitoring agent and vault system defends risky lending positions by querying standardized subgraphs, making private risk decisions, and repaying debt with capped USDC.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lamplighter-057yv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

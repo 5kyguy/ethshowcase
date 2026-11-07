@@ -1,0 +1,36 @@
+{
+  "id": "c1kh4",
+  "slug": "multisub",
+  "title": "MultiSub",
+  "tagline": "Multisub offers curated Multisig enabling day-to-day use with delegation of liquidity management.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c1kh4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wB026COMPc2veKDjI01XdOjNfwdDwJdDvJHMkxmVnnK48/high.mp4",
+  "demo_url": "https://multisub.netlify.app/",
+  "source_url": "https://github.com/zzkk77xx/multisub-contracts",
+  "prizes": [
+    {
+      "sponsor": "Zircuit",
+      "sponsor_id": "qiqkw",
+      "placement": "2nd place",
+      "title": "Best use of Account Abstraction"
+    },
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Connect the World with Chainlink",
+      "title": "Connect the World with Chainlink"
+    }
+  ],
+  "finalist": true,
+  "description": "The Safe/Ledger multisig acts as your main bank account: it holds the funds and maintains full control. It can revoke any sub-account at any moment, adjust its limits, or add new authorisation.\nSub-accounts (e.g. mobile wallet, trading bot, yield manager, AI agent etc.) bring daily usability, but each operates strictly within the predefined scope.\n\nOur sub-account system is based on two key components:\n• 24h cumulative spending limits \n\n• A strict whitelist of actions and protocols.\n\nTogether, these components create a secure, predictable, and modular execution environment without compromising usability/security.\nThis approach addresses the real needs of advanced users. For example, an individual can manage all their portfolio without ever exposing their entire assets; a family can share a common wallet with differentiated access; a DAO/fund/Tradfi entity can delegate strategy execution to a manager or an agent while retaining full control.\n\nThe workflow is the following : \n\n1/ Safe/Ledger Multisig \nUsers input his multisig address on the multisub interface which creates a dedicated guardian smart-contract (DeFiInteractorModule on the repo). The Multisig holds all funds and is the only entity allowed to enable/disable the module, configure roles, and trigger emergency actions. Technically, it acts as the Avatar/Owner pair in the Zodiac pattern, signing once to authorize the module and then only for governance-level changes, never for day-to-day DeFi interactions.\n\n2/ Customization of the different authorization\nOne signer configures limits and protocol allowlists (needs to be signed by the threshold of the multisig); these parameters are stored in our custom Guardian contract. The contract embeds role management, 24h spend caps, and per-subaccount allowlists. On each transaction request coming from a subaccount, the contract checks if it complies with the configured rules before forwarding anything to the Safe. If Yes, the module calls the target DeFi protocol ( Aave, Llamaswap etc...) and the Safe releases just enough funds to execute the operation. If No, the transaction is reverted, the user gets a failure notification, and the multisig dashboard surfaces an alert. This ensures that all protocol interactions are both composable and tightly constrained by the policies defined at the multisig level. This makes the contract the single policy engine that enforces guardrails while keeping logic isolated from the multisig itself.\n3/ MultiSub extension directly interacts with the whitelisted Dapp\n\nEach subaccount is a standard EOA (mobile wallet, bot, etc.) imported into the Multisub browser extension. These EOAs never talk directly to the Safe: they only call functions on the Guardian contract via the extension. It gives users a hot-wallet UX while still routing every operation through the contract to ensure it respects the guardrails.\n\n4/ Account abstraction & Paymaster \n\nWhen the user signs a transaction with a subaccount, it is sponsored by the paymaster. The Guardian contract encodes the operation (call to the DeFiInteractorModule + target protocol), while the paymaster sponsors gas so fees can be paid by the multisig. The user gets a hot-wallet “click & sign” experience, while under the hood the module still enforces all limits and allowlists before any funds can move.",
+  "how_its_made": "We built MultiSub around a Safe/Ledger multisig plus a custom Guardian smart contract written in Solidity, following the Zodiac Avatar/Owner pattern so the Safe always remains the ultimate owner of funds (https://github.com/plouis01/MultiSub/blob/main/src/DeFiInteractorModule.sol).\n \nOn top of that, we developed a chrome extension (https://github.com/zzkk77xx/multisub-extension) and a web interface (https://github.com/zzkk77xx/multisub-interface, dApp link https://multisub.netlify.app) that acts as the main control panel where users configure roles, 24h limits and protocol allowlists, and monitor subaccount activity. \nSubaccounts (EOAs, bots, mobile wallets) never send Txs directly to the Safe; they always go through the Guardian, which enforces all rules on-chain.\n\nFor Chainlink, we use the CRE SDK to run two Workflows that reads the Safe + Guardian state on-chain and compares each subaccount’s allowance to its live portfolio value via an external pricing API. These CRE Workflows are compiled/simulated with the CRE CLI and live in our GitHub, acting as an orchestration layer for “risk budget used vs. allowance.” (https://github.com/plouis01/MultiSub/blob/main/chainlink-runtime-environment/safe-value/safe-monitor.ts and https://github.com/plouis01/MultiSub/blob/main/chainlink-runtime-environment/safe-update/main.ts)\n\nOn the security/UX side, we integrate Ledger both as a multisig signer and as a signer for subaccounts, with ERC-7730 clear-signing descriptors so Guardian + DeFi calls are human-readable (we also quickly built our own Json creation tool to automate easily the clear signing generation by taking care of generic functions https://github.com/plouis01/MultiSub/blob/main/generate_erc7730.py). \n\nFinally, on Zircuit, we deploy our framework and an account-abstraction paymaster that sponsors gas for subaccounts, enabling a near-gasless UX with whitelisted dApps while all policies are still enforced on-chain (https://github.com/plouis01/MultiSub/blob/main/src/MultiSubPaymaster.sol).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/multisub-c1kh4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

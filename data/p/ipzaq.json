@@ -1,0 +1,26 @@
+{
+  "id": "ipzaq",
+  "slug": "0g-claw",
+  "title": "0G-CLAW",
+  "tagline": "OpenClaw with persistent memory on 0G Storage and inference through 0G Compute.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ipzaq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iMqbDsHQogxbws017k2ZYGu2Y7ysw7vzC50101qNhCH6PY/high.mp4",
+  "source_url": "https://github.com/DarienPerezGit/0G-CLAW",
+  "finalist": false,
+  "description": "0G-Claw is an extension of OpenClaw that replaces local, centralized agent backends with 0G infrastructure.\n\nOpenClaw is a powerful local agent runtime, but by default agent memory is tied to local disk and inference usually depends on centralized LLM providers. 0G-Claw changes that by introducing interchangeable memory and compute adapters.\n\nSession state and conversation history are persisted through 0G Storage, allowing the same agent to restore its memory across restarts and machines. Inference is abstracted through a 0G Compute adapter, so agents can move away from centralized API providers and toward decentralized compute.\n\nThe project includes Local and 0G memory adapters, Local and 0G compute adapters, a basic-agent persistence demo, a research-agent example, testnet health checks, broker setup tooling, Docker/demo documentation, and a reproducible submission flow.\n\nThe goal is simple: OpenClaw, but your agent never forgets — and never depends on Big Tech.",
+  "how_its_made": "0G-Claw is built in TypeScript around an adapter-based architecture.\n\nOpenClaw remains the core agent runtime, while 0G-Claw replaces the backend assumptions underneath it. We implemented an IMemoryAdapter interface with both LocalMemoryAdapter and 0GMemoryAdapter implementations. The 0GMemoryAdapter persists agent session state and history to 0G Storage on the Galileo testnet. Session state is stored through a KV-style pattern, while conversation history is implemented with append-semantics over 0G-backed storage.\n\nWe also implemented an IComputeAdapter interface with LocalComputeAdapter and 0GComputeAdapter. The 0GComputeAdapter uses the 0G Compute Broker flow, including ledger setup, provider acknowledgement, provider funding, and live integration tests against a Galileo testnet provider.\n\nThe basic-agent example demonstrates cold-start memory recovery: the agent runs once, writes memory to 0G Storage, exits, then runs again and restores its previous session from 0G. The research-agent example shows that this is framework-level work, not a single demo agent: additional agents can reuse the same memory and compute abstraction.\n\nWe kept OpenClaw as a Git submodule because the npm package does not currently expose the internal session event paths required by our sync bridge. The notable hack is that, while native 0G Log Store APIs are still stabilizing, conversation history is implemented as append-semantics over 0G Storage, with the implementation clearly documented and tested.",
+  "auto_summary": "This project extends OpenClaw with pluggable 0G-backed memory and compute adapters plus example agents and broker tooling.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/0g-claw-ipzaq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

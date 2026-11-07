@@ -1,0 +1,21 @@
+{
+  "id": "d0nq0",
+  "slug": "splitchain",
+  "title": "SplitChain",
+  "tagline": "Split crypto expenses fairly with real-time Pyth prices and automated Vincent settlements",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d0nq0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/a32UBZlssqqHfXhxBZ5ge01Ja014XIVVMEKRsdrnj100TA/high.mp4",
+  "source_url": "https://github.com/thedevkansal/thedevkansal",
+  "finalist": false,
+  "description": "SplitChain is a decentralized expense-sharing platform that brings Splitwise to Web3. Traditional expense apps suffer from three critical issues: centralization (data on private servers), manual settlements (chasing friends for payments), and zero transparency.\n\nWe solve this by putting everything on-chain with two powerful integrations. First, Pyth Network's Pull Oracle via Hermes API provides real-time ETH/USD price feeds. When users add expenses, we fetch price data from Hermes, call updatePriceFeeds() to pull it on-chain, and consume it in our smart contracts to convert ETH amounts to accurate USD values. Second, Lit Protocol's Vincent Ability enables automated settlements through PKPs that monitor wallet balances 24/7, calculate optimal settlement paths using a graph algorithm (reducing transactions from O(n²) to O(n) and saving 66% on gas), and execute payments automatically when funds are available.\n\nBuilt for roommates, DAOs, travel groups, and remote teams who need transparent, trustless expense management in crypto.",
+  "how_its_made": "We built SplitChain with a clean separation between smart contracts and frontend.\n\nOn the blockchain side, we deployed two Solidity 0.8.20 contracts on Sepolia: SplitChain.sol handles core expense logic and group management, while SplitChainAutomation.sol manages PKP-based automation. The contracts integrate Pyth by importing the IPyth interface and calling updatePriceFeeds() with price update data fetched from Hermes API. This Pull Oracle model means we only update prices when needed—users pass the price update bytes with their expense transactions, the contract updates the feed, pays the small update fee, and consumes the ETH/USD price for real-time USD conversion. We used Foundry for development and deployment.\n\nThe frontend is built with Next.js 14 and TypeScript, using Wagmi v2 for blockchain interactions, RainbowKit for wallet connectivity, and Viem for Ethereum utilities. The UI leverages Tailwind CSS and shadcn/ui for a modern, responsive design. We fetch Pyth price data from Hermes API on the client side, prepare the update bytes, and bundle them with expense transactions.\n\nFor Lit Protocol integration, we implemented Vincent Ability using PKPs (Programmable Key Pairs). The PKP is programmed with Lit Actions that monitor group member balances, analyze the debt graph to find the minimum number of transactions needed (like finding a minimum spanning tree), and execute batch settlements when wallets have sufficient funds. This was technically challenging—we had to handle async Lit SDK calls, manage PKP permissions properly, and optimize the settlement algorithm for real gas efficiency.\n\nThe most notable technical achievement is our custom settlement optimizer. It treats debts as a directed graph where each member is a node and each debt is an edge. Instead of having everyone pay everyone (which could be 6-9 transactions for a 3-person group), Vincent calculates direct payment paths that zero out all balances with minimal transactions. We also built a batching system that groups multiple price feed updates with expense additions to minimize on-chain calls. The biggest challenge was ensuring Pyth price updates happen atomically with expense additions while handling all the edge cases around price feed validation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/splitchain-d0nq0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

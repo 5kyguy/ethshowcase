@@ -1,0 +1,26 @@
+{
+  "id": "33ot8",
+  "slug": "studio",
+  "title": "Studio",
+  "tagline": "ENS-approved pricing code, Aqua and Uniswap trades, and author fees in one transaction.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/33ot8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/C6S6bcs5MEIU00bmfzJcQoOkseGg8F3wzj3yEXA9bWWo/high.mp4",
+  "source_url": "https://github.com/amiabix/swapvm-studio",
+  "finalist": false,
+  "description": "Studio lets a trader turn custom pricing code into a complete, signed trading route across Aqua and Uniswap.\n\nThe trader chooses the tokens, amount, pricing strategy, author fee and minimum final return. After preparation, one Ethereum transaction checks the strategy’s live ENSv2 approval, deploys its pricing contract if needed, buys the intermediate token through SwapVM/Aqua, sells it through Uniswap v4, pays the code author and returns the proceeds to the trader.\n\nThe entire route succeeds or reverts together. If the final return falls below the signed minimum, both trades, the new contract deployment, author payment and nonce consumption roll back. A relayer cannot strip away the Uniswap leg and reuse the authorization for just the Aqua trade. Revoking the ENS release blocks execution before\n  trading.\n\nThe interface makes this inspectable: users can customize route parameters, edit and test pricing code, inspect the predicted deployment address, review setup transactions and preview the signed outcome. A transaction viewer groups the ENS check, deployment, swaps and author payment under one transaction hash.\n\nWe demonstrated successful execution, intentional late rollback and rejection after ENS revocation on Sepolia. The successful transaction spent 100 demo sUSD and returned approximately 102.630526 sUSD, with the author paid in demo rUTH. Liquidity and prices were seeded; this demonstrates execution, not discovered arbitrage.\n\nApprovals, liquidity setup, release publication and Aqua position registration happen separately. The final trade is atomic on one chain.\n\nhttps://sepolia.etherscan.io/tx/0xa18c378e881f3abe9074e746ade151df89cce0e10e471b649eaaccd00906dd07 ",
+  "how_its_made": "Studio is built with Solidity, Foundry, Node.js, viem and a plain HTML/CSS/JavaScript frontend. It integrates 1inch Aqua and SwapVM, Uniswap v4 and an ENSv2 Permissioned\n  Resolver on Sepolia.\n\nOur StudioRouter inherits SwapVM and supplies a restricted custom pricing opcode. The instruction calls a pricing module through a gas-bounded STATICCALL, validates the returned amounts and writes them into SwapVM’s registers. Aqua handles the maker’s allocation accounting and token settlement. The module’s init-code and runtime-code hashes are committed in the authorization, and CREATE2 determines its deployment address before execution.\n\nAtomicExecutor combines that Aqua fill with a swap through the official Sepolia Uniswap v4 PoolManager. An authenticated unlock callback performs the swap, settles the input and takes the output. The executor then enforces the signed minimum final return and pays the module author.\n\nENS is an execution dependency: the swapvm.release data record pins the approved pricing release and verification-report digest. The executor reads this live record before deployment or trading. Revocation invalidates execution without changing the signed transaction.\n\nThe hardest part was preventing the signed route from being fragmented. We bind the trade and hedge parameters, final minimum, ENS resolver/node and report digest into one EIP- 712 authorization. The signing domain also binds the chain and executor. Regression tests attempt to remove the hedge, substitute ENS configuration, replay authorizations, invoke unsolicited callbacks and exploit partial settlement.",
+  "auto_summary": "A Solidity and Node.js app that executes ENS-gated Aqua and Uniswap v4 trading routes atomically on Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/studio-33ot8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

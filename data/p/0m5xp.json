@@ -1,0 +1,21 @@
+{
+  "id": "0m5xp",
+  "slug": "pygo",
+  "title": "Pygo",
+  "tagline": "A service that allows users to send PYUSD and check crypto prices over SMS",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0m5xp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VdwV3Vwtyst02FcMpcU02Wvi1rxtxxdFoA2U027uMzVcSk/high.mp4",
+  "source_url": "https://github.com/Arihaan/pygo",
+  "finalist": false,
+  "description": "What if every phone number could be a stablecoin wallet? Pygo lets anyone send and receive ETH and PYUSD on Ethereum using plain SMS; no apps or internet needed. Users register with a PIN, get a custodial wallet, check balances, send tokens with a two-step SMS confirmation, fetch BTC/ETH prices via Pyth Hermes, and retrieve their wallet address. It’s designed as a simple, secure bridge between feature phones and crypto.",
+  "how_its_made": "1. Core:\n- Node.js + Express API with MongoDB (Mongoose) for users, transactions, and pending confirmations.\n- Twilio handles inbound/outbound SMS; an SMS parser interprets commands (REGISTER, BALANCE, SEND, CONFIRM, YES, WALLET, PRICE).\n- Custodial wallets are generated per user with ethers.js; private keys are AES-encrypted at rest; PINs are salted SHA-256 hashes; accounts lock after repeated failures.\n- Transactions use ethers.js: native ETH sends and ERC‑20 transfer for PYUSD; balances refresh from chain.\n- Two-step send flow: creates a short‑lived PendingTransaction with TTL; user confirms with YES or CONFIRM <CODE> <PIN>.\n\n2. Prices (Pyth Hermes)\n- Primary path uses price feed IDs via v2/updates/price/latest?ids[]&parsed=true (env-configured for BTCUSD/ETHUSD).\n- Fallback discovery with v2/price_feeds?query=... if IDs aren’t set; final fallback to v2/price/latest?symbols=....\n\n3. Notable hacks/pragmatics\n- Symbol normalization and feed discovery to handle BTC/ETH variants if IDs aren’t provided.\n- Simple formatting rules for prices and token decimals (18 for ETH, env-configurable for PYUSD).\n- Minimal, explicit SMS templates and confirmations to fit the 160‑char UX, with helpful errors.\n\n4. Stack\n- Express, Mongoose, ethers.js, Twilio, CryptoJS (AES/SHA‑256), Winston, Pyth Hermes HTTP.\n- Configurable via env: ETH RPC/chain, PYUSD address/decimals, Twilio creds, encryption key, Pyth feed IDs.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pygo-0m5xp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

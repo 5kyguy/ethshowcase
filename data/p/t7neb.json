@@ -1,0 +1,34 @@
+{
+  "id": "t7neb",
+  "slug": "x402-guard",
+  "title": "x402 Guard",
+  "tagline": "Intercepta screens every x402 payment before MetaMask Agent Wallet signs: pay, cap, ask, or refuse",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/t7neb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/h008oPygeWLOe00hVB02o02l15LqpDUQf1qwr8tzH3t8BxI/high.mp4",
+  "source_url": "https://github.com/bfullam/x402-guard",
+  "prizes": [
+    {
+      "sponsor": "Intercepta",
+      "sponsor_id": "t4hjq",
+      "placement": "2nd place",
+      "title": "Safe Agent-to-Agent Payments with x402"
+    }
+  ],
+  "finalist": true,
+  "description": "AI agents are starting to pay each other over x402, but nobody checks who is on the other side. x402-guard is a MetaMask Agent Wallet plugin that screens every x402 payment with the Intercepta API before the wallet signs it, shows the verdict with its reasons, and lets that verdict decide what happens: pay, cap, ask a human, or refuse.\n\nWe started by testing the gap. x402 payments are EIP-3009 signatures, not transactions, and MetaMask's outflow limit doesn't count signatures. A real server wallet in Guard Mode, funded on Base, signed x402 payments to an OFAC-sanctioned Lazarus Group address, to a lookalike \"USD Coin\" contract, for 96% of its balance, and with a 1-year validity window. None of them triggered a prompt. USDC already freezes sanctioned addresses, and MetaMask's Blockaid scanning protects the signer from drainers. Nobody screens who the agent is paying.\n\nFor each payment, x402-guard checks:\n- the payee (payTo), with Quick Scan for sanctions, scammers and blacklists, and Deep Scan for mixer, sanctions-counterparty and scam exposure\n- the token, with Scan Token, so only verified tokens like real USDC are paid\n- the exact EIP-712 authorization about to be signed, with Scan Message\n- our own limits: a per-payment ceiling by risk tier, a rolling 24h cap, and a 10-minute maximum validity\n\nClean counterparties are auto-paid up to $1 and caution-tier counterparties up to $0.10. Blocked counterparties are never paid, and a refusal can't be overridden. Anything above a ceiling goes to a human, with an approval code bound to that exact payee, token and amount, so a seller can't swap the payee after approval. `mm x402 screen <address>` also gives a standalone counterparty risk profile.\n\nIn the demo, an agent buys three reports. The clean seller is paid and settled on Base Sepolia. The seller whose payTo is the Lazarus Group wallet is refused before anything is signed. A wallet with 8 Tornado Cash deposits asks for $0.50, which is over its caution ceiling, so the agent stops and asks the human. Payments run on testnet, but every payee is a real mainnet address screened with Intercepta's mainnet data.",
+  "how_its_made": "x402-guard is a TypeScript plugin for the MetaMask Agent Wallet CLI (mm), built from MetaMask's official plugin template. It adds four commands: mm x402 pay, inspect, screen and config. Signing goes through the plugin's walletExecutor with a \"typed-data\" request, so MetaMask's own policy pipeline (Guard Mode, Blockaid, 2FA) still runs after our screen. The agent never touches keys. We ship a skill file (SKILL.md) that routes agents to mm x402 pay instead of raw sign-typed-data, and tells them to stop on a refusal and never approve on their own.\n\nThe x402 client is a port of MetaMask's own x402_pay.py helper (exact scheme, EIP-3009, protocol v1 and v2). It builds the authorization first, so the payload Intercepta scans is byte-for-byte the one MetaMask signs. It never follows redirects, and it clamps the server's validity window. The Intercepta integration calls four endpoints in parallel: Quick Scan Address, Deep Scan Address (cached, with a timeout), Scan Token and Scan Message. It then folds traits into a clean / caution / blocked tier, because a raw toxicScore misses mixer exposure (it scores 0.4 to 15). Testnet payments are screened against the mainnet sibling chain. For the demo, a small Python x402 v2 seller verifies and settles real payments through the public x402 facilitator on Base Sepolia.\n\nHacky and notable:\n- The gap test: an adversarial x402 seller plus MetaMask's unmodified helper, run against a real Guard Mode wallet. We simulated each captured signature with eth_call on Base to prove it would actually settle. That's how we found Circle freezes OFAC addresses in USDC, which pointed us to unfrozen risk like mixer users.\n- We found mixer-exposed test addresses by pulling recent depositors from Tornado Cash Deposit logs and deep-scanning them.\n- The plugin SDK's executor and wallet-state types ship bundled, so we reverse-engineered the typed-data request and intent shapes from MetaMask's compiled CLI.\n- Local plugin installs crash with \"window.addEventListener is not a function\" because a symlinked install loads a second copy of the CLI. The official template hits it too, and it also refuses CLI 7.x. A small script re-links the plugin to the host's copy.\n- Intercepta gotchas: Cloudflare blocks default user agents. Scan Message silently returns \"Low\" if you send message as a string, as the docs say. Sent as an object, it works and recognises x402's TransferWithAuthorization.",
+  "auto_summary": "A MetaMask Agent Wallet plugin screens x402 payments with the Intercepta API before signing and enforces risk-based payment controls.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/x402-guard-t7neb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

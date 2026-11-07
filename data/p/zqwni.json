@@ -1,0 +1,22 @@
+{
+  "id": "zqwni",
+  "slug": "agent-paymaster",
+  "title": "Agent Paymaster",
+  "tagline": "The Stripe for AI trading agents. Secure, policy-controlled crypto spending",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zqwni/banner/default.jpg",
+  "video_url": "https://stream.mux.com/l4NgzmC1Q7kTTFSpdve3esa4KBa8GFIZXUtkVEiMQoE/high.mp4",
+  "demo_url": "https://agent-paymaster.vercel.app/",
+  "source_url": "https://github.com/osas2211/AgentPaymaster",
+  "finalist": false,
+  "description": "AgentPaymaster is a spending orchestration platform that bridges the gap between AI agent autonomy and user control. As autonomous AI agents become mainstream in DeFi—executing trades, managing yields, and bridging assets—there's no standardized way to delegate spending authority without handing over your entire wallet.\n\nOur solution introduces Policy Vaults: smart contracts where users deposit USDC and define granular spending rules. Users authorize AI agent wallet addresses with customizable limits including per-transaction caps, daily spending limits, and protocol whitelists. Agents can only spend within these boundaries.\n\nThe magic happens through Yellow Network integration. Instead of paying $0.50+ gas per transaction, agents operate through state channels—executing hundreds of off-chain operations instantly, then settling once on-chain. This reduces costs by 99.9% and enables high-frequency strategies that are economically impossible on-chain.\n\nThe dashboard provides complete transparency: real-time transaction streaming, gas savings tracking, session monitoring, and instant agent pause/revoke controls. Users see exactly how their funds are being used and can intervene immediately if needed.\n\nBuilt on Arc (Circle's L2) with native USDC support, Yellow Network state channels for gasless execution, and LI.FI for cross-chain routing. AgentPaymaster is the missing infrastructure layer for the AI agent economy—secure spending controls that let agents operate autonomously while users stay in control.",
+  "how_its_made": "AgentPaymaster is built across three layers: smart contracts on Arc, state channel integration with Yellow Network, and a React frontend with real-time streaming.\n\nSMART CONTRACT LAYER (Arc/Circle)\nPolicyVault.sol is the core contract, built with Foundry and Solidity 0.8.24. It handles USDC deposits via Circle's native token on Arc, stores agent policies in a mapping with structs containing dailyLimit, perTxLimit, and protocol whitelists. The spend() function validates against policies using a rolling 24-hour window for daily limits—not calendar days—which required tracking lastSpendTimestamp per agent and calculating elapsed time to determine available budget.\n\nFor Yellow Network sessions, the contract manages fund allocation separately from available balance. When openSession() is called, funds move from available to allocated, preventing double-spending across sessions.\n\nSTATE CHANNEL LAYER (Yellow Network)\nWe integrated @erc7824/nitrolite SDK to connect to Yellow's ClearNode via WebSocket. The YellowSessionManager class wraps the SDK, handling connection lifecycle with auto-reconnect and exponential backoff. Each agent operation (transfers, swaps, balance checks) executes off-chain through the state channel, with our wrapper tracking estimated gas costs that would have been paid on-chain.\n\nThe hacky part: we built a real-time streaming terminal that subscribes to session events and renders operations as they happen—complete with color-coded operation types, millisecond timestamps, and a running gas savings counter. This makes the Yellow Network value proposition immediately visible to judges.\n\n\nFRONTEND\nNext.js 14 with React 18, styled with Tailwind CSS. The dashboard uses WebSocket connections to stream Yellow Network operations in real-time. We built a session replay feature that demonstrates 10 operations settling in a single transaction—perfect for the demo video.\n\nNotable hack: The gas savings calculator tracks every operation type with estimated on-chain costs (transfer: $0.45, swap: $0.85, etc.) and accumulates savings in real-time. After 100 operations, users see \"$45 saved\" prominently displayed—making the Yellow Network ROI undeniable.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-paymaster-zqwni",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

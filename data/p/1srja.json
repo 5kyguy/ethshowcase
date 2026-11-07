@@ -1,0 +1,21 @@
+{
+  "id": "1srja",
+  "slug": "dex-position-exiter",
+  "title": "DEX_Position_Exiter",
+  "tagline": "x402 Payment Gated DEX Position Exiter using Uniswap V4 Hooks ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1srja/banner/default.jpg",
+  "video_url": "https://stream.mux.com/0200ALoG00JWj5d02A5WNhNzzDuf35pLsXwSn7nanLX00pVQ/high.mp4",
+  "source_url": "https://github.com/NilsEngeln/DEX_Position_Exiter",
+  "finalist": false,
+  "description": "DEX Position Exiter is a payment-gated token exit service built on Uniswap V4 hooks. It lets users gradually sell large token positions without market impact by converting them into single-sided liquidity positions. Instead of dumping tokens into a DEX and crashing the price, users specify a token to sell, an amount, and a timeframe. The service calculates an optimal tick range, deposits the tokens as concentrated liquidity just above the current price, and waits for natural market activity to fill the order. A keeper service monitors all active orders and automatically settles them when filled or expired, sending the output tokens directly to the user's wallet. The entire flow is gated behind the x402 payment protocol — the API returns HTTP 402 with payment requirements, and once the $1 USDC service fee is paid, the order is created on-chain. The POC is live on Sepolia with a working frontend (MetaMask integration), API server, and on-chain hook contract with 32 passing integration tests.",
+  "how_its_made": "The core is a Solidity smart contract (PositionExiterHook.sol) that extends OpenZeppelin's BaseHook for Uniswap V4. It implements afterSwap and afterInitialize callbacks to track tick movement and detect when orders are filled. The contract is deployed via CREATE2 to mine a valid hook address with the correct permission flags. We use Foundry (forge) for compilation, testing, and deployment to Sepolia, targeting the official Uniswap V4 PoolManager at 0xE03A1074. The API is built with Express + TypeScript using viem for all on-chain interactions — reading pool state, encoding PoolKey structs, computing PoolIds, and submitting transactions. A background keeper service polls every 30 seconds, calls canClose() on each active order, and auto-settles via closeExpiredOrder(). The x402 payment gate is implemented as Express middleware that returns 402 responses with payment requirements before allowing order creation. The frontend is vanilla TypeScript + Vite with direct MetaMask integration using window.ethereum, including automatic chain switching to Sepolia. One hacky thing: the tick range calculator estimates volatility from a simplified model since the mock pool has no real trading history, but it reads live sqrtPriceX96 and liquidity from the deployed Sepolia contract.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dex-position-exiter-1srja",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,34 @@
+{
+  "id": "fo21h",
+  "slug": "porton-wallet",
+  "title": "Porton Wallet",
+  "tagline": "An Account Abstraction-based wallet that allows you to sign signature with Touch ID, pay gas fee with ERC20 token, and have gasless interaction with dApps!",
+  "event": {
+    "slug": "ethbogota",
+    "name": "ETHBogotá",
+    "start_time": "2022-10-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fo21h/banner/default.jpg",
+  "source_url": "https://github.com/nanjiangwill/porton-wallet/tree/ux",
+  "prizes": [
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🔟 Optimism — Top 10 Deployed",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "Ethereum Foundation",
+      "sponsor_id": "362vt",
+      "placement": "😶‍🌫️ Ethereum Foundation — 🥈 Best Account Abstraction Hack",
+      "title": "Ethereum Foundation"
+    }
+  ],
+  "finalist": false,
+  "description": "1. Use your computer/mobile phone as hardware wallet\n    a. Porton wallet innovatively lets you use the ultra-secure hardware enclave in your iPhone/MacBook to store private key, and you can you Touch ID or Face ID to do the transactions you want.\n    b. In the whole process, your private key never leaves this ultra-secure hardware enclave and thus achieve the level of security equvalent or better to regular hardware wallet, without sacrificing any useability.\n2. Gas subsidy mechanism. \n    a. Using the paymaster module in EIP-4337, Porton Wallet allows project side to pay gas fee for their wallet with customized logic. For example, an GameFi project can encourage new users to play it by airdropping NFTs to them, and then set a paymaster module that automatically pay the gas fee for NFT holders when playing the game. This dramatically lower the user barrier when interacting with products.\n    b. In addition, our paymaster logic allows project team to partially subsidize gas fees, and thus allow far more flexible incentivization structure than the all-or-none gas subsidy.\n3. signature-less transaction. \n    a. We innovatively implemented the session key mechanism, which allows users to set a period in which they do not need to click and sign signature when interacting with a contract. Of course, in a fully non-custodian + decentralized way. \n4. Use ERC20 token to pay gas. \n    a. Also with the paymaster module, Porton Wallet allows users to stake any ERC20 token, like USDC/USDT, to pay their gas fee, as long as there are third-party paymaster modules that are willing to sponsor that. \n    b. As a result, at every EVM chain, you don’t need to keep ETH/MATIC/etc default token in your wallet ",
+  "how_its_made": "- Hacky & notable & impressive things we did\n    1. Face ID thing to generate a EOA\n        a. We innovatively realize that account abstraction wallet is able to unlock the potential of built-in hardware security enclave in laptops/mobile phone for verifying on-chain transactions. \n        b. The default cryptographic schema of security enclave on devices is different from the ECDSA schema Ethereum EOA wallets are using, so previously no one is able to store the private key in those enclaves while still use that key for on-chain signature. However, smart contract wallet enabled by account abstraction allows us to setup in the wallet a transcription logic to transform the signature to the Ethereum standard in a trustless way. Thus, users can directly store their private key in their built-in security enclave, enjoying superb security without sacrificing usability. \n    2. We detected bugs in the official implementation of EIP-4337, and circumvented the problem via private relayer. \n        a. In the EIP-4337 official implementation, there are some errors in the bundler logic and entrypoint smart contract. to circumvent those problems, we implemented our private relayer as an alterantive to the public bundler RPC, and managed to locate a working entrypoint contract to finish the whole process. \n    3. session key and signature-less transaction\n        a. Without an public implemention of session key logic in the EIP-4337 framework, we innovatively use the cryptographic signature to ensure that users can use their passkey to make consent to signature-less transaction with a particular contract.\n        b. We also use the block timestamp logic to add a time constrain to it. So, you can say I want signature-less transaction with this contract within this 30 mintues, but not more. Thus user sovereignty and safety are protected. \n    4. Selective gas fee subsidy based on NFT ownership. \n        a. While the paymaster module is widely discussed, we combine the third-party payment module with NFT-gating mechanism, and created an innovative mechanism for projects to selective subsidize the gas fees. \n        b. In addition, our paymaster logic allows project team to partially subsidize gas fees. For example, if the gas fee is $5, we allow project to pay $3 of that, while the user pay the rest $2. Thus it gives project team a lot more flexibility in the whole process. \n\n- Technical Framework of our project\n    - EntryPoint Smart Contract: using the public infrastructure defined by EIP-4337\n    - Wallet Smart Contract:\n        - We innovatively designed the cryptographic scheme transcription logic to support device-native hardware enclave. The wallet use a common standard called WebAuthN.\n        - We also added the session key logic to support signature-less transaction here.\n    - Paymaster smart contract\n        - contains the partial/full gas subsidy logic, as well as the\n    - tests\n        - we use Foundry to test all our logics\n    - Bundler / private relayer\n        - We implemented our private relayer to bypass the faults of the current public bundlers implemented\n    - Frontend\n        - We implemented a 5-page website to demonstrate our logic.\n\nWe used a lot of sponsor technology, including but not limited to token-gating with ENS & Lens, and infrastructure based on EVM public chain ecossytem, as well as openzepplin codebase.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/porton-wallet-fo21h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

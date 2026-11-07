@@ -1,0 +1,35 @@
+{
+  "id": "1cg2d",
+  "slug": "proof-of-human",
+  "title": "Proof-of-Human",
+  "tagline": "Bot-proof scarce-goods drops: 1 verified human = 1 raffle slot, for both web users and AI agents",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1cg2d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OzSQgdxw00wgvap1SrJAxnN6Gduh4t1EG00Eit8zIe34I/high.mp4",
+  "demo_url": "https://worldcoinapp-production.up.railway.app/",
+  "source_url": "https://github.com/JackREscowitz/Proof-Of-Human-Drops",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "1st place",
+      "title": "Track A (AgentKit) "
+    }
+  ],
+  "finalist": true,
+  "description": "Proof-of-Human Drops is a bot-proof platform for scarce-goods drops, the kind of \"instant sellout\" launches (think a limited Mac Mini, a sneaker drop, a campaign release) that bots and Sybil farms ruin for real people. Instead of selling on a first-come basis, every drop allocates exactly one raffle slot per verified human, then picks winners with a fair, seedable random draw. The winner settles a real USDC payment on World Chain Sepolia.\n\nWhat makes it different is that it's built for two kinds of shoppers at once, over one shared backend: a web app where humans verify with World ID v4 (orb proof-of-human) before entering, and a remote MCP server where a person's AI agent (Claude, ChatGPT) can list drops, ask when the next one lands, enter the draw, and buy on their behalf, while proving on every request that it's backed by a real human via Worldcoin AgentKit. The same anti-Sybil rule applies to both: one human, one slot per drop, enforced at the database layer by a UNIQUE(drop_id, human_key) constraint where the key is a World ID nullifier (web) or an AgentKit-resolved humanId (agent).\n\nWe frame the raffle slot as a \"limited initial-usage grant gated by a verified human,\" the same primitive sponsors describe for giving agents free trials or initial access without bots draining it. The whole thing runs live: a small pop-brutalist drop showcase (one live Mac Mini drop plus one \"coming soon\" item), an admin/reset console, a seedable draw so a specific human win can be demonstrated deterministically, and a one-button reset so the full demo can be re-run for judges back-to-back. Real on-chain settlements (both a web purchase and an agent purchase) are verifiable on the World Chain Sepolia explorer.",
+  "how_its_made": "The whole app is a single Next.js (App Router) + TypeScript service, deployed to Railway as a multi-stage Docker image (output: standalone), backed by Railway Postgres via Drizzle ORM. Plain async TypeScript service modules, no heavy framework, handle drops, entries, the draw, and settlement. The Sybil guarantee lives in the schema itself: a UNIQUE(drop_id, human_key) constraint that every entry path funnels through, so neither surface can bypass it.\n\nWorld ID v4 (web path): we created a per-drop v4 action (drop_<uuid>) through the World Developer Portal MCP, mint a signed RP context server-side with @worldcoin/idkit/signing, run the orb proof through the IDKit v4 widget, and POST the proof verbatim to the managed RP verify endpoint (/api/v4/verify/rp_…). The returned nullifier becomes the human_key. Targeting v4's managed-RP flow (not the older verifyCloudProof) was a deliberate, verified choice against the live app config.\n\nAgentKit + MCP (agent path): the remote MCP server is a streamable-HTTP @modelcontextprotocol/sdk server mounted as a Next route handler, using the SDK's WebStandardStreamableHTTPServerTransport so it speaks Web Request/Response natively, running stateless so auth is purely per-request (true to AgentKit's Option A). Every privileged tool call (enter_draw, purchase) carries a base64 CAIP-122/SIWE payload; we parseAgentkitHeader, then validateAgentkitMessage (binds to our domain/URI plus freshness, honoring Railway's x-forwarded-*), then verifyAgentkitSignature (EIP-191/ERC-1271, recovers the wallet), then createAgentBookVerifier().lookupHuman() to resolve an anonymous humanId. Unsigned or tampered calls get a 402-style challenge.\n\nSettlement: viem against World Chain Sepolia (chain 4801), a real ERC-20 transfer of bridged USDC.e (6 decimals), waiting for the receipt and recording the tx in an orders row. Private keys never cross the wire: a winning entry stores its wallet address, and the server resolves the signing key at purchase time. The draw is a seedable PRNG (SHA-256(seed:entryId) ascending, deterministic), falling back to node:crypto CSPRNG when no seed is set, so we can stage a watchable, honest demo win.\n\nHacky bits worth noting: Railway's Metal builder silently rejects # syntax= directives and BuildKit cache mounts, so the Dockerfile is deliberately plain. Next evaluates route modules at build time with no DATABASE_URL, so the DB client is a lazy proxy that only connects on first use (verified with env -u DATABASE_URL pnpm build). And since the demo wallets aren't AgentBook-registered (a World-App-gated flow), we keep the real security primitive, signature verification, fully enforced, and fall back to a deterministic, namespaced agentkit:<address> humanId so one wallet still maps to exactly one slot. Partner tech leaned on heavily: World ID (the human gate), Worldcoin AgentKit (the per-request agent auth plus payment gate), World Chain (real settlement), the World Developer Portal MCP (action provisioning), and Railway (host plus Postgres), each load-bearing, not a wrapper.",
+  "auto_summary": "A Next.js app runs human-verified product raffles and purchases through web and MCP agent interfaces with World-based identity checks and USDC settlement.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/proof-of-human-1cg2d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

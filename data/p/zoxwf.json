@@ -1,0 +1,22 @@
+{
+  "id": "zoxwf",
+  "slug": "schrodinger-rollups",
+  "title": "Schrödinger Rollups",
+  "tagline": "Schrodinger Rollups are forkable rollup contracts for ambiguous oracle states.",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zoxwf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kRkFWV7iF01CGUV005L9DqBdwnfgxttvrKS5UI6HJBvg00/high.mp4",
+  "demo_url": "https://youtu.be/Z9LiRQBUq_I",
+  "source_url": "https://github.com/themandalore/SchrodingerRollup",
+  "finalist": false,
+  "description": "Schrodinger Rollups are rollup contracts for ambiguous oracle states. If the fast oracle (should be the price formation exchange) and the slow oracle (ideally a TWAP median of multiple exchanges), differ by some threshold, you temporarily fork the chain.  Now you have two universes for the rollup, one where the price moved and one where it didn’t.  Then we wait a certain period of time (like 30 seconds) and then see whether or not the new price is closer to the fast fork or the slow fork.  Then we take that path as the canonical chain.  \n\n\nThis repository includes an MVP based-rollup that accepts on-chain oracle prices and forks based on their deviations.  Most of the time, it's a normal based rollup: users can post their transactions to Ethereum and then it’s part of our rollup block.  In the case that the price feeds are different though, you can pick fast fork, slow fork, or both, and then we store two different universes of transactions and then pick which universe to keep after the prices converge.  \n\nNote that bridges should take caution to only release funds on the rollup in the case of non-contentious state (e.g. the user is okay to do a transaction on both sides of the fork).  This repository does not include the validating bridge. \n",
+  "how_its_made": "It's a pretty minimalistic solidity project.  I was going to use the open-zeppelin minimal based rollup (the taiko contract), but they have a lot of unnecessary stuff in there.  Ideally I abstracted away any of the proposer auctions or proofs that make it more scalable and just put the literal signed rollup txns on-chain (a true based rollup).  To run the rollup, I just assume its another EVM and spin up a local ganache (testnet).  The system then reads finalized states from the mainchain.  If the oracle forks (uncertainty), it waits to finalize blocks.  Probably the hackiest stuff in there is just the manual transaction builders that are needed for signing and tracking the rollup state.  There are also some loops and tricky logic for merging the different rollup states back together.  I originally wrote the code to allow forks on top of forks and have multiple different universes going down, but decided to scratch it in favor of a more streamlined design (not to mention the theory behind it was shaky...multiple erratic price moves is more just a bad state, so you wouldn't pick that path anyway).  I was also going to do a validating bridge, but this piece can be separate the forking logic and since you're a base EVM, you can use many different repos (zk like risc0,succint or optimistic), but long story short, I didn't need to write that part (although it took a way to long in the weekend to figure that out).  ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/schrodinger-rollups-zoxwf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "czm88",
+  "slug": "yetris",
+  "title": "Yetris",
+  "tagline": "Yetris allows for you to prove you're the best tetris player in the world, on chain",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/czm88/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MpsnRx02rXSNvrXzJhnz4EmhPvU400lt00KocUJ3eJjWec/high.mp4",
+  "demo_url": "https://yetris.vercel.app/",
+  "source_url": "https://github.com/hooperben/yetris",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Prague 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Yetris is short for 'Yellow Powered Tetris'. Yetris uses Yellow (Clearnet) state channels to facilitate a game of tetris where the end score is fairly and verifiably written on chain to a public leaderboard. Specifically, Yetris has a Crown NFT, that is transferred to the player who can record the highest score via state channels. Currently, the Crown is deployed on Polygon at https://polygonscan.com/address/0x6d64b04A8ec0dceb6304CC56845C665Fd454a0F1.\n\nYetris is based on an idea I've had for a while in crypto that I haven't seen capitalised on - the proving of arbitrary skills, recorded on a public computer. I have always thought I was pretty good at tetris - but without going to competitions (that mightn't always be accessible to me) I have had no real tangible way to prove it. With advances in blockchain, these kind of public square games are becoming easier to put in the public domain, meaning there is less barrier to entry, potentially creating a fairer space for everyone to play the same games they do now.\n\nThe user flow of Yetris is as follows:\n\n1. A user initiates a game by signing a message\n2. The user establishes a websocket connection with the server, which manages a connection to Yellow/Clearnet for the facilitating of fast, low latency on chain transactions to generate tetroids for the user to place on the board.\n3. As the user clears lines, they get points. This goes on forever, or until the user loses (when the user is unable to clear enough lines and the incoming piece + the point it lands on > the height of the board).\n4. At the end of the game, the state channel writes the outcome of the game on chain. If their score is greater than the current high score, they are transferred the Crown, and are officially the worlds highest ranked on chain tetris player.\n",
+  "how_its_made": "The core functionality that powers Yetris is the Yellow state channel, but there's a few moving parts.\n\nThe most obvious is the front end (where you play the game). This app is written with NextJS and deployed to vercel at https://yetris.vercel.app/. The game code is based on this youtube tutorial: https://www.youtube.com/watch?v=UuzcvFVH4DQ - but I've made it look a bit prettier and added the 'harddrop' (space key in the browser).\n\nThe front end gets the next block to fall in the game via socket connection, from the state-channel application. The state-channel application is an expressJS app that manages the game logic, and the connection to the Yellow (clearnode) application that handles the off chain computation and settlement of game scores at the end of the game. \n\nCurrently, the clearnode implementation is very minimal and almost all of the game logic is just written in the express app. A lot of the complexity came from both writing the front end game logic, and then getting the front end to be able to use a socket connection for next blocks (rather than generating them in the client). Porting the game from using the express app to using a Yellow application session shouldn't be too much work - but I ran into a few issues with creating and managing the state channel.\n\nAt the moment, the express app does basically everything, when it should just do the validation of game board state, and then send summaries/state diffs of the game state to Yellow to record as an off chain tx. There is also basically 0 validation of the game state on the state channel. This is a bit of a rabbit hole that I haven't quite found the best way through yet.\n\nThe Crown Contract is my first project I've used hardhat v3 for - which was easy to work with but is still missing a few production features.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yetris-czm88",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

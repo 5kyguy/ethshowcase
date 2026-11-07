@@ -1,0 +1,36 @@
+{
+  "id": "0gc9h",
+  "slug": "battleshipx",
+  "title": "BattleshipX",
+  "tagline": "Secure On-chain Battleship using Nillion's Blind Computation and EthSign Attestations",
+  "event": {
+    "slug": "scaling2024",
+    "name": "Scaling Ethereum 2024",
+    "start_time": "2024-04-05T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0gc9h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/67AHORdQSrbSbzm7e5FxeVtDf2VpxMW2kleRqtWN6cU/high.mp4",
+  "demo_url": "https://battleship-x-web.vercel.app/",
+  "source_url": "https://github.com/Envoy-VC/battleship-x",
+  "prizes": [
+    {
+      "sponsor": "Nillion",
+      "sponsor_id": "0accc",
+      "placement": "Best novel use case of blind computation with Nillion",
+      "title": "Best novel use case of blind computation with Nillion"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Qualifying Arbitrum Submissions",
+      "title": "Qualifying Arbitrum Submissions"
+    }
+  ],
+  "finalist": false,
+  "description": "BattleshipX is a secure and private battleship game that can be played with friends. It uses nillion for storing the game state and and blind computation for the game logic.\n\nFirst user create a profile for the game, using a unique username. The profile is a custom implementation of ERC-7401: Parent-Governed Non-Fungible Tokens Nesting which brings nestable NFTs to Ethereum.\n\nThe main NFT is a on-chain profile NFT which has abilities to track users' game history, stats and other metadata. The profile NFT can have multiple child NFTs which are the game NFTs. These Game NFTs the Battleship Ships the user has eg- Battleship, Cruiser, Destroyer, Submarine and Carrier.\n\nThe game logic is computed using blind computation. The game state is stored in nillion. The game state is encrypted and stored in nillion\n\nThe game is played in a turn based manner made using Next.js, React DND, wagmi as the major tech stack. There are also custom solidity contracts for the profile and game management, and a minimal FastAPI server for interacting with nillion and the game.\n\nThe contracts have been deployed to Arbitrum Sepolia Testnet.\n\nBattleshipX: 0xe86b1899376c77e1a109ea2124e462ef58e56897\nBattleshipURI Library: 0x8f966BC6Ad2D241a01C1f7634C47c7419Ce96830",
+  "how_its_made": "While storing the secret game state in nillion, it is stored as follows:\n\n{\n\t\"carrier\": [101, 102, 103, 104, 105],\n\t\"battleship\": [112, 113, 114, 115],\n\t\"cruiser\": [121, 122, 123],\n\t\"submarine\": [165, 175, 185],\n\t\"destroyer\": [191, 192]\n}\nwhere each number is 1XY where X is the row number and Y is the column number. The game state is stored in nillion in encrypted form. X and Y are in range of 0-9.\n\nWhy extra 1 at start? The extra 1 is added to make the number 3 digit as zero at the X position will be ignored by the game logic.\n\nWhen a user attacks a position, the user sends the position to the contract.\n\nFor Example: User attacks position 7, 5. The contract will compute the attack with position 175, the computation starts at 1 and multiplies it by (value - position)\n\nThis is done through Array.reduce method. The logic is if there is a ship at that position, somewhere in the computation value == position and the result becomes 0. If the result is 0, the user has hit the ship.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/battleshipx-0gc9h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

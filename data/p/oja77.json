@@ -1,0 +1,27 @@
+{
+  "id": "oja77",
+  "slug": "gambit",
+  "title": "Gambit",
+  "tagline": "Prediction markets, natively on a watch. The wearable crypto trading experience until now.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oja77/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pkPkkYsyk2yfulovS9i6CR7IGgyATM2763hmyWtHFpQ/high.mp4",
+  "demo_url": "https://github.com/itublockchain/Gambit-ETHGlobal-Cannes-2026",
+  "source_url": "https://github.com/itublockchain/Gambit-ETHGlobal-Cannes-2026",
+  "finalist": false,
+  "description": "Gambit is a native iOS + Apple Watch app that brings 5-minute crypto prediction markets to your wrist. Sign in with email, deposit USDC, and start trading BTC, ETH, or XRP markets in under 60 seconds. No browser extensions, no wallet popups.\n\nThe trading mechanic is intentionally minimal: swipe right for UP, swipe left for DOWN, use the Digital Crown to set your bet size. A trade executes in ~3 seconds from wrist to blockchain. \n\nUnder the hood, Gambit runs a dual-layer architecture. Polymarket's CLOB handles order matching on Polygon. In parallel, Gambit deploys its own GambitMarket.sol on Arc (Circle's L2 testnet), with Chainlink CRE providing decentralized settlement: DON nodes listen for SettlementRequested events, fetch Binance prices, reach consensus, and write a signed report directly on-chain. No centralized oracle, no manual resolution.\n\nDynamic's MPC embedded wallet powers the entire auth and signing flow. The private key never exists in one place, and signing happens silently inside the SDK on iPhone. The Watch sends the request, the iPhone signs, the transaction confirms. The user never deals with complex screens.",
+  "how_its_made": "Gambit is a Swift monorepo split across three targets: an iPhone app (SwiftUI + Dynamic SDK), an Apple Watch app (WatchKit + SwiftUI), and a shared WatchConnectivity layer that bridges them. The backend is Node.js + TypeScript + Fastify on Hetzner Helsinki, backed by PostgreSQL and Redis.\n\nThe trickiest part was the signing architecture. Watch apps can't run the Dynamic SDK, only iOS can. So every trade routes from Watch to WatchConnectivity to phone to backend to Polymarket CLOB. The phone silently signs EIP-712 typed data via Dynamic's signTypedData(), without any user prompt. We use a \"capture signer\" pattern with Polymarket's official ClobClient: instead of building order structs manually, we intercept the typed data at signing time and forward it to iOS.\nFor decentralized settlement on Arc, we wrote a custom Chainlink CRE workflow in TypeScript compiled to WASM. It triggers on SettlementRequested events from GambitMarket.sol, fetches final prices, aggregates via DON consensus, and submits a signed report on-chain. This is not Price Feeds or VRF. It's a fully custom DON workflow, and it's what makes the Arc layer genuinely decentralized.\n\nFor real-time prices, SSE pushes BTC/ETH/XRP to phone every 500ms, and WatchConnectivity batches to Watch every second. The Watch renders a 60-second sliding price chart with auto-reconnect. We replaced Dynamic's default RPC with a custom Polygon endpoint for reliable transaction submission.",
+  "auto_summary": "A Swift iPhone and Apple Watch app for short-duration crypto prediction markets, with a Node backend, Polygon order flow, and Arc smart-contract settlement.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/gambit-oja77",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

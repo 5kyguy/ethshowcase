@@ -1,0 +1,30 @@
+{
+  "id": "xw7or",
+  "slug": "rampnet",
+  "title": "RampNet",
+  "tagline": "Fiat to crypto on-ramping into any chain, powered by Wise, Privy, Flare (FDC + FTSO), and LayerZero.",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xw7or/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WlwIo56n01896bzDjxGN2fA5teqpUs00KnePcieOtp7p4/high.mp4",
+  "demo_url": "https://rampnet.cypherlab.org/",
+  "source_url": "https://github.com/Elli610/rampnet",
+  "prizes": [
+    {
+      "sponsor": "Flare Network",
+      "sponsor_id": "2ugg8",
+      "placement": "1st place",
+      "title": "MAIN TRACK: use protocols on Flare blockchain"
+    }
+  ],
+  "finalist": true,
+  "description": "RampNet is a programmable on-ramping protocol that lets users seamlessly convert fiat (USD via Wise) into native tokens on supported blockchain networks—with minimal friction, no custodians, and fully on-chain verification.\n\nThe flow starts when a user sends USD via **Wise**, providing their target chain and wallet address. Once the payment is confirmed via Wise’s API, our backend requests a cryptographic **attestation** from **Flare’s Data Connector (FDC)**. This attestation serves as on-chain proof that the fiat payment occurred. We also retrieve the USD/token exchange rate via **Flare’s Time Series Oracle (FTSO)** to compute the precise token amount the user should receive.\n\nThis data (attestation + wallet + amount) is then passed to a smart contract on Flare EVM, which verifies the payment and routes the transaction depending on the token requested:\n\n* If the user requested XRP, the contract uses fAssets to redeem and bridge native XRP to the XRPL.\n* If the user requested any other supported token (e.g., XRP, USDT0...), we send a message via LayerZero’s OApp stack to a contract on the destination chain. This contract verifies the payload and releases liquidity for the native token requested.\n\nOnboarding is handled by Privy, allowing users to log in via email or social accounts, and interact with the protocol using abstracted wallets—making the experience accessible to both crypto-native and mainstream users.\n\nRampNet currently supports chains like Hedera, Flare, XRPL, and soon any EVM network integrated with LayerZero. The entire system is non-custodial, transparent, and smart contract-driven—meaning the business logic (verification, conversion, and delivery) happens entirely on-chain and can be audited or extended permissionlessly.\n\nIn its current version, RampNet enables fiat → crypto on-ramping only, with off-ramping capabilities planned in future iterations.\n\nRampNet isn't just a fiat bridge—it’s a fully modular infrastructure layer that uses the best tools available today (Wise, Flare, LayerZero, Privy) to unlock seamless access to multi-chain liquidity from the fiat world.",
+  "how_its_made": "RampNet is built by combining the most reliable infrastructure across the fiat and cross-chain ecosystems. On the fiat side, we use Wise to handle USD payments. Wise’s payout API allows us to receive user funds with low fees and fast confirmation via webhooks. Once a payment is detected, our backend requests a data attestation from Flare’s Data Connector (FDC), which cryptographically proves the payment occurred. We also fetch real-time USD/token price feeds from Flare Time Series Oracle (FTSO) to calculate the correct token amount. RampNet app stack leverage Nextjs.\n\nFor user onboarding, we integrated Privy, enabling seamless social login (Google, Twitter, etc.) and abstracted wallets across all supported chains. This makes the ramp accessible to non-crypto-native users, while still generating standard EVM-compatible accounts.\n\nOur smart contracts live on Flare EVM and use the FDC attestation plus price data to verify and process payments. If the user requests XRP, we redeem fXRP on Flare and bridge to the native XRPL network. For other tokens, we use LayerZero’s OApp stack to send a secure cross-chain message to a smart contract on the destination chain. That contract verifies the payload and releases pre-provisioned liquidity for the requested token.\n\nBy leveraging Wise, Privy, Flare, and LayerZero, RampNet delivers a fully programmable on-ramping experience where funds flow directly from fiat into any supported token on any connected chain—with minimal friction, high transparency, and no trusted third parties.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/rampnet-xw7or",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "01b4r",
+  "slug": "chemical",
+  "title": "Chemical",
+  "tagline": "Multiplayer on-chain chain-reaction game on Hedera with fixed bets and winner NFTs.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/01b4r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kzp2gFl9lKZ6L018saic4a02sBNq2HqG1zYaO8xP9AqX8/high.mp4",
+  "demo_url": "https://chemical-six.vercel.app/",
+  "source_url": "https://github.com/devansh-m12/chemical",
+  "finalist": false,
+  "description": "Chain Hedera: https://chainlist.org/chain/296\n\nchain add\nhttps://portal.hedera.com/faucet\n\nfaucet\nhttps://hashscan.io/testnet/contract/0x099cdd44a061C7875B525f74737E77Dc1e311014\nhttps://hashscan.io/testnet/contract/0x52619a44887a9370Acdce3BDee82122320550200\n\nChemical Chain Reaction is a fast, on-chain multiplayer strategy game on Hedera where 2–8 players join a room, place a fixed 0.0001 ETH-equivalent bet on the EVM, and battle on a classic chain-reaction board until one player remains; the pot is paid on-chain to the winner and an ERC721 achievement NFT is minted. The system uses two Solidity contracts—ChemicalGame for lifecycle, escrow, payouts, and admin finish; and ChemicalNFT for minting winner NFTs—integrated with a Next.js frontend, Socket.IO real-time updates, and Prisma for off-chain indexing and verification. Built for low latency and finality on Hedera’s EVM via the JSON‑RPC relay, it enforces strict bet validation, capped player slots, and safe withdrawals to keep gameplay predictable and secure.",
+  "how_its_made": "Hedera + Hardhat: Contracts are written and deployed with Hardhat targeting Hedera’s EVM through the Hashio/Hiero JSON‑RPC Relay, using standard Ethereum tooling and Ethers.js for scripts and verification. Hardhat network config points to Hedera testnet RPC with an ECDSA account from the Hedera Developer Portal, enabling compile, test, and deploy flows similar to Ethereum networks.​\n\nSmart contracts: ChemicalGame exposes createGame(string roomCode) and joinGame(string roomCode) with strict msg.value == 0.0001 ether checks, tracks up to 8 players in a fixed address for gas efficiency, escrows the pot, and provides admin-only finishGame to distribute 0.0001 ETH × playerCount to the winner; failed sends accrue to pendingWithdrawals for pull-based claims. ChemicalNFT is a minimal ERC721; ChemicalGame mints via mintAchievement with a metadata URI (e.g., IPFS), prevents duplicate claims per player, and omits burn to reduce surface area.​\n\nApp integration: Next.js UI collects only roomId and submits 0.0001 ETH for create/join using Ethers.js against Hedera’s RPC endpoint; a backend API triggers finishGame and NFT minting after server-side validation. Socket.IO broadcasts room and board state to clients in real time, while Prisma stores off-chain snapshots and a stateHash used to reconcile and verify front-end state against on-chain outcomes.​\n\nHedera specifics: Using the Hedera JSON‑RPC relay keeps the developer workflow identical to Ethereum (ABI, addresses, Ethers.js), while benefiting from Hedera’s fast finality for timely game settlements; Hardhat v3 conventions and keystore helpers can be used for cleaner network and secret management.​\n\nKey implementation notes\n\nDeployment: Configure hardhat.config to include Hedera RPC and operator private key; run compile/build and deploy scripts as with any EVM chain; boilerplate repos and docs accelerate setup.​\n\nSecurity: Ownable guards admin-only finish; ReentrancyGuard secures withdrawals; strict equality on msg.value prevents bet mismatch; a one‑hour timeout enables refunds for stalled rooms.​\n\nDX and performance: Fixed-size arrays minimize storage ops; Ethers.js scripts integrate seamlessly with Hedera RPC; finality characteristics reduce waiting time for payout UX while preserving EVM compatibility for tooling.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/chemical-01b4r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

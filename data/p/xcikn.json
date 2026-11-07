@@ -1,0 +1,26 @@
+{
+  "id": "xcikn",
+  "slug": "triguard",
+  "title": "Triguard",
+  "tagline": "Decentralized AI agents monitoring Ethereum via Gensyn AXL P2P mesh and KeeperHub execution.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xcikn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DTqovmUOIRn1fsbVjhqe4b0100iUyTpXOScFJ00lszEwLA/high.mp4",
+  "source_url": "https://github.com/mammumammi/AgentMatters",
+  "finalist": false,
+  "description": "TriGuard eliminates the single point of failure in blockchain security monitoring. Instead of trusting one centralized bot, three fully independent AI agents each analyze live Ethereum Sepolia blocks and flag high-gas anomaly transactions. They communicate exclusively over Gensyn AXL — a decentralized peer-to-peer overlay network — to cast and collect votes without any central message broker.\n\nOnly when a majority consensus (2-of-3 agents) is reached does the system escalate. At that point, TriGuard invokes KeeperHub's execution layer via a webhook, passing the full raw transaction calldata. KeeperHub then runs its Web3 Risk Assessment AI, which simulates the transaction, decodes the function signature, and returns a structured risk report with a numeric score (0–100), risk level, and reasoning. This result is streamed in real-time to a live Awwwards-inspired dashboard built with GSAP and Lenis.\n\nThe result is a fully decentralized, two-layer security pipeline: Layer 1 (AXL) catches anomalies through consensus, and Layer 2 (KeeperHub) performs deep chain-level threat intelligence.",
+  "how_its_made": "\nTriGuard is built entirely in Python, with three independent agent processes each running alongside a dedicated Gensyn AXL node binary. Each AXL node is configured to peer with the Gensyn Yggdrasil backbone, forming a real decentralized P2P mesh — no Redis, no Kafka, no central broker of any kind. Agents use Web3.py over an Alchemy RPC to poll live Ethereum Sepolia blocks and flag high-gas anomaly transactions. Votes are broadcast between agents exclusively through AXL's HTTP /send and /recv endpoints, and a custom 2-of-3 consensus engine determines when an alert should fire.\n\nThe hackiest part of the project was getting three AXL nodes to peer with each other on the same MacOS machine. By default, MacOS does not route Yggdrasil IPv6 overlay addresses, so nodes couldn't see each other via their public IPs. The fix was setting a uniform tcp_port: 7000 across all node configs so the internal gVisor virtual network stack could route them through the Gensyn backbone instead of directly.\n\nOn the KeeperHub side, we use its Webhook node as the entry point, the Web3 Risk Assessment node to simulate the flagged transaction and generate a formal AI threat report (risk score 0–100, risk level, reasoning), and an HTTP Request node to POST that result back to our Flask dashboard's /api/risk endpoint. This turns KeeperHub into a true decentralized execution and intelligence layer, not just a notification tool. The frontend is vanilla HTML/CSS powered by GSAP and Lenis for an Awwwards-style dark animated dashboard, with Flask Server-Sent Events streaming all data live to the browser the moment KeeperHub returns its risk verdict.",
+  "auto_summary": "A Python system monitors Sepolia transactions with three agents, exchanges votes over AXL, and sends flagged transactions to KeeperHub-backed risk analysis.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/triguard-xcikn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "88yit",
+  "slug": "cosmicfusion",
+  "title": "CosmicFusion",
+  "tagline": "A cross chain swap between cosmos chain and EVM chain using minimal setup",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/88yit/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vx01Y5tROaP02VQfaO00bx5SNXObLzTOdAr5e7KoAJCM7g/high.mp4",
+  "demo_url": "https://preview--fusion-path-bridge.lovable.app/",
+  "source_url": "https://github.com/steel-feel/CosmicFusion-contracts",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "5th place",
+      "title": "Extend Fusion+ to Cosmos"
+    }
+  ],
+  "finalist": false,
+  "description": "Cross-Chain Swap Between Cosmos and EVM Chains via Fusion+ Inspired Escrow Design\nOverview\nThis project extends the capabilities of 1inch’s Fusion+ SDK, which currently supports cross-chain transfers between EVM-compatible chains using hash timelock logic, by enabling interoperability with non-EVM chains—specifically the Cosmos ecosystem. The core innovation lies in replicating the behavior of Fusion+'s Escrow contract on the Cosmos side, allowing seamless asset bridging with minimal additional infrastructure or setup.\n\nObjective\nTo enable secure and verifiable cross-chain swaps between a Cosmos-based chain and any EVM-based chain by mimicking the escrow lifecycle and hashlock logic of 1inch Fusion+, facilitating atomic transfers with no reliance on third-party relayers or heavy off-chain logic.\n\nCore Architecture\nEVM Side: Relies on the native Fusion+ escrow contract to lock funds.\n\nCosmos Side: Implements a lightweight smart contract module that emulates the Fusion+ escrow functionality using CosmWasm.\n\nCommunication Bridge: Uses hashlock-based coordination for synchronizing secret revelation and timeouts between both chains, avoiding complex message-passing protocols. use websocket for quick relay of messages between parties\n\nUser Flow\nUser Creates an Order\nThe process begins when a user initiates a swap request through the interface or client application.\n\nResolver Deploys Escrow (Cosmos Side)\nThe designated resolver (or relayer) sets up an escrow contract on the Cosmos chain that mirrors the one on EVM, including the hashlock, token details, amount, and timeout window.\n\nUser Approves Funds to Escrow (Cosmos)\nThe user validates the escrow details and approves the tokens (e.g., via IBC or native token allowance mechanisms) to be pulled by the escrow.\n\nEscrow Pulls Funds and Sets deployed_at Timestamp\nUpon approval, the Cosmos escrow pulls the tokens and records the deployed_at timestamp, establishing the start of the timeout window and allowing both chains to track the lifecycle deterministically.\n\nUser Checks Escrow Details\nThe user verifies the deployed_at value and confirms that funds are locked correctly. This is a checkpoint before revealing the preimage of the hash.\n\nUser Shares the Secret\nThe user (or a relayer, depending on trust assumptions) reveals the secret (preimage) associated with the hashlock to both escrows. This secret must match on both sides for the swap to proceed.\n\nCompletion of Swap Ceremony\nWith the secret revealed, the escrow contracts release funds to the recipient on both chains. If the timeout expires before secret revelation, funds are returned to the original sender, ensuring safety.\n\nKey Innovations\nCosmos Compatibility: Built from scratch a Cosmos-side escrow that mirrors EVM’s behavior without introducing complex IBC bridging or intermediary layers.\n\nHashlock Logic Alignment: Ensures full compatibility with Fusion+’s hashlock workflow using deterministic state transitions and timeouts.\n\nMinimal Setup Philosophy: The entire swap lifecycle requires no off-chain agents beyond the resolver and no global registry or message relaying infrastructure.\n\nBenefits\nNon-EVM Interoperability: Paves the way for Cosmos-EVM cross-chain DEX functionality.\n\nTrust-Minimized: Relies on cryptographic commitments (hashlocks), not third parties.\n\nExtensible: Architecture can be generalized to other non-EVM ecosystems like Solana, Polkadot, etc.",
+  "how_its_made": "🧱 Cosmos Side (Rust + CosmWasm)\nWritten in Rust using CosmWasm.\n\nMimics EVM escrow logic with deployed_at, hashlock, secret verification, and timeout-based fund release.\n\nValidates secret and handles fund refund on timeout.\n\nTested locally with wasmd.\n\n💻 Frontend (React + TailwindCSS)\nBuilt with React and styled using TailwindCSS.\n\nSupports order creation, escrow inspection, and secret submission.\n\nConnects to MetaMask (EVM) and Keplr (Cosmos) for wallet interaction.\n\nMinimal UI focused on clear, step-by-step flow.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cosmicfusion-88yit",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

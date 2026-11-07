@@ -1,0 +1,30 @@
+{
+  "id": "u8aak",
+  "slug": "pulseremit",
+  "title": "PULSEREMIT",
+  "tagline": "PulseRemit makes Money moves at the speed of chat. Agentic flows. Instant settlement. Global reach.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/u8aak/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9KBFpx439oiLT3Xue7hfbhGV7E2eesD4kiH2HZmtLL00/high.mp4",
+  "demo_url": "https://pulse-remit.vercel.app",
+  "source_url": "https://github.com/ETHGlobal-Hackathon/PulseRemit",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "PulseRemit: The Agentic Protocol for High-Frequency Cross-Border Payments\n\nPulseRemit is an intent-based remittance orchestrator designed to solve the \"micro-transaction friction\" problem for the African diaspora. While traditional rails bleed value through fees (5–8%) and latency, and pure DeFi fails on gas costs for small recurring transfers ($20–$100), PulseRemit introduces a hybrid settlement layer that combines the security of on-chain assets with the speed of off-chain state channels.\n\nThe Intent-Centric Experience\nUsers bypass complex dApp interactions entirely. Instead, they broadcast natural language intents via a chat interface:\n\"Stream $50 weekly to my sister in Lagos, but pause if the Naira drops below 1,600/USD.\"\n\nHow It Works: The Agentic Workflow\nAt its core is a Gemini 1.5 Flash orchestration engine that parses unstructured text into deterministic, executable JSON plans. The agent then autonomously navigates a multi-step execution pipeline:\nIdentity & Trust Resolution (ENS):\nThe agent resolves .eth recipients and performs an on-chain reputation scan (analyzing transaction history and ENS text records) to assign dynamic spending limits or \"trust scores,\" preventing Sybil attacks without invasive KYC.\n\nHybrid Liquidity Routing (LI.FI + Yellow):\nThe engine acts as a smart router for capital efficiency:\nFor One-Time/Large Transfers: It leverages LI.FI to aggregate bridges and DEXs, finding the mathematical global optimum for the cheapest/fastest route into USDC.\nFor Recurring/Micro-Streams: It initializes a Yellow Network (Nitrolite) state channel. This allows for thousands of \"drip\" transactions to settle instantly off-chain with zero gas fees, only touching the mainnet for channel opening and final settlement.\n\nProgrammable Custody (Circle Arc):\nTo bridge the Web2/Web3 gap, the platform utilizes Circle’s Programmable Wallets and CCTP. This allows the agent to spin up ephemeral, compliant USDC accounts for unbanked recipients instantly, abstracting away private key management while maintaining non-custodial security standards.\n\nThe Sentinel Vault:\nAll logic is anchored by a UUPS-upgradeable Smart Vault on Base Sepolia. This contract acts as the final adjudicator—enforcing the agent’s spending limits, holding channel collateral, and executing emergency pauses if on-chain invariants are violated.\n\nWhy This Changes the Game\nPulseRemit represents a shift from user-initiated transactions to agent-managed financial streams. By abstracting the complexity of bridging (LI.FI), state channels (Yellow), and identity (ENS) behind a single AI interface, we unlock a \"Streaming Money\" primitive for the developing world—giving the next 100M users the UX of Venmo with the sovereignty of Ethereum.",
+  "how_its_made": "PulseRemit is a hybrid AI-Agentic architecture connecting Next.js 16 (Frontend) with a Python FastAPI orchestrator.\n\nThe Brain (Gemini AI): We utilized Google Gemini 1.5 Flash not just as a chatbot, but as a deterministic transaction parser. We engineered a strict \"System Instruction\" set that forces Gemini to bypass conversational fluff and output raw, executable JSON intents (e.g., { \"action\": \"BRIDGE\", \"router\": \"LIFI\", \"params\": [...] }). This JSON is piped directly into our wagmi hooks to trigger on-chain actions.\n\nThe Nervous System (Integrations):\n\nYellow Network: We leveraged the Nitrolite architecture concepts to design high-frequency \"remittance streams.\" By opening a state channel between the sender and a liquidity node, we enable \"gasless\" recurring allowance payments that only settle on Base Sepolia when the channel closes.\n\nLI.FI: We integrated the LI.FI SDK as our routing engine. The AI queries LI.FI's quote endpoint in real-time to mathematically determine the \"Cheapest vs. Fastest\" path, dynamically presenting the user with the best option.\n\nIdentity & Custody: We used ENS (via viem) to resolve .eth names and fetch text records for trust scores. For unbanked users, we architected a flow using Circle’s Programmable Wallets to spin up ephemeral USDC receiving accounts instantly.\n\nThe \"Hacky\" Part: Synchronizing the asynchronous nature of an LLM stream with the synchronous, rigid nature of blockchain transactions was a nightmare. To solve this, we built a custom \"Optimistic Intent Predictor.\" Our frontend regex-matches the first few tokens of the AI's response (e.g., \"Scanning route...\") to pre-load the LI.FI quote in the background before the AI even finishes its sentence. This creates a \"perceived zero-latency\" experience that feels faster than a standard dApp.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pulseremit-u8aak",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

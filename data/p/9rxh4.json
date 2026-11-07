@@ -1,0 +1,27 @@
+{
+  "id": "9rxh4",
+  "slug": "substrat",
+  "title": "SubStrat",
+  "tagline": "Delegate DeFi strategy, not custody. Manage Aqua positions with ENSv2 permissions.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9rxh4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uZl2Em6bbG00gz9on174tIMZMpkr25tOewEVqKP01d5f4/high.mp4",
+  "demo_url": "https://substrat-one.vercel.app",
+  "source_url": "https://github.com/diyaaaaaaaaaaaaaa/SubStrat",
+  "finalist": false,
+  "description": "SubStrat is a non-custodial strategy-delegation protocol for 1inch Aqua positions. It lets a client or organization give a strategist narrowly scoped authority to manage a DeFi liquidity strategy without handing over custody of the underlying funds.\n\nA client’s StrategyController becomes the Aqua maker and holds the required Aqua approval, while the strategist can only call a guarded rebalance function. Because Aqua strategies are immutable once shipped, tuning a position means docking the existing strategy and shipping a new one with a fresh strategy hash and updated parameters.\n\nENSv2 provides the delegation layer. A client grants a strategist a scoped role through Enhanced Access Control, tied to a specific name and strategy resource. The controller checks that role onchain before allowing a rebalance. If the client revokes the role, the strategist’s next attempt fails immediately, without changing the controller or relying on the strategist’s cooperation.\n\nPrivy provides the client-side ownership and governance layer. Its wallet and policy controls protect principal-changing actions such as emergency closure, reassignment, and future organization-level approvals. The result is a clear separation between tuning and taking: a strategist can operate within an approved strategy boundary, but cannot withdraw the client’s funds or override the owner.\n\nSubStrat turns Aqua’s self-custodial liquidity into a delegatable primitive: delegate strategy, not custody.",
+  "how_its_made": "SubStrat is built with Solidity 0.8.30, real 1inch Aqua contracts, 1inch SwapVM strategy data, ENSv2 Enhanced Access Control, Privy’s server SDK, Hardhat, ethers v6, OpenZeppelin contracts, and a standalone solc compilation script.\n\nThe core contract is StrategyController. It acts as the Aqua maker rather than relaying calls from the client wallet, because Aqua keys ship() and dock() accounting from msg.sender. The controller therefore holds its own Aqua approval. A strategist never receives that approval and never directly handles the client’s tokens.\n\nA rebalance follows Aqua’s immutable-strategy model. The strategist calls rebalance(), the controller checks the ENSv2 permission, the controller docks the old strategy, and then ships a new strategy. Aqua records a new strategy hash. The old strategy is marked as docked, while the replacement receives a new hash and updated parameters. The owner retains an independent emergencyDock() path.\n\nENSv2 is integrated as an execution permission, not as display metadata. The controller calls hasRoles() against a resource derived from the ENS name and strategy key. The resource calculation, role bitmap, and ROLE_SET_TEXT value were aligned with the real ENSv2 Permissioned Resolver implementation. We also created a Sepolia wiring script using a minimal ABI to call authorizeTextRoles() and verify permissions on the live resolver without compiling ENSv2’s entire dependency tree locally.\n\nPrivy is used on the owner side. The real Privy server SDK creates a wallet, attaches a policy restricting calls to the controller’s owner-only functions, and can submit an emergencyDock() transaction. Privy Key Quorums provide the upgrade path for 2-of-3 organizational treasury control, while the current MVP focuses on the SDK-manageable policy layer.\n\nThe build used several practical workarounds. Foundry and direct Solidity compiler downloads were unavailable in the sandbox, so we used the solc npm package with a custom compiler script. We pinned Solidity 0.8.30 to match Aqua’s exact pragma and normalized Windows path separators so nested imports compiled correctly on both Linux and Windows.\n\nThe most important validation was reproduced on two machines against real Aqua contracts. An unauthorized strategist is rejected, an ENS-authorized strategist can create a new strategy, revoking the ENS role makes the next rebalance revert, and the owner can still emergency-dock independently. This demonstrates the core property of SubStrat: strategy authority can be delegated and revoked without transferring custody of the position.",
+  "auto_summary": "A Solidity-based protocol delegates rebalancing authority for 1inch Aqua positions using ENSv2 role checks and owner-controlled emergency actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/substrat-9rxh4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

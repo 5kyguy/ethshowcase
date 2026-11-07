@@ -1,0 +1,22 @@
+{
+  "id": "nzqiq",
+  "slug": "stratus-finance",
+  "title": "Stratus Finance",
+  "tagline": "Deposit gold + S&P 500 as one token, borrow with isolated per-asset risk on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nzqiq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mB02LhR02ao202VXhqnvcYYzQARsObHU01aQWh8wzi6NEeE/high.mp4",
+  "demo_url": "https://stratusfinance.vercel.app",
+  "source_url": "https://github.com/fabian4819/Stratus-Finance",
+  "finalist": false,
+  "description": "Stratus Finance lets users deposit a Real-World-Asset basket (tokenized gold plus a tokenized S&P 500 index, minted via Hedera's Asset Tokenization Studio) and borrow stablecoins against it. Existing lending protocols like Aave and Morpho only accept single-asset RWA collateral, because a combined basket is hard to price and hard to liquidate safely.\n\nStratus solves this with look-through isolation: the vault decomposes the basket into two separate, independently configured lending reserves at deposit time, each with its own loan-to-value ratio and liquidation threshold. If gold crashes, only the gold reserve gets liquidated. The S&P 500 position keeps backing the loan, untouched.\n\nBuilt on a real, unmodified Aave v2 fork (Bonzo Finance), with real ATS tokens and real RedStone price feeds for gold and the S&P 500 index. Every stage, mint, deposit and decompose, borrow, and isolated liquidation in both directions, has been run for real on Hedera testnet with recorded transaction hashes, not just unit tested.",
+  "how_its_made": "The lending core is a real, unmodified fork of bonzo-finance-contracts (Aave v2), deployed through the actual upgradeable-proxy flow, not reimplemented. GOLD-x and STOCK-x are real Hedera Asset Tokenization Studio (ATS) Equity diamonds, issued directly via @hashgraph/asset-tokenization-contracts, with control-list compliance gating navigated for every protocol contract: the pool, the vault, both aTokens, and the demo liquidator.\n\nTwo new Solidity contracts, StratusBasketToken and StratusVault, handle the actual decomposition. Depositing the basket pulls the underlying ATS tokens and deposits each into its own isolated Aave v2 reserve on the user's behalf; recomposing reverses it. StratusRiskView is a read-only contract giving a per-component health-factor heuristic alongside the pool's real, enforced health factor.\n\nPrice feeds are RedStone's real, signed pull-oracle feeds (gold tracks the real XAU spot price, the index tracks the real S&P 500 level via USA500.Y), chosen after checking every oracle actually integrated with Hedera: Pyth's Hedera receiver contract rejected valid Wormhole VAAs, a real infrastructure gap outside our control, and Chainlink and Supra had no RWA feeds on Hedera testnet at all. Chainlink stays wired in as a working alternate oracle.\n\nOne genuinely hacky find along the way: a Pyth refund calculation silently rounded to zero because Hedera's 8-decimal tinybar ledger drops native-value amounts below 1e10 wei. We fixed it and contributed the check upstream to hedera-dev/hedera-harness.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/stratus-finance-nzqiq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

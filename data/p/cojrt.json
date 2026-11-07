@@ -1,0 +1,27 @@
+{
+  "id": "cojrt",
+  "slug": "ambermarket",
+  "title": "AmberMarket",
+  "tagline": "AmberMarket turns real-time junction traffic data into verifiable on-chain prediction markets.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cojrt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/znBDA2EpOjoNEaivpWZ6XTA4r435wwfMq02hPkIuia01c/high.mp4",
+  "demo_url": "https://ambermarket.vercel.app/",
+  "source_url": "https://github.com/vivekjain488/AmberMarket",
+  "finalist": false,
+  "description": "The problem AmberMarket solves\nAmberMarket – Every signal is a market\nThe Problem It Solves\nEvery signal is a market. Every junction is an asset.\n\nAmberMarket transforms real-world traffic data into on-chain prediction markets grounded in something measurable, verifiable, and live: how many vehicles cross a junction during a single green-light window.\n\nNo abstract outcomes. No human referees. Just a CV oracle watching actual CCTV streams and settling bets automatically.\n\nWhat you can do with AmberMarket:\n\nStake on live traffic — Place $AMBER bets on real-time junction vehicle counts, settled by a YOLO-powered computer vision oracle reading live camera feeds. Transparent, automated, tamper-resistant.\nOwn a junction — Mint an AmberJunctionNFT to claim ownership of a real-world intersection and earn royalties every time others bet on your junction.\nGet a Web3 identity — Claim a free .ambermarket.eth ENS subname and appear across leaderboards and live markets with a human-readable name.\nTrust the machine, not the middleman — Smart contracts hold all funds; the oracle provides the count; winners are paid by tolerance (e.g. +-15% or exact). Zero manual intervention.\nThe stack in one line: Real-time CV data + on-chain prediction markets + automated oracle settlement + ENS identity, all wired together in a single hackathon build.\n\nChallenges we ran into\nChallenges We Ran Into\n1. Bridging Python CV and a Node backend\nThe vehicle-counting pipeline runs on Python (YOLO + OpenCV), while the rest of the stack is Node.js + Socket.io. Rather than splitting into two long-running services, we spawn the CV pipeline as a subprocess and consume JSON lines from stdout, keeping the server single-process while still streaming live counts to clients. Getting clean shutdown, timeouts, and graceful fallbacks (a \"fake mode\" for when YOLO is not installed) took a few iterations to get right.\n\n2. ENS subnames via Namespace\nWe wanted free .ambermarket.eth identities with no gas cost for users. The Namespace offchain manager requires domain-scoped API keys, something we discovered the hard way after hitting repeated 401s with a default key. Switching to domainApiKeys: { [ENS_PARENT_NAME]: NAMESPACE_API_KEY } fixed it. We also added rate-limiting (10-minute claim cooldown) and proper UI differentiation between \"subname not found\" and \"API unavailable\" for a cleaner demo experience.\n\n3. Taming real CCTV streams\nCaltrans D3 HLS streams are not framed for lane-level counting. They capture wide scenes with sidewalks, adjacent lanes, and irrelevant zones. We introduced a per-junction viewport config (e.g. 0.30,0.40,0.70,0.90) so the CV model only counts within a defined region of the frame. This meaningfully reduced false positives and made counts accurate enough to actually settle bets on.\n\n4. Phase loop and frontend sync\nThe server drives a strict market cycle: RED_OPEN > GREEN_COUNTING > SETTLING, broadcast over Socket.io. Keeping the client's countdown timers, bet-open/closed states, and settlement modals in sync with backend phase (and on-chain state when the oracle is active) required a single authoritative source of truth and clearly named events, so the UI never showed \"Place Bet\" after the market had already locked.",
+  "how_its_made": "Technologies used: Solidity, HTML, React, Node.js, CSS, JavaScript, Flask, Python, ethers.js, Tailwind CSS\nStake on live traffic — Place $AMBER bets on real-time junction vehicle counts, settled by a YOLO-powered computer vision oracle reading live camera feeds. Transparent, automated, tamper-resistant.\nOwn a junction — Mint an AmberJunctionNFT to claim ownership of a real-world intersection and earn royalties every time others bet on your junction.\nGet a Web3 identity — Claim a free .ambermarket.eth ENS subname and appear across leaderboards and live markets with a human-readable name.\nTrust the machine, not the middleman — Smart contracts hold all funds; the oracle provides the count; winners are paid by tolerance (e.g. +-15% or exact). Zero manual intervention.\nThe stack in one line: Real-time CV data + on-chain prediction markets + automated oracle settlement + ENS identity, all wired together in a single hackathon build.",
+  "auto_summary": "AmberMarket combines traffic-camera vehicle counting with smart contracts to run prediction markets and junction ownership NFTs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ambermarket-cojrt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

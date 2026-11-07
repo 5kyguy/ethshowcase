@@ -1,0 +1,35 @@
+{
+  "id": "1i1qm",
+  "slug": "preflight-mcp",
+  "title": "Preflight MCP",
+  "tagline": "The check an AI agent clears before it signs. High risk needs a press on your Ledger.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1i1qm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mERMkdLm3BJAvyj0002QRLBglcQ3DBVkWPlzOYJq1TBIg/high.mp4",
+  "demo_url": "https://github.com/ritiklakhwani/preflight",
+  "source_url": "https://github.com/ritiklakhwani/preflight",
+  "prizes": [
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "2nd place",
+      "title": "Extend to Ledger"
+    }
+  ],
+  "finalist": true,
+  "description": "An AI agent can read a contract, decide it looks fine, and sign against it with no human in the loop. The text it reads to make that decision was written by whoever deployed the contract, for the price of gas.\n\nHere is a real token on Ethereum mainnet. It reports 1.1 trillion dollars of liquidity. Four transactions have touched it in four years. The source is verified and the name is friendly, so an agent reading the contract finds nothing wrong. Preflight scores it HIGH 94, because it asks a different question: not what the contract says, but what it has done.\n\nAn agent crosses five boundaries. What it installs, what it reads, what it trusts, what it submits, and what it is allowed to do. Four of those have somebody defending them. The one nobody defends is what the agent reads, and it is the cheapest of the five to attack.\n\nPreflight sits at that boundary. It ships as an MCP server, so the check happens inside the agent that was about to sign. Eleven weighted signals, four of which read Uniswap V3 pool state through The Graph across Ethereum, Arbitrum and Base. Source code tells you what a contract may do. Indexed pool history tells you what it has done, and only one of those predicts a rug.\n\nThe score is arithmetic, not a judgement call. The same address in the same on-chain state gives the same answer every time, and the language model in the pipeline writes one advisory paragraph that structurally cannot move the number.\n\nEvery on-chain string is treated as hostile. It gets sealed before a model reads it and wrapped in an unpredictable nonce before an agent does. When the verdict is high, the approval leaves software entirely and goes to a Ledger for a physical button press. Unplug the device and the flow breaks. That is the point: the device is the only part of the loop an attacker cannot reach over the network.\n\nThis extends Inspector AI, which I built at ETHGlobal Singapore in 2024. Everything after the ethonline-2026-start tag is new. Twenty one hand verified addresses in the repo, zero false positives.\n",
+  "how_its_made": "TypeScript throughout, pnpm workspaces, eight packages. The MCP server speaks stdio and exposes three tools, so an agent in Claude Code or Cursor calls preflight_check before it approves anything.\n\nThe Graph is where the project earns its answers. Four of the eleven signals query the official Uniswap V3 subgraphs through the decentralised gateway with a Subgraph Studio key, on Ethereum, Arbitrum and Base. Uniswap ships identical subgraph code per chain, so one query string covers all three and only the deployment id changes. That is the reason this supports three chains instead of one. Pool queries run on both sides of the pair because a Uniswap pair is directional and a token on the wrong side would be invisible. Etherscan V2 supplies source, ABI, proxy resolution and transfer history.\n\nScoring is noisy-OR over independent evidence rather than a weighted average. Averaging assumes findings dilute each other, and they do not: a pool holding 1.1 trillion dollars that four transactions have touched is damning on its own. Under averaging that address scored 18 and read LOW. It now reads HIGH 94.\n\nLedger shows up twice. wallet-cli ring is the credential store, so the API keys in the repo are ciphertext and no plaintext exists on disk. And a high verdict blocks on a device confirmation, returned to the agent as an error rather than a warning it could reason past.\n\nThe notable hack is why that gate is fast. wallet-cli does not fail quickly when no device is attached, it scans for about a minute, which blew past the MCP client's sixty second request timeout. So the gate reads the USB tree directly first, which answers in 47 milliseconds, and the engine hands the gate only the budget the analysis did not already spend. Unplugged now refuses in nine seconds instead of timing out.\n\nThirteen hardware test cases on a Nano S Plus found nine defects a passing test suite had not, including a parser that refused every genuine button press because receive --verify reports success as status success with verified and source fields and never emits the ok true we required. Every one of those failures failed closed.\n\nPostgres for persistence with an in memory fallback. Contributed fixes back to both partners while building: Uniswap/v3-subgraph#310 and LedgerHQ/device-sdk-ts#1884.\n",
+  "auto_summary": "An MCP-based TypeScript service scores token contract risk using Etherscan analysis, The Graph subgraph data, and optional Ledger-gated approvals.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/preflight-mcp-1i1qm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

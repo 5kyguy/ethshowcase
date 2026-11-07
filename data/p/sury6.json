@@ -1,0 +1,22 @@
+{
+  "id": "sury6",
+  "slug": "nexora",
+  "title": "Nexora",
+  "tagline": "Post‑quantum agentic smart wallet on Arbitrum Orbit + Stylus with Ethereum‑style accounts.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sury6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bYwRTIg6w1vU95Un5MjLvg100VvpzCd1Khq1FRDFAzi4/high.mp4",
+  "demo_url": "https://nexorapq.in",
+  "source_url": "https://github.com/Vib-UX/nexora",
+  "finalist": false,
+  "description": "Nexora is an end-to-end “post-quantum aware” smart-wallet stack built on a custom Arbitrum Orbit L3. At its core is a Stylus (Rust) smart account (NexoraAccount) that validates transactions with a hybrid ECDSA + post-quantum path: classical ECDSA where appropriate, plus Falcon-style PQ verification when policy demands it. An on-chain PolicyEngine classifies operations into risk bands (LOW / HIGH / CRITICAL) and drives which signature types must be present. PQ verification does not live hard-coded in every wallet—implementations are reached through a VerifierRegistry that maps scheme IDs to verifier contracts, so you can swap backends (e.g. a lightweight reference verifier vs. full Falcon-512 verification in Stylus, or a future Nitro precompile) with registry updates instead of redeploying user wallets. The repo also ships a TypeScript wallet SDK (EIP-712–bound UserOps, signing flows), an optional single-op sponsoring relayer, a Next.js dashboard (MetaMask, deploy/fund/send flows, verifier visibility), and a demo agent for intent-style submissions—making the stack usable as a full vertical slice from chain to UI.",
+  "how_its_made": "The project is a monorepo tying together Rust-on-chain, TypeScript clients, and ops scripts. Smart contracts live mainly in contracts-stylus/ (Stylus SDK / WASM contracts in Rust): the account, policy engine, factory (EIP-1167 + CREATE2), and PQ verifiers—including a verify-only Falcon-512 port aligned with falcon-rust / PQClean-style encodings, plus contracts-sol/ for canonical Solidity interfaces. wallet-sdk/ uses viem to build chain-bound EIP-712 operation hashes, ABI-encode hybrid signatures, and talk to the contracts. dashboard/ is Next.js 14 with wagmi, TanStack Query, and Tailwind; it reads deployment metadata from deployments.json and can use wasm-pack–built Falcon signing in the browser or fall back to a Rust falcon-signer HTTP daemon for signing. relayer/ is a Fastify server that accepts POSTed ops and sponsors execution. chain/ and scripts/ (e.g. dev-up.sh, deploy-all.ts) orchestrate the Nitro dev JSON-RPC and contract deployment. Notable “nitty-gritty” choices: 2D nonces (separate channels for ECDSA vs PQ) and registry-indirected verifiers so the architecture survives algorithm swaps; optional in-dashboard tx tracing via debug_traceTransaction to surface the PQ verify call in the call tree; roadmap toward a Nitro precompile shim that keeps the same wallet interface while moving heavy verify off the Stylus contract. Partner / ecosystem benefit: Arbitrum Orbit + Stylus + Nitro gives a controlled L3 with Rust WASM contracts and a realistic path to cheaper verification later, while wagmi/viem keeps the web stack standard and composable with wallets like MetaMask.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nexora-sury6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

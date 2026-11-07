@@ -1,0 +1,22 @@
+{
+  "id": "ntg64",
+  "slug": "hivemind",
+  "title": "HIVEMIND",
+  "tagline": "A massive AI agent swarm simulates a parallel DeFi market on 0G's decentralized infrastructure.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ntg64/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HkHSAXFMFHhG402ppqnAtng8u6v00Oeoi3yD6Rar6WJdk/high.mp4",
+  "demo_url": "https://hivemind-umber.vercel.app/",
+  "source_url": "https://github.com/halli75/HIVEMIND",
+  "finalist": false,
+  "description": "HIVEMIND is a DeFi strategy simulation engine that deploys a swarm of 500 AI agents, each embodying a distinct on-chain archetype (whale, degen, LP provider, MEV searcher, arbitrageur, governance voter, stablecoin arb)  to stress-test trading strategies against live market conditions before any real capital is committed. Agents operate across three inference tiers: Tier 1 agents run live LLM inference via 0G Compute, Tier 2 agents use local heuristics, and Tier 3 agents run deterministic rules. The winning strategy is crystallized into an ERC-7857-compatible iNFT minted on the 0G Galileo testnet, with the strategy payload encrypted and stored on 0G Storage. Agents coordinate decisions across real Gensyn AXL P2P nodes using a typed 7-message protocol (TRADE_INTENT, MARKET_SIGNAL, POOL_STATE, COALITION_INVITE, GOVERNANCE_SIGNAL, INFERENCE_RESULT, SCENARIO_SHOCK), and the winning execution path is validated end-to-end with a real Uniswap swap on Sepolia. The frontend is a live HUD with a WebGL force-directed agent graph. You can click any node to inspect its archetype, rationale, P&L, and inference source in real time.",
+  "how_its_made": "The backend is a Python FastAPI service backed by the hivemind-sdk package, which owns the simulation engine, scoring, and all provider abstractions. Inference is handled by a HybridInferenceProvider that runs a local heuristic fast-pass over all agents, then fans out the top-N to 0G Compute (qwen/qwen-2.5-7b-instruct) via concurrent asyncio.gather() batches of five, sharing a single httpx.AsyncClient connection pool to amortize per-request overhead, delivering ~4.7× wall-clock improvement over sequential calls against 0G's proxy. Agent coordination uses Gensyn AXL nodes as separate OS processes; the Python SDK publishes and consumes all seven typed message types over AXL's pub/sub channels, including POOL_STATE oracle updates derived from live Uniswap v3 tick math, and COALITION_INVITE direct-agent messages that align LP provider peers into coordinated positions. iNFT minting calls 0G Storage first (returning a root hash proof), then submits that hash to a custom HivemindINFT ERC-721 contract on Galileo via eth_sendRawTransaction. The Uniswap integration uses the Uniswap Routing API for quote discovery and Permit2 EIP-712 signing for gasless token approval before submitting the swap transaction on Sepolia. The frontend is React 19 + TypeScript with Sigma.js 3.0 / Graphology for WebGL graph rendering, a ForceAtlas2 web worker for continuous organic node physics, and a slide-in AgentDetailPanel per node.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hivemind-ntg64",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "oc3kj",
+  "slug": "greenstake-dex",
+  "title": "GreenStake DEX",
+  "tagline": "AI DEX for staking & trading renew. energy credits on Sepolia with PYUSD settlements & Pyth pricing.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oc3kj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wNc3w8HKaACc4iMhLH1pl3sWuP44YflwCjjFOi02009oE/high.mp4",
+  "demo_url": "https://budget-buddy-andreaamenta87.replit.app",
+  "source_url": "https://github.com/Amentinho/GreenStake",
+  "prizes": [
+    {
+      "sponsor": "PayPal USD",
+      "sponsor_id": "aezzh",
+      "placement": "PYUSD Consumer Champion (Best Consumer-Focused Payments Experience)",
+      "title": "PYUSD Consumer Champion (Best Consumer-Focused Payments Experience)"
+    }
+  ],
+  "finalist": false,
+  "description": "GreenStake is a decentralized exchange (DEX) and staking platform designed for community-owned renewable energy ecosystems. It enables users to tokenize surplus kWh credits as ERC-20 EnergyTokens (ETK), stake ETH based on AI-predicted needs, and trade peer-to-peer with real-time pricing and stablecoin settlements. Built on Ethereum Sepolia testnet, it addresses key challenges in green energy: grid waste (20–30% from overproduction), privacy in consumption data, and fragmented liquidity across chains.\n\nUsers start by connecting their wallet (MetaMask via Wagmi/WalletConnect) and generating an AI forecast using Hugging Face's GPT-2 model on historical data (e.g., [1000, 1200, 1100] kWh → predicts 1300 kWh next month). This informs needs-based staking: Commit ETH (min 0.01) via the GreenStakeDEX V3 contract (0x802405d53f046429D4e76660FFf9E0FE2b3359A5), which verifies commitments on-chain while keeping details private (future ZKP extension with Semaphore). Staked funds can be withdrawn anytime, with flexible unstaking.\n\nTrading happens via the DEX: Execute swaps (e.g., ETK for PYUSD) at Pyth oracle prices (pull method: Fetch from Hermes, update on-chain with updatePriceFeeds, consume via getCurrentEnergyPrice – fallback $3000/kWh). PYUSD (testnet 0xCaC524BcA292aaade2DF8A05cC58F0a65B1B3bB9) enables instant, stable settlements (approve once, transfer in executeTrade). All txs are transparent via embedded Blockscout Autoscout explorer (Sepolia instance for real-time tracking).\n\nAs an ETHOnline 2025 hack, GreenStake demos a live MVP on Replit (https://budget-buddy-andreaamenta87.replit.app/), with verified Sepolia contract. It's mainnet-ready for Ethereum/Polygon/Base, empowering co-ops to trade renewables equitably – reducing fossil reliance and unlocking $1T+ tokenized energy markets. Open-source (MIT), with roadmap for DAO governance and L2 scaling.",
+  "how_its_made": "GreenStake was built as a full-stack dApp in Replit for rapid iteration, syncing to GitHub (Amentinho/GreenStake) for open-source collaboration. The frontend (React 18 + TypeScript in client/src) uses Vite for fast HMR/builds (npm run dev on port 5000), Wouter for routing (pages/Home.tsx dashboard), and Tailwind CSS + Shadcn UI for a green-themed, responsive layout (e.g., ForecastCard.tsx with AI button, StakeCard.tsx for ETH input). Wagmi v2 + Viem handle wallet interactions (ConnectButton from RainbowKit alternative, but custom with WalletConnect v2 for multi-wallet), querying balances via TanStack Query v5 (e.g., auto-refresh staked ETH post-tx). Lib/api.ts fetches from backend (Axios), with constants.ts holding ABIs/addresses (e.g., Pyth oracle 0x2880aB155...).\n\nBackend (server/index.ts, Express + TS) runs concurrently on the same port (no CORS), using in-memory storage (storage.ts) for demo data (stakes/trades as arrays) and Zod for validation (e.g., POST /api/forecast parses historicalData). Hugging Face Inference client integrates GPT-2 for AI (prompt: \"Predict kWh from [data]\" – fallback 1300 if rate-limited; HF_TOKEN in .env). For production, Drizzle ORM schema (shared/schema.ts) is ready for PostgreSQL migrations (npx drizzle-kit push).\n\nWeb3 core is the GreenStakeDEX V3 Solidity contract (contracts/GreenStakeDEX_V3.sol, 0.8.x compiler in Remix), deployed/verified on Sepolia (0x802405d53f... via Injected Provider). It uses OpenZeppelin (ERC20 for ETK, ReentrancyGuard, Ownable2Step for DAO), Pyth SDK for pull oracles (updatePriceFeeds from Hermes data, getPriceNoOlderThan(60s) in getCurrentEnergyPrice – feed ID for USD/ETH), and IERC20 for PYUSD transfers (approve/transferFrom in executeTrade). Staking (stake(energyNeed) payable) maps user stakes (gas-optimized 96% savings), withdraw unstakes, trades execute with oracle price (e.g., ETK * rate = PYUSD out). Hacky note: In-memory backend mocks DB for speed (swaps to Drizzle seamlessly); AI fallback prevents API downtime during demo.\n\nPiecing together: Frontend hooks (useEffect in StakeCard.tsx) call Ethers v6 signer for txs (stake/withdraw), backend API for non-chain data (forecast), and explorer embed (ExplorerEmbed.tsx iframe to Blockscout Sepolia for tx links). Partner tech benefits: Pyth ensures tamper-proof pricing (innovative for energy volatility, $3K bounty); PYUSD adds fiat stability (real settlements, $10K qual); Blockscout provides UX transparency (embedded for $3.5K). Total ~500 LOC; tested with 5 wallets on Sepolia (faucet ETH, PYUSD from PayPal testnet). No major hacks beyond demo mocks—focus on production-ready V3 (gas-optimized, DAO-able).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/greenstake-dex-oc3kj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

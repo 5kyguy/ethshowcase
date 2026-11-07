@@ -1,0 +1,21 @@
+{
+  "id": "cxfa9",
+  "slug": "rensplit",
+  "title": "RenSplit",
+  "tagline": "Autopay rent splitter powered by Privy wallets, x402 automation & XMTP group notifications",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cxfa9/banner/default.jpg",
+  "demo_url": "https://ethglobal-ba.vercel.app",
+  "source_url": "https://github.com/GeekyKartikey/ethglobalBA",
+  "finalist": false,
+  "description": "Our project is a lightweight, Web3-powered rent-splitting app where roommates can automatically settle shared rent using embedded smart wallets and automated payment authorization. Each user signs in with Privy, which instantly provides them an on-device wallet—no extensions, no onboarding friction. Users join a rent group, configure the monthly rent amount and due date, and enable autopay through x402, allowing the app to programmatically charge their share on the due date without requiring manual approval.\n\nAll group coordination happens through XMTP: every rent event—new member added, payment success, failure, or retry—is automatically posted into the shared group chat. Reminders are pushed three days before due date, and failures trigger next-day retries with corresponding chat updates. The result is a simple, trust-minimized autopay coordination layer that removes the social friction of splitting rent while keeping all communication inside an encrypted XMTP conversation.",
+  "how_its_made": "The app uses Privy for authentication and embedded EVM wallets, giving every user a secure, gas-abstracted wallet immediately at sign-in. Privy’s SDK handles user identity, wallet creation, and wallet access within the browser.\n\nFor automated rent collection, we integrated Privy’s x402 flow. When users enable autopay, they complete an x402 authorization that lets the backend programmatically pull only the approved rent amount. Our backend stores authorization metadata and uses it to execute charges on the rent due date or during fail-and-retry cycles. All settlements call x402 server-side and return a success or failure object that triggers corresponding messaging.\n\nXMTP powers the communication layer. When a group is created, the backend spins up an XMTP group conversation and stores its ID. All system actions—member joins, rent reminders, payment success, payment failure, and automated retries—are emitted as XMTP group messages. A daily scheduler handles reminder messages three days before the due date and runs the full autopay settlement flow on the due date itself.\n\nThe stack includes:\n\nPrivy: auth + embedded wallets + x402 automated payments\n\nx402: programmatic, permissioned rent charging per member\n\nXMTP: encrypted group chat for all notifications\n\nNode/NextJS backend: scheduled tasks, retry logic, group logic\n\nThe final result is a fully automated, chat-native rent settlement system powered entirely by Privy and XMTP.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/rensplit-cxfa9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "885kf",
+  "slug": "agentis",
+  "title": "Agentis",
+  "tagline": "Complete financial infrastructure for AI agents, usable via SDK, CLI, MCP or its dashboard",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/885kf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/o77JB3bpP77Dud6asF01xWhHgvJ6cD00hz8tUq593PTaE/high.mp4",
+  "demo_url": "https://agentis.systems",
+  "source_url": "https://github.com/awesamarth/agentis",
+  "finalist": false,
+  "description": "Agentis gives AI agents wallets and the ability to pay for things—with spending controls set by their owner. Instead of handing an agent an unrestricted private key or manually paying for every request, users create named agents with separate wallets, budgets and permissions. Agents can operate automatically within those limits or request owner approval for each payment.\n\nA shared backend handles authorization, spending reservations, execution and transaction receipts across the dashboard, SDK, CLI and remote MCP. Hosted wallets use Privy, while Agentis enforces per-transaction, hourly, daily and total USD limits across each agent’s networks, including fees. Agents can send funds and access paid APIs through x402 and MPP without managing individual subscriptions or API keys for those services.\n\nFor users who prefer local custody, the CLI also supports multichain wallets with keys kept on their own machine rather than in Privy. Local wallets support transfers, x402/MPP payments, shared USD spending limits and transaction history. They use owner-only file permisisons and do not require a hosted Agentis account.\n\nOptional capabilities are enabled per agent. The Uniswap integration adds swaps, manual portfolio rebalancing, recurring purchases, gas refill and swap-to-fund x402 payments—buying only the missing payment-token amount. The current implementation targets testnets across Base, Arc, Tempo and Solana, with Uniswap execution on Base Sepolia. The goal is practical financial autonomy for agents, with clear owner control and a traceable record of what was spent.",
+  "how_its_made": "Agentis is a TypeScript monorepo with a Bun/Hono backend, PostgreSQL and Drizzle for persistence, and Zod for input validation. The dashboard uses Next.js, React, Tailwind and TanStack Query. The SDK, CLI and remote MCP server all call the same backend operations rather than implementing separate payment logic. MCP uses the official protocol SDK and OAuth with PKCE; browser consent grants access only to explicitly selected agents and networks.\n\nPrivy handles authentication and hosted wallet keys. Wallets use a user/server 1-of-2 ownership quorum, allowing server-authorized execution without a wallet-signature popup for every payment. Agentis—not the quorum itself—enforces spending rules. PostgreSQL transactions and owner-level locks reserve the payment amount plus maximum fees before execution. Amounts use bigint arithmetic and decimal strings, with fresh server-side prices for shared USD budgets. Approvals bind to the exact operation, and signed transaction data is persisted before broadcast so uncertain submissions can be reconciled instead of blindly resent.\n\nViem handles EVM interactions, while Solana uses its own transaction adapter. x402 and MPP connect agents to paid HTTP services: discover payment requirements, authorize payment, retry the request and retain the payment record even if the service response fails. Local-custody CLI wallets use locally derived keys and a separate local policy ledger, without routing signing through Privy.\n\nUniswap provides the trading layer on Base Sepolia. One practical workaround was using its deployed V3 Quoter and SwapRouter02 directly after the hosted Trading API returned upstream errors. We compare quotes across four fee tiers and construct bounded calldata ourselves, including exact token allowances, minimum outputs and native-token wrapping/refunds. Swap-to-fund buys only a payment's shortfall using exact output. PostgreSQL-backed schedules run through the existing worker and approval pipeline, so recurring purchases do not require an always-online AI agent or a separate scheduling service.\n",
+  "auto_summary": "A TypeScript monorepo for managing agent wallets, policy-controlled payments, transfers, and optional swap and ENS identity features.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentis-885kf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

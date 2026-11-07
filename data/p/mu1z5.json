@@ -1,0 +1,40 @@
+{
+  "id": "mu1z5",
+  "slug": "bitrouter",
+  "title": "bitrouter",
+  "tagline": "Autonomous agent spawn and pay for subagent for long-run tasks verifiably ",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mu1z5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZjmmWQRTgQbbKu3YziZCSvpLC01RfyHGFqS44o5BK1kY/high.mp4",
+  "source_url": "https://github.com/SPIKESPIGEL404/bitrouter-ethglobal",
+  "prizes": [
+    {
+      "sponsor": "Sui",
+      "sponsor_id": "vsbye",
+      "placement": "Best product integrating Walrus  for storage",
+      "title": "Best product integrating Walrus  for storage"
+    },
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "2nd place",
+      "title": "Arc Continuity Track: Extend the Arc Ecosystem"
+    }
+  ],
+  "finalist": true,
+  "description": "\nBitRouter spawn is an open-source LLM routing layer that makes AI agent inference autonomous, bounded, and verifiable. The core problem: the moment you spawn a multi-agent swarm, you hit four walls simultaneously — single-provider reliability failures, zero observability into subagent calls, no safe way for agents to hold or spend money, and burning your most expensive model on every task regardless of complexity.\nWe built bitrouter-pay, a Rust plugin for the BitRouter monorepo that wires together three sponsor tracks into one coherent system. Agents route all inference through a BitRouter proxy running locally and tunneled via ngrok. When a paywall returns a 402, the x402 client handles the challenge automatically — parsing EIP-3009 and GatewayWalletBatched payment schemes — then signs and submits a USDC transfer on Arc testnet using an OWS-managed self-custodied wallet with a hardcoded spend cap. The wallet never exposes keys. Every inference on attested routes runs through the Chainlink Confidential AI Attester inside a TEE, returning cryptographic digests binding model ID, input hash, and output hash as a verifiable receipt. Walrus on Sui handles encrypted shared memory with scoped recall, so subagents retrieve prior context instead of reprompting from scratch every call.\nThe demo is: fund the wallet once, say \"build me an app\" to Claude Code, and watch it spawn subagents, route calls, pay per inference in USDC, and return an attested spend ledger — zero human approvals after the initial deposit.\nBuilding this in 36 hours on a Rust monorepo we didn't write meant fighting Cargo workspace dependency conflicts, a Windows-WSL dual environment requiring manual file syncs before every test run, the Arc testnet Proceeds backend going down mid-integration test (payments confirmed on-chain via tx hash, backend just couldn't respond), figuring out how OWS's Rust crate integrates into an existing alloy wallet stack without FFI, and wiring the Chainlink TEE attester so it fires on attested routes post-payment rather than as a standalone call. The ngrok free tier also rotates URLs on every restart, which broke the MPP handshake twice during testing.",
+  "how_its_made": "Stack: bitrouter - Rust monorepo (Cargo workspace), OWS wallet signing, x402/MPP payment protocol, Circle USDC on Arc testnet, Chainlink Confidential AI Attester (TEE), Walrus encrypted memory on Sui, Claude Code/OpenCode as the orchestrator harness, ngrok for tunnel exposure, WSL + Windows Cursor as the dev environment.\nHow it's pieced together: BitRouter runs as a local proxy on port 4356. Every agent inference call hits POST /v1/chat/completions through the proxy. BitRouter task-matches the request to the cheapest model that fits, then fires it at the provider. If the provider returns a 402, our bitrouter-pay x402/mpp client intercepts it — parses the WWW-Authenticate challenge (we had to handle both EIP-3009 and GatewayWalletBatched payment schemes), builds a USDC transfer transaction targeting the Proceeds paywall on Arc testnet (chain ID eip155:5042002), signs it using the OWS Rust crate wired into the existing alloy wallet stack, submits it on-chain, then retries the original inference. The OWS wallet (agent-treasury) lives in a vault at /home/maka/.ows/wallets with a hardcoded spend cap — keys never leave it. For attested routes, after payment settles, the Chainlink Confidential AI Attester gets called — the inference reruns inside a TEE and returns two digests: request_digest and response_digest cryptographically binding model + input + output. That receipt goes into the live spend ledger alongside the Arc tx hash. Walrus handles shared encrypted memory across subagents using Seal for access-scoped recall — orchestrator delegates a scoped key per subagent so they pull prior context instead of getting the full history stuffed into every prompt.\nPartner tech breakdown:\n\nCircle/Arc — x402 USDC micropayments on Arc testnet. The 402 paywall from Proceeds (myproceeds.xyz) was the live endpoint we hit in integration tests. Without this, autonomous payment is impossible — you'd need a human topping up API keys.\nChainlink TEE Attester — Confidential AI inference with cryptographic receipts. Wired in via CHAINLINK_ATTESTER_API_KEY, runs with --features chainlink-demo. This is what makes \"verifiable\" actually mean something — you can prove which model ran on what input.\nOWS (OpenWallet Standard) — The OWS Rust crate was already partially baked into BitRouter's existing ows-signer from v0.18. We extended it to handle Arc testnet's EVM chain config and wire signAndSend into the x402 payment loop. Self-custodied, policy-bounded, no key exposure.\nWalrus/Seal — Encrypted blob storage on Sui. Solves the token-burn problem where every subagent reprompts with full shared context. Orchestrator writes state once, subagents recall what they're scoped to.\n\nNotably hacky things:\n\nThe entire dev environment was Windows Cursor writing code, WSL running Cargo and tests, with a manual cp -r sync command that had to run before every single test — because Cargo can't cross the WSL/Windows filesystem boundary cleanly at build time. We ran that sync command probably 50 times. The ngrok free tier rotates its public URL on every restart, which broke the MPP handshake twice mid-session because the bitrouter.yaml config had the old tunnel URL hardcoded. Mid integration-test run, the Arc testnet Proceeds backend went down — both x402 payments landed on-chain with tx hashes but the backend couldn't respond, so tests showed failure despite money actually moving. We had to read raw tx hashes off the chain to confirm it worked, then wait for the backend to recover and rerun. Also had to manually implement both EIP-3009 and GatewayWalletBatched x402 challenge schemes because the Proceeds paywall can return either and the client has to handle whichever one comes back. For chainlink confidential AI attester, we found out incomplete verification of their current apis and submit an audit report in the forked codebase (also have communicated with them about this issue). ",
+  "auto_summary": "A Rust monorepo plugin extends an LLM routing proxy with Arc USDC payments, Chainlink attestation hooks, and agent memory components.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bitrouter-mu1z5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

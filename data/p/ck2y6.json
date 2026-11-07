@@ -1,0 +1,35 @@
+{
+  "id": "ck2y6",
+  "slug": "turing-swap",
+  "title": "Turing Swap",
+  "tagline": "An identity-aware DEX where humans trade cheaper than bots, pay dynamic fee, and LPs earn smarter.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ck2y6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/t1BiS023a5cPKMU2N3vroFsJQt6SveWXG4F02JoT29U44/high.mp4",
+  "demo_url": "https://turingswap.blitlabs.xyz",
+  "source_url": "https://github.com/virajbhartiya/turing-pool",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "3rd place",
+      "title": "AgentKit New Use Cases"
+    }
+  ],
+  "finalist": true,
+  "description": "Turing Swap is an identity-aware, adaptive-fee DEX designed to help liquidity providers use their capital more efficiently while giving verified retail users better execution. Using 1inch Aqua, the same LP inventory can support multiple strategy programs without duplicating or double-spending the underlying assets.\n\nDuring every swap, a custom 1inch SwapVM instruction called _humanGate reads World’s canonical AgentBook. It checks whether a unique verified human stands behind the wallet and enforces a person-level trading quota that cannot be multiplied by creating additional wallets. Everyone can still trade permissionlessly, but verified retail and HFT/arbitrage flow can receive different risk-adjusted fees.\n\nThe fees are dynamic, not fixed tiers. The controller measures executed input volume from verified retail and searchers, then calculates:\n\nHuman share = human volume ÷ total volume\nSearcher share = searcher volume ÷ total volume\nHuman fee = LP target − (searcher share × risk spread)\nSearcher fee = LP target + (human share × risk spread)\n\nThis keeps: (Human share × human fee) + (Searcher share × searcher fee) ≈ LP target\n\nFor example, with 64.2% human volume, a 30 bps LP target, and a 31 bps risk spread, the controller produces approximately 19 bps for verified retail and 50 bps for searchers. These values change when the volume mix changes.\n\nNuthatch indexes every swap, identity decision, applied fee, fee update, deposit, and withdrawal. Its SQL and MCP interfaces give the dashboard and strategist agent an auditable view of realized activity. The strategist uses this data to inform future pricing while the interface displays the dynamic fee graph, verified-retail execution edge, human-versus-bot quotes, LP ownership, withdrawable liquidity, and separate per-token inventory changes.\n\nThe complete system is deployed on World Chain mainnet using the canonical World AgentBook, 1inch Aqua, custom SwapVM execution, permissionless LP vaults, and Nuthatch as its live data and intelligence layer.",
+  "how_its_made": "I built Turing Swap as a full-stack protocol deployed on World Chain mainnet. The smart contracts use Solidity and Foundry, the API uses Hono and viem, and the React/Vite frontend is deployed with Docker, EC2, and Caddy.\n\nI integrated 1inch Aqua so LPs can reuse the same liquidity across multiple strategies. I extended SwapVM with a custom _humanGate instruction that checks World’s AgentBook and HumanQuota contracts during execution. This classifies verified retail wallets and automated agents, applies the appropriate dynamic fee, records volume, and keeps the quoted fee consistent with the executed swap.\n\nI also built a custom Nuthatch indexer that tracks swaps, human verification, quota usage, fee updates, and liquidity changes. Its SQL and MCP interfaces power the live fee graph, LP analytics, and verifiable execution history.\n\nOne notable challenge was Ethereum’s EIP-170 contract-size limit. The new SwapVM instruction pushed the contract beyond 24,576 bytes, so I removed an unnecessary simulator mixin and retuned the Solidity optimizer. I also built a two-provider RPC proxy that splits large log requests into smaller ranges, making World Chain indexing more reliable.",
+  "auto_summary": "A World Chain DEX combines 1inch Aqua liquidity, World identity-based fee logic, and indexed swap analytics for adaptive pricing.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/turing-swap-ck2y6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

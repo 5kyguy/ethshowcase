@@ -1,0 +1,22 @@
+{
+  "id": "vax90",
+  "slug": "onchain-prediction",
+  "title": "ONchain Prediction",
+  "tagline": "Deployed an Airnode to BASE testnet. Lacking the ability to use unlimited offchain sports APIs, I used chainAPI to bring the Sportsmonk F1 sports API to be usable on the smart contract level by bringing the data onchain to settle any predictions on BASE network.",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vax90/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zgts3m502vAA4y8F00BDDiG01u3k6j01lTxWwuFWKdE7d00U/high.mp4",
+  "demo_url": "https://prediction-base.vercel.app/",
+  "source_url": "https://github.com/billyjitsu/prediction-base",
+  "finalist": false,
+  "description": "In this project, I deployed an Airnode to BASE testnet. Lacking the ability to use unlimited offchain sports APIs, I used chainAPI to bring the Sportsmonk F1 sports API to be usable on the smart contract level by bringing the data onchain to settle any predictions on BASE network.\n\nWith the ability to insure your positions with APE Coin\nI deployed an Airnode on AWS to host the API data being pulled from Sportsmonk. The airnode has a smart contract address to distinguish with chain it will be receiving the request from(BASE Testnet). It also has an endpoint to receive the GET request. With this setup, I can request different parameters depending on the API call. I chose to use the winner ID for the grand prix as an example.\n\nHere a user can predict which driver will win the Grand prix for the season. They can put a postion in ETH for a chance to win a prize, and they can also insure their position with APE coin. Leveraging API3's dapi onchain price feeds, the contract checks the value of ETH and APE coin being placed and in order to insure the postions, the APE coin insurance must be at least 25% of the ETH position value. If the racer loses or doesn't finish the race, insured predictors get half their postion back and burn their insurance.\n\nOnce all predications are placed and the race has concluded, the request to the api can be called. The smart contract calls on the airnode in one transaction. The Airnode gets the API data and then returns it in a 2nd transactions back to our smart contract. In order to pay for the gas of the 2nd transaction, we use a sponsor wallet that will pay for the gas logic when the data is returned.\n\nThe contract will check for the winnining number of the racer (the data that was requested) and compare it to the structs of all the betters and pay out winners and insured users.",
+  "how_its_made": "The API used is a sportsmonk F1 racing API.  I used API3s chainAPI to create a wizard that will build it to prepare to deploy to AWS.  Once deployed to AWS, I get airnode smart contracts that will allow me to create requests to the API through the airnode system.  It is a request / response setup, so it's a two transaction system.  A sponsor wallet must be created to pay for the gas once the callback is returned to the smart contract and the logic is executed depending on the data received. \n\nThe smart contract reads the data feeds of API3's dAPIs to get the USD value of both ETH and APE coin.  When a position is setup and the user wants to insure it, the amount of APE coin must be at least 25% of the value of the value of the Prediction. (ex  100 dollars worth of ETH, if you want to sure, you must put at least 25 dollars of APE coin to insure that position).\n\nIf the prediction is correct, there is a reward.  If the prediction is wrong or the racer doesn't finish the race, the users gets 50% of their value of ETH back.\n\nThis allows the burning of the token whether the prediction is correct or wrong.\n\nThe front end consists of rainbow kit and wagmi.  The request parameters for the API call must be encoded to make the request on the smart contract (bytes), so the front it creates a bytes value of the parameters setup requesting the exact data what we want to receive.  For example who won the grand prix. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/onchain-prediction-vax90",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

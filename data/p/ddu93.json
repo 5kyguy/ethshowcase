@@ -1,0 +1,34 @@
+{
+  "id": "ddu93",
+  "slug": "corex",
+  "title": "Corex",
+  "tagline": "Darkpool orderbook running inside a Flare Compute Extension (TEE)",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ddu93/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XkVvpJe4e003qoCyYNRZ5z02se6zbalBI43o3ltdsJjo4/high.mp4",
+  "source_url": "https://github.com/0xrouss/corex-tee",
+  "prizes": [
+    {
+      "sponsor": "Flare",
+      "sponsor_id": "2ugg8",
+      "placement": "Bonus Track: Best Smart Account App",
+      "title": "Bonus Track: Best Smart Account App"
+    }
+  ],
+  "finalist": false,
+  "description": "Corex is a darkpool spot exchange built on Flare Confidential Execution.\nInstead of putting the matching engine and internal account state directly on\nchain, Corex routes user actions into a trusted execution environment that can\nprocess deposits, maintain balances, privately match orders, and authorize\nwithdrawals while keeping the exchange logic off the public mempool path.\n\nThe user experience is split between onchain settlement and TEE execution.\nUsers deposit assets into `CorexCustody` through `CorexInstructionSender`, and\nthose deposits are synchronized into the TEE-managed exchange state. Orders can\nbe submitted either through the onchain instruction flow or as direct EIP-712\nsigned intents sent to the runtime. Once inside the enclave, Corex maintains\naccount balances, tracks open and filled orders, and runs deterministic private\nmatching for the configured market, giving the system a darkpool execution\nmodel rather than a fully transparent onchain order book.\n\nWithdrawals are designed around a stricter trust boundary than a normal app\nbackend. The runtime validates the user request, checks balances and nonces,\nand only then uses the configured TEE signer to authorize the final\n`finalizeWithdraw(...)` custody release onchain. On the frontend side, users\ncan inspect markets, balances, orders, and activity through wallet-authorized\nread routes, so the demo exposes both the confidential execution path and the\noperator/developer observability needed to understand what the system is doing.\n\nFor the hackathon version, Corex is deployed around a single market on Flare\nCoston2 with a full local stack: contracts, proxy, TEE runtime, smoke tests,\nand a Next.js trading frontend. The goal is to show a credible pattern for a\nTEE-backed darkpool where custody remains onchain, price-time matching remains\nprivate to the execution environment, and the user still interacts through\nfamiliar wallet signing flows.",
+  "how_its_made": "Corex is built as a multi-part system rather than a single smart contract app.\nThe architecture is split into the following pieces:\n\n- Frontend (`frontend/`): a Next.js 16 + React 19 interface with wagmi, viem,\n  and Reown AppKit for wallet connection, market views, balances, orders,\n  transfer flows, and direct signed intent submission.\n- Smart contracts (`corex-tee/contract/`): `CorexInstructionSender` handles\n  user entrypoints and emits TEE instructions through Flare’s registry, while\n  `CorexCustody` escrows tokens and verifies TEE-authorized withdrawals.\n- TEE runtime (`corex-tee/go/`): a Go-based Corex engine that decodes\n  instructions, maintains in-memory exchange state, runs the private darkpool\n  matcher, exposes read APIs, verifies direct EIP-712 order and withdraw\n  intents, and signs withdrawal authorizations with the configured TEE key.\n- Proxy and infra (`corex-tee/docker-compose.yaml`): `ext-proxy`, Redis, and\n  the extension container bridge onchain instruction events into the local TEE\n  runtime and expose result polling for contract-backed actions.\n- Deployment and verification tooling: Foundry deploy scripts, Go control-plane\n  tools, a one-command Coston2 deploy wrapper, and smoke tests that exercise\n  deposit, order placement, matching, `getState`, contract-backed withdraw, and\n  direct `POST /withdraw-intent`.\n\nSome of the most important implementation details are around signatures and\nboundary enforcement:\n\n- Protected read routes use short-lived EIP-712 wallet signatures, so account\n  data is not exposed as an unauthenticated public API.\n- Direct order placement, cancel, and withdraw flows use typed-data signatures\n  tied to the live deployment config, which lets the frontend submit signed\n  intents without forcing every action through the onchain instruction path\n  while still preserving the darkpool execution model inside the TEE.\n- Withdrawals are fail-closed around custody. The runtime only advances local\n  state after the onchain finalize transaction succeeds, which keeps the local\n  exchange view aligned with the escrow contract.\n\nOperationally, the demo is meant to be reproducible. The repo includes the\ncontract deploy path, extension registration flow, tunnel-based TEE\nregistration, runtime docs, API docs, and frontend docs so the system can be\nstood up locally against Flare Coston2 and inspected end to end.\n",
+  "auto_summary": "A multi-repo darkpool exchange on Flare that uses TEE-backed offchain matching with onchain custody, settlement, and a Next.js trading interface.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/corex-ddu93",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ppcke",
+  "slug": "payrail",
+  "title": "PayRail",
+  "tagline": "AI accounts-payable agent that verifies suppliers and pays invoices in USDC on Arc",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ppcke/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Udvtkc6iY8MMJSHk6feJ006TW6LWdITdr3dxDsWR7LXI/high.mp4",
+  "demo_url": "https://github.com/ozanhasdemir/payrail",
+  "source_url": "https://github.com/ozanhasdemir/payrail",
+  "finalist": false,
+  "description": "PayRail is an agentic accounts-payable rail for wholesale B2B.\n\nAn invoice arrives the way it does today, as an EDI 810 or a PDF. The buyer's AP agent parses it, three-way matches it against the purchase order and goods receipt, and resolves the supplier from an ENS name whose text records hold the supplier's USDC address on Arc, payment terms, and early-pay discount. Before the first payment, the agent checks that the supplier's agent is backed by a verified human through World ID.\n\nPayment runs from a Privy server wallet with policies set by the finance team: a recipient allowlist derived from ENS, a per-invoice cap, a daily cap, and a 2-of-3 human approval for anything above the cap. Small invoices pay themselves. Large ones wait for two signatures in the dashboard.\n\nOn the supplier side, every approved invoice becomes a receivable token on Arc. A supplier waiting on net-60 terms can sell it into a USDC early-pay pool at a discount priced by days to due date and get paid today. Pool depositors earn the discount when the buyer settles.\n\nThe whole rail is exposed as an MCP server, so any agent can submit, approve, pay, or finance an invoice with a single tool call.\n\nBuilt by a team that ships B2B order and invoice integrations for a living. The fixtures, the matching rules, and the payment terms are the real thing, not a toy.",
+  "how_its_made": "One monorepo, four packages.\n\nContracts are Solidity with Foundry, deployed to Arc testnet where USDC is the native settlement asset. InvoiceRegistry tracks the lifecycle from Submitted through Approved to Paid or Financed to Settled. ReceivableToken is an ERC-721 minted to the supplier on approval; owning the token is the right to be paid. EarlyPayPool is a USDC vault that buys receivables at a discount and collects face value when the buyer pays, with the registry forwarding payment to whoever holds the token.\n\nThe agent is Node 22 and TypeScript. Invoice parsing uses Claude with structured output to turn X12 810 segments and PDF text into a canonical invoice JSON, followed by a deterministic three-way match. Supplier resolution reads ENSv2 subnames and text records on Sepolia with viem. Human verification checks a World ID Selfie Check proof stored at supplier onboarding. Payment goes through Privy server wallets: the policy engine enforces allowlist and caps before signing, and an approver quorum handles anything above threshold. The supplier's agent runs on a Circle Agent Wallet so two companies with two wallet stacks can share one rail.\n\nThe dashboard is Next.js with Privy React for buyer login and World IDKit for supplier onboarding. The MCP server exposes six tools over stdio and is published as a Bazantic recipe. A Graph subgraph indexes registry and pool events so the agent can answer questions like what is due this week without scanning the chain.\n\nHacky bit worth mentioning: the ENS text records are the policy source. The Privy allowlist is regenerated from resolved ENS records, so adding a supplier is a name registration, not a config change.",
+  "auto_summary": "A monorepo for automated B2B invoice approval, payment, and receivables financing using onchain settlement and agent-driven workflows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 9,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/payrail-ppcke",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

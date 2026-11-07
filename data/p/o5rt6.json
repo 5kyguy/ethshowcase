@@ -1,0 +1,22 @@
+{
+  "id": "o5rt6",
+  "slug": "tenback",
+  "title": "Tenback",
+  "tagline": "Deterministic micro-lottery: every 10th player wins the pot. Powered by x402 micropayments on Base.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o5rt6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PSpJxL02XYvg41l011CB4DZGoTvICD6Lc74ld9yJugZ00A/high.mp4",
+  "demo_url": "https://tenback-frontend.skwrd.workers.dev/",
+  "source_url": "https://github.com/ukstv/tenback-frontwork",
+  "finalist": false,
+  "description": "### 💿 TENBACK.EXE - A Micropayment Experiment 💿 ###\n\nThere's something magical about systems that just work, where the rules are clear, the outcomes are certain, and everything happens exactly as promised.\n\nTenback is that kind of program.\n\nYou send 1 USDC through x402. A global counter increments, by Cloudflare Durable Objects running somewhere in the cloud. When that counter hits 10, the lucky player receives the entire accumulated pot as USDC on Base. Then the counter resets to zero and the cycle begins again.\nNo randomness. No gambling. The tenth caller always wins: it's deterministic, provable, fair.\nIt's built on modern infrastructure but designed with the spirit of early computing: elegant simplicity, transparent rules, and that satisfying feeling when distributed systems synchronize perfectly.\n\nA hackathon project for DevConnect Buenos Aires.\n\nPowered by x402 protocol. ✨🖥️💜",
+  "how_its_made": "Traditional lotteries require trust and rely on opaque randomness. Tenback eliminates both by being fully deterministic: every 10th player wins the pot, period.\n\nPlayers send 1 USDC micropayments using the x402 protocol, which increments a global Cloudflare Durable Object counter. The Durable Object's single-threaded execution model ensures strict FIFO ordering with zero race conditions: no front-running, no sniping.\n\nx402's cryptographic authorization prevents replay attacks and double-counting. When the counter hits 10, the winner receives the entire pot instantly on Base. It's not gambling. It's pure math and timing.\n\nTHE INTEGRATION CHALLENGES & FEEDBACK:\n\nChallenge #1: Cloudflare Workers Compatibility\nCoinbase's SDK uses Node.js Buffer extensively. Cloudflare Workers don't support Buffer natively. Solution: enabled nodejs_compat flag in wrangler.toml. \n\nFeedback for CDP: Consider publishing a Workers-compatible build or documenting the nodejs_compat requirement for edge deployment.\n\nChallenge #2: CDP Facilitator Reliability on Base Mainnet\nDuring development, CDP's facilitator endpoint returned frequent 500 errors. To stay on schedule, we implemented direct onchain settlement as fallback using our own x402 infrastructure.\n\nFeedback for CDP: Facilitator uptime is critical for production apps. Consider:\n- Status page for facilitator endpoints\n- Clear error messages (vs generic 500s)\n- Fallback guidance in documentation\n\nDespite these challenges, x402 protocol integration was straightforward, and Base Smart Wallets worked perfectly with the payment flow.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tenback-o5rt6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

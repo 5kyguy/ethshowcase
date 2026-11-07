@@ -1,0 +1,27 @@
+{
+  "id": "y8iwm",
+  "slug": "whisper",
+  "title": "Whisper",
+  "tagline": "Private treasury agent that turns natural language into shielded multi-chain payments via zk",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y8iwm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/x8PWcyIYKpXzlSk5o93dckxkpvvtkncfFHRy02UQwEdw/high.mp4",
+  "demo_url": "https://app-gamma-one-12.vercel.app/",
+  "source_url": "https://github.com/0x2kNJ/whisper",
+  "finalist": false,
+  "description": "Whisper is a privacy-first AI treasury agent that turns natural language into fully shielded on-chain payments across Base and Arc. The problem: every DAO and organization payment made in USDC is publicly visible — competitors can reverse-engineer your burn rate, identify your hires before they start, map your vendor relationships, and calculate individual salaries. Whisper eliminates this entirely. A treasurer types one sentence — \"pay alice.eth 500 USDC\" — and the agent resolves the ENS name, generates zero-knowledge proofs client-side, routes the transfer through Unlink's privacy pool on Base and Arc, and executes on-chain. The sender, recipient, and amount are all hidden from observers. Beyond simple transfers, Whisper handles private DeFi swaps through Uniswap V3 where the pool's adapter contract appears as the swapper instead of the treasury, cross-chain bridging via Circle's CCTP V2 with the sender obscured by Unlink's execute() primitive, milestone-based escrow payroll on Arc Testnet, batch payments to multiple recipients in a single ZK proof, recurring payroll strategies with templates for vesting schedules and contractor payments, and encrypted payroll messages using NaCl box cryptography stored as ENS text records so treasuries can prove payments happened without revealing details. Every recipient who receives a Whisper payment gets an Unlink address that works across the entire Unlink ecosystem — creating a network effect where each payment grows the privacy set for everyone.",
+  "how_its_made": "The core is a Claude Sonnet 4 agent with custom tools spanning privacy operations, DeFi, escrow, and contact resolution. The agent runs a standard tool_use loop: user message in, Claude reasons about which tools to call, the executor dispatches to the actual implementations, results stream back via SSE. Privacy is powered by @unlink-xyz/sdk which generates ZK proofs in Rust compiled to WASM — the key primitive is execute(), which lets the agent call arbitrary external contracts (Uniswap SwapRouter02, CCTP TokenMessengerV2) while hiding the caller behind Unlink's adapter. For swaps, the agent hits Uniswap for optimal routing, then wraps the approve + swap calldata inside execute() so on-chain observers only see the Unlink pool interacting with Uniswap. Cross-chain transfers compose execute() with CCTP V2's depositForBurn to bridge USDC from Base to Arc with the sender hidden. On Arc Testnet, a custom WhisperEscrow.sol (Solidity 0.8.24, Foundry) handles milestone payroll with time-locked releases. The frontend is Next.js 14 with a dark glassmorphic UI, streaming agent reasoning and tool execution in real-time through Server-Sent Events so users watch each ZK proof generation and on-chain submission as it happens. Persistence uses better-sqlite3 in WAL mode for conversations, activity logs, and contacts. ENS resolution on Ethereum Sepolia prioritizes unlink.address text records for privacy-aware routing. The hackiest part: the agent signs all transactions directly with a single private key (per ADR-003) instead of using Safe modules or MPC. The architecture is designed to swap in delegated signing for mainnet without changing the tool interface.",
+  "auto_summary": "An AI treasury app that executes private payments, swaps, escrow payroll, and cross-chain USDC flows using Unlink, ENS, and Arc-related tooling.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/whisper-y8iwm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

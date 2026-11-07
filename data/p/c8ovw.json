@@ -1,0 +1,27 @@
+{
+  "id": "c8ovw",
+  "slug": "honest-harness",
+  "title": "Honest Harness",
+  "tagline": "Six fixes so the Hedera harness judges its AI coding agent's work correctly, plus Codex support.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c8ovw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mhDLM3Qb5g2Vxb3k01DPYjr02qLiqkWxhGdNzT6DG1n1o/high.mp4",
+  "demo_url": "https://github.com/hedera-dev/hedera-harness/pulls?q=is%3Apr+author%3Aadipundir",
+  "source_url": "https://github.com/adipundir/hedera-harness",
+  "finalist": false,
+  "description": "The Hedera harness is Hedera's command-line tool for building apps with AI. A coding agent (Claude Code or Cursor) builds a feature into a Hedera app, then the harness checks the work and decides if it passed. If it failed, the agent gets a repair prompt and tries again.\n\nI ran the harness on real projects and found it often judged the agent's work wrongly. Honest Harness is six pull requests that fix that:\n\n1. #66: When a build failed, the agent was shown a harmless warning instead of the real error, so its repair attempts were blind. Now it sees the error.\n\n2. #63: A run that passed every check still crashed on its own git commit, because the project's pre-commit hook failed. The harness's own commits now skip project hooks.\n\n3. #65: The same crash twice was reported as \"1 fixed, 1 new\". That looked like progress and stopped the harness from switching to a stronger model. It now says \"2 still open\".\n\n4. #64: Apps that already log errors in the browser console failed every attempt, even though the agent did not cause those errors. The harness now records them before the agent starts and only fails on new ones.\n\n5. #57: Adds Codex as a third agent. It also fixes the activity log, which recorded only 2 lines for a whole Claude Code run and now logs every tool call, and stops the harness from killing an agent in the middle of a long command.\n\n6. scaffold-hbar #78: In a fresh scaffold-hbar app, every git commit failed because the pre-commit hook had no lint-staged config. This adds the config.\n\nEvery harness PR comes with a test that fails without its fix. With all five harness PRs combined, the full test suite passes (226 tests).",
+  "how_its_made": "All the changes are TypeScript inside the existing hedera-harness CLI, plus one config fix in scaffold-hbar, Hedera's starter template for dApps. I kept each fix in its own pull request with its own test, so maintainers can review and merge them one at a time.\n\nHow I found the bugs: I ran the harness end to end, on a fresh scaffold-hbar app and on small test projects built to trigger each problem, using Claude Code and the Codex CLI as agents. Every bug in the list showed up in a real run.\n\nHow I proved the fixes: every harness PR has a \"How to run it\" section. You undo the fix, run its test, and watch it fail. I also wrote a demo script that runs the harness twice for each PR, once on the current code and once with the fix, and shows both results. That is what the video shows.\n\nA few notable parts:\n- The Codex settings came from trial runs with codex-cli 0.147.0, not from the docs. Without them Codex loaded the user's personal config, cancelled every browser tool call, and had no network inside its sandbox.\n- The browser console check had a timing bug. Chrome can deliver a console error just after the page loads, so a broken page could pass. The fix waits for messages already on their way before it stops listening.\n- The logging tests replay real output captured from the Claude Code and Codex CLIs, so they run without any paid model calls.\n\nAI use: I used Claude Code as a coding assistant to investigate bugs, write code and tests, and draft text. I reviewed every change and verified it by running it.",
+  "auto_summary": "This project contributes TypeScript fixes and tests to the Hedera Harness CLI and a small scaffold-hbar configuration fix.",
+  "scores": {
+    "originality": 5,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/honest-harness-c8ovw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

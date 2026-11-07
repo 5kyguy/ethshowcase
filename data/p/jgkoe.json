@@ -1,0 +1,29 @@
+{
+  "id": "jgkoe",
+  "slug": "wendigo",
+  "title": "Wendigo",
+  "tagline": "Wendigo is a collection of tools to enhance onchain trading of perps and trading/liquidity provision for small market cap tokens.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jgkoe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZuUDvMfOmYHd029NR1jZlGP2D6FZPeMtYDM3CNLRA01Zg/high.mp4",
+  "source_url": "https://github.com/hzla/wendigo",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🥉 The Graph — Best use of Existing Subgraph",
+      "title": "The Graph"
+    }
+  ],
+  "finalist": false,
+  "description": "There are two main types tools implemented in wendigo. First are the tools to enhance trading on decentralized perpetual future exchanges, specifically the trading of BTC and ETH on Gmx. \n\nWendigo is able to index every trade/action that has occured on gmx and allows a user to search/filter for traders by profitability (nominal and/or percentage), winrate, trade count, and standard deviation of returns. Users can search by these parameters on any chosen timeframe.\n\nUsers can then use the returned results, or manually select their users to copy trade by adding them to the position manager. Users set their own max trade size, and choose the allocation to give to each trader being copied. The copied trader's utilization of a user's portfolio is then multiplied by their current position size divided by the maximum size that trader has ever traded. This way, Wendigo is able to dynamically adjust user positions based on the perceived copied trader's confidence level in the trade. \n\nThis system allows a user to copy trade multiple traders without having to micromanage allocations and constantly enter and exit trades because Wendigo is able to aggregate every copied trader's position into one position.\n\nThe second set of tools is for trading small cap tokens that have a small to no prescence on centralized exchanges. These tools are the Uniswap v3 cost basis calculator, and correlation calculator.\n\nThe cost basis tool, accepts a uniswap pool as an argument and returns the average cost basis of every pool participant that has every bought from the pool, weighted by the buy amount. This is extremely useful for determining where to concentrate liquidity for V3 positions, or just knowing how much in profit the average user is to determine whether or not you should buy/sell the token.\n\nThe correlation tool, accepts 2 uniswap pools as an argument and determines how much crossover there is between the two pools. Crossover is defined as a user who has net postive buy/sells in both pools. This is used to help pair traders and liquidity providers determine if they should buy or provide liquidity to a certain pool by a using a correlated pool as guidance. \n\n\n\n",
+  "how_its_made": "BACKEND/ARCHITECTURE\n\nTo build the GMX perp copy trade tools, I first used the gmx subgraph from TheGraph to query the latest 100,000 transaction. This was equal to roughly a month or trades. \n\nThe raw data from the graph unfortunately does not provide cumulative pnl at all timeframes or more pertinent financial data so the data form the graph was processed by the functions in models/trades.rb and loaded and indexed into a PostresSQL database to allow for more granular searches. PnL and detailed trade data had to be tracked at every trade to allow for faster searching based on timeframe, something that I had requested from the subgraph creator in the past but was told was impossible due to it taking too long to sync. Once the data was indexed, I created functions to search traders by any paremeter on any timeframe located in models/trader.rb.  \n\nTo create the position builder tool, I used the Quicknode RPC service to directly call the gmx smart contract for realtime position data for the requested copied traders. This data is processed and aggregated and processed according to user settings.\n\nTo build the uniswap cost basis calculator, I once agained used a subgraph, messari's Uniswap V3 subgraph. Each time a pool cost basis is requested, I query for every single swap in that pool. This usually takes about a second per 1000 swaps (limit set by TheGraph). This data is cached in lib/swaps so that future calls return instantly. I then calculate cost basis by dividing total usd spent over total tokens bought. \n\nTo build the correlation calculator, I used the data obtained from the cost basis calculator, and search for any traders with positive net/buys in both pools and return the results. \n\nOverall TheGraph proved invaluable as a data source that allowed me to download massive amounts of data at 0 cost and decent speed. \n\nDue to the nature of wifi and only having a single laptop, I was unable to implement realtime updates of trade/uniswap pool data and was forced to preprocess and cache massive queries from TheGraph. For reference, processing and indexing 100,000 trades takes about 20 minutes. Thus, most of the features on wendigo rely on preprocessed data.\n\nFRONTEND/NON SPONSOR TOOLS USED\n\nFor frontend I used vanilla javascript/jquery, and html/css to build the ui. The backend was written in ruby and all calls to TheGraph and Quicknode were done using the HTTParty gem. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wendigo-jgkoe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

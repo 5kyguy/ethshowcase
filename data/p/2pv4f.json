@@ -1,0 +1,27 @@
+{
+  "id": "2pv4f",
+  "slug": "kleeto",
+  "title": "Kleeto",
+  "tagline": "Agents rent real computers by the second and pay for them themselves, over x402 on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2pv4f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Hf7ZBpC3301EoURT5JUS9JXHpOq01oCzSwTk80000apq67A/high.mp4",
+  "demo_url": "https://kleeto.fun",
+  "source_url": "https://github.com/akash-mondal/kleeto",
+  "finalist": false,
+  "description": "AI agents can do the work now. They just lack a computer of their own, so they borrow yours: your screen, your logged-in accounts, and a laptop you have to leave open until they finish.\n\nKleeto lets them rent their own. An agent requests a machine over HTTP, receives a `402 Payment Required` response with a per-second price, and signs a payment from its Hedera wallet in USDC or HBAR. Once the payment settles, a browser, a Linux machine, or a full Linux desktop with real applications starts within seconds. There is no account to create, no API key to manage, no card to enter, and nobody to email.\n\nUsage is metered by the second. Each payment adds credit to a session, and the meter deducts from that balance while the machine is rented. Every second’s usage record is linked to the previous one through a hash. Payments, minute-by-minute hash checkpoints, and a final receipt are published to a public Hedera topic. The bill is not just a number we ask you to trust: anyone can recalculate it from the usage log and check it against the public records.\n\nIn the recorded demo, the agent encountered a bot block on a marketplace, switched to a stealth browser, designed a part in CAD, rendered it on an eight-core machine, and laid out a spec sheet. It used and released five machines, returning six files with their hashes. The entire run cost **0.2357 testnet USDC**, with every payment visible on HashScan.\n\nAnyone can try it at **kleeto.fun**, where a hosted agent with its own wallet does the work while you watch the meter run.\n\nAgents will not stay in chat windows. When they can rent compute by the second, without an account or a contract, they can get the tools they need as the work unfolds. A browser for one step, a desktop application for the next, and a more powerful machine when the job demands it. We’re starting with compute, but the same approach can extend to other services.\n",
+  "how_its_made": "The gateway is a small Node.js service. Every paid route uses x402 v2 with the exact scheme on Hedera testnet, settled through the Blocky402 facilitator. Each 402 response offers USDC and HBAR at the same dollar-denominated, per-second rate. HBAR quotes use the ledger’s exchange rate.\n\nThe facilitator covers network fees, so the agent pays only the quoted amount without needing extra HBAR for gas. Its fee-payer account is fetched from the facilitator at startup rather than hardcoded.\n\nMetering was the hardest part: x402 settles a fixed payment, but rental time keeps accumulating. Instead of settling every second, payments add session credit that the meter deducts one second at a time. Each usage record includes the previous record’s hash, forming a verifiable chain.\n\nThe latest hash is published to a Hedera Consensus Service topic every minute and when the machine is released, alongside records of every payment and a final receipt. Anyone can retrieve the usage records from the gateway, recalculate the charges, and verify the chain against checkpoints on the public mirror node. This avoids thousands of settlement transactions per hour while keeping individual usage records verifiable.\n\nMachines are provisioned through upstream providers only after payment settles. Live views are relayed through Kleeto’s own origin, keeping supplier endpoints out of the user’s browser.\n\nAgents connect through an installable skill, an MCP server, or plain HTTP. Discovery includes an A2A agent card backed by a working endpoint and a listing of every paid resource with its price.\n\nBoth Kleeto and the demo agent have HCS-14 agent IDs inside ledger-published HCS-11 profiles, linked from their account memos. Agents can inspect these published identities before paying.\n\nThe website and hosted demo use Next.js. The demo runs GPT 6 Astra , GLM 5.3 Flash , Minimax 3 and Kimi K3 as hosted agents.",
+  "auto_summary": "Kleeto is a Hedera-based x402-gated compute rental service that meters browser and Linux sessions by the second and publishes payment audit data.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kleeto-2pv4f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "gdk6n",
+  "slug": "runmandate",
+  "title": "RunMandate",
+  "tagline": "Give an AI agent an ENS name as its wallet limit. Revoke the name, and it can't spend anymore.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gdk6n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1VpCmJbr2hWJBeMOd43Kyq01BlzDk02wkWA1yTaosim64/high.mp4",
+  "demo_url": "https://www.runmandate.xyz/",
+  "source_url": "https://github.com/Victor-Okpukpan/mandate",
+  "finalist": false,
+  "description": "Companies increasingly want AI agents to spend money on their own to do stuff like buying data, paying other agents, tipping a service, etc. But handing an agent a wallet with no limits is dangerous: it could overspend, pay the wrong person, or keep spending after you've told it to stop.\n\nMANDATE solves this by using ENS, the same naming system behind names like vitalik.eth. A company gives its agent a name, like agent.acme.eth, and writes the agent's rules directly into that name: how much it can spend, who it's allowed to pay, and when it expires. The agent can read its own rules but can never change them.\n\nEvery time the agent tries to make a payment, a smart contract checks it against those rules before the money moves. Try to overspend or pay someone not on the list, and the payment is rejected automatically. If something goes wrong, the company revokes the ENS name in one transaction, and the agent's wallet stops working immediately, everywhere.\n\nMANDATE doesn't build the AI agent itself, it works with whatever agent you already use (ChatGPT, Claude, a simple script).",
+  "how_its_made": "MANDATE is built across three chains with different jobs. An agent's rules including budget, spending cap, allowed recipients, and expiry live as ENSv2 subname records on Ethereum Sepolia, using a custom resolver contract we wrote so the agent itself is cryptographically blocked from editing its own limits.\n\nA background service called the Enforcer watches for new or changed mandates and mirrors them onto Arc, by signing an EIP-712 message. A smart contract on Arc checks every payment against that signed record before letting money move.\n\nEvery agent gets a real Privy embedded wallet. Along the way we hit a real limitation in Privy's API: it doesn't yet let this app broadcast transactions directly on Arc, or at least that is the conclusion I arrived at after many trials, so we sign the transaction with Privy and broadcast the raw bytes ourselves, without the private key ever leaving Privy's custody.\n\nWe also published a standalone, open-source npm package, mandate-agent-sdk, so any existing agent can plug in with about five lines of code using a scoped access token and never our platform's real credentials. Every part of this was tested with real transactions on live testnets.",
+  "auto_summary": "A multi-package app that encodes AI agent spending rules in ENSv2 and enforces Arc-based USDC treasury payments through smart contracts and services.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/runmandate-gdk6n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

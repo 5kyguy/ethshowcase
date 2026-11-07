@@ -1,0 +1,36 @@
+{
+  "id": "z5gzd",
+  "slug": "warp",
+  "title": "warp",
+  "tagline": "A cross-chain vault protocol that abstracts away bridging transactions and socializes costs for users. Great for retails users on L2.",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z5gzd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00cyT2xF3sYKWGm7uTaKvvJNMW8TmRUkT7FtKD1w02TQM/high.mp4",
+  "demo_url": "https://warp-three.vercel.app",
+  "source_url": "https://github.com/0xCSMNT/warp",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Chainlink CCIP",
+      "title": "Chainlink CCIP"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Qualifying Arbitrum Submissions",
+      "title": "Qualifying Arbitrum Submissions"
+    }
+  ],
+  "finalist": false,
+  "description": "Motivation\nBridging transactions are hard for retail to use and should be carried out entirely at the infrastructure layer. When I send a bank transaction from France to Singapore, I am not expected to understand and manage all of the steps it must take along the way, such as SWIFT etc. Consumer DeFi should have a comparable level of abstraction.\n\nExample Problem: Jane is a new Web3 user who has onboarded funds to Base. She is aware that there are enticing yield opportunities available on Arbitrum and Ethereum, but she sees bridging as intimidating, confusing and expensive,\n\nQuestions she must answer and challenges that she must overcome to get started:\nWhat is an L2?\nWhich bridging protocol should she use? \nWhat token does she need to execute transactions with her funds on the destination chain? \nHow expensive are bridging transactions and how long do they take to settle?\n\nSolution: warp is a plugin that can be integrated to her preferred wallet provider. Now when she uses her web3 wallet, she can see cross-chain yield opportunities available to her directly on the UI. In a couple of clicks she can select the destination vault she wants and leave all of the bridging questions and decisions to the protocol.\n\nDescription\nwarp is a service that abstracts away bridges and bridging transactions for yield farmers. In an ideal finalized state, it exists as a DeFi protocol and developer SDK that wallet developers can use to quickly integrate any ERC4626 compliant vault on any Ethereum rollup - making it accessible to their users. We have simplified this into a POC for the hack, but several aspects are implemented in the minimal version we created:\n\nThe smart contracts use Chainlink CCIP and USDC (CCTP) to enable the transfer of value and data across chains. The home chain will be the Base mainnet. Users on Base can deposit USDC tokens via a familiar ERC4626, which are transferred to the Arbitrum mainnet and deposited into any ERC4626-compliant vault. For the live running version (link here) the protocol targets Sommelier Finance RYUSD. Chainlink Automation is also used to automate some of the actions, such as executing transfers and updating accounting.\n\nThe user interface displays information about the available vaults. A user should see a prompt to log in on Base, and a number of available vaults on various chains that they can deposit to. Important information such as APY, and destination chain is visible on the UI",
+  "how_its_made": "The central technology in the prototype is Chainlink CCIP, with USDC as the collateral asset being transferred across chains. This was chosen because of the native integration into CCIP of USDC’s CCTP cross-chain functionality. USDC is minted or burned on either the source or destination chain during transfers, and cross-chain function calls to deposit and withdraw into vaults are executed along with the transfers. This tightly coupled functionality between CCIP and CCTP was essential to executing the project.\n\nTo speed up the process of building CCIP transactions, the ProgrammableTokenTransfers file from the CCIP tutorial in the CL docs was copy-pasted into the project to act as a kind of “library” that facilitates the creation of CCIP messages. As such, the code base is pretty messy but it got the job done.\n\nChainlink Log-Based Automation was another technology used to enable this transfer of value and instructions between different blockchains. An execute() function is called by a keeper when a certain threshold of deposited capital has accumulated on the SourceVault, while a quit() function is also called by a keeper when a certain value of withdrawal request has been received. Keepers are watching for TimeToExecute and TimeToQuit events that are triggered when the previously mentioned conditions have been met.\n\nThe web app was created with Next.js (Typescript), Tailwind, viem, wagmi and ConnectKit. ConnectKit is used for everything connecting the wallet offering many options to do so. Being connected the user sees the vaults page where you can choose a vault which opens a popup that include the bridging component. Here you can choose to deposit and withdraw. The BridgeProvider holds the logic of approving, getting a quote and submitting a transaction. All this is done with a combo of viem and wagmi.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/warp-z5gzd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

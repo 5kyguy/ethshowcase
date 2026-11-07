@@ -1,0 +1,27 @@
+{
+  "id": "c2ax4",
+  "slug": "actionfeed",
+  "title": "ActionFeed",
+  "tagline": "Public, signed action ledger for AI agents. Their brain stays private; their hands are public.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c2ax4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xHCarizkuIi5ZGh01cv014wwe9JC72EFNahUFLEHHK2eI/high.mp4",
+  "demo_url": "https://actionfeed.vercel.app/proof",
+  "source_url": "https://github.com/dolepee/actionfeed",
+  "finalist": false,
+  "description": "ActionFeed is the black box recorder for autonomous agent commerce. When an agent is sold, upgraded, or forked, how do you know its reputation was not wiped clean? ActionFeed stores signed, hash-linked agent actions on 0G Storage, commits each feed head onchain through a FeedINFT, and binds the history to an iNFT so reputation survives transfer, handover and fork.\nEvery offer, payment, delivery, review, transfer, swap, and fork is a signed JSON blob on 0G Storage, hash-chained back to genesis, with the head committed on 0G Galileo. Anyone can read; only the iNFT holder can write. Old signatures stay verifiable after the agent changes hands.\nThe Aria multi-agent demo shows buyer, seller, and skeptic agents exchanging real OG payments through ActionRouter, executing live Uniswap swaps on Sepolia, Unichain, and Base, and posting TEE-attested reviews through 0G Compute. V2 adds an Authority Gate where one agent reads another's signed history and grants a bounded delegated mandate, refusing over-budget actions and recording each refusal in the same feed. Agent runtimes make agents act; ActionFeed makes those actions impossible to silently rewrite.",
+  "how_its_made": "ActionFeed is built on three 0G primitives plus an iNFT pattern. 0G Storage holds each signed agent action as a content-addressed JSON blob; the rootHash from one event becomes the prev pointer of the next, forming a hash chain. 0G Galileo (Chain ID 16602) hosts two contracts: FeedINFT, an ERC-7857-inspired iNFT whose headCid(tokenId) commits the latest feed root, and ActionRouter, a minimal payment relay that emits Paid keyed by event rootHash so every OG payment has a verifiable receipt. 0G Compute powers the skeptic agent: reviews run through a TeeML chat provider via @0glabs/0g-serving-broker, and the signed feed embeds the TEE attestation so verifiers can independently recover the signer.\nThe agent layer is built with ethers v6 and a small TypeScript SDK that signs each event with the agent's wallet. ENS mainnet provides identity: parent name actionfeed.eth, subnames per agent, forward + reverse records, and an ENSIP-25-format resolver text record binding the ERC-7930 interoperable address back to the FeedINFT token ID. The Uniswap integration uses the Trade API to fetch quotes, evaluates them against signed agent policy, and appends swap.quote and swap.execution events tied to real Sepolia/Unichain/Base receipts. The explorer is a Next.js 16 app with server components and a verifier that replays each signed feed end-to-end. The hacky bit: the iNFT's \"intelligence\" is the public action memory itself, not encrypted weights, so transfer, handover, and fork all preserve verifiable history without an oracle.\n",
+  "auto_summary": "A TypeScript, Solidity, and Next.js project that records signed agent actions on 0G, links them to iNFT ownership, and verifies payments and swaps.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/actionfeed-c2ax4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "4r2s3",
+  "slug": "nymspace",
+  "title": "Nymspace",
+  "tagline": "ENS-backed architecture for AI swarms enforcing financial guardrails and dynamic access control.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4r2s3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/gIwAgzfhF1FVmhuf2RXhQC7jCpQpfpUwvkeTVP2WwXY/high.mp4",
+  "demo_url": "https://web-production-3e79.up.railway.app",
+  "source_url": "https://github.com/harrymove-ctrl/nymspace",
+  "finalist": false,
+  "description": "Nymspace is an identity and permission console for organizations running AI agents. As teams delegate more work to agents, they need clear answers to three questions: Who does this agent belong to? What is it allowed to change? How much authority should it have over funds?\nNymspace starts with an ENS name. An organization manages agents as subnames such as research.nymspace.eth, trader.nymspace.eth, and deploy.nymspace.eth. Each name provides a discoverable identity with records describing the agent and its endpoints. Organizations can delegate permission to update a specific record while retaining control over sensitive identity information and the ability to revoke access.\nThe console brings together ENS identity management, ERC-8004 agent discovery through The Graph, AI-assisted candidate ranking, and Privy wallets with transaction amount policies. Operators can inspect agents, discover external candidates, manage delegated permissions, and see whether a payment is allowed or denied.\nOur testnet implementation demonstrates these boundaries with real integrations: an agent controller can update its MCP endpoint but cannot rewrite its organization-controlled identity binding, and a wallet can execute a payment within its policy while rejecting an over-limit request. Nymspace makes agent authority visible, narrowly scoped, and revocable.",
+  "how_its_made": "We started with the smallest permission we wanted to demonstrate: let an agent change one record on its own name.\n\nThat led us to ENSv2’s PermissionedResolver on Sepolia. Using viem, we grant SET_TEXT against a resource derived from the agent’s namehash and a specific record key. The controller can update agent-endpoint[mcp], but the same controller is refused when it tries to change agent-context or the ENSIP-25 registration binding. The boundary is enforced by the resolver contract. The organization keeps the parent authority needed to revoke the grant or reclaim the subname.\nWe then connected the naming layer to ERC-8004 registrations on Base Sepolia, with runtime verification of the ENSIP-25 binding. This gives discovery a connection back to an organization-controlled ENS identity.\n\nFor discovery, The Graph’s Agent0 subgraph supplies the candidate data. Our server applies hard filters, then Gemini 2.5 Flash orders the remaining candidates and returns reasons with field citations. A validator checks that each ranked agent came from the candidate set and that its cited fields exist. Missing reputation data stays missing. This separation gives the model a useful but bounded job and makes part of its output mechanically checkable.\nPrivy handles server wallets and enforces the transaction amount policy. We exercise an allowed payment and an over-limit request against the same policy, so the demo shows both execution and refusal.\n\nThe application is a TypeScript monorepo built with pnpm and Turborepo: Next.js, React, and Astryx for the console; Hono for the API; and PostgreSQL with Drizzle for coordination data and activity records. It runs on Railway.\n\nOne unusual detail is how we collect proof. Successful onchain actions produce transaction hashes. A payment rejected before broadcast should produce none. Our live acceptance gates check both kinds of outcome, including unauthorized record writes and revoked permissions. Building those checks forced us to make “the agent cannot do this” as concrete as “the agent can do this.",
+  "auto_summary": "A monorepo app for managing AI agent identity, discovery, delegated ENS permissions, and policy-limited wallet payments for organizations.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nymspace-4r2s3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

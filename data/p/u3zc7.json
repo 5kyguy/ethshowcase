@@ -1,0 +1,35 @@
+{
+  "id": "u3zc7",
+  "slug": "moai",
+  "title": "Moai",
+  "tagline": "Agent that rescues idle Uniswap LP positions and migrates them to top yield vaults.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/u3zc7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QoByBiergYww01PYhB2WHBvdF1ezsvW01lSdk1eq1wwVk/high.mp4",
+  "demo_url": "https://moai-uniswap.vercel.app",
+  "source_url": "https://github.com/0xpochita/moai",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": "Best Uniswap API integration"
+    }
+  ],
+  "finalist": true,
+  "description": "MOAI is an agentic liquidity manager built on top of Uniswap v3 & v4. Users delegate to a keeper agent with a single EIP-712 signature; the agent watches their Uniswap positions and runs in two complementary modes — Migrate (when out-of-range) and Harvest (when in-range and accruing fees). Both modes route through the Uniswap Trading API + Universal Router and settle in one atomic Calibur batched transaction on Base, with the relayer paying gas. Uniswap is the substrate; the agent is the worker that keeps it productive.",
+  "how_its_made": "How MOAI works: Users connect their wallet (delegated to Calibur via EIP-7702), sign a single EIP-712 envelope, and MOAI takes it from there. That signature registers the keeper key and configures a per-key execution hook with an allowlist of targets and selectors plus a 30-day expiry. No custody is taken and no further user interaction is required. \n\nMOAI continuously monitors each LP position and automatically chooses between two strategies. If the position is out of range, it executes a full migration (burn → swap → deposit into a Best DeFi Vault from Agent via LI.FI Earn). If the position is still in range and has accumulated fees, it performs a harvest by collecting fees only (using a zero-liquidity decrease), swapping to USDC, and Depositing into a Best DeFi Vault from Agent via LI.FI Earn. Both flows are executed as a single atomic batched call through Calibur with separate nonce namespaces to prevent replay across actions.\n\nAll execution is bundled into one transaction pipeline: position modification via the Uniswap v4 PositionManager, routing and swaps via the Uniswap Trading API (which returns production-ready Universal Router calldata), and final vault deposits via Li.Fi Composer. The entire sequence is signed once by the agent and executed by a relayer, resulting in a single transaction on-chain.\n\nSecurity model: The keeper operates with scoped delegation, not custody. Access is restricted by (1) a per-key execution hook enforcing an allowlist of permitted contract calls, (2) Calibur’s native key expiry and on-chain revocation, and (3) transaction-level constraints such as slippage bounds from Trading API calldata. Funds always remain in the user’s EOA.\n\nBuilt on: Uniswap Trading API, Calibur (EIP-7702), custom execution hook, Uniswap v4 PositionManager, Uniswap v3 NonfungiblePositionManager, Universal Router, Permit2, Li.Fi Composer — deployed on Base Mainnet.",
+  "auto_summary": "An automated liquidity manager for Uniswap LP positions that monitors positions, builds migration or harvest transactions, and executes delegated batched actions on Base.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/moai-u3zc7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

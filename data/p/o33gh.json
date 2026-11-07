@@ -1,0 +1,29 @@
+{
+  "id": "o33gh",
+  "slug": "self-sovereign-individuals",
+  "title": "Self Sovereign Individuals ",
+  "tagline": "Improving ETH Global registration process, using Polygon ID credentials for verifiable on-chain POAP reputation score",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o33gh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UR00hdCrHRYTfuB4yBYpH218G5hzvLkVgVENO9D8TaIc/high.mp4",
+  "source_url": "https://github.com/jorgeantonio21/VC-provability",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🆔 Polygon — 🥉 Best use of Polygon ID",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "The goal of our project is to facilitate the hackers registration process at ETH Global Lisbon. We believe that staking 0.05ETH is cumbersome and is not feasible for a portion of attendees, either by lack of available ETH tokens or because users don't want to disclose publicly their addresses, at a conference. Our project aims to facilitate this process. The idea is to use Polygon ID solutions to provide the following registration set up:\n\n1. Whenever a hacker submits its project to the hackathon, attendance credentials will be issued (ideally by the ETH Global organisation) so that the hacker can claim it in its wallet. \n\n2. With these credentials, the user can interact with our smart contract (developed during the hackathon), deployed at \n\nhttps://mumbai.polygonscan.com/address/0xBF26bf8857b4C9156404565B4b016817B91B3aA9\n\nto redeem our ERC20 tokens (think of it as reputation tokens). The user should also submit to the contract how was its experience at the event, so the organisation can have some feedback.\n\n3. With the claimed tokens, the user can then use these to participate in future ETH Global events, without having to stake any ETH. The tokens give the user reputation for future attendances. Moreover, since these tokens are ERC20, the hacker can share a portion of these with friends/collaborators for future attendances. That is, one can form a social graph of hackers, across the globe, which will greatly improve the registration process and will benefit event access to those with less means (financially, beginners in the space like students, etc).\n\nWe believe hackathons are technical as well as social events, and in the future they will play a role to greatly foster the advancement of technology. Our long term goal is to facilitate this process and allow for the best ideas to come through.",
+  "how_its_made": "The project relies heavily on Polygon Id solutions. Namely, we set up an issuer node to emit credentials whenever our \"event\" QR code was scanned. To create this issuer node, we follow the Polygon Id documentation closely, and we had to solve some technical details (like ngrok communication sharing, CORS authentication, Polygon Id wallet, etc). To configure the issuer node and its UI, we had to write our own custom schema and load it to the issuer. \n\nAfter creating the credentials, we wrote our main smart contract. The development contract encompasses the following crucial technical ideas:\n\n1. The main contract, deployed at \n\nhttps://mumbai.polygonscan.com/address/0xBF26bf8857b4C9156404565B4b016817B91B3aA9\n\ninherits the ERC20 standard (to mint and transfer fungible tokens), as well as a ZKPVerifier. \n\n2. The main contract also adds logic to vote and submit a survey answer (on the experience) of the event. Tokens can only be minted if the user has provided a suitable ZK proof of attendance (i.e., ownership of the right credentials) as well as submitting its survey experience.\n\n3. Finally, we defined a ZKPVerifier contract, that is responsible for verifying (BJJ signature) ZK proofs of ownership of suitable credentials from the interacting wallet (emitted above, via the issuer, as described above). This step is crucial, otherwise any user could interact with the contract and get attendance tokens.\n\n4. The verifier logic, is enforced to hold whenever a user submits a survey and thus claims newly minted tokens. This is equivalent to say that the user has the right to hold tokens if and only if it has the right credentials (in plain english, attended the event and submitted an hackathon project).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/self-sovereign-individuals-o33gh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

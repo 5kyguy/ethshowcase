@@ -1,0 +1,30 @@
+{
+  "id": "c76v8",
+  "slug": "fhe-oracle",
+  "title": "FHE Oracle",
+  "tagline": "FHE Oracle is a fully homomorphic encryption-powered data oracle on Fhenix blockchain. It can compute or fetch any data using Lit Protocol actions and is indexed using Envio HyperIndexer.",
+  "event": {
+    "slug": "ethonline2024",
+    "name": "ETHOnline 2024",
+    "start_time": "2024-08-23T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c76v8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KPnW01ETs02rvh5S5CJDbZdKTq3e96szAWzQDtjsqXETk/high.mp4",
+  "demo_url": "https://fhe-oracle.vercel.app/",
+  "source_url": "https://github.com/Envoy-VC/fhe-oracle-ethonline-2024",
+  "prizes": [
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "Participation Trophy  ",
+      "title": "Participation Trophy  "
+    }
+  ],
+  "finalist": false,
+  "description": "FHE Oracle is a fully homomorphic encryption-powered data oracle on Fhenix blockchain. Computes or fetches data using Lit Protocol actions and is indexed using Envio.\n\nUsers can query any off-chain datasource, compute inside a Lit Action, execute transactions, sign messages or perform anything inside a Lit Action and get the result back in a fully homomorphic encrypted form.",
+  "how_its_made": "The Architecture is divided in three parts:\n\n1. **FHE Oracle Smart Contracts**\n2. **Lit Action backed Oracle Service**\n3. **Envio Indexer**\n\n---\n\n\n# FHE Oracle Smart Contracts\n\nMost of the contracts are inspired from Chainlink Functions Architecture where a user can create a `Consumer` Contract where they send requests and receive responses.\n\nOracles are Deployed and Verified on Fhenix Helium Testnet:\n\nRouter: [0xbd533524e6f709AE55Bc7686C3e416D6870D1259](https://explorer.helium.fhenix.zone/address/0xbd533524e6f709AE55Bc7686C3e416D6870D1259)\n\nCoordinator: [0x1EA3bce6a8a08d8c08859Fe720024f98FeB11C4E](https://explorer.helium.fhenix.zone/address/0x1EA3bce6a8a08d8c08859Fe720024f98FeB11C4E)\n\nConsumer: [0x394403eE9b3b5e25D492Ad2FD4cc0836D8e75B52](https://explorer.helium.fhenix.zone/address/0x394403eE9b3b5e25D492Ad2FD4cc0836D8e75B52\n)\n\n\nBefore using the Oracle, the user needs to register their Consumer contract with the Oracle by creating a Subscription and adding the `Consumer` contract address for the Subscription.\n\nWhile creating a request a user can pass the following parameters:\n\n- **Source**: The source of the data. It can be a Lit Action IPFS CID or inline code to execute.\n- **Public Arguments**: The public arguments to pass to the Lit Action.\n- **Private Arguments**: The private arguments to pass to the Lit Action (will be encrypted using Lit Network and only decrypted inside the Lit Action).\n- **Callback Gas Limit**: The gas limit for the callback transaction.\n\nOnce the Request is created, it is sent to the `Router Contract. Then Router contract forwards the request to the Coordinator contract. The Oracle Service listens for the Coordinator contract events and fetches the request data.\n\n---\n\n# Lit Action backed Oracle Service\n\nOnce the event is received, the Oracle Service fetches the request data and executes the Lit Action. The Lit Action can be a simple computation or a complex off-chain data fetch. Private Parameters are decrypted inside the Lit Action and used to perform the computation.\n\nOnce the Action is Executed the result is encrypted using `Fhenix Blockchain Network Key` and then sent to `Off-Chain Reporting (OCR)` Contract. This is where the transmitter can batch and send multiple responses back to the `Coordinator` contract. The batch is signed using the Transmitter PK and sent to the Coordinator Contract.\n\nThe Coordinator Contract verifies the signature and then sends the response back to the Consumer contract via Router.\n\n---\n\n# Envio Indexer\n\nEvents are indexed using the Envio Indexer. The Indexer listens for the `Coordinator` contract events mainly `RequestSent` and `RequestFulfilled` and indexes the data. The data is then available for querying using the `FHE Oracle Frontend`.\n\nThis Indexed Data can be used by the Request Fulfillers/Transmitters to fetch the data and send the response back to the `Coordinator` contract.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fhe-oracle-c76v8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

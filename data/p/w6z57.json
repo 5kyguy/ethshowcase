@@ -1,0 +1,36 @@
+{
+  "id": "w6z57",
+  "slug": "oikonomos",
+  "title": "Oikonomos",
+  "tagline": "Agent keychain & portfolio manager deploying tokens via Clanker/Uniswap v4 and resolving via ENS.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w6z57/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JhqNE2pTzQyHcxTt3lLjeAqTjAk1Ooy00kHc7WbXH4VE/high.mp4",
+  "demo_url": "https://oikonomos.vercel.app",
+  "source_url": "https://github.com/estmcmxci/oikonomos",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackMoney 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Oikonomos lets you launch AI agent \"portfolios\" on-chain. You deploy a paired agent system — a Treasury agent and a DeFi agent — each with deterministically derived wallets (no seed phrases, no key ceremonies), ENS subnames under oikonomosapp.eth, and NFT identities via ERC-8004.\nThe DeFi agent launches a token on Clawnch via Nostr (kind 1111 events), then earns LP fees from Uniswap V4 trading. \n\nDuring launch, it signs an EIP-712 delegation to the Treasury agent — a standing order that says “you can claim my fees and distribute them.” The Treasury agent runs on a 5-minute Cloudflare cron, autonomously claiming WETH from the ClankerFeeLocker, splitting fees (85% deployer / 15% service), and optionally executing policy triggers (drift rebalancing, threshold exits, stablecoin swaps via V4).\n\nENS subnames are registered gaslessly via EIP-3668 CCIP-Read — the contract reverts with an off-chain lookup, the Worker signs an approval inline (avoiding Worker-to-Worker HTTP), and the proof is submitted on-chain. Text records make agents self-describing: resolve the name, get the A2A endpoint, the ERC-8004 ID, the token address.\n\nThe whole 5-phase pipeline — wallet derivation, funding, ERC-8004 registration, Nostr token launch, delegation, ENS — runs in ~22 seconds from a single API call. The dashboard (“Keychain”) shows balances, delegation status, claim history, and fee earnings.\n\nThe novel bit is the stacking of standards: ERC-8004 for identity, ENS + CCIP-Read for gasless discovery, EIP-712 for delegation, Uniswap V4 for swap execution — all orchestrated by a Cloudflare Worker that acts as both the agent runtime and the CCIP gateway.",
+  "how_its_made": "The entire agent runtime is a single Cloudflare Worker — it’s the API server, the CCIP-Read gateway, and the cron executor all in one process. We chose this because Cloudflare bans Worker-to-Worker HTTP calls, so instead of a separate CCIP gateway, we sign ENS subname approvals inline during the same request that registers the agent. The contract reverts with EIP-3668 OffchainLookup, we decode the callData in-process, sign it with the CCIP signer key, and submit the proof — no round-trip.\n\nWallets are deterministic: keccak256(userAddress + agentName + salt). Same input, same wallet — no key ceremonies, no seed phrases. From that one key we also derive the agent’s Nostr keypair for publishing token launches to Clawnch via NIP-22 (kind 1111) events over raw WebSocket.\n\nThe DeFi agent signs an EIP-712 delegation to the Treasury agent at launch. Every 5 minutes, the cron claims WETH from Clanker’s FeeLocker, splits 85/15, and can execute policy triggers (drift rebalancing, threshold swaps) through Uniswap V4’s PoolManager unlock callback.\n\nHackiest bit: the entire launch pipeline — two wallets, two ERC-8004 NFTs, Nostr publish, Clawnch polling, delegation tx, ENS registration — completes in one 22-second API call, pushing right up against Cloudflare’s 50-subrequest limit.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/oikonomos-w6z57",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

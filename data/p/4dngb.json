@@ -1,0 +1,27 @@
+{
+  "id": "4dngb",
+  "slug": "zbase",
+  "title": "zBase",
+  "tagline": "zBase enables private x402 agentic payments onchain, using ZK Privacy Pools and sanctions screening.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4dngb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/T00LpNUagGatGeUq22KUKp4qOibNDLOzIQOZnLMxoXU00/high.mp4",
+  "demo_url": "https://zbase.app/",
+  "source_url": "https://github.com/goheesheng/zbase-eth",
+  "finalist": false,
+  "description": "zBase is a private payment rail for AI agents on Base. It lets an agent fund a Privacy Pool with USDC, withdraw to a fresh address using a zero-knowledge proof, and pay an x402 API seller without exposing the direct on-chain link between the agent’s original funding wallet and the seller.\n\nzBase is proud to be a Base Batches 003 finalist, selected as one of 12 teams in Base’s Spring 2026 program. The cohort focuses on companies building across AI, DeFi, prediction markets, stablecoins, and agentic payments, with Demo Day held in San Francisco.\nbase\n+1\n\nFor ETHOnline, we focused on two things: helping agents make honest privacy decisions and making paid API trials harder to farm.",
+  "how_its_made": "## Technical implementation\n\n### The Graph subgraph\n\nWe built the `zbase-pool-base` subgraph with `@graphprotocol/graph-cli` 0.98 and AssemblyScript mappings. It uses minimal contract ABIs taken from the vendored 0xbow Privacy Pool contracts, with Base configured as the default network in `networks.json`.\n\nWe identified the correct Base mainnet deployment start block by binary-searching `eth_getCode`, rather than assuming a block number and risking missed historical events.\n\nThe subgraph is deployed on The Graph Subgraph Studio and synced to the current chain head:\n\n[https://api.studio.thegraph.com/query/1760283/zbase-pool-base/version/latest](https://api.studio.thegraph.com/query/1760283/zbase-pool-base/version/latest)\n\nWe verified that the roots indexed by the subgraph match the values returned on-chain by `currentRoot()` and `latestRoot()`.\n\n### pool-state decision tool\n\nWe built `pool-state` as both an MCP tool and a CLI command in `run.ts`.\n\nIt queries the subgraph directly using plain `fetch` and GraphQL, then passes the result into a pure `decidePoolState()` function with unit tests. Keeping the decision logic pure and tested makes the payment decision predictable, reviewable, and easy to reuse across agent environments.\n\nBefore a payment, `pool-state` checks for subgraph indexing errors through `_meta`, reads the current ASP root and leaf count, converts 256-bit root values safely using `BigInt`, and cross-checks the result with the facilitator.\n\nIf the subgraph is unavailable, missing, or returning indexing errors, the tool fails closed. The agent does not attempt a privacy payment when it cannot verify the pool state.\n\nThe tool is registered in our MCP server through `@modelcontextprotocol/sdk` and exposed through the `run.ts` CLI. `SKILL.md` documents when an AI agent should call it before making a payment.\n\n### World AgentKit integration\n\nWe integrated `@worldcoin/agentkit` 0.2.1 into the x402 seller built with `@x402/express` 2.11.\n\nThe integration uses `registerExtension`, `onProtectedRequest`, and `createAgentBookVerifier` to verify AgentBook-backed identities and enforce human-level free-call limits.\n\nWe added a file-persisted `AgentKitStorage` implementation that stores per-human trial counters and a capped nonce replay-protection window. The cap is important because an unbounded nonce store could be abused to exhaust storage or memory over time.\n\nThe stock AgentKit hook does not include a request ID, so we use `AsyncLocalStorage` to safely associate hook events with the correct incoming request.\n\nThe entire World integration is behind an `AGENTKIT_ENABLED` feature flag. When the flag is disabled, the seller remains byte-identical to the original payment-only implementation.\n\nWe added 15 `node:test` cases covering the key trial, verification, replay-protection, and payment paths. We also built a demo client with a fetch shim to handle the x402 interoperability issue where the payment challenge may be delivered in a response header rather than the response body.\n\n### Mainnet safeguards and RPC compatibility\n\nThe demo registry stub intentionally throws during startup on Base mainnet. This prevents development-only identity behavior from accidentally being enabled in production.\n\nWe also fixed the seller’s `eth_getLogs` behavior. The original implementation queried a 50,000-block range, but public Base RPC endpoints enforce a 2,000-block cap. The seller now scans logs in ranges compatible with public Base RPC limits.",
+  "auto_summary": "A privacy-focused payment system on Base that uses a subgraph-informed MCP tool and x402 seller integrations for agent payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/zbase-4dngb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

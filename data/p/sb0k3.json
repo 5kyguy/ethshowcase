@@ -1,0 +1,21 @@
+{
+  "id": "sb0k3",
+  "slug": "settly",
+  "title": "Settly",
+  "tagline": "Split expenses, save together, settle in USDC or EURC as you need.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sb0k3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BAmgfYYI01kN00BRSRQ01XukuDU00asPq014P9feZuBn65y00/high.mp4",
+  "source_url": "https://github.com/DaeunYoon/settly",
+  "finalist": false,
+  "description": "Settly is a group expense app built on Arc that lets friends split costs and save together using USDC and EURC.\n1. Pot mode: Members pre-fund a shared pot. When someone pays for the group (hotel, dinner, etc.), they request reimbursement. Other members approve on-chain, and the contract auto releases funds once majority threshold is met.\nSplit mode: For spontaneous expenses, members log what they paid and who it's split among. The app calculates net debts and settles everything in one transaction using an approve pull mechanism. \nLive FX: Groups choose USDC or EURC as their base currency. Members can deposit in either the contract converts automatically using a live EUR/USD rate pushed on-chain by a backend bot fetching ECB data. This showcases Arc's unique dual stablecoin support.\nOnboarding: Dynamic SDK provides email login with embedded wallets, so friends who've never touched crypto can join a group in seconds.",
+  "how_its_made": "- Smart Contracts (Solidity 0.8.30, Foundry): Three contracts deployed on Arc Testnet. FXOracle.sol stores the live USDC/EURC exchange rate, GroupPot.sol handles group management, pot deposits with auto FX conversion, and reimbursement requests with multi-member approval logic. SplitSettler.sol tracks ad-hoc expenses and executes optimized batch settlements via approve-pull (transferFrom). GroupPot reads rates from FXOracle, and SplitSettler reads membership from GroupPot.\n- FX Rate Bot (Fastify): A rate pusher plugin runs inside our Fastify backend. On startup and every 15 minutes, it fetches EUR/USD from the Frankfurter API (ECB data), converts it to contract format, and calls FXOracle.updateRate() on Arc via a dedicated keeper wallet. It skips the on-chain call if the rate hasn't moved more than 0.1%, saving gas.\n- Auth & Wallets (Dynamic JS SDK): We added Arc Testnet as a custom EVM network in Dynamic's dashboard. Users log in with email. Dynamic creates an embedded wallet automatically. No MetaMask, no seed phrases. This was key for the \"invite your non-crypto friend\" flow.\n- Arc-specific: USDC is Arc's native gas token (18 decimals natively), but the ERC-20 interface uses 6 decimals. We had to be careful never to mix these. All contract logic uses the 6-decimal ERC-20 interface exclusively. Both USDC and EURC are first-class citizens on Arc, which made the dual-currency pot logic possible without deploying our own tokens or relying on external DEXs.\n- Notably hacky: The FX conversion lives in a standalone oracle contract rather than inside GroupPot. This means we can swap the rate source later (Chainlink, Band, StableFX) without redeploying the main contracts.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/settly-sb0k3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

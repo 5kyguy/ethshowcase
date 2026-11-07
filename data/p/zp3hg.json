@@ -1,0 +1,25 @@
+{
+  "id": "zp3hg",
+  "slug": "hush-protocol",
+  "title": "Hush Protocol",
+  "tagline": "Send USDC to a @username on Arc. A ZK proof breaks the on-chain link between deposit and withdraw.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zp3hg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BD2gYpbge8xtG02Pse02WucdCjBdVigYlJxWIA8TNaRc00/high.mp4",
+  "finalist": false,
+  "description": "The repo is a monorepo built in strict dependency order: contracts, then the ZK circuit, then a shared proof SDK, then the indexer, backend and frontend.\n\nContracts. Solidity 0.8.28 on Hardhat with OpenZeppelin. BulletPool holds funds, verifies proofs, tracks spent nullifiers permanently, and carries an embedded token registry, plus Ownable2Step, ReentrancyGuard and pause. MerkleRootManager keeps a rolling window of 64 accepted roots so a withdraw must prove against a root the chain has seen. The verifier is swappable, so we ship a mock during development and drop in the snarkjs-exported WithdrawVerifier after the ceremony.\n\nZK. One circuit, written in Circom with circomlib Poseidon, Groth16 over BN254. Deposit needs no circuit. The statement is that the prover knows a secret where nullifier = Poseidon1([secret]) and commitment = Poseidon4([secret, recipientDigest, amount, tokenHash]) is a leaf under the public root, with depth-20 Poseidon2 membership. Public input order is locked to [root, nullifier, recipientDigest, amount, tokenHash]. Because the digest, amount and token are bound inside the commitment, a watcher cannot front-run a withdraw and redirect or inflate it without the secret.\n\nSDK. A TypeScript package (circomlibjs, snarkjs) owns secrets, commitments, nullifiers, Merkle math and proof encoding, including the G2 limb endian swap snarkjs needs for the Solidity verifier. The indexer and frontend both link it via pnpm, so the tree built server-side and the proof built client-side cannot drift apart. No ad-hoc crypto in the UI.",
+  "how_its_made": "Public chains leave a visible trail. Every transfer writes a permanent sender to recipient edge that anyone can follow, which makes salaries, donations, remittances and contractor payments uncomfortable when the relationship itself should stay private.\n\nHush is a ZK-private payment rail on Arc Testnet. It works as a shielded note pool:\n\n1. The sender picks a recipient by @username or X handle, and the app resolves it to a wallet and an encryption key.\n2. The SDK generates a secret and a Poseidon commitment, the sender approves the ERC-20 and calls deposit on BulletPool. The note details are sealed to the recipient's public key and stored as ciphertext.\n3. An off-chain indexer watches Deposit events, inserts each commitment into a depth-20 Poseidon Merkle tree, and posts the root on-chain to MerkleRootManager.\n4. The recipient opens their inbox, decrypts the note locally, fetches a Merkle witness from the indexer, and generates a Groth16 proof in the browser. BulletPool verifies the proof, checks the nullifier has not been spent, and transfers the tokens out.\n\nNothing on-chain connects the deposit transaction to the withdraw transaction. The withdraw event carries the nullifier and the recipient, never the commitment.",
+  "auto_summary": "A monorepo for private ERC-20 payments on Arc Testnet using Solidity contracts, a Circom Groth16 circuit, a shared proof SDK, a subgraph, and web apps.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hush-protocol-zp3hg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

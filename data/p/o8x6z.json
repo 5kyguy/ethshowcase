@@ -1,0 +1,30 @@
+{
+  "id": "o8x6z",
+  "slug": "aegis402",
+  "title": "Aegis402",
+  "tagline": "AI-powered security layer for safer onchain payments—pre-audits, post-audits, and escrow protection.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o8x6z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pmSWwKQU4UmhUhfHsJTq7QUgmlk28n9f1Hh4AYEgMXA/high.mp4",
+  "demo_url": "http://aegis402.s3-website.ap-northeast-2.amazonaws.com/",
+  "source_url": "https://github.com/AEGIS402/contracts",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Open Agents 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "AEGIS402 is a guard wallet that analyzes a user’s on-chain transactions before and after execution. If a transaction appears risky, AEGIS402 can block it before execution, hold it after execution, route it through escrow, or connect it to insurance-based recovery.\n\nStructurally, AEGIS402 can be applied to all kinds of on-chain transactions. For this hackathon, however, we focused on **x402 payment requests** as our first specialized use case. x402 is a payment rail that fits naturally with AI agents, machine-to-machine payments, API billing, and micropayments. In this environment, an agent may repeatedly make small payments on behalf of the user, so one wrong approval or one unsafe contract call can be repeated automatically and at high speed.\n\n# Motivation\n\nTraditional card payment systems have multiple protection layers, including fraud detection, approval holds, chargebacks, insurance, blacklists, and merchant risk scoring.\nOn-chain payments, however, usually lack comparable risk judgment layers before and after settlement. Once a user approves the payload, the transaction can be settled immediately, either directly or through a facilitator.\n\nAEGIS402 aims to preserve the speed and automation of on-chain payments while adding the operational safety layer that traditional card systems have had for years: blocking before approval, holding after approval, and recovering after an incident.\n\n# AEGIS402\n\nAEGIS402 solves this problem by adding two audit agents at the wallet level.\n\nThe first is the **pre-audit agent**. The pre-audit asks: “Should this transaction be created?” For example, if an x402 payment request is connected to a Uniswap v4 hook, AEGIS402 checks the implementation of the target hook before creating the actual transaction or signature request. If the hook shows risky signals such as missing access control, reentrant callback ordering, `tx.origin` authentication, or replayable payment IDs, AEGIS402 stops the transaction before it is created.\n\nThe second is the **post-audit agent**. The post-audit asks: “Was the result of the executed transaction actually normal?” On-chain, a transaction can succeed and still harm the user. For example, a swap may succeed, but if the output is abnormally low compared to the input because of a sandwich attack and slippage protection was insufficient, AEGIS402 classifies the result as high or critical risk.\n\n# Our LLM Models\n\nAn important part of AEGIS402 is that both the pre-audit and post-audit do not depend on external LLM APIs. They run in our own local environment. AEGIS402 uses a GPT-OSS-120B-based local model, tuned for x402 payment requests and DeFi transaction patterns.\n- For pre-audit, we use an EVMbench-based smart contract vulnerability audit flow.\n- For post-audit, we first structure transaction receipts, event logs, state changes, balance changes, and token flows, and then the LLM makes a risk decision based on that evidence.\n\n# Escrow Standard\n\nAEGIS402 does not stop at detection. To make post-audit results actionable, AEGIS402 also proposes an **optional escrow standard**. If a service complies with this standard, payment funds or resulting assets can be temporarily held in escrow. Based on AEGIS402’s post-audit result, the service can automatically perform actions such as settlement, hold, freeze, recovery, or insurance claim.",
+  "how_its_made": "The pre-audit pipeline focuses on the moment before a transaction or signature request is created. For the x402 demo, it inspects the target Uniswap v4 hook implementation and runs a smart-contract risk check based on an EVMbench-style vulnerability audit flow. We built both a safe hook and a deliberately vulnerable hook, so the system can demonstrate blocking risky cases such as missing access control, unsafe callback ordering, `tx.origin` authentication, and replayable payment IDs before the user or agent signs anything.\n\nThe post-audit pipeline works after execution. It takes a transaction hash, collects transaction receipts, event logs, balance changes, state changes, and token-flow evidence, then classifies whether the result was actually safe. This is important because an on-chain transaction can succeed but still harm the user, for example through sandwich-attack slippage damage.\n\nFor recovery, we implemented an optional escrow standard through a Uniswap v4 escrow hook. Services that follow the interface can receive audit decisions such as `RELEASE` or `BLOCK_AND_CLAIM`. In the demo, if post-audit detects sandwich-attack damage, recipient settlement is blocked, escrowed output tokens are moved into an insurance pool, and the user is refunded from the insurance pool and accumulated hook fees.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aegis402-o8x6z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

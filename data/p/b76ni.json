@@ -1,0 +1,30 @@
+{
+  "id": "b76ni",
+  "slug": "yellowpay",
+  "title": "Yellowpay",
+  "tagline": "Instant gasless payments from any chain, with built-in cross-chain yield on Aave V3",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b76ni/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NetNOSZCZ3poedK5fb02yvnimcFYmiIjPAPCKKwKTHr8/high.mp4",
+  "demo_url": "https://yellowpay.vercel.app/",
+  "source_url": "https://github.com/harystyleseze/yellowpay",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "YellowPay is a multi-chain payment and yield platform built on Yellow Network's off-chain state channels. Users send instant, gasless payments to anyone using ENS names, DNS names, or wallet addresses — no gas fees, no block confirmations.\n\nThe standout feature is \"pay from anywhere\": pick any token on any supported chain, and LI.FI finds the best swap and bridge route to deliver the payment through Yellow Network in a single flow. The recipient gets funds instantly via an off-chain state channel transfer, regardless of the sender's starting chain or token.\n\nThe app is organized into five tabs. Pay handles both balance-mode (instant off-chain transfer from Yellow Network balance) and wallet-mode (any-token cross-chain payment via LI.FI). Fund lets users deposit from any chain into Yellow Network. Withdraw settles state channels back on-chain. Earn deposits into Aave V3 lending vaults on Ethereum, Base, and Polygon with live on-chain APY — vaults are discovered dynamically from Aave V3 reserve data. History tracks every transaction with type filtering and rich metadata.\n\nYellowPay supports 7 chains in production (Ethereum, BNB Smart Chain, Polygon, World Chain, Base, Linea, XRPL EVM Sidechain), 8 assets (USDC, USDT, ETH, WETH, BNB, LINK, XRP, Beatwav), and full ENS integration including CCIP-Read for L2 names like base.eth and cb.id, avatar display, and text record lookups.",
+  "how_its_made": "YellowPay is built with Next.js 15 (App Router, Turbopack) and TypeScript, using wagmi 2.14, RainbowKit 2.2, and viem 2.21 for wallet connection across 8 chains. Tailwind CSS 4 handles the dark-themed UI.\n\nThe core payment layer uses the @erc7824/nitrolite SDK (v0.5.3) to connect to Yellow Network via WebSocket. Authentication follows a 3-step EIP-712 flow: generate an ephemeral session keypair locally, request an auth challenge, then sign an EIP-712 message with the main wallet containing the session key, allowances, and a 24-hour expiry.\n\nAll subsequent RPC calls — transfers, channel management, balance queries — are signed with the session key using raw ECDSA via the SDK's createECDSAMessageSigner. A 30-second heartbeat keeps the WebSocket alive, and real-time balance updates arrive via server broadcasts.\n\nThe most notable integration is the 3-step \"Any Token\" payment mode. Step 1: LI.FI swap/bridge executes on-chain (any token, any chain → settlement token on target chain). Step 2: NitroliteClient deposits the output token into Yellow Network's custody contract (with automatic ERC20 approval). Step 3: an instant off-chain transfer sends funds to the recipient. React effects coordinate step transitions by watching the LI.FI transaction status polling hook — when the LI.FI transfer completes, the deposit fires automatically, and when deposit succeeds, the transfer executes.\n\nLI.FI is integrated via a custom REST client calling li.quest/v1 directly — no npm SDK. This keeps the bundle small and avoids dependency version conflicts. The client handles quote fetching (debounced at 500ms to prevent API spam), chain/token enumeration, and transaction status polling at 5-second intervals.\n\nThe Earn feature reads Aave V3 reserve data on-chain using viem public clients for Ethereum, Base, and Polygon. APY is computed from the currentLiquidityRate field in RAY format (10^27) using daily compounding. Vaults are discovered dynamically from the settlement token registry — any token with an Aave V3 reserve on a supported chain automatically becomes a vault. Deposits and withdrawals route through LI.FI for cross-chain access, and position tracking combines aToken balanceOf on-chain reads with localStorage persistence for deposit amounts to calculate accrued yield.\n\nENS integration supports forward resolution (name → address), reverse resolution (address → name), CCIP-Read (ERC-3668) for L2 names, avatar loading via the ENS metadata HTTP service (avoids CORS issues with the standard on-chain approach), and text record display for recipient profiles.\n\nPartner Technologies\n\na. Yellow Network \n\nFull Nitrolite SDK lifecycle: WebSocket connection, EIP-712 session auth with ephemeral keypairs, state channel creation, instant off-chain transfers, channel resize (partial withdrawal), channel close (full settlement). Plus NitroliteClient on-chain custody deposits. The 3-step wallet payment (LI.FI → custody deposit → instant transfer) demonstrates a novel integration pattern for cross-chain funding of state channels.\n\nb. ENS Creative\n\nENS names are the primary payment identifier across the app. Integration goes beyond basic resolution: CCIP-Read for L2 names (base.eth, cb.id), avatar display via the metadata service, text record lookups (description, Twitter, GitHub, URL), forward + reverse resolution, and ENS-aware sender identity display.\n\nc. LI.FI DeFi \n\nLI.FI powers three distinct features: (1) \"Any Token\" payments — swap/bridge any token into settlement currency for instant off-chain transfer, (2) cross-chain account funding — deposit from any chain into Yellow Network, (3) cross-chain Earn deposits — route tokens into Aave V3 vaults on remote chains. Custom REST client with debounced quoting and status polling.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yellowpay-b76ni",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "taoj2",
+  "slug": "payagent",
+  "title": "PayAgent",
+  "tagline": "Chat to pay — AI handles the rest. No chain switching, no DEX, no gas math.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/taoj2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OafF99QjOKRsJdZYKdx3jxYeNfDfA02hPDE35W7GEd1I/high.mp4",
+  "demo_url": "https://payment-ai-agent.zeabur.app/",
+  "source_url": "https://github.com/linyuhsuan/web3-payment-agent",
+  "finalist": false,
+  "description": "Pay Anyone. Just Chat. AI Handles the Rest.\n\nPayAgent is an intent-based AI agent for seamless multi-chain crypto payments. You type what you want to do in plain language, and the agent handles chain selection, address resolution, gas estimation, and token swaps automatically — no bridges, no chain switching, no wrong tokens.\n\nWeb3 payments are still broken in three ways:\n- Chain complexity: you have to pick the right network and manage gas yourself\n- Identity gaps: your friend has an ENS name, but you need a raw 0x address\n- Wrong token: you have ETH, they want USDT — that's 3 manual steps before you can even pay\n\nPayAgent eliminates all of them. Key highlights:\n- Natural language intent: describe your payment in plain text — AI parses intent and decides the full execution path automatically\n- Multi-chain parallel scanning: balances queried across 6 chains simultaneously, routed to the lowest gas option\n- Auto-swap via Uniswap: agent fetches a quote and builds the swap + transfer sequence if you lack the target token\n- Live AI reasoning stream: every decision step streams to the UI in real time — no black box\n- Human-in-the-loop by design: AI builds unsigned calldata only, you always confirm in your own wallet\n- Multi-turn conversations: session context remembered per wallet address\n\nBefore any transaction is sent, a Decision Card surfaces the recipient, chain, amount, and full cost breakdown so you know exactly what you are signing.\n\n",
+  "how_its_made": "Built with AI model (function calling), viem + Alchemy (multi-chain RPC), Uniswap Trading API, ENS resolution, wagmi + ConnectKit (wallet), and a Node.js SSE backend.\n\nThe agent core is a function-calling loop where the AI model decides at runtime which tools to invoke and in what order — no hardcoded payment flow. For example, \"send 50 USDT to alice.eth\" with no USDT triggers: resolveIdentity → getBalances → getSwapQuote → buildSwapTx, skipping createTransaction entirely.\n\nThe 7 tools available to the model are:\n- resolveIdentity (ENS → 0x address)\n- getBalances (multi-chain parallel balance query)\n- selectChain (lowest-gas routing)\n- estimateGas (including L2 L1 data fees)\n- createTransaction (unsigned ERC-20 / native ETH calldata)\n- getSwapQuote (Uniswap EXACT_OUTPUT quote with 30s cache)\n- buildSwapTx (assembles full swap + transfer sequence)\n\nEvery tool call emits an SSE event, rendering each reasoning step live on it. selectChain fans out gas price queries across all chains in parallel, factoring in L1 data fees on Optimism, Base, and Arbitrum.\n\nFor Uniswap integration, getSwapQuote uses EXACT_OUTPUT mode — the agent specifies exactly how much USDT the recipient receives, and Uniswap back-calculates the required ETH input. All transactions are returned as unsigned calldata; the wallet signs each one in sequence, and the server never holds private keys.",
+  "auto_summary": "An AI-assisted web app and backend that interpret payment requests and build unsigned multi-chain transfer or swap transactions.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/payagent-taoj2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

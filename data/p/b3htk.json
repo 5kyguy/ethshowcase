@@ -1,0 +1,30 @@
+{
+  "id": "b3htk",
+  "slug": "dark-matter-markets",
+  "title": "Dark Matter Markets",
+  "tagline": "Agentic Voting Incentives Market for Hedera. Autonomously earn rewards for your votes.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b3htk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ro02nQzcPjQhj1e38FLeJ01bc02QDLkwsSUZ025jbHUQDCg/high.mp4",
+  "demo_url": "https://darkmattermarket.fly.dev",
+  "source_url": "https://github.com/kevinstubbs/dark-matter-market",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "2nd place",
+      "title": "Best Use of Hedera Agent Kit & Google A2A"
+    }
+  ],
+  "finalist": true,
+  "description": "Vote delegation mechanisms without incentive markets actually degrade a DAO's open governance and transparency because:\n- People find a way to sell their votes even without a market, but they have to do it with \"trust me bro\" vaults.\n- There is a lack of tooling, visualization, ability to inspect how votes are being delegated - they are being incentivized but it's done off-chain and under the table.\n- Newcomers or more casual users do not have fair access to information about how the community is allocating their votes, because you have to map the HCS transactions yourselves to understand why certain voting outcomes happened.\n\nDark Matter Markets directly addresses all of these points\n- On-chain contract manages buyer escrow and seller payouts.\n- Agents autonomously negotiate for all parties in the marketplace, understanding the context of your goals (i.e. \"I want YES to win\", \"I want to maximize my earnings\") and guardrails/instructions (i.e. \"never agree to add a gauge\", \"always vote yes for airdrops\")\n- Our website provides tools to inspect the agent behavior & network, including why agents made certain decisions, how they negotiated the sellers against each other, etc.\n- We aggregate HCS data to understand who has voted, who has delegated, when, what was the outcome of proposals, etc.\n\nDAOs want to increase voting participation, and providing incentives for voting is one of the most effective ways to do that [0]. One common (but not only) way is by introducing vote delegation. Once there is vote delegation, it is almost an economic certainty that a market will eventually be built on top of it to solve various \"off the books\" issues, as well as making the incentives accessible to even small shareholders. The in-between period is a golden window of opportunity for malicious actors to secretly buy off voters, while drawing a minimal amount of awareness from the rest of the DAO. Dark Matter Markets intends to shorten the gap for DAOs to provide  transparent, inspectable and open incentive markets\n\n[0] Mevni Manarangi Piyarisi and Timofey Shalpegin. Incentives in decentralised autonomous organisations. International Journal of Production Economics, 280:109472, 2025 (pdf)\n",
+  "how_its_made": "DAO voting on Hedera typically works by having a topic on HCS where users can provide messages such as VOTE and DELEGATE, with a proposal id.\n\n1. A CLI periodically aggregates the HCS topic data via a mirror node (in my case for three chains: localhost, testnet and mainnet) using a REST API. We also retrieve token positions for all participating users. All of this data is stored in Redis.\n2. A website shows all of the markets created in our system, their proposals and visualizations about the data we have aggregated about them.\n3. The website accepts log/streaming data from agents in order to render a node graph of the agents, and to let you inspect individual nodes (agents) and connections (communication between a buyer and seller agent).\n4. Individuals who want to buy must put their money in escrow on-chain to a contract deployed with Hardhat, written in solidity.\n5. Buyers and sellers run their agents with their respective configurations (so that they know who they represent, what their goals are, what their guardrails are). Agents use Hedera's AgentKit with the Consensus plugin, Google's A2A protocol, langchain, anthropic LLM\n6. Agents will communicate and negotiate with each other autonomously. Once a deal has been reached, the seller will send a message to the HCS topic delegating their votes to one of three DMM-controlled addresses. These addresses represent the three possible outcomes: YES, NO, ABSTAIN. The reason we do this instead of delegating to the buyer is to prevent them from flipping their vote at the last minute; sellers have control over what kinds of issues they agree to sell their vote for, so it is critical to prevent rugpull manipulation.\n\nBecause of how many different pieces there are, there are scripts to bring up and down the entire network of agents at once.\n\nWebsite: nextjs, react, typescript\nCLI: nodejs, typescript\nAgents: nodejs, typescript, Hedera Agentkit + Google A2A\nContracts: hardhat, solidity\n\nThe deployment (locally for example) looks like this:\n1. Run Hedera locally\n2. \"docker compose up\" to get the website, database and redis running in docker\n3. Migrate the db and run the db seed \n4. Deploy the contracts locally\n5. Run the CLI to retrieve data\n6. Finally, run the agents with \"pnpm agents:start-all\" and inspect the network in in the \"Interrogate Agents\" => \"Network View\" part of the site.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dark-matter-markets-b3htk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

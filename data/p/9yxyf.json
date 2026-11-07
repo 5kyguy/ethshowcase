@@ -1,0 +1,27 @@
+{
+  "id": "9yxyf",
+  "slug": "swarmproof",
+  "title": "SwarmProof",
+  "tagline": "Decentralized smart-contract auditing powered by AI agents that collaborate",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9yxyf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZZzinHoUARWrDe3x7RoVXq61axdX02R4NpYXVpmf1u028/high.mp4",
+  "demo_url": "https://swarm-proof-web-steel.vercel.app/",
+  "source_url": "https://github.com/Trymbakmahant/SwarmProof",
+  "finalist": false,
+  "description": "Smart contract security is critical for protecting user funds, but for independent developers and early-stage teams, traditional audits can often be cost-prohibitive and take weeks to complete. SwarmProof is an open, decentralized security auditing protocol where an autonomous swarm of specialized AI agents collaborates to inspect smart contracts in real time.\n\nWhen a Solidity contract is submitted, specialized agents (focusing on Reentrancy, Access Control, Business Logic Invariants, MEV, and Static Bytecode) concurrently analyze the contract's AST call graph. To prevent false positives, findings undergo a consensus quorum and are deterministically tested inside an automated Sandbox PoC verification environment.\n\nOnce consensus is finalized, an immutable cryptographic audit certificate is anchored onto Hedera Consensus Service (HCS Topic: 0.0.10417469), making every proof publicly verifiable on the Hedera Mirror Node. SwarmProof natively implements the HTTP 402 Payment Required (x402) standard, programmatically streaming micro-bounties directly into each participating agent's Hedera account. Anyone can build, test, and register their own sovereign AI agent to join the swarm and earn bounties.",
+  "how_its_made": "Smart contract security audits are essential for protecting user funds, but for independent developers, high costs and multi-week turnaround times can slow down shipping. We built SwarmProof as an open protocol where any developer can spin up an autonomous AI agent, prove its competence, and collaborate in a decentralized security swarm.\n\nArchitecture & Open Agent Economy: We structured SwarmProof as a TypeScript monorepo using pnpm workspaces with Hono (API Gateway) and Next.js 15 (Frontend). Our baseline specialists run on DeepSeek V3 / Flash models via Fireworks AI (apps/api/src/app.ts#L484-L520). Anyone can register an external agent by requesting an on-chain cryptographic challenge (apps/api/src/app.ts#L1556-L1605) and passing an automated benchmark (apps/api/src/app.ts#L1618-L1770) to earn a sovereign W3C DID (did:hedera:testnet:<topicId>_<agentId>) on Hedera (packages/hedera/src/identity.ts#L226-L320). An automated virtual sandbox reproduces exploits before any finding is accepted (apps/api/src/app.ts#L2100-L2250).\n\nHedera & x402 Micropayments: When an audit is initiated, the client escrows the bounty in HBAR using the HTTP 402 standard (packages/mcp/src/index.ts#L210-L290). Upon consensus settlement, funds are automatically split and streamed to each contributing agent's Hedera wallet (apps/api/src/taskPool.ts#L360-L425). The entire audit certificate is hashed, EIP-191 signed, and immutably anchored onto Hedera Testnet HCS Topic 0.0.10417469 (packages/hedera/src/consensus.ts#L60-L140).\n\nThe Graph & Interactive Visualizer: Deployed subgraph QmXcvJ1j4xRrnVzUqPzE9jTKn6cR1vT4a on The Graph to index agent reputation scores (0–100 PoR), payout distributions, and live protocol TVL/telemetry (apps/api/src/app.ts#L663-L695). We also built a Three.js WebGL visualizer and AST Knowledge Graph (apps/web/app/graph/page.tsx#L445-L520) allowing developers to inspect AST subgraphs and run real-time Cypher/GraphQL queries.\n\nDeveloper Experience: Published swarmproof-mcp to npm (packages/mcp/src/cli.ts#L10-L160) so developers can audit contracts via MCP directly inside Antigravity, Cursor, or Claude Desktop without leaving their IDE.\n\n\nWeb Application: https://swarm-proof-web-steel.vercel.app/\nAPI Endpoint: https://swarm-proof-api.vercel.app\nNPM Package: https://www.npmjs.com/package/swarmproof-mcp",
+  "auto_summary": "A TypeScript monorepo for AI-assisted smart contract auditing with Hedera-based identity, consensus anchoring, and x402-style payment flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/swarmproof-9yxyf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

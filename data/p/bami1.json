@@ -1,0 +1,20 @@
+{
+  "id": "bami1",
+  "slug": "penny-proofs",
+  "title": "Penny Proofs",
+  "tagline": "Penny Proofs™️ enables developers to verify more ZK compute for less $$ as it leverages off-chain computation w/ RISC Zero ZK and Layer Zero for proof verification interoperability.",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bami1/banner/default.jpg",
+  "source_url": "https://github.com/codyx/penny-proofs",
+  "finalist": false,
+  "description": "Rely on truth. Not trust.\nBlockchains have limits. Math doesn't.\nDeploy on any EVM chain, verify where it's cheap, access the verified data everywhere.\n\nBy connecting the proving from Risc Zero zero-knowledge circuits with the data interoperability and messaging from Layer Zero, Penny Proofs brings the following:\n- Efficient off-chain computation using ZK circuits.\n- Modularity of proof verification.\n- Verified proof data transport over the LayerZero messaging layer.\n\nWe showcase an example where we are able to create a VerifiableAirdrop contract that is guaranteed to have been built in a provable way on top of on-chain data and public inputs:\n- An airdrop Merkle Tree is provably generated inside a Risc Zero circuit that reads on-chain data and commit its output including the Merkle root hash.\n- A RiscZeroVerifier contract gets invoked to verify the validity of the proof.\n- After the proof has been validated and its underlying data retrieved on-chain, LayerZero routes the message to a destination chain (typically a chain where the gas is more expensive).\n\nVoilà, computation cost have been saved off-chain and verification can be made where it's the most cost-effective without having to compromise on accessing the verified data anywhere that LayerZero supports!\n\nVerify MORE for LESS thanks to Penny Proofs™️\n\nExamples of other cool stuff that can be easily be built on top of Penny Proofs™️:\n- A portative ZK-rollup where batch of transactions can be verified where it's the most effective based on gas volatilty of different chains.\n- Storage proofs, effectively accessing any on-chain data thanks to storage proofs and making it easily accessible on any chain (even beyond LZ if needed!): historical data and cross-chain data unlocked!\n",
+  "how_its_made": "We used Solidity to notably write the following contracts:\n- VerifiedAirdrop.sol // An LZ receiver contract where players are able to claim airdrops by providing an inclusion proof of a Merkle tree generated within a ZK proof and relayed via LayerZero.\n- PennyProofVerfiedAirdrop.sol // An LZ sender contract that verifies a Risc Zero proof, gets the generated Merkle tree root hash and send it to the receiver contract.\n\nWe used Risc Zero to write a ZK circuit containing a Merkle tree implementation, on-chain data view and hash commitment through Steel.\nImportant files include:\n- verified_airdrop.rs: Merkle-related things and chain commitments.\n- publisher.rs: communication with the guest, ZK circuit invocation and verification transaction broadcast.\n\nWe used LayerZero as a central piece of Penny Proofs architecture to send and receive authenticated data in an effective way over multiple peers (i.e., chains).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/penny-proofs-bami1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

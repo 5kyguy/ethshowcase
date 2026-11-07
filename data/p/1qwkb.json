@@ -1,0 +1,29 @@
+{
+  "id": "1qwkb",
+  "slug": "ino",
+  "title": "INO",
+  "tagline": "INO revolutionizes NFT launches using multi-Vickrey auctions: More Fair pricing and true market valuations.",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1qwkb/banner/default.jpg",
+  "demo_url": "https://github.com/Raunaque97/ino",
+  "source_url": "https://github.com/Raunaque97/ino",
+  "prizes": [
+    {
+      "sponsor": "Mina Protocol",
+      "sponsor_id": "6wi0d",
+      "placement": "3rd place",
+      "title": "Best Mina application or library built using Protokit"
+    }
+  ],
+  "finalist": true,
+  "description": "# INO (Initial NFT Offerings) \nINO is an innovative platform that addresses one of the most critical challenges in the NFT space: determining the optimal initial pricing for NFT collections. By implementing a sophisticated multi-Vickrey auction mechanism (aka Uniform Price auction), our solution creates a fair, efficient, and economically sound pricing discovery process for NFT launches.\n## The Challenge\nThe NFT market currently struggles with significant price volatility and inefficient pricing during collection launches. New collections often face the dilemma of either being undervalued, failing to reach their true market potential, or being overpriced, resulting in unsold NFTs. This leads to a poor experience for both creators and collectors\n## Solution\nINO introduces a systematic auction-based approach for NFT collection launches. Creators can launch their NFT collection (e.g., 100 unique items) through our platform using a multi-Vickrey auction system. In this mechanism, all winners pay the same price: the highest non-winning bid. For example, in a collection of 100 NFTs, the top 100 bidders win, but all pay the 101st highest bid price. During minting the winners are randomly assigned an NFT from the collection.\nThe bidding process takes place within a specified time window, ensuring transparent and fair participation through smart contract-based execution. This approach not only provides real-time bid tracking but also ensures that the final price is determined by genuine market demand.\nFor creators, INO delivers optimal price discovery for their collections, enhancing new collections' launch credibility. While collectors benefit from fair pricing based on true market demand. The auction mechanism naturally incentivizes participants to bid their true valuations, creating a more authentic market environment.",
+  "how_its_made": "# Technical Implementation\nOur project leverages the Proto-kit framework to create a zk Appchain-based auction platform with Mina as the Layer 1 chain\n\n## ZK Circuit Implementation\nThe most challenging and innovative aspect of our implementation was designing the auction settlement logic as ZK circuits. The key technical challenge was calculating the settlement price (the N+1th highest bid, where N is the number of NFTs) in a ZK-friendly way, especially since N is variable depending on the collection size.\n\nTo solve this, we developed a novel approach using a double-linked list data structure, implemented through Proto-kit's stateMap APIs. The linked list maintains bids in descending order, with each new bid being inserted at the correct position. This structure allows us to:\n- Efficiently prove the ordering (constant time for each new bid)\n- Quickly identify the settlement price (N+1th position)\n- Maintain proof generation efficiency\n- Handle dynamic collection sizes\n\nFor the NFT distribution, I implemented an efficient randomization mechanism. To maintain the element of surprise, users discover their specific NFT only at the moment of minting, rather than knowing in advance. The challenge wasn't just about using a random oracle for assignment - we also needed to prove that each NFT ID was being minted for the first time. I developed an O(1) solution for truly random NFT minting that addresses both requirements. \n\nI developed the frontend using React. While the application is currently in an early development stage, I've incorporated mock data to demonstrate the intended final user interface and functionality. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ino-1qwkb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

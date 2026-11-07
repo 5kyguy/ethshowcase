@@ -1,0 +1,27 @@
+{
+  "id": "x1az9",
+  "slug": "baywatch",
+  "title": "Baywatch",
+  "tagline": "Lifeguard for LPs: one Graph signal prices toxic flow on 1inch Aqua & Uniswap v4",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x1az9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vhkSZuk87MAAYlTOYZxvFu1NrJIhXWvYQwxeaXmcH02c/high.mp4",
+  "demo_url": "https://github.com/mcmoodoo/baywatch",
+  "source_url": "https://github.com/mcmoodoo/baywatch",
+  "finalist": false,
+  "description": "Baywatch is a self-defending market maker that protects liquidity providers from toxic flow — the informed traders who pick off an AMM right before the price moves. The core problem: a pool only sees its own trades, so it never spots the shark until the money is already gone.\n\nBaywatch watches the entire market instead. One standardized query on The Graph runs across every major DEX — Uniswap, SushiSwap, Curve — on live mainnet data, and computes each venue's adverse-selection markout, a cross-protocol reputation for every trading address, and a market-wide toxicity index. That signal is posted on-chain, where a single shared oracle defends two protocols at once: a 1inch Aqua pool re-prices and tolls the swap through custom SwapVM opcodes, and a Uniswap v4 pool applies the identical defense through a hook. A flagged toxic address pays a personal surcharge — on both venues — while honest traders get tighter prices because they're no longer subsidizing the sharks.\n\nThe demo, \"The Desk,\" runs two pools on identical flow (defended vs. a naïve AMM) so the divergence is literally the money the defense earns, alongside a live cross-protocol toxicity radar, a market-toxicity gauge, and operator controls to launch a shark attack or trip the depeg circuit breaker. Delete the query and both pools stop defending themselves — the cross-protocol data isn't a dashboard, it's the product.",
+  "how_its_made": "The Graph (partner): one query written against the Messari standardized DEX-AMM schema is fanned across each AMM's subgraph via the decentralized gateway — adding a venue is one line of config, zero code. We compose two Graph products: the standardized subgraph plus the Subgraph MCP (used to discover/resolve the deployment IDs). The toxicity metric is oracle-free — execution price comes from each swap's own amounts, the reference mid from on-chain reserveAmounts, and USD fields are used only for notional weighting. A one-hop funding-graph provenance pass flags fresh wallets funded by known sharks, closing the wallet-rotation evasion.\n\n1inch (partner): three custom SwapVM opcodes appended to AquaOpcodes — a global spread, a per-taker toxic-flow toll, and a depeg circuit breaker — each reads an on-chain ParamOracle every swap via read-only staticcalls, preserving the quote==swap discipline (spread fails safe to max, toll fails open). Swaps settle as real ERC-20 transfers through Aqua's ship/pull/push.\n\nUniswap (partner): a v4 hook (BaywatchV4Hook) reads the SAME bytes32-keyed ParamOracle — a v4 PoolId slots exactly where the SwapVM orderHash goes — mapping the market index to a dynamic LP-fee override and the reputation to a per-swapper surcharge, and recovering the real swapper via Uniswap's official IMsgSender pattern behind a trusted-router allowlist.\n\nAn off-chain agent (deterministic, no LLM) ties it together: fetch → score → post the spread + tolls to the oracle, keyed by both the Aqua order and the v4 pool, so one signal defends both. Notably hacky: a dual-solc Foundry build (0.8.30/via-ir for the 1inch stack, 0.8.26/legacy pipeline for v4-core, via compilation restrictions) so both compile in one repo, and CREATE2 salt-mining to land the v4 hook at an address whose bits encode its permissions.",
+  "auto_summary": "This project computes cross-DEX toxicity signals from The Graph and uses them to adjust pricing on 1inch Aqua and Uniswap v4 pools.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/baywatch-x1az9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

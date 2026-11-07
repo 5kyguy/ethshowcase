@@ -1,0 +1,22 @@
+{
+  "id": "3cohw",
+  "slug": "hedera-ai-agents",
+  "title": "Hedera AI Agents",
+  "tagline": "Plain-English AI chat to send HBAR, create tokens/NFTs, and use Hedera consensus services",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3cohw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/71Wxgog3rlcyuKNoJjXE84SdxeaPweh4pQcA4M2y00SQ/high.mp4",
+  "demo_url": "https://hedera-ai-agents.netlify.app/",
+  "source_url": "https://github.com/ayano-pactreon/hedera-ai-agents",
+  "finalist": false,
+  "description": "Hedera AI Agents is a conversational AI-powered web application that enables users to perform blockchain operations on the Hedera network through natural language chat.\n  Users can interact with either Claude (Anthropic) or Gemini (Google) AI agents to execute cryptocurrency transfers, create and manage tokens and NFTs, utilize the Hedera\n  Consensus Service for immutable logging, and query account information—all without requiring any blockchain or coding knowledge. Built with Next.js, React, and TypeScript,\n   the application bridges the gap between complex blockchain technology and everyday users by providing an intuitive chat interface that makes blockchain operations as\n  simple as having a conversation.\n\nHedera AI Agents transforms blockchain interaction from technical and complex to conversational and simple. Instead of navigating complicated wallet interfaces, users chat\n   naturally with AI agents (Claude or Gemini) to execute real blockchain transactions on Hedera—transferring cryptocurrency, creating tokens and NFTs, logging immutable\n  data, and checking balances. It's blockchain made accessible for everyone, powered by cutting-edge AI.",
+  "how_its_made": " How I Built Hedera AI Agents - Technical Details\n\n  I built this as a full-stack Next.js 16 application integrating two AI providers (Claude and Gemini) with the Hedera blockchain. The frontend uses React 19 with Tailwind\n  CSS for a responsive chat interface, while Next.js API routes handle the middleware layer connecting AI models to blockchain operations.\n\n  AI Integration: I implemented dual AI agents using @anthropic-ai/sdk for Claude and @google/generative-ai for Gemini. Both use agentic loop patterns - the AI receives tool\n   schemas, decides when to invoke blockchain operations, executes them, and generates natural language responses. The trickiest part was making them compatible with the\n  same tool definitions since Claude uses tool-calling and Gemini uses function-calling with different schema requirements.\n\n  Particularly Hacky Solution: Gemini's API rejected Zod schemas with metadata properties like _def, ~standard, and _cached that LangChain tools include. I wrote a recursive\n   schema sanitizer that strips these properties while preserving the JSON schema structure, making the tools compatible with both AI providers.\n\n  Hedera Integration: I used the hedera-agent-kit v3.4.0 which was a game-changer - it provides LangChain-compatible tools wrapping the official @hashgraph/sdk. This saved\n  massive development time by offering pre-built plugins for account operations, token management, NFTs, and consensus service. I implemented a singleton pattern for the\n  Hedera client to maintain one connection across the app, and configured AUTONOMOUS execution mode for instant transaction processing without approval workflows.\n\n  Architecture: User messages flow through the chat UI → API routes → AI agent (with Hedera tools) → blockchain execution → natural language response. I kept state\n  management simple with React hooks, used TypeScript for type safety across tool inputs/outputs, and implemented optimistic UI updates for perceived performance. The entire\n   system processes real blockchain transactions while maintaining a conversational UX that feels like chatting with a helpful assistant.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hedera-ai-agents-3cohw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

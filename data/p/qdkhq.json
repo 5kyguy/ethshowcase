@@ -1,0 +1,26 @@
+{
+  "id": "qdkhq",
+  "slug": "mynachat",
+  "title": "Mynachat",
+  "tagline": "Join a patient group by proving your diagnosis from Myna Portal, without revealing anything else",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qdkhq/banner/default.jpg",
+  "demo_url": "https://mynachat.fly.dev/?lang=en",
+  "source_url": "https://github.com/funkyenough/mynachat",
+  "finalist": false,
+  "description": "Online patient groups can be a lifeline for people with rare diseases. They offer a community for sharing timely, valuable information, and provide emotional support and solidarity during difficult times.\n\nHowever, many patients would rather stay anonymous, and that forces a tradeoff. A public group can draw in people who don't have the disease, or who have conflicting interests, such as salespeople. A trusted private group is safer, but it is hard to find. It also needs someone to review each applicant, and that reviewer ends up holding sensitive medical information that could be misused.\n\nIn short, online patient groups also have a trust problem. \n\nMynachat is a permissioned message board where people with rare diseases can find each other and prove they belong, without revealing anything more about themselves.",
+  "how_its_made": "Proving facts from the government portal (TLSNotary). Japan's Myna Portal has no API or signed data export, so we use TLSNotary's MPC-TLS. A Chrome MV3 extension (tlsn-wasm) acts as the prover and a Rust service (tlsn alpha.15) acts as the verifier. Together they run the TLS session with myna.go.jp using the patient's own login cookie, so the verifier knows the response really came from the government server. The patient reveals only the request line and one matching field. That field can be a prescribed drug name, a 指定難病 (designated intractable disease) certification, or a medical subsidy certificate (PMH). The cookie and the rest of the medical record stay hidden. A shared Rust criteria crate checks the revealed field against each group's rules in groups/catalog.json. A proof takes about 2 seconds in the browser, and we tested it against production.\nOne account per human (World ID 4.0). At signup the user verifies once with IDKit using the My Number Card credential. This is a World ID 4.0 credential requirement, and legacy proofs are turned off. After that they log in with a passkey. The World ID nullifier for the account action allows one account per person. Actions get a per-deployment prefix, so dev and production don't use up each other's proofs. Joining a group takes only the Myna proof, and the member picks a display name for that group. No real name, email or wallet is ever collected. Users can optionally link a World ID session, which lets them recover their account on a new device and register a new passkey. Board polls are secret ballots with one vote per person, enforced by a separate World ID action for each poll.\nWeb app. A Next.js app backed by SQLite (sql.js). It includes:\nsignup, login and recovery\nenrollment for each group\na message board with threads, quoted replies, reactions and polls\ndisease search across all of ICD-10, with a waitlist for conditions that have no group yet\nJapanese and English versions, including a live selective-disclosure demo on the landing page\n\nIt's deployed on Fly.io.\n\nAudit report. Each proof produces a report that combines the verifier's record with the prover's view, with cookies masked. The verifier's record covers the TLS handshake, certificate chain, cipher suite, disclosed ranges and criteria verdict. The report checks that both sides saw the same revealed bytes, that the hidden bytes stayed hidden, and that the cookie was never revealed. It can be downloaded as a single HTML file.",
+  "auto_summary": "A Next.js web app and Rust verifier let users anonymously prove medical-group eligibility from Japan’s Myna Portal and participate in private forums.",
+  "scores": {
+    "originality": 9,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mynachat-qdkhq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

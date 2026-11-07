@@ -1,0 +1,27 @@
+{
+  "id": "koywo",
+  "slug": "wayleave",
+  "title": "Wayleave",
+  "tagline": "Human-approved payments for AI agents, from purchase request to settlement and delivery.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/koywo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bKuXzZUDV7CHqiqKJKWmtm8mwgslY4UWZaoQYwBVC02w/high.mp4",
+  "demo_url": "https://www.wayleave.xyz",
+  "source_url": "https://github.com/mikelxc/agent-mandate-wallet",
+  "finalist": false,
+  "description": "Wayleave lets AI agents request purchases while humans retain control of every payment. Instead of giving an agent a wallet key, the owner links an ENS identity and an NFT-owned smart account, then grants scoped, expiring MCP access. The agent can inspect information, discover an offering, get a quote, and create a payment request. You approve and sign it with funds that come directly from your wallet.\n\nThe owner reviews the recipient, amount, route, and fee bound before signing the exact operation. The first merchant is Wayleave itself, offering a versioned Developer Pack. The purchase workflow connects product discovery, an approval inbox, an implemented Arc Testnet-to-Ethereum Sepolia USDC route using Circle CCTP, and artifact retrieval. Source execution, destination settlement, and delivery are distinct milestones with durable records for recovery.\n\nWayleave also exposes account-scoped indexed payment history through MCP, helping an agent explain known activity before proposing another purchase. Results identify their chain, token scope, and coverage limitations.\n\nThe public app is deployed, covers ENSv2 namespace registration and resolution, Arc contract deployment, an E2E USDC payment flow through CCTP, and live subgraph queries.",
+  "how_its_made": "Wayleave is a Bun and TypeScript monorepo with Next.js, React, wagmi, viem, and Reown AppKit for the owner dashboard. Solidity contracts are built and tested with Foundry. The smart account combines pinned Kernel v4, EntryPoint 0.9, and an NFT owner validator. The owner signs the exact UserOperation, while a capped token allowance supports spending directly from the owner's balance. Agents never receive payment-signing authority.\n\nA SQL gateway, hosted with Turso, persists requests, approvals, settlement records, and merchant fulfillment. Local stdio and hosted HTTP MCP expose scoped tools. Owner-issued bearer credentials bind permissions, expiry, identity, chain, and account; current authority and revocation are checked on use.\n\nENSv2 uses the dedicated ETHOnline deployment on Sepolia. A permissioned namespace and identity adapter resolve account names to stable Kernel addresses. ENS identity verification remains separate from authority over an Arc payment account.\n\nThe implemented Circle CCTP route atomically pulls the approved USDC amount, grants the exact Circle allowance, burns on Arc, and clears the allowance. The gateway correlates source execution, attestation, and destination mint before recording settlement. Merchant delivery additionally verifies the artifact version and digest. The end-to-end route was validated with a live 1 USDC Arc Testnet → Ethereum Sepolia CCTP transfer, with separate source execution, attestation, destination settlement, and delivery records.\n\nThe Graph subgraph indexes Sepolia account registration, configured-token transfers, and UserOperation outcomes. MCP provides bounded history queries and summaries with source event IDs and coverage metadata. Studio deployment and reconciliation with live RPC receipts are recorded; Arc indexing and decentralized-network publication are not claimed.\n\nA key engineering challenge was recovery without accidental duplicate payment. Another was evidence attribution: a successful outer transaction is insufficient when an inner UserOperation fails, and a token transfer does not prove delivery. These distinctions drive the verification logic and UI.",
+  "auto_summary": "A monorepo for agent-mediated purchases using ENS-linked smart accounts, human-approved USDC payments, gateway services, and indexed blockchain history.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/wayleave-koywo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

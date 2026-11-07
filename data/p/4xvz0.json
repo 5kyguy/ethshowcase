@@ -1,0 +1,27 @@
+{
+  "id": "4xvz0",
+  "slug": "gwarr",
+  "title": "Gwarr",
+  "tagline": "Gwarr is a decentralized personal AI twin that stores memory decentralized",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4xvz0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2x4uDOs7ZYlF3y2823Zx76uAzP5CfXcAq200c6BhSGjA/high.mp4",
+  "demo_url": "https://gwarr.vercel.app/",
+  "source_url": "https://github.com/SyuraMoons/gwarr",
+  "finalist": false,
+  "description": "Gwarr is a decentralized personal digital twin built on 0G. It gives users a personal AI agent that learns their explicit preferences, traits, goals, and interaction style through natural conversation, then persists that evolving memory through decentralized storage.\n\nInstead of treating memory as temporary chat history or locking it inside a centralized backend, Gwarr stores the twin’s state on 0G Storage. Conversation history is synced as append-only conversation-log artifacts, while the user’s evolving profile is saved as a recoverable KV-style memory-state artifact. This allows the digital twin to be restored, verified, and reused across sessions through decentralized storage.\n\nFor AI execution, Gwarr uses 0G Compute to support pay-as-you-go inference. The app integrates Direct 0G Compute by interacting with the 0G Ledger and Inference contracts on the Galileo Testnet, allowing users to fund inference providers and generate ephemeral cryptographic signatures for native AI inference. Gwarr also supports 0G Router as a managed fallback path, keeping the experience smooth while still aligning with 0G-native AI execution.\n\nThe result is a personal AI twin that is not just a chatbot, but a decentralized agent with 0G Storage memory and pay-as-you-go intelligence through 0G Compute.",
+  "how_its_made": "Gwarr is built with a React/TypeScript frontend using Vite and a lightweight Node.js/Express backend. We use wagmi for wallet connection state and ethers for lower-level contract calls.\nFor storage, we use @0gfoundation/0g-ts-sdk to save the user’s profile as a KV-style memory-state artifact and chat history as append-only conversation-log artifacts on 0G Storage testnet. The hardest design problem was figuring out how to persist memory without forcing the user to sign a transaction after every single chat message. That would make the UX painful. So we designed it as a sync model: the chat stays fast locally while the user is talking, and when the session or important memory update is done, Gwarr pushes the latest profile and conversation state to 0G Storage.\nFor AI execution, we built two paths: the standard 0G Router path, and a Direct Compute mode. In Direct Compute, the frontend talks to the 0G Ledger and Inference contracts on Galileo testnet. Users can deposit funds, acknowledge a provider, and generate an ephemeral signature locally in the browser, allowing pay-as-you-go inference without depending only on a centralized API.\nThe hackiest part was 0G Storage uploads from Vercel. Our frontend runs on HTTPS, but the 0G Storage Indexer returned raw HTTP storage node URLs, so browsers blocked uploads as mixed content. Instead of rewriting the SDK, we monkey-patched XMLHttpRequest and fetch in the frontend to catch insecure 0G node requests and route them through our own Express proxy. Scrappy, but it worked.",
+  "auto_summary": "A React and Express application that stores a user's AI memory on 0G Storage and supports direct or routed 0G-based inference.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/gwarr-4xvz0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

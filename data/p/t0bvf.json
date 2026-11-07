@@ -1,0 +1,21 @@
+{
+  "id": "t0bvf",
+  "slug": "move-united",
+  "title": "Move United",
+  "tagline": "1inch fusion+ implementation for Aptos, built with the Move language",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/t0bvf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CklRbhAG4s01ouzDLW65jQmDMBKaXepaGXMfQ02mXIOwo/high.mp4",
+  "source_url": "https://github.com/arjanjohan/1inch-fusion-move-contracts",
+  "finalist": false,
+  "description": "Move United is a comprehensive cross-chain swap protocol that enables secure asset transfers between any EVM and Aptos blockchain. The protocol uses a combination of hashlock/timelock mechanisms and Dutch auctions to ensure atomic cross-chain swaps. This is the Aptos implementation of the 1inch Fusion Plus protocol.\n",
+  "how_its_made": "This submission is an implementation of 1inch Fusion+ built with Aptos Move. One of the main differences between Move and EVM is that everything in Move is owned, unlike EVM where contracts can transfer user funds with prior approval. This means that the resolver cannot directly transfer the user's funds to the escrow on behalf of the user.\n\nI solved this ownership challenge by implementing a two-step process: users first deposit funds via the fusion_order.move module into a FusionOrder object, that only the user and the Escrow module can interact with. The resolver can then withdraw with these pre-deposited funds when creating the escrow (only via the Escrow module). This maintains Move's security model while enabling the Fusion+ workflow.\n\nUntil the resolver picks up the order, the user retains full control and can withdraw their funds from the FusionOrder at any time, effectively cancelling their order. This provides users with the same flexibility as the EVM version while respecting Move's ownership principles. Optionally, a user can allow a resolver to cancel a stale FusionOrder on his behalf by defining a timestamp. This will cost the user his safety deposit, but ensures his stale order will be returned to him.\n\nBesides this, my implementation closely follows the EVM version's architecture, with everything divided into separate modules for clarity and readability: fusion_order.move handles order creation on source chain, escrow.move manages asset with a timelock and hashlock, and dutch_auction.move manages price discovery for destination chain.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/move-united-t0bvf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

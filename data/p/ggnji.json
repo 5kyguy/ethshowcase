@@ -1,0 +1,21 @@
+{
+  "id": "ggnji",
+  "slug": "ecomint",
+  "title": "EcoMint",
+  "tagline": " your commitment to the planet into tangible rewards. Recycle, earn, and make a real difference.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ggnji/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SxGDc69vOpoA8fQ2h28oDxo26xSGsxWB9ylWAUTO2t8/high.mp4",
+  "source_url": "https://github.com/0xVaibhav11/ecomint-miniapp",
+  "finalist": false,
+  "description": "EcoMint is a digital, reward-based smart recycling system that tackles low participation head-on. Our initial prototype focuses on high-value, high-volume recyclables like aluminum cans and plastic bottles.\n1. Deposit & Recognition: Users deposit their sorted cans and bottles into the EcoMint bin.\n2. Volume-Based Reward: The system instantly calculates the deposited amount (e.g., 3 bottles) and generates a unique QR code.\n3. Instant Payout via Worldcoin: Users scan the QR code using the EcoMint mini-app within the Worldcoin platform. This seamless integration allows for instant, verifiable micro-payments directly to the user's digital wallet, rewarding their \"kind gesture towards nature.\"\nBy leveraging Worldcoin's infrastructure, we ensure secure, global, and fee-efficient rewards, turning the act of recycling into a simple, financially beneficial transaction.",
+  "how_its_made": "1. The IoT Device: The EcoMint Smart Bin\nCore Hardware: The brain of the system is the ESP32-WROOM-32 microcontroller. This component handles all physical interaction and data acquisition.\n\nSensing & Verification: An Infrared (IR) sensor array (or similar object detection mechanism) is used to accurately count and verify the successful deposit of items (bottles/cans).\n\nEmbedded Logic (.ino Code): The custom firmware, written in Arduino/C++, manages the device's state, counts the input, and initiates the secure communication sequence.\n\nDisplay: A TFT screen serves as the primary user interface, displaying real-time feedback and, critically, the generated QR code.\n\n2. Secure Backend & Smart Contract Layer\nThe communication flow is engineered for security and efficiency:\n\nData Transmission: Once the items are counted, the ESP32 establishes a secure connection (via HTTPS/SSL) and sends the final deposit count to our server-side API.\n\nReward Hashing: The server-side logic (Node.js/Python recommended) takes the raw data and generates a unique, cryptographically secure hash. This hash represents the user's reward claim and prevents tampering.\n\nQR Code Generation: The server transmits this hash back to the ESP32. The microcontroller then encodes the hash into a QR code and renders it on the TFT screen.\n\n3. Worldcoin Integration & Redemption (The Mini App)\nThis is the user-facing decentralized layer built for instant reward fulfillment:\n\nTechnology Stack: The EcoMint Mini App is developed using Next.js and TypeScript, providing a fast, scalable, and type-safe front end.\n\nDecentralized Integration: It leverages the Worldcoin SDK to securely interact with the user's wallet.\n\nThe Redemption Flow:\n\nThe user scans the QR code containing the unique reward hash using the Mini App.\n\nThe Mini App uses the Worldcoin infrastructure to digitally sign the hash as a proof of claim.\n\nThis signed claim is sent to our Smart Contract (deployed on a low-cost, high-throughput chain) which verifies the hash, executes the token payout, and marks the hash as redeemed in its ledger.\n\nSystem Reset Loop: A crucial feature is the real-time feedback loop. The ESP32 continuously polls the server to check the redemption status of the displayed hash. Once the smart contract confirms the hash is redeemed, the bin logic triggers a system reset, clearing the TFT screen and preparing the EcoMint dustbin for the next user interaction.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ecomint-ggnji",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

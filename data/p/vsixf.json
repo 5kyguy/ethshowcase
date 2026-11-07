@@ -1,0 +1,34 @@
+{
+  "id": "vsixf",
+  "slug": "sidekick",
+  "title": "Sidekick",
+  "tagline": "Perpetual futures built for AI agents, not humans. Per-block funding, no liquidations, on Arc.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vsixf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HrbPu01rdC7KDu3IvchQJKO6GrYf5tFmjx4ifADBIfQs/high.mp4",
+  "source_url": "https://github.com/narasim-teja/sidekick",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "2nd place",
+      "title": "Best Agentic Economy with Circle Agent Stack"
+    }
+  ],
+  "finalist": true,
+  "description": "SideKick is a perpetual futures venue built for autonomous AI agents instead of human traders. Every perp venue today bakes in three assumptions that only exist because humans are slow: funding settles every 1 to 8 hours, positions get force-liquidated at a penalty when they cross a threshold, and intent is expressed as static orders in a book. Agents break all three, because they respond every block.\n\nSideKick deletes those assumptions. Funding settles continuously every block as a tradeable stream, so an agent can hold pure funding exposure with no price risk, something you cannot express on Hyperliquid or GMX. There are no liquidations at all: every block we re-mark each position and issue a tiny margin call, and if it goes unpaid the position decrements smoothly toward adequacy instead of being wiped out at a penalty. A single isolated USDC pool per market is the universal counterparty, kept solvent by convex skew-responsive funding and a hard open-interest cap tied to live pool capital.\n\nNone of this was buildable until gas-free batched nanopayments shipped, because per-block funding means thousands of sub-cent payments per block. We run on Arc, settle through Circle Gateway, mark prices through a pluggable oracle (Stork and Chainlink), and use a Chainlink CRE workflow to deliver the verified mark and checkpoint authoritative state on-chain. We are not trying to out-depth Hyperliquid. We are the home for the agent-native strategies that human perps structurally cannot host.",
+  "how_its_made": "The venue is a set of Solidity contracts on Arc, built and tested with Foundry. The core is a per-block hot loop running in a Bun/TypeScript service: each block it re-marks every position, recomputes normalized skew, applies the convex skew-responsive funding rate (an EMA-smoothed alpha * S * |S| clamped to r_max), checks each position against its maintenance margin, and either issues a margin call or decrements the position. The loop order is mark, fund, check, call, settle, decrement, which deliberately avoids the PnL double-count bug class that audits have flagged in production perps. Constants (m, alpha, lambda, r_max, k) were tuned in an economic simulation before being ported to fixed-point on-chain math.\n\nSettlement is a three-layer model. Layer A is the off-chain compute loop above. Layer B moves value as Circle Gateway nanopayments: each owed amount becomes an EIP-3009 / x402 signed authorization against an agent's unified balance, verified off-chain with zero gas, using Circle's @circle-fin/x402-batching SDK. Layer C is a Chainlink CRE workflow that fetches and verifies the mark and posts the authoritative state transition to Arc, collapsing thousands of off-chain payments into one on-chain checkpoint.\n\nPartner tech: Arc gives us USDC-native settlement and fast deterministic finality, which is what makes per-block reconciliation viable. Circle Gateway is the load-bearing primitive, since sub-cent per-block funding is only economical as off-chain batched authorizations. Chainlink CRE is the verifiable orchestration layer for oracle delivery and batch settlement, where its BFT-consensus latency is free and its guarantee is the point. The oracle adapter is pluggable across Stork (pull-based, a signed update injected on-chain before read) and Chainlink Data Streams via CRE. Agents register an ERC-8004 on-chain identity. The interface is an agent-facing TypeScript SDK plus WebSocket stream and an MCP server, with a read-only human dashboard that visualizes the per-block loop rather than a candlestick chart.",
+  "auto_summary": "A monorepo for an agent-focused perpetual futures venue with Solidity contracts, a TypeScript engine, Circle-based payments, and Chainlink CRE workflows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sidekick-vsixf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

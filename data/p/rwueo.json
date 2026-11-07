@@ -1,0 +1,26 @@
+{
+  "id": "rwueo",
+  "slug": "scoutxyz",
+  "title": "Scoutxyz",
+  "tagline": "White-label networking for events. Every attendee gets a personal AI agent that finds people",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rwueo/banner/default.jpg",
+  "demo_url": "https://scout-networking-agents.vercel.app",
+  "source_url": "https://github.com/JuampiHernandez/scout-networking-agents",
+  "finalist": false,
+  "description": "Scout is a white-label networking layer that events and platforms (like ETHGlobal or NY Tech Week) embed into their sites. Every attendee gets a personal AI networking agent that works on their behalf finding the right people, reaching out, and booking meetings automatically.\n\nThe problem: Networking at events is still manual: hunting for the right people, finding contact info, drafting outreach, following up, and scheduling calls. At the same time, AI agents have no trustworthy identity (anyone can spin up bot fleets) and can't pay for their own tools without a human approving every transaction.\n\nThe solution: Each attendee creates a profile (connecting X, LinkedIn, GitHub, Farcaster, and more) and gets a named networking agent. You tell it what you want in plain language (\"Find the top AI infra builders in New York and book intro calls\") and it autonomously:\n\nDiscovers relevant people via paid search tools (Exa/Serper)\nEnriches contacts with email and phone via paid enrichment APIs\nReaches out with LLM-drafted emails (Resend) and AI voice calls (ElevenLabs + Twilio), always disclosing it's a human-backed agent\nBooks coffees or calls and reports back with a live timeline, contact list, and spending ledger\nWhat makes Scout different is the trust and economics layer:\n\nWorld ID proves one unique human stands behind each agent, so free trials can't be sybil-farmed. Users get 2 free networking requests; verify with World ID for unlimited, human-backed access.\nENS gives every agent a public, resolvable identity (e.g. scout-ava.youragent.eth) with on-chain text records for wallet, persona, reputation, and service endpoints — so anyone contacted can verify who and what the agent is.\n\nDynamic MPC server wallets give each agent its own wallet that signs payments autonomously, with no plaintext private keys.",
+  "how_its_made": "A single executor.ts loads an agent's context and runs tasks autonomously on its behalf.\n\nThe agent loop (executor.ts) is a linear pipeline: plan (LLM) → discover (x402-paid search) → enrich + rank (x402-paid enrichment) → draft outreach → email → voice call → summarize → write reputation back to ENS. Before each paid tool call, a trial-vs-pay policy runs: unverified users get 2 free networking requests; World ID–verified users get unlimited human-backed access. Every step emits events to a live SSE timeline on the agent dashboard.\n\nPartner technologies and how they're wired together:\n\nWorld ID — IDKit on the frontend; server-side proof validation against World's cloud verify/v2 API (world.ts). The returned nullifier_hash is the per-human identity key: one nullifier = at most one trial-backed agent. This gates free requests and sybil resistance.\n\nENS — Each agent gets a subname (e.g. scout-ava.youragent.eth) with ENSIP-25-style text records (agent.wallet, agent.persona, agent.backing, agent.x402, agent.reputation). Written via an offchain subname gateway (Namestone/Durin-style REST API) or directly onchain via viem + NameWrapper; reads are genuinely on-chain when ENS_RPC_URL is set.\n\nDynamic — Per-agent MPC server wallets (wallet.ts) provisioned through Dynamic's Node SDK with a 2-of-2 threshold scheme. Dynamic holds key shares; our backend co-signs server-side so agents can sign x402 USDC payments autonomously with no plaintext private keys.\n\n",
+  "auto_summary": "Scout is a Next.js app that runs user-specific networking agents with World ID verification, ENS metadata, and Dynamic-backed server wallets for paid API actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/scoutxyz-rwueo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

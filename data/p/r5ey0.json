@@ -1,0 +1,21 @@
+{
+  "id": "r5ey0",
+  "slug": "greenstream",
+  "title": "GreenStream",
+  "tagline": "GreenStream is a CLI tool to stream MP4 video files from blockchain utilising Walrus protocol",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/r5ey0/banner/default.jpg",
+  "demo_url": "https://greenstream.vercel.app/",
+  "source_url": "https://github.com/greenishpluto2/greenstream",
+  "finalist": false,
+  "description": "GreenStream is a command-line interface (CLI) tool designed to convert MP4 video files into HTTP Live Streaming (HLS) format and store the resulting video chunks on a decentralized blockchain storage system utilizing the Walrus protocol.\n\nThe tool leverages ffmpeg to perform the HLS conversion, generating video chunks optimized for adaptive bitrate streaming at 1080p, 720p, and 480p resolutions. After conversion, GreenStream uploads these video chunks to decentralized storage. It then updates the HLS manifest files to use Walrus public node blob URLs as the URLs for the video segments.\n\nGreenStream provides the option to specify the desired data storage duration in epochs on the decentralized network. It manages the task of mapping the generated Walrus blob identifiers to their correct locations within the HLS manifest files.\n\nThe project is developed in TypeScript and relies on the Walrus CLI and ffmpeg as its primary dependencies, without requiring any npm packages. To demonstrate the functionality and output of the GreenStream CLI tool, a complementary React web application has been developed to serve as an example HLS video player.\n\n\n",
+  "how_its_made": "GreenStream is a TypeScript CLI tool for converting MP4 videos to HLS and storing them on Walrus decentralized storage. It prioritizes minimal npm dependencies, relying on system-level tools. Here's how it's built:\n\nFFmpeg Integration:\n\nRole: Transforms MP4 inputs into HLS streams.\nProcess: The ffmpeg.ts module uses child_process.execSync to run ffmpeg commands. This creates:\n\nAdaptive Bitrate (ABR) streams (1080p, 720p, 480p) with optimized audio.\nHLS segments (.ts files) of 10 seconds, configured for VOD playback with independent segments.\nA structured output with segments in quality-specific subdirectories and master/stream playlists.\n\nWalrus CLI & Decentralized Storage:\n\nRole: Uploads all HLS assets (segments and manifests) to the Walrus decentralized network.\nProcess: The upload.ts module executes walrus store commands via child_process.execSync.\nSegment Upload:.ts segments are batched and uploaded to Walrus, with blobIds extracted from the JSON output.\n\nPlaylist Processing: Stream playlist.m3u8 files are modified to replace local .ts references with Walrus blob URLs. These updated playlists are temporarily written, uploaded in a batch, and then cleaned up.\n\nMaster Playlist: The master.m3u8 file is updated to point to the Walrus blob URLs of the stream playlists, similarly handled with temporary files and cleanup.\n\nOverall Flow:\n\nCLI Initialization: Parses arguments, validates input, and prepares the output directory.\nVideo Conversion:ffmpeg processes the video, generating HLS files.\nDecentralized Upload: All HLS components are systematically uploaded to Walrus, and the final Walrus URL for the master playlist is provided.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/greenstream-r5ey0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

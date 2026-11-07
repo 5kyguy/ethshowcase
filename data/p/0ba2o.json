@@ -1,0 +1,27 @@
+{
+  "id": "0ba2o",
+  "slug": "chainpilot",
+  "title": "ChainPilot",
+  "tagline": "An AI assisted copilot that helps users understand DeFi positions and on chain range risk.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0ba2o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2J6RN7bFZ7uN9ifyY020172ptvr003HcJkfsldwIh7AdVA/high.mp4",
+  "demo_url": "https://chain-pilot-five.vercel.app/",
+  "source_url": "https://github.com/R1shabhCodes/ChainPilot",
+  "finalist": false,
+  "description": "ChainPilot is an AI assisted DeFi copilot that helps users understand what is happening with their on chain positions and where risk may be developing. DeFi positions can be difficult to read because important information is spread across protocols, pools, price ranges, ticks, and wallet data.\n\nChainPilot brings this information into one workflow. A user can enter a public EVM wallet address and view live indexed Uniswap V3 position data. The application checks the current pool tick against each position's selected range and calculates its range state using fixed rules. This makes it possible to see which positions are in range, near a boundary, or out of range without asking an AI model to make that decision.\n\nThe Graph is the primary source for Uniswap V3 position data, while live EVM RPC data is used for directly available information such as the wallet's native ETH balance. The verified data is then given to an AI analysis pipeline using Groq as the primary provider and Gemini as a fallback. The AI explains the verified results and why they matter, while deterministic calculations remain the source of truth for the range and risk analysis.\n\nChainPilot also includes a local tick drift simulator that lets users explore how a position changes as the market moves through its selected range. The simulation does not modify blockchain state or execute transactions. Important data can also be traced through Graph query details and Etherscan verification links.\n\nThe project is built around a simple principle: AI should explain the data, not invent it. If the required live data source is unavailable, ChainPilot reports that clearly instead of using fake positions. The user remains responsible for any decision and the current application does not automatically execute financial transactions.\n\nI am building ChainPilot as a solo hacker during ETHOnline 2026, with the goal of making complex Uniswap V3 position information easier to understand and investigate.",
+  "how_its_made": "ChainPilot is built as a full stack Web3 application using Next.js App Router, TypeScript, React, and Tailwind CSS. The client side dashboard coordinates the selected wallet address and the different parts of the investigation interface, while server side API routes handle data retrieval and analysis.\n\nThe user can enter a public EVM address and analyze it without connecting a wallet. An optional Privy integration is included for wallet authentication and address synchronization, but it is not required for the core read only analysis.\n\nFor blockchain data, ChainPilot uses live EVM JSON RPC calls for directly available information such as native ETH balance. For Uniswap V3 position data, The Graph is the primary indexing layer. Queries run through the Graph Gateway on the server side, keeping the API key out of the browser. The returned position data includes pool information, token information, liquidity, tick boundaries, and current pool state.\n\nBefore the AI is called, ChainPilot applies deterministic calculations to the verified data. The current tick is compared with each position's lower and upper tick boundaries to determine whether the position is in range or out of range. A separate deterministic risk engine calculates the current LP range risk from range status, boundary proximity, and tick divergence.\n\nThe AI layer uses Groq as the primary provider and Gemini as a fallback. It receives verified position information and is used to explain the calculated results rather than invent portfolio facts. If both AI providers are unavailable, ChainPilot still keeps the verified data, deterministic calculations, range visualizer, and decision support available.\n\nA notable part of the project is the zero fake data approach. When required live data is unavailable, the application reports the problem instead of replacing it with mock positions. I also built a tick drift simulator that reuses the same range logic to show how a position responds to different tick values without making any blockchain changes.\n\nThe project also exposes Graph query metadata and Etherscan links so important results can be traced back to their underlying data. I am building and testing the application as a solo hacker during ETHOnline 2026.",
+  "auto_summary": "A Next.js app analyzes public wallets' Uniswap V3 liquidity positions using The Graph, RPC balance checks, deterministic risk logic, and AI explanations.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/chainpilot-0ba2o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

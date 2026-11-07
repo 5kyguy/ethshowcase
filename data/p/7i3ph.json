@@ -1,0 +1,30 @@
+{
+  "id": "7i3ph",
+  "slug": "clearswap",
+  "title": "ClearSwap",
+  "tagline": "Adaptive Uniswap v4 fees powered by an on-chain agent that reacts to market volatility",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7i3ph/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8VVkUk01esxqxxsjJMBRGpFyycrg9J01lKDBNs7gIqkiI/high.mp4",
+  "demo_url": "https://gamma.app/docs/ClearSwap-pmi7l75n4gho3xz",
+  "source_url": "https://github.com/tusharshah21/ClearSwap",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "ClearSwap is a protocol-level DeFi primitive built on Uniswap v4 that introduces autonomous, volatility-aware fee adjustment for liquidity pools. Instead of charging a fixed swap fee at all times, ClearSwap uses an on-chain agent (implemented as a Uniswap v4 Hook) to observe real market activity and dynamically update fees per swap.\n\nThe hook measures realized price impact (the ratio of token amounts exchanged) and applies an exponential weighted moving average (EWMA) to detect changing market conditions. During calm markets, fees automatically drop to attract traders. During volatile periods, fees increase to better protect liquidity providers from adverse selection and impermanent loss. This happens fully on-chain, without governance, oracles, or off-chain computation.\n\nClearSwap also integrates ENS to make hook discovery human-readable, allowing protocol operators to reference hook configurations using ENS names instead of hardcoded addresses. The result is a more adaptive, transparent, and resilient fee mechanism that any Uniswap v4 pool can adopt.",
+  "how_its_made": "ClearSwap is built using Uniswap v4's hook architecture and implemented entirely in Solidity with Foundry. The core component is a custom Uniswap v4 Hook that plugs into the pool lifecycle using beforeSwap and afterSwap callbacks. After each swap, the hook calculates realized price impact (deltaY/deltaX ratio) and updates an exponential weighted moving average (EWMA) stored on-chain. Before the next swap, this EWMA value is mapped to a dynamic fee range and applied using Uniswap v4's per-swap fee override flag.\n\nThe system is fully deterministic and runs without governance, price oracles, or external services. All behavior is validated through a comprehensive test suite covering calm markets, volatility shocks, sustained volatility, and recovery phases. Key test demonstrates 2.7x LP revenue increase during high-volatility scenarios compared to static fees.\n\nA lightweight React dashboard built with wagmi and ethers.js visualizes live hook metrics, including current fees and volatility state. ENS integration is used for decentralized, human-readable hook discovery by resolving ENS names and reading text records in a read-only manner. The entire project is open source, deployed on Sepolia with verified contracts, and reproducible with simple Foundry scripts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/clearswap-7i3ph",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "xwzo2",
+  "slug": "zap-x402",
+  "title": "zap-x402",
+  "tagline": "Channel-mini-cover: tiny deposit+bond; per-call sig verify; instant; claim later; slash on fail.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xwzo2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MpVeuKfV029XKJFS9zr400ZrWRDMPWo8PguF2Vc3SyGo8/high.mp4",
+  "source_url": "https://github.com/ag-wnl/zap-x402",
+  "finalist": false,
+  "description": "Problem we solve: x402 “exact” waits on-chain per call; x402‑flash still does per‑request escrow checks (RPC + payload verify), adding tens of ms. Both are too slow for HFT/data-stream agents.\n\n- Core idea (channel‑mini‑cover): combine a small live deposit channel D with a reusable bond B, and enforce D + B ≥ W (max unpaid window). This guarantees zero server loss while minimizing user lockup.\n\n- Request flow:\n\n\t- Client opens once: post bond B (security deposit) and open channel with deposit D (live cover, TTL).\n\n\t- Each API call: client sends headers {Channel‑Id, cumulative Paid, Sig(id||paid)}.\n\n\t- Server verifies the ECDSA signature in memory, checks paid advanced by ≥ price, atomically updates lastPaid, and returns 200 immediately (no chain reads).\n\n\n- Settlement and safety:\n\t- Background worker periodically calls claim on the channel using the latest signed cumulative paid; the contract releases the delta to the server.\n\n\t- If claim fails or deposit is short, the worker slashes the bond for the shortfall and pauses the channel. Next requests get 402 until the client refills.\n\n\t- Because D + B ≥ W by policy, recovery (claimed + slashed) ≥ all served usage; server loss is 0.\n\n\n- Why faster than x402‑flash:\n\t- Hot path has zero JSON‑RPC and no escrow state reads—only one signature check and a RAM counter update—so added latency is ~0–2 ms versus 20–70 ms.\n\n\t- No 402→retry round‑trip once a channel is open; first request can be 200.\n\n- Capital efficiency:\n\t- Users lock only D + B, not their full working float; the bond is reusable across sessions and the deposit is withdrawable after TTL.\n\n- Failure handling:\n\t- Revocation/disconnect: server still holds the latest signed state; claim or slash ensures full recovery, then the channel is paused.\n\n\t- Replay/underpay: cumulative paid must increase; atomic CAS prevents races; invalid sigs or short increments trigger 402.\n\n- Interop:\n\t- Expose this as an additional x402 scheme alongside “exact” and “flash”; fallback paths remain available for clients that don’t support channels.",
+  "how_its_made": "We built ZAP x402-flash, a revolutionary micropayment protocol that enables instant sub-cent API monetization without blockchain settlement delays. Our full-stack solution features a modern React/Next.js frontend with Tailwind UI, Express.js backend with custom x402 middleware, and Solidity smart contracts deployed on Polygon Amoy testnet. We implemented two groundbreaking payment schemes: traditional ZAP flow and our innovative \"Channel Mini Cover\" with mathematical zero-loss guarantees (D + B ≥ W). The system processes payments in milliseconds using EIP-712 signatures, pre-funded escrow channels, and automatic bond slashing, making micropayments practical for real-world API usage.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zap-x402-xwzo2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

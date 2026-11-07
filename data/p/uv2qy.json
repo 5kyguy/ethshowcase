@@ -1,0 +1,27 @@
+{
+  "id": "uv2qy",
+  "slug": "semantic-abi",
+  "title": "Semantic ABI",
+  "tagline": "Ethereum type-checks bytes; Semantic ABI type-checks what evidence is allowed to mean.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uv2qy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6E6XR81fQDggoI0201kylgxhcVDbxQD0200B5DcxT300Vcjs/high.mp4",
+  "demo_url": "https://trustless-ai.eth.limo/semantic-abi/",
+  "source_url": "https://github.com/trustless-ai/semantic-abi",
+  "finalist": false,
+  "description": "Semantic ABI is a type system for what one protocol’s evidence is allowed to mean when another protocol consumes it. Ethereum has an ABI for how contracts compose at the byte / execution level — but nothing checks meaning-level composition. A commitment, an attestation, a state-inclusion proof and an independent recomputation can each return true and carry completely different authority; today those distinctions live in prose and implementation discipline, and compositions silently upgrade one into another.\n\nSemantic ABI makes it machine-checkable. Every component declares a typed EvidenceClaim — authority_class, claim_type, scope, and a temporal boundary — plus an explicit does_not_establish set naming what it deliberately does not prove. A semantic linker checks a composition and throws a meaning-level TYPE ERROR, with a minimal counterexample, whenever an edge would upgrade authority with no evidence. A two-level runner keeps three values distinct that systems routinely collapse into one green light: the expected pair outcome, what a backend observed, and whether the backend conformed.\n\nThe proof isn’t “we built X.” It’s that independently-built systems declare into the same schema and are checked by the same runner with no shared checker code — invinoveritas’s adapter is wired and reproduces a real historical bug live (a signed-commitment collapse), and the Vértice gateway maps the same real endpoints. Don’t trust it — recompute what you can, and label honestly what you can’t.",
+  "how_its_made": "The core is a zero-dependency Node/ESM engine (runs on clone, no install): a manifest loader + JSON-Schema, a semantic linker, and a two-level protected-relation runner, using node:crypto for content-addressing. Evidence is typed as EvidenceClaim<claim_type, authority_class, scope, issued_at | verification_time>. The linker’s one deliberate cross-class edge — recomputation → semantic verification — is claim- and scope-specific, never global; a global version would be the exact authority over-claim the tool exists to catch, so we refused it in the type system itself.\n\nEach system under test is wrapped by an adapter authored independently by its owner, mapping real endpoints to manifest declarations: invinoveritas (/review, /verify-proof, /ledger, a Bitcoin freshness beacon) and the Vértice gateway (EIP-712 L4 attestation, a Base-Sepolia anchor, a /verify recompute endpoint, ERC-8373 post-quantum key binding). There is no shared checker between adapters, so “N systems conform” means N genuinely independent systems, not one checked N times.\n\nConformance vectors include negatives that must fail (prove-can-fail). The flagship reproduces a real, git-verifiable historical bug — invinoveritas pre-v18, where two structurally different REJECT verdicts (evidence-against vs merely-insufficient) produced the same signed commitment — as a live FAIL, fixed post-v18 as a PASS.\n\nIt composes with the trustless-ai standards family it grew out of: WYRIWE / ERC-8299 (input provenance), ERC-8281 (on-chain anchoring), and a companion recompute-kit recipe that folds a genuine-enclave TEE inference (0G Compute) into an 8281 anchored manifest as an “attested, not recomputed” leaf. The notably-hacky-in-the-best-way part: during review the suite caught a real gap in its own checker — it gated the “not recomputed” disclaimer but not the “not judged correct” one — found by running the mirror case against itself. The thesis applied to itself; now fixed, with a proving negative.",
+  "auto_summary": "A Node-based validation framework checks whether evidence from different systems can be safely composed without overstating what that evidence proves.",
+  "scores": {
+    "originality": 9,
+    "practicality": 6,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/semantic-abi-uv2qy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

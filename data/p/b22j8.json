@@ -1,0 +1,27 @@
+{
+  "id": "b22j8",
+  "slug": "lendpay",
+  "title": "LendPay",
+  "tagline": "Repay DeFi loans on any chain with USDC in one workflow, powered by KeeperHub",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b22j8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mGHBX3l00irId9H00tckJ01x2RiAQWClJGfUP3dWs5kMuY/high.mp4",
+  "demo_url": "https://www.youtube.com/watch?v=5CFLk3lb_MA",
+  "source_url": "https://github.com/temptemp3/ETHGlobal2026OpenAgent",
+  "finalist": false,
+  "description": "LendPay is a cross-chain loan repayment workflow that allows users and agents to repay DeFi loans using USD Coin through a single, streamlined interface. Instead of requiring users to manage multiple wallets and interact directly with protocols, LendPay separates payment from execution. Users simply enter a wallet address, select a repayment action, and pay a small fee in USDC on Base. From there, LendPay handles the rest.\n\nThe system detects active positions (starting with DorkFi on Algorand), synchronizes on-chain state, calculates the exact repayment amount (such as accrued interest), and executes the transaction on the destination chain on the user’s behalf. No wallet connection is required on the destination chain, reducing friction and making DeFi interactions significantly more accessible.\n\nPowered by KeeperHub workflows and a pay-to-execute model, LendPay demonstrates a new primitive for DeFi: users pay once, and agents handle the complexity. While the current implementation focuses on repayment, the architecture is designed to expand into broader financial workflows such as rebalancing, liquidation protection, and cross-chain position management.",
+  "how_its_made": "LendPay is built as a cross-chain execution workflow that separates payment from on-chain action. The frontend is a React-based single-page app that guides users through a step-based flow: enter address → detect positions → choose repayment → pay → execute. The UI is designed to abstract complexity while still exposing an execution trace for transparency.\n\nFor payments, we integrate USDC on Base using an x402-style pay-to-execute model. Users connect a Base-compatible wallet via WalletConnect, approve a USDC payment, and trigger the workflow. This payment acts as the authorization and funding mechanism for the agent execution layer.\n\nExecution is handled through KeeperHub workflows, which act as the off-chain coordinator. Once payment is confirmed, a KeeperHub worker fetches the user’s position data from DorkFi on Algorand, performs a sync_market to ensure indices are up to date, calculates the exact accrued interest using scaled accounting, and constructs the repay transaction. The transaction is then submitted on behalf of the user using a controlled execution environment.\n\nOne of the more “hacky” but effective parts of the system is the dual-chain abstraction: payment occurs on Base while execution happens on Algorand, without requiring the user to connect a destination-chain wallet. This is achieved by treating the USDC payment as a trigger and using backend-controlled signing/execution logic for the repay call. We also simulate position detection and interest calculations in the UI for responsiveness, then reconcile against real on-chain values during execution.\n\nOverall, LendPay stitches together cross-chain payments, agent workflows, and DeFi protocol interactions into a single, seamless “pay once, execute anywhere” experience.",
+  "auto_summary": "A multi-repo app that lets users pay on Base to trigger agent-executed DeFi loan repayment workflows on Algorand.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/lendpay-b22j8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

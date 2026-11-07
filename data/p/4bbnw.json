@@ -1,0 +1,26 @@
+{
+  "id": "4bbnw",
+  "slug": "human-gated-copilot",
+  "title": "Human-Gated Copilot",
+  "tagline": "An AI copilot that can't spend without a Selfie Check bound to the exact action.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4bbnw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qggUEyzErxIBUA62Yh01pYulsl4Xrb9qTThvTtNJY41Q/high.mp4",
+  "source_url": "https://github.com/olgachernova37/Matching",
+  "finalist": false,
+  "description": "Human-Gated AI Copilot (EchoBrief) is an AI agent for on-chain actions that can read, analyse and prepare — but cannot execute anything consequential until a real human approves that exact action with a World ID Selfie Check.\n\nMost agentic apps verify a person once, at login, then let the agent act with the human's authority for the rest of the session. We bind the proof to the action instead of the session: the World ID signal is the keccak256 hash of the canonicalised action payload. The resulting receipt authorises one action, expires in five minutes, and stops validating if a single byte of the payload changes.\n\nHow it works: you ask the copilot about a wallet or a transfer. It pulls the wallet's live history from The Graph (Uniswap V3 on Ethereum mainnet), and a deterministic risk engine scores it with cited reasons — computed server-side from the data, never taken from the LLM. If the action is risky or costs money, a human gate appears: the user scans a QR code with World App, completes Selfie Check, and our server verifies the proof with World before issuing a single-use receipt. Only then is execution unlocked; an attempt without a receipt is refused by the server.\n\nThe same gate is offered to other AI agents as a paid service on Bazantic: an agent pays $0.05 in USDC on Base via x402, receives a live risk assessment and an approval link — and can prepare the action, but never approve it. The console shows provenance for every decision (live subgraph ID and query time) and an append-only receipt trail that also tracks continuity, recognising returning humans.\n\nVerified live at echobrief.online: Selfie Check completed end-to-end in production with the standard World App, and a paid x402 call settled through the Bazantic gateway.\n",
+  "how_its_made": "I was single girl hacker)\nNext.js 16 (App Router), TypeScript and Tailwind 4, deployed on Vercel at echobrief.online, with Upstash Redis for shared state (Vercel's filesystem is read-only and requests land on different instances).\n\nThe Graph: a Gateway GraphQL client queries the canonical Uniswap V3 mainnet subgraph for a wallet's swaps, and a pure, unit-tested risk engine turns them into a score whose reasons cite the numbers and the subgraph ID. The agent also uses the Subgraph MCP server for its own subgraph discovery. We packaged the data layer as a SKILL.md in The Graph's official skills format.\n\nWorld ID: IDKit 4 with the selfieCheckLegacy preset. The signal is keccak256(canonicalJson(payload)); the canonicaliser sorts keys and rejects ambiguous values (NaN, -0, undefined, BigInt), so a hash can't be matched by reformatting the payload. RP contexts are signed server-side with World's official signRequest. Two traps worth mentioning: IDKit's signal_hash is hashSignal(signal), not the signal itself — a naive comparison rejects every genuine proof, and it bit us twice — and verification is pinned to our own rp_id, so a proof requested by another app can't open our gate. Receipts are claimed atomically (Redis SET NX), so they can't be replayed even under concurrent requests, and a test proves the gate fails closed.\n\nAgent: Gemini with function calling. propose_action can only prepare, never execute; the server recomputes the risk score so the model can't talk it down, and a code-level honesty check rejects replies that claim an action was prepared when none exists.\n\nBazantic: we published our OpenAPI spec as the EchoBrief x402/MPP gateway (an MCP server with four tools) and a recipe, eth-transfer-risk-check-with-human-approval, that feeds a 1inch swap quote into our gate. Bazantic's v1 402 challenge sends a relative resource and omits fields, so our x402 client normalises it before the standard x402-fetch library validates it.\n\n32 automated tests. The code was built in parallel workstreams against a frozen shared type contract, each in its own git worktree.\n",
+  "auto_summary": "A Next.js app that gates AI-prepared on-chain actions behind per-action World ID approval and live wallet risk checks from The Graph.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/human-gated-copilot-4bbnw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

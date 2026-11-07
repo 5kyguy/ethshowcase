@@ -1,0 +1,27 @@
+{
+  "id": "9rop6",
+  "slug": "accord",
+  "title": "Accord",
+  "tagline": "Give people and AI agents a budget, with spending limits you control.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9rop6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/s9tf01ge94JwwzrgpxpwQ0055PsbGfStPMnMXfDeT2Irs/high.mp4",
+  "demo_url": "https://accord.hrsh.dev",
+  "source_url": "https://github.com/hrsh22/ethtokyo26",
+  "finalist": false,
+  "description": "Accord lets you give a person or an AI agent a budget while keeping control over how that money is used.\n\nYou start by creating a Space: a shared pot of funds held in a smart contract. From there, you can set up an allowance for someone or give an agent money for tools and services. You choose the amount, spending limits and when access ends.\n\nFor people, this can be a recurring allowance, a stipend or a grant. Recipients see what has been shared with them and verify with World ID each time they claim. The contract keeps track of how much they can claim in each period.\n\nFor AI agents, you set a total budget, a daily limit, a limit for each payment and an amount above which the agent must ask for approval. Each agent gets an ENS name tied to its Space. It can make small purchases on its own, but larger ones appear in the owner's approval inbox. The owner reviews the exact amount and recipient, verifies with World ID and decides whether to approve or deny the payment.\n\nFor example, a research agent can buy a repository snapshot for 1 tUSDC without interrupting you. A 20 tUSDC comparison pauses for your approval if you have set the threshold at 10. Once approved, the agent resumes the purchase and gets its report and payment receipt. You can revoke the agent's ENS identity to stop future spending, or close its allocation and recover the unspent funds.\n\nThe aim is to make giving someone a budget feel straightforward, whether that someone is a person or an assistant. Developers can connect an assistant through our SDK or MCP tools. The live demo runs on Ethereum Sepolia with free test tokens and sponsored transaction fees. You can also explore the demo and its recorded payment evidence without connecting a wallet.",
+  "how_its_made": "Accord has three main parts: a Next.js web app, a TypeScript API built with Effect, and Solidity contracts on Ethereum Sepolia. The app handles Spaces, allowances and approvals. The API stores the workflow in SQLite, checks verification results and prepares signed payment permits. Each Space contract holds the funds and enforces budgets, daily and per-payment limits, expiry and replay protection.\n\nWe use World in two places. People claiming an allowance complete an IDKit Selfie Check tied to that claim. This checks the presence and continuity of the enrolled person; it is not a claim about their legal identity. For agents, World ID for Agents lets the owner verify before granting a budget, increasing an agent's authority or approving a larger payment. Our backend validates the authentication result and requires a separate, explicit approval of the exact terms. The agent flow uses World's official event sandbox and its test identities.\n\nENSv2 gives every Space a namespace and every agent a name under it. We use UserRegistry and PermissionedResolver contracts, with an adapter that checks the live name hierarchy when a payment executes. This makes ENS part of the spending rules: revoking an agent's name also blocks a payment permit that was signed earlier. Agents cannot transfer or renew their own names to get around those controls.\n\nThe agent toolkit includes a TypeScript SDK, CLI and local MCP server. An assistant can inspect its budget, find services, request a quote, make a purchase and retrieve the result. Pending purchases keep their state so the assistant can resume after owner approval or a restart. Our demo research service collects public GitHub information and returns a report with sources and a matching onchain receipt.\n\nA transaction sponsor pays the network fees, and a faucet supplies tUSDC for the demo. The API is trusted to validate World verification and consent and to manage the ENS namespace; the contracts independently enforce signed permits, spending limits and live ENS authority. We tested both successful payments and failure cases, including denied approvals and a cached payment rejected after ENS revocation.",
+  "auto_summary": "Accord is a budget-controlled allowance and agent payment system using Sepolia smart contracts, a Next.js app, and a TypeScript API.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/accord-9rop6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

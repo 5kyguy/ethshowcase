@@ -1,0 +1,22 @@
+{
+  "id": "3rgbu",
+  "slug": "omnipay",
+  "title": "Omnipay",
+  "tagline": "Stripe for crypto. Instant, gasless USDC payments via Yellow Network state channels & 1-line SDK.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3rgbu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BRpFZ702yU1lNXBVklXOXuBzZKV28tyFuSn63du02qjyM/high.mp4",
+  "demo_url": "https://0xomnipay.vercel.app/",
+  "source_url": "https://github.com/IbrahimIjai/omnipay",
+  "finalist": false,
+  "description": "OmniPay is the \"Stripe for Crypto\" a seamless payment gateway that enables instant, gasless USDC transactions for any web application.\n\nCrypto commerce today is broken. Users pay $0.10-$2 in gas fees for every micro-transaction, and merchants wait minutes for block confirmations. This friction makes real-world crypto payments nearly impossible.\n\nOmniPay solves this by leveraging Yellow Network's State Channels. Users deposit USDC onchain once, and can then make unlimited, instant payments to any integrated merchant without paying a single cent in gas.\n\nFor developers, we built a plug-and-play SDK. A single component (<OmniPayWidget />) handles the entire complex flow from connecting wallets to signing offchain state updates. We provide a complete ecosystem: a User Dashboard for managing channel funds and transaction history, and a Merchant Portal for API key management. It brings the speed and UX of Web2 payments to the self-custory of Web3.",
+  "how_its_made": "OmniPay is a full-stack Next.js application built with TypeScript and Tailwind CSS, deeply integrated with the Yellow Network (Nitrolite SDK).\n\nThe Core (Yellow Network): The heart of the project is the integration with @erc7824/nitrolite. We implemented the Nitro RPC protocol to facilitate state channel interactions.\n\nRelayer Architecture: We built a custom \nOmniPayService\n class that abstracts the complexity of the ClearNode WebSocket protocol. It handles the handshake, creates application sessions (createAppSessionMessage), and manages channel allocations locally.\nGasless Mechanism: When a user pays, they don't send an on-chain transaction. Instead, they cryptographically sign a state update that reallocates their channel balance to the merchant. This payload is verified by the ClearNode instantly.\nThe Platform:\n\nReown AppKit: Handles wallet connections and enforces the Sepolia network for the sandbox environment.\nDatabase: We use Neon (Serverless Postgres) with Drizzle ORM to track merchant API keys, invoices, and sync off-chain transaction history for the UI.\nSDK: We packaged the checkout logic into a reusable React component (OmniPayWidget). It takes an API key and amount, validates the merchant against our DB, and initiates the Yellow Network payment flow automatically.\nNotable Hack: Synchronizing the off-chain state (channel balance) with our on-chain database state was a fun challenge. We built a real-time listener that watches for specific RPC responses (app_session_created) from the Yellow ClearNode and instantly triggers a Server Action to update the UI. This makes the payment feel truly instantaneous (sub-second latency) compared to the standard blockchain \"pending transaction\" spinner.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/omnipay-3rgbu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

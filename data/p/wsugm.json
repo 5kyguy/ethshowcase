@@ -1,0 +1,22 @@
+{
+  "id": "wsugm",
+  "slug": "umbra",
+  "title": "Umbra",
+  "tagline": "Umbra is protocol for enabling stealth payments on the Ethereum blockchain. It enables privacy preserving transactions where the receiver's identity is only known to the sender and receiver.",
+  "event": {
+    "slug": "hackmoney",
+    "name": "HackMoney",
+    "start_time": "2020-04-24T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wsugm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ebY3l73E3QGtM012W1W6u5kc2N4C2P01EsMF6RJVTzTCI/high.mp4",
+  "demo_url": "https://ropsten.umbra.cash/",
+  "source_url": "https://github.com/ScopeLift/umbra-protocol",
+  "finalist": false,
+  "description": "Below is a high level description of the mechanics of the Umbra protocol:\r\n\r\n1. Users publish signed messages to ENS text records to reveal their Umbra public key. This public key is derived from a random private key specifically generated for use with Umbra.\r\n2. A payer uses this public key, plus some randomly generated data, to create a new 'stealth' address.\r\n3. The payer encrypts the random data with the receiver's public key.\r\n4. The payer sends the funds to the stealth address and sends the encrypted message to Umbra's smart contract. The contract broadcasts the encrypted message as an Event.\r\n5. The receiver scans the encrypted messages broadcast by the Umbra contract until they find one they can decrypt with their private key.\r\n6. The receiver uses the contents of the encrypted message, plus their private key, to generate the private key of the stealth address.\r\n7. The receiver uses the private key of the stealth address to sign a withdrawal transaction, sending the ETH or tokens to the address of their choice.\r\n8. Optionally, the withdrawal transaction is broadcast via Gas Station Network transaction relayers, obviating the need to fund the stealth address to access tokens. The Umbra contracts swap some of the tokens via Uniswap to pay the GSN relayer for gas.",
+  "how_its_made": "We'll walk through the above description and cover the technologies used at each interaction with the Umbra protocol.\n\n\n\nWhen a recipient first sets up their account, they need to purchase an ENS domain. Their Umbra private key signs a message, and this signature is stored as a text record associated with their ENS domain. This allows anyone to recover the recipient's public key from the signature associated with their ENS domain.\n\n\n\nWhen sending funds, a random number is generated with ethers, and we again use ethers to recover the public key and the elliptic library to compute the stealth address. The eccrypto library is used to encrypt the random number with the recipient's private key. The payer then calls a function on a Solidity smart contract to send the funds and announce the encrypted random number and associated cryptographic parameters.\n\n\n\nWhen the recipient retrieves funds, ethers is used to scan for all emitted announcements from the contract, and eccrypto is used to decrypt the announcements so the random number is accessible to the receiver. We use ethers to compute the new stealth private key.\n\n\n\nIf ETH was sent, the user just transfers the ETH from the stealth address to any address of their choice. If tokens were sent, the GSN is used so they can withdraw tokens without needing to fund the stealth address with ETH.\n\n\n\nThe frontend was built with Vue.js and Quasar Framework, and the contract testing and deployment was managed with various OpenZeppelin tools",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/umbra-wsugm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

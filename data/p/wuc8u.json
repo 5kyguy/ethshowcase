@@ -1,0 +1,47 @@
+{
+  "id": "wuc8u",
+  "slug": "onchain-zk-shuffle-texas-holdem",
+  "title": "Onchain ZK Shuffle Texas HoldEm",
+  "tagline": "A zkSNARK based card shuffling and dealing scheme and a demo application of a fully on-chain Texas Hold’em game on Ethereum",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wuc8u/banner/default.jpg",
+  "demo_url": "https://bit.ly/zkShuffleHack",
+  "source_url": "https://github.com/p0xeidon-labs/zkPoker",
+  "prizes": [
+    {
+      "sponsor": "ApeCoin",
+      "sponsor_id": "t3zyt",
+      "placement": "🤝 ApeCoin — 🥇 Best Integration",
+      "title": "Apecoin"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🤝 ENS — Integration Bounty",
+      "title": "ENS"
+    },
+    {
+      "sponsor": "SKALE Network",
+      "sponsor_id": "t5on2",
+      "placement": "🎮 SKALE — Best Metaverse, Gaming, or NFTs",
+      "title": "SKALE Network"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🪨 Optimism — Best Bedrock/OP Stack",
+      "title": "Optimism "
+    }
+  ],
+  "finalist": false,
+  "description": "Onchain ZKShuffle Contracts\nWe build a zkSNARK based card shuffling and dealing scheme based on the seminal paper from RSA: https://people.csail.mit.edu/rivest/pubs/SRA81.pdf. It solves two big problems of playing board/card games (and more generally information hidden games) on chain, how to fairly shuffle a deck of cards and how to deal the deck of cards to players privately (Otherwise the game is not playable due to MEV).\n      ZKShuffle has 3 functions:\n      ZKShuffle.setup: Each player generates a private-secret key pair and collectively generate an aggregated public key using all player’s public key\n      ZKShuffle.shuffle_encrypt:  To shuffle a deck of cards, every player needs to take her turn to call shuffle_encrypt. Here, we use a Homomorphic Encryption scheme: Elgamal, to make sure the sequence of encryption and decryption can be done in arbitrary order. For example, if there a three players in the game, intuitively, each card has three locks after a round of encryption: Card{Alice, Bob, Charlie}\n      ZKShuffle.decrypt: To deal a card to a particular player, each player needs to call the decrypt function. Say, if the game logic need to deal the card to Charlie, a valid sequence could be:\nAlice fetches the encrypted card “Card{Alice, Bob, Charlie}”, and decrypts using her secret key. Alice submit the decrypted card “Card{Bob, Charlie}” on chain along with the zero-knowledge proof for the validity of the decryption\nBob fetches the partially decrypted card “Card{Bob, Charlie}” from Alice on-chain, and decrypts the card using his secret key.  After Bob’s decryption, he submits the decrypted card “Card{Charlie}” and the zero-knowledge proof of validity of his decryption on chain.\nNow, Charlie can fetch the card (“Card{Charlie}”) with only his lock on-chain. He can use his own secret key to see his Card. \n\n\nTexas HoldEm Demo\n      We use ZKShuffle to build a Texas HoldEm demo. This demo is a DApp built using Solidity, React, and Ether.js. In this demo, when a new game starts, all the players run a round of setup and the initial shuffle to get a fairly shuffled encrypted deck on-chain. Then, each player runs a round of decrypt so that 2 cards are dealed to players. Now, every player starts to play the Texas Hold’em on a EVM based blockchain.\n\nWe deployed the DApp to Optimism Goerli, Ethereum Goerli, Skale. ",
+  "how_its_made": "The entire project consist of 3 parts:\nZKP circuits, for verifying decrypt and shuffle \nsmart contracts, including ZKShuffle contract and Texas Hold’em game logic contract\nDApp front-end, the Texas Hold’em demo game built using React and ether.js and Circomlib cryptographic JS library\n\nThe ZKShuffle cryptographic scheme design is an improved version of Geometry research’s. The major difference is that we implement the scheme using the Groth16 Proof system with Circom Language instead of using a specialized Bayer-Groth proof system. There are two ZKP circuits (https://github.com/p0xeidon-labs/zk-poker/tree/main/circuits): \nencrypt, generate/verify the result of shuffle_encrypt function\ndecrypt, generate/verify the result of decrypt\n\nIn the Circom implementation, we implement a ElGamal encryption scheme and use existing Circom libraries such as poseidon hashes.\n\nThe encrypt circuit has 87308 R1CS constraints and 4.5 sec proof generation time in the DApp. The decrypt circuit has 1522 R1CS constraints and 0.1 sec proof generation time in the DApp. We use SnarkJs to generate the zero-knowledge proof in the DApp\n\nThe smart contract part consists of two parts, the ZKShuffle framework contract and the Texas Hold’em game playing logic contract. The ZKShuffle contracts simply wrap the ZKP verification logic of the two circuits. In the Texas Hold’em smart contracts, we implement a game play state machine. The DApp works in a pull model, each DApp periodically pulls from the RPC node to get the stage of the game as well as which player’s turn to play.      \n\nThe DApp is implemented using React frameworks and Ether.js. It displays a Texas’ Holden play table and displays the animation with each player’s actions. When a player’s action is required, the player simply clicks the button in the UI and signs the transaction using metamask.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/onchain-zk-shuffle-texas-holdem-wuc8u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

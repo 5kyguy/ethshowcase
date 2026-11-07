@@ -1,0 +1,27 @@
+{
+  "id": "kdw3f",
+  "slug": "botanica",
+  "title": "Botanica",
+  "tagline": "SimCity for AI agents. Plug in any model. They earn. You own the swarm.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kdw3f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ELN02T48OZLVdCN435zaWo4gWIrX3401R2VIVoy1PIE008/high.mp4",
+  "demo_url": "https://agent-town-eight.vercel.app/",
+  "source_url": "https://github.com/kenjohnscreates/agent-economy",
+  "finalist": false,
+  "description": "Botanica (agent-town repo) is SimCity for agents. The bet is that agent work only becomes an economy if people can see it, understand it, direct it, and own it; a gamified agentic economy system. Wonder if people would watch their agents? People watch fly brains trade crypto with millions of views in a 24hr period; imagine watching your agent do work in a SimCity like game!\n\nCurrently, you watch a town of named agents earn/lend/borrow/repay USDC (agentic DeFi rails), but eventually your agents could step in and create any part of the virtual world to earn money, be social, trade, lend/borrow, create compute tasks, etc. The ultimate vision is allowing a user to plug their own agent with MCP from Claude/GPT/Grok/Hermes and open up aspects within the economy with what's possible such as different services, bartering, and more. \n\nbotanica.eth is live on Arc. Eight agents have ENS names and Circle wallets. They pay each other, take loans, default, and pick up credit scores on their names. You can mint your own name in the UI, fund it, and tell it to deposit. That name can spawn subagents as well, allowing for swarms. The eight town agents are still rule-bots to ensure the POC and onchain backend worked. Next a user can plug in their agent behind a name and wallet. Then the swarm is something they can sell, rent, or license.\n\nLive: https://agent-town-eight.vercel.app\n",
+  "how_its_made": "We built Botanica (agent-town repo) as a TypeScript monorepo with pnpm. Next.js 16 and PixiJS draw the town you actually look at. A Hono API sits behind it, with REST for snapshots and a live event stream for ticks, payments, and speech. Contracts are Foundry. The agents today are a tick loop of role rules, with shared zod types as the contract a future model would hit.\n\nWe ended up on two chains because ENS provides the credit, wrapper and naming convention that can be owned/leased/transferred in economy, while Arc provides settlement layer cross chain. ENSv2 for this hackathon is on Sepolia. USDC and Circle wallets are on Arc. Each agent name stores its Arc wallet address, which is how a Sepolia identity keeps pointing at Arc money.\n\nOn the ENS side we registered botanica.eth, stood up a town registry, and mint names like ada.botanica.eth for example. After a repay or a default, the treasurer writes a credit score onto the name. Visitors mint from the UI, and a name can mint subdomains under itself, like scout.you.botanica.eth. ENS published the hackathon contract addresses but not the ABIs, so we pulled nearby source and checked each function ID against the bytecode on chain until the calls matched.\n\nEvery agent is a Circle developer-controlled smart wallet: the eight town agents, the mayor, and anyone who mints in. TownTreasury is our first bank on Arc Testnet. Agents hire each other through ERC-8183, an escrow job contract on Arc: post the work, lock USDC, deliver, get paid. Arc uses USDC for gas as well as transfers, but the token is 6 decimals and the gas balance is 18, so you have to convert at the edge or you send the wrong amount. We compile Solidity as paris because Arc does not support the newer PUSH0 opcode. We also used Circle Gateway once to move Sepolia USDC into the Arc treasury; that inbound is already settled.\n\nFor data we wrote an agent-town subgraph on Arc that indexes the bank and jobs, so the UI and the agents read the same loan book. Each tick we also query public Aave V3 and Uniswap V3 subgraphs and price the town rate off live market APY. Studio rate-limited us, so we keep the last good response and back off.\n\nTick history lives in Supabase. The site is on Vercel. Anything that spends money stays off until we flip a flag, so the public demo cannot drain the treasury by accident.",
+  "auto_summary": "A TypeScript monorepo simulates an agent economy with Arc USDC settlement, ENSv2 identities, and Graph-indexed onchain state.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/botanica-kdw3f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,34 @@
+{
+  "id": "z7pr3",
+  "slug": "peregrine",
+  "title": "Peregrine",
+  "tagline": "Build custom flows that turn any signal into an automated, risk-controlled trade",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z7pr3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8e2QAhpnDXUsRTB02dmePx4UTyYcDvf00HPbkhRCzAxd8/high.mp4",
+  "demo_url": "https://peregrine-flow.vercel.app/",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": "Best Uniswap API Integration"
+    }
+  ],
+  "finalist": true,
+  "description": "Peregrine is a visual automation builder for trading. A user creates a custom flow, chooses where information comes from - an X handle, webhook, scheduled API check, manual input, or onchain event - and decides what should happen next. The flow can add market and portfolio context, ask an AI model to buy, sell, swap, reduce a position, or hold, or skip AI and follow deterministic rules. Before execution, Peregrine applies balance and position limits, venue and asset allowlists, slippage controls, and a global kill switch. Saved flows run in the background, so they can react and trade even while the user is away. Every run keeps a record of the original signal, data used, decision, applied limits, and execution result.",
+  "how_its_made": "Peregrine is a Bun and TypeScript monorepo. The interface is built with Next.js 16, React 19, Tailwind CSS 4, and React Flow 12. The canvas is not just a diagram: nodes and edges are saved as executable configuration. An Elysia API validates the graph and compiles the connected nodes into an execution plan, while a separate Bun worker handles background triggers. PostgreSQL and Drizzle store users, wallets, flows, runs, individual node outputs, execution attempts, and receipts.\n\nSignals can enter through a public webhook endpoint, a manual or pasted payload, or the X polling worker. The X source watches the handles referenced by active flows using server-side session cookies; users never need to connect their own X account. New posts are deduplicated in PostgreSQL and delivered to every matching flow. The same runner is designed to support scheduled requests and onchain triggers without changing the rest of the flow.\n\nAI decisions are requested through OpenRouter and must match strict Zod schemas. The model receives only the sources connected to its node and may choose only markets, tokens, and venues supplied by the backend. Invalid output is rejected or converted into a safe hold. AI is optional: a flow can also pass a deterministic trade instruction directly to the risk and execution nodes.\n\nFor Polymarket, Gamma provides market metadata and @polymarket/clob-client-v2 places signed orders. Peregrine uses a server-controlled owner key, a type-3 deposit wallet, and Polymarket’s builder relayer for deployment and approvals. The Graph supplies indexed Polymarket position and PnL data, while Polygon RPC reads actual spendable balances so portfolio value is never mistaken for available cash.\n\nWe also built a Uniswap Classic execution client around the Uniswap Trading API. It validates quotes, token addresses, amounts, balances, gas, slippage, price impact, approvals, and Permit2 data before signing with viem. Broadcast checkpoints and receipt verification make retries safer. World AgentKit provides the trust layer for integrations that Peregrine explicitly marks as human-only: the backend verifies CAIP-122 proofs, checks AgentBook, prevents nonce replay, and blocks restricted execution before any venue request is made. Core Polymarket and Uniswap flows remain available without World verification.",
+  "auto_summary": "A monorepo for building automated trading flows that combine external signals, AI or rule-based decisions, risk checks, and onchain execution.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/peregrine-z7pr3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

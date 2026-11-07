@@ -1,0 +1,53 @@
+{
+  "id": "thumd",
+  "slug": "gas-pass",
+  "title": "Gas Pass",
+  "tagline": "Perpetual gasless transactions. We want to incentivize people to contribute to any social good goals (like EIPs). We do this by issuing NFTs to those who have contributed, these NFTs reward those who hold them by allowing them to have their transactions paid for by a paymaster.",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/thumd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sJFAIl6x51jwrJ9VdAAXF4dYXGpnb5YLcg2uf9SkND8/high.mp4",
+  "source_url": "https://github.com/blmalone/EthGlobal_Hackathon_2023",
+  "prizes": [
+    {
+      "sponsor": "Nouns DAO",
+      "sponsor_id": "e3t1p",
+      "placement": "🏆 Nouns DAO — Best Public Good",
+      "title": "Nouns DAO"
+    },
+    {
+      "sponsor": "ApeCoin",
+      "sponsor_id": "t3zyt",
+      "placement": "🥇 ApeCoin DAO — Best Contribution",
+      "title": "ApeCoin DAO"
+    },
+    {
+      "sponsor": "Biconomy",
+      "sponsor_id": "ke9sy",
+      "placement": "🏊‍♂️ Biconomy — Pool Prize",
+      "title": "Biconomy"
+    },
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "🏊‍♂️ Worldcoin — Pool Prize",
+      "title": "Worldcoin"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊‍♂️ Scroll — Pool Prize",
+      "title": "Scroll"
+    }
+  ],
+  "finalist": false,
+  "description": "We combined two EIPs, the account abstraction standard (EIP 4337) and ERC-721 NFTs with ERC 2981 (royalties). We deployed a suite of contracts on-chain across a wide variety of EVM compatible chains. We deployed a paymaster contract, and to keep the project lean, a singular smart account to interact with the paymaster. The on-chain paymaster validates if the requester holds specific NFTs that would qualify for these free transactions for the given smart account. The paymasters are bootstrapped with native currencies on each chain (e.g. ETH on Ethereum) during the initial mint round for the NFT or during the sale of them (through the royalties standard). The initial mint allows minters to reward NFT holders by providing immediate value. Social good NFTs, backed by royalties to fund the paymaster directly, will allow such NFTs to reward good behavior and allow economical viability for the paymaster to always be funded.\n\nThis situation is great! A holder of this NFT can send out user operations for free! But, what kind of transactions can they send out? Ideally, our NFT holders can interact with any dapps they want for free fully supported by our application.\n",
+  "how_its_made": "******************************Onboarding Flow******************************\n\nOur onboarding flow is generic in the sense that it can support any arbitrary social public good in a decentralized & permissionless way. For the hackathon, to cut scope we focused on onboarding contributors to the Ethereum network that have proposed & finalized an EIP. We have a mapping of Name to address internally that is sourced directly from https://eips.ethereum.org/all. We keep this directly on chain, and in the future we want this to be powered via oracles so that it is completely decentralized. From there, when a user authenticates they have a few different options:\n\n- They can authenticate via WorldCoin\n- They can authenticate via a traditional oauth process\n- They can also authenticate via Wallet Connect\n\nOnce we receive their identification, we check to see what EIP(s) they have access to, and we gate the tokens on chain as well to make sure they cannot mint the token on-chain outside our platform either. \n\nAfter that, the user has the opportunity to mint each of their EIP NFT’s. The artwork was provided via ApeCoin and NounsDao. We also heavily utilized NounsDao’s art assets. Once they receive their NFT to their wallet, they will be able to use the wallet to initiate transactions that would be paid by the PayMaster. The paymaster get’s paid automatically at time of mint, as well as receiving royalties for any nft sales in the future creating a flywheel effect. On the next section, we will describe in more technical detail how this looks on chain.\n\nAfter minting their NFT, we utilized QuickNode & AirStack to query the nft collection & the owner’s contract address to help display the ones that have already been minted.\n\nThe onboarding tech stack was based on:\n\n- Frontend: React, Html, Css, wagmi\n- Backend: Nodejs\n\n**********************************On Chain Write up**********************************\n\nWe are utilizing Account Abstraction to set up a custom Paymaster that facilitates free transactions for holders of our special NFTs. Our system of smart contracts includes an ERC721, a Paymaster, and Smart Account. We set up a script that deploys the paymaster, NFT contract, and smart account in succession. NFT collections can be registered with our Paymaster, allowing holders of this NFT collection to make use of this Paymaster for ********any******** transactions they would like via their smart account. The script allows us to point the deployments to any EVM compliant chain. We deployed our system of smart contracts to multiple EVMs — Optimism, Polygon, etc. The NFT contract is also very custom. It contains logic that sets the royalties beneficiary to be the Paymaster. This creates a flywheel effect, where future sales of the NFTs pay back into allowing holders to get free gas on their future transactions.\n\nOne issue with account abstraction is that it hasn’t been adopted by most Dapps yet. This limits the types of transactions our NFT holders can make! To fix this issue, we also created a snap for metamask that “catches” calls to create regular transactions and translates them into UserOps that make use of account abstraction. In this way, our NFT holders can interact with any Dapps they want to that utilize metamask.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gas-pass-thumd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

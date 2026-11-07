@@ -1,0 +1,27 @@
+{
+  "id": "ghjw2",
+  "slug": "deficat",
+  "title": "DeFiCat",
+  "tagline": "DeFiCat: Telegram ENS agent. The Graph lookups, buy now or on drop, pay with x402.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ghjw2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4VMVmaRvUtVvQceGeJtEOI1fsnKBi5pmouCqqVTb02B4/high.mp4",
+  "demo_url": "https://t.me/DeFiCat_bot",
+  "source_url": "https://github.com/dayksx/DeFiCat",
+  "finalist": false,
+  "description": "ENS data is public, but acting on it from chat is still painful: is kikoulol.eth free, who owns degen.kikoulol.eth, when does a name expire, can I buy it now, or sit on a taken name until it drops?\n\nDeFiCat is a Telegram agent for that loop. You ask in chat. The Graph is the read path: owner, expiry, and grace, for second-level names and subnames. ENS is the write path: if the name is available, the agent quotes then registers it (commit/reveal) from its own mainnet wallet, under a budget cap and a chat allowlist. If it is taken or over budget, you can arm a watch: Temporal waits until the name is eligible and the worker buys it without asking again.\n\nLookups and quotes stay free. Spending is gated: Sign-In with Ethereum binds your Telegram chat to a wallet, you confirm an exact phrase, then you pay a service fee with x402 (1 USDC to buy now, 10 USDC to schedule the drop). The fee is USDC on Base Sepolia; the registration gas is ETH on mainnet from the agent. After payment, the agent auto-runs the intent: register now, or start the watch.\n\nThis ETHGlobal Online 2026 demo targets The Graph and ENS. Paid DeFi services (swaps and the rest) are the same payment rails later, not this build.",
+  "how_its_made": "Two packages: a NestJS agents process (Telegram + HTTP + Temporal worker) and a Next.js UI for SIWE and x402.\n\nThe bot is hexagonal. Domain rules (ENS label policy, budget, payment SKUs) never import Nest, viem, or LangChain. Telegram is a driving adapter; The Graph ENS subgraph is the lookup adapter (including subnames with no registrar row); viem talks to ETHRegistrarController for quote, commit, wait, re-quote, register. LangGraph tools (lookup_ens, purchase_ens, schedule_ens) cannot skip the gate: the LLM never chooses who may spend.\n\nScheduled buys cannot live in bot memory. A second process polls Temporal. The bot only arms/cancels; the worker signs months later. Same EOA, so one worker (one nonce). Dev default is an in-memory scheduler that records watches and buys nothing.\n\nTelegram has no HTTP 402, so payment mirrors SIWE: the agent issues a one-shot token, the UI pays, the agent verifies with the public x402 facilitator, then replays the paid intent. Split-chain on purpose: SIWE + ENS on mainnet (CHAIN_ID), USDC x402 on Base Sepolia. Treasury is the same EOA as AGENT_PRIVATE_KEY. Hacky-but-intentional: exact confirmation phrases, fail-closed payment (the UI never tells the agent “paid”), and Temporal memos as the source of truth for watches instead of a second database.",
+  "auto_summary": "A Telegram and web app agent looks up ENS data via The Graph, collects x402 payments, and can register or schedule ENS name purchases.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/deficat-ghjw2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

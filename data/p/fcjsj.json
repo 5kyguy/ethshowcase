@@ -1,0 +1,27 @@
+{
+  "id": "fcjsj",
+  "slug": "proofads",
+  "title": "proofads",
+  "tagline": "Ad inventory as revocable ENSv2 rights. Pay only for delivery proven in a Chainlink enclave.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fcjsj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/U7Q7XrC5oavdFE9DPW8R8Tb00j005qFtXp3I02ULGLn9xA/high.mp4",
+  "demo_url": "https://proofads.charmine.xyz/",
+  "source_url": "https://github.com/slotrights/proofads",
+  "finalist": false,
+  "description": "ProofAds turns advertising inventory into a revocable ENSv2 rights hierarchy, and settles payment against delivery verified privately inside a Chainlink Confidential Workflow.\n\nTwo pieces of the ad supply chain are assertions nobody can enforce: who may sell a placement, and what was actually delivered. Today the first is ads.txt — a plaintext file, domain-wide, never checked at transaction time. The second is a number produced by the party who benefits from it being large, computed over data the buyer never sees. Publishing that data on-chain doesn't fix it; it publishes a viewing log. Delivery has to be verifiable without being public.\n\nThe ENS layer. Each ad slot is a name the publisher owns: hero.ads.proofads-pub.eth. AdInventoryRegistry extends ENSv2's real PermissionedRegistry, and the right to sell a slot is ROLE_SELL_SLOT — an application-defined Enhanced Access Control role in an unassigned nybble (1 << 40), living alongside ENS's own roles. The marketplace calls hasRoles() at listing and again at auction finalization, never a cached copy, so revocation takes effect on the next block. The payout address is registry.getOwner(labelhash), read live from ENS — a delegated agency can sell a slot but can never redirect the money.\n\nThe Chainlink layer. A browser SDK measures a view: ten seconds at ≥50% of the viewport, foregrounded, with the creative's bytes hashed against the creativeHash committed on-chain at bid time. Raw events are frozen into an immutable batch, then read inside an AWS Nitro enclave by a CRE Confidential Workflow (cre.handlerInTee). The enclave holds the collector's token, released by the Vault DON, and recomputes the batch digest to catch tampering. Five scalars leave — campaignId, cumulativeVerifiedUnits, batchDigest, windowStart, windowEnd — signed by the DON and delivered through the Keystone Forwarder. Session ids, visibility traces and per-view timestamps never cross the boundary.\n\nSettlement is cumulative and idempotent: the workflow reads what the chain says is already paid rather than trusting the collector's arithmetic, and each batch digest applies once, so retries can never double-pay. Escrow is unitPrice × targetUnits USDC, released as delivery is verified, with the undelivered remainder refunded at close.\n\nLive on Sepolia. Contracts deployed and verified; proofads-pub.eth registered on the ENSv2 beta with ads, hero and sidebar beneath it; an auction listed by a delegated agency, bid with escrowed USDC, measured in a real browser, and settled by the confidential workflow in tx 0x320ea411…36e29b — 20 raw events in, 1 verified unit out, 0.11 USDC paid to the publisher. The agency sold it; the publisher got paid.",
+  "how_its_made": "Contracts in Foundry/Solidity 0.8.30, built against ensdomains/contracts-v2 compiled from source — ENS is real here, not mocked, and the local test chain stands up the actual ENSv2 hierarchy. AdInventoryRegistry extends PermissionedRegistry, so authorization and the payout address both come from a registry we don't control: revocation is protocol-level, and we never had to build a permission system. ROLE_SELL_SLOT squats an unassigned Enhanced Access Control nybble (1<<40) beside ENS's own roles, and the marketplace re-reads hasRoles() at listing and again at finalization.\n\nChainlink CRE is what makes private verified delivery possible at all — without a TEE the raw measurement data would have to be either public or trusted. The workflow is TypeScript on bun, running under cre.handlerInTee in an AWS Nitro enclave: the Vault DON releases the collector's API token inside, DON consensus signs the aggregate, and the Keystone Forwarder delivers it on-chain.\n\nRest of the stack: Next.js 15 + wagmi/viem, a Fastify + Postgres measurement collector, browser SDK in TypeScript.\n\nHackiest bit: ENSv2 re-mints an ERC-1155 token id on every role change, so slot identity had to become keccak256(registry, labelhash) rather than the token id. Runner-up: our first real settlement was a transaction with status: success that paid nobody — the receiver ran out of gas inside Circle's USDC and the Forwarder swallowed the revert. Every local test was green; they all settle against a mock token.",
+  "auto_summary": "This project builds an ENSv2-based advertising marketplace with confidential delivery verification and onchain USDC settlement.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/proofads-fcjsj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

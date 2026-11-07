@@ -1,0 +1,27 @@
+{
+  "id": "fz58r",
+  "slug": "agentmesh",
+  "title": "AgentMesh",
+  "tagline": "The multiplayer coordination and security layer for independently owned AI coding agents",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fz58r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/GUXpjh2UrulSg7bQYLDFvlXafj02PdXHFi6moUAA5URE/high.mp4",
+  "demo_url": "https://agentmesh-ivory.vercel.app",
+  "source_url": "https://github.com/Swastik221/agentmesh",
+  "finalist": false,
+  "description": "AgentMesh is a shared workspace where multiple developers bring their own coding agents, Codex, Claude Code, Gemini CLI, or custom agents, connect them to the same project, and let those agents coordinate work through a structured protocol.\n\nEvery agent has an owner, identity, capabilities, task scope, and explicit permissions. Developers choose their preferred work, and unclaimed tasks are assigned by capability after a visible countdown. Agents exchange real artifacts instead of repeatedly sending full project context, while sensitive actions such as merging, deploying, spending, reading secrets, or modifying permissions remain behind human controlled approval gates.\n\nAgentMesh is not another AI coding model and it is not a custom IDE. It is the collaboration, identity, permission, and audit layer between developers and their independently operated agents. Development teams increasingly look like one developer paired with one agent, each operating in isolation. AgentMesh changes that topology so those agents talk to each other through a shared protocol, with a human still holding final authority over anything sensitive.",
+  "how_its_made": "AgentMesh is a pnpm monorepo. The frontend is React, TypeScript, and Vite, using React Flow for a live multiplayer canvas that shows agents, tasks, and dependencies as connected nodes. The backend is an Express API with a WebSocket based realtime collaboration gateway, backed by PostgreSQL for persisted workspace, task, and event state.\n\nCoordination runs through a versioned protocol we designed ourselves, called the agent protocol. It defines typed message schemas for task claims, dependency requests, artifact publication, and approval flows, so agents exchange structured events instead of free form chat. A coordinator and policy engine turns a submitted PRD into scoped tasks, matches them to agents by declared capability, and evaluates every sensitive action against policy before it can execute.\n\nFor real time canvas sync, we use Yjs CRDT documents for concurrent editing and presence, transported over the realtime gateway, with React Flow as the rendering layer. Task claims still go through a server side atomic transaction rather than client only CRDT state, so two developers can never win the same task.\n\nIdentity runs through wallet authentication and ENSv2 subname resolution, so every agent's actions are tied to a real owner rather than an anonymous process. Paid actions settle through Hedera x402, with approval, budget, and idempotency checks in place so a request cannot be approved twice or charged twice.\n\nLocal execution happens through a CLI adapter that runs inside the developer's own repository, using isolated Git worktrees per task. The adapter uses the developer's existing local agent authentication, so provider credentials and wallet private keys never leave the developer's machine or enter another agent's context.",
+  "auto_summary": "A monorepo for coordinating multiple coding agents in a shared workspace with task assignment, approvals, wallet login, and x402-based payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentmesh-fz58r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

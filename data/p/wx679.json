@@ -1,0 +1,30 @@
+{
+  "id": "wx679",
+  "slug": "splitooor",
+  "title": "Splitooor",
+  "tagline": "User/Owner tokenized separation for smart accounts. Create an NFT able to actively manage an account while its ERC 6551 owner token is used as collateral on a lending protocol, while safely maintaining its value from the lending protocol perspective.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wx679/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02c9NlgHqHMWfSorULjYdJ00wLm7NdMqinyrVhI02eow6Y/high.mp4",
+  "demo_url": "https://position-front.onrender.com/",
+  "source_url": "https://github.com/kairos-loan/hackathon-paris-2023/",
+  "prizes": [
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🏊 Neon EVM — Pool Prize",
+      "title": "Neon EVM"
+    }
+  ],
+  "finalist": false,
+  "description": "We build Splitooor, a project to unlock owner/user separation for accounts.\n\nTo understand the project goal, let’s take a simple example. Let's imagine we own a liquidity position token on Uniswap V3, and we want to use it as a collateral to lend cryptos on a lending protocol. As a lending protocols require to have ownership of the collateral used to be able to seize it in case of non-repaiement, we would temporary lose the management on this liquidity provision. If the price shifts outside of the liquidity concentration range we initially defined, we would stop earning yield with this position.\n\nThis example showcases a larger problem, being that users need to abandon active management of DeFi positions to leverage them in secondary markets and similar usages.\n\nSplitooor is an extension of the ERC-6551 (NFT Bound Accounts), which, in addition to providing me with an NFT that owns my account and can be use as a collateral, provides me with a NFT with limited privileges. This second NFT allows me to manage my account during a loan, without being able to extract any value.\n\nSo the first NFT representing the ownership goes to the lending protocol, while I can keep my second NFT to manage my liquidity position, such as for adjusting the liquidity concentration to follow the price of the pool and keep a maximal capital efficiency.\nGeneralizing this idea, Splitooor is the ground work for new standards, defining how to tokenize arbitrary authorizations on an account, for usage in secondary markets, with as much granularity and dynamic flexibility as imaginable, enabling limitless financial innovation and new primitives.",
+  "how_its_made": "At the center of this project, we use a (gnosis) safe wallet based smart account. We developed the smart contracts using foundry. We took the safe contracts in dependency and extended them. To create an ERC 6551 we used a module to match the interface of the standard. We developed a custom function that receives the address of an account and is able to return a floor of its ether value looping through the balances of a few pre-selected tokens and querying the Uniswap v3 NFT positions contract to take into account the value of LP tokens. This function is used as oracle of the value of an account, so the lending protocol we integrate with knows when the NFT owning this account must be considered liquidable. \nAt the center of our project we also have a safe guard. This one is the main component responsible of the owner/user separation. The owner has full control of the safe account. Both addresses are co-signers of the safe with a 1 signer threshold to execute a transaction. The user restrictions are as follow : if the transaction will modify the safe in such a way that will deactivate the modules or guards or change the owners the transaction will revert. We used a transient storage like technique to prevent the user from extracting value from the wallet. Instead of whitelisting a set of “safe” actions the user can take, we chose to have a systematic “post-hook” check of the value state of the wallet. If the value computed by the oracle method decreased after executing the action, it is not allowed.\nTo make sure the owners of the role NFTs are detected as signers of the safe at every point, we implemented a hook on every NFT transfer of those tokens that will update the owners of the safe of every token transfer.\nUsing safe, the owner of the role NFTs can connect to any arbitrary application either through a safe app or using wallet connect and the safe mobile app on any dapp, and manage their positions as an EOA would, becoming instantly compatible with every app at smart contract and UX level without custom integration.\n\nUsing the enumerable ERC721 extension at every step of the development we didn’t have to use an API to list either the role tokens or uni v3 positions of the user to display them in the frontend, saving dev time. The frontend were built using vite react and rainbowkit.\nWe used midjourney to create illustrations and the project logo.\nSplitooor uses kairos loan as lending protocol to leverage its position in a loan. This is the protocol the hackathon team is professionally developing and its used in this case for demonstration purposes. It would be trivial to swap it for another permissionless lending protocol.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/splitooor-wx679",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "thooh",
+  "slug": "am-i-cooked",
+  "title": "Am I cooked",
+  "tagline": "Everyone got cooked this year. The only question is how much. Find out the money you forgot.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/thooh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rBWp2fX2IoS8orMmKS02kB006Xcbo3FPXgVz3xS4yxTYA/high.mp4",
+  "demo_url": "https://tracely.live/cooked",
+  "source_url": "https://github.com/vsnation/Am-I-Cooked",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "1st place",
+      "title": "Best Use of Composable or Standardized Graph Products"
+    }
+  ],
+  "finalist": true,
+  "description": "Everyone got cooked this year. The only question is how much.\n\nYou know the feeling of finding €20 in last year's jacket? Your wallet has jackets. AM I COOKED? goes through all of them: LP positions still sitting in pools everyone abandoned, bags parked in protocols that quietly died in 2023 - money you forgot exists, surfaced in one scan. That's the fun part.\n\nHere's the unfun part: the same jacket has a hole in it. Eight months ago, you used a protocol, approved unlimited spending \"just once\", and moved on. Then the protocol got hacked. You forgot the approval; the attacker didn't - it can move your tokens TODAY, no signature needed, while your balance looks fine. We trace every live approval across 21 EVM chains, re-verify each against the chain, match spenders against 177 documented hacks, and hand you the exact revoke transaction for each wound. Paste an address or ENS - no connect, no signatures, ever.\n\nAnd because getting robbed is a live event, not a history lesson: the GUARDIAN. Most wallet checkers are coroners - they tell you how you died. Ours is a smoke detector. It watches DeFi liquidity in real time, and when a pool you're exposed to starts draining (the real ones go 90% in minutes - we replay one on demand, clearly labelled), a siren literally goes off in the app, pointing at the exact approvals to cut before the drainer's queue reaches you. Scan → verdict → alarm → revoke: protection, not a postmortem.\n\nThe verdict itself is a cooked score 0–100, judged inside a 0G Compute TEE against a rubric whose hash is committed on-chain - tap the wax seal and the real attestation transaction opens on the explorer. The fixing is done by the Surgeon, an agent with an on-chain Agentic ID that may only PROPOSE revocations: a verified human must back it (World AgentBook), and you sign every transaction in your own wallet. Anonymous agent asking to touch money → big red BLOCKED.\n\nThen you post your 100% CHARCOAL card to X and ruin your friends' evening.",
+  "how_its_made": "Three layers, zero frameworks, everything live in production - a hand-built vanilla-JS PWA, a Node scan service, and two Solidity contracts, shipped under tracely.live, our free AML & compliance platform, so this engine has a real product home beyond the weekend.\n\nThe autopsy - The Graph. One dependency-free JS library speaks Messari STANDARDIZED subgraph schemas through the Graph gateway: a single query shape covers Aave v3, Compound v3 and Spark, and onboarding a new lending market is one registry line. Uniswap v3 rides the same registry as a second dialect. On top of that, our approval tracer sweeps 21 EVM chains of raw ERC-20 Approval logs and live-verifies every surviving allowance directly against the chain - fail-closed by design, so a wound can never silently disappear. To make heavy wallets scannable at all, we engineered around modern RPC quotas with hand-encoded Multicall3 tryAggregate calldata: ~300 allowance checks folded into a single eth_call with adaptive backoff - the technique that surfaces the full 2,166 live approvals on vitalik.eth. The guardian AlarmEngine composes a second Graph product - a live pool-TVL feed - into real-time drain detection, architected source-agnostic so a Substreams sink drops straight in. And the entire intelligence ships twice: as the app, and as cooked-skill, an MCP server any agent (Claude, Cursor, ChatGPT) mounts with one config block.\n\nThe seal - 0G. Architecture rule enforced from day one: the app contains zero 0G SDK imports - every 0G capability flows through SEAL, our standalone 8-tool MCP server (TEE inference with per-response signature verification, encrypted Storage memory, chain calls, Agentic ID). The sealed-judge pipeline runs live: scan report → 0G Compute TEE → a rubric-validation gate that mathematically recomputes every verdict → scoreHash attested in CookedRegistry on Galileo, with the scoring rubric's hash committed immutably at deploy. Verdicts are cryptographically idempotent — an identical verdict resolves to its original on-chain attestation via event logs. Our favourite engineering flex: SEAL's stub backend emits self-consistent attestations that the verifier genuinely validates and rejects when tampered, which lets us build the whole product offline and flip to live 0G without touching a line of agent code.\n\nThe leash - World. Autonomous financial authority, solved: the Surgeon's wallet is verified against AgentBook on World Chain (@worldcoin/agentkit), enforced server-side with the check re-asserted at the moment of action. The agent prepares approve(spender, 0) transactions; a verified human signs every one. Selfie Check keeps the backing alive daily; Identity Check needs exactly two booleans and stores nothing.\n\nThe polish layer: real drain victims as instant demo wallets (jaredfromsubway.eth, 0xSifu - pre-scanned, pre-sealed on-chain), shareable /r/<address> links with server-rendered 1200×630 verdict cards so X previews your CHARCOAL, a 27-assertion Playwright suite gating every production deploy, and privacy by construction - scans cached by address hash only, no ledger of who looked up whom.",
+  "auto_summary": "A wallet risk scanner analyzes DeFi positions and token approvals, then uses agents and attestations to help users revoke risky allowances.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/am-i-cooked-thooh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

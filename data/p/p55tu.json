@@ -1,0 +1,27 @@
+{
+  "id": "p55tu",
+  "slug": "stylus-hook",
+  "title": "Stylus Hook",
+  "tagline": "Uniswap v4 hooks written entirely in Rust on Arbitrum Stylus",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p55tu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00Q8OP7wqspxVlo5TNC02gVo8uPkhyJKTC2eVEuZDEHy8/high.mp4",
+  "demo_url": "https://youtpout.github.io/stylus-hook/",
+  "source_url": "https://github.com/youtpout/stylus-hook",
+  "finalist": false,
+  "description": "This continues a project from ETHGlobal Scaling Ethereum 2024, built when Stylus was still\ntestnet-only and Uniswap v4 was still in development. Back then the contract v4 actually called was\na Solidity proxy, forwarding every callback to the Rust code behind it. It was never Stylus end to\nend, because a hook must sit at an address whose low 14 bits encode its callbacks, and Stylus could\nnot deploy to a mined one.\n\nBoth have shipped since. Stylus is on mainnet and CREATE2s through StylusDeployer, so we finished\nit: the contract the PoolManager calls is now the Stylus contract itself, with no Solidity in it.\n\nThe other half is finding out whether that is worth doing. Entering a Stylus contract costs ~7,900\ngas more, storage is identical, and arithmetic is 3-640x cheaper. So most hooks should stay in\nSolidity, and we publish that: a counter hook costs 2.8x more in Rust.\n\nWhere it pays, it pays widely. Against the TWAMM live on Base and Unichain, at 32 concurrent order\nstreams, Solidity spends 2,849,561 gas per swap and Rust spends 1,891,213. Replaying v4's swap math\nis 7.1x cheaper per tick. And a post-quantum signature check is 11.3M gas in Solidity against 33k\nin Rust, because SHAKE is not reachable through the EVM's keccak opcode.\n\nPorting v4-core also found a failing input in Uniswap's own TickMath fuzz test. The fix is one\ncharacter.",
+  "how_its_made": "Rust on stylus-sdk 0.10.9, compiled to wasm32 and run on Arbitrum Stylus. stylus/base-hook is\nBaseHook.sol's counterpart: the v4 types, the permission flags, all ten IHooks callbacks, and the\ncalls back into the singleton. A test pins all ten selectors against the compiled IHooks.sol.\n\nSolidity's onlyPoolManager can't be forgotten because BaseHook is abstract; Rust has no abstract\ntypes, so a proc macro inserts the guards instead. And hook-miner reimplements StylusDeployer's\nsalt derivation, keccak(salt || initData), to find an address carrying the declared flags.\n\nTwo things worth stealing. The SDK has no immutable, so build.rs bakes the pool manager in as a\nRust const rather than paying a cold SLOAD per callback: 2,568 gas a swap. And rustc at opt-level 2\nor 3 emits a DataCount section ArbOS refuses to activate, so Stylus looks capped at size-optimised;\n--llvm-memory-copy-fill-lowering fixes it. Both builds pass cargo stylus check and only fail at\ndeploy. Every ratio here doubled when we found it.\n\nForge can't run WASM, so the Solidity twins are tested through a real local v4 stack and the Rust\nside against TestVM, cross-pinned to the same values. Every gas figure is a receipt from an\nArbitrum Nitro dev node, not an estimate.\n\nHackiest bit: the TWAMM is 41 KB, so it needs ArbOS 61 code fragments, but cargo stylus\nget-initcode refuses fragmented contracts. We deploy once with --wasm-file, read the root back off\nchain, re-wrap it in the EVM prelude, mine against that, and hand it to StylusDeployer ourselves.",
+  "auto_summary": "This repository implements and benchmarks Uniswap v4 hook components and math in Rust for Arbitrum Stylus alongside Solidity reference versions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/stylus-hook-p55tu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,41 @@
+{
+  "id": "pqdxy",
+  "slug": "the-wallet-shift",
+  "title": "The Wallet Shift",
+  "tagline": "DeFiLlama for the on-chain AI agent economy: a live, agent-callable ERC-8004 directory.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pqdxy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hqcFq67AXScvqe4uaoaq00hiAqufiWhI37KggZ7OAmFw/high.mp4",
+  "demo_url": "https://thewalletshift.com",
+  "source_url": "https://github.com/cloudonshore/thewalletshift",
+  "prizes": [
+    {
+      "sponsor": "Google Cloud",
+      "sponsor_id": "yc3ys",
+      "placement": "Best On-Chain Agent Economy Application",
+      "title": "Best On-Chain Agent Economy Application"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New York 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "The Wallet Shift makes the on-chain AI agent economy legible. Think DeFiLlama, but for autonomous agents. It indexes the ERC-8004 \"Trustless Agents\" registries (Identity + Reputation) on Ethereum mainnet and turns 34,556 raw registrations into something you can actually navigate.\n\nThree surfaces: (1) a dashboard of population, growth, reputation and x402 payment signals; (2) /services, a searchable directory of the 711 agents that expose a real callable service, each with its live A2A skills / MCP tools and a live/paywalled/dead health check; (3) /collectibles, the 1,268 mass-minted NFT-collectible agents grouped into the collections they actually are.\n\nIt also ships an honesty layer: most \"34k agents\" are empty shells (52%) or two mass-minted NFT collections, and owner concentration is dominated by a mint-factory, so the headline numbers aren't taken at face value. The directory is itself agent-callable via a public JSON API, an installable /SKILL.md, and /llms.txt, so other agents can discover and pay services programmatically.\n",
+  "how_its_made": "Architecture is \"BigQuery is the factory, a CDN-served JSON is the storefront.\" We materialized the ERC-8004 mainnet logs into a 95MB BigQuery table (so queries are free instead of scanning the 3TB public dataset), decode every event signature against the compiled contract ABIs, and export static JSON that the Next.js 15 app reads. The app never queries BigQuery directly.\n\nStack: Next.js 15 (App Router, TypeScript, Tailwind, Recharts), deployed on Google Cloud via Firebase App Hosting (us-east4), with BigQuery and Cloud Storage as the data plane and a custom domain on App Hosting.\n\nThe notable parts: BigQuery can't egress, so off-chain agent cards are fetched by a separate Node pipeline (SSRF-guarded, host-interleaved). To separate real services from mass-minted noise we ran an LLM classification pipeline, emergent taxonomy discovery followed by a 41-subagent classification fan-out, collapsing 2,037 \"callable\" agents down to 711 genuine services. Finally, an endpoint health probe makes minimal, safe, x402-aware real calls (one allowlisted non-destructive skill per service, and the 402 returns before any charge) to tag each endpoint live, paywalled, or dead.",
+  "auto_summary": "A Next.js application analyzes ERC-8004 agent registry data from BigQuery and exposes dashboards, directories, and APIs for agent discovery.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/the-wallet-shift-pqdxy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

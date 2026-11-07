@@ -1,0 +1,22 @@
+{
+  "id": "ngc1n",
+  "slug": "agent-vault",
+  "title": "Agent Vault",
+  "tagline": "Give your AI agent a wallet with hard on-chain spending limits. Powered by Sui + DeepBook + ENS.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ngc1n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vK01M8ptHGRtfmICJHa401kCL95SbnhIE4losqDN1uFbw/high.mp4",
+  "demo_url": "https://agentvault-sui.vercel.app",
+  "source_url": "https://github.com/farouk-allani/agentvault",
+  "finalist": false,
+  "description": "AgentVault lets you give autonomous AI agents their own wallet , with hard, on-chain enforced spending constraints. No backend trust. No multisig delays. Just rules baked into Move smart contracts on Sui.\n\nThe core problem: AI agents increasingly need to execute financial transactions autonomously  trading, payments, yield farming. But giving an agent unrestricted access to funds is reckless. One hallucination, one prompt injection, and your money is gone.\n\nAgentVault solves this by creating shared-object Vaults on Sui with configurable constraints: daily spending limits, per-transaction caps, minimum balance floors, and an emergency pause switch. The agent can transact freely within these rails , executing payments and swaps on DeepBook v3 (Sui's native CLOB) , but the Move VM rejects anything that violates the constraints. The owner never needs to co-sign.\n\nWe also built a novel ENS integration: spending constraint profiles are stored as ENS text records on Ethereum, turning ENS into a decentralized DeFi configuration layer. Users can load a profile like \"conservative.eth\" to instantly set safe limits, and can even pay to ENS names cross-chain. Agents are identified by their ENS names with avatars for human-readable identity.\n\nKey features: vault creation with natural language intent parsing (\"spend $100/day, max $25 per trade\"), real-time spending dashboards, DeepBook v3 CLOB trading, ENS-powered constraint profiles, emergency pause controls, and full transaction history with Sui Explorer links.",
+  "how_its_made": "Smart Contracts: The core is a Move module on Sui  implementing generic Vault<T> shared objects. Vaults are shared (not owned), which is the key architectural decision , it allows agents to call execute_payment and execute_swap without the owner co-signing. All six constraint checks (agent auth, pause status, per-tx limit, daily limit, balance, min balance floor) run in the Move VM. Daily limits auto-reset using Sui's Clock module. We integrated DeepBook v3 directly in the contract, calling pool::swap_exact_quote_for_base for real CLOB trading with DEEP fee token handling.\n\nBackend: Express.js + TypeScript API deployed as a Vercel serverless function. It wraps the Sui SDK (@mysten/sui) to build transactions, fetch vault state, query DeepBook pools/quotes, and parse natural language intents into constraint parameters using regex pattern matching. The backend never holds keys , it only constructs unsigned transactions that users sign in their wallet.\n\nFrontend: React 18 + Vite + TypeScript with @mysten/dapp-kit for wallet connection and transaction signing. The ENS integration is the hackiest part, we use viem to talk to Ethereum mainnet (via LlamaRPC with Ankr/PublicNode fallbacks) to resolve ENS names and read custom text records (agentvault.dailyLimit, agentvault.perTxLimit, etc.), then feed those values into Sui transactions. This cross-chain bridge runs entirely in the browser. We built custom React hooks (useENSResolution, useENSConstraintProfile) with debounced resolution and batch reverse-lookups for the dashboard.\n\nNotable hack: Using ENS text records as a decentralized configuration store for DeFi risk parameters is something we haven't seen before. Instead of just name→address resolution, ENS becomes a shareable, composable constraint profile registry that any protocol could adopt.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-vault-ngc1n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "mfs4b",
+  "slug": "creator-signature",
+  "title": "Creator Signature",
+  "tagline": "Proof of provenance for the age of AI: a verified human signs content under an on-chain identity.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mfs4b/banner/default.jpg",
+  "video_url": "https://stream.mux.com/i4GFP8WVwLzAtmtDTE3U2nJNalNFYFBh56OMGUErZIg/high.mp4",
+  "demo_url": "https://github.com/N1n4CH/creator-signature#running-it-locally",
+  "source_url": "https://github.com/N1n4CH/creator-signature",
+  "finalist": false,
+  "description": "Creator Signature is proof of provenance for the age of AI and impersonation. It answers one question: who is accountable for this content?\n\nA creator proves they are a unique human with World ID, connects an identity carrying a persistent ENS name, and signs a file. The original is stored on 0G Storage; a perceptual fingerprint of it is written on-chain under that identity. Nothing is embedded in the file itself, so nothing can be stripped by a platform's upload pipeline.\n\nAnyone can then check any copy. Upload a suspect file, or paste a link to one already on the web, and the system fetches the signed original back from 0G Storage and compares them. A match returns a verified-human badge naming who stands behind it. A mismatch is flagged - and 0G Compute describes, in plain language, exactly how the two images differ.\n\nThe claim boundary is deliberate and it is the heart of the design. The badge means \"a verified human takes accountability for this exact content.\" It does not mean \"this is human-made.\" That would be unverifiable - a creator could sign an AI-generated image, and the system works identically if they do. We do not pretend to detect AI. Accountability, not authorship. That honesty is what keeps the badge meaningful.\n\nTwo directions, one lookup. The seal: content a creator signed carries a verified-human badge wherever it resurfaces. The shield: content claiming to be theirs without a valid signature is flagged as unendorsed.\n\nProvenance that lives on-chain rather than inside the file - so it survives re-encoding, platform pipelines, and any single platform's goodwill.",
+  "how_its_made": "The core technical problem is deciding whether two images are the same photograph, and neither obvious method works alone.\n\nCryptographic hashing fails immediately. A keccak256 hash of the file bytes changes completely when an image is re-encoded, which every platform does on upload - the single most common real-world case. We found this by accident: files selected through the macOS Photos picker are re-exported to a new temporary file each time, so byte-identical verification failed on what was visibly the same photo.\n\nVision models fail in the opposite direction. Ask a multimodal model whether two photographs taken minutes apart at the same venue are \"the same\" and it says yes. It reasons about scenes, not instances.\n\nSo the pipeline uses both, for different jobs. A DCT-based perceptual hash (64-bit fingerprint, Hamming distance, threshold 8) decides instance identity. 0G Compute vision provides a verifiable, TEE-sealed second opinion recorded alongside every result. On a mismatch, a second 0G Compute call describes how the images differ, and that explanation becomes the reason shown to the user rather than a bare number.\n\nMeasured results: identical file distance 0, verified. Re-encoded copy distance 0, verified — where exact hashing fails. Different photo of the same venue distance 12, rejected - where vision alone fails. Different subject entirely distance 36, rejected, caught from a pasted URL.\n\nSigning writes the 0G Storage rootHash on-chain as the attestation's storage pointer, so verification fetches the original back by rootHash and the verifier supplies only the suspect file. The contract is first-writer-wins with no transfer function - accountability is not transferable, which is the main thing separating this from an NFT. A pre-flight read of the on-chain record means re-signing shows who already claimed the file, rather than a revert.\n\nStack: Solidity + Hardhat, React + Vite frontend, Express backend, ethers v6, sharp for image processing, World ID IDKit v4 with a relying-party signing backend, ENS resolution via the Universal Resolver, 0G Storage TS SDK, 0G Compute serving broker.",
+  "auto_summary": "This project lets verified users attest image provenance by storing originals on 0G, recording fingerprints on-chain, and later verifying suspect copies.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/creator-signature-mfs4b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

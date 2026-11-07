@@ -1,0 +1,22 @@
+{
+  "id": "wx9yh",
+  "slug": "fusionxcosmos",
+  "title": "FusionXCosmos",
+  "tagline": "Cross-chain atomic swaps between Ethereum & Cosmos - no bridges, just real on-chain swaps.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wx9yh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FgdkXR3sgUGaAa5cGImjMOr25pSUwOB5yjyt2VXMzuM/high.mp4",
+  "demo_url": "https://fusionxcosmos.vercel.app/",
+  "source_url": "https://github.com/soniasingla/FusionXCosmos",
+  "finalist": false,
+  "description": "**FusionXCosmos** is a production ready system that enables atomic swaps between Ethereum and Cosmos ecosystem chains. It lets users exchange tokens like ETH and NTRN without relying on bridges or third party trust. Instead, it uses cryptographic hash time locks to guarantee atomic execution meaning either both sides complete or nothing happens.\n\n## How it works:\n\n1. User locks ETH in a smart contract on Ethereum using a hashlock and timelock.\n2. Counterparty locks NTRN on Cosmos chain with the same hashlock.\n3. User claims the NTRN by revealing the secret.\n4. Counterparty claims the locked ETH by using the revealed secret.\n\n## Why this matters:\n\n1. Trustless swaps with no need for bridges or custodians.\n2. All or nothing execution guaranteed by cryptography.\n3. Works directly between Ethereum and Cosmos chains.\n4. User friendly interface hides the complex cryptography.\n5. All transactions happen live on Sepolia and Neutron testnets and are fully verifiable.\n\nWe built the Ethereum side with Solidity smart contracts that handle hash time locks and store Cosmos swap details on chain to prove intent. On Cosmos, instead of using CosmWasm contracts that had build issues, we coordinate swaps using memos in bank transactions, a pattern already used by production Cosmos chains like Osmosis.\n\nThe frontend uses React and Vite and integrates both MetaMask and Keplr wallets for a seamless user experience.\n\nLooking ahead, we plan to add support for order books, more Cosmos chains, ERC20 tokens, and automated relayer networks to expand usability.",
+  "how_its_made": "FusionXCosmos works by coordinating two chains: Ethereum and Neutron, using cryptographic hash time locks and memo based messaging, without any bridges.\n\n## Ethereum side:\nWe built custom Solidity contracts deployed on Sepolia testnet. The AtomicSwap contract handles locking ETH with hash time locks, while the CrossChainManager stores swap details including Cosmos recipient addresses and amounts, all on chain to keep the swap intent transparent and verifiable.\n\n## Cosmos side:\nDue to Rust and CosmWasm compatibility issues, we avoided deploying new contracts on Neutron. Instead, we use a memo based approach in Cosmos bank send transactions. The memo contains swap metadata and coordinates the swap state across chains, a pattern inspired by Osmosis and other IBC enabled chains.\n\n## Frontend:\nThe app is built with React and Vite. It integrates MetaMask using Ethers.js to interact with Ethereum, and Keplr with CosmJS libraries for Cosmos. The app orchestrates swap steps sequentially locking ETH, locking NTRN, claiming tokens, and revealing secrets making sure everything happens in the right order and timing.\n\n## Our solution:\n\nMemo based coordination replaced the need for complex CosmWasm contracts and works like real production chains.\n\nWe dynamically fetch contract minimum safety deposits to ensure swap amounts meet contract requirements.\n\nHandling two very different wallet standards required careful async code and UI tweaks to keep the user experience smooth.\n\n## Tech stack:\nSolidity, Ethers.js, CosmJS, React, Vite, Keplr, MetaMask, deployed on Sepolia and Neutron testnets, frontend hosted on Vercel.\n\nThis project proves you can build safe, fully trustless cross chain swaps without bridges using existing blockchain features, laying groundwork for next generation DeFi.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fusionxcosmos-wx9yh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

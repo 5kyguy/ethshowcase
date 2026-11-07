@@ -1,0 +1,22 @@
+{
+  "id": "5cn2m",
+  "slug": "cipher-lend",
+  "title": "Cipher Lend",
+  "tagline": "A confidential layer for existing DeFi protocols enabling confidential interactions using FHE.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5cn2m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fzFLclTEYOVssM93rc102JToSwKFsxdUmeVTOSC9atuY/high.mp4",
+  "demo_url": "https://cipher-lend-five.vercel.app/",
+  "source_url": "https://github.com/RegisGraptin/HackMoney",
+  "finalist": false,
+  "description": "Cipher Lend brings privacy to DeFi by enabling confidential swaps and lending without exposing your position on-chain.\n\nNormally, each DeFi action such as swaps, liquidity deposits, or withdrawals publicly reveals who acted, how much, and when. Cipher Lend breaks this link by batching many users’ encrypted intents and executing them as a single aggregated transaction, making individual activity indistinguishable.\n\nCipher Lend operates using a round-based execution model. During each round, users submit encrypted intents to swap, lend, or withdraw. Once a predefined time window closes and a participation threshold is reached, the protocol executes a single aggregated transaction across supported protocols that applies only the net amounts. Because only aggregate values are visible on-chain, individual positions and amounts remain private.\n\nCipher Lend does not reinvent DeFi infrastructure. Instead, it provides the privacy primitives required to interact with battle-tested DeFi protocols while leveraging Fully Homomorphic Encryption (FHE) for confidential computation.\n\nWelcome to privacy land.",
+  "how_its_made": "The current implementation focuses on confidential swaps, but the same primitives extend to lending. Cipher Lend leverages confidential tokens using FHE (Fully Homomorphic Encryption) to encrypt user balances. This primitive is now available on Ethereum mainnet and allows confidential transfers, where transactions are visible on Etherscan but the transferred amounts are encrypted.\n\nCipher Lend has a round-based execution model where users submit encrypted intents to swap. Currently, we only support cUSDC to cUNI. Once the round closes (after a predefined time window) and a participation threshold is reached, the protocol executes a single aggregated transaction that swaps USDC to the UNI token. Because we are using confidential tokens, we first need to unshield cUSDC to get the native token and use Uniswap v4 to perform the swap. Notice that because we batch into a single transaction, individual user amounts cannot be deduced.\n\nFinally, once the swap is executed, we will shield the resulting UNI back to cUNI and distribute it to users based on their share of the total cUSDC submitted. This way, we can execute swaps using confidential primitives, allowing us to preserve user privacy while still interacting with existing DeFi protocols.\n\nThe smart contracts are deployed on Sepolia, and we use the Zama FHE SDK for the confidential token implementation. You can check the implementation details in the protocol folder.\n\nClient-side, the dapp is built with Next.js and uses Wagmi/AppKit for wallet connection. For encryption and decryption, we use the Zama Relayer SDK.\n\nWhile the demo centers on swaps, the same primitives extend to aggregated lending. We have started the implementation for Aave, where users can submit encrypted intents to supply or withdraw, and then execute a single aggregated transaction that interacts with Aave on behalf of all users, keeping individual positions hidden while preserving composability. However, the lending part is still a work in progress.\n\nTo test the swap demo, you can use the deployed contracts on Sepolia by running a frontend instance. Alternatively, you can use the one deployed on Vercel.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cipher-lend-5cn2m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "990jf",
+  "slug": "starkconnect",
+  "title": "StarkConnect",
+  "tagline": "StarkConnect allows you to connect your EVM wallets like Metamask on non EVM chains like Starknet.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/990jf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MXJC02iLBaI02KNANlSm3mdoYqq8FiFyttpjZAgiVOdQI/high.mp4",
+  "source_url": "https://github.com/apoorvsadana/eth_paris",
+  "finalist": false,
+  "description": "The majority of web3 users today are on Ethereum, Arbitrum, Polygon or Optimism. All these are EVM chains that use the secp256k1 ECDSA signature. However, with time, a lot of new non-EVM chains like Starknet and Mina protocol are coming up. These chains take the non-EVM route for optimisation and also support account abstraction natively. However, native AA means these chains have their own wallets which use their own signature verification schemes. Starknet wallets, for example, uses the more secure secp256r1.\n\nThis creates an onboarding problem. Users don't want to manage multiple keys and wallets. Hence we have built StarkConnect.\n\nStarkConnect is a framework that can be used on your dApp to allow users to interact with it from their EVM wallets even if your dApp can't support EVM. The best part is, the user doesn't need to make any changes to his wallet and can use it out of the box!",
+  "how_its_made": "We have made a demo dApp on Starknet to transfer funds from one wallet to another. This is the flow of our Starknet app which can be used from any EVM wallet like Metamask\n\n1. Since Starknet supports native AA, we have created an account contract on top of Starknet which takes a transaction hash and the secp256k1 signature of the hash.\n2. The app integrates the mobile WalletConnect modal to allow the user to link any EVM wallet\n3. Once the user enters the amount and recipient address, we calculate the transaction hash of the Starknet transaction. This is calculated by taking a Pedersen hash of the calldata, nonce, chainId and other parameters (which ensure no replay attack).\n4. Once the transaction hash is calculated, we create a `personal_sign` request on the EVM wallet using WalletConnect. The transaction hash is signed using the EVM private key and we receive the secp256k1 signature\n5. This signature is sent to the smart contract wallet on Starknet, where it's verified in our custom `__validate__`  function. Only if the signature is correct, the calls are executed.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/starkconnect-990jf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

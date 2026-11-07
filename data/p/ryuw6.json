@@ -1,0 +1,22 @@
+{
+  "id": "ryuw6",
+  "slug": "wrap-on-privacy",
+  "title": "Wrap on Privacy",
+  "tagline": "Hide transaction amounts and recipients for fungible tokens by entering a privacy pool wrapping any ERC20 token",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ryuw6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zUtr00BZf00FiJhrjEy5d02XG64HRRySGRGYdtjcK9SEgo/high.mp4",
+  "demo_url": "https://wrap.clonk.me",
+  "source_url": "https://github.com/numtel/wrap-on-privacy",
+  "finalist": false,
+  "description": "Now you can buy a coffee with crypto without revealing your entire transaction history!\n\nCreate private accounts, mint some private tokens, send them secretly, then burn back to the original ERC20 to exit.\n\nOnly the recipient can see the amount sent and the sender's public key.\n\nNobody can read your balance, to whom you've sent, or from whom you've received.",
+  "how_its_made": "All functionality is achieved using a single Circom circuit\n\nMint/burn this fungible token (not an ERC20 because it uses double-entry accounting) publicly but then sending/receiving within the privacy pool is hidden.\n\nAccounts inside the privacy pool use public keys as addresses so that the sender can asymmetrically encrypt the amount sent using the recipient's public key using ElGamal encryption.\n\nEach proof submitted can be a send, a receive, or both at once. Sending/receiving are indistinguishable except to the account holder.\n\nAccount balances are encrypted using symmetric Poseidon encryption.\n\nWhile each account can hold a balance up to the field size, each transaction can only be a maximum amount of 524,288 (2**19) in order to balance the storage/compute necessary to decode these values. For penny precision on a stablecoin, this results in a maximum transaction amount of $5,248.88.\n\nEach transaction inserts a leaf into a merkle tree to ensure receives are valid. This limits the number of transactions in a privacy pool to the tree size. (2**32 = 4.2B) This should be plenty for a while though since tether on mainnet only has 263M transfers so far. A new pool can always be created and users can migrate.\n\n\nThe frontend creates a keypair based on a signature from your browser wallet. The client then scans all available transactions in the pool for any that decrypt successfully using the generated private key.\n\nAlthough this demo wraps a single mock ERC20 contract on testnet, this circuit and contract could wrap any token with a single contract deployment transaction.\n\nThe circuit verifier was verified and deployed using Circuitscan:\n\nhttps://circuitscan.org/chain/11155111/address/0xda66ad5da2619054d890c359cb22601b104ac662\n\nThe contract is deployed on Sepolia:\n\nhttps://sepolia.etherscan.io/address/0x0e3f0713c4636e29bedc750f5b8e84ef02969bea\n\nAlthough the proof submissions in this demo go through the user's wallet, (with a little more time) they could be sent through a relayer for added privacy",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wrap-on-privacy-ryuw6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

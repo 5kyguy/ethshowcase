@@ -1,0 +1,35 @@
+{
+  "id": "p78qo",
+  "slug": "votive",
+  "title": "Votive",
+  "tagline": "Votive: the well where wishes actually come true. Fund a wish and AI grants it as soon as it can.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p78qo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yu16Fl9x8mG6COdEbgNA1rVNI0000psm9tC5g00n5YU8jE/high.mp4",
+  "demo_url": "https://www.tryvotive.com",
+  "source_url": "https://github.com/resistingdestiny/wishing-well-votive",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "2nd place",
+      "title": "Build an Aqua App"
+    }
+  ],
+  "finalist": true,
+  "description": "Votive is the well where wishes actually come true. It turns \"AI will be able to do this someday\" into something you can fund today.\n\nTo make a wish, you give an AI agent two things: a story and resources. The story is plain language (\"when an AI can find exploits better than any human auditor, hunt bugs across the top hundred protocols and pay every bounty into the pool\"), parsed into a signed on-chain schema so execution never runs off raw prose. If an agent can do the work today, it starts immediately. If it can't, the wish goes dormant in its own segregated on-chain cell and re-tests itself against every major model release. The moment it passes its own test, it wakes and executes, using the resources you gave it plus a pool shared by every wish in the well: capital, compute, and API keys.\n\nEach wish is its own tiny organisation, a one-wish charity, fund, or company, with segregated resources nothing else can touch. When it completes, the story decides what happens: profit returns to you, flows into the shared pool, or the work simply gets done. Fees are encoded on chain: 2% per year on parked funds, 8% of realised proceeds above principal at resolution.\n\nThe platform is a three-sided marketplace. Wishers fund wishes. Resource providers commit capital, tools, data, and credentials to the shared pool and earn a share of what agents earn. Builders ship agents that grant wishes and take a cut of the performance fee. Every capability sweep is public evidence: a live frontier board shows the capability-by-model pass/fail matrix, a signed run log records every check with verifiable attestations, and the whole dataset is open for download and in-browser verification.",
+  "how_its_made": "Stack. Votive is a Next.js 14 App Router app (TypeScript end to end) over a Foundry/Solidity protocol on Base Sepolia, with wagmi/viem for every chain interaction, Prisma/Postgres as the off-chain record, and a hand-built CSS design system - no Tailwind, no component library. The protocol core is one abstract contract (VotiveBase) holding the state machine, fee engine and settlement rules behind four asset hooks; native-ETH and ERC-20 wishes are thin subclasses, and every wish is an EIP-1167 clone, so one wish = one segregated contract at proxy-deploy cost. Fees are two numbers frozen at creation (2%/yr streaming, 8% on gains), enforced by bytecode-level ceilings.\n\nThe app never trusts its own database over the chain. The run-log is hash-chained JSONL, each entry signed by the oracle key, and its entry hashes are what get posted on-chain as attestation evidence - so a benchmark row on the site traces to exactly one signature. Chain reads are batched through a multicall transport with per-call fallbacks, because public RPCs rate-limit mid-batch and a half-answered page must degrade honestly rather than render zeros.\n\n1inch Aqua turned wishes into a market. Each token wish is an Aqua position that quotes itself: we extended the official AquaSwapVMRouter append-only with seven custom SwapVM opcodes (capability-open, condition-met, still-live, performance-fee, human-backed-filler, good-standing, standing-bonus), so any program the stock Aqua SDK emits still runs byte-identically. Aqua custodies nothing - shipping a position grants a bounded allowance and the principal never leaves the wish until a fill. The browser encodes the SwapVM program itself with pinned opcode indices and refuses to ship unless keccak(program) matches the router's own hash(order) - a bit-packing mistake would otherwise ship a position nobody can ever fill.\n\nWorld gives agents accountable identity: standing is keyed to a one-way humanId, not a wallet, so rotating keypairs can't dodge a bar or multiply a commons budget. The filler gates in the Aqua program read the same registries, so only a human-backed agent in good standing can take the other side of a wish.\n\nHedera carries agentic payments: a milestone-escrow AgentBountyRail where each release is gated on an attestation, chosen for Hedera specifically because paying in five small increments oth tiny, predictable fees(we also hit the fun 8-vs-18-decimal RPC quirk).                                 ",
+  "auto_summary": "A Next.js and Foundry project for funding AI-triggered on-chain wishes, with Aqua-based market positions and human-backed agent controls.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/votive-p78qo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

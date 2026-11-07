@@ -1,0 +1,21 @@
+{
+  "id": "6bm2j",
+  "slug": "agentcity",
+  "title": "AgentCity",
+  "tagline": "AgentCity: AI agents run a P2P city, forming coalitions and reacting to player policies",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6bm2j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/z2bg1mZ9BAW01QIbX7Y015CzlHCeTYGgxOM01H7C00hlsGA/high.mp4",
+  "source_url": "https://github.com/namay26/sim-city-sim",
+  "finalist": false,
+  "description": "AgentCity is a browser-based city simulation game where every citizen is a fully autonomous AI agent that communicates exclusively through Gensyn's AXL peer-to-peer network. The player takes the role of mayor, zoning land into residential, commercial, industrial, and park districts, adjusting tax rates, and allocating public service budgets, while a city of 20 independent agents reacts organically to every decision made. Each agent belongs to one of five archetypes - Teacher, Retiree, Shop Owner, Entrepreneur, or Factory Worker - each with distinct economic sensitivities,  social radii, and priority issues. \n\nAgents continuously score their own sentiment based on nearby zone conditions, pollution levels, proximity to schools and hospitals, current tax policy, and the mood of their neighbors. Every 4 seconds, an agent sends a sentiment_report to city hall and an opinion_share to nearby peers, all as typed, encrypted AXL envelopes routed through a 21-node mesh network. City hall runs its own AXL node and each of the 20 agents runs an  independent node with its own ed25519 keypair, peering into the live Gensyn network.\n\nWhen sentiment drops below a threshold, agents broadcast coalition_invite messages across the mesh. Peers who share the grievance respond directly, peer-to-peer. When three or more agents join, the coalition detector fires a  protest or block-party event. dropping city happiness, affecting GDP, and forcing the player to respond with policy changes. No scripted triggers, no\ncentral orchestrator: the emergent behavior is a direct consequence of P2P message exchange.\n\nAgents query city state through a Model Context Protocol interface running over AXL: sending mcp_request messages to city hall and receiving structured mcp_response payloads covering zones, pollution, tax rates, and nearby services. This makes AXL both the gossip layer and the tool-use substrate for agent reasoning.\n\nEvery in-game week, the full city snapshot containing agent memories, coalition history, policy log, and all city metrics is serialized, padded to a 262 KB segment, Merkle-rooted, and written to 0G decentralized storage via gRPC. Each snapshot returns a 0g://[keccak256-root] URI logged in the live event feed. On restart with the --resume flag, the engine loads the last snapshot from 0G, fully restoring city state. Agent history is persistent, portable, and censorship-resistant. Tax revenue is recorded onchain each week via KeeperHub with a transaction hash surfaced in the event feed.\n\nThe result is a city that feels alive where protests erupt, coalitions dissolve, neighborhoods decay or flourish. All driven by decentralized agent communication, not game scripts.",
+  "how_its_made": "AgentCity has three layers: a React/Phaser frontend, a Node.js city engine, and ~20 Python agents all connected through a real P2P mesh instead of a central backend.\n\nThe engine runs a 5-second tick to update the city, including its metrics, sentiment, and game state, on a deterministic 20×20 grid. Each agent runs independently and communicates only through Gensyn’s AXL network using encrypted message envelopes. We even use AXL as an RPC layer: agents send requests to “city hall” over the mesh, and the engine responds with computed context. State is persisted via 0G, where snapshots are uploaded and restored on restart. KeeperHub logs weekly tax revenue, with a fallback so demos don’t break.\nThe result is a fully distributed, reproducible simulation where agents coordinate over real P2P infrastructure.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentcity-6bm2j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "r4uab",
+  "slug": "wafer",
+  "title": "Wafer",
+  "tagline": "Fund DePIN operators' on-chain rewards via a KYC-gated tokenized pool on Hedera. NAV rises live.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/r4uab/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tK8T33HULGnwpKpbrnHbEGrwfZ1SxaZy2o01n1ihYv28/high.mp4",
+  "demo_url": "https://youtu.be/NhtU30sO3Vk",
+  "source_url": "https://github.com/aiden-fianso/Wafer",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Tokenization on Hedera",
+      "title": "Tokenization on Hedera"
+    }
+  ],
+  "finalist": false,
+  "description": "Wafer is InfraFi: a tokenized, NAV-appreciating credit fund on Hedera that finances the DePIN economy. DePIN operators (GPU/compute, wireless, mapping, energy, storage) must buy hardware today but earn protocol rewards on-chain over months - a capital-timing gap that legacy credit can't underwrite. Wafer closes it. Investors fund a pool (category x risk class, e.g. GPU-A) and receive a fungible, KYC-gated, NAV-appreciating Hedera Token Service share - a tokenized fund unit. The pool advances HBAR to an operator against its future rewards and mints a claim NFT, the on-chain receipt held by the vault. As the operator routes its reward stream back in, the pool's NAV ticks up live, accrued at amortized cost; when a deal repays in full the claim NFT burns, and on default the NAV writes down with the loss shared pro-rata across the pool. Investors redeem at NAV anytime or exit on a live SaucerSwap secondary market. The wow: DePIN is the one real-world asset whose cashflow is natively on-chain, so repayment needs no trust in a human paying - the hardware pays the vault directly. Everything is real on-chain logic on Hedera Testnet; only the DePIN reward cashflow itself is simulated for the demo.",
+  "how_its_made": "Wafer is a single Solidity contract, WaferVault, deployed on Hedera!s EVM (HSCS, Solidity 0.8.24, optimizer + viaIR). It creates and manages two Hedera Token Service tokens via the @hiero-ledger/hiero-contrasts system-contract bindings (the HTS precompile at 0x167): a fungible pool-share token whose KYC and freeze keys are held by the contract itself - no off-chain signer - and a claim NFT minted as the on-chain receipt of each financed deal and burned at maturity.\nSettlement is native HBAR with 8-decimal tinybar accounting (no USDC, no fiat bridge, no token\nassociation for settlement). NAV is computed at amortized cost from a derived totalAssets = idle\nNAV is\n(deposit 100,\ncash + receivable, which kills a classic double-count bug (deposit 100, advance 90, repay 100 must not read NAV 2.0): financing just moves cash into a receivable, and only the realized spread accretes into NAV. Security: ReentrancyGuard + checks-effects-interactions throughout, settleRewards gated by the claim and capped at the expected repayment, Ownable?Step plus a timelock on finance/default, an operator allowlist, and a dead-shares seed against inflation attacks; a full adversarial review was run and fixed. The frontend is React + Vite + Yiem talking to the contract directly via the wallet, reading NAV/pools/deals/activity from the Hedera Mirror Node - no backend. The contract is verified on Sourcify. The secondary market is a real SaucerSwap V1 share/WHBAR pair brought up in a single contract call, enableSecondaryMarket, that creates the pair, grants it KYC, mints and approves, and adds liquidity - all within Hedera's 15M-gas cap; KYC-gating the share makes seeding an AMM non-trivial (the pair must be KYC'd before liquidity), a genuine RWA edge we handle on-chain. The only simulated piece is the DePIN reward cashflow (a stand-in reward source drips HBAR via settleRewards); the routing mechanism - device-NFT escrow, Helium-style recipient/destination redirection, with an HIP-1215 keeper on the roadmap - is real.",
+  "auto_summary": "A Solidity vault on Hedera tokenizes credit-fund shares and claim NFTs, tracks NAV in HBAR, and exposes a React frontend reading Mirror Node data.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/wafer-r4uab",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

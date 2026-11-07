@@ -1,0 +1,27 @@
+{
+  "id": "232ss",
+  "slug": "me-and-new",
+  "title": "Me&New",
+  "tagline": " A match-making tool that connects you to anyone who needs your skills, or has the skills you need\t",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/232ss/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9vo6lC1yaTuOOpTODxNGzGWy9qYAGjfFKrcF00I8Ofno/high.mp4",
+  "demo_url": "https://docs.google.com/presentation/d/11TNZn3XTyT4Bres5cgv4i9RRWTfLWjOi-nVDdziRxgw/edit?usp=sharing",
+  "source_url": "https://github.com/SamirStream/MEandNEW",
+  "finalist": false,
+  "description": "ME&NEW is a Meetup Organizer Agent built for ETHGlobal Cannes 2026, designed for any event. It turns a crowded hackathon into a self-organizing learning network: instead of people networking randomly, the agent learns what each participant wants to learn and what they can teach, then coordinates real-world sessions around that intent.\n\nParticipants onboard via a Telegram bot through a 7-question conversational survey, then verify their humanity with World ID (Orb biometric). The system extracts structured profiles and uses Qdrant vector embeddings for semantic matching — pairing complementary people for 1:1 mentorship, group sessions, or workshops. The agent proposes meetups with a time and place, handles accept/reject flows, and re-matches when needed. Verified users get trust badges, priority matching, and higher rate limits.\n\nThe architecture is full-stack: FastAPI serves the REST/SSE API, a LangGraph multi-agent workflow (coordinator → profile intake → meetup coordination) handles the AI logic, PostgreSQL 16 stores checkpoints, surveys, and World ID nullifiers, and Qdrant powers semantic profile search. A Next.js World Mini App provides wallet auth, USDC/WLD payments, on-chain registration, QR check-in, session discovery, and a reputation leaderboard — all via MiniKit 2.0.\n\nThe project integrates three ETHGlobal sponsors: World (World ID 4.0 for proof-of-humanity, AgentKit for verified AI agents with x402 USDC nanopayments, MiniKit 2.0 for the mobile experience), 0G Labs (decentralized AI inference, profile storage, and multi-chain smart contract deployment), and Arc/Circle (x402 USDC micropayments per agent call, on-chain USDC escrow for session deposits, and chain-abstracted payments).\n\nA MeetupRegistry smart contract is deployed on World Chain, recording attendee registration, session attendance, ratings, and USDC escrow — making reputation portable and verifiable on-chain.\n\nIn plain terms: this is not just a chatbot. It collects participant intent, structures it into embeddings, finds semantic matches, proposes sessions, verifies humans, tracks reputation on-chain, and keeps social coordination moving so people actually meet and learn from each other.",
+  "how_its_made": "We built this as a Python-first, multi-service agent stack: a FastAPI backend streams responses over SSE, a Telegram bot handles onboarding and day-to-day conversation, and a Streamlit app serves as a local test UI. All of it is orchestrated with Docker Compose, with separate containers for the API, Telegram bot, Streamlit, PostgreSQL 16, and Qdrant. The core logic is a LangGraph workflow with three main nodes: a coordinator agent, a profile-intake agent, and a meetup-coordination agent. That graph is what lets the system decide whether to chat casually, capture a user’s “learn/teach” intent, or generate meetup proposals from the community registry. \nThe “partner tech” side mainly comes from the model-routing and feedback loop. They used LiteLLM + Instructor so the agent can route through either OpenRouter or direct OpenAI, which makes it easier to swap models without rewriting the app. They also wired in LangSmith feedback submission, which is useful for tracing and improving agent behavior. Qdrant is present as a vector DB, but it is reserved for future embedding-based matching, so the current matcher is simpler and registry-based rather than fully semantic. \nA notable detail is the in-memory profile registry plus JSON persistence approach in meetup_context.py: that keeps the matching flow fast and easy to iterate on during a hackathon, while PostgreSQL stores the survey/checkpoint data. Another slightly smart choice is the password-protected/admin/meetup-context endpoint and the use of a default admin password in env settings, which makes debugging and demoing much easier.  ",
+  "auto_summary": "A multi-service meetup coordination app uses AI workflows, World verification, and a World Chain contract to organize and track participant sessions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/me-and-new-232ss",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

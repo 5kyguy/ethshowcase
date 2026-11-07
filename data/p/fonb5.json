@@ -1,0 +1,27 @@
+{
+  "id": "fonb5",
+  "slug": "buckets",
+  "title": "Buckets",
+  "tagline": "Self-custodial DeFi with programmable policies for bounded, onchain execution.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fonb5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TEP01z02Nddsw7qP4iQasnASS2iN5AKg7L7rOE8OxvaIc/high.mp4",
+  "demo_url": "https://spendkey-dex-soas.vercel.app/",
+  "source_url": "https://github.com/SHLOK333/Spendkey",
+  "finalist": false,
+  "description": "DeFi users face a fundamental trade-off between self-custody and programmable execution. You can keep assets in your own wallet, but giving an operator, strategy, or application permission to act on that liquidity can require broad approvals or trusted intermediaries. The alternative is moving assets into a contract or vault, sacrificing the simplicity of direct ownership.\n\nBUCKET addresses this by separating asset ownership from execution authority. Users keep custody of their liquidity while defining explicit financial policies for delegated execution: who can act, which assets and directions are permitted, how much can be spent, and when the authority expires.\n\nBUCKET uses ENSv2 to identify authorized operators, 1inch Aqua as the self-custodial liquidity rail, and SwapVM as the programmable execution layer. A BUCKET policy is compiled into an executable program with onchain checks for authorization, execution direction, quote constraints, spend limits, and actual wallet balance.\n\nThe result is bounded, revocable execution without transferring ownership of the underlying assets. Our demo proves the complete flow on-chain: create a capability, authorize an ENS identity, execute a real Aqua + SwapVM transaction, verify the resulting wallet transfer, then attempt to exceed the policy limit and demonstrate that execution is rejected.\n",
+  "how_its_made": "BUCKET is a self-custodial financial capability protocol built with Solidity, Foundry, TypeScript, and React, using 1inch Aqua, SwapVM, and ENSv2 as core infrastructure. The protocol separates asset ownership from execution authority: users keep their liquidity in their own wallets while defining scoped, revocable policies for how that liquidity can be used.\n\nThe Solidity layer contains `BucketController` for intents, settlement verification, and execution receipts; `BucketCapabilities` for issuing, delegating, revoking, expiring, and accounting for capabilities; `BucketAuthority` for ENSv2-based authorization; and a custom SwapVM router. Our TypeScript packages provide shared policy types and validation, typed protocol clients, and an exact mirror of the on-chain execution math.\n\nWe use **ENSv2 for identity**, allowing a financial capability to be associated with a resolved ENS identity and its delegation hierarchy. We use **1inch Aqua as the self-custodial liquidity rail**, so execution can settle against liquidity without introducing a BUCKET custody vault. We use **SwapVM as the execution rail**, compiling BUCKET policies into executable instructions that enforce the rules during the swap itself.\n\nWe extended SwapVM with four BUCKET-specific instructions: `0xd0` CapabilityGuard, `0xd1` Quote, `0xd2` SpendLimit, and `0xd3` WalletBalanceCheck. Together they enforce authorization, bounded pricing, quantitative limits, and the user's actual ERC-20 balance inside the execution path rather than relying on frontend checks.\n\nOn top of this capability infrastructure, we built **RALE (Risk-Adaptive Liquidity Engine)** as a programmable market-making strategy. RALE makes the maker's executable price state-dependent rather than static. Its pricing function incorporates inventory imbalance, observed volatility, trade size, and available liquidity:\n\n`P(q,S_t) = P_t - λI_t ± [ (s_0 + ασ_t + β|I_t|)/2 + η|q|/L_t ]`\n\nThe strategy is compiled into deterministic SwapVM execution, allowing the adaptive pricing policy to settle through the same Aqua + SwapVM rail. The frontend visualizes the changing inventory, volatility, spread, liquidity, and resulting execution curve so the maker can interactively see how the policy changes after trades.\n\nA particularly important implementation detail is that `quote()` and `swap()` execute the same SwapVM program, while our TypeScript VM mirrors the on-chain integer math. This lets us simulate the exact policy and determine executable fills before submitting the transaction without maintaining a separate pricing implementation.\n\nThe final system is demonstrated with real on-chain execution: a user creates a capability, authorizes an ENS identity, configures the policy, executes through SwapVM and Aqua, verifies the actual token movement, and then tests policy violations such as exceeding the permitted execution limit or using revoked authority. The result is a self-custodial DeFi rail where liquidity remains owned by the user while execution and adaptive market-making behavior are enforced by programmable on-chain policy.\n",
+  "auto_summary": "A monorepo implementing a self-custodial delegated trading protocol with Solidity contracts, a TypeScript SDK/VM, and React frontends.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/buckets-fonb5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

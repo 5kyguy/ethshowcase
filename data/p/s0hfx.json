@@ -1,0 +1,22 @@
+{
+  "id": "s0hfx",
+  "slug": "zkai",
+  "title": "ZKai",
+  "tagline": "Private AI inference marketplace verified inside TEEs and settled on the 0G chain.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s0hfx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JyrbG01jiZ3coK91gtGCqff2BZocLAeQfXg7MoY02m4eI/high.mp4",
+  "demo_url": "https://zkai-ether-og.vercel.app/",
+  "source_url": "https://github.com/skyyycodes/zkai-eth",
+  "finalist": false,
+  "description": "ZKai is a decentralized AI inference marketplace where every model response is cryptographically verified inside a Trusted Execution Environment. Consumers send OpenAI-compatible requests, providers run open models like Qwen 2.5 inside Intel TDX enclaves, and a SHA-256 attestation hash gets anchored on the 0G chain. Payment, settlement, and provider reputation all flow through three Solidity contracts on 0G Galileo — ProviderRegistry, PaymentEscrow, and AttestationRegistry — so consumers can prove which model ran their prompt without ever trusting the provider. Existing OpenAI client code drops in by changing two lines: pip install zkai and a new base URL. Providers turn spare GPU capacity into A0GI revenue with a single CLI command. The whole stack — gateway, relay, bridge, enclave, dashboard — is open source and hackable, and the 0G migration removed all the friction the old Midnight stack introduced (10-minute wallet sync, proof servers, custom compilers).",
+  "how_its_made": "The system is split into five services that each do exactly one job. The enclave runs Ollama inside a Gramine-direct TEE, exposing an OpenAI-compatible HTTP API and producing an attestation hash for every inference. The bridge is a Node.js Fastify sidecar that wraps ethers.js and talks to the 0G chain — it submits deductBalance() and postAttestation() transactions on behalf of providers, so the enclave doesn't need a private key inside the TEE. The relay (Fly.io, WebSocket) lets consumer requests reach providers behind NAT without exposing public IPs. The gateway (Vercel, Next.js) routes OpenAI-format calls to the right provider and verifies API keys against a Neon Postgres DB. The frontend is Next.js 16 + ethers v6 with EIP-6963 wallet discovery (so it cleanly picks MetaMask even when Core, Rabby, or other injected wallets fight over window.ethereum).\n\nThe Solidity contracts are deployed on 0G Galileo testnet (chain ID 16602) using Hardhat. PaymentEscrow uses native A0GI and EVM payable/call patterns — when an inference completes, the bridge calls deductBalance(consumer, provider, jobId, amount) which atomically debits the consumer, credits the provider's EVM address, and stores the job-to-amount/provider mapping for the dashboard. AttestationRegistry just maps bytes32 jobId → bytes32 hash and emits an event the indexer consumes.\n\nTwo genuinely hacky bits worth calling out: (1) we ported the entire stack from Midnight blockchain to 0G in a single sprint by replacing 15 @midnight-ntwrk packages with ethers.js and rewriting Compact ZK contracts as Solidity — the bridge interface stayed identical so the enclave didn't change at all. (2) The frontend uses EIP-6963 multi-wallet discovery with rdns: 'io.metamask' filtering plus explicit isCoreWallet/isAvalanche exclusion, because Core wallet aggressively hijacks window.ethereum.isMetaMask to mimic MetaMask. Going via the raw EIP-1193 mmProvider.request({ method: 'eth_requestAccounts' }) instead of ethers.provider.send also gave us a faster failure mode when wallet popups got blocked.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkai-s0hfx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

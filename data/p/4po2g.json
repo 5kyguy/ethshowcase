@@ -1,0 +1,21 @@
+{
+  "id": "4po2g",
+  "slug": "agentremit",
+  "title": "AgentRemit",
+  "tagline": "An autonomous agent that sends money home  automatically, when the rate is right.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4po2g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aRn8SUo1W201501OGFh01KLqTY3xOTD200USnxemWUI00A6c/high.mp4",
+  "source_url": "https://github.com/dmetagame/AgentRemit",
+  "finalist": false,
+  "description": "AgentRemit is an autonomous remittance agent for the Lagos corridor. Set a target NGN/USDC rate, deploy your agent, and it watches 24/7  executing the swap via Uniswap, guaranteeing delivery through KeeperHub, and storing a tamper-proof receipt on 0G Storage the moment your rate hits. No banks. No middlemen. No missed rates.",
+  "how_its_made": "AgentRemit is an autonomous remittance agent for the Lagos corridor built on Next.js 15, TypeScript, and four sponsor integrations. A sender connects a wallet via RainbowKit + Wagmi, sets a recipient address, USDC amount, and target NGN rate then deploys a server-side agent job that watches exchange rates and executes automatically when the target is reached.\nHow the pieces fit together:\nThe agent is a durable server-side job, not a client-side loop. In production it uses Upstash Redis + QStash for scheduling  QStash calls /api/agent/worker every minute since Vercel Hobby cron is too infrequent for real-time rate watching. Without Redis, the app rejects job creation unless AGENTREMIT_ALLOW_MEMORY_JOBS=true is explicitly set, preventing silent degradation. Every major state transition  created, watching, rate hit, quote received, execution submitted, confirmed, receipt saved  is written to 0G Storage memory so the full lifecycle is inspectable onchain.\nThe Uniswap integration uses the Trading API /quote endpoint when UNISWAP_API_KEY is configured, with Uniswap v3 SDK contract quoting as a local fallback. The worker fetches a quote when the live rate crosses the configured target, then submits execution through KeeperHub's Direct Execution API  but only if live execution is explicitly enabled via AGENTREMIT_ENABLE_LIVE_EXECUTION=true, capped by AGENTREMIT_MAX_LIVE_USDC, and the owner wallet is on an allowlist. The execution path fails closed by default. Receipts include the Uniswap quote snapshot, KeeperHub job ID, transaction hash, and 0G receipt root hash.\nENS resolution is wired via @ensdomains/ensjs on Sepolia recipients can enter .eth names and the UI resolves them to addresses in real time.\nThe notably hacky part:\n@0glabs/0g-ts-sdk@0.3.3 uses the old Flow submit(Submission) ABI, but the Galileo testnet (chainId: 16602) expects the newer wrapped shape: submit({ data, submitter }). Every upload was silently reverting at gas estimation with require(false) on the flow contract 0x22E03a6A89B950F1c82ec5e74F8eCa321a105296 no documentation, no error message, no SDK changelog entry. The fix required manually constructing the on-chain Flow transaction with the correct Galileo ABI, computing storage fees directly from pricePerSector, then handing back to the SDK's segment upload layer. Uploads serialize in process to prevent nonce collisions when multiple state transitions fire in rapid succession. Three seed receipts confirmed on Galileo with root hashes committed to scripts/seed-output.json.\nA /api/readiness endpoint surfaces all configuration gaps missing Redis, fallback FX data, disabled KeeperHub execution, incomplete 0G configuration  as visible dashboard banners instead of silent failures. The app shows exactly what it can and cannot do at runtime, which made debugging across four integrations significantly faster.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentremit-4po2g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

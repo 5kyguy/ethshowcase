@@ -1,0 +1,21 @@
+{
+  "id": "qfcj5",
+  "slug": "payfren-cash",
+  "title": "PayFren.Cash",
+  "tagline": "Send Crypto to your friends without having them install a wallet with PayFren.Cash ",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qfcj5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/I00Acr02WNxcKCPqaohd928y5fN02fntaSLI00jbKGCKrLw/high.mp4",
+  "source_url": "https://github.com/sheetalojha/PayFren.Cash",
+  "finalist": false,
+  "description": "Payments on email made paypal big, now its time for web3 to follow the suit.\n\nPayFren.Cash is a decentralized protocol that enables users to send and receive cryptocurrency directly via email, without requiring a traditional crypto wallet. By leveraging email as a universal identifier, PayFren.Cash simplifies cryptocurrency transactions, making them as intuitive as sending an email, inspired by early PayPal’s email payment system.",
+  "how_its_made": "Workflow: Incoming Email → SMTP Listener → Parser → Validator → ZK Generator → Blockchain Submission → Notification.\n\nEmails sent to send@payfren.cash with a format like \"Send 0.1 PYUSD to recipient@example.com\" trigger transactions.\n\nTechnologies and Integration\n\nBackend:\n\nNode.js/Express.js: Runs the custom email server for high-throughput I/O.\nSMTP Listener (Nodemailer, SMTP-Server): Intercepts emails via SMTP with STARTTLS encryption, parsing MIME content.\nParser (Regex): Extracts sender, recipient, amount, and intent using regex for structured formats.\n\n\nZero-Knowledge Proofs:\n\nSP1 Protocol (Rust SDK): Generates ZKPs in a RISC-V zkVM to verify intent (e.g., sender intends to transfer X PYUSD to recipient) without exposing email content. Proofs are compact (~1KB) and generated in <1s.\nIntegration: Backend invokes SP1 prover post-validation, serializing proofs for blockchain submission.\n\n\nBlockchain:\n\nBase Sepolia (EVM L2): Chosen for low gas fees and ERC-4337 support. Smart contracts in Solidity 0.8.x.\nWalletFoundry Contract: Maps keccak256(email) to ERC-4337 wallets, using CREATE2 for deterministic address generation.\n\nMapping: mapping(bytes32 => address) emailToWallet.\n\nSmart Contract Wallet: Executes transfers after verifying ZKP and conditions (e.g., sufficient PYUSD balance, nonce check).\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/payfren-cash-qfcj5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

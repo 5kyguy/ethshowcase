@@ -1,0 +1,21 @@
+{
+  "id": "wa450",
+  "slug": "unexpected-sports",
+  "title": "Unexpected Sports",
+  "tagline": "Set-and-forget NBA betting vaults. Deposit USDC, get automated season-long team exposure.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wa450/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uZeOZq3zBSQP9wtM00cTefU3cbNRSu0102B3u3fSI1OJ8Y/high.mp4",
+  "source_url": "https://github.com/mikeghen/team-tokens/",
+  "finalist": false,
+  "description": "Unexpected Sports creates a **new financial primitive**: tokenized vaults that give passive, season-long exposure to NBA teams. Using an **intent-based architecture**, the vault automatically sells prediction market NO tokens and streams bets over 48 hours (DCA entry). Your ERC-20 shares go up when the team wins, down when it loses — no manual betting, no addiction loop. As a side effect, we create a permissionless **on-chain sports oracle** for moneyline probability data.\n\nThe result is a **derivative token** whose price:\n- **Short term:** Goes up when the sports team wins, down when it loses\n  - This makes it a digital asset to support **leveraged sports betting** (e.g., sports perps)\n- **Long term:** Goes up when the sports team has an **UNEXPECTEDLY** good season\n  - This makes it a non-correlated digital asset that can be added to portfolios\n\n## Problem\n\nPrediction markets let you bet on individual games, but there is no easy way to get **season-long financial exposure** to a team's performance. Today you have to:\n\n- **Manually place bets** every game, all season\n- **Size each bet correctly** so you don't blow up your bankroll\n- **Resist distractions** — platforms push you toward other markets and parlays\n- **Avoid addiction** — the constant engagement loop of sports betting is by design\n\n_There is no \"buy and hold\" equivalent for sports fans who just want upside if their team has a great season._\n\n## Solution\n\nUnexpected Sports Market creates **per-team ERC-4626-style vaults** that support traders and investors to hold shares of an automated betting pool that follows a policy of betting 2% of the pool on each team's game.\n\n| Feature | How It Works |\n|---|---|\n| **Deposit** | Send USDC to a team vault, receive ERC-20 shares |\n| **Automated Betting** | The vault sells NO tokens worth 2% of its balance on every game |\n| **Intent-Based Execution** | Off-chain searchers/market makers fill NO token orders — no direct prediction market integration |\n| **Rate-Limited Withdrawals** | Daily deposit/withdraw caps prevent manipulation and ensure stable bet sizing |\n| **Transparent Pricing** | Share price = USDC balance + mark-to-market value of open bets, updated via on-chain oracle |\n| **Sports Oracle** | Independent oracle contract for trusted price reporters to track YES/NO token prices |",
+  "how_its_made": "### How It's Made\n\nThe protocol has three components:\n\n**On-Chain (Solidity / Foundry)**\n- **Oracle** — Stores game metadata (teams, slug, game time) and time-series YES/NO price observations. Supports TWAP queries over arbitrary time ranges. Authorized reporters post prices; data is publicly readable by any contract.\n- **Team Vault** (interface defined, implementation in progress) — ERC-20 share token representing pro-rata claim on vault assets. Accepts USDC deposits, mints shares, burns on withdrawal. Sells NO tokens per game to searchers/market makers. Rate-limits deposits and withdrawals to prevent manipulation.\n\n**Off-Chain (Python)**\n- **Data Pipeline** — Fetches hourly YES/NO price history from Polymarket's Gamma and CLOB APIs for every NBA game. Stores data in SQLite and CSV files. Powers the backtest engine that validates the 2% strategy across all 30 NBA teams.\n- **Web Server** — Flask app serving backtest results, price history charts, and game analysis via REST API + HTML dashboards.\n\n**Frontend** (spec defined)\n- React app for depositing USDC, viewing share price history, and browsing per-game NO token liquidity.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/unexpected-sports-wa450",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

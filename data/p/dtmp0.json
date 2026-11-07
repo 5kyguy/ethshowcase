@@ -1,0 +1,34 @@
+{
+  "id": "dtmp0",
+  "slug": "kelza-markets",
+  "title": "Kelza Markets",
+  "tagline": "Kelza Markets will enable Gnosis Pay card users to hold yield bearing assets in their Safe. Kelza achieves this through market making operations. Providing trust between the PP and Gnosis that a quote will remain valid by the time a transaction settles on-chain.",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dtmp0/banner/default.jpg",
+  "source_url": "https://github.com/Azerty-Global",
+  "prizes": [
+    {
+      "sponsor": "Gnosis",
+      "sponsor_id": "9z8z1",
+      "placement": "1st place",
+      "title": "Yield Bearing Tokens Integration with Gnosis Pay"
+    },
+    {
+      "sponsor": "Gnosis",
+      "sponsor_id": "9z8z1",
+      "placement": "Other Innovative Use Cases on Top of Gnosis Pay",
+      "title": "Other Innovative Use Cases on Top of Gnosis Pay"
+    }
+  ],
+  "finalist": true,
+  "description": "This project aims at unlocking the full DeFi potential for day-to-day payments.\nIt will enable Gnosis card holders to hold yield bearing assets on their Safe. This is in not possible in as-is situation as the payment network provider (PP) should be able to lock a quote for the time a transaction settles on-chain. That is where Kelza Markets come into play, by acting as a Market Maker during the time needed for the PP to ensure they will be able to access the funds.\n\nKelza introduces a Credit Module and a Vault which will act as creditors for the Safe. Their role is to pay the merchant in advance with liquidity hold in the Vault if the right conditions are met. \nWe'll go into further details in \"How it's made\".",
+  "how_its_made": "In order to illustrate with some examples, let's take the case of a user willing to hold SDAI on their SAFE and pay in EURe.\n\n=> Kelza Vault\nThis vault will hold a balance of EURe. At start it will have a minimum capital requirement, that he should not fall below (or at least not for an extended period of time). It is basically responsible to ensure that there is enough EURe liquidity to pay the PP at a certain quote.\nThis works through a flashCredit to the Credit Module which is transferred optimistically, expecting (in most conditions) a higher amount of EURe in return. This Vault also performs yield generating strategies (like lending on Aave) for excess capital (above minimum capital requirement). In case the EURe in the vault falls below the minimum capital requirement, the vault should withdraw available funds in strategies in order to meet it's capital requirement.\n\n=> Kelza CreditModule\nThe role of the Credit Module is\n 1) To give a response to the PP: Will a Safe be able to pay, or are you (the Credit Module) able to pay for it ? See function canSafePay(). This function will calculate if based on SDAI holdings of the Safe and actual conversion rate (+fee), the Safe would be able to pay. If the response is yes, it means that the Credit Module will commit to a quote the time being all transactions are executed on-chain (Inventory risk of MM). Important to note here is that the CreditModule will take actual EURe available in Vault at a discount. This is because in case of high volatility betwenn SDAI/EURe, the MM operations could happen at a loss and the available amount in the Vault not be in T2 what it was at T1 (time of the view function). But with time this effect can be considered neutral and fees should more than compensate for this. \n\nWhen a payment request is initiated by the PP on CreditModule the following will be triggered:\n-flashCredit() to Vault (Vault transfers requested amount of EURe)\n-transfer() of that amount to the PP (or merchant) \n-transferFrom() to transfer SDAI + fee from the Safe to the CreditModule at quote returned from canSafePay()\n-swap() on Balancer for SDAI + fee to EURe, which is then transfered to vault (and not deposited, this should be a donation to the vault, no new shares should be minted)\n\nThis swap is quite basic and could be improved (with private transaction for example).\nWe're aware that a limitation is also linked to the liquidity of SDAI/EUR, but if volumes come through the CreditModule this should benefit the pool with arbitrageurs ans LP's playing their role. Other type of swaps or routes could also be configured.\n\nKelza plans to unlock the full potential of yield bearing assets for day-today financial needs through those operations.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/kelza-markets-dtmp0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

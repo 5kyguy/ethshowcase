@@ -1,0 +1,27 @@
+{
+  "id": "etnqz",
+  "slug": "darkmargin",
+  "title": "DarkMargin",
+  "tagline": "DarkMargin is a private perpetual-futures DEX — a Hyperliquid-style terminal ",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/etnqz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/0002lvOA2TSQ5lC2cL1t6m9SB9wTnN8wgGE8Gzj5dReXc/high.mp4",
+  "demo_url": "https://youtube.com",
+  "source_url": "https://github.com/travisim/Impactify",
+  "finalist": false,
+  "description": "DarkMargin is a private perpetual-futures DEX — a Hyperliquid-style trading terminal where your positions and margin are cryptographically invisible to every other trader, enforced by the ledger itself rather than by hiding data in a UI.\n\nIt runs on Canton (Daml), where confidentiality is a first-class ledger primitive. Each trader's MarginAccount and Position contracts are signed only by {exchange, trader}, so when another trader queries the active-contract-set as themselves, Canton returns nothing — they aren't a stakeholder. A regulator party (auditor) is added as an explicit observer, so compliance can see every position while peers see only their own. This is the core thesis: real markets need privacy between participants and transparency to regulators, and Canton gives you both natively.\n\nThe live demo runs the full perpetuals lifecycle on Canton DevNet: deposit collateral → open an isolated-margin position (10% initial margin, 5% maintenance) → live oracle mark price ticks → real-time mark-to-market PnL → close to realize PnL, or get liquidated when equity drops below maintenance margin. Mark prices come from real Chainlink feeds on Sepolia across 7 markets (ETH, BTC, LINK, SNX, FORTH, EUR, GBP vs USDC). Wallet/email onboarding is handled by Dynamic with server-side JWT verification, and each logged-in wallet is auto-allocated its own Canton party.\n\nThe \"kill-shot\" moment: a Party Switcher dropdown lets you flip between Alice, Bob, and the Auditor on the same ledger. Alice opens a long; switch to Bob and her position simply doesn't exist in his view — not filtered, genuinely unreadable. Switch to the Auditor and everything is visible. Privacy you can watch happen in real time.",
+  "how_its_made": "Smart-contract layer (Daml 3.5.1 → Canton DevNet). Three modules — Perp/Types.daml (Side enum + positionPnl math), Perp/Market.daml (MarketConfig risk params + oracle-signed MarkPrice), and Perp/Account.daml (MarginAccount + Position with OpenPosition, OpenAtPrice, SettleClose, CloseAtPrice, SettleLiquidation choices). The privacy model is pure Daml: Position signatories are {exchange, trader} and the auditor is an observer. OpenPosition requires both exchange and trader as controllers, so no one can unilaterally rewrite their own margin. Compiled to perp-1.0.0.dar and verified headlessly with dpm test — one scenario literally asserts that Bob cannot read Alice's Position.",
+  "auto_summary": "A web-based private perpetuals trading demo uses Daml on Canton, Chainlink-fed price updates, and Dynamic-based wallet authentication.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/darkmargin-etnqz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

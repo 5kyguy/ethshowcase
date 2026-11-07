@@ -1,0 +1,27 @@
+{
+  "id": "m49pn",
+  "slug": "nova",
+  "title": "NOVA",
+  "tagline": "AI agent in Telegram that turns plain English into real on-chain DeFi swaps, bridges, payments.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m49pn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UcbTgTc5fCQ1qEsuXesE9SSHZdiAdUWv7pk5uONI801w/high.mp4",
+  "demo_url": "https://nova-sigma-steel.vercel.app",
+  "source_url": "https://github.com/gderamchi/nova",
+  "finalist": false,
+  "description": "Nova is an AI-powered DeFi agent that lives inside a Telegram Mini-App. Users type plain English \"swap 0.1 ETH to USDC\", \"bridge 100 USDC from Base to Arbitrum\", \"pay 0.01 USDC to agent-oracle\" and Nova parses the intent with Claude AI, builds a transaction plan, and executes real on-chain operations with zero clicks. It supports token swaps via Uniswap V3 SwapRouter02, cross-chain bridging via Across Protocol, native/ERC-20 transfers, multi-chain balance checks, USDC nanopayments between agents via Arc/Circle (including bidirectional reply payments and a 3-agent commerce loop), and a full immutable audit trail on Hedera using both HCS (Consensus Service) and HTS (Token Service minting NOVA reward tokens after every operation). Each Telegram user gets a deterministic wallet derived from a master key via keccak256, so there's no seed phrase or wallet setup the treasury auto-funds new users with gas. Nova registers itself as an ENS-identified agent (nova-agent.eth) with on-chain metadata, persists operation history to 0G decentralized storage, and exposes its DeFi capabilities as composable OpenClaw agent skills. Server-side guardrails enforce amount limits, block same-token swaps, and reject low-confidence intents so the LLM can never be tricked into draining funds.",
+  "how_its_made": "Nova is built on Next.js 14 (App Router) with a Telegram Mini-App frontend using @telegram-apps/sdk-react. The core pipeline is parse → plan → execute: natural language hits Claude Sonnet 4 (Anthropic API) with a structured system prompt that outputs typed JSON intents (swap, bridge, transfer, balance, nanopay, audit, memory). The orchestrator then routes each intent to the right handler with server-side guardrails that can't be bypassed by prompt injection (amount caps, same-token blocking, confidence thresholds).\n\nFor swaps, we encode Uniswap V3 SwapRouter02 calls directly exactInputSingle + refundETH packed into a multicall for ETH-in swaps, or approve-then-swap for ERC-20s all via viem's encodeFunctionData. Cross-chain bridging queries the Across Protocol suggested-fees API for quotes and sends deposits to the spoke pool. When bridging USDC, the orchestrator also records a cross-chain USDC flow via Arc/Circle and logs it to Hedera HCS, treating Base and Arbitrum as one unified liquidity surface.\n\nPer-user wallets are derived deterministically with keccak256(masterKey + \"nova-user-\" + telegramUserId) a hacky but effective way to give every Telegram user their own wallet with zero onboarding. A treasury account auto-funds new users with ETH for gas on first interaction.\n\nHedera is used for two native services: HCS logs every operation (swaps, bridges, transfers, payments) to topic 0.0.8504799 for an immutable audit trail, and HTS creates and mints the NOVA reward token (symbol: NOVA, 2 decimals, 10,000 initial supply) users earn NOVA tokens after every successful operation. Arc/Circle powers USDC nanopayments with bidirectional reply payments and a simulated 3-agent commerce loop (nova-defi → oracle-price → data-provider → nova-defi). ENS (@ensdomains/ensjs) provides agent identity with text records (agent-type, skills, version) and resolves .eth recipients. 0G Storage persists agent memory to decentralized storage with a local cache fallback. The whole thing is wrapped as an OpenClaw agent with a skill manifest (agent.json + SKILL.md). All partner integrations gracefully degrade to simulated mode when API keys aren't configured, so the demo always works.",
+  "auto_summary": "A Telegram Mini App uses AI to parse DeFi intents and execute swaps, bridges, payments, and audit logging across multiple services.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nova-m49pn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

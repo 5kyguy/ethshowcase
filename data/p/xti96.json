@@ -1,0 +1,29 @@
+{
+  "id": "xti96",
+  "slug": "red-black-honey-girl",
+  "title": "Red Black Honey Girl",
+  "tagline": "The first on-chain order book exchange via zk-proofs. Ensuring best-execution of orders without compromising efficiency, speed or updateability of transactions. Overcoming the black box issue while setting aside the MEV. Built on Polygon Miden.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xti96/banner/default.jpg",
+  "demo_url": "https://www.loom.com/share/0ed75060db9345eaac66ebecc86b4d4a?sid=73597a38-a4e0-4315-b632-71cf280f5cb3",
+  "source_url": "https://github.com/ajdin-kahrovic1/miden-orderbook ",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "❌ Polygon — 🥈 Best LxLy Bridge Extension",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "Problem statement:\nFront running in crypto crystalizes in two manners. \nOn the one hand, through MEV, a problem making users lose hundreds of millions each year. It is allowed by on-chain orders which are public when pending for the next block. \n\nOn the one hand, through order books with off-chain matching engines, essentially being black boxes whose operators could favour specific market participants. \n\nIdentified solution:\nAn optimal solution to the above problem needs to combine:\nprivacy of orders to counter the first source of front-running (MEV); and \nensure there is no black box but transparent order matching that operates as intended.\nTo achieve the above, we decided to: \n\nrely on off-chain orders; and \nuse a verification system based on zk proofs which ensures that with a given input (i.e. existing buy and sell orders) the script of the matching engine could have only provided that specific output (i.e. matched orders), thus no manipulation occurred. \n",
+  "how_its_made": "At the core of our technology is the Polygon Miden Virtual Machine. We use it for the execution of the order matching algorithm and generation of ZK proofs, proving that best execution happened. The Polygon Miden VM allows us to keep the order book private and, at the same time, it gives traders verifiable proof that the best execution of their order happened.\nSince Miden still doesn’t have compilers which would allow implementation in higher order programming languages, we implemented order matching algorithms using the Miden Assembly Language. All implementation is done through rbBST.masm script which accepts each new order as a public data, existing order book as a secret data and returns the set of orders that were transformed as a result of the addition of the new order, together with the ZK proof. Traders can use their submitted orders, rbBST.masm script and the output to verify that they got the best execution, without actually revealing the order book.\nThe order book is implemented as a red-black binary search tree, as one of the most efficient data structures for fast retrieving, adding and deleting nodes (most operations have O(1) or O(log n) complexity), allowing relatively quick computation of small-size ZK proofs. \nThe order book is placed on the advice stack (representing secret data) and the new order is placed on the operand stack. The script will transform the passed order book in a way that new order might be added to the tree as a new node (if it can’t be immediately filled), it can modify quantities on some nodes (partial fill of existing order) or it can remove some nodes (filling these orders fully). All of this can result in unbalancing the red-black BST, so rotations might be required. All nodes that are affected (added nodes, removed nodes, nodes that have quantities changed and nodes that have positions changed) are added to the operand stack as the output of the script.\nThe rest of the project architecture is fairly simple. We have WebAssembly written in Rust which executes rbBST.masm script with the passed inputs from the frontend application. Wasm is added to the web application built using the Svelte framework. This frontend application prepares the input (operand and advice stack) for the WASM, WASM executes rbBST.masm script and passes the output and the proof to the frontend application. The same route: Svelte -> WASM -> rbBST.masm -> WASM -> Svelte is used to verify the proof. \nFor the hackathon we have built a simple UIt to demonstrate how the underlying technology works. It allows the creation of the order which results in the visible transformation of the red-black binary search tree of the orders and it displays ZK proof. The proof can be verified also through this UI. Eventually this UI can be used to build an exchange or trading interface.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/red-black-honey-girl-xti96",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

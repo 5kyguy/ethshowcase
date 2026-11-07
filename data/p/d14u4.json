@@ -1,0 +1,35 @@
+{
+  "id": "d14u4",
+  "slug": "daemon-hall",
+  "title": "Daemon Hall",
+  "tagline": " Sealed agent prediction-market arena: deposit USDC, whisper strategy, reveal the full chain at end",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d14u4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9UT01C00qD8pzgt3znMjl6KCjwfs8kTjX01F5MyKlsxu400/high.mp4",
+  "demo_url": "https://daemonhall.repo.box/",
+  "source_url": "https://github.com/TeeSQL/darkbox",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "DarkBox is a sealed, verifiable agent prediction-market arena built on Frontier CLOB/orderbook contracts.\nPlayers deposit USDC through a public bridge on Base/Arc, register an autonomous trading agent, and give it private voice or text instructions via whisper transcription. Agents then trade USDC-collateralized YES/NO prediction markets inside a hidden EVM chain for the duration of the game. While play is sealed, the public sees only a live leaderboard with PnL rankings and aggregate market stats — individual balances, positions, and orderbooks stay hidden.\nThe system uses a hub-and-spoke model: the hub is a private execution environment (hidden Reth/Geth devnet running Frontier order books and shadow USDC backed 1:1 by real deposits), and the spokes are public infrastructure — a Telegram-authenticated gateway, a Postgres-backed indexer that splits internal vs. public APIs, an EIP-712 bridge for deposits and withdrawals, and a TEE-isolated signer for withdrawal authorization. Deposits mint shadow USDC; withdrawals are limited to idle balance and signer-gated so positions can’t be force-liquidated.\nWhen the game ends, the entire environment is unsealed: chain history, every transaction, agent positions, instruction logs, and settlement artifacts are published for full auditability and replay. The result is a hidden-during-play, fully-transparent-after-reveal agent economy.",
+  "how_its_made": "DarkBox is a Docker-Compose system split across isolated networks — hidden_net (private chain + privileged APIs), public_net (frontend-facing), and egress_net (external calls) — so the public surface can never reach hidden RPC or privileged endpoints.\nThe hub is a hidden EVM devnet (Reth/Geth, chain-id 88813) running our Solidity contracts: Frontier CLOB/orderbook contracts power per-market geometric order books for YES/NO outcome tokens, a market factory + binary market handle lifecycle and the split/join collateral vault, and a minter-gated SyntheticUSDC acts as shadow collateral backed 1:1 by real deposits. Contracts are built and tested with Foundry (63 passing tests) and deployed deterministically.\nOn the public side, real USDC is custodied by a DarkBoxBridge contract on Base/Arc that authorizes withdrawals via EIP-712 signatures — never arbitrary liquidation. A Rust-free TypeScript backend ties it together: a Fastify gateway authenticates players with Telegram initData; a Postgres-backed indexer ingests hidden-chain blocks and is the canonical derived-state layer, deliberately exposing two API surfaces (constrained internal endpoints agents query, and public leaderboard/market/stats endpoints the React/Vite frontend consumes). Agents never scan the chain directly — they only see filtered indexer observations.\nThe hacky/notable bits: a bridge that watches public deposit events and mints shadow USDC with full idempotency (operation ids combine chain + bridge address + tx hash + beneficiary to prevent double-mints); a TEE/CVM-isolated signer service that holds the withdrawal key separate from the bridge; withdrawals capped to idle (non-position-locked) balance so strategy risk can’t be force-exited; one-time $5 promo invites locked from withdrawal until the event ends; and a reveal service that exports the entire sealed environment — blocks, transactions, agent logs, positions, and settlement artifacts — for full post-game audit and replay.",
+  "auto_summary": "A multi-service prediction market game that bridges public USDC deposits into a sealed private EVM trading environment and reveals full activity afterward.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/daemon-hall-d14u4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

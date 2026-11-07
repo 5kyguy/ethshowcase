@@ -1,0 +1,22 @@
+{
+  "id": "xubtx",
+  "slug": "agent-snapshot",
+  "title": "agent-snapshot",
+  "tagline": "Archive and verify off-chain files belonging to ERC-8004 trustless agents.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xubtx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IQpZ4FFWQpuFry30099PDZw3LEacHLoWIw4Yq8wRVJQY/high.mp4",
+  "demo_url": "https://agent-snapshot.kryor.studio",
+  "source_url": "https://github.com/thecatblake/www-verified-erc-8004",
+  "finalist": false,
+  "description": "ERC-8004 agents publish an off-chain agent-card.json file that on-chain records only reference by URI — so its contents can be silently swapped without leaving any on-chain trace. This site lets anyone browse the crawl history of any registered agent and verify, entirely in-browser, that a given snapshot is authentic and untampered.\n\nFor each agent, it shows a timeline of past crawls with drift flagged whenever content changed, and a \"no change\" state proven whenever it didn't. Clicking any entry runs a full independent verification: it fetches the record's Merkle path and reads the on-chain transaction log directly by RPC (so the indexing subgraph itself is never trusted), reconstructs the Merkle root to confirm the record's inclusion in that batch, checks the TLSNotary proof against its on-chain hash, and finally verifies the proof against the notary's public key to confirm the server genuinely returned that content. All of this runs client-side in WebAssembly — the only party trusted is the TLSNotary notary.\n\nThe site also surfaces a direct comparison against Agent0, the standard ERC-8004 subgraph: an agent can look completely normal there while its actual off-chain content has already been swapped, making the blind spot this system closes immediately visible. Where a snapshot is available, the site fetches the real agent-card.json from IPFS/Arweave to show exactly which fields changed and how — the indexing layer itself only ever compares hashes, never raw content.",
+  "how_its_made": "This project uses TLSN (ZKTLS library in rust), IPFS, and The Graph fousing on verifiability and decentralized infrastructure. This project also uses Cloudflare and AWS S3 for high availability. https://agent-snapshot.kryor.studio are static, and built using snapshots and hosted on cloudflare. It updates when crawl happens. \n\nThe most difficult thing I encounter is the choice of primitives. It actually uses Incremental Merkle Tree (IMT) for storing snapshots (tree of hases) and keccak256, but the existing library in rust uses poseidon as a hash. So I implemented minimal IMT from scratch in rust. \n\nThe second problem is discovery and verifiability at scale - The Graph solved both. ERC-8004 has ~500k agents across five chains. Finding which ones have a registration file would have meant scanning the Identity Registry from its deployment block per chain and resolving tokenURI per token. The Agent0 Subgraph already indexes all five against one shared schema, so it collapsed into one GraphQL query — zero lines of discovery logic, multi-chain for free.\n\nVerification was the harder half. Serving Merkle paths from my own API would have made the trust argument circular. With a subgraph, anyone can pull the path, reconstruct the root, and compare it to the on-chain batchRoot read straight from RPC.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-snapshot-xubtx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

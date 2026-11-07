@@ -1,0 +1,41 @@
+{
+  "id": "rczdm",
+  "slug": "airlift-finance",
+  "title": "Airlift Finance",
+  "tagline": "Increase your exposure to a token with automatic leverage via Aave and Uniswap.",
+  "event": {
+    "slug": "unicode",
+    "name": "UniCode",
+    "start_time": "2021-10-29T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rczdm/banner/default.jpg",
+  "demo_url": "https://airlift.finance",
+  "source_url": "https://github.com/markcarey/airlift",
+  "prizes": [
+    {
+      "sponsor": "Skynet",
+      "sponsor_id": "2zqzn",
+      "placement": "Skynet Pool Prize",
+      "title": "Skynet"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "UniCode Finalists",
+      "title": "ETHGlobal Finalist"
+    },
+    {
+      "sponsor": "Uniswap Grants Program",
+      "sponsor_id": "026zc",
+      "placement": "Uniswap Best Swapping Hack",
+      "title": "Uniswap Grants Program"
+    }
+  ],
+  "finalist": true,
+  "description": "Airlift Finance increases your exposure to an asset using a passive leverage strategy. There is only one vault (so far), which aims to provide 2X exposure to WETH:\r\n- Deposited WETH is supplied to Aave and begins to earn yield + rewards\r\n- Using Uniswap V3 Flash Swaps, the strategy borrows USD stablecoins from Aave which are used via the Flash Swaps to buy more WETH, which is also deposited in Aave\r\n- Liquidity mining rewards are automatically swapped for WETH and compounded\r\n- The risk profile can be modified when warranted by market movements, in order to minimize the chance of liquidations\r\n- Airlift offers an easy way to achieve and manage leverage: simply deposit WETH into the vault and Airlift takes care of the rest: _Airlift lifts you up_.",
+  "how_its_made": "The vault and strategy contracts were initally based on open-source contracts from Beefy Finance, though the `StrategyAaveLeveraged.sol` strategy is significantly different than the original, as it actually increases your exposure to WETH by borrowing stablecoins that are swapped for more WETH. When you deposit WETH into the vault, the following happens behind the scenes:\n\n\n\n- The supplied WETH is deposited into Aave\n\n- Stablecoins are then borrowed against the WETH collateral. Because there is a Loan-to-Value (LTV) ratio that must be maintained, there is limit to how much can be borrowed. The Beefy contracts address this by an iterative process where a certain percentage (the `borrowRate`) is borrowed, which is then deposited to increase the collateral, which then enables more borrowing, and this is repeated as many times as defined in the strategy (the 'borrowDepth). Instead of this iteration, Airlift first simulates the iteration to calculate the final amount to be borrowed and swapped for WETH, and then uses a Uniswap Flash Swap to do it all in one go. The flash swap enables the strategy contract to receive the WETH _before_ actually borrowing anything from Aave. The WETH received in the flash swap is deposited into Aave, which adds enough collateral to borrow the full about of USD stablecoin needed to send to Uniswap to complete the flash swap. With a `borrowRate` of 50% and `borrowDepth` of 15, this equates to a doubling of the WETH collateral and an Aave `healthFactor` of about 1.65.\n\n- When someone withdraws from the vault the process is reversed, with the flash swap going in the other direction, such that the strategy can repay some of the stablecoin debt in order to maintain the risk profile after the shares have been withdrawn\n\n- Borrow interest rates for DAI, USDC, and USDT can flucuate widely and frequently. At times, some stablecoin rates are much better than others. The strategy includes a function that can be called by the strategy manager to swap the debt to the most favorable interest rate. Again, Uniswap V3 Flash Swaps are used to swap the debt without needing to withdraw any WETH collateral from Aave. In this case the flash swap provides the stablecoin needed to repay the Aave debt _before_ the strategy then borrows an equivalent amount of another stablecoin with a lower interest rate, which is then sent to Uniswap to complete the flash swap.\n\n- There are functions that can be called by the stategy manage to adjust the risk profile, if market conditions warrant.\n\n- An off-chain bot would likely be run via a cron scheduler to check the Aave healthFactor and automatically rebalance if gets close to the liquidation threshold. \n\n- Note that I first implemented Uniswap V2 Flash Swaps and subsequently added V3 Flash Swaps. _Both_ were good learning experiences. While the contract in the [main] branch uses V3 swaps, you may note that the `StrategyAaveLeveraged.sol` contract includes functions for both V2 and V3.\n\n\n\n# Frontend Dapp\n\nThe Airlift frontend dapp UI is hosted on Skynet decentralized storage. HTML and CSS is based on the frontend of UniLend Finance. The current version of https://airlift.finance is configured to interact with a fork of Ethereum Mainnet running on http://localhost:8545 (in my testing this fork was created using Hardhat based on an Alchemy RPC endpoint). A previous version was running on a testnet but due to the unpredicatble liquidity pools and widely different values coming from Aave and Uniswap price oracles, the leveraging and deleveraging swaps couldn't be reliably tested or demontsrated on the testnet. Forking mainnet -- which I had never done before! -- solved this and helped with debugging as it also enabled me to use Hardhat's `console.log` feature and actually have errors referencing line numbers in the contracts ... as opposed to just revert errors.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/airlift-finance-rczdm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

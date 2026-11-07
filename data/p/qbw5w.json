@@ -1,0 +1,27 @@
+{
+  "id": "qbw5w",
+  "slug": "arbiter",
+  "title": "arbiter",
+  "tagline": "Arbiter lets clients escrow USDC on Arc for well defined tasks.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qbw5w/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sXLBfc9JNYNUNmksaVizOendp2Kj2LqnXcWu6nCg1Ck/high.mp4",
+  "demo_url": "http://arbiter-escrow-daksh.fly.dev/",
+  "source_url": "https://github.com/dawksh/arbiter",
+  "finalist": false,
+  "description": "Digital work often ends with a subjective dispute: was it delivered, did it meet the agreed criteria, and who should get paid? Arbiter turns that question into a fixed, inspectable agreement.\nA client commits the scope, acceptance criteria, worker, resolver, payment amount, and deadlines before the worker accepts. The scope can describe research, a website with required pages and performance characteristics, a copywriting brief with tone and messaging constraints, or a marketing campaign with agreed KPIs and reporting requirements. The client then deposits USDC into a non-upgradeable escrow on Arc. The worker submits an immutable Markdown deliverable or delivery record and commits its exact content hash onchain.\nArbiter evaluates the committed work against the agreed rubric. Deterministic checks can cover required sections, word limits, links, or other committed requirements. Semantic evidence records a pass, failure, or inconclusive result with criterion-level explanations and supporting excerpts. In this MVP, website and marketing work is assessed through the worker's submitted Markdown delivery record; independent URL crawling and KPI-provider integrations are future work. A pass proposes full payment; a failure proposes a full refund. Either party can challenge during the review window, which freezes automatic settlement and sends the agreement to the resolver. The resolver can pay, refund, or split the deposit. If the resolver times out, the pre-agreed testnet rule splits funds 50/50.\nThe deployed MVP uses public sample material and one Markdown submission per agreement. It makes deadlines, evidence commitments, transaction states, and resolver powers visible to both parties.",
+  "how_its_made": "The core is a non-upgradeable Solidity escrow deployed on Arc testnet. It commits the\nclient, worker, resolver, USDC amount, research brief hash, source hash, evaluation-policy\nhash, and separate submission, evaluation, challenge, and resolution deadlines. The contract\nhandles funding, report-hash submission, proposed outcomes, challenges, payment, refund,\nresolver splits, and timeout settlement.\nThe web app uses React and viem for browser-wallet transactions. A Bun API stores immutable\nMarkdown reports and agreement material in SQLite, authenticated with wallet signatures and\none-time nonces. It hashes the exact submitted content before the worker commits it onchain.\n\nEvaluation is implemented as a TypeScript Chainlink CRE Confidential Workflow. Its\n`handlerInTee` processes the agreed rubric, supplied sources, report, model credential, and\nstructured model response. Deterministic checks validate sections, word limits, and source\nreferences; semantic results include criterion-level outcomes, short reasons, and report\nexcerpts. Invalid or uncertain evaluation never triggers automatic payment and instead\nroutes the agreement to human review.\nThe public MVP is deployed on Fly.io with an encrypted SQLite volume. It runs on Arc testnet\nand uses USDC for escrow settlement.",
+  "auto_summary": "A React, Bun, Solidity, and Chainlink-based escrow app evaluates submitted markdown work and settles USDC payments on Arc testnet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arbiter-qbw5w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

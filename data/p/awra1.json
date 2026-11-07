@@ -1,0 +1,26 @@
+{
+  "id": "awra1",
+  "slug": "access0x1",
+  "title": "Access0x1",
+  "tagline": "A zero-custody USDC rail on one address across 8 testnets — built to be cloned, now agent-first.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/awra1/banner/default.jpg",
+  "demo_url": "https://access0x1.click",
+  "source_url": "https://github.com/Access0x1/Access0x1",
+  "finalist": false,
+  "description": "Access0x1 is the open-source base for accepting stablecoin payments on any EVM testnet. At the core is Access0x1Router — a permissionless, zero-custody router: a merchant registers once, and every payment is USD-priced by a Chainlink feed read inside the settlement transaction, split exactly (net + fee == gross, proven under fuzz), and credited to an ERC-6909 payment lane. Around that spine: subscriptions, bookings, invoices, gift cards, escrow, refunds, gasless pay-in, and SessionGrant budgets for agent sessions.\n\nThe one idea: Access0x1 is a cloneable base, not a privileged fork. Treasury, fees, price feeds and keys are always parameters — clone the repo, set env vars, and you get your own branded, hosted USDC checkout on the shared CREATE3 mirror rail: the same router address (0xe92244e3368561faf21648146511DeDE3a475EB5) lives on 8 testnets, so a clone inherits a multi-chain rail with zero new deployment. I'm the first example of that clone, not the only tenant.\n\nContinuity honesty: the base — the contracts, ~2,000 Foundry tests (count enforced by a CI badge), the in-repo React SDK, the mirror deploy, the hosted checkout at access0x1.click — predates Lisbon. What's new this weekend, each a branch → PR → merge inside the event window: the rail became agent-first. A real Uniswap Trading API swap landed on Ethereum Sepolia through the shipped payout rail, with the on-chain fill matching the API quote to the wei — plus a v4 hook that turns swaps into attributable receipts. An ENS payment resolver makes a name a payment surface, and the agent publishes its own inference-provider choice in its ENS records. 0G Compute answers the docs assistant, badge visible. A World AgentKit admission gate decides what the paying agent may execute. Plus a three-rung verification ladder (○ → ✓ → ✓✓ — every claim in the app has a button that proves it) and a hardening pass. Testnets only — mainnet is on the roadmap, post-audit.",
+  "how_its_made": "Contracts: Solidity + Foundry. The router is CEI-ordered, reentrancy-guarded, SafeERC20, rejects fee-on-transfer tokens by balance-delta check, pull-pattern rescue only — zero custody by construction. Oracle safety is isolated in OracleLib (staleness guard, feed decimals read at runtime). Every settlement mints an ERC-6909 receipt keyed keccak(chainId, asset, recipient). Deployment is CREATE3, so one address resolves on 8 testnets (7 source-verified).\n\nPartner tech, and what each one actually did: Chainlink prices every payment inside the settlement tx — the demo runs on the real Base Sepolia USDC/USD aggregator, never a frontend guess. Dynamic (headless, connect-and-sign) turns an email sign-in into a non-custodial MPC wallet — and the rail mints the AGENT's server wallet the same way on its first authorized pay. Uniswap's Trading API is the payout-swap rail: I live-probed the real API, rewrote my assumed request/response shapes against it, discovered Ethereum Sepolia is served where Base Sepolia is not, and root-caused a Universal Router revert to the two-leg Permit2 model (generatePermitAsTransaction) — the landed swap's on-chain fill equals the API quote to the wei. ENS: an on-chain PaymentResolver plus gasless subnames; the agent writes its inference-provider choice into its own text records. World AgentKit gates the agent pay route with a declared execution-rights policy. 0G Compute is the docs assistant's inference provider through a broker seam that accepts any OpenAI-compatible vendor — a published choice, not a hardcode. The MetaMask Snap decodes router calldata before signing. Walrus hosts the storefront.\n\nHacky bits worth naming: the Trading API's Cloudflare blocks non-browser user agents (error 1010) — the fix is an explicit UA baked into the fetch layer. x402/EIP-3009 sub-cent authorizations accumulate into ONE batch settlement — the stage loop fires 1 tx/sec from a fresh ephemeral buyer wallet, provably not one big transfer. And the one-command deploy derives every integration's env from a single registry, refuses placeholder addresses on live chains, and vaults secrets in Secret Manager — the deploy script is part of the repo a judge can read.",
+  "auto_summary": "Access0x1 is a multi-chain EVM stablecoin payment router with on-chain pricing, merchant settlement flows, and supporting web, agent, and swap tooling.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/access0x1-awra1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

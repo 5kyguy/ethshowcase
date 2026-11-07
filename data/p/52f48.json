@@ -1,0 +1,22 @@
+{
+  "id": "52f48",
+  "slug": "piggypot",
+  "title": "PiggyPot",
+  "tagline": "PiggyPot: one-click AI Web3 investing—1inch swaps & Uniswap V3 liquidity, no blockchain know-how",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/52f48/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3joVPyXbir02MZ00JicKSPttEaE1TE2LdQyQ4NqKh02FEc/high.mp4",
+  "demo_url": "https://piggy-pot-ui.vercel.app",
+  "source_url": "https://github.com/sstark21/piggyPot_frontend",
+  "finalist": false,
+  "description": "PiggyPot bridges the gap between traditional savers and DeFi. On the backend, we run a custom Subgraph to collect pool data, pre-filter by core parameters (TVL, fees, etc), then call 1inch to calculate additional metrics (impermanent loss, APY volatility, etc). All this enriched data lives in Postgres database, refreshed daily via a cron job. When a user invokes our recommendation endpoint, we fetch the latest metrics, send them along with the user’s preferences to an LLM, and return the top pool suggestions\n\nThe frontend is built for simplicity: users sign up and authenticate with Privy, fund their account, choose an amount to invest (e.g. $100) and risk allocation, then click “Invest.” Behind the scenes, we call our recommendation API, perform one-click swaps through 1inch, and provision liquidity in the selected pools on Uniswap V3. PiggyPot makes DeFi returns available to anyone—no jargon, no multi-step workflows, just higher yields with a double-click.",
+  "how_its_made": "1. Data Ingestion & Enrichment\n\t•\tWe used a Subgraph to get all Uniswap V3 pools, pre-filtering by TVL, fee tier and token pair.\n\t•\tWe call the 1inch API and compute advanced metrics for each pool (impermanent-loss estimates, APY volatility, slippage scores), then persists the enriched records to our Postgres database.\n\t•\tA Node.js cron job runs daily to update metrics and pools info\n2. Recommendation Engine\n\t•\tWe send that payload with pool data and calculated metrics to an OpenAI LLM, which ranks the top pools and returns personalized recommendations\n3. Frontend & Execution\n\t•\tBuilt in React/Next.js with Privy handling auth and wallet creation.\n\t•\tUsers top up their account, set an amount and a risk slider, then click “Invest.”\n\t•\tUnder the hood, our Next.js API proxy secures 1inch API keys, executes one-click swaps via 1inch, and provisions liquidity on Uniswap V3—all invisibly to the user.\n4. Partner Technologies\n\t•\tGraph Protocol Subgraph for scalable on-chain indexing\n\t•\t1inch API for best-price routing and custom metrics\n\t•\tUniswap V3 for liquidity provisioning\n\t•\tOpenAI for AI-driven pool ranking\n\t•\tPrivy for seamless wallet auth\n5. Notable Hacks\n\t•\tBatched and back-off–enabled 1inch calls to avoid rate limits under heavy load\n\t•\tIn-memory caching layer for Subgraph and 1inch responses to speed up churny cron runs",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/piggypot-52f48",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

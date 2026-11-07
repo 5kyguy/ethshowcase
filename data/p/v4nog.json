@@ -1,0 +1,40 @@
+{
+  "id": "v4nog",
+  "slug": "orange",
+  "title": "Orange",
+  "tagline": "Run your application on the decentralised cloud, or provide your idle compute power to create a massive pool of endless compute.",
+  "event": {
+    "slug": "ethonline2021",
+    "name": "ETHOnline 2021",
+    "start_time": "2021-09-17T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v4nog/banner/default.jpg",
+  "source_url": "https://github.com/NaikAayush/orange-cloud3",
+  "prizes": [
+    {
+      "sponsor": "NuCypher",
+      "sponsor_id": "7z88g",
+      "placement": "NuCypher - Best Use",
+      "title": "NuCypher"
+    },
+    {
+      "sponsor": "Superfluid",
+      "sponsor_id": "x59d1",
+      "placement": "Superfluid Pool Prize",
+      "title": "Superfluid"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "The Graph - Best new subgraph runner up",
+      "title": "The Graph"
+    }
+  ],
+  "finalist": false,
+  "description": "Our project, Orange Cloud, is an easy to use, decentralized cloud/compute system. You submit a script to be run and it's run by one of the nodes in our network. Or you can provide your idle compute power to be used by people willing to pay for it.\r\n\r\nA typical flow of a user of this system is as follows. The first time setup includes generating keys (similar to how you do it in Metamask) or importing keys and setting up your node details - number of CPU cores/threads and amount of memory (RAM) you want to set aside for Orange Cloud.\r\n\r\nThe user can add a job to the network by specifying details such as a name, number of CPU cores required and amount of memory. Then they can select a file - a script to be run. Currently we only support python, but can be easily extended to node.js, WASM and much more.\r\n\r\nThis job is now sent to the blockchain. The other nodes on the network can then take up this job and run it. On each stage, we get an update on the job. Payment is done via streaming tokens so that you pay only for the compute time used.\r\n\r\nThroughput the process, the script and the output is secured by state-of-the-art encryption so that no one else can snoop on the contents. All of the scripts and outputs are stored in a decentralized manner on IPFS. In other words, the whole system is completely decentralized!\r\n\r\nThe whole process is made seamless as you only have to interact with our frontend for checking job status, adding new jobs or even automatically running jobs which meet the criteria.\r\n\r\nDetails on running and testing it for yourself are given in our repository's README.",
+  "how_its_made": "Our project, Orange Cloud, is an easy to use, decentralized cloud/compute system. You submit a script to be run and it's run by one of the nodes in our network. Or you can provide your idle compute power to be used by people willing to pay for it.\n\n\n\nWe used many diverse technologies to make this possible. On the nodes which run jobs, we have a long running daemon implemented in **Golang** that runs jobs inside **Docker** containers so that they are sandboxed and isolated. The daemon also communicates with **IPFS** to get scripts and store outputs. All of this is controlled by the brain of Orange Cloud - the frontend UI. Implemented in Angular, the interface is a web page that communicates with the blockchain, the daemon and all of the other services we make use of. It polls every 10s to look for new jobs on the chain and accepts them if they can be run on our node. You can also use the interface to add a new job to the network.\n\n\n\nJobs are described by a unique ID, a name, the type - which can be a python script, node.js script or a wasm executable (time constraints led to us only implementing the python runtime), number of CPU threads required and amount of memory (RAM) required. All of this is stored on chain and updated using solidity functions. When a node accepts a job, it lets the network know by updating the job's availability status on the chain. It also adds the output's CID on the chain once it has finished executing. This makes our system completely decentralized.\n\n\n\nWe used the following sponsors' tools:\n\n\n\n- Protocol Labs: We make use of IPFS extensively. The main purpose is to transfer the script to be run to the nodes and to send output back to the job giver. Using IPFS makes it easy to perform these transfers without having to store all of it on the chain and without using a centralized service (such as S3). We store the CID given by IPFS on the chain instead. We run a private IPFS network to improve performance on local deployment, but it can very well be used on the main network too.\n\n- The Graph: We use The Graph to efficiently and easily query the blockchain data to look for available jobs as well as get details of a particular job. The Graph helps here since we have to poll the data every 5-10s to check for new jobs. Doing so would be very inefficient as Eth solidity function calls. The GraphQL API makes this process a lot easier. The tooling surrounding it was also fun to use and provided us the exact types from our Smart Contract automatically. We were able to quickly deploy a subgraph: [https://thegraph.com/hosted-service/subgraph/psiayn/orange-cloud3](https://thegraph.com/hosted-service/subgraph/psiayn/orange-cloud3). Link to the relevant source code: [https://github.com/NaikAayush/orange-cloud3/tree/main/orangesubgraph](https://github.com/NaikAayush/orange-cloud3/tree/main/orangesubgraph)\n\n- NuCypher: NuCypher's Proxy Re-Encryption (PRE) scheme, known as Umbral, helps us encrypt the script to be run and have it only available to the node that is running the job. This way, the code is not made public while also ensuring that the node can run it. Since we had trouble running Umbral in the frontend, we used a custom HTTP API implementation of Umbral Ursulas that we (our team) had implemented previously (source: [https://github.com/orange-life/ursula-api/](https://github.com/orange-life/ursula-api/)). This ensures NuCypher's decentralized nature but it obviously lacks many of the features. This was something particularly hacky that we did. Link to code: [https://github.com/NaikAayush/orange-cloud3/tree/main/client/src/app/services/umbral](https://github.com/NaikAayush/orange-cloud3/tree/main/client/src/app/services/umbral)\n\n- Polygon: We used Polygon/Matic's Mumbai Testnet to deploy and test our smart contract. This gave us a real network to test on and also use features of The Graph and Superfluid. We also make use of MATIC tokens for all transactions.\n\n- Superfluid: We used Superfluid to stream just the right amount of tokens so that the user only pays for the amount of compute time used. We had trouble integrating this on the matic mumbai testnet. Source code: [https://github.com/NaikAayush/orange-cloud3/blob/main/client/src/app/services/superfluid/superfluid.service.ts](https://github.com/NaikAayush/orange-cloud3/blob/main/client/src/app/services/superfluid/superfluid.service.ts)\n\n\n\nWe had a lot of fun working on Orange Cloud and we learnt a lot! A moment of happiness was when we saw our first job run by our system and when the output appeared in the console.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/orange-v4nog",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

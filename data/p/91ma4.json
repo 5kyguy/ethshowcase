@@ -1,0 +1,21 @@
+{
+  "id": "91ma4",
+  "slug": "recycle-cca",
+  "title": "Recycle CCA",
+  "tagline": "Recycle stranded capital from strictly outbid Uniswap CCA bids into fresh higher-limit bids",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/91ma4/banner/default.jpg",
+  "demo_url": "https://github.com/ginger-sesame/continuous-clearing-auction",
+  "source_url": "https://github.com/ginger-sesame/continuous-clearing-auction",
+  "finalist": false,
+  "description": "This project extends Uniswap’s Continuous Clearing Auction (CCA) with a mechanism for recycling the unspent balance of a strictly outbid bid into a new higher-limit bid. In the current design, a bidder can deposit capital, partially execute, then become outbid as the clearing price rises. The remaining balance may be unable to execute under the original price limit, yet still remain locked inside the auction before graduation.\n\nOur extension allows the bidder to reuse only this provably unspent balance without withdrawing funds or adding new external capital. The original bid’s historical fills and accounting are preserved, while a fresh bid is created at the current checkpoint with a new maximum price, preventing any backdated allocation.\n\nThe prototype compares two otherwise identical auctions: a baseline CCA where stranded capital causes the auction to fall short of its minimum funding threshold, and a modified CCA where that same capital is recycled into executable demand and the auction can graduate. The implementation also enforces key safety properties, including owner authorization, no recycling of active or clearing-price bids, no double-use of recycled credit, correct failure refunds, and preservation of historical fills.",
+  "how_its_made": "The project is built directly on top of Uniswap’s Continuous Clearing Auction Solidity contracts. I extended the existing bid lifecycle with a new recycling path that allows the owner of a strictly outbid bid to move only its provably unspent balance into a fresh bid at the current auction checkpoint.\n\nThe implementation reuses the CCA’s existing checkpointing, fill calculation, clearing-price, settlement, and refund accounting rather than introducing a parallel accounting system. Historical fills on the original bid remain unchanged, while recycled credit is deducted from its future refundable balance and used to create a new child bid with a higher maximum price. This ensures the new bid receives no retroactive allocation and behaves like an equivalent fresh-money bid submitted at the same checkpoint.\n\nThe main technical challenge was preventing the same deposited capital from being counted twice across bid chains. I added accounting to track recycled credit and covered repeated and descendant recycling, failed-auction refunds, unauthorized callers, active bids, bids exactly at clearing, rounding, and successful settlement.\n\nThe prototype is entirely Solidity and test-driven, with no frontend. The core demo runs two otherwise identical CCA auctions using the same external deposits: the baseline auction strands an outbid bidder’s unused capital and fails its minimum raise, while the modified auction internally recycles that balance into executable demand and successfully graduates.\n\nA particularly useful validation was comparing a recycled bid against an identical new bid funded with fresh external ETH at the same checkpoint. Both produce the same terminal pricing, proceeds, and token fills, demonstrating that recycling changes capital efficiency rather than auction execution semantics.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/recycle-cca-91ma4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "16544",
+  "slug": "intentra",
+  "title": "Intentra",
+  "tagline": "Intentra finds the right human. USDC escrow makes sure they get paid.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/16544/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2Rzb00drX00e5WGRur00M2v8QOTRW34OVLM881v8g498Ok/high.mp4",
+  "demo_url": "https://intentra-theta.vercel.app/",
+  "source_url": "https://github.com/Soar-On-Technologies-Global-Concept-Ltd/ETHOnline-Startup",
+  "finalist": false,
+  "description": "Intentra is a decentralized service marketplace , framed as an \"AI Commerce Protocol.\" Here's how it works:\n\nAI-driven matching – you describe what you need and your budget, and an AI parses your intent to find a matching service provider, with the arrangement secured by EIP-712 cryptographic mandates (structured, signed data commitments).\nHuman verification – providers must prove they're real humans (not bots) using World ID's \"World Selfie Check,\" aiming to eliminate scams and fake accounts.\nEscrowed payments\n funds are held in USDC via a smart contract escrow on the Arc testnet, only releasing to the provider once the job is completed and approved by the client.\n\nIn short, it's a trust layer for hiring freelancers/service providers where an AI agent handles the negotiation/matching, identity is verified cryptographically, and payment is escrowed on-chain until work is confirmed done.",
+  "how_its_made": "The backend is a FastAPI modular monolith, organised domain-per-package rather than\nby layer: intents, providers, transactions, authorization, payments, fulfillment,\nevidence, disputes, identity and audit each own their router, models, schemas and\nservice. Boundaries are not a convention here, they are CI — 14 import-linter\ncontracts fail the build if a domain touches another domain's tables, if the shared\nkernel imports a domain, if an adapter reaches back inward, or if pure rule code\n(money, hashing, state machine, policy) imports FastAPI, SQLAlchemy or web3. The one\ndeliberate exception is the Transaction aggregate root, and a test walks the source\ntree to prove the state machine is its only writer.\n\nSQLModel/SQLAlchemy async over asyncpg, Alembic migrations, 20 tables. Three worker\nloops (chain watcher, transaction outbox, reconciliation) run in-process, guarded by\na Postgres advisory lock so only one instance is leader and the same code scales to\nseveral replicas untouched. 572 tests.\n\nON-CHAIN\n\nIntentraEscrow is Solidity on Arc testnet (chain 5042002), built with Foundry. Two\nrules drive the whole design: money states commit only on confirmed chain events,\nnever on an optimistic write, and settlement needs two distinct signatures from\n{customer, provider, AI arbitrator}. The watcher reads eth_getLogs from the escrow's\ndeploy block, advances a cursor only after every log in a range is handled, and keys\nevents on (tx_hash, log_index) so a replay after a crash is a no-op. Outbound calls\ngo through an outbox: rows are claimed with SELECT ... FOR UPDATE SKIP LOCKED, the\ntransaction hash is committed to the database before we wait for a receipt, and one\nlock serialises the resolver's nonce.\n\nPARTNER TECHNOLOGIES\n\nArc — escrow and settlement in USDC, with gas paid in USDC too, which removes the\n\"buy the native token first\" step that kills onboarding for the Nigerian users this\ntargets. Deterministic finality let us run the watcher at 1 confirmation.\n\nPrivy — email login to an embedded wallet, so a customer signs an EIP-712 mandate\nwithout ever seeing a seed phrase; also signTypedData and sendTransaction for the\nescrow calls. Access tokens are ES256-verified server-side against the app's\nverification key.\n\nWorld — Selfie Check proof-of-human gates authorisation and complaint, the two\nplaces fraud pays. One nullifier per action per transaction, so a proof cannot be\nreplayed onto another job.\n\nThe Graph — a subgraph over the escrow's own events turns completed, disputed and\nrefunded jobs into provider trust scores, so reputation comes from chain history\nrather than rows we could edit.",
+  "auto_summary": "A decentralized service marketplace matches clients with providers, verifies human identity, and settles escrowed USDC payments through an onchain contract.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/intentra-16544",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

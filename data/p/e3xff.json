@@ -1,0 +1,22 @@
+{
+  "id": "e3xff",
+  "slug": "ethglobal-skills",
+  "title": "ETHGlobal Skills",
+  "tagline": "One command to get 17,180 projects, sponsor/bounty docs, and all Finalist/bounty winners",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e3xff/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02VN83e9W3yFhHMvrtDmcP3EiWGre5Wek2xamOshweG8/high.mp4",
+  "demo_url": "https://x.com/mattwong_ca/status/2050611061707952594",
+  "source_url": "https://github.com/ethglobal-skills/repo",
+  "finalist": false,
+  "description": "npx skills add ethglobal-skills/repo\n\nOne command gives your coding agents access to:\n- 17,180 hackathon projects from the past 6 years\n- sponsor docs + bounties for upcoming hacks\n- all Finalist + bounty winners\n\n\nMake sure to explicitly say `use ethglobal-skills` at the end of your prompts. Full example queries and API doc:\n\nhttps://github.com/ethglobal-skills/repo/blob/main/skills/ethglobal-skills/SKILL.md\n\nRate limiting is done via x402. If you reach over 10 requests / minute, it'll be $0.05 USDC on Base mainnet. Install AgentCash and transfer a small amount to continue! Small sample txn for x402: [here](https://blockscan.com/tx/0x491fe86a4a7062ffc24cbe97d3cae454503d5f06d55b6f7992cee678efe85c37).\n\nx402 API just for agents, always $0.01 - no human in the loop:\n\nhttps://www.x402scan.com/server/11c90e38-e041-441e-a18f-f6d0a44b4e34",
+  "how_its_made": "Python scripts \n\nScraped ETHGlobal's website across all events from ETHWaterloo to present, collecting project showcases, sponsor bounties, prize winners, and qualification requirements. Output structured JSON files totaling ~263k lines of raw hackathon data. \n\nSupabase \n\nJSON data was cleaned and uploaded into a Postgres database with relational tables for events, projects, prizes, sponsors, and sponsor docs. The Next.js API uses the Supabase client to run filtered queries at request time. \n\nNext.js Routes \n\nFour REST endpoints handle search and filtering — by event, keyword, sponsor, or prize. A middleware layer handles rate limiting (10 free req/min per IP) and x402 payments, so requests beyond the free tier automatically prompt for $0.05 USDC on Base mainnet via the CDP facilitator. \n\nSKILL.md \n\nA structured markdown file that serves as living documentation for AI agents. It describes every endpoint, parameter, example query, and workflow — so an agent can discover the API, understand how to call it, and handle edge cases like exact name matching or payment prompts, all without human guidance. It also includes a version check so agents are notified when a newer skill is available, AgentCash instructions for automatically handling x402 payments, and pointers to companion files — SPONSOR_RESOURCES.md for sponsor-specific docs and MCP server setup, and HACKATHON_FAQ.md for event rules, eligibility, and general hackathon questions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ethglobal-skills-e3xff",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

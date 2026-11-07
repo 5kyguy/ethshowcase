@@ -1,0 +1,30 @@
+{
+  "id": "w3roo",
+  "slug": "x3fusion",
+  "title": "X3Fusion",
+  "tagline": "1 inch fusion+ extension for the Near and Tezos blockchains. ",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w3roo/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vYwkh5qe2ySnikaZ3ZV59g6sLCxbuLbgLnOyKUT2Vg4/high.mp4",
+  "demo_url": "https://github.com/Sahilgill24/x3Fusion/",
+  "source_url": "https://github.com/Sahilgill24/SuiShadow",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "1st place",
+      "title": "Extend Fusion+ to Near"
+    }
+  ],
+  "finalist": true,
+  "description": "X3Fusion is a 1-inch Fusion+ extension that powers seamless, trustless swaps between Ethereum, NEAR, and Tezos using on-chain HTLC contracts (built with NEAR’s Rust SDK and Tezos’s SmartPy), a factory pattern for dynamic escrow deployment, and an on-chain Dutch auction for efficient order filling. A unified resolver API orchestrates contract deployment, secret distribution, and cross-chain settlement—letting developers integrate secure, end-to-end atomic swaps without worrying about network-specific complexity.",
+  "how_its_made": "X3Fusion’s cross-chain swap logic is built on three specialized on-chain modules and a single off-chain “resolver” API that glues everything together. On NEAR, we use the official Rust SDK to implement a pair of contracts: a time-locked HTLC escrow that securely holds funds until the swap secret is revealed, and a Factory contract that can spin up new HTLC instances on demand with custom parameters such as amount, expiry, and hashlock. Writing in Rust provides strong type safety, native performance, and seamless integration with NEAR’s asynchronous runtime.\n\nOn Tezos, our contracts are authored in SmartPy, a high-level Python-like DSL that compiles down to Michelson. We mirror the NEAR design with an HTLC escrow and a Factory module, then add a Dutch-auction contract that implements our custom price-curve logic for partial fills and efficient order matching. SmartPy’s built-in simulation and testing tooling lets us iterate quickly and ensure correctness before deployment.\n\nFor Ethereum, we adapted the escrow contracts directly from 1inch’s Cross-Chain suite, modifying them to fit X3Fusion’s order and auction schema. These Solidity contracts support both single-secret withdrawals and batch settlements, ensuring maximum gas efficiency and compatibility with existing tooling.\n\nOff-chain coordination is handled by the resolver service, which exposes a simple REST API. To initiate or fill an auction order, it calls POST /auction/start or POST /auction/fillOrder on the source chain. Once an order is accepted, the resolver calls POST /deploy/evm, POST /deploy/near, or POST /deploy/tezos to create the corresponding escrow on the destination chain. It then listens for on-chain secret-reveal events and, when ready, finalizes the swap by invoking POST /withdraw/evm, POST /withdraw/near, or POST /withdraw/tezos.\n\nBy combining NEAR’s Rust SDK, Tezos’s SmartPy modules, and 1inch-inspired Solidity escrows under one orchestrating API, X3Fusion delivers a turnkey, end-to-end solution for secure, customizable atomic swaps across Ethereum, NEAR, and Tezos.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/x3fusion-w3roo",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

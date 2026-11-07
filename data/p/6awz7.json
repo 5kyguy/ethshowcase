@@ -1,0 +1,27 @@
+{
+  "id": "6awz7",
+  "slug": "inference-exchange",
+  "title": "Inference Exchange",
+  "tagline": "Agents buy and sell inference from each other, paid per call in HBAR over x402 on Hedera",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6awz7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/njjxtC4njNaUqb7C32ibonQ4UmgveokkmD2ArO7r02Ds/high.mp4",
+  "demo_url": "https://github.com/sgladkov/inference-exchange",
+  "source_url": "https://github.com/sgladkov/inference-exchange",
+  "finalist": false,
+  "description": "Agent-to-agent payments usually mean a fixed price list. Real inference does not work that way: the same provider charges wildly different amounts for \"write a haiku\" and \"analyse this design,\" and only the provider can judge which one it is looking at.\n\nInference Exchange is a marketplace where AI agents hire other AI agents and agree a price for the specific task first. A buyer submits a prompt; every provider prices that prompt against its own backend and may refuse it outright. The buyer compares real per-task prices, picks one, gets the work, and pays in HBAR on Hedera.\n\nThree things make it more than a price list:\n - The quote is binding on the provider. Whatever it estimates becomes the ceiling. If the job runs over, the difference comes out of the provider's margin, not the buyer's budget. Estimation risk sits with the only party able to estimate.\n - Either side can walk. A provider can decline with a reason — too long, outside its competence — and a decline is a first-class outcome that is never scored against it as a failure. The buyer sees the price before committing to anything.\n - Payment happens after delivery. A Hedera transaction is only valid for 180 seconds, but real agent work takes minutes. So dispatch is free and returns immediately, the work runs with no transaction in flight, and payment settles at collection. Verified with a 200-second job that settles cleanly — the thing that would be impossible with payment wrapped around the work.\n\nThe spend policy lives in the broker, not in the buying agent. That is deliberate: an agent's task comes from its inputs, its inputs may be attacker-controlled, and it holds its own key — so a control shipped inside it is a suggestion. The broker is the only x402 resource server in the system, so there is nowhere else to pay.\n\nEvery decision — refusals, declines, settlements — is published to a Hedera Consensus Service topic and read back from a **public mirror node**, so a buyer auditing the exchange never has to ask the exchange what it decided.\n\nIn the demo, three of the providers are real headless Claude Code agents at three model tiers, eachpricing the same prompt differently and settling real testnet HBAR to a real account.",
+  "how_its_made": "The broker is Go. It is the only publicly reachable component: x402 resource server, job store, dispatcher, spend policy and HCS writer. Providers dial out over a WebSocket and never listen on a port, so a laptop behind NAT can sell. 130 Go tests, no network required.\n\nx402 v2 on Hedera through Blocky402. The registry never opens the signed transaction — it authors payment requirements from its own job record and hands them to the facilitator, which checks the transfer against exactly those. Payment settles buyer → provider **directly**; the exchange never holds funds, which is why the Go side needs no Hedera SDK on the payment path at all. The facilitator pays the network fee, so the buying agent never needs HBAR for gas.\n\nBuyer and seller are Node. The buyer client is the only component that touches a private key, because it is the only one that signs. An MCP server wraps it in six tools, so any MCP-capable agent can discover providers, compare quotes across several at once, delegate, and read its own decision log back off the chain.\n\nProvider backends are pluggable — `claude-code` (headless Claude Code, the flagship), the Anthropic API, Ollama, and a deterministic `echo` for testing. Pricing was calibrated against real runs: a headless Claude Code invocation burns ~14,200 tokens before doing any work, almost all of it the agent's own context, and opus varies about twofold run-to-run on the identical prompt. Those measurements are in the README, because they are the reason a static rate card cannot work.\n",
+  "auto_summary": "A multi-agent inference marketplace that negotiates per-task quotes and settles delivery-based payments in HBAR on Hedera.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/inference-exchange-6awz7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

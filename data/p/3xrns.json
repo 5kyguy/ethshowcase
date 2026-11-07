@@ -1,0 +1,27 @@
+{
+  "id": "3xrns",
+  "slug": "go-health-me",
+  "title": "Go Health Me",
+  "tagline": "Put money on your own sleep or workouts. Your wearable proves it, SPOTTER pays the players who hit.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3xrns/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Ga7hTIeyqlfGBf83YbpiNtnw1TgQLKoqXNNnrtNEgp00/high.mp4",
+  "demo_url": "https://www.loom.com/share/17b1dc5da755422ea3177d4842556813",
+  "source_url": "https://github.com/Meowteam6/gohealthme-tokyo",
+  "finalist": false,
+  "description": "GoHealthMe is a commitment game for your own health. You stake test USDC on a challenge, say seven hours of sleep on Saturday night or one workout on Sunday, your wearable proves whether you did it, and SPOTTER, the settlement agent, pays the players who hit when the challenge ends. Miss it, shown by your wearable, and your stake goes to the people who hit. Nobody hits, everyone gets their stake back. No wearable data for the challenge, stake back. Raw health data never touches the chain, only the verdict.\n\nContinuity track, so the split matters. Before the event: V1 won the Chainlink Confidential AI Attester prize at ETHGlobal New York, V2 gave SPOTTER its own Circle wallet, V3 became a Base Sepolia pilot with self-staked commitment pools and three wearable providers behind one join gate. Everything after commit a86387d is this weekend.\n\nWhat the weekend added. Character creation, once: prove you are one human with World IDKit (any World App credential, no Orb gate), pick your name as an ENSv2 subname on Sepolia, pair your wearable. A three-screen loop, Lobby, The Run, The Verdict, where SPOTTER asks you to confirm with World ID for Agents, screens the payout through a live Intercepta call, then pays. spotter.gohealthme.eth is the agent's own name with a provable permission boundary. The money model got real: SPOTTER now records a miss, but only when your wearable covered every night of the challenge and shows the goal not met, after a grace window. Plus the fixes V3 needed to actually pay a winner, a full redesign, and privacy and terms that are true.\n\nThis morning the first real hit went through end to end on the live build: a WHOOP workout read, a World ID confirmation (the first request expired and nothing moved, the second confirmed), an Intercepta sanctions screen, and the result recorded on chain.\n\nBeta on Base Sepolia test USDC. Apple Health is not in yet.",
+  "how_its_made": "Next.js 16 on Vercel, Dynamic embedded wallets (email or Base), HealthPoolsV3.sol (Foundry) on Base Sepolia holding test USDC, SPOTTER as a server-side agent loop settling from its Circle wallet, Upstash KV and Supabase with RLS. Wearables: WHOOP direct OAuth and Junction. 2,278 vitest and 73 forge tests.\n\nWorld: @worldcoin/idkit 4.3.0 on the 4.0 RP-signed request flow. The server mints a signed rp_context on tap, the proof's signal is bound to the wallet, the nullifier binds one human to one wallet, and the money routes refuse an unproven wallet. World ID for Agents reuses the same credentials with a static settle action and the signal goalId:attempt, so a proof for one payout can never approve another. Declined, expired and cancelled write nothing on chain. The deployed build refuses mock modes.\n\nENS: ENSv2 on Sepolia, the Sep 15 deployment. We run our own UserRegistry and PermissionedResolver under gohealthme.eth through the VerifiableFactory, resolve through the Universal Resolver with viem, and use Enhanced Access Control to give the agent ROLE_SET_TEXT on four receipt keys only. scripts/ens-boundary-proof.sh proves the boundary with eth_call. ensjs predates this deployment; ABI snippets come from the namechain tag.\n\nIntercepta: one quick-scan call before recordResult and again before settle, fail closed, the rule printed on every ledger row.\n\nWhat was hard. The settle window is settler-only for 24 hours, so the miss grace had to fit inside. The pass path and the miss rule had to read the same local-calendar night, or a Tokyo player is judged on the wrong one. HealthPoolsV3 has no getParticipants, so the player list is read from storage slot 7. Email wallets had zero ETH, so a treasury gas drip runs before the first write, and email sign-ins now reuse the Dynamic session token instead of asking the wallet to sign.",
+  "auto_summary": "A Next.js app and Solidity backend run wearable-verified health commitment pools with human verification, ENS naming, and screened agent payouts on Base Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/go-health-me-3xrns",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

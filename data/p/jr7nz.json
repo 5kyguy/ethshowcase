@@ -1,0 +1,27 @@
+{
+  "id": "jr7nz",
+  "slug": "waterline",
+  "title": "Waterline",
+  "tagline": "Proof of delivered compute. Verifies a rented GPU is the chip you paid for.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jr7nz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/taWZvwLKEo3IZq4yht5EO01usjj6Y2C3SLIjsVHqMI5s/high.mp4",
+  "demo_url": "https://waterline-eth.vercel.app/",
+  "source_url": "https://github.com/FlyingWHR/waterline",
+  "finalist": false,
+  "description": "GPU compute is increasingly financed, traded and lent against, but delivery is still self-reported. Waterline lets a renter verify it from inside the rented machine.\n\nOne command runs a timed INT8 matrix challenge on the GPU's tensor cores. The GPU commits its answers, the API re-computes a random sample on a CPU, and a timing probe counts the cores to identify the chip. Result: PASS, DEGRADED (right chip, below rated speed) or FAIL (wrong chip or wrong answers).\n\nEach result is written to the GPU's own ENS name and rolled up to its provider. Failures require a World ID-verified person, and two independent reports, before a GPU is marked failed. Agents query the history through MultiBaas to avoid bad GPUs and providers. Providers can't write scores.",
+  "how_its_made": "Profiler (Python, CuPy, PyTorch): loaded into memory on the pod, nothing installed. Generates seeded 16k x 16k INT8 matrices bit-identical to the CPU reference, commits a Merkle root of per-row fingerprints before the sample is chosen, and counts SMs with a staircase kernel.\n\nAPI (FastAPI on Vercel, Redis): issues seeds, enforces the deadline, re-grades sampled rows and writes results onchain.\n\nENSv2: our Marks contract on Sepolia is the wildcard resolver for waterline.eth, so every GPU and check resolves without registration. GPU nodes derive from provider nodes, giving per-provider roll-ups. Enhanced Access Control restricts score writes to our API.\n\nWorld ID for Agents: device-code approval verified server-side; per-GPU and per-provider voter IDs enforce one voice per person. A revocable mandate lets a person's agents report.\n\nCurvegrid MultiBaas: builds transactions we sign locally, indexes events and fires a webhook. Its event queries replace a backend database and drive the agent's GPU selection.\n\n169 Python tests, Foundry contract tests, including against ENSv2 on a Sepolia fork.",
+  "auto_summary": "Waterline verifies rented GPU performance with timed compute checks, writes results to ENS-based records, and uses human verification for failure reports.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/waterline-jr7nz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

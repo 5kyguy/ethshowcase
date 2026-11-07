@@ -1,0 +1,27 @@
+{
+  "id": "y1sjc",
+  "slug": "hackatriathlon",
+  "title": "HackaTriathlon",
+  "tagline": "Live biometric prediction markets on Arc. Heart rate belt → iPhone → smart contract settlement.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y1sjc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/nYQhOwKQPpjMkK01tZRtQbhxWMa7ZrJy6yogbd6gMBSU/high.mp4",
+  "demo_url": "https://hackatriathlon-frontend.vercel.app/",
+  "source_url": "https://github.com/Podima2/HackaTriathlon",
+  "finalist": false,
+  "description": "Biometric Prediction Markets on Arc                                           \n                                                                                \n  A real-time prediction market platform where spectators bet on live athlete   \n  performance using verifiable physiological data. Heart rate, HRV, steps, pace,\n   and cadence stream from a BLE chest strap and iPhone sensors through a relay \n  app to an onchain settlement layer — turning every race, workout, or\n  competition into a live trading floor.\n\n  Use cases: Crowd-sourced sports analytics, live event engagement, performance \n  forecasting, and biometric research. Spectators take positions on whether an\n  athlete's heart rate crosses a threshold, HRV drops under stress, or pace     \n  holds over an interval. Markets resolve deterministically from sensor data —\n  no oracle trust assumptions.\n\n  Architecture: A Polar-compatible BLE chest strap transmits heart rate         \n  measurements including RR intervals to an iOS relay app (Swift, CoreBluetooth,\n   CoreMotion). The app computes sliding-window HRV metrics (SDNN, RMSSD)       \n  on-device and uploads telemetry batches to a Node.js backend. The backend\n  stores samples in Supabase, publishes snapshots to Chainlink CRE, and resolves\n   settlement queries. A Solidity prediction market contract on Arc handles\n  market creation, binary AMM trading, and USDC-collateral payouts. The frontend\n   (TypeScript, Vite, SVG) renders live telemetry, a real-time HRV distribution\n  bell curve, and trading interfaces — all settled with sub-second deterministic\n   finality.",
+  "how_its_made": "Technical Architecture                                                        \n                                         \n  The data pipeline begins at a Bluetooth Low Energy chest strap broadcasting   \n  Heart Rate Measurement characteristics (0x2A37), including beat-to-beat RR\n  intervals at 1/1024s resolution. An iOS relay app (Swift, CoreBluetooth)      \n  parses the BLE payload, extracts BPM and RR intervals, computes RMSSD and SDNN\n   over a 30-second sliding window using Gaussian statistics, and queues samples\n   with elapsed-millisecond timestamps into a durable on-device store.\n  CoreMotion's CMPedometer runs in parallel, capturing steps, cadence, and pace.\n   A background upload worker batches samples over HTTPS to a Node.js backend\n  with exponential backoff and network-aware retry.\n\n  The backend (TypeScript, Vite, ws) ingests telemetry into Supabase, maintains \n  a session registry, and publishes snapshots to a Chainlink CRE telemetry\n  receiver contract. Settlement resolution queries the nearest sample to a      \n  target elapsed time and evaluates threshold comparisons for any signal type.\n\n  On Arc (chain 5042002, EVM-compatible), a Solidity 0.8.24 PredictionMarket    \n  contract implements a constant-product binary AMM with USDC collateral\n  (6-decimal ERC-20 at 0x3600...0000). Market lifecycle: create, seed liquidity,\n   take YES/NO positions, close, request settlement, fulfill via operator,\n  claim. Gas paid natively in USDC at ~$0.01/tx with deterministic sub-second\n  finality.\n\n  The frontend renders live SVG telemetry charts and a vertical Gaussian KDE    \n  distribution of RR intervals that reshapes in real time as data streams in.",
+  "auto_summary": "A biometric prediction market app streams athlete telemetry from iOS devices to backend services and settles Solidity markets using onchain-reported snapshots.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hackatriathlon-y1sjc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

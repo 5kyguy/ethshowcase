@@ -1,0 +1,30 @@
+{
+  "id": "d27v4",
+  "slug": "nextblock",
+  "title": "NextBlock",
+  "tagline": "Open protocol turning insurance risk into tokenized yield vaults",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d27v4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6007Tf01kdgK31hbjU1UNhg4k6viFzE5D01bxAhXWenl7w/high.mp4",
+  "demo_url": "https://nextblock-fo5o.vercel.app/",
+  "source_url": "https://github.com/alessandromaci/nextblock",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Insurance is a $16T market. Cat Bonds yield 9–16% uncorrelated returns but require $100K+ minimums and multi-year lock-ups. The capital is there; the infrastructure is not.\n\nNextBlock is open infrastructure for tokenized insurance yield — Lloyd's of London rebuilt as an on-chain protocol. It works in three layers. The NextBlock Protocol provides tokenization infrastructure, a vault factory, and claim settlement rails. Insurers tokenize their policies, and independent vault managers curate portfolios from available policies. Investors deposit capital into vaults and earn insurance-backed yield.\n\nThe key innovation is a verification taxonomy. Policies are organized by how claims are verified, not what they insure. Fully on-chain policies like BTC price protection let anyone trigger the claim permissionlessly. Oracle-dependent policies like flight delay insurance are automated via data feeds. Off-chain policies like commercial fire insurance are assessed by the insurer. This is the honest story of where blockchain adds real value and where it doesn't.\n\nTwo demo vaults prove the platform narrative. Vault A, called Balanced Core, holds all three verification types. Vault B, called DeFi Alpha, holds only automated claims — a different manager with a different risk philosophy. The same BTC protection policy sits in both vaults. When BTC crashes, each vault reacts independently. Same event. Different strategy. Different impact. That is the platform.",
+  "how_its_made": "NextBlock is built with Solidity 0.8.24, Foundry, OpenZeppelin v5.1, Next.js 15, wagmi v2, and Tailwind CSS, deployed on Base Sepolia.\n\nThe core contract is an ERC-4626 vault with a custom totalAssets() that implements real insurance accounting on-chain: NAV equals USDC balance minus unearned premiums (linear decay over policy duration) minus pending claims minus accrued fees. Share price rises naturally as premiums earn over time. This is standard Unearned Premium Reserve accounting from traditional insurance, implemented in Solidity for the first time.\n\nThe most innovative piece is the three-path claim trigger system built into a single vault contract. The first path is fully permissionless: anyone calls checkClaim(), the contract reads an oracle, and auto-triggers the payout. The second is role-restricted via an ORACLE_REPORTER that calls reportEvent() with a trusted data feed. The third is also role-restricted, where an INSURER_ADMIN calls submitClaim() with an assessed amount for off-chain verified claims. Each path has different access control, different amount logic (binary vs. partial), and different trust assumptions — and we label these honestly in the UI. This verification taxonomy is the demo's thesis: blockchain adds different value at different points of the insurance stack.\nClaims mint soulbound ERC-721 receipts (non-transferable via _update override) that represent the insurer's draw-down right against vault capital. Exercise is a separate transaction, mirroring real ring-fenced capital structures in collateralized reinsurance.\n\nOn the hacky side: we built a virtual time system where PolicyRegistry.currentTime() returns block.timestamp + timeOffset, so one advanceTime() call fast-forwards all vaults simultaneously during live demo. We also deploy the same policy into two vaults with fully independent state using a shared policy pull model — trigger a BTC crash and both vaults react independently. Same event, different strategy, different impact. Fee circularity is broken by pre-fee basis computation in totalAssets(), and pre-funded premiums use real USDC (not virtual accounting) so every dollar of NAV is backed by actual tokens in the contract.\nThe frontend is Morpho-style with vault details and an inline deposit sidebar. The two-tx deposit flow (approve then deposit) is handled by a state machine, and the NAV ticker uses hybrid polling — 10-second contract reads combined with 1-second client-side linear interpolation for a smooth display.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nextblock-d27v4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

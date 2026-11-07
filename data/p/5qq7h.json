@@ -1,0 +1,48 @@
+{
+  "id": "5qq7h",
+  "slug": "frens",
+  "title": "frens",
+  "tagline": "Frens helps you mitigate the risks of solo staking while bonding with your Ethereum friends. Built on top of SSV to ensure fault tolerance and performance. Invite friends to pool 32 ETH and spin up a distributed validator. A unique Frens-NFT represents your share in the pool.",
+  "event": {
+    "slug": "ethbogota",
+    "name": "ETHBogotá",
+    "start_time": "2022-10-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5qq7h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2jC00QtyHj1Ff7E32iIQihSbOOBZzTi251INDfYqHKxg/high.mp4",
+  "demo_url": "https://frens-network.vercel.app/",
+  "source_url": "https://github.com/normadn/frens",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHBogota Finalist",
+      "title": "ETHGlobal"
+    },
+    {
+      "sponsor": "ssv.network",
+      "sponsor_id": "y6na5",
+      "placement": "🥇 ssv.network — Best Use",
+      "title": "ssv.network"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🥈 ENS — Best Use",
+      "title": "ENS"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🏊‍♂️ ENS — Pool Prize",
+      "title": "ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "Frens is all about staking with friends\nFriendly · Riskless · Ethereum · Non-custodial · Staking\nA foundation of trust among friends that helps the security of the Ethereum network.\n\nStaking Ethereum is hard, expensive, risky and risks getting too centralized.\n\nFor running an Ethereum validator you still need a lot of technical knowledge and infrastructure not accessible for most people. 32 ETH is also a lot of money for single stakers especially when you risk losing your stake when you misconfigure your validator. Because of these challenges most people currently choose to stake with centralized, non-custodial staking services, like Coinbase or Kraken. This centralization is a risk for Ethereum itself.\n\nFrens wants staking to be fault tolerant, rewarding, social and fun. Frens enables you to stake in a pool with your friends in a convenient and fault tolerant way. \nIt is built on:\n* A deposit smart contract factory\n* SSV’s DVT technology for fault tolerant staking\n* A slick UI for smooth onboarding and automation\n* An assumption of trust between (non-technical) friends and a knowledgeable pool operator\n\nHow it works:\nThe Frens journey starts with a Frens operator. This is a person who knows and understands Ethereum staking and wants to help their friends without too much hassle or reputation risk. The operator creates a “staking pool” smart contract via a one-click button on the Frens website. The website provides him with a magic link to an easy UI so his friends can deposit the necessary ETH for a full validator. Only friends with this link can deposit ETH to the pool. They are greeted with a clean UI that makes depositing their ETH very easy.\nOnce the 32 ETH is collected, the operator can start the depositing machinery (on the Frens website):\n1. Select 3 extra SSV operators (in addition to his own operator node)\n2. Deposit to the Etherum staking contract\n3. Split the validator keys\n4. Register the validator (with SSV)\n\nOnce the validator starts validating the rewards are added to the pool’s smart contract. An extra percentage of the rewards is paid to operator to cover the costs of the required SSV tokens, plus some extra for their efforts. (TODO: we also want a percentage for the Frens DAO, but this was not implemented in the hackathon). Once withdrawals are enabled after the Shanghai update, participants will be a able to withdraw rewards from their pool.\n\nNFTs: Each of the staking frens will get an NFT that proves their share in the staking pool. If one of the frens decides to leave the staking pool for whatever reason, they can sell their NFT to the frens  (to keep the pool closed) or sell to a 3rd party.\n\n\nThe frens website also provides a status page for each member of the group of stakers.to monitor the statistics and status of their staking pool. \n\nPermissionless: The frens website is a lean dApp. It does not use a database and only talks to onchain sources. The website can run in a fully decentralized way on IPFS.\n\nWho benefits?\n\nFrens: the friends benefit from a secure and fault tolerant staking pool with higher than common pooling APYs. They will also learn a lot more about Ethereum from their operator friend with real skin in the game. The NFT adds clout to participants and “social currency” that will drive more people towards staking.\n\nOperator: He will be the hero of his frens and also earns “SVV operator reputation” which will most likely result in more SSV valitors selecting their pool, increasing his reward in SSV-tokens. He also earns a fee on the pool’s rewards which should more than cover his operational costs.\n\nThe Ethereum ecosystem: Our solution has the ambition to further improve the decentralization of staking by democratizing the running of staking pools. Frens is the summoner of staking pools. Anyone can start their own (profitable!) staking pool service from home. And we believe that our initiative ultimately contributes to a more secure chain.\nThis is our contribution to the Ethereum ecosystem.\n",
+  "how_its_made": "This is divided in two pieces: the front-end and the back-end\n\nFor the front-end we used the starter from rainbowkit which gave us an easy start with wallet connect button. For styling we added tailwindCSS and daisyUI. We splitted up the UX flow for our two users: operators and stakers. Ended up being two nextJS pages. Allowing you to  stake in the correct pool(s) you participate in. Wagmi.sh hooks made interacting with our deployed contracts easy. What did turn out to be tricky was to use the ssv key splitter from our webapp but eventually we found a workaround. All this is subject to future improvement of course. \n\nFor the back-end we used scaffold-eth as a development environment. All contract development, deployment, and testing was done in this environment. A hardhat mainnet fork was used to test the interface between the stakingPool contract and the beacon chain deposit contract. Once the contracts were complete the hardhat folder from the project was imported into the WAGMI project for the frontend development.\n\nSponsor technology\n\nSSV.network: We used SSV to run the validators of the created staking pools. The operator Fren picks the other 3 operators from the list of operators in the SSV network. This enforces decentralization and fault tolerance on the validator level.\nWe did set up an SSV operator node, and this process was straightforward.\n\nENS: We used ENS protocol to display the operator’s information on the frens’ staking page. We also display the operators’ avatar for an extra welcoming feel. This was a smooth export via the wagmi.sh library.\n\nWalletConnect: We used wallet connect to integrate an Ethereum wallet into the flow, all the participants in a Frens staking pool must chip in some ETH to participate. This was incredibly easy with WalletConnect and allowed us to onboard new frens via mobile wallets too.\n\nLens protocol: We wanted to use Lens protocol to invite friends to use the smoothing pool. But we did not have enough time left to work this out. We settled on a button to follow the operator on lenster.xyz.\n\nWe are especially proud of the poolfactory concept. Instead of creating just one pool, we generate a new pool for each group that automatically mints NFT’s for each participant that have much potential in DeFi, collateral and NFT trading. The NFT’s create tradeable shares of decentralized staking pools.\nThis approach stimulates the creation of many new small staking pool operators instead of one pool that attracts a big chunk of staked ETH. This is intentionally and by design.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/frens-5qq7h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "jix5c",
+  "slug": "mochi-mart",
+  "title": "Mochi Mart",
+  "tagline": "A 3D VRM shop selling onchain unlocks; Intercepta screens every payer and gift recipient first.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jix5c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/22Xd5LpoLbUzPv3n2xFKvCLvh6ehWF5ALlc6YARh02XY/high.mp4",
+  "demo_url": "https://avatar-shopkeeper.vercel.app",
+  "source_url": "https://github.com/trungdhf/avatar-shopkeeper",
+  "finalist": false,
+  "description": "Mochi Mart is a 3D shop floor where Mochi, a VRM avatar shopkeeper, tries on whatever you click on the shelves: hats, eyewear and tees. Twelve styles are free to try with no wallet. Two of them, the Tokyo Cowboy hat and the Shibuya Shades, can be bought as onchain unlocks on Ethereum Sepolia. Ownership is read back from the contract, so reloading the page re-equips what your wallet owns.\n\nThis weekend we added payment screening where money moves. Before the wallet is asked to sign, checkout calls Intercepta to screen the paying wallet. You can also gift an item to another address, and in that case the recipient is screened as well. If either address has a sanctions, known-scammer or blacklist trait, the payment is held. The trait names and risk are shown right in the cart, and the pay button reads \"Held: gift recipient flagged\". A clean address goes straight through to a real Sepolia transaction.\n\nContinuity: the VRM avatar and the 3D avatar chatbot idea come from my earlier project chatbot3D (https://github.com/trungdhf/chatbot3D). The shop, contract, checkout, Intercepta screening and gifting were built during ETHGlobal Tokyo. The unlocks are in-app entitlements, not NFTs, and the shopkeeper's lines are scripted, not an AI agent.",
+  "how_its_made": "The frontend is React + Vite with React Three Fiber and @pixiv/three-vrm. It renders the VRM avatar, the accessories (procedural geometry and canvas textures, no external art), a Tokyo dusk backdrop, VRMA motions and vowel-to-viseme lip sync. Wallet reads and writes go through viem. The Solidity contract AvatarShop has purchaseHat and purchaseGlasses, plus purchaseHatFor(address) and purchaseGlassesFor(address) for gifts and a VERSION getter; the frontend reads VERSION so the gift UI only appears on the new deployment. Contract tests compile with solc and run real EVM calls in memory with @ethereumjs/evm.\n\nIntercepta is called server-side from a Vercel function (api/screen.ts), so the API key never reaches the browser bundle. We use the deep scan-address endpoint rather than quick-scan, because quick-scan returned empty results for every address we tried, and we decide on trait names rather than toxicScore because its scale is undocumented. The index covers mainnet, so we screen wallets, which have real mainnet history, instead of our Sepolia-only contract. The pay button stays disabled until every screen has answered.",
+  "auto_summary": "A React and Solidity app lets users preview avatar accessories in 3D and buy or gift two onchain unlocks with address screening.",
+  "scores": {
+    "originality": 6,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mochi-mart-jix5c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

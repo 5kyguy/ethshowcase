@@ -1,0 +1,29 @@
+{
+  "id": "webor",
+  "slug": "hazina",
+  "title": "Hazina",
+  "tagline": "Hazina is a smart crypto wallet that uses AI agents to interact with users and trade cryptocurrencies. The AI logic can run locally (e.g., with Ollama) or on a TEE-based server (e.g., with  Autonome).",
+  "event": {
+    "slug": "agents",
+    "name": "Agentic Ethereum",
+    "start_time": "2025-01-31T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/webor/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IS3l7QFr5nnguMI1hjL02z00t0100XHfWg3llRpCL02mdSdc/high.mp4",
+  "source_url": "https://github.com/dloghin/hazina",
+  "prizes": [
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "AgentKit Pool Prize",
+      "title": "AgentKit Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Hazina is a smart crypto wallet that uses AI agents to interact with the user and trade cryptocurrencies on the user's behalf. We built this project to offer more privacy to end users by running the trading engine locally or on cloud servers with trusted execution environments (TEE). Specifically, Hazina supports three levels of privacy: (1) all the AI agents (models) run locally with Ollama, (2) the AI agents run locally but they call OpenAI API for model inference, and (3) all the agents run in a remote Autonome environment validated by TEE. Hazina uses Coinbase Developer Platform (CDP) API to interact with blockchains and Coinbase's AgentKit to handle user interaction. The trading engine consists of four agents (the trading engine is not developed by us; we use the open source project at https://github.com/Xtra-Computing/CryptoTrade which is also described in a paper - https://arxiv.org/abs/2407.09546; we made some code modifications such that the agents can also run with Ollama and the entire trading engine can run locally or remotely in a Docker container). These four agents are (1) market agent - analyzing the latest blockchain transactions and cryptocurrency prices, (2) news agent - analyzing the latest news from a Google News feed, (3) trading agent - issues buy or sell actions and (4) reflection agent - analyzing the historical actions of the trader and improve its performance.\n\nBy default, Hazina uses locally-run Ollama models (such as llama3.2, deepseek-r1, and llama3-groq-tool-use). The user can select OpenAI from a drop-down list, as well as Autonome if she wants to run all the agents remotely in a TEE-validated environment. By default, Hazina runs in user mode, where no trading action is done by the agents. The user can switch to autonomous mode by pressing a button or writing \"run in autonomous mode\" in the chat. The user mode chat supports all the tools described in the cdp-langchain-chatbot example from Coinbase AgentKit (https://github.com/coinbase/agentkit/tree/master/python/examples/cdp-langchain-chatbot). We also made some changes to support running AgentKit locally using Ollama llama3-groq-tool-use model.",
+  "how_its_made": "Hazina is built in Python using flet-dev as the UI framework. We started with the chat UI example from flet-dev (https://flet.dev/docs/tutorials/python-chat) and the Python cdp-langchain-chatbot example from Coinbase AgentKit (https://github.com/coinbase/agentkit/tree/master/python/examples/cdp-langchain-chatbot). To start using Hazina, a user needs to set a password and then set OpenAI API key and Coinbase Developer Platform (CDP) API key name and private key. These keys are saved encrypted with the password using AES GCM in a local file.\n\nWe made some code changes to run AgentKit with local models via Ollama (in particular, with llama3-groq-tool-use model). This also requires some changes in chainlang package as described in this commit (https://github.com/dloghin/langchain/commit/52f58d97c3a2824262b497f0517ce112186447e8). At the same time, AgentKit can also run with OpenAI models - the user selects the model provider from a dropdown list.\n\nHazina can also use agents that run on Autonome (via REST API). We package the trading engine in a docker image and upload it to Autonome (pending approval). For serving the REST API, we use Flask.\n\nHazina uses text-to-speech to narrate the messages sent by AgentKit in the chat. This could be useful for impaired users or users who cannot look at the screen and want to interact via speech. We also wanted to use speech-to-text to input the messages to the agent but flet AudioRecorder widget did not work (neither in Ubuntu, nor MacOS). We leave this to future work.\n\nTo alert users of buy or sell actions, we connect Hazina with Telegram. A telegram bot will send the alerts to the Telegram user associated with the wallet.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hazina-webor",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,36 @@
+{
+  "id": "xkm3j",
+  "slug": "datagator",
+  "title": "Datagator",
+  "tagline": "Datagator provides an interface for a fair and equitable exchange of data with AI",
+  "event": {
+    "slug": "brussels",
+    "name": "ETHGlobal Brussels",
+    "start_time": "2024-07-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xkm3j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jpfI1Rfjzz7QbAiYrQaFgV7NJdYgnGuor00Sq6gfaxWQ/high.mp4",
+  "demo_url": "https://www.datagator.app/",
+  "source_url": "https://github.com/Quix44/datagator.app",
+  "prizes": [
+    {
+      "sponsor": "Morph",
+      "sponsor_id": "vy7pe",
+      "placement": "1st place",
+      "title": "Consumer Centric Track"
+    },
+    {
+      "sponsor": "Base",
+      "sponsor_id": "h5ps8",
+      "placement": "2nd place",
+      "title": "Best use of Smart Wallet"
+    }
+  ],
+  "finalist": true,
+  "description": "Applications such as X, Linkedin, Facebook, Spotify, Instagram know everything about us, they aggregate our likes, searches and interactions and market to us in a hyper focused one way channel where us, the data owner is never truly incentivized for the data we create.\n\nDatagator solves this by providing users an application in which they can consent-fully give their data to our platform in return for financial incentive. We train a Large Language Model (LLM) on the users data that allows us to aggregate their likes and interests into a global layer of information that is accessible by paying customers.\n\nWhen any user owned data is utilized as part of any text generation task (inference), the owner of that data is paid in instantly on-chain in tokens and, their data is referenced in the response. This creates a flywheel with two main groups of users, data providers, and data consumers.\n\n## Data Providers\n\nData Providers are users that give their information to the Datagator platform, when their data is used in inference, they are paid to their registered wallet in real-time. No questions asked.\n\n## Data Consumers\n\nData Consumers \"chat\" with the Datagator LLM via a familiar chat interface which operates on a pay-per-message basis. Data consumers are typically businesses or marketers who want to understand trends or gain deeper insight into an aggregate of their user base. These users talk to an aggregate of their products audience and get up-to-date data on what their audience is interested in, chatting about, watching, listening or tweeting at. This allows them to make better decisions on what to market to their audience. Data consumers pay for the service in tokens which are distributed to the data providers when the providers data is referenced during our Retrieval Augmented Generation (RAG) process.\n\nWe think of the flywheel like this: \n- More consentful data on the platform = Better inference results from the model.\n- Better inference results from the model. = more organic growth from paying users.\n- More organic growth and paying users ($) = more data providers ($) and thus more data on the platform.\nRepeat...\n```",
+  "how_its_made": "Datagator is a consumer app built at the intersection of AI and Blockchain. Users start by logging into our NextJS application and selecting a subset of applications they would like to \"link\" to Datagator, from this, the users link their wallet, and then they go through a standard oAuth for the given application to allow Datagator access to their data. \n\nThe user selects the applications to link, and presses \"consent\" - which requires an on-chain transaction and stores the users confirmation of consent on-chain. This also creates an association on our backend between the users wallet and their social identities. When the transaction succeeds, a backend process starts to ingest the data from the consented platforms on behalf of the user. This process utilizes AWS Lambda functions to communicate with third party platforms such as Twitter, Linkedin etc to retreive the users information. \n\nOnce the information is retrieved from the platforms it is concatinated into a single \"entity file\" that represents the user. This is stored into an optimzed format and is then tokenized and stored in a vector database, for this we use Pinecone DB. Pinecone DB stores chunks (as vectors) of user data that can be queried by the LLM at inference time.\n\nData consumers (the users that would be paying to get data from the system) then ask the LLM questions. A question starts off as a prompt and gets sent across a websocket to our API. The API receives the message on the socket and performs inference against the model, it does this by asking for the response to be streamed back in real-time as opposed to waiting for the entire text. As a chunk of text is emitted by the LLM it is passed back to the client application via the websocket, it is then concatenated and rendered by our client application in the chat session.\n\nOnce the full message has been sent back to the client, the function handling the websocket request checks the score on the referenced data that was used to build the LLMs response. A score is given to the \"chunks\" of reference data that the LLM provided based on the relevance of the question being asked by the user. Based on this score, an amount of DATA tokens are instantly distributed on-chain to the wallet address of all users who supplied data that was referenced within this request. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/datagator-xkm3j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

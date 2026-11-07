@@ -1,0 +1,28 @@
+{
+  "id": "mzti3",
+  "slug": "all-weather-protocol",
+  "title": "All Weather Protocol",
+  "tagline": "It's a crypto index fund, which integrates 1inch to zap in into sushiswap pool",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mzti3/banner/default.jpg",
+  "source_url": "https://github.com/david30907d/ETH-Global-Paris",
+  "prizes": [
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🏊 Neon EVM — Pool Prize",
+      "title": "Neon EVM"
+    }
+  ],
+  "finalist": false,
+  "description": "This project can save LP's time to zap in.\n\nWhen it comes to provide liquidity to AMM like sushiswap, you need 2 steps:\n1. find the best quotes across every AMM to swap\n2. provide swapped tokens into pool as liquidity\n\nThis project provide 1-click transaction to do those 2 steps.\n\nIn the future, I would integrate more protocols for this 1-click zap-in function.",
+  "how_its_made": "Actually it's pretty simple, just put 1inch swap function + sushiswap provide liquidity \n\nfunction in a single function. That's it.\n  function _zapIn(\n    uint256 amount,\n    bytes calldata oneInchData\n  ) internal override returns (uint256) {\n    SafeERC20.safeApprove(\n      weth,\n      oneInchAggregatorAddress,\n      Math.mulDiv(amount, 1, 2)\n    );\n    // TODO(david): should return those token left after `addLiquidityETH` back to user\n    // recurring error: \"Error: VM Exception while processing transaction: reverted with reason string '1inch failed to swap'\"\n    (bool succ, bytes memory data) = address(oneInchAggregatorAddress).call(\n      oneInchData\n    );\n    require(succ, \"1inch failed to swap\");\n    //  (uint256 dpxReturnedAmount, uint256 gasLeft) = abi.decode(data, (uint256, uint256));\n    uint256 dpxReturnedAmount = dpxToken.balanceOf(address(this));\n    SafeERC20.safeApprove(dpxToken, sushiSwapRouterAddress, dpxReturnedAmount);\n    weth.withdraw(Math.mulDiv(amount, 1, 2));\n    // deadline means current time + 5 minutes;\n    uint256 deadline = block.timestamp + 300;\n    (uint amountToken, uint amountETH, uint liquidity) = IUniswapV2Router01(\n      sushiSwapRouterAddress\n    ).addLiquidityETH{value: address(this).balance}(\n      address(dpxToken),\n      dpxReturnedAmount,\n      Math.mulDiv(dpxReturnedAmount, 95, 100),\n      Math.mulDiv(address(this).balance, 95, 100),\n      address(this),\n      deadline\n    );\n    IERC20(sushiSwapDpxLpTokenAddress).approve(\n      address(sushiSwapMiniChef),\n      liquidity\n    );\n    sushiSwapMiniChef.deposit(pid, liquidity, address(this));\n    return liquidity;\n  }\n``",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/all-weather-protocol-mzti3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

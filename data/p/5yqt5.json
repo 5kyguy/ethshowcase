@@ -1,0 +1,27 @@
+{
+  "id": "5yqt5",
+  "slug": "clearing-bell",
+  "title": "Clearing Bell",
+  "tagline": "Batch auctions for tokenized bonds on Hedera, with one clearing price and eligibility checks.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5yqt5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Q8oaczYs8dhJb0193kYe00eUhqZezJb02lfhYJLFtOrJaY/high.mp4",
+  "demo_url": "https://clearing-bell.vercel.app/",
+  "source_url": "https://github.com/Vaibhav-Rawat-cipher/Clearing-Bell",
+  "finalist": false,
+  "description": "Putting a bond on-chain is only half the job. The harder question is what happens when its holder wants to sell.\n\nClearing Bell is a secondary-market prototype for tokenized bonds on Hedera. It brings buyers and sellers together in timed batch auctions: participants submit public limit orders, and the clearing engine determines a single price for matched trades. Eligible orders can fill partially, and an auction with no matching demand closes without forcing a trade.\n\nWe chose this approach for assets that may not trade every second. Gathering orders into a shared window gives buyers and sellers a common moment for price discovery, without requiring a continuously funded liquidity pool.\n\nEligibility is part of the trading process. The contracts check the bond’s configured identity registry when an order is submitted and recheck eligibility before settlement. Matched bond and payment-token transfers execute together in one transaction.\n\nThe architecture also supports a curated multi-issuer model. A platform administrator registers bond issuers, while bond-specific permissions govern their auction operations. The frontend brings markets, auction depth, wallet balances, settlement records and issuer controls into one workspace.\n\nOur focus is the gap between issuing a digital asset and giving its holders a usable market. Clearing Bell is currently a hackathon prototype; multi-issuer workflow validation and security hardening remain in progress.",
+  "how_its_made": "We built Clearing Bell with Solidity contracts, a React and TypeScript frontend, and Hedera’s EVM-compatible testnet. The frontend uses Vite and viem to read contract state and prepare wallet transactions directly, without a separate application server.\n\nThe auction logic is split between AuctionEngine and a pure ClearingLib library. The library evaluates executable demand and supply across submitted price levels, selects a uniform clearing price, and allocates fills using price priority and submission order. Keeping the calculation separate from token transfers makes the matching logic easier to inspect and test.\n\nSettlement uses a collect-and-distribute flow inside one transaction. We also handle token amounts using integer base units, with explicit decimal conversion between bond quantities and payment tokens. This matters because small rounding errors can otherwise leave settlement underfunded or create leftover balances.\n\nOur Hedera integration includes bond-deployment scripts targeting the Asset Tokenization Studio factory and a compliance gate that queries the configured identity registry. One particularly tricky integration detail was matching the deployed ATS factory’s ABI: the scripts explicitly encode its v7 bond-creation structure, whose field order differs from newer versions.\nFor the interface, we built reusable auction charts from actual order-book data, wallet-session restoration, and separate investor and issuer views. Three.js provides optional spatial visuals, with still-image fallbacks and reduced-motion support.\n\nWe use Foundry and Anvil for contract development, alongside frontend tests, TypeScript and ESLint. The repository also includes a Uniswap v4 hook integration, but the current frontend routes directly to the auction engine; real PoolManager integration is not presented as a completed production flow.",
+  "auto_summary": "A Hedera-based prototype for compliant secondary trading of tokenized bonds using batch auctions, with frontend, deployment scripts, and optional Uniswap v4 hook experiments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/clearing-bell-5yqt5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

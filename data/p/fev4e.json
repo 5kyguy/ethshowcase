@@ -1,0 +1,21 @@
+{
+  "id": "fev4e",
+  "slug": "sybilization",
+  "title": "Sybilization",
+  "tagline": "Private voting with ZKPassport biometric identity verification on Aztec Network",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fev4e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8PFUfJAQdKjYMBA6JES00Im01pHszSBfsqwiIHQXbzSoY/high.mp4",
+  "source_url": "https://github.com/Fran-cio/Sybilization",
+  "finalist": false,
+  "description": "Sybilization is a privacy-preserving voting system built on Aztec Network that uses ZKPassport for Sybil-resistant anonymous voting. Users verify their identity through biometric passport scanning with the ZKPassport mobile app, which generates zero-knowledge proofs locally without revealing personal data. Each passport creates a unique nullifier stored in Aztec's nullifier tree, preventing double-voting while maintaining complete voter anonymity.\n\nThe system features time-based voting periods, encrypted vote reasons, and immutable result snapshots. All vote execution happens privately on users' devices, while only vote tallies are public and auditable. The admin panel allows voting period management, and the sponsored FPC integration provides gasless transactions for voters. The project includes a complete UI with mock wallet testing for demos and real ZKPassport QR integration for production use.",
+  "how_its_made": "This project is built on Aztec Network v3.0.0-devnet.5 using Noir smart contracts for private execution. The architecture consists of three layers:\n\n**Smart Contract (Noir)**: The PrivateVoting contract uses Aztec's nullifier tree for Sybil resistance and private execution for vote secrecy. Vote tallies are stored in public storage for transparency, while voter identities remain private. The contract includes time-based validation, admin controls, and immutable snapshot functionality.\n\n**Backend (Node.js + Express)**: The API server manages TestWallet instances, interfaces with Aztec devnet via @aztec/aztec.js, and implements ZKPassport SDK integration for QR code generation. It uses Sponsored FPC for gasless voting and includes comprehensive admin endpoints for contract management.\n\n**Frontend (Next.js 16)**: Built with React and Server-Sent Events for real-time ZKPassport verification. The UI includes three mock wallets (Alice, Bob, Charlie) for testing, dynamic admin panel with floating UI, and automatic fallback to mock mode when ZKPassport service is unavailable.\n\n**Notable Hacks**:\n1. **Deterministic Admin Keys**: We generate consistent admin accounts across deployments using fixed encryption keys, enabling reliable contract management in demo environments.\n\n2. **Post-Compilation Pipeline**: Contracts require aztec-nargo compilation followed by aztec-postprocess-contract transpilation. We automated this in setup.sh for judge convenience.\n\n3. **Mock Wallet System**: Created three predefined passport identities with unique nullifiers for rapid testing, with a random generator for unlimited test scenarios.\n\n4. **SSE for ZKPassport**: Implemented Server-Sent Events to stream QR codes and verification results from backend to frontend, maintaining architectural separation while preserving real-time functionality.\n\n5. **Buffer Polyfill**: Added global.Buffer polyfill to handle ES module compatibility issues with Aztec dependencies in the API server.\n\nThe project leverages OpenPassport's noir_dl_lib circuits for ZKPassport integration, though currently uses simulated proofs for demo purposes. The full system is deployed on Aztec Devnet with contract address 0x0a677f12fcb035495fe5e7262e8493dd5af7d7a5aa5a296babd70fb967d3cc45.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sybilization-fev4e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

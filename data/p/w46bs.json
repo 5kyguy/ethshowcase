@@ -1,0 +1,27 @@
+{
+  "id": "w46bs",
+  "slug": "kimayyy",
+  "title": "Kimayyy",
+  "tagline": "A persistent public AI that can never be turned off – with shared memory anchored on 0G.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w46bs/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ILjZRWrFl01rTcxc8RMWenL7OvzXMruXrZRHRt3H3ILA/high.mp4",
+  "demo_url": "https://ultr0n.xyz/",
+  "source_url": "https://github.com/alramalho/ultr0n",
+  "finalist": false,
+  "description": "ultr0n is a thought experiment in what it means for an AI to be truly open: one persistent entity shared by everyone, with one public memory instead of separate private chats. \n\nAnyone can join from a browser with a temporary wallet, and every signed message enters the same context. That lets ultr0n recognize recurring speakers, contradictions, and genuine connections across the crowd. Its persona and memory are stored on 0G Storage, their canonical roots are anchored by a registry contract on 0G Chain, and inference runs through verified 0G \n\nTruly open and public, as AI was meant to be.",
+  "how_its_made": "The frontend is built with React, TypeScript, and Vite. The browser creates a temporary EOA wallet, signs every message, and streams responses over an NDJSON endpoint. A Node.js/Express backend verifies each signature, immediately records the accepted turn in a crash-safe SQLite WAL outbox, builds the prompt from ultr0n’s shared in-memory context, and sends it to a Qwen3-VL-30B-A3B provider through the 0G Compute TypeScript SDK. Tokens are relayed to the browser as they are generated, with TeeML verification running in an Intel TDX environment via dstack.\nAfter the response is complete, the user and assistant messages are persisted locally and a canonical snapshot is uploaded asynchronously to 0G Storage. A minimal Solidity registry on 0G Chain stores the current memory root, persona root, and controller, allowing another host to rehydrate ultr0n.\nIn order to optimize UX, we had to separate the latency-critical chat path from decentralized finality: messages are fsynced locally and inference streams immediately, while the Storage upload and on-chain root update finish safely in the background. The frontend is deployed on Vercel; the API runs in a hardened Docker container behind Caddy on Hetzner.\n\nWe would also like to improve this further – for example through bringing true decentralized inference (e.g. mimicking how open science projects like petals does it), bridging and layering the last missing piece in a fully decentralized ",
+  "auto_summary": "A web app and API for a shared AI chat entity with signed browser messages, streamed inference, storage snapshots, and on-chain state roots.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kimayyy-w46bs",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

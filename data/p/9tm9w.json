@@ -1,0 +1,26 @@
+{
+  "id": "9tm9w",
+  "slug": "thermal",
+  "title": "Thermal",
+  "tagline": "Private USDC tips for creators — support anonymously, settled gaslessly on Circle's Arc.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9tm9w/banner/default.jpg",
+  "demo_url": "https://drive.google.com/file/d/1Wj7jO3WgWxBqDu6QqGrsezg_kaVv0Arl/view?usp=sharing",
+  "source_url": "https://github.com/vassCaR/ghost-tips",
+  "finalist": false,
+  "description": "Thermal lets you back creators and journalists with private, anonymous USDC support. Public tipping turns who-you-fund\n  into a permanent, searchable record — risky for supporters of dissidents or controversial voices. Thermal breaks that\n  link: you pick an amount and support in one tap, and the fan→creator relationship never touches a public ledger.\n  Creators only ever see an anonymous running total — never a supporter list, not even to us.\n\n  Under the hood, balances live in a shielded pool (deposits/withdrawals are the only on-chain footprint; who-pays-whom\n  is not), signed off-chain authorizations are aggregated per creator, and settled in near-instant, gasless USDC\n  transactions on Circle's Arc network. A one-click \"Run Demo\" replays the full path end-to-end against mock adapters\n  for judges, and the exact same code flips to real on-chain settlement via a single MOCK config switch.",
+  "how_its_made": " Monorepo, two services.\n\n  Frontend (web/): Next.js 15 (App Router) + TypeScript + Tailwind. Dynamic for wallet connect (falls back to a\n  simulated multi-wallet picker in demo mode). The support UI: amount selector (presets + custom) → one shared\n  supportOnce() core that signs a tip authorization (EIP-191 message) and posts it; an in-app \"DEMO MODE\" badge +\n  scripted Run Demo for a reproducible judge walkthrough. State is in React hooks (no localStorage). Three.js/WebGL\n  thermal-dither background.\n\n  Backend (server/): Fastify (Node 22, TS). A frozen shared API contract (onboard / deposit / tip / me/spent / creator\n  balance / withdraw). The core is a ports + adapters architecture: every external service (Unlink privacy accounts,\n  Circle settlement on Arc) is an interface with two implementations — mock and real — selected at one place by a MOCK\n  config flag (assertRealConfig fail-fasts if real keys are missing). A per-creator batcher accumulates verified\n  authorizations and settles them as a single aggregated, gasless USDC transaction. PRIVACY by construction: settlement\n  items deliberately carry NO fanAccountId, so the fan→creator link never reaches the settlement layer; nonce-monotonic\n  anti-replay + signature verification on every tip.\n\n  Real-mode rails (studied against Circle's arc-nanopayments / x402-batching and the Unlink admin SDK): viem on Arc\n  testnet (USDC 0x3600…0000, Circle Gateway), real withdraw() via a funded settler. Settlement submission and fan\n  registration are gated behind precise TODOs + DevRel questions rather than faked — so the demo stays honest and the\n  switch to real is non-destructive.\n\n  Stack: Next.js 15, React 19, TypeScript, Tailwind, Three.js, Fastify, viem, Dynamic, @unlink-xyz/sdk, Circle Arc\n  (USDC). Notably hacky-but-clean bit: the entire judged demo runs on mock adapters yet exercises the real money-path\n  code, so MOCK=false is the only change needed to go live.",
+  "auto_summary": "A monorepo app for private creator tipping that batches signed support authorizations and settles aggregated USDC transfers on Arc.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/thermal-9tm9w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

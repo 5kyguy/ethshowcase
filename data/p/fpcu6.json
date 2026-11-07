@@ -1,0 +1,27 @@
+{
+  "id": "fpcu6",
+  "slug": "stoikovhook",
+  "title": "StoikovHook",
+  "tagline": "Uniswap v4 hook that sets fees like a market maker: higher in volatile markets, skewed by direction",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fpcu6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/q0002SvxLj602xLBgV1YfrUHhoXIECXQ7gDXiUppWecD6Q/high.mp4",
+  "demo_url": "https://sepolia.etherscan.io/address/0x67b97620e35DAf13de266F84cAbC8c8d45755080#code",
+  "source_url": "https://github.com/tonycai/StoikovHook",
+  "finalist": false,
+  "description": "Problem. A Uniswap pool is a market maker that never updates its quote: its fee is fixed when the pool is created. When the price moves elsewhere, arbitrageurs trade the pool back into line, and LPs fill those trades at stale prices. This loss is called loss-versus-rebalancing (LVR). A static fee is too high for regular traders in calm markets and too low for arbitrageurs when volatility spikes.\n\nSolution. StoikovHook gives the pool the two tools of an Avellaneda-Stoikov market maker. Every block it posts two fees, one per direction, computed only from the pool's own state. A volatility premium raises both. An inventory skew charges more to swaps that push the price further from its slow moving average, and less to swaps that bring it back. No oracle, no admin key, no token custody. Deployed and source-verified on Sepolia.\n\nResults. A deterministic Foundry simulation runs identical order flow through every pool, over 20 seeds of 400 blocks. Against a static pool that charges regular traders the same average fee, LPs end +0.160 ± 0.105 bps of pool value ahead, in 20 of 20 seeds. The extra fee income comes entirely from arbitrageurs (+0.175 bps); regular traders pay the same average fee. The effect is small, about 2.2% of the LP's loss versus HODL, and appears only while the price trends. It does not lower LVR in absolute terms; what falls instead is the arbitrageur's share of the value it extracts, from 32.9% to 30.3%.",
+  "how_its_made": "StoikovHook extends OpenZeppelin uniswap-hooks' BaseOverrideFee and enables only afterInitialize and beforeSwap, so its address must end in flags 0x1080. It is mined with HookMiner and deployed via CREATE2. afterInitialize rejects static-fee pools, seeds the estimators and stores a 0.05% fallback with updateDynamicLPFee, since dynamic-fee pools otherwise start at lpFee = 0. beforeSwap returns the fee for the swap's direction with OVERRIDE_FEE_FLAG, so v4 charges it per swap without touching the stored fee.\n\nNo oracle: the reference price is a slow EMA (900 s) of the pool's own tick. The skew is the tick's distance from it, which within a liquidity range tracks the pool's inventory to first order. Volatility is an EWMA of squared tick changes, weighted by Δt/(τ+Δt), so no exp is needed. Solady's FixedPointMathLib does the math with one square root per block, and each pool's state fits in one storage slot.\n\nFees are computed at the first swap of a block, keyed by block.number, and cached. Mutation testing shows why: without the cache, a same-block round trip cuts a large buy's fee from 6,302 to 4,933 pips. Overhead is 3,678 gas on cached swaps and 14,905 when a window opens.\n\nThe simulation is a Foundry harness: an arbitrageur that trades only when profitable after each pool's directional fee, random noise traders, and a fee-matched control, over 20 seeds. The reference memory τR was calibrated under a pre-registered rule with training and holdout seeds. 3600 s passed it (+0.042 ± 0.027 bps, t = 6.9). A reversal scenario added after seeing those results showed it doing worse than 900 s (−0.117 ± 0.062 bps, t = −8.5), so the default stayed at 900 s and the override is documented.\n\nEtherscan verification failed on uniswap-hooks' root-relative import of src/base/BaseHook.sol; a context remapping fixed it without changing the bytecode.\n\nBuilt by one developer, with Claude for planning and review and Claude Code for execution; every change to fee logic, pool state or funds was reviewed as a diff. See AI_USAGE.md.",
+  "auto_summary": "A Solidity project implementing and testing a Uniswap v4 hook that sets directional dynamic swap fees from pool state.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/stoikovhook-fpcu6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

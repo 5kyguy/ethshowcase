@@ -1,0 +1,26 @@
+{
+  "id": "yk89d",
+  "slug": "scouts",
+  "title": "Scouts",
+  "tagline": "Scout turns natural-language onchain intents into verified live monitors.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yk89d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/carw02Wq9yuYZSWBWcbXpBXQ42uzRDRZJ3f02PE025g7Cs/high.mp4",
+  "demo_url": "https://scout-meoumi.vercel.app",
+  "finalist": false,
+  "description": "Scout is an autonomous onchain monitoring system that turns what a user wants to watch into a real, verifiable monitoring program. Instead of making users find contracts, understand events, configure indexers, or write alert logic, they can describe an intent such as “alert me when a first-time Uniswap trader buys more than $100K of ETH.”\n\nScout resolves ambiguity, asks for missing details when necessary, compiles the request into a typed monitoring program, determines the data capabilities it needs, discovers reusable Substreams infrastructure, verifies the resulting pipeline against real historical chain data, and transitions it into live monitoring.\n\nThe monitoring runtime is protocol-independent: normalized onchain events flow through reusable filters, comparisons, windows, aggregations, historical predicates, investigations, and deterministic decisions. Uniswap is our deepest integration, while a separate Base USDC transfer monitor demonstrates that the architecture is not tied to swap-specific logic.\n\nThe core idea is simple: protocols provide data; Scout provides the monitoring language.",
+  "how_its_made": "Scout is built as a TypeScript monorepo with a Next.js/React frontend, a durable background worker, PostgreSQL/Supabase persistence, typed domain packages, and Rust Substreams modules compiled to WASM.\n\nThe Graph is load-bearing in two places. Substreams powers Scout’s historical and live blockchain data pipelines: Scout searches and inspects existing packages, prefers reuse/parameterization/composition over rebuilding known infrastructure, executes pipelines against real historical blocks, persists cursors, catches up to finalized chain state, and then continues monitoring live data. Graph/Subgraph data is used for contextual investigations such as determining whether an actor had previous Uniswap activity.\n\nNatural-language requests are compiled into a typed WatchProgram rather than executed directly by an LLM. A capability planner validates every requested field, operator, historical predicate, chain, address, and data requirement before a Watch can run. The actual hot path is deterministic: normalized events are evaluated through typed comparisons, windows, aggregations and historical evidence. Unknown historical state stays UNKNOWN rather than being guessed.\n\nFor Uniswap, Scout normalizes real V3 swap activity and combines live Substreams data with historical Graph context for monitors such as large ETH buys and first-time Uniswap traders. We also implemented a separate Base canonical-USDC transfer path through the same generic evaluator to prove the runtime is not hardcoded around Uniswap.\n\nA major engineering focus was preventing AI hallucinations from becoming product truth: model outputs are schema-validated, packages/modules must exist in inspected registry data, addresses are resolved from authoritative sources, explanations are evidence-bound, and only deterministic verification/health gates can mark a Watch as verified or live.",
+  "auto_summary": "An onchain monitoring system that converts natural-language watch requests into typed programs using blockchain data pipelines and verification steps.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/scouts-yk89d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

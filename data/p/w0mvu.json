@@ -1,0 +1,22 @@
+{
+  "id": "w0mvu",
+  "slug": "uwu",
+  "title": "uWu",
+  "tagline": "uWu: No-KYC P2P fiat↔crypto exchange with automated payment verification & stake-based trust system",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w0mvu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01OpL51X501NUglzRjfpnG02x3LjzTn1d02QIR1Guw502RBE/high.mp4",
+  "demo_url": "https://uwu.abstractstudio.in/",
+  "source_url": "https://github.com/jaibhedia/hackmoney",
+  "finalist": false,
+  "description": "uWu is a multi-chain, non-custodial peer-to-peer payment protocol that enables seamless USDC ↔ INR conversion in under 60 seconds. Users scan a UPI QR code, USDC is locked in an on-chain smart contract escrow (P2PEscrowV5), a stake-backed Liquidity Provider sends INR via UPI, and a DAO validator network verifies the payment proof before releasing funds. \n\nThe protocol operates across Arc (EVM, for financial settlement — escrow, staking, slashing) and Sui (Move, for persistent order storage and a .uwu ENS-style naming system). Fraud is made economically irrational through a game-theoretic model: LPs must stake USDC equal to their max order size, and a progressive slashing schedule (20% → 50% → 100% + permanent ban) ensures the expected value of cheating is deeply negative. A 3-tier dispute resolution DAO (Auto-Resolution → Community Arbitration → Admin Review) handles edge cases. \n\nAdditional features include tiered daily volume caps ($150–$750), velocity-based anti-Sybil cooldowns, a behavioral fraud detection engine, trust-based reputation scoring (0–100), and sub-1% fees — making crypto-to-fiat conversion accessible, fast, and trustless for emerging markets like India.",
+  "how_its_made": "uWu is built as a hybrid multi-chain application using Next.js 16 (Turbopack) with TypeScript for a mobile-first PWA frontend, styled with Tailwind CSS, Framer Motion animations, and Radix UI + shadcn/ui accessible primitives. Wallet connectivity is handled by Thirdweb SDK v5, supporting MetaMask, WalletConnect, and social login (Google/Apple) via embedded wallets.\n\nOn the smart contract side, we deployed three Solidity contracts on Arc Testnet (EVM) using Hardhat + OpenZeppelin: P2PEscrowV5.sol (core escrow engine with USDC locking, LP staking, round-robin rotation, rate-locking, and a comprehensive cooldown system), TrustScore.sol (on-chain reputation tracking), and DisputeDAO.sol (3-tier decentralized dispute resolution with arbitrator staking). Arc's native USDC precompile at 0x360...000 eliminates bridging risk entirely — this was a key architectural decision.\n\nOn Sui Testnet, we wrote two Move contracts: orders.move stores orders as shared Sui objects for public auditability with cross-chain references to Arc settlement via arc_tx_hash, and names.move implements an ENS-style .uwu naming system where names are transferable NFTs with bidirectional lookup. Server-signed Ed25519 transactions authorize Sui state transitions.\nFor off-chain infrastructure, Upstash Redis handles real-time order state synchronization across Vercel edge instances, Pinata (IPFS) provides immutable dispute evidence storage, and CoinGecko API supplies live USDC/INR rates with a 1-minute cache and rate-lock at order creation to prevent front-running. \n\nA custom fraud detection engine (fraud-detection.ts) computes per-order risk assessments using velocity profiling, amount escalation detection, wallet age analysis, and geographic mismatch flags. One notably hacky piece: the LP round-robin rotation (useLPRotation hook) implements cooldown-aware, capacity-checked, auto-skip matching with a 10-second refresh interval — essentially a mini load-balancer built entirely in a React hook. The dual-chain architecture itself is unconventional: Arc handles all money movement (where battle-tested Solidity security matters), while Sui handles data availability and identity (where its object-centric model shines for shared, auditable state).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/uwu-w0mvu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

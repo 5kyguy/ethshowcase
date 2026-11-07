@@ -1,0 +1,22 @@
+{
+  "id": "2h2fh",
+  "slug": "triagekit",
+  "title": "TriageKit",
+  "tagline": "TriageKit serves as a cooperative risk response for Agentic DeFi",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2h2fh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8AvaJoYHxX4xgJVPDtVF8Aukz1cAXtszhFkXJZ9uQvA/high.mp4",
+  "demo_url": "https://youtu.be/zcxLN7nJxvE",
+  "source_url": "https://github.com/winverse2755/TriageKit",
+  "finalist": false,
+  "description": "When a DeFi protocol faces a contagion event, every agent faces the same binary: exit immediately or do nothing. Mass exits become synchronized bank runs — users who leave first win, the protocol always loses.\nTriageKit introduces a third path. Built on top of SettleKit's cross-chain settlement and risk monitoring infrastructure, it replaces the panic-exit default with profile-driven, proportional crisis response. Users configure a risk profile upfront — conservative, balanced, or backstop. When SettleKit's Chainlink CRE workflow flags a distressed asset, TriageKit's response engine takes over: a conservative agent exits cleanly, a balanced agent rotates 50% of the distressed collateral into a safer asset via Uniswap and holds the rest, a backstop agent holds through and logs stabilization intent. No overrides, no last-minute panic — the agent follows the rule the user agreed to before any crisis began.\nExecution is routed through KeeperHub rather than submitted directly to the chain, because crisis conditions are exactly when direct submission fails. Gas spikes, mempool congestion, and MEV extraction happen simultaneously with the event every agent is reacting to. KeeperHub handles retry logic, private gas routing, and produces a full audit trail — surfaced in SettleKit's Risk Explorer alongside every settlement.\nThe result is an agent that doesn't make a bad situation worse. Collateral rotates instead of evacuates. Liquidity stays partially in the system. The bank run doesn't start.",
+  "how_its_made": "TriageKit is a TypeScript package that extends the SettleKit monorepo with three new modules: a profile config layer, a response engine, and a collateral rotation executor.\n\nThe profile layer (profiles.ts) defines the AgentProfile type and its deviation thresholds. These are loaded at agent startup and passed into SettleKit's existing evaluateRisk.ts, which is extended to return a profile-aware action recommendation alongside the standard APPROVED / WARNING / BLOCKED report from the Chainlink CRE workflow.\n\nThe response engine (responseEngine.ts) receives the CRE report and the active profile and dispatches to one of three paths: full exit, partial rotation, or hold-and-log. For the balanced profile's rotation path, rotateCollateral.ts calls the Uniswap API to quote a swap from the flagged asset into a safer correlated asset, then passes the swap instruction — along with any exit transactions — to the KeeperHub MCP client rather than submitting directly via viem. \nKeeperHub wraps the execution with exponential retry, private mempool routing, and returns an execution hash that is stored in SettleKit's existing SQLite settlement store and surfaced in the Risk Explorer.\n\nThe Telegram bot is extended with /profile commands so users can set and inspect their active profile. All other bot commands and the full CRE workflow, Chainlink Data Feeds integration, Tenderly Virtual TestNet execution, and Risk Explorer remain unchanged from SettleKit — TriageKit slots in between the risk report and the executor, touching nothing upstream.\nThe demo runs on Tenderly Virtual TestNets forking Base Sepolia and Unichain Sepolia, with a simulated rsETH price deviation triggering the balanced profile's rotation flow end-to-end.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/triagekit-2h2fh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

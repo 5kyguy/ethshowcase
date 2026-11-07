@@ -1,0 +1,29 @@
+{
+  "id": "aiyfr",
+  "slug": "safehome",
+  "title": "SafeHome",
+  "tagline": "Use Safe to manage your home expenses and security. You share a Safe with with roommate/family and can use it to physically access your home, or even grant access to friends.",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/aiyfr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Ze7mcuVD4n024dyNJZriqbJ61dbNHwWEzuhF56qG2U5c/high.mp4",
+  "source_url": "https://github.com/yssf-io/safehome",
+  "prizes": [
+    {
+      "sponsor": "Safe",
+      "sponsor_id": "weaax",
+      "placement": "🥇 Safe — Best Use of AA SDK",
+      "title": "Safe"
+    }
+  ],
+  "finalist": false,
+  "description": "This projects tries to bridge the gap between the onchain and the offchain worlds by using crypto protocols to manage your real life home.\nThe main protocol used is Safe in order to have a joint-account to manage home expenses with your family/roommates. Any Safe frontend (like app.safe.global) works of course, but this one is a bit more specialized for home-management. Indeed, it also allows to manage the entrance to your home.\n\nBy default, all the owners of the Safe can sign a message, send it to the SafeHome Lock, and enter their home.\n\nMoreover, these owners can also mint \"Entrance Key\" NFTs to allow anyone else to enter. This means you could be anywhere in the world and still be able to easily give your friends access to your home, without giving them a physical key or be physically there.\n\nThere's also a \"Rental Agreements\" smart contract where safe owners can make rental proposals in which they define a period and a price to rent their home. If someone is interested, they can send the funds to the smart contract which will keep them as escrow until the safe owners accept of decline. If they accept, the money goes to the safe and the smart contract mints the renter an \"Entrance Key\" NFT, allowing them to enter the home during the specified period.\n\nThe SafeHome Lock, for demo purposes, is a Raspberry Pi that continuously monitors signatures. When a valid signature of an owner is received, it lights up a green LED; but for a production tool, that LED would be replaced by an electronic lock.",
+  "how_its_made": "There are five parts:\n* The webapp (Next.js + SafeSDK)\n* The API (Next.js)\n* The SafeHome Lock (Raspberry PI + Web3.py)\n* The mobile app (React Native + Viem)\n* The smart contracts (EntranceKeys NFT and RentalAgreements)\n\nThe webapp is basically an alternative Safe frontend to help users create a Safe and control it through a UI that is more focused on the Home. It's made using Next.js with Typescript and Tailwind. Users can connect their wallet through WalletConnect, which gives the frontend a Viem \"walletClient\", which it has to convert into an ethers.js \"Signer\" because the latter is needed to interact with the Safe SDK; it's a bit hacky but it somehow works. Although that solution is a flawed because it struggles to sign some messages. In production, we would need to only use ethers.js.\n\nThe API also uses Next.js and is used to access a simple database that holds some useful metadata (for ease of development), such as the safes registered, their owners and the (temporary) signatures. This makes the rest of the project a bit easier to build given the time constraint, but in theory we could get most of this info onchain.\n\nFor the SafeHome Lock, the software consists of a Python scripts that will check, every 5 seconds (configurable), if the database has a signature (through the API). If yes, it recovers the address that signed and then checks if that address is either an owner of the attached safe or a guest (by checking if they have an Entrance Key NFT). If so, the Raspberry PI output some voltage to one of its GPIO pin (the 18th), which is connected to a green LED representing the door opening. We use web3.py to verify the signature (and NFT if needed).\n\nWe also have a simple mobile app, written in React Native, that has an \"Unlock SafeHome\" button. The mobile app holds a private key (which it generates if it's the first time the app is opened, but in future version we could let the user import their own wallets) and, when the button is pressed, the app will sign a message with the private key and send the signature to the database. The SafeHome Lock (the Raspberry Pi) will therefore pick it up and let the user enter the home if the signature is valid. The goal of this app if to make the SafeHome Lock for user-friendly with a simple app.\n\nThis project also has two smart contracts:\n* EntranceKeys, a simple NFT contract that lets any Safe mint/burn Entrance Keys to its SafeHome Lock\n* RentalAgreements, lets any Safe propose a rental offer, which can be filled/matched by anyone. The contract acts as escrow in order to let the Safe owners either accept or decline any match. If they accept, the money goes to the Safe and the RentalAgreements contract mints an Entrance Key to the renter. If they decline, the money simply goes back to the account that sent it.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/safehome-aiyfr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

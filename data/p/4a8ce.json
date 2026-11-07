@@ -1,0 +1,27 @@
+{
+  "id": "4a8ce",
+  "slug": "opendnd",
+  "title": "OpenDND",
+  "tagline": "Turn your real-life goals into AI-powered D&D quests in your city, onchain",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4a8ce/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00oIgoHZmV4ktx6o2kaK3kXN7ytMK6DwFiHbYXQVoZEU/high.mp4",
+  "demo_url": "https://open-dnd-ethglobal-cannes26.vercel.app/",
+  "source_url": "https://github.com/briacSck/OpenDND_EthglobalCannes26",
+  "finalist": false,
+  "description": "OpenD&D turns your city into a live RPG where you and your friends stake money every week and the best player takes the pot.\n\n\nAI agents generate immersive quests using real-world locations, real venues, and real actions, while in-game characters text you, call you, and guide you through the story in real time.\n\nWith smart glasses and geolocation, the game unfolds in the real world as the AI sees what you see, validates your progress, and unlocks the next steps.\nAgents can even book, buy, and pay for real-world services to complete quests. Everything is verified, onchain, and automated: proof of presence, scoring, and payouts.\n\n\nIt’s a real-world MMO powered by AI agents, crypto rails, and geolocation, designed to make you move, explore, compete, and actually live the game.",
+  "how_its_made": "-->The backend is a FastAPI Python service running a multi-agent Claude pipeline. Quest generation has four phases: Storyteller and Curator negotiate a concept grounded in real city activities, a Judge scores it against a 75/100 threshold and forces full regeneration below, characters get unique ElevenLabs voices, then everything assembles into a playable quest with checkpoint recovery. At runtime, an invisible Orchestrator decides which character contacts the player, dispatching messages, artifacts, and timers through tool_use — no predefined script, the story emerges live.\n\n\nVoice calls are a single WebSocket per character: PCM mic audio → Deepgram Nova-2 STT → Claude streaming character agent → ElevenLabs Multilingual v2 TTS back to the player's ear.\nThe iOS app runs on Meta Ray-Ban glasses via the Wearables DAT SDK: when a player reaches a physical location, they photograph it and Claude Haiku verifies the image against the step's success condition. The real world is the game board; the app is the only interface.\n\nAuth and embedded wallets are handled by the Dynamic Swift SDK ; DynamicSDK.initialize() on launch, email OTP or native auth UI, embedded EVM wallet created via createWallet(chain: .evm). That wallet address is the player's on-chain identity.\n\nQuest rewards settle on Hedera Testnet via hiero_sdk_python: HBAR transferred to the player, a unique badge minted with quest metadata (city, characters met, ending chosen), every outcome logged to a HCS topic.\nAn x402 middleware gates the quest generation API — agents that call it receive HTTP 402, pay in tinybars, retry with X-PAYMENT-TX verified against the Hedera mirror node.\nIt is Zero Solidity, only based on HTS and HCS.\n\n\n--> ComputeClient is a drop-in for AsyncAnthropic.messages.create() that silently routes every LLM call through 0G Compute — TEE-verified provider discovery via broker.inference.listService(), fee settlement via processResponse(), Anthropic fallback on failure. The Orchestrator, Judge, character agents — none of them know they're running on decentralized infra. Since @0glabs/0g-serving-broker is JS-only, we spawn a Node.js HTTP sidecar (_broker_bridge.mjs) as a Python subprocess on port 3721 to bridge the gap. Quest memory — full conversation logs, trust arcs, narrative beats, player actions — serializes into a QuestMemorySnapshot, uploads to 0G Storage as a JSON blob, and the root hash anchors on Hedera HCS. Next quest, the agents load the snapshot and already know who you are.",
+  "auto_summary": "A location-based multiplayer RPG that uses AI agents, mobile smart-glasses workflows, and Hedera-backed reward settlement for real-world quests.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/opendnd-4a8ce",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

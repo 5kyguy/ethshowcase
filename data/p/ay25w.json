@@ -1,0 +1,27 @@
+{
+  "id": "ay25w",
+  "slug": "exit-drill",
+  "title": "Exit Drill",
+  "tagline": "Turn treasury liquidity risk into bounded exits and independently verified settlement.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ay25w/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ayd200Vvb1r00UENygXcRdTh3aXu00nVwdy3yb6XBQ1USI/high.mp4",
+  "demo_url": "https://exit-drill.vercel.app/",
+  "source_url": "https://github.com/Nakshatra05/exit-drill",
+  "finalist": false,
+  "description": "A treasury balance is not a cash guarantee. A team holding WETH needs to know whether an exit can cover its cash commitments, control how that trade is executed, and prove what actually arrived.\n\nExit Drill connects those decisions in one product. Users sign in, open a managed Sepolia treasury, fund its displayed address, and choose WETH from their actual balance. Optional risk analysis uses fresh Ethereum liquidity evidence to compare exit routes under a user-selected price shock. A portable risk brief preserves the source block, inputs, cash coverage, route comparison and modeling assumptions.\n\nWhen the user decides to trade, Exit Drill obtains a fresh Sepolia quote. The user reviews a bounded approval, minimum received and expiry before confirming. Proceeds return to the same treasury. After confirmation, a receipt reconciles settlement against token movements; anyone can independently verify the transaction, plan hash and output without signing in.\n\nThe same evidence and analysis engine is available through a reusable, read-only MCP server for external AI hosts. It compares scenarios against a single Graph snapshot and produces structured cash-coverage assessments, while leaving trade authorization to the human.\n\nThis release executes actual Sepolia transactions with custom test WETH/USDC and independent Uniswap v3 pools. The assets have no monetary value. Ethereum risk estimates and Sepolia execution quotes are clearly separated. The liquidity model infers full-range pools from live TVL and price.",
+  "how_its_made": "Exit Drill uses Next.js, React, TypeScript and viem, with Solidity execution guards and a responsive treasury interface.\n\nThe Graph adapter queries Ethereum Uniswap v3 WETH/USDC pools at 0.05% and 0.30% fees, reads liquidity and recent history, and rejects stale data or indexing errors. When a subgraph omits a timestamp, the adapter verifies the exact Ethereum block through RPC. The analysis engine deploys official Uniswap v3 bytecode to ephemeral Ganache chains, calibrates full-range liquidity from that evidence, applies the selected shock, and compares both routes using snapshots and reverts. This is a model, not a mainnet fork.\n\nA standalone MCP server exposes fresh evidence, treasury exit assessments and same-snapshot shock comparisons. It reuses the engine directly rather than calling the website, needs no Privy account, and exposes no signing tools. An external AI host supplies the language model.\n\nPrivy verifies access tokens and maps each authenticated account to a managed treasury. Attached signing policies restrict Sepolia, contract addresses and methods. Each backend action verifies treasury ownership. The Solidity executor fixes the router and tokens and enforces the recipient, amount cap, fee allowlist, minimum output, expiry, nonce and reentrancy protection. Router approval is cleared after settlement. Wallets are app-managed rather than self-custodial.\n\nThe public verifier reconstructs the plan hash from calldata, checks the executor and treasury, and reconciles USDC transfer logs against the settlement event. A recorded browser exit of 0.01 test WETH settled for 24.984094 test USDC on Sepolia. Unit tests, actual-EVM rejection tests, MCP protocol and stdio checks, and the production build pass in CI.",
+  "auto_summary": "A Next.js treasury app models WETH exit risk from Graph-sourced Uniswap liquidity data and executes constrained Sepolia swaps via Privy-managed wallets.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/exit-drill-ay25w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

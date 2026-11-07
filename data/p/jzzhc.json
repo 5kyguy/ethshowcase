@@ -1,0 +1,22 @@
+{
+  "id": "jzzhc",
+  "slug": "mindvault",
+  "title": "MindVault",
+  "tagline": "Your AI memory, encrypted onchain & monetized - earn ETH every time someone queries your mind.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jzzhc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fijUqxdYdYg02EMFsUH5AjH01mhoBnNc00AvaL6007xIWNw/high.mp4",
+  "demo_url": "https://docs.google.com/presentation/d/1spgkPQNPM17KwCq7we9PlsacFafVgjcpxYhjC6IL6CA/edit?usp=sharing",
+  "source_url": "https://github.com/Taher2512/MindVault",
+  "finalist": false,
+  "description": "Every conversation you have with Claude, ChatGPT, or Gemini builds a detailed model of who you are, like your expertise, reasoning style, and interests. That model lives in a corporate database. You own none of it and earn nothing from it.\n\nMindVault is a Chrome extension that changes this. It silently captures your AI conversations across Claude, ChatGPT, and Gemini, distills them into a structured cognitive fingerprint using LLM analysis, encrypts it with AES-GCM derived from your wallet key, and stores it permanently on 0G blockchain storage (KV for current state, Log for history). No raw conversation data ever leaves your device.\n\nYour cognitive profile, like your top expertise areas, skill levels, and reasoning style is published as live ENS text records on your personal subname (e.g. taher.mindvault.eth). This becomes your onchain AI identity: human-readable, publicly queryable, and owned entirely by you.\n\nBuyers — advertisers, researchers, AI companies — query your identity through an x402 HTTP API. They receive HTTP 402, pay ETH, and get back only a boolean match against their criteria. No personal data is revealed. Payment execution is handled by KeeperHub, which guarantees routing with retry logic and a full audit trail. The ETH goes directly to your wallet.\n\nBuilt on: 0G Storage (Galileo testnet) · ENS (Sepolia) · KeeperHub x402 payments.",
+  "how_its_made": "MindVault is a Bun monorepo with three parts: a Chrome extension, a local Hono API, and Solidity contracts. The extension injects content scripts into Claude, ChatGPT, and Gemini, watches the DOM for completed conversations, and sends the full transcript to a background service worker. The worker distills that conversation into a structured “memory object” with topics, expertise, preferences, and reasoning style, then updates the popup UI in real time.\n\nWe used 0G on Galileo testnet for encrypted memory persistence. The user’s memory snapshot is AES-GCM encrypted and pushed to 0G storage, while a registry contract links the wallet to the current storage key. We used ENS on Sepolia to publish a public cognitive profile through text records, so users get a portable AI identity like taher.mindvault.eth instead of just a wallet address. We used KeeperHub in the x402 marketplace flow so buyers can query whether a profile matches certain criteria and pay per query, with earnings tracked through the API.\n\nA notable hack was moving both 0G and ENS writes behind the local API bridge instead of doing everything directly in the extension. That let us avoid browser/service-worker SDK edge cases, keep secrets off the frontend, and still demonstrate a clean end-to-end agent memory pipeline: capture -> distill -> encrypt -> store on 0G -> publish to ENS -> monetize via x402.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mindvault-jzzhc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

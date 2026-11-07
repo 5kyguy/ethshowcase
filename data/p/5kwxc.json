@@ -1,0 +1,29 @@
+{
+  "id": "5kwxc",
+  "slug": "helenusai",
+  "title": "HelenusAI",
+  "tagline": "This project is an advanced AI agent that autonomously analyzes real-time market data to dynamically optimize trading strategies. ",
+  "event": {
+    "slug": "agents",
+    "name": "Agentic Ethereum",
+    "start_time": "2025-01-31T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5kwxc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/CMjDftt32JTIbrGptWbzkbYdiVUVWDvjHgzHqrBEw64/high.mp4",
+  "source_url": "https://github.com/shantanuSakpal/ETH-Globals-Agentic",
+  "prizes": [
+    {
+      "sponsor": "Coinbase Developer Platform",
+      "sponsor_id": "rpi4f",
+      "placement": "AgentKit Pool Prize",
+      "title": "AgentKit Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Full Explanation of the Architecture and Lifecycle\nThis diagram outlines the complete flow from when a user interacts with the trading form to the ongoing monitoring of the strategy. Below is an explanation of each major step:\n\n---\n\nFrontend Flow\nUser Interaction:\nThe user accesses the Trading Page using the ETH Loop Form.\n\nWebSocket Setup:\nThe frontend establishes a WebSocket connection to the backend.\n\nSending Strategy Selection:\nOnce connected, the frontend sends a strategy_select message containing the necessary strategy parameters (such as collateral amounts, leverage, target APY, etc.).\n\n---\n\nBackend WebSocket Connection and Authentication\nMessage Reception:\nThe backend's WebSocket endpoint (defined in the router/routes) receives the incoming message.\n\nAuthentication:\nThe connection is authenticated using the ws_auth middleware, ensuring only authorized users can proceed.\n\n--- \nProcessing Strategy Selection\nMessage Handling:\nAfter authentication, the message is forwarded to the WebSocketService.handle_message function, which determines the message type.\n\nStrategy Processing:\nIf the message is a strategy_select type, the system triggers the process_strategy_selection function. This function:\nCalls VaultService.create_vault to create a new vault record and persists it in the database.\nChecks if the agent wallet data is provided:\nIf not provided, it automatically creates an agent wallet using WalletService.create_agent_wallet.\nIf provided, it uses the available wallet data to continue the strategy setup.\n\n---\n\nAgent Initialization and Monitoring\nAgent Setup:\nUsing the available wallet data, the system initializes an agent via AgentManager.add_agent and links it to the newly created vault.\n\nMonitoring Start:\nThe monitoring process is started with StrategyMonitor.start_monitoring, which sends periodic monitor_update messages with key performance metrics to the frontend.\n\nInitialization Response:\nAfter all steps complete, a strategy_init message containing vault details (such as the vault ID, deposit address, and further instructions) is returned to the frontend.\n\n--- \nFrontend Receives Initialization\nUI Update:\nThe frontend updates the user interface to display the vault information and instructions for funding the agent wallet, based on the received strategy_init message.\n\n---\n\nDeposit Process After Funding the Agent Wallet\nFunding the Wallet:\nThe user funds the agent wallet with gas.\n\nDeposit Action:\nThe user then clicks the deposit button, which sends a deposit message through the established WebSocket connection.\n\nDeposit Handling:\nThe deposit message is processed by the WebSocketService.handle_message. For a message of type deposit:\nThe system invokes process_deposit in the WebSocketService.\nThe VaultService.handle_deposit function is called to deploy the vault contract if needed and update the vault balance in the database.\n\nCompletion Response:\nA deposit_complete message is returned to indicate that the deposit process has been successfully completed, and this response is sent back to the frontend.\n\nFrontend Update:\nThe frontend displays a confirmation message indicating that the deposit is complete.\n\n---\n\nOngoing Monitoring\nLive Updates:\nThe monitoring service continuously sends monitor_update messages, providing real-time updates on position metrics and strategy performance to the frontend.",
+  "how_its_made": "Technologies Used\nBackend Frameworks and Libraries:\nPython: The core language used for implementing business logic, agents, and real-time services.\nFastAPI: Provides a fast, asynchronous web framework for RESTful API development.\nPydantic: Used for data validation and schema definitions.\nMotor: An asynchronous MongoDB driver for non-blocking database operations.\nAsyncio: Fundamental for asynchronous execution across service layers.\nWeb3 & CDP Libraries: For blockchain interactions and wallet management, integrating with DeFi protocols.\nFrontend Frameworks and Libraries:\nNext.js & React: For building modern, server-side rendered, and highly interactive web applications.\nTypeScript: Provides strong typing for robust and maintainable frontend code.\nRecharts: For producing responsive data visualization components.\nNext.js Routing & Server Components: Enhance performance and modular page management.\nReal-Time and Communication Technologies:\nWebSockets: Enable real-time data push and two-way communication between the backend and the frontend, essential for live market updates and risk alerts.\nMiscellaneous Libraries:\nUUID Generation, Data Streaming Handlers, etc.: These utilities enhance the system’s ability to track sessions, handle dynamic data flows, and integrate smoothly across both frontend and backend systems.\n-",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/helenusai-5kwxc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

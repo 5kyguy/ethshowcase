@@ -1,0 +1,26 @@
+{
+  "id": "re195",
+  "slug": "deadman",
+  "title": "DEADMAN",
+  "tagline": "An x402 escrow whose refund is executed by the Hedera network itself. No keeper, no arbiter.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/re195/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7mpXPMAUxyblm93frSf6W19Tw4qr5TzyxTeEbwTYKNc/high.mp4",
+  "source_url": "https://github.com/alexursol2/deadman_ethonline",
+  "finalist": false,
+  "description": "Every x402 payment on Hedera eventually asks the same question: what happens if the seller just goes silent? Usually the answer is someone has to step in — the buyer, an arbiter, a hosted watchdog service — and now you're trusting that someone to notice, to act, and to stay online. DEADMAN removes that someone entirely. The moment a buyer pays into escrow, the contract schedules its own refund using Hedera's HIP-1215 (scheduleCall) — in the same transaction, before anything can go wrong. If the seller delivers and reveals the right key, they get paid and the scheduled refund cancels itself. If they never respond, nothing needs to happen — the network just executes the refund it already scheduled, on its own, with zero signatures. We proved this isn't theoretical by literally killing our own server mid-flow: the process holding the decryption key was gone, and the refund fired anyway, right on schedule. Built for a world where the buyer paying is an AI agent, not a person who can chase down a refund manually.",
+  "how_its_made": "DEADMAN is a HoldEscrow contract on Hedera, EVM-equivalent, wired into an x402 payment flow. The trick that makes the whole thing possible is HIP-1215 — Hedera's scheduleCall — which lets a contract arm a future call to itself inside the very transaction that accepts payment. No cron job, no relayer, no keeper bot polling a database. The network is the keeper. On top of that sits a hash-commitment scheme: before payment is even accepted, the seller commits to hashes of the key, the ciphertext, and the underlying message. Payout only unlocks by revealing a key that matches — and a mismatch is provable on-chain, not just taken on faith (see verify.ts). We spent most of our time not on the happy path but breaking it: fifteen adversarial spikes against real testnet behavior — gas floors that silently ate transactions, revert edge cases around scheduled calls, a mirror node that occasionally lied about its own state. We kept the ones that failed in the docs instead of hiding them. The live board and server are both deployed and talking to real testnet transactions, not mocked — including the demo where we kill the server mid-flow and the scheduled refund still fires with zero signatures.",
+  "auto_summary": "A Hedera-based escrow service for x402 payments that schedules automatic refunds and uses a server-mediated key reveal flow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/deadman-re195",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

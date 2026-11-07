@@ -1,0 +1,27 @@
+{
+  "id": "gcu1m",
+  "slug": "deadswitch",
+  "title": "DeadSwitch",
+  "tagline": "Decentralized crypto inheritance: Secure your legacy with an automated, on-chain dead man's switch.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gcu1m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KPpPLLHk46GT2yG02gZVHgd5S83yPuqHleyhbSLvj02ms/high.mp4",
+  "demo_url": "https://deadswitch.online",
+  "source_url": "https://github.com/Lastoneparis/deadswitch",
+  "finalist": false,
+  "description": "Decentralized dead man's switch for crypto inheritance. Owner heartbeats monthly. If heartbeats stop, Chainlink Automation triggers recovery on-chain. Heir claims by matching the designated address AND verifying with World ID. No lawyer. No company. Just math.\n\nBuilt solo in 48 hours after my father passed away last week because losing someone shouldn't mean losing everything they left behind.",
+  "how_its_made": "Live on www.DeadSwitch.online\n\nDeadSwitch is a real Solidity 0.8.20 contract deployed on Sepolia\n(0xF957cDA1f676B9EAE65Ab99982CAa3a31A193CB7) with OpenZeppelin's\nReentrancyGuard. Each user deploys their OWN InheritanceVault : no shared\nstate. Frontend is Next.js 16 + wagmi v3, connecting users directly to\ntheir own deployed contract.\n\nCORE INTEGRATIONS:\n\nChainlink Automation is the recovery trigger. Our contract implements\nAutomationCompatibleInterface (checkUpkeep + performUpkeep). When an owner's\nheartbeat expires, Chainlink's keeper network calls performUpkeep() which\nexecutes real state change on-chain: status = RecoveryMode. Live upkeep\nregistered on Sepolia, funded with 2.1 LINK. Bonus: dashboard uses\nChainlink ETH/USD Price Feed for live USD conversion.\n\nENS is the beneficiary identification layer. Heirs are named by ENS\n(\"wife.eth\" resolves live to 0x5F2798DFe...) instead of hex addresses.\nReal-time debounced resolution via ens.domains API, no hardcoded values.\nBoth ENS name AND resolved address are stored on-chain in the vault\ncontract. Heirs can search for their inheritance by their own ENS name.\n\nLedger ERC-7730 Clear Signing. Manifest submitted to Ledger's official\nregistry as PR #2511, covering all 9 user-facing vault functions. When\nusers sign on a Ledger device, they see \"Send heartbeat : prove you are\nalive\" instead of raw hex. Validates against erc7730-v1 schema.\n\nADDITIONAL INTEGRATIONS (in codebase):\n\nWorld ID (@worldcoin/idkit) provides sybil-resistant heir verification\nbefore claiming : biometric proof of unique humanity. 0G SDK stores\nencrypted Shamir shards (3-of-5 threshold) for V2 key recovery. Flare\nTEE attestation module generates SHA-256 hash chains for tamper-proof\nshard reconstruction.\n\nCLAIM SECURITY (3 layers):\n\nSmart contract onlyBeneficiary modifier: only the designated wallet\ncan call claim()\n\nFrontend check: wallet address must match vault.beneficiary_address\nbefore World ID button appears\n\nWorld ID nullifier must match what was set at vault creation\n\nDEMO REALITY CHECK:\nThe contract enforces a 30-day recovery delay (production safety : gives\nowner time to cancel if not actually dead) and a 30-day minimum heartbeat\ninterval. So live claims WILL revert on testnet : this is the safety\nfeature working as designed. Judges can verify the revert message\n\"Recovery delay not elapsed\" proves the safeguard is functional.\n\nFor demo pacing, \"Simulate Death\" updates backend status while attempting\non-chain performUpkeep in parallel. Judges see both the simulated flow\nand the real on-chain state.\n\nTestnet is appropriate scope : inheritance holds life savings, mainnet\nrequires a formal audit first. Roadmap: Trail of Bits audit -> mainnet\n-> multi-chain via Chainlink CCIP.\n\nContract source: github.com/Lastoneparis/deadswitch/blob/master/contracts/contracts/InheritanceVault.sol\nEtherscan: sepolia.etherscan.io/address/0xF957cDA1f676B9EAE65Ab99982CAa3a31A193CB7\nLedger PR: github.com/LedgerHQ/clear-signing-erc7730-registry/pull/2511\nChainlink Upkeep: automation.chain.link/sepolia/87279356538326214029017935707370766485868215829937943885304798493436723241100",
+  "auto_summary": "A decentralized inheritance vault lets users assign beneficiaries, monitor owner heartbeats, and trigger recovery and claims on Sepolia.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/deadswitch-gcu1m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

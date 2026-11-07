@@ -1,0 +1,29 @@
+{
+  "id": "hhw5g",
+  "slug": "backr",
+  "title": "Backr",
+  "tagline": "Trust-based credit protocol using social vouches and ENS reputation as collateral",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hhw5g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8feSIdQGWlNhidGNHDlfscmYBwcYWeD19gKuyRSu2rk/high.mp4",
+  "source_url": "https://github.com/AkshatRai07/Backr",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Backr is a decentralized credit protocol that solves DeFi's over-collateralization problem. Instead of locking up 150%+ in assets, users build credit through social vouches from people who trust them.\n\nHow it works:\nFriends/family vouch for you by putting their own funds at stake\nYour ENS domain becomes reputation collateral (default = \"DEFAULTED\" written to your ENS)\n\"Backr Agents\" automatically garnish a % of incoming transfers toward debt repayment\nOn-chain credit scores (300-900) travel with your wallet across DeFi\n\nThe result: access to capital based on your social trust network, not your existing wealth. We're bringing the \"friend lending you money\" concept on-chain with accountability built in.\n\nBuilt with Yellow Network Nitrolite SDK for instant off-chain payments, ENS for identity/reputation, and smart contracts on Sepolia for collateral slashing.",
+  "how_its_made": "Backr uses a multi-layer architecture combining off-chain payments with on-chain reputation:\n\nFrontend: Next.js 15 with React 19 and Tailwind CSS v4. Uses ethers.js v6 for wallet connection.\nBackend: Bun runtime with Express API. The key innovation is \"Backr Agents\" - persistent WebSocket connections to Yellow Network that monitor each user's incoming transfers. When money arrives, the agent automatically splits it: part to the user, part toward debt repayment (configurable garnish %).\nYellow Network Integration: We use @erc7824/nitrolite SDK to create payment channels on Base Sepolia. This enables, instant sub-second transfers (no gas fees), real-time balance monitoring via WebSocket, automatic garnishing without user action\nSmart Contracts (Foundry): Two contracts on Sepolia:\n1. BackrENSCollateral.sol - Stake ENS as collateral, slash on default\n2. BackrENSReputation.sol - Write credit scores to ENS text records (backr.status, backr.score)\nHacky bits, we derive session keys from user wallets for the Yellow Network auth flow. credit scores are stored BOTH in Supabase (for queries) AND ENS text records (for portability), the garnishing system creates a \"virtual vault\" where funds flow through Backr agents before reaching users\nDatabase: Supabase (PostgreSQL) for vouches, debts, users, and credit history tracking.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/backr-hhw5g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

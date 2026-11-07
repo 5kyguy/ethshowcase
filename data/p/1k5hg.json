@@ -1,0 +1,21 @@
+{
+  "id": "1k5hg",
+  "slug": "permanentloss-finance",
+  "title": "PermanentLoss.finance",
+  "tagline": "PermanentLoss allows liquidity providers of ETH/Stable pairs to hedge against impermanent loss by utilizing options. The tool will help the user visually construct options strategies like strangles and straddles.",
+  "event": {
+    "slug": "ethonline",
+    "name": "ETHOnline",
+    "start_time": "2020-10-01T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1k5hg/banner/default.jpg",
+  "demo_url": "https://permanentloss.finance",
+  "source_url": "https://github.com/PermanentLoss/permanentloss",
+  "finalist": false,
+  "description": "PermanentLoss.finance is a platform where liquidity providers can use options to hedge against impermanent (divergence) loss. With the intent of making creating strategies like straddles and strangles as easy as possible, we provide users with an interactive graph that shows all the currently available PUT and CALL options and how much cover they will give LPs if they were to buy them. After choosing his desired combination of options, the user is presented with data about the protection the chosen options will give him. This data is related to the amount of ETH selected for protection and a given Uniswap APY over the period between options purchase and the earliest expiry. Once the user is satisfied with his selection, he can then buy the options through Uniswap.",
+  "how_its_made": "We bootstrapped the interface with create-eth-app (https://github.com/PaulRBerg/create-eth-app) to get us a solid foundation to build from, and then started figuring out how to plot lines with PlotlyJs.  Then we worked to graph out impermanent loss (IP) and have it match with Uniswap docs (https://uniswap.org/docs/v2/advanced-topics/understanding-returns/) with static points.  \n\nWith that in place, we could start to layer on the options -- first, we needed to fetch all options using their subgraph and filter for ones that haven’t expired yet.  \n\nFrom there we needed a way to get fresh price data -- Uniswap was the clear option but we needed to figure out how.  The flow was: option address from subgraph -> read Opyn.getExchange(address) from contract to get Uniswap -> Uniswap.getEthToTokenInputPrice() -> convert units (depending on whether option is a put (priced in ETH) or call (priced in stable-coin).\n\nNow we had open options and their prices to plot on the graph once we converted the scale to match with IP and do relevant APY calculations when the user selected an option.  Finally, we needed to provide the user a way to purchase the options so we had to reverse engineer the correct Uniswap URL structure for the correct pair and volume.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/permanentloss-finance-1k5hg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

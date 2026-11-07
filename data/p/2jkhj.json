@@ -1,0 +1,30 @@
+{
+  "id": "2jkhj",
+  "slug": "arcane-tachyon",
+  "title": "Arcane - Tachyon",
+  "tagline": "Omnichain vaults for copy trading - your keys, your coins, top trader's signals via secure TEE",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2jkhj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/KPc6DkqQ00AAmIPCBcWalFGRjLG8einT4u57aDpPdrc00/high.mp4",
+  "demo_url": "http://arcane.tachyon.pe",
+  "source_url": "https://github.com/muskbuster/AcaneFi",
+  "prizes": [
+    {
+      "sponsor": "Espresso",
+      "sponsor_id": "vpq6s",
+      "placement": "1st place",
+      "title": "Best Cross-Chain App Deployed on ANY Espresso-integrated chain"
+    }
+  ],
+  "finalist": true,
+  "description": "ArcaneFi revolutionizes social trading by enabling users to follow top traders without surrendering custody of their funds. Unlike traditional copy trading where you give traders direct access to your capital, ArcaneFi uses Trusted Execution Environments (TEEs) to create a non-custodial trading layer where traders can only submit signals, never withdraw funds.\nThe platform solves crypto's biggest trust problem: how to leverage expert trading knowledge without risking theft or mismanagement. Users deposit USDC from any supported chain (Ethereum, Base, Arc, or Rari) into trader-specific vaults. These funds are aggregated cross-chain using Circle's CCTP and LayerZero's OFT standard, then managed by a TEE-controlled wallet powered by Coinbase Developer Platform's secure infrastructure.\nTraders register on-chain and receive a unique ID. When they want to trade, they sign instructions that the TEE validates against pre-approved strategy rules, risk limits (max 10x leverage, automatic stop-losses), and current market conditions. The TEE then executes trades using its CDP-managed wallet - traders never touch the actual funds.\nAll operations are transparent and verifiable on-chain. Positions, PnL, and fee distributions are logged to smart contracts. Users receive LayerZero OFT shares representing their vault allocation, which they can bridge to any chain or redeem for their proportional share of profits.\nThe architecture enforces strict security: only registered traders can receive deposits, only the TEE can execute trades, and withdrawal permissions ensure users always control their capital. Performance fees (10% of profits) align incentives while keeping custody decentralized.\nArcaneFi creates a new primitive: \"strategy renting\" - where retail investors access professional trading strategies without custodial risk, and traders scale their capital without regulatory burden or trust requirements.",
+  "how_its_made": "ArcaneFi combines multiple cutting-edge technologies to create a trust-minimized trading infrastructure. At its core, we use Coinbase Developer Platform (CDP) Server Wallets v2 as our TEE simulation - CDP wallets store keys in secure enclaves and only execute pre-authorized operations, perfectly mimicking TEE behavior for our hackathon demo.\nCross-chain architecture leverages two bridging mechanisms: Circle's CCTP for native USDC burning/minting on chains that support it (Ethereum Sepolia, Base Sepolia, Arc), and a custom attestation flow for chains without CCTP (Rari). When users deposit on Rari, our TEE API generates signed attestations that authorize minting on Base - a clever workaround for CCTP limitations.\nLayerZero OFT powers our vault share tokens, enabling users to hold and transfer their positions across chains. We deployed both VaultShareOFT and USDCOFT contracts, giving users flexibility in how they bridge assets. The OFT standard's built-in rate limiting and security features protect against bridge exploits.\nSmart contract architecture uses a factory pattern with VaultFactory managing trader registration and UnifiedVault handling deposits. All state lives on-chain - no database required. We track trader IDs, user deposits, and positions entirely through contract events and mappings, making the system fully decentralized and auditable.\nThe TEE service (Node.js/TypeScript) orchestrates everything: it verifies trader signatures using ethers.js, fetches CCTP attestations from Circle's API, manages the CDP wallet for trade execution, and integrates CoinGecko for real-time pricing. The most hacky part: we built MockUniswap contracts on Base Sepolia that accept USDC and mint synthetic tokens (ETH, WBTC, ZEC) at real market prices fetched from CoinGecko - simulating real trading without needing testnet liquidity.\nCDP's wallet policy engine enforces our security model - only whitelisted operations (trades, not withdrawals) can execute, and all actions require TEE API authorization. This creates an \"impossible-to-rug\" architecture where traders literally cannot steal funds even if they tried.\nFrontend uses Next.js with wagmi/viem for multi-chain wallet connections. We implemented custom hooks for CCTP attestation fetching and status tracking, making cross-chain deposits feel seamless despite the complexity underneath.\nThe magic happens in our unified flow: deposit on any chain → CCTP/attestation bridging → TEE validates trader permissions → CDP wallet executes trade → positions tracked on-chain → users can withdraw proportionally. Every component reinforces our core promise: professional trading without custody risk.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/arcane-tachyon-2jkhj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

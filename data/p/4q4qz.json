@@ -1,0 +1,48 @@
+{
+  "id": "4q4qz",
+  "slug": "zkaptcha",
+  "title": "ZKaptcha",
+  "tagline": "A cloudflare for web3. This is a captcha service that verifies challenges on the smart contract level to prevent spam and bots for hurting NFTs, exchanges, and games.",
+  "event": {
+    "slug": "scaling2023",
+    "name": "Scaling Ethereum 2023",
+    "start_time": "2023-03-10T14:00:23.896Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4q4qz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5nZqf01CCvXc002Bj00GZsW8soOSCh48oSFe3fC7grCzY00/high.mp4",
+  "demo_url": "https://zkaptchasite.vercel.app",
+  "source_url": "https://github.com/GraphitiLabs/zkaptcha",
+  "prizes": [
+    {
+      "sponsor": "ApeCoin",
+      "sponsor_id": "t3zyt",
+      "placement": "🥇 ApeCoin — Best Contribution",
+      "title": "ApeCoin"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "📜 Scroll — Just Deploy!",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🧾 Scroll — Best AppliedZK Hack",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Scaling Ethereum Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Bots have infiltrated Web3, with news of scalping bots disrupting NFT collection launches, and sniping bots affecting Token listings. Airdrops are being hoarded by Sybil addresses, and Web3 games are being rendered unplayable by token farming bots. While traditional web2 solutions like Cloudflare protect websites and other front-ends, blockchains are publicly accessible via RPC endpoints, making it difficult to gate smart contract functions with captchas. However, we have developed a solution: ZKaptcha, a zero-knowledge proof-based captcha system that directly guards smart contract functions. With ZKaptcha, DApp developers can protect their smart contract functionality from spam calls.\n\nHere is an example of how it works: Alice is eagerly anticipating Graphiti's first-ever NFT drop and plans to mint it as soon as it becomes available. To prevent spam calls, Graphiti has implemented ZKaptcha to protect the mint function call. When Alice navigates to the NFT site and connects her wallet, she clicks the \"mint\" button and is presented with a text-based KAPTCHA challenge. Alice transcribes the text in the pop-up and submits it. This inserts a tuple of additional information into the mint call that verifies the invocation and allows it to proceed. If the tuple is not supplied or is invalid, the function call will abort, preventing a successful mint from occurring.\n\nThe additional information consists of two main parts: a zero-knowledge proof of knowing the preimage of a hash and a merkle proof showing that the hash of the preimage belongs to a set of valid KAPTCHAs allowed for that smart contract. The hiding property of ZK proofs combined with nullifiers prevents the knowledge of having solved the captcha from being front-run or replayed. Although there are only a finite number of fixed length KAPTCHAs, if represented using probabilistic ZK proofs, you effectively have an infinite supply and can reuse old ones freely. Finally, using ZK, we can implement stronger captcha methodologies like ML classifiers that use cursor tracking while keeping the on-chain verification costs equally minuscule.\n",
+  "how_its_made": "Zkaptcha is comprised of three key components. The first is an AWS backend server that runs in the background, utilizing OpenCV to generate captcha images. Each user of Zkaptcha has a set of pregenerated captcha images, each with a corresponding salted hash of the preimage. These hashes are constructed into a Merkle tree and the corresponding Merkle proofs of each captcha are stored in a table. All of these components are stored in an S3 bucket, which can be accessed via an API endpoint triggering a lambda function, returning a tuple of the captcha image, the Merkle proof, and the hashed preimage.\n\nThe second component is the client-side prover, embedded in the JavaScript of the frontend. When any smart contract function protected by Zkaptcha is called, it triggers a call to the backend and renders the captcha in a modal. Once the user types in what they see, the preimage and the hash are passed into a ZK prover written in Aztec's Noir DSL. The resulting ZK proof, along with the Merkle proof, is added to the smart contract function calldata.\n\nThe user's smart contract contains an interface of the Zkaptcha verifier. Using our deployed contract address, they can call our third component, the on-chain verifier, within their function using the parameters added by the client-side operations. The verifier contract is deployed on Scroll's alpha testnet, which has fast block times to significantly reduce the chance of race conditions. Within the verifier, we use OpenZeppelin's Merkle prover along with the solidity compatible verifier generated by our prover written in Aztec's Noir DSL. Additionally, the Zkaptcha verifier contains a whitelist of all DApps using its service, only allowing subscribed clients to call it. Each client has a separate set of valid Merkle roots, updated by the backend as it exhausts the existing set, to prevent a user from reusing a captcha from one client into another.\n\nApecoin inspired us to write a mock NFT mint of ten captcha images of famous people in crypto, protected by Zkaptcha. This was tested, and the smart contract was deployed on Scroll's alpha testnet. We particularly think that Zkaptcha will be extremely useful to help Apecoin and other similar NFT communities grow by protecting contributive users from malicious and adversarial bots. We realize that Zkaptcha generates data useful for producing trustworthy reputation scores for anti-bot identity for users. To implement SybilRank: a mapping of account address to reputation score controlled by Zkaptcha, we chose Optimism's attestation station. Due to dependency issues with Semver in Brownie, we cloned and redeployed AttestationStation, showing the same functionality. Every time Zkaptcha verifies that a user completed their captcha, it will call Attestation Station to update the SybilScore of that account. The scoring function is kept simple for now, to be worked on later. The SybilScore can be read straight off the blockchain, either directly into smart contracts or DApps.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkaptcha-4q4qz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

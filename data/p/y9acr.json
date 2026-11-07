@@ -1,0 +1,21 @@
+{
+  "id": "y9acr",
+  "slug": "proofserve",
+  "title": "ProofServe",
+  "tagline": "AI agents discover and pay for services run by recently verified, live humans.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y9acr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IqOChasO4Est5R01LciK01xwtSy175bU4DxEMLIcUBlK8/high.mp4",
+  "source_url": "https://github.com/Ihlasthetics/ProofServe",
+  "finalist": false,
+  "description": "ProofServe connects autonomous agents with pay-per-request AI services operated by people who have recently completed World Selfie Check. It combines human-liveness eligibility with machine-to-machine micropayments.\n\nProviders register, create draft services, and complete Selfie Check. Service activation is a separate backend decision: unverified providers cannot activate their services, and discovery returns only currently eligible services. We treat Selfie Check as a low-assurance liveness signal—not a guarantee of unique identity or service quality.\n\nOur example service classifies support tickets. An agent receives a ticket and a maximum payment budget, discovers an eligible provider, handles an HTTP 402 payment challenge, and pays in HBAR on Hedera testnet through Blocky402. The application displays recorded execution events, a settlement receipt, and a HashScan transaction link.\n\nWe completed a real end-to-end backend run that returned an AI triage result. The browser also preserves payment evidence when execution fails, rather than hiding the settlement or automatically repeating payment.\n",
+  "how_its_made": "We built ProofServe as a TypeScript npm monorepo with a Next.js/React frontend, Fastify API, embedded server-side agent, and a separate protected triage service. Shared Zod schemas validate requests, payment requirements, receipts, and AI results.\n\nWorld IDKit performs Selfie Check using a server-signed RP context. The backend verifies the returned proof through World before recording current provider eligibility. Activation remains explicit, and the agent rechecks eligibility before payment.\n\nThe protected endpoint issues an x402 v2 HTTP 402 challenge. The buyer validates its offer against the registry, enforces an integer tinybar-denominated service-payment budget, and signs a Hedera testnet transfer. Blocky402 handles verification and settlement; Gemini generates the structured triage response. Network fees are separate from the service-payment budget.\n\nPostgreSQL stores agent runs and payment tombstones to preserve settlement evidence and prevent automatic payment retries after interruption. The browser communicates through server-side proxies without receiving the API bearer token. We used Codex-assisted development, GitHub reviews, Vitest regression tests, and automated formatting, linting, typechecking, and builds.\n\nWeb, API, triage, and PostgreSQL are hosted on Render. The pinned demo’s provider registry remains process-local. Our latest browser run settled successfully but failed during AI execution; the UI correctly retained its receipt and reported the failure.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/proofserve-y9acr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

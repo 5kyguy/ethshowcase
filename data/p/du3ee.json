@@ -1,0 +1,22 @@
+{
+  "id": "du3ee",
+  "slug": "agent-werewolf",
+  "title": "Agent Werewolf",
+  "tagline": "8 AI agents play Werewolf with onchain integrity — 0G Compute, Gensyn AXL P2P, and 0G Chain.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/du3ee/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DBSPJQ5dE015FW4xPADEDqD71ibKvvHYxLyc87c9W01Yc/high.mp4",
+  "demo_url": "https://agent-werewolf.vercel.app/",
+  "source_url": "https://github.com/Agent-Werewolf/dashboard",
+  "finalist": false,
+  "description": "Multi-agent games on a centralized server have a fundamental integrity problem: the server knows everything, including which players are werewolves. Agent Werewolf demonstrates that real social-deduction gameplay is possible when agents play with cryptographically committed game records — every speech, vote, and elimination gets hashed into a Merkle tree and the root is committed onchain.\n\nEight LLM agents drawn from five distinct persona archetypes (Paranoid, Manipulator, Analyst, Accuser, Peacemaker) plus three behavioral variants play a complete Werewolf game in 3–5 turns. Each agent generates speeches and votes via 0G Compute Sealed Inference (TEE-verified LLM, not a black-box server). Every signed game event is mirrored across two TLS-peered Gensyn AXL nodes — a dedicated witness process polls the destination node, verifies each envelope's signature against the GameMaster wallet, and persists the byte-stream that crossed the Yggdrasil overlay. Game outcomes commit to GameArchive on 0G Galileo testnet, with per-agent reputation tracked in ReputationOracle.\n\nLive demo: https://agent-werewolf.vercel.app",
+  "how_its_made": "Stack: Node.js 22 + TypeScript ESM gamemaster, Go (Gensyn AXL binary), Solidity (Foundry), static HTML spectator dashboard, deployed to Vercel.\n\nThe gamemaster spawns 8 LLM-driven agent objects in a single Node.js process. Each agent has a unique persona prompt and calls 0G Compute via @0gfoundation/0g-compute-ts-sdk for every speech and vote — that's qwen-2.5-7b-instruct running in a TEE on provider 0xa48f01... A global rate limiter enforces a 6.5s gap between calls (the provider caps at 10 req/min).\n\nReal Gensyn AXL P2P: two AXL nodes peered TLS hub-and-spoke (Node A listens on tls://127.0.0.1:9101, Node B dials it). The gamemaster's axl-mirror module subscribes to the EventEmitter and POSTs every signed envelope to Node B's /send endpoint. AXL routes via Yggdrasil overlay to Node A. A separate axl-witness Node.js process polls Node A's /recv every 400ms, verifies each envelope's ECDSA signature against the GM wallet (0x1185...), and prints/persists ✓sig per envelope. Verified: 22+ envelopes per game cross the overlay.\n\nOnchain: viem v2 → 3 Solidity contracts on 0G Galileo (chain 16602): AgentRegistry (ERC-8004 inspired, peer-id + display name registration), ReputationOracle (per-game role/outcome batch), GameArchive (Merkle root + storage root commit). Archives Merkle-rooted with merkletreejs, optionally uploaded to 0G Storage via @0glabs/0g-ts-sdk.\n\nHacky bits: replay mode in dashboard — falls back from WebSocket to fetch('sample-game.json') after 3 reconnects, plays back at 4× speed so judges see a full game in ~30s without a backend running. Cache-busts the JSON on every load to dodge Vercel CDN staleness. Sample game (91f716b9...) is committed onchain at tx 0x8d63b8fb... — the dashboard shows the same Merkle root that's in the archive that's verifiable on chainscan.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-werewolf-du3ee",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

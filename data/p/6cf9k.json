@@ -1,0 +1,27 @@
+{
+  "id": "6cf9k",
+  "slug": "grantlane",
+  "title": "GrantLane",
+  "tagline": "A grants program that can't be gamed by fake applicants and pays out the moment work is verified.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6cf9k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Kt7NJNWl6V7WcBtK3TIlYWo1WNakj9U3lbKyRF4Bzo8/high.mp4",
+  "demo_url": "https://grant-lane.vercel.app",
+  "source_url": "https://github.com/Shubham-Singh-Shoora/GrantLane",
+  "finalist": false,
+  "description": "GrantLane is a milestone grant escrow where a claim has to survive a challenge before it pays out. A grantor escrows USDC against a list of milestones up front, and the money is released milestone by milestone without anyone approving each one by hand.\n\nAn applicant applies with a pitch, a repo and proposed milestones, after passing a World ID Selfie Check so the queue is people rather than scripts. The grantor adjusts the scope and escrows the total in one transaction, which also commits a hash of the agreed milestone terms on-chain, so nobody can quietly rewrite what a milestone required.\n\nWhen a milestone is done, the grantee publishes their evidence (a summary plus a live link, demo video or repo) and claims it with a 1 USDC bond. The claim becomes an assertion on UMA's Optimistic Oracle V3, carrying a link to the evidence and its hash. The claim is then open to dispute for a set window: 5 minutes in the demo, 48 hours in real use. If nobody disputes it, it pays out and the bond comes back. Anyone who thinks it's false can dispute by matching the bond, and UMA decides; whoever was wrong loses their bond to the other side. A rejected milestone simply reopens for a better claim.\n\nThis design came from throwing out an earlier version that scored evidence automatically. No automated scorer can tell whether work is actually good, so rather than pretend to judge, GrantLane makes lying expensive: the evidence is public, the claim is bonded, and the challenge is open to anyone.\n\nTwo more things it enforces. Approved money is credited and withdrawn rather than pushed, so no failed transfer can block a settlement. And a grantor can't pull funds out from under a claim that's live or disputed. Settlement is open to anyone, and a Chainlink CRE workflow does it on a schedule.\n\nEverything runs live on Base Sepolia: escrow 0x85AC2a3e1EBc0959599025eB6eF36eD34c862840, with a full run of funding, claiming, disputing, settling and withdrawing recorded as real transactions in the repo.",
+  "how_its_made": "Contracts are Solidity 0.8.24 with Foundry and OpenZeppelin 5.1. GrantEscrow integrates UMA's Optimistic Oracle V3 directly: a claim pulls the bond from the grantee, approves the oracle, and asserts with the grantee as asserter so the bond returns to them. UMA's assertionResolvedCallback and assertionDisputedCallback are restricted to the oracle and ignore assertions the escrow didn't make, since anyone can name your contract as a callback recipient. Payouts are pull-payment, settlement is permissionless, and closeGrant is blocked while a claim is open. Two EIP-712 types (MilestoneClaim, PayoutWalletChange) let the server authorise actions without ever holding a key or paying gas. 60 tests: 45 against a mock oracle that mirrors UMA's bond and callback rules, 8 for the receiver, and 7 fork tests against the real UMA oracle and Circle USDC.\n\nThe frontend is Next.js 14 (App Router) with wagmi v2, viem and Tailwind driven by CSS-variable design tokens. Applications and evidence bundles live in Upstash Redis. Evidence is content-addressed: /evidence/<hash> recomputes both the evidence hash and the terms hash and shows whether they match the chain, so a disputer doesn't have to trust the site.\n\nWorld ID uses IDKit 4.x with the selfieCheckLegacy preset. The rp_context is signed server-side, proofs are verified through World's Developer Portal API, and the server issues short-lived HMAC-signed tickets which are exchanged for the EIP-712 attestation the user submits themselves.\n\nFor Chainlink, the plan was Automation, but its testnet service was sunset in June 2026. I confirmed that on-chain: the Base Sepolia registry had performed zero upkeeps. So settlement moved to a CRE cron workflow following Chainlink's migration path: it runs the escrow's checkUpkeep off-chain, signs a report whose payload is the escrow's own performData, and the forwarder delivers it to a receiver contract that can only call performUpkeep. Deploy access is still pending, so it currently runs from the CRE CLI with real transactions through the mock forwarder, which the UI and docs state plainly.\n\nThe hackiest part was answering a UMA dispute on testnet. The sandbox oracle only accepts an answer for a price it actually requested, and the request's ancillary data is assertionId:…,ooAsserter:…, where ooAsserter turns out to be the assertion's asserter, not the oracle. I found that by tracing a failing fork test and comparing the bytes.\n\n",
+  "auto_summary": "GrantLane is a grant escrow dapp that releases milestone-based USDC payouts after UMA-verified challenge windows and scheduled settlement.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/grantlane-6cf9k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

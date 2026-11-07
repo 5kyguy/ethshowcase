@@ -1,0 +1,27 @@
+{
+  "id": "yn11y",
+  "slug": "flyte",
+  "title": "Flyte",
+  "tagline": "Perpetual futures exchange that lets traders trade concepts and ideas instead of traditional assets.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yn11y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/A2cHJkuNFApyqoudg02fPhNSmWDbSMdUdy5003mLZIKWk/high.mp4",
+  "demo_url": "https://www.takeflyte.xyz/",
+  "source_url": "https://github.com/adamocallaghan/flyte",
+  "finalist": false,
+  "description": "Flyte is a perpetual futures exchange with a twist - instead of trading traditional crypto assets Flyte lets traders trade the aggregate attention that concepts, ideas, events, and even people have on the internet.\n\nThink about trading the concept of 'Humanoid Robots' instead of BTC; or 'GTA6' instead of ETH. Imagine trading the usage and attention of an actual meme instead of a token merely spun up in response to it. Flyte makes all of this possible.\n\nThrough the use of Chainlink Runtime Environment Confidential Workflows we can essentially \"Oraclise\" anything that has a footprint across news, social media, or anywhere online. And through the use of 1Inch new Aqua liquidity primitive we can provide Liquidity Providers with much better capital efficiency.",
+  "how_its_made": "Flyte was built using the following technologies...\n\nSmart Contracts: Foundry on WSL for building and writing our smart contracts. I used openzep for our dummy Aave USDC ERC20, and the interfaces for use in the PerpApp contract itself. Then I've imported the Aqua and SwapVM contracts from 1Inch. Our PerpApp.sol is a *minimalist* perp contract, as scope had to stay a bit tighter in a one-week build. However, it's broadly GMX-aligned (just with the GMX-style pool layer removed and we're using Aqua and a Request-for-Quote model instead). Deployed to Arb One mainnet. I didn't get to squeeze it into the video, but you can mint \"dummy aUSDC\" on takeflyte.xyz and use it on the platform! It is a rebasing ERC20 (1% every 15 mins - DeFi Summer style), as I wanted to illustrate on the platform capital efficiency and how you're still earning yield due to self-custody'ing the tokens until we pull them for a trade via Aqua.\n\nFrontend: Next.js. This is deployed to Vercel and live at takeflyte.xyz. It's a fairly standard Next.js app, with each 'box' being it's own component. State is read directly from the the deployed Arb One contracts as I didn't have time to spin up subgraphs or Ponder.sh. The design is a bold, \"neo-brutalist\" one.\n\nChainlink (CRE) Confidential Workflows: we're using CRE Confidential Workflows for our 'Oracle Layer'. CRE simulation was run locally on a 15 minute cadence for a couple of hours prior to the demo video being filmed, so we actually got some live data in our charts, etc. The workflow packages up our API keys (Firecrawl and OpenRouter) and our proprietary algorithm. Essentially what we're doing it calling Firecrawl's /search API endpoint and passing in search params for that market (so for our \"Humanoid Robots\" market we pass in 'Humanoid Robots', 'Unitree', 'Tesla Optimus', etc., and pull the headlines for those), we then take the quantity + sentiment (via our OpenRouter API key) and produce a single-figure 'attention score'; and that's the oracle price traders trade against.\n\n1Inch Aqua: we are using Aqua for our liquidity layer. There are a plethora of \"pool\"-style perp exchanges, and I think this is a fairly novel use-case for Aqua by allowing LPs to ship 'perp' strategies with strict params (e.g. letting them provide liquidity for *only* the short side, and so on). Obviously you forgo the atomicity of 'swap' style strategies as we do pull the counterliquidity during a trade, but it avoids the \"liquidity sitting in a pool\" problem. Using aqua.pull to pull LP-to-Trader funding is cool too, as our PerpApp contract instantly closes the position if the funding is not available (i.e. no coverage).",
+  "auto_summary": "A perpetual futures exchange for trading attention-based markets, using onchain contracts, a web frontend, and a Chainlink CRE workflow oracle.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/flyte-yn11y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

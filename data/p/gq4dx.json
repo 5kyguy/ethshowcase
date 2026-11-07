@@ -1,0 +1,27 @@
+{
+  "id": "gq4dx",
+  "slug": "tollgate",
+  "title": "Tollgate",
+  "tagline": "AI agents buy your leftover API credits per call in USDC via x402: screened, ENS-named, verified.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gq4dx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/P7oT6PsGg7J01bZ6XsujSxpXJSabaBTqYQggeXDlH2G8/high.mp4",
+  "demo_url": "https://tollgate.rootspace.studio",
+  "source_url": "https://github.com/shiyasmohd/tollgate",
+  "finalist": false,
+  "description": "Tollgate is a marketplace and payment gateway that lets anyone sell their leftover API credits to AI agents paid via the x402 protocol.\n\nMany developers pay for API plans (ElevenLabs voice, Kling or Higgsfield video, fal/Flux images, Exa search and more) and never use all their credits. AI agents, on the other hand, need these APIs on demand but can't sign up for accounts, enter card details or commit to subscriptions. Tollgate connects the two.\n\nSellers sign in with their wallet, pick a template (or add any API), paste their provider key and set a price per call. Tollgate runs a live test call, and once it passes, the listing goes live with a paid URL. The key stays encrypted on the gateway, so buyers never see it.\n\nBuyers are AI agents or humans. Calling a paid URL returns HTTP 402 Payment Required with the price. The buyer signs a gasless USDC authorization, the gateway settles it and forwards the call with the seller's key. Buyers are only charged if the provider succeeds.\n\nClaude can connect in one click through our hosted MCP server. The user signs in with Privy and gets its own wallet, and Claude can then browse and buy APIs on its own, with per-call and daily spending caps.\n\nEvery payment is screened by Intercepta, so sanctioned, scam and phishing wallets are refused before USDC moves. Every seller and listing gets an ENS name (like elevenlabs.maya.tollgate-x402.eth), which agents verify onchain before paying. Every settlement is verified against the real USDC transfer onchain with Curvegrid MultiBaas, so the dashboard shows recorded vs verified income. An Action center tells sellers what needs attention: payments with no onchain transfer, failing listings, blocked payers, and income coming from mostly one buyer.",
+  "how_its_made": "Tollgate is three pieces: a gateway, a seller dashboard and an MCP server for Claude, all running on Cloudflare Workers.\n\nThe gateway is built with Hono and D1. Paid routes speak x402, with no payment they return a 402 with the price and with a payment they settle in USDC on Base Sepolia and forward the call to the provider. Seller API keys stay encrypted on the gateway and never reach the buyer. If the provider call fails, we don't settle, so nobody gets charged.\n\nThe dashboard is Next.js. On the Claude side, buyers sign in with Privy for a wallet and Claude pays for calls on its own over MCP.\n\nENS: every listing gets an ENSv2 name on Sepolia, owned by the seller, with the payout address and price stored in it. Claude takes the payout address from ENS, so the gateway can't redirect a payment.\nCurvegrid: MultiBaas indexes USDC on Base Sepolia and sends us every transfer by webhook, so we can show which payments are verified onchain.\nIntercepta: we screen the buyer, the seller and the exact message the buyer signs before any money moves, and block anything risky.",
+  "auto_summary": "A Cloudflare-based marketplace and payment gateway lets sellers resell API access and lets agents pay per call over x402 with onchain verification.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tollgate-gq4dx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

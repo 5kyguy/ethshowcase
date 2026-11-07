@@ -1,0 +1,30 @@
+{
+  "id": "d2ujw",
+  "slug": "l2-blockscout",
+  "title": "L2 Blockscout",
+  "tagline": "Launching Blockscout Explorer for Superchain on Kubernetes from scratch",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d2ujw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tBnWE52QVjqM801lDmEvnzJ2y9NeWQtZCcJ19L3Padrc/high.mp4",
+  "demo_url": "https://explorer.payment.dsrvlabs.dev",
+  "source_url": "https://github.com/dsrvlabs/blockscout-ethglobal",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Blockscout Explorer Big Pool Prize",
+      "title": "Blockscout Explorer Big Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "This project involves setting up our own Blockscout explorer for Optimism Superchain.\n\nRecently, we launched a new Superchain for contract testing purpose, and we are now configuring the explorer to interact with chain data.\n\nTo ensure reliable operation of the explorer, Kubernetes has been set up to support high availability and enable scaling of explorer instances\n\nThe explorer is organized into four main components as follows:\n- Indexer: Handles chain data indexing by querying the JSON RPC from the replica node.\n- Backend API: Serves the Blockscout API for the frontend.\n- Stats: Computes and stores statistical data.\n- Frontend: The web interface for Blockscout.",
+  "how_its_made": "We have launched a new chain based on Superchain. Currently, a single sequencer is producing new blocks and a full node is also running to provide RPC endpoints for chain data indexing.\n\nAll blockchain clients are hosted on Google Cloud Platform (GCP) within a private VPC network to ensure security by isolating them from the public network.\n\nTo support the Blockscout stack, a Kubernetes cluster has also been set up on GCP. This cluster is created within the same VPC network to securely access the JSON-RPC endpoints.\n\nFor storing indexed data, two PostgreSQL instances have been deployed on GCP:\n\t•\tThe primary instance handles both read and write operations.\n\t•\tThe replica instance provides real-time synchronization for backup purposes and supports scaling by splitting read and write requests between the two instances.\n\nLike the other infrastructures, access to the PostgreSQL instances is restricted to the VPC network for enhancing security.\n\nThe Kubernetes configuration for the Blockscout stack has been implemented from the bottom to enable fine-grained control. The configuration files are available at the following paths:\n- https://github.com/dsrvlabs/blockscout-ethglobal/tree/main/1.backend\n- https://github.com/dsrvlabs/blockscout-ethglobal/tree/main/2.frontend\n\nTo run the YAML files correctly, a secret named \"postgres\" is required for database access. However, the configuration for this secret is not included in the GitHub repository for security reasons.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/l2-blockscout-d2ujw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

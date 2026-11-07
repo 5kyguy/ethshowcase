@@ -1,0 +1,30 @@
+{
+  "id": "apirw",
+  "slug": "zebra",
+  "title": "Zebra",
+  "tagline": "Sui-native ZK dark pool with hidden limit orders, on-chain Groth16, and crosschain deposits via LiFi",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/apirw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fVsYJj23IjO7ZxrvVsPNfQ7qcL01zb2wypS840269W8sA/high.mp4",
+  "demo_url": "https://zebra-stripes.vercel.app",
+  "source_url": "https://github.com/joeloffbeat/zebra",
+  "prizes": [
+    {
+      "sponsor": "Sui",
+      "sponsor_id": "vsbye",
+      "placement": "Notable Projects",
+      "title": "Notable Projects"
+    }
+  ],
+  "finalist": false,
+  "description": "Zebra is the first ZK dark pool on Sui, enabling fully private limit order trading where prices, amounts, and receiver addresses remain hidden until settlement. In traditional DeFi, every trade on DEXes like DeepBook is fully transparent — your limit price, order size, wallet address, and trade history are visible to the entire network. This leads to front-running, strategy leakage, and address linkability. Zebra solves this with a 6-layer privacy pipeline: (1) Groth16 ZK proofs generated in the browser prove order validity without revealing parameters, (2) Sui Seal threshold encryption hides order details so only the TEE can decrypt them, (3) on-chain proof verification using Sui's native `sui::groth16` module ensures only valid orders enter the pool, (4) a Marlin Nautilus TEE matching engine decrypts and matches orders in hardware-isolated memory, (5) DeepBook V3 flash loans atomically settle unmatched orders against existing liquidity, and (6) encrypted multi-receiver routing with percentage splits breaks the on-chain link between order submitter and fund recipients. Users deposit SUI or USDC into the dark pool, submit encrypted limit orders with ZK proofs, and the TEE batches and matches them every 60 seconds. Matched orders settle cross-type (buyer's USDC goes to seller's receivers, seller's SUI goes to buyer's receivers), while residual sell orders are settled via DeepBook flash loans — borrowing SUI, swapping it to USDC on DeepBook, repaying the loan with locked SUI from the vault, and routing the USDC to the seller's encrypted receiver addresses. The result is a trading experience where no one — not even the blockchain itself — can see what you're trading, how much, at what price, or where the funds end up.",
+  "how_its_made": "Zebra is built across four layers: a Circom ZK circuit, a Sui Move smart contract, a Next.js 15 frontend, and a Node.js matching engine designed to run inside a Marlin Nautilus TEE (Intel Nitro enclave). The ZK circuit (`order_commitment.circom`) uses circomlib's Poseidon hash to produce a commitment over side, amount, price, expiry, nonce, and a secret — along with a nullifier to prevent replay attacks. The proof is generated client-side using snarkjs WASM (Groth16 on BN254) and verified on-chain via Sui's native `sui::groth16::verify`. The Move contract implements a dual-coin generic pool `DarkPool<BaseCoin, QuoteCoin>` with separate base and quote vaults. Orders are submitted with ZK proofs and Seal-encrypted blobs; the contract verifies the proof, stores the commitment, and locks the user's coins. Settlement supports multi-receiver routing with percentage splits — the `split_and_distribute` function divides payouts across multiple addresses, handling dust by giving remainder to the last receiver. The frontend uses `@mysten/dapp-kit` for wallet connection, `@mysten/seal` for 2-of-3 threshold encryption of order parameters (price, amount, side, and receiver addresses), and snarkjs for in-browser proof generation. The matching engine polls Sui for `OrderCommitted` events every 2 seconds, decrypts order data using Seal's session-key mechanism, and maintains an in-memory order book with price-time priority. It batches orders in 60-second windows (or 10-order threshold), matches crossing bids and asks at the midpoint price, and settles via Programmable Transaction Blocks. The hackiest part is the flash loan settlement for residual sell orders: we use DeepBook V3's hot potato flash loan pattern — `borrowBaseAsset` SUI, `swapExactBaseForQuote` to get USDC, extract the seller's locked SUI from the dark pool vault to repay the loan, and route the USDC to their encrypted receivers — all in a single atomic PTB. We also had to work around DeepBook testnet not properly enforcing `minQuoteOut` by using a `splitCoins` assertion trick to abort the transaction if USDC output falls below our slippage threshold. The TEE attestation uses secp256k1 signing (ephemeral key in dev, hardware-backed in Nautilus production) so anyone can verify that settlements were computed inside the enclave. Partner technologies: Sui (Move contracts, native Groth16 verification, Seal encryption, PTBs), DeepBook V3 (flash loans and swap liquidity), and Marlin Nautilus (TEE execution environment with attestation).\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zebra-apirw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

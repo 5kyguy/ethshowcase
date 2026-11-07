@@ -1,0 +1,25 @@
+{
+  "id": "mt8w3",
+  "slug": "tollgate",
+  "title": "Tollgate",
+  "tagline": "Policy-controlled AI spending with Ledger approval for risky actions.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mt8w3/banner/default.jpg",
+  "source_url": "https://github.com/alexeipancratov/tollgate-ethglobal",
+  "finalist": false,
+  "description": "An autonomous AI agent streams mocked payments through a live policy engine - most auto-approve instantly, but high-risk actions freeze and surface in an approvals inbox. The human signs off on a Ledger Flex via EIP-712 typed-data signature, which the backend verifies before releasing the action. Full audit log throughout.",
+  "how_its_made": "I relied on spec-kit and Claude for handling the implementation. spec-kit allowed me to structure the work around my project vision, so that I could guide Claude in a predictable manner.\n\nBuilt in TypeScript throughout: a Node/Express backend, a Vite + React console, and a Node agent loop, all in a single project (no monorepo tooling). The backend runs the policy engine as a pure function (`(action, state) → proceed | escalate`), persists everything to SQLite via Drizzle, and streams events to the frontend over WebSocket.\n\nThe interesting piece is the approval path. When the policy escalates an action, the agent freezes and the frontend surfaces an approvals inbox. The human clicks Approve; the browser-side `ApprovalSigner` interface kicks in. We built a swappable seam: a `SimulatedSigner` (viem dev key, mimics the device confirm dialog) for dev/demo without hardware, and a `LedgerSigner` for the real Flex, switched by a single env var. Either way, the signer produces an EIP-712 typed-data signature over the specific approval payload. The frontend posts only the signature; the backend independently rebuilds the typed data from its own stored action record and calls `recoverTypedDataAddress` to verify the signer matches the configured authorized approver before releasing anything. The client never tells the backend what was signed, which makes it anti-tamper by construction.\n\nFor the Ledger Flex integration, Ledger provided purpose-built Claude skills: domain-specific context that Claude could invoke during implementation to correctly handle the Device Management Kit API, EIP-712 typed-data signing, and the WebHID transport. This was a significant accelerator; instead of reverse-engineering DMK conventions from docs, Claude had authoritative guidance baked in, which meant the device integration came out correct on the first pass rather than after several debugging cycles.\n\nOne notable design call: the entire signing flow lives in the browser, since WebHID is a browser API. The device displays the structured approval payload (action type, amount, counterparty) and the human taps to confirm on the secure element. Keeping the `ApprovalSigner` seam browser-side made this natural and kept the backend out of the hardware loop entirely.",
+  "auto_summary": "A TypeScript app routes AI agent actions through a policy engine and requires signed human approval for escalated actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tollgate-mt8w3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

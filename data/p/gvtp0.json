@@ -1,0 +1,27 @@
+{
+  "id": "gvtp0",
+  "slug": "composia",
+  "title": "Composia",
+  "tagline": "Compostable Reputation for Decentralized Verification. Gensyn. Lukso. ENS. KeeperHub. ",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gvtp0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1m023ZGhuALUNzOA7P35RUwma3uw00cZ8OfEK00BHNKco4/high.mp4",
+  "demo_url": "https://composia-frontend.vercel.app/",
+  "source_url": "https://github.com/Agente-Ito/composia",
+  "finalist": false,
+  "description": "AI agents have no verifiable identity. When one agent wants to work with another, there's no way to know: Has this agent done real work? Can it be trusted? Is it the same agent it was yesterday?\n\nComposia is a composable reputation layer for AI agents. It takes verified compute work from Gensyn's RL Swarm, turns it into a rich on-chain identity on Lukso Universal Profiles, gives each agent a human-readable name under composia.eth, and propagates that reputation cross-chain via Hyperlane — all automatically, without a team managing servers.\n\nThe result is an agent identity that is: verifiable (every update is signed on-chain), portable (same reputation visible on Lukso, Ethereum, and any connected chain), composable (DeFi protocols can query it directly for LTV calculations or governance weights), and live (updates in under a second when a new verification arrives from Gensyn).\n\nThink of it as the difference between an agent that says \"trust me\" and one that can prove: here is my compute history, here is my on-chain score, here is my ENS name, and here is what happened the last time I was wrong.",
+  "how_its_made": "Composia is a 5-layer system connecting Gensyn, Lukso, ENS, Hyperlane, and Gensyn's own AXL P2P mesh — automated end-to-end by KeeperHub.\n\nLayer 1 — Gensyn (source of truth): A MockGensyn contract on Lukso emits VerificationCompleted(agent, accuracy, verifications) events that simulate real RL Swarm participation. In production we point the listener directly at Gensyn's RPC.\n\nLayer 2 — Lukso Universal Profiles (identity hub): For each verified agent, we deploy an LSP0 Universal Profile and write reputation into it via ERC725Y setDataBatch() using custom LSP3 keys (gensyn:reputation, gensyn:verifications, gensyn:badges). Lukso's subsidized gas makes frequent updates economically viable — critical when reputation changes constantly.\n\nLayer 3 — ENS on Sepolia (human-readable identity): Every agent gets a subdomain under composia.eth — auto-generated (b95b88c2.composia.eth) or custom (alice.composia.eth). Three contracts handle this: ComposiaSubdomainRegistrar creates subdomains via ENS Name Wrapper, ENSNameManager lets agents claim names on-chain, and ReputationState acts as a reactive on-chain index with bidirectional lookups (EOA ↔ ENS node ↔ UP address), slashing with time-bounds, verification threshold in basis points, and follower quorum — all queryable directly by external contracts.\n\nLayer 4 — Hyperlane (cross-chain sync): The oracle dispatches reputation updates as Hyperlane messages. SyncerContract on Sepolia receives them and updates local storage. For the demo, we call receiveMessage() directly for instant simulation — no relayer wait.\n\nLayer 5 — Gensyn AXL mesh (P2P discovery): Composia runs as a live reputation directory on Gensyn's own AXL peer-to-peer network. Any agent queries us before connecting to a peer to check if it's trusted. Real-time push updates broadcast score changes to the mesh. This is the \"LinkedIn for AI agents\" layer — built inside the native network, not bolted on.\n\n7 smart contracts total: ComposiaRegistry (Lukso), ReputationState, ComposiaSubdomainRegistrar, ENSNameManager, ERC8004IdentityRegistry, MockGensyn, SyncerContract (Sepolia). ERC8004IdentityRegistry implements ERC-8004 \"Trustless Agents\" — an emerging standard for agent identity — issuing ERC-721 NFTs that link wallets to canonical registration JSON served at composia.app/api/agent/{address}/erc8004.\n\nAutomation via KeeperHub: Three workflows run 24/7: auto-create UPs on new Gensyn events, batch-update reputation on each verification, and dispatch cross-chain syncs every 4 hours. KeeperHub handles retries with exponential backoff, gas estimation, multi-RPC failover, and secure wallet management via Turnkey. Without it we'd need a monitored server with alerting and disaster recovery — KeeperHub makes this production-grade without managing infrastructure.\n\nNotably hacky: ReputationState.isCurrentlyVerified(node) returns false during an active slash — no oracle, no off-chain check. DeFi contracts call this directly. Followers are stored on-chain and getQuorum(node) returns 50%+1, making follower count functional governance rather than metadata.\n\nThanks\nHACKERS COMPOSIA TEAM\nAntonio Arroyo & Ile Designia\n\n",
+  "auto_summary": "A multi-package app that tracks agent reputation from Gensyn-style events, maps it to ENS and Lukso identities, and syncs state across chains.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/composia-gvtp0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "xxesg",
+  "slug": "paymate",
+  "title": "PayMate",
+  "tagline": "PSPs get instant USDC credit, investors earn fixed 5% APY, powered by Arc, Chainlink CRE & Uniswap",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xxesg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/502CAeo01lWOsg00Sh502UF3yKJiMFzUmKCemi5vWeFv6UI/high.mp4",
+  "demo_url": "https://paymate-psp.vercel.app/",
+  "source_url": "https://github.com/strugglingfrfr/PayMate-PSP",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "2nd place",
+      "title": "Best Smart Contracts on Arc with Advanced Stablecoin Logic"
+    }
+  ],
+  "finalist": true,
+  "description": "PayMate is a programmable credit liquidity pool where licensed Payment Service Providers (PSPs) access instant USDC capital for corridor settlement prefunding, and institutional investors earn a guaranteed\n  5% fixed APY  all on-chain on Arc.                                                                                                                                                                           \n \n  The problem: PSPs pre-fund millions in bank accounts across markets earning zero yield. Cross-border capital takes days. FX spreads eat margins.                                                              \n                                                                \n  PayMate replaces this with an on-chain credit pool. PSPs onboard through a full KYB process with a 14-criteria credit scoring matrix (KYR), get approved by admin, then draw USDC from the pool instantly.    \nThey repay in any stablecoin (USDC, EURC, USDT) , non-USDC repayments are automatically converted via Uniswap. Fees go to a Yield Reserve that funds investor APY.\n                                                                                                                                                                                                                \n  Investors deposit USDC and earn fixed 5% APY regardless of pool utilization. Yield is distributed every 7 days automatically by a Chainlink CRE workflow.                                                     \n   \n  If the pool lacks liquidity for a drawdown, CRE sources USDC from Uniswap across chains. Before every drawdown, autonomous AI agents pay for credit risk data via Circle Nanopayments ,  real gas-free         \n  micropayments on Arc using the x402 protocol. One agent buys market data, processes it, and sells its analysis to other agents — genuine agent-to-agent commerce.\n                                                                                                                                                                                                                \n  Smart contracts are deployed on Arc testnet with real USDC/EURC. Full fund flow verified: deposit → drawdown → repay → fee routing → yield distribution → withdrawal.                                         \n  ",
+  "how_its_made": " Smart contracts (Solidity 0.8.24) deployed on Arc testnet via Hardhat, Pool.sol handles deposits, drawdowns, repayments with conditional shortfall handling. YieldReserve.sol isolates fees from principal.\n  Pool.sol imports Chainlink's AggregatorV3Interface for on-chain EURC/USD price verification. Contracts use OpenZeppelin AccessControl for role-based permissions (ADMIN_ROLE, CRE_ROLE) and SafeERC20 for     \n  token safety. \n                                                                                                                                                                                                                \n  Backend is Node.js/Express with MongoDB. Handles auth (JWT + bcrypt), PSP KYB onboarding with 25+ fields, 14-criteria KYR credit scoring with rating bands (AAA/AA/A/B), LP deposit/withdraw tracking,        \n  drawdown validation, audit logging. Has a Uniswap rate API that calls the Trading API /quote endpoint to show live EURC/USDC conversion rates. Event listener service syncs on-chain state to DB via\n  ethers.js.                                                                                                                                                                                                    \n                                                                \n  Chainlink CRE workflow (TypeScript, compiled to WASM) has 3 handlers: cron-triggered yield distribution every 7 days, EVM log trigger for liquidity shortfalls (calls Uniswap API via Confidential HTTP to    \n  hide API credentials in enclave), and EVM log trigger for non-USDC repayment conversion. Uses Chainlink Price Feeds to verify Uniswap quotes. All 3 simulations pass via CRE CLI.\n                                                                                                                                                                                                                \n  Nanopayment agent layer uses @circle-fin/x402-batching on Arc testnet. 4 agents: Data Service (sell side, 3 x402-protected endpoints), Pool Monitor (buys market data AND sells pool analysis, agent-to-agent\n   commerce), Credit Risk Agent (pays $0.018 per PSP assessment across 3 data sources), Repayment Reminder Agent. Real USDC payments verified on Arc, started with 5 USDC, spent $0.022 across 5 paid API\n  calls.                                                                                                                                                                                                        \n                                                                \n  Frontend is Next.js 16 with Tailwind CSS and shadcn/ui. wagmi + RainbowKit for wallet connection on Arc testnet. 11 pages including multi-step KYB onboarding, PSP dashboard with drawdown/repay/history, LP  \n  dashboard with deposit/withdraw/pool overview, admin dashboard with KYR scoring panel. Live Uniswap rates displayed on repay and deposit pages. On-chain reads via custom wagmi hooks (usePoolState,\n  useLPBalance, usePSPPosition).                                                                                                                                                                                \n                                                                \n  Uniswap Trading API integrated across 4 touchpoints: CRE shortfall handler, CRE repayment conversion, backend rate API, and frontend quote preview , all with authenticated API key.                          \n   \n",
+  "auto_summary": "An on-chain credit pool lets payment providers borrow USDC for settlement while investors deposit liquidity and receive scheduled yield distributions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/paymate-xxesg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

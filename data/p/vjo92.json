@@ -1,0 +1,27 @@
+{
+  "id": "vjo92",
+  "slug": "proofofpool",
+  "title": "ProofOfPool",
+  "tagline": "Uniswap v4 hook that gives World ID–verified humans (selfie) a lower swap fee than bots",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vjo92/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IKCDiBbXQPk02lJzd4dF8IG00bRpg4NHCa800lOd02pRXL8/high.mp4",
+  "demo_url": "https://claimed-tourism-sculpture-trial.trycloudflare.com/",
+  "source_url": "https://github.com/tskoyo/proofofpool",
+  "finalist": false,
+  "description": "ProofOfPool is a Uniswap v4 hook that prices swaps differently based on proof of humanness. Swappers who verify with World ID's Selfie Check get a 0.05% fee; everyone else pays 0.30%. The premium collected from unverified flow accrues to LPs through v4's standard fee accounting — it doesn't block bots, it just prices the externality they cause. A backend signs a short-lived liveness attestation after a successful World ID check; a Registry contract verifies that signature on-chain and tracks how many discounted swaps each attestation has left, so a single verification doesn't grant unlimited discounted volume. A dedicated router binds the identity in the swap to the wallet that actually pays and receives, so an attestation can't be borrowed by someone else's swap - traffic routed to the LP through other paths executed at standard fee rate.",
+  "how_its_made": "Built on Uniswap v4's hook architecture: ProofPoolHook overrides beforeSwap to apply a dynamic LP fee based on whether the swapper presents a valid attestation. LivenessOracle is an EIP-712 verifier that checks a backend-signed LivenessAttestation (subject, expiry, nonce) against a trusted signer key — this is where World ID's Selfie Check result gets attested, since Selfie Check has no on-chain verifier. Registry checks the attestation is unexpired, belongs to the caller, and hasn't exceeded its discounted-swap cap, then records usage - if a user has exceeded their usage or valid window, they need to go through selfie-check verification once again to access the lower fee tier. ProofPoolRouter is a minimal exact-input router that forces the identity in hook data to always be msg.sender, so an attestation issued to one wallet can't be replayed by another. Contracts are deployed on Ethereum Sepolia, tested end-to-end with real verified and unverified swaps. We built a subgraph (deployed to The Graph's Subgraph Studio) indexing every swap's verification status and fee tier + a skill for the project - by feeding the skill to any AI agent with unsandboxed network access, you may query all sorts of complex data about the pool usage. Frontend is Next.js with a wallet UI and IDKit for the Selfie Check flow itself.",
+  "auto_summary": "A Uniswap v4 hook system applies different swap fees based on World ID selfie verification and exposes swap analytics through a The Graph subgraph.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/proofofpool-vjo92",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

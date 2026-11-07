@@ -1,0 +1,21 @@
+{
+  "id": "e7hsv",
+  "slug": "fujiyama",
+  "title": "FUJIYAMA",
+  "tagline": "Float-aware AMM protecting tokenized stocks from meme-driven onchain float squeezes.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e7hsv/banner/default.jpg",
+  "demo_url": "https://frontend-nohcner.vercel.app/",
+  "source_url": "https://github.com/nohcner/fujiyama",
+  "finalist": false,
+  "description": "FUJIYAMA is a float-aware asymmetric AMM designed for markets where a continuously traded asset is paired with a tokenized stock whose primary-market supply can temporarily become inelastic.\n\nTokenized stocks can keep trading onchain 24/7 even when new issuance is unavailable. During those periods, aggressive stock-to-meme flow can cause a meme pool to absorb a large share of the finite stock-token float, increasing scarcity and making normal AMM behavior poorly suited to the market state.\n\nFUJIYAMA tracks the share of the stock-token supply held in active pool inventory and applies a progressively stronger directional guard as utilization approaches a stress threshold. Instead of simply charging a larger fee, part of the incoming stock-token inventory is routed into a stabilization buffer, while the restorative meme-to-stock direction remains unguarded.\n\nWhen issuance becomes available again, buffered inventory can be returned to active liquidity. The goal is to keep 24/7 trading open while making AMM inventory behavior aware of temporary supply elasticity.",
+  "how_its_made": "FUJIYAMA was built from scratch during ETHGlobal Tokyo 2026.\n\nThe core is a Solidity constant-product AMM built and tested with Foundry. It tracks active stock-token reserve relative to total token supply and computes a convex utilization guard using projected post-trade utilization:\n\nu = projected stock-token float utilization\np = clamp((u - u_soft) / (u_hard - u_soft), 0, 1)\nguard = g_max * p^2\n\nFor stock-token -> meme swaps while issuance is marked closed, the contract routes a state-dependent fraction of the stock-token input into a stabilization buffer. Only the remaining effective input enters active AMM inventory. Meme -> stock swaps remain unguarded because that direction releases stock inventory back to traders.\n\nThe contracts are deployed on Robinhood Chain Testnet. The frontend is built with Next.js, React and viem, and lets users connect a wallet, mint demo assets, preview FUJIYAMA versus a standard AMM, execute swaps, inspect the guard and stabilization buffer, and reopen issuance.\n\nThe repository also includes Solidity tests, a Foundry deployment script, and a Python stress replay that uses the same guard curve as the contract.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fujiyama-e7hsv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

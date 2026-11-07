@@ -1,0 +1,36 @@
+{
+  "id": "ozced",
+  "slug": "tare",
+  "title": "TARE",
+  "tagline": "Measures what a Uniswap v4 hook really takes from your swap. 125,072 measurements, each replayable.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ozced/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xtd4ojNEDa1tueniJbTvYcyZ01GIFoMLeddohDUItRQE/high.mp4",
+  "demo_url": "https://tare-hooks.tech",
+  "source_url": "https://github.com/JeanBaptisteDurand/ETH_Online_2026",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "Best Uniswap Stack Contribution",
+      "title": "Best Uniswap Stack Contribution"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "When you swap on Uniswap v4, a small program called a hook runs during your trade, and it can\ntake a cut. Nobody publishes how much.\n\nUniswap asks hooks to declare it through the HookSwap and HookFee events its own guide\nrecommends. Across 1,559 hooks seen in 200,000 Base blocks, nine emit either one. The official\nregistry describes 978 entries with 27 fields each, 19 of them booleans — and not one of the 27\nis a quantity. Its schema does not merely omit a number, it forbids adding one.\n\nSo TARE measures it. The obvious comparison is impossible: a v4 pool's identity — its PoolKey —\ncontains the hook's address, so \"the same pool without its hook\" does not exist. TARE does not\nchange the pool: it changes the hook. On a fork pinned to a block, anvil_setCode replaces the\nhook's bytecode with an inert 89-byte stub. The poolId, the liquidity, slot0 and the reserves\nstay byte-identical; the only thing that changed is the code that runs during the swap. Quote\nthe same swap twice and the gap IS what the hook took.\n\n125,072 measurements, 7,817 pools, 112 hooks, 8 sizes, both directions. Every row carries its\nblock, its size, its direction, its label and a command that reproduces it. What could not be\nmeasured keeps its reason instead of a zero: 61,916 of those rows are not values, and we\npublish that too.",
+  "how_its_made": "The engine is Python. It pins an anvil fork of Base at block 50,614,000, quotes a swap through\nV4Quoter, rewrites the hook's bytecode with anvil_setCode to an inert 89-byte stub that\nsatisfies Hooks.sol's return-data validation (96 bytes from beforeSwap, 64 otherwise, selector\nechoed), quotes the same swap again, and restores the bytecode. The gap is the take. A gate\nre-executes real swaps and checks the quote against the execution: 96.74 bps quoted, 96.74 bps\nexecuted, to the wei.\n\nThe agent exposes fourteen named tools in three families — collection, analysis, action — and\nthe rule it cannot get around is written into the tool descriptions themselves: it never states\na number a tool did not return. Four of them are served over MCP to Claude Desktop, offline,\nreading the committed corpus from disk.\n\nHedera carries the paid path: a fresh measurement costs 0.001 USDC over x402, settled through\nthe Blocky402 facilitator on Hedera testnet and read back on the mirror node — a settlement is\nonly counted if the mirror node returns it, never on our own word. The agent's identity is\nHCS-14, derived from six canonical fields so a caller recomputes it instead of trusting us, and\nthe usage log is anchored on an HCS topic.\n\nLedger secures what is irreversible. The signing key lives in the Key Ring (wallet-cli ring),\nand the guard's verdict is encoded as EIP-712 and rendered field by field on the device — you\ndo not sign an opaque digest. Cancelling returns 4001 and no call goes out.\n\nThe front end is React with no runtime backend: the whole corpus is column-encoded into 8.3 MB\nand shipped inside the page, so the site answers with zero network requests. A browser\nextension does the same offline, 12 kB of content script, and reads the Universal Router\ncalldata three seconds before you sign. When a cheaper door exists it builds the replacement\ntransaction and signs it through Permit2 (command list 0x0a10, PERMIT2_PERMIT then V4_SWAP) —\nand never broadcasts it. On 99.71% of corpus rows there is no cheaper door, and it says so\nrather than inventing one.\n\n1,230 tests green across engine, API, MCP, guard, keyring and front end.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tare-ozced",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

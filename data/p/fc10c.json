@@ -1,0 +1,29 @@
+{
+  "id": "fc10c",
+  "slug": "ethereum-account-fraud-detection",
+  "title": "Ethereum Account Fraud Detection",
+  "tagline": "EFD also know as Ethereum Account Fraud Detection is a smart contract on Filecoin that allows users to check if a particular Account is Fraudulent or not which is powered by Machine Learning.",
+  "event": {
+    "slug": "hackfs2023",
+    "name": "HackFS 2023",
+    "start_time": "2023-06-02T13:00:39.046Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fc10c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qVreF5adWjtXzYEIwnjoZHLam1wx402NoQ93813aL7UU/high.mp4",
+  "source_url": "https://github.com/hakymulla/HackFS-2023",
+  "prizes": [
+    {
+      "sponsor": "Tableland",
+      "sponsor_id": "eov0f",
+      "placement": "🥉 Tableland — Best Use",
+      "title": "Tableland"
+    }
+  ],
+  "finalist": false,
+  "description": "This project allows users to check if a particluar Ethereum Address is Fraudulent or not with the help of Machine Learning. The users needs to input an Ethereum address and the address information is retrieved using the etherscan api which are then used as features for the Machine Learning Model.",
+  "how_its_made": "This project uses Bacalhau for Machine Learning Training and Inference (Compute) by calling a docker container, Lilypad  for calling Bacalhau jobs from smart contracts and TableLand table for storing the results of the Machine Learning model which can be used to monitor the model perfomance.\n1. Enctypt and Decrpyt data with LitProtocol.\nDACE for LitProtocol\n     - Caliberation : 0xec59DAFF6A78e09BA6fC9A257BAb82F3D7C3D116 (addSymmetricKey: encryptedSymmetricKey for a CID is saved here) (The onchain condition of adding an Ethereum Address for who can decrypt the CID doesn't work on Caliberation Testnet so this is done on Mumbai)\n     - Mumbai : 0x883b3b399fc4eb846c5cb3655F96f277F3B657B8 (adddaceAccess: Mapping from Address to list of addresses,i.e mapping from the owner of the CID to addresses that can decrypt). isExistdaceAccess function is the on cahin condition, true means an Ethereum Account can decrypt.\n\n2. The FVM smart contract deployed on the caliberation testnet. The user interacts with the IsFraudDetector payable function which takes as input an Ethereum Account, the fee payment is used to cover gas cost of the callback from the bridge.\n\n3. IsFraudDetector then calls the  the bridge runLilypadJob payable function sending the gas fee and a constructed bacalhau prompt.\n\n4. Bacalhau starts the job based on the prompt from the smart contract. (However bacalhau runs a docker container which has already been deployed).\n\n5. The docker container contains a python script and and RandomForest Model, the python script takes the argument (The Ethereum Address in this case), and retrieves the address information using the etherscan api which are then used as features for the Machine Learning Model. The RandomForest model is then used to predict if the Account is Fraudulent or not.\n\n6. When the job is done, the bridge calls the lilypadFulfilled function(this is where the gas fee is needed) and send the result to the smart contract.\n\n7. During contract deployment, a tableland table is created. The bridge while calling the lilypadFulfilled also saves the results to the table which can be used to monitor the model perfomance.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ethereum-account-fraud-detection-fc10c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

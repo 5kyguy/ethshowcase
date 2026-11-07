@@ -1,0 +1,47 @@
+{
+  "id": "hfvw3",
+  "slug": "vouch-defi",
+  "title": "Vouch DeFi",
+  "tagline": "Zero-collateral credit backed by who you are, not what you own. Private AI, USDC on Arc.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hfvw3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/INjrvpmv01w3XVONWYtklYM8HS5M00V3Lnf00zR008kJ01nY/high.mp4",
+  "demo_url": "https://vouch-borrower.vercel.app/",
+  "source_url": "https://github.com/LegendaryPenguin/EthGlobal26",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "1st place",
+      "title": "Best Chain Abstracted USDC Apps Using Arc as a Liquidity Hub "
+    },
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "2nd place",
+      "title": "Track D (ProveKit)"
+    },
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Best workflow with CRE",
+      "title": "Best workflow with CRE"
+    }
+  ],
+  "finalist": true,
+  "description": "VERITAS\nCredit for the people the system can't see, backed by who you are, not what you own.\nVeritas is an undercollateralized lending protocol that gives real people a fair cash advance against income they have already earned, with zero collateral and no credit history required. A borrower proves they are a unique human, a private AI underwrites their real income inside a sealed enclave so the numbers are never exposed to anyone, and USDC is disbursed in seconds on Arc. Repayment is routed automatically out of future income, and every repaid loan builds a portable, identity-bound credit passport. The core idea: your verified identity is the collateral.\nTHE PROBLEM\n\nThe people who most need a fair loan are the ones locked out of getting one. Around 1.3 billion adults are outside the formal financial system, and tens of millions of creators and gig workers earn real money but have no credit file a bank can score. Crypto does not fix this, because DeFi lending is almost entirely overcollateralized and only serves people who already have money to lock up. Undercollateralized lending for individuals stayed unsolved because of two problems: the respawn problem, where anonymous wallets let a defaulter just make a new one, and the privacy problem, where judging a borrower needs private financials nobody wants to expose. Veritas solves both. Proof of personhood removes the respawn, and confidential AI removes the exposure.\nWHAT IT DOES\n\nFor borrowers: verify you are a unique human with World ID, prove your income clears the bar with an in-browser zero-knowledge proof without revealing the actual number, get underwritten by a private AI that returns only an attested verdict, receive USDC on Arc in seconds, and repay automatically from a slice of each future payout. Repay well and your passport unlocks a higher limit. Walk away and the flag lives on your one identity, so a fresh wallet cannot escape it.\nFor lenders: deposit USDC from any chain into a single pool on Arc, choose a senior tranche for fixed, first-loss-protected yield or a junior tranche that absorbs defaults first and earns the residual, and earn real yield backed by thousands of small, income-routed advances.\nHOW IT FITS TOGETHER\n\nVeritas is three layers joined by one on-chain seam. The identity layer (World) proves who the borrower is with World ID and a Noir and ProveKit zero-knowledge eligibility proof, and mints an ERC-8004 credit passport. The decision layer (Chainlink) runs the private underwriting: a CRE workflow calls a Confidential AI model inside a TEE and writes only the attested verdict on-chain. The money layer (Arc and Circle) settles everything in USDC through a suite of smart contracts, with Arc as the cross-chain liquidity hub. Two rules hold the design together: only the verdict ever crosses on-chain, never the raw income, and Chainlink never touches USDC, it delivers the decision and Arc moves the money.\nTECH STACK\n\nSolidity and Foundry on Arc; USDC and EURC via Circle; Circle Gateway and CCTP for cross-chain; World ID with IDKit and cloud verification; Noir and ProveKit with an on-chain HonkVerifier; Chainlink CRE with the TypeScript SDK and Confidential AI; Chainlink Data Feeds; an ERC-8004 credit passport; and React, TypeScript, Vite, Tailwind, and wagmi/viem for the borrower and lender frontends.",
+  "how_its_made": "Veritas is a monorepo with four pieces: Solidity contracts (Foundry) deployed on Arc, a Chainlink CRE workflow, Noir and ProveKit circuits, and React and wagmi frontends for the borrower and the lender.\nThe money layer is a system of contracts, not one. LoanRegistry is the seam: the only place loan terms are written and the only thing the rest of the app reads. LoanVault handles conditional disbursement, releasing USDC only when a valid attestation and good standing exist, plus a fixed-term, equal-installment amortization schedule. IncomeRouter intercepts a payout and atomically splits the repayment slice to the vault and forwards the rest to the borrower. TranchePool gives lenders senior and junior positions with a share-based yield-and-loss waterfall, and RateModel reads a Chainlink feed to persist an on-chain APR. Everything is USDC at 6 decimals.\nThe decision layer is a Chainlink CRE workflow written with the TypeScript SDK. It triggers on a borrower application, calls a Confidential AI model running inside a TEE so the real income is read in a sealed enclave and never hits a public node, reaches DON consensus, and writes a signed report into LoanRegistry through the Forwarder. The identity layer uses World ID (IDKit plus backend cloud verification, with the nullifier as our sybil-resistance key) and a Noir circuit compiled with ProveKit that proves income is above a threshold in the borrower's browser, verified on-chain by a HonkVerifier.\nPartner tech did real work here. Arc uses USDC as its native gas token, so a borrower never has to buy a separate gas coin and settlement is near-instant. Circle Gateway and CCTP let lenders fund the pool from any chain with Arc as the hub. Chainlink Confidential AI is what makes private underwriting possible at all, and World ID is what makes \"you cannot respawn after a default\" actually true.\nThe notable design trick is the LoanRegistry seam: by freezing one tiny on-chain interface first, the Chainlink decision layer and the Arc money layer were built completely in parallel and only meet at the verdict. The privacy boundary is deliberate too. The zero-knowledge proof is a cheap, self-sovereign gate that runs before the expensive confidential AI underwrite, raw income only ever lives inside the device or the enclave, and only the verdict is ever written on-chain. Cross-chain settlement is routed through Circle's rails but kept off the time-sensitive path, so the borrower experience stays instant on Arc.",
+  "auto_summary": "A monorepo for undercollateralized lending that combines World ID-based identity, Noir eligibility proofs, Chainlink underwriting, and USDC settlement on Arc.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/vouch-defi-hfvw3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

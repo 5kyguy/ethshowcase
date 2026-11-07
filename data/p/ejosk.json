@@ -1,0 +1,30 @@
+{
+  "id": "ejosk",
+  "slug": "allowance-eth",
+  "title": "allowance.eth",
+  "tagline": "Portable AI spending policies, rules live on the agent's ENS identity, not the wallet.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ejosk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/6P02CuJNLKWtm3HFp008WRQCRKIgM02CCnmVMVYQnnMr9Y/high.mp4",
+  "demo_url": "https://allowance-eth.vercel.app/",
+  "source_url": "https://github.com/dankot12/allowance.eth",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "AI agents need to spend crypto autonomously, but today, spending limits live in wallet configs or offchain databases. Swap infrastructure and you reconfigure them from scratch.\n\nallowance.eth anchors the spending policy to the agent's ENS name instead - Write rules in plain English (\"max 50 USDC/day to Uniswap, human approval above 30 USDC\"), Claude translates them to a validated JSON schema, and they're stored as an ENS text record and enforced on-chain by PolicyGuard.sol.\n\nEvery agent transaction is simulated against three gates: daily cap, contract allowlist, and time window. Transactions above the approval threshold require a Ledger hardware signature — shown in human-readable form via ERC-7730 clear signing. Transfer the ENS name to a new wallet and the policy travels with it automatically. Nothing resets.",
+  "how_its_made": "PolicyGuard.sol (Solidity/Foundry, deployed on Sepolia) stores a keccak256 hash of the policy and enforces it on every transaction via simulate() — checking daily cap, allowlist, and time window in a single view call. The policy JSON lives as an ENS text record under the key allowance.policy.v1 on the ENS v2 namechain (Sepolia alpha).\n\nThe frontend is Next.js 14 + viem. Wallet connection uses Dynamic. Policy authoring uses the Anthropic Claude API (claude-sonnet-4-6) to translate natural language rules into validated JSON. Ledger's ERC-7730 clear signing descriptor makes the human approval flow show readable summaries on-device rather than raw hex calldata. A Speculos emulator bridge enables the Ledger flow in development.\n\nThe Transfer Identity flow does three sequential on-chain steps, grant ENS v2 resolver manager roles, update the addr record, transfer PolicyGuard ownership — all signed through MetaMask in sequence, so a full identity handoff requires no server keys.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/allowance-eth-ejosk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

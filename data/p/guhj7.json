@@ -1,0 +1,27 @@
+{
+  "id": "guhj7",
+  "slug": "greenlight",
+  "title": "Greenlight",
+  "tagline": "High-stakes agricultural decision authorization layer signed by verified advisors and gated by chain",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/guhj7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AcbqPZ8BqgA91U7XvnVnrEDRpqnC8VZprOmRsefLBCo/high.mp4",
+  "demo_url": "https://greenlight-production-f267.up.railway.app/",
+  "source_url": "https://github.com/brandenkang/ETHGlobal",
+  "finalist": false,
+  "description": "Agriculture is full of high-consequence actions that legally and operationally require a verified licensed professional to authorize decisions triggered by real-world data.\n\nIn California, agricultural pesticide recommendations are legally required to be written and signed by a licensed Pest Control Adviser (PCA) and given to the grower before application (3 CCR §6556); restricted-use chemicals additionally require a permit and Notice of Intent from the County Agricultural Commissioner.\n\nToday that sign-off is paperwork. It's slow, easy to forge, and impossible to audit at scale. Nothing verifies that the adviser is a real, licensed human, that the recommendation actually matches the product's label rules, or that it ever existed before the chemical hit the field.\n\nGreenlight turns that paper sign-off into a tamper-proof, on-chain authorization. Live farm data flags a field; a Chainlink Confidential AI inside a TEE drafts a legally-compliant recommendation; a World ID-verified, licensed adviser reviews and signs it on a Ledger; and a smart contract records the authorization and makes it the compliance gate. \n\nAI assists, the licensed human decides and is accountable, and the chain is the proof. The same rail authorizes any regulated ag decision where a licensed human must sign off on real-world data (veterinary feed directives, quarantine orders, nutrient-management plans, etc.). \n\nIt's the verified, auditable authorization layer agriculture has never had.",
+  "how_its_made": "Greenlight runs on an AuthorizationRegistry smart contract (Solidity/Foundry, Ethereum Sepolia) with a PROPOSED → AUTHORIZED → APPLIED state machine that enforces the compliance gate. \n\nThe \"machine proposes\" half uses Chainlink: the Confidential AI Attester runs an LLM (Gemma) inside an AWS Nitro Enclave (TEE) over the sensitive compliance and farm data, returning the drafted recommendation plus request/response digests; a Chainlink CRE workflow receives that as an HTTP-trigger callback, parses the decision, and writes the attested draft on-chain through the KeystoneForwarder so the AI's reasoning is verifiable, not \"trust me.\" \n\nThe \"human authorizes\" half uses World ID (verify the PCA is a unique licensed human; the proof is checked in the backend, then registerPCA writes on-chain) and Ledger (Device Management Kit + ERC-7730 Clear Signing, so the PCA sees the exact recommendation on the device before signing authorizeRecommendation). The frontend is React/TypeScript with wagmi/viem. Every partner integration is load-bearing: Chainlink CRE + Confidential AI make the proposal trustworthy and on-chain, World ID makes the signer provably a unique licensed human (Sybil-resistant), and Ledger makes the signature secure and human-readable. \n\nI forked Chainlink's undercollateralized-loan Attester demo and repurposed its TEE → CRE → on-chain attestation pipeline to write a regulatory recommendation instead of a loan decision, in order to create a single pipeline that satisfies both the CRE and Confidential AI Attester category.",
+  "auto_summary": "Greenlight records AI-drafted agricultural compliance recommendations on-chain and requires a verified human adviser to authorize them with hardware-backed signing.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/greenlight-guhj7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

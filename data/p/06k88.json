@@ -1,0 +1,27 @@
+{
+  "id": "06k88",
+  "slug": "agent-insure",
+  "title": "Agent Insure",
+  "tagline": "Insurance for AI agents against LLM prompt-injection fraud, built on Hedera, ENS and World",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/06k88/banner/default.jpg",
+  "video_url": "https://stream.mux.com/G9cSGj5QUcAFzrOKqKWE3R64mbuTb102q4zK9GqB9JbM/high.mp4",
+  "demo_url": "https://insured-business.up.railway.app/",
+  "source_url": "https://github.com/jianruan-io/agent-insure",
+  "finalist": false,
+  "description": "Agent Insure is insurance for autonomous AI agents that hold and spend money on their own.\n\nInsured Business App: https://insured-business.up.railway.app\nAgent Insure App (Insurance Company): https://agent-insure-hq.up.railway.app\n\nGive an agent a wallet and it inherits a new risk: indirect prompt injection. Hidden instructions buried in ordinary content, like a vendor invoice or a webpage, can manipulate the agent into authorizing a payment nobody approved. It's not a patchable bug: an LLM reads instructions and data as one undifferentiated stream of text, which is why OWASP, Microsoft, and Palo Alto's 2026 research still call this unresolved. And a stablecoin payment has no chargeback, so the loss is instant and final.\n\nAgent Insure covers that loss. Each agent's spending scope (budget cap, approved vendors) is locked into its ENS identity as an enforceable record. Every transaction is logged immutably to Hedera Consensus Service. To file a claim, the company's human manager first need to pass a live World Selfie Check, so nobody can run the whole loss-and-payout loop through software alone. Investigation pulls the disputed payment from Hedera's Mirror Node, checks its destination against the ENS-locked vendor list, and rules fraud on a mismatch. Payout follows automatically from a shared risk pool.\n\nA good analogy would be autonomous vehicles, like Waymo: the car drives itself, but Waymo still carries liability insurance for when something goes wrong on the road. AI agents need that same structure. Once an agent, not a person, is the one deciding to spend money, someone still has to be liable when it gets that decision wrong. ",
+  "how_its_made": "The project is a monorepo: an Express backend and two React 19 + Vite + Tailwind frontends, one for the insured company (Northbeam Distributors) and one for the insurer (Agent Insure HQ). One Playwright E2E suite drives both apps against the real backend, no mocks.\n\nPayableAgent decides who to pay by reading an invoice's extracted text through a tool-calling request to a local Llama 3.2 3B model served by Ollama, via the OpenAI SDK pointed at Ollama, at temperature 0 with a fixed seed for reproducible demos. The poisoned invoice hides its rerouting instruction as white text on a white background inside a real rendered HTML invoice, the same concealment trick used in real prompt-injection attacks.\n\nEvery PayableAgent payment settles on Hedera and is logged to a Hedera Consensus Service topic. The investigation step pulls that history from Hedera's public Mirror Node API and compares the disputed payment's destination against the ENS-locked vendor account to rule fraud on a mismatch. Every vendor payment also sits behind a x402-gated micro insurance-coverage fee, settled through the Blocky402 facilitator on Hedera testnet: a bare request gets back a real HTTP 402 challenge, and PayableAgent's own signer completes and settles it in real mUSDC before the vendor payment proceeds.\n\nAn agent's spending scope (budget cap, approved-vendor list) is written as ENS text records on a Permissioned Resolver on Sepolia at payableagent.agentinsure.eth. Locking it is not a UI toggle: it calls the resolver's revokeRootRoles to permanently give up the write-role bitmap, so the record becomes unwritable on-chain, verified against the resolver's Sourcify-published source.\n\nFiling a claim requires a live World Selfie Check for human KYC. Because IDKit's bundled React widget fails to load its WASM module under Vite's dev server, the flow calls its framework-agnostic createRequest() builder directly, renders its own QR code, and independently re-verifies the returned proof against World's API server-side.",
+  "auto_summary": "A monorepo app that insures AI-agent payments using ENS-based spending rules, Hedera payments and logs, and World selfie verification for claims.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agent-insure-06k88",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "s1u06",
+  "slug": "rootpay-x-keeperhub",
+  "title": "Rootpay x KeeperHub",
+  "tagline": "KeeperHub integration for Rootpay a better x402 for the internet",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s1u06/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FxFeYc6PG00oSqLt7w7pIqLXCABKthbRW7F02Ic1tq8go/high.mp4",
+  "demo_url": "https://github.com/souvikmishra/rootpay-backend",
+  "source_url": "https://github.com/pali101/rootpay-backend",
+  "finalist": false,
+  "description": "This project is an integration of Rootpay with KeeperHub. The Rootpay protocol is a better and more efficient way of using micropayments rather than the current implementation of x402 that exists. The current implementation of the rootpay protocol requires merchants to spin up their own backends and subgraphs in order to track and receive payments by listening to the events that have been emitted by our contracts. With Keeper Hub, we were able to streamline this process by using its workflows as a subgraph substitute, by removing all the complexities that were previously on the merchant side. ",
+  "how_its_made": "RootPay backend is built on Node.js 24 + TypeScript + Express, deployed on Railway. It bridges on-chain RootPay payment channel events to merchant HTTP webhooks using KeeperHub as the blockchain automation layer — KeeperHub watches the RootPay contract on Base Sepolia and fires a POST to our backend whenever a channel is opened, redeemed, reclaimed, or refunded.\n\nThe RootPay smart contract (Solidity, deployed on Base Sepolia) implements Merkle-indexed payment channels. A payer locks funds and commits a merkleRoot — each leaf represents one micropayment secret. The merchant redeems by submitting the highest leaf index reached, settling the entire session in a single on-chain transaction. The contract uses keccak256(abi.encode(leafIndex, secret)) which we mirror exactly in the off-chain verifier so proof math is identical on both sides.\n\nWe use node:sqlite (Node 24's built-in experimental SQLite) instead of native addons — better-sqlite3 failed to build because Mac's Clang toolchain predates C++20. Zero-setup, synchronous, no Docker needed.\n\nThe notably hacky part: KeeperHub's no-code webhook builder concatenates all selected fields into a raw hex string with no delimiters. We wrote a regex parser that extracts addresses and txHash (fixed-width hex), then uses a power-of-2 heuristic to split the numeric suffix into amount + treeSize. We also handle spaced event names (\"Channel Created\" → \"ChannelCreated\"), missing token addresses, and leafIndex values prefixed with \"l\" - all quirks discovered live during the hackathon.\n\nx402 integration: instead of one on-chain transaction per API call, the backend verifies Merkle proofs off-chain in <1ms. One channel settlement covers thousands of API calls. Merchants receive the raw proof so they can self-verify - we're a trusted intermediary but cryptographically accountable.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/rootpay-x-keeperhub-s1u06",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

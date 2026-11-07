@@ -1,0 +1,27 @@
+{
+  "id": "0hj4z",
+  "slug": "preflight",
+  "title": "Preflight",
+  "tagline": "A pre-sign firewall that explains wallet approvals in plain English and blocks malicious ones.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0hj4z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vjsbdPMoEh5xHl7tmX9mabDqSP4ygxl302wnLz4KeeMQ/high.mp4",
+  "demo_url": "https://preflight-frontend-342051283692.us-central1.run.app",
+  "source_url": "https://github.com/JoelEmmanuelCloud/preflight",
+  "finalist": false,
+  "description": "Preflight intercepts a wallet transaction before it's signed and explains what it actually does in plain English instead of raw calldata. It decodes approve, setApprovalForAll, and permit calls, flags unlimited or repeatable access, and cross-checks the counterparty against on-chain approval history indexed by a live Graph subgraph. The final verdict is computed inside a Chainlink CRE confidential workflow using a secret that never leaves the enclave. If a transaction is judged malicious, a Privy wallet policy blocks it from being signed even if a user tries to force it through, so the protection holds at the wallet level, not just in the UI.",
+  "how_its_made": "Frontend is Next.js (App Router, TypeScript) with Privy for embedded wallet auth and pre-sign transaction interception via sendTransaction with showWalletUIs:false. Backend is Express/TypeScript, decoding calldata for approve, setApprovalForAll, and permit into plain English and applying explainable ALLOW/DENY/MANUAL_REVIEW thresholds. A subgraph deployed on The Graph Studio indexes Approval events and wallet first-seen timestamps, giving the verdict logic live on-chain history instead of guesses. The verdict is also computed inside a Chainlink CRE confidential workflow, so the rules that decide ALLOW/DENY run against a secret that never leaves the enclave. As a backstop, a Privy wallet policy denies known-malicious addresses and unlimited-approve calls at the signer level, so a forced transaction is blocked even if the UI is bypassed. Contracts and seed transactions run on Sepolia.",
+  "auto_summary": "This project intercepts wallet transactions, explains approval risks, queries a live subgraph for spender history, and enforces blocking through Privy and Chainlink workflows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/preflight-0hj4z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

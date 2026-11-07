@@ -1,0 +1,27 @@
+{
+  "id": "qfa7x",
+  "slug": "agent-layer",
+  "title": "Agent Layer",
+  "tagline": "Decentralized network for executing AI API calls via distributed nodes.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qfa7x/banner/default.jpg",
+  "video_url": "https://stream.mux.com/S02a53IGUexJLduJLEv243hKBVcqIZJf37lB2kzQLnms/high.mp4",
+  "demo_url": "https://agentlayerai.vercel.app/",
+  "source_url": "https://github.com/krishshaw418/Agent_Layer",
+  "finalist": false,
+  "description": "Agent Layer is a decentralized AI execution infrastructure that replaces centralized API providers with a distributed network of nodes. Today, most AI applications rely on a small set of centralized providers, leading to high costs, rate limits, vendor lock-in, and lack of transparency. Agent Layer addresses this by enabling AI API calls to be executed across independent nodes in a trustless and scalable manner.\n\nDevelopers integrate Agent Layer using a simple SDK, similar to traditional AI APIs. When a request is made (e.g., chat completion), it is converted into a job and routed through the network, where nodes compete by placing bids to execute it. The best bid is selected on-chain, and the job is assigned to that node, ensuring decentralized and verifiable execution.\n\nTo power the ecosystem, Agent Layer introduces a native utility token called AGL (Agent Layer Token). Users can purchase AGL at a fixed price using USDC via the platform. The token uses 6 decimal precision, where 1 AGL (1e6 units) corresponds to one LLM output token, creating a transparent and predictable pricing model similar to traditional AI APIs. Users deposit AGL into a vault, which is used to pay for API usage.\n\nSince AGL is a transferable token, users can send unused tokens to others or trade them externally, introducing flexibility and composability into AI consumption. Payments are handled through smart contract-based escrow, ensuring secure and trustless settlement between users and node operators.\n\nBy combining decentralized execution, competitive bidding, and tokenized usage, Agent Layer transforms AI APIs into an open, scalable, and economically efficient public infrastructure that developers can integrate just as easily as existing centralized solutions.",
+  "how_its_made": "Agent Layer is built as a hybrid system combining off-chain orchestration with on-chain trustless execution. The frontend is a Next.js app where users connect wallets, purchase AGL tokens using USDC, deposit them into a vault, generate API keys, and test APIs via a playground.\n\nDevelopers integrate via the Agent Layer SDK, which exposes simple methods (e.g., chat completion). When called, the request is sent to a Node.js + Express backend, which creates a job with a deadline, stores it in a database, and registers it on-chain using the createJob function in the Entrypoint smart contract. The SDK simultaneously subscribes to a Redis pub/sub channel using the job ID to receive streamed or final responses.\n\nJobs are broadcast to node operators via Redis. Nodes run a CLI + node server, fetch job details, compute bids, and submit them on-chain. At the deadline, Upstash QStash triggers a Keeper-style workflow that finalizes the job. If no bids exist, the backend marks the job as failed and notifies the user.\n\nIf bids are present, the Entrypoint contract selects the best bid and assigns the job trustlessly. The assigned node executes the task locally using an Ollama-based LLM, and streams the response back via Redis pub/sub to the SDK.\n\nPayments are handled using an AGL ERC-20 token (6 decimals), with escrow managed via smart contracts. A notable design choice is mapping 1e6 units (1 AGL) = 1 LLM output token, enabling predictable pricing similar to traditional APIs while remaining fully on-chain and transferable.\n\nThis architecture balances performance (off-chain queues, streaming) with trust (on-chain bidding, escrow, and assignment), while abstracting complexity behind a simple developer API.",
+  "auto_summary": "A decentralized AI platform that routes inference jobs through off-chain services and on-chain bidding, escrow, and token-based payment contracts.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agent-layer-qfa7x",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

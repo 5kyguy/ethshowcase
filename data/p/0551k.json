@@ -1,0 +1,27 @@
+{
+  "id": "0551k",
+  "slug": "decaptcha",
+  "title": "deCAPTCHA",
+  "tagline": "A CAPTCHA that lets real AI agents through with human pre-approval built on World's Selfie Check.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0551k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5L0001kProG4t7YoK01cl9pydZfdoFjmAJIY4sxtxCZm3A/high.mp4",
+  "demo_url": "https://drive.google.com/drive/folders/1W3b55sKWffN_yRple8Vs-5jxLtYAuLaX?usp=sharing",
+  "source_url": "https://github.com/manubhavsar/decaptcha",
+  "finalist": false,
+  "description": "Your AI agent just got blocked by a CAPTCHA. Again.\n\nEvery bot gate on the internet asks one question: are you a human? For an agent booking your flight or grabbing your ticket, there's no good answer. (Because let's be real, it's all going to be automated now.) So it gets treated like a scraper, and you go do it yourself.\n\ndeCAPTCHA asks a better question: Not \"are you human\" but \"is a real human accountable for this?\"\n\nHere's how it works. You pass World's Selfie Check once - takes a second. That mints a vouch: an ENS subname on Sepolia that says a verified human is standing behind this agent, it can do exactly this much, until exactly this time, and that human can pull the plug whenever they want. Your agent carries that name around like a badge.\n\n1. No vouch? CAPTCHA. Blocked. Nothing changes for the bots.\n2. With a vouch? Straight through. Instantly. Logged as acting for you.\n3. One claim past what you allowed? Blocked, exactly like a bot.\n4. Agent decides it wants more? It tries to raise its own limit and ENS slaps it down.The agent has zero permission over its own credential.\n\nThen you hit revoke. The transaction lands on Sepolia, you watch it confirm, and the agent's very next request bounces. No waiting for a cache to clear, because there is no cache.\n\nWhen a vouch is minted, we hand the human write access and then throw away our own. Read the resolver yourself. The agent can't touch it and either can we.\n\nBots still walk away with nothing, exactly as they should. But an agent working for a real person finally gets treated like one, with access that reaches precisely as far as that person allowed and lasts precisely as long as they're comfortable with it. The second they aren't, it's gone.",
+  "how_its_made": "Node and Express backend, ENSv2 on Sepolia, a vanilla-JS embeddable widget, and a Chrome extension as the human's vouch wallet.\n\nThe widget is the product. One script tag and one div, and the server-side check is POST /api/siteverify with a secret - deliberately the same shape as reCAPTCHA, because adopting this should be a swap and not a re-architecture. The response carries two fields reCAPTCHA never had: whether a human or an accountable agent passed, and which human is on the hook. It renders in a shadow root so a host page's CSS can't break it and it can't leak styles outward.\n\nENSv2 does the heavy lifting, and the primitive that makes it work is PermissionedResolver scoping Enhanced Access Control resources to keccak256(node, part) - a name AND a record type. Permission is granted on one specific field of one specific vouch. The human holds ROLE_SET_TEXT on the revocation record. The agent holds nothing, anywhere. When it tries to bump its own scope the chain throws EACUnauthorizedAccountRoles naming the agent's address and the exact role it lacks. That refusal is ENS talking, not us.\n\nEvery vouch gets its own resolver, cloned through VerifiableFactory, so its records and permissions belong to it alone instead of a shared table. Minting is three transactions: deploy the resolver with records already baked in, register the subname, then grant the human and renounce ourselves in one multicall. That first one works because PermissionedResolver skips permission checks during init, so records exist before anyone has rights over them.\n\nAuthorisation needs no identity provider. The human signs readable terms naming the agent, scope and expiry, and that signature is published on the record. Anyone can recover the signer from chain data alone. Ten tests prove it binds rather than merely exists: change the scope, the expiry, the agent or the name and verification fails.\n\nExpiry is layered. The subname outlives its vouch by a week on purpose. We tried setting them equal and it broke the story - the name stopped resolving before the gate could read the record, so an expired vouch looked identical to one that never existed.",
+  "auto_summary": "A CAPTCHA-alternative system that uses ENSv2 subnames on Sepolia to represent revocable, scoped accountability vouchers for agents.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/decaptcha-0551k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

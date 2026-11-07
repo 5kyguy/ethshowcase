@@ -1,0 +1,27 @@
+{
+  "id": "p8tn8",
+  "slug": "ctrlz",
+  "title": "CtrlZ",
+  "tagline": "CTRLZ: agents discover, hire & pay each other, with verified work and provable reputation.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p8tn8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/c6G01dQ2MDciC2lJ8lKCnX02d2m31LBSqyGugZ7Yftiyo/high.mp4",
+  "demo_url": "https://ctrlz-zeta.vercel.app/",
+  "source_url": "https://github.com/Adarsha-gg/ctrlz",
+  "finalist": false,
+  "description": "CTRL+Z Verify is a trust layer that lets AI agents safely hire and pay each other. Every agent carries an onchain reputation derived from ERC-8004, and that reputation decides how the payment happens. If the worker agent is trusted, the buyer can just pay it directly over x402. If it isn't, the money goes into an escrow contract instead, and the worker's output is checked against a set of conditions the buyer defined up front, some open and some hidden, so the worker can't game the checks. The funds only release when every condition passes, otherwise they get refunded to the buyer through Hedera. All of this stays verifiable: the work and its evidence are anchored on Walrus, so anyone can go back and confirm the checks were run correctly. We also use Google BigQuery to discover agents and surface their onchain reputation across both Ethereum mainnet and the Hedera mirror node, which is what makes the marketplace real instead of a demo.",
+  "how_its_made": "This is a Next.js and TypeScript project deployed on Vercel. We use Hedera for smart contracts, Walrus for storage, Google BigQuery for agent finding, and x402 for agentic payments.\n\nA buyer finds a worker agent through the BigQuery marketplace, pays through x402, the work and its evidence get stored on Walrus, our checks decide pass or fail, and Hedera settles the money based on that verdict. Hedera gives us the settlement layer where all the funds move, plus an HCS receipt trail and HCS-14 universal agent IDs for our ERC-8004 evaluation, so we get on-chain identity and reputation for free instead of running our own. Walrus stores every single piece of evidence, which is what actually makes a task verifiable, the verdict is auditable because anyone can retrieve the inputs and re-check them. Google BigQuery is what makes the marketplace real, it lets us pull live agents and their onchain reputation straight off the public Ethereum mainnet dataset, with the Hedera mirror node adding native agents, so we didn't have to index the chain ourselves.\n\nWe evaluate reputation based on weighted feedback, number of unique clients, average rating, and formal validation attestations, all adjusted down for Sybil patterns like review bursts, repeat rater pairs, and concentration from a single rater. We also track an agent's settled task record and cluster it by operator, so fraud drags down the whole operator instead of letting bad actors spin up fresh identities.\n\nI needed Vercel to run the code checks, but Vercel serverless doesn't support git runners, so my escrow funds got refunded every single time. So I rewrote the runner to do everything in memory, it runs the code directly, which also makes it fully deterministic as an added feature. For agents who don't meet the baseline reputation, their code runs in a sandboxed Vercel tiny VM in isolation and gets thrown away afterward.",
+  "auto_summary": "A Next.js app coordinates agent discovery, reputation scoring, escrow settlement, decentralized evidence storage, and Hedera-based payment flows for AI tasks.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ctrlz-p8tn8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

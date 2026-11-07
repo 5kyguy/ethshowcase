@@ -1,0 +1,35 @@
+{
+  "id": "yaqmj",
+  "slug": "sentinel",
+  "title": "Sentinel",
+  "tagline": "Stop-loss for your entire portfolio. Sentinel auto-exits to stables when risk hits.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yaqmj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9l2KqX9OJVxU3tkP00s0001Uv02pUlyC9hTaWLXAmgxUYgc/high.mp4",
+  "demo_url": "https://sentinel-lisbon.vercel.app",
+  "source_url": "https://github.com/armsves/sentinel",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Best Uniswap API Integration"
+    }
+  ],
+  "finalist": true,
+  "description": "Sentinel is a DeFi stop-loss agent for your whole portfolio and Uniswap LP positions. It watches pool health, token prices, depegs, and exploit intel (The Graph, Blockaid/X), scores risk with 0G Compute, then auto-exits: withdraw LP → swap to USDC/USDT/DAI → transfer to a safe wallet in case of protocol hacks or compromises. Policy thresholds live in a dashboard; a bot runs the always-on scanner and panic worker against shared Redis. Public demo at sentinel-lisbon.vercel.app runs dry-run triggers so anyone can fire an incident and see the live agent feed without shipping private keys.",
+  "how_its_made": "Sentinel is a monorepo (pnpm + TypeScript) split into a public Vercel surface and an always-on agent.\n\nThe dashboard (Vite + React) is the control plane: Home pitch, Control triggers, Configuration (policy thresholds in Redis), and Portfolio (live ERC-20 balances + Uniswap v3 NFT amounts). On Vercel, a slim Hono API in api/index.ts handles health, settings, activity, dry-run triggers, and /api/positions over Upstash Redis.\n\nThe agent runs as pnpm bot: one process that starts the scanner and panic-worker together. The scanner polls The Graph (Uniswap v3 subgraph) for pool TVL/price/depeg signals, reads wallet positions over RPC, optionally pulls Blockaid/X alerts, and can score severity with 0G Compute (OpenAI-compatible router) before enqueueing a PanicEvent. The panic-worker dequeues from Redis and executes the flight path via Uniswap Trading + LP APIs: decrease liquidity, swap residuals to USDC/USDT/DAI, then transfer to SAFE_WALLET_ADDRESS. Default EXECUTION_MODE=dry_run; live needs PRIVATE_KEY.\n\nUniswap is the execution engine for LP exit and swaps; \nThe Graph is the live market sensor; \n0G turns fused signals into scored decisions.",
+  "auto_summary": "A TypeScript monorepo for monitoring DeFi portfolio risk and triggering Uniswap-based LP exits and stablecoin swaps.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sentinel-yaqmj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

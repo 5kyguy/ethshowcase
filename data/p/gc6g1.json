@@ -1,0 +1,22 @@
+{
+  "id": "gc6g1",
+  "slug": "paytopedia",
+  "title": "paytopedia",
+  "tagline": "EIP-7702 payment gateway: collect tokens with minimal fees across any EVM chain",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gc6g1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/x01m7o34AUcoMuGXN9JveMwbW00wClHwNqvGQ01PMRUop4/high.mp4",
+  "demo_url": "https://paytopedia.top",
+  "source_url": "https://github.com/sepehr-mnp/paytopedia",
+  "finalist": false,
+  "description": "A new approach to token collection for exchanges and payment gateways using EIP-7702 code delegation. Instead of requiring user approvals or transfer calls, users send tokens to a generated address and the service collects them in a single transaction with delegated code execution. This cuts fees dramatically compared to traditional approval + transfer flows.\n\nThe process is straightforward: users send tokens to their deterministic payment address, the service signs an EIP-7702 delegation authorizing code execution, and a single transaction collects all tokens to the hot wallet. After collection, the payment address returns to normal EOA state. Works on any EVM chain that supports EIP-7702. Built with Solidity and Foundry, tested on Arbitrum Sepolia but deployable to Ethereum, Polygon, Base, Optimism, or anywhere else with EIP-7702 support.\n\nWhy it matters: exchanges and payment services get a cheaper, faster way to sweep user deposits without complex smart contract interactions. Batch multi-token collection is supported in a single delegated transaction, reducing on-chain bloat and fees.\nand it has privacy feature that there is no need for hotwallets for withdrawal\nthe link may not work i am developing on it*\n",
+  "how_its_made": "Two main contracts handle everything. PaymentGateway registers user addresses and coordinates the collection process, while TokenTransferer serves as the delegated code that actually moves the tokens when authorized. When you need to collect tokens, you sign an EIP-7702 delegation that authorizes temporary code execution, attach it to a transaction, and call transfer on the payment address. The tokens move to the hot wallet and the payment address becomes empty again.\n\nBuilt with Solidity and Foundry, the system uses CREATE2 for predictable address generation so users always know exactly where to send their tokens. Replay protection through nonces prevents the same delegation from being used twice, and batch multi-token support lets you collect multiple token types in one transaction. The whole thing was tested end-to-end on Arbitrum Sepolia with full environment-based configuration, making it simple to deploy to any other EVM that supports EIP-7702.\n\nThe real innovation here is replacing the traditional approve + transfer pattern with a single delegated transaction. That means lower fees, simpler user experience, and less bloat on the blockchain. For any exchange or payment gateway handling token deposits at scale, this is a game changer.\nAlso it has a privacy features so that there is no need for hot wallets and for users when they request withdrawal, it starts in a queue to withdraw one by one from the biggest balance address and goes to the next until it meets the users needed amount.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/paytopedia-gc6g1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

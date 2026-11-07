@@ -1,0 +1,29 @@
+{
+  "id": "y7j3w",
+  "slug": "a-sovereigns-duty",
+  "title": "A Sovereign's Duty",
+  "tagline": "Cosmos x/duty: enshrined Hyperlane validator set for instant interchain ops",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y7j3w/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OyZ01Ms5wWpKMsXa4m4kNJt7uq9IrHu01PietIKu00a9h00/high.mp4",
+  "source_url": "https://github.com/TheArticulation/Duty",
+  "prizes": [
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "Best Infrastructure",
+      "title": "Best Infrastructure"
+    }
+  ],
+  "finalist": false,
+  "description": "This project turns a Cosmos chain’s consensus validators into the canonical validator set for Hyperlane. The x/duty module lets each Tendermint/CometBFT validator publish its Hyperlane checkpoint signer (ECDSA) and a checkpoint signature storage URI on-chain, then exposes a DutySet (validators + voting power + quorum fraction) that updates automatically as staking changes. Hyperlane agents/ISMs can query the chain to fetch the current DutySet and verify checkpoints against the same validators that secure the chain. Governance can tune the quorum via params, and operators reuse their existing validator ops to participate in Hyperlane.",
+  "how_its_made": "I used the Cursor IDE, the Ignite CLI, Cosmos SDK and HyperLane. Here is an AI Summary of the pieces and their integration:\nHow it’s made\n• Cosmos SDK (Go) module with staking hooks that mirror validator set changes, Params for quorum (num/den), Msg to set duty metadata (checkpoint pubkey + storage URI), and gRPC queries to fetch the DutySet\n• Dependency Injection (SDK v0.50+): ProvideModule returns keeper + AppModule; an invoker wires staking hooks via depinject/runtime\n• Protobufs via buf for Msg/Query services; AutoCLI enabled so q duty and tx duty are generated from proto definitions\n• Deterministic key binding: each validator proves ownership of its Hyperlane checkpoint key by signing a domain-separated binding message (ECDSA); the module verifies and stores the signer→validator mapping\n• Hyperlane validator (Docker or binary) configured with that checkpoint key and a storage backend; agents/ISMs read signatures from the declared URI and validate against on-chain pubkeys and quorum\n• Tests: keeper/unit tests for params, key binding, and DutySet queries; a simple sim run to exercise bond/unbond hooks and ensure DutySet tracks staking events",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/a-sovereigns-duty-y7j3w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

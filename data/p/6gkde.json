@@ -1,0 +1,22 @@
+{
+  "id": "6gkde",
+  "slug": "basis-zero",
+  "title": "Basis-Zero",
+  "tagline": "Earn yield on your USDC while predicting events from any Chain",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6gkde/banner/default.jpg",
+  "video_url": "https://stream.mux.com/A006wUKTCaxOQJ02trT1JCSbdn4byiamiGm00lRPDwGrOI/high.mp4",
+  "demo_url": "https://basis-zero.vercel.app/",
+  "source_url": "https://github.com/Ranish-Garg/Basis-Zero",
+  "finalist": false,
+  "description": "Basis-Zero is a capital-efficient, yield-funded prediction market that removes the opportunity cost of betting. Users deposit USDC into a vault where funds continuously accrue yield. Traders can operate in Safe Mode, where only the generated yield is used for bets (principal is fully protected), or Full Mode, where both principal and yield are available for higher exposure.\n\nMarkets are priced using a Constant Product Market Maker (CPMM) for binary outcomes. Each market maintains two virtual reserves, YES and NO, that follow the invariant\nYES_reserve × NO_reserve = k.\nWhen a user buys YES shares, YES_reserve decreases and NO_reserve increases, automatically adjusting the implied probability. Prices emerge directly from the reserve ratio, enabling continuous, permissionless price discovery without order books. Shares are minted and burned instantly on each trade, and slippage naturally increases as liquidity on one side is consumed.\n\nTo achieve high-frequency, gasless trading, we integrate Yellow Network’s Nitrolite state channels. Users open a single on-chain session, after which all trades occur off-chain via signed state updates—no gas, instant confirmation. A Node.js backend acts as a Nitrolite node, verifying signatures, executing CPMM math, and persisting state in Supabase. Final profit/loss is settled trust-minimized on-chain through signature verification in the smart contract.\n\nA notable hack is using yield as a risk buffer, effectively creating a “no-loss” style prediction market, while also simulating professional trading infrastructure with state channels. The architecture is already future-proofed with multi-chain custody and unified balance modules, allowing users to deposit on any supported chain without switching networks or bridging, making Basis-Zero fast, capital-efficient, and scalable by design.",
+  "how_its_made": "We built Basis-Zero as a hybrid on-chain + off-chain system to optimize for speed, capital efficiency, and user experience. The frontend is built with Next.js 14, TailwindCSS, and shadcn/ui, and integrates the Yellow SDK (Nitrolite) to generate session keys and cryptographically sign trade intents directly in the browser.\n\nOn-chain, we wrote Solidity 0.8.24 smart contracts (notably SessionEscrow.sol) deployed on Polygon Amoy, which lock USDC collateral, simulate yield accrual, and verify off-chain state transitions during settlement. Once a session is opened, all trading happens off-chain: a Node.js + Express backend acts as a Nitrolite node, validating signatures, running a CPMM AMM engine, and persisting state in Supabase. This makes trading gasless and near-instant while remaining trust-minimized.\n\nThe hacky and notable part is how we fund prediction bets using yield only—effectively turning idle collateral into a risk buffer—and how we mirror high-frequency trading using Yellow Network state channels. We also pre-built multi-chain custody and unified balance modules (NitroliteCustody, Clearnode services), making the architecture ready for cross-chain deposits without forcing users to switch networks.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/basis-zero-6gkde",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

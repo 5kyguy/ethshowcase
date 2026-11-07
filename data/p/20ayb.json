@@ -1,0 +1,27 @@
+{
+  "id": "20ayb",
+  "slug": "presence-gate",
+  "title": "presence gate",
+  "tagline": "Presence-gated drops: claim a limited unit only by proving you're a live human, right now.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/20ayb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xjqzZhqu7M5wYqLrwGZAFQqnYkNVLE7JOmhCw4R7eOI/high.mp4",
+  "demo_url": "https://presence-gate.vercel.app/",
+  "source_url": "https://github.com/jbrit/presence-gate",
+  "finalist": false,
+  "description": "**Presence Gate** is a hosted claim gate for allocating scarce things by presence rather than by speed.\n\n**The problem.** Almost everything scarce online is allocated first-come, first-served on a link: limited drops, capacity-limited sessions, event perks, workshop seats. That rule doesn't allocate to the people it's meant for. It allocates to whoever's script is fastest, and to whoever the link got forwarded to. The offline alternatives — wristbands, QR codes, staffed lists — are bearer instruments: they work for whoever is holding them, not for the person they were issued to.\n\n**What we built.** An organiser configures a drop: an item, a number of units, a release instant, and a claim window. Anyone with the link can claim, but a claim only counts if a live human completed a Selfie Check inside that window. Units are allocated in real time on a live board showing claims landing, remaining capacity, and funnel drop-off.\n\n**How Selfie Check is used.** We use the `selfieCheckLegacy` credential via IDKit v4. The RP request is signed server-side and — critically — the signing endpoint is gated on the drop window, so no proof can be generated before the drop opens. Proofs are verified server-side against the World verifier, and the returned nullifier is stored under a `UNIQUE (drop_id, nullifier)` constraint, which is what enforces one claim per credential per drop. We reuse a single action across all drops deliberately, because nullifiers are action-scoped and per-drop actions would silently break recognition.\n\n**Why this credential fits this problem.** Selfie Check attests that a live human was present at a moment, and returns a stable anonymous handle. In this use case the moment of verification *is* the moment of value — there's no window between the check and the thing being protected for someone to hand off, automate, or substitute into. We make no uniqueness claim and no identity claim, because Selfie Check provides neither; we allocate on presence, which is exactly what it does provide.\n\n**What it changes.** Scarce capacity stops being transferable at claim time, which is what makes it farmable. It's a drop-in replacement for bearer instruments — any organiser can point it at their own claim page.",
+  "how_its_made": "Presence Gate is built with Next.js App Router, TypeScript, and React. World ID's `@worldcoin/idkit` (v4) powers the Selfie Check flow through the `selfieCheckLegacy` credential. RP requests are signed server-side with `@worldcoin/idkit-core/signing`; proofs are forwarded byte-for-byte unmodified to World's verifier at `/api/v4/verify/{rp_id}`, and only the returned nullifier is persisted. Drops, claims, and funnel events use SQLite locally with a Postgres production adapter; nullifiers are stored as `NUMERIC(78, 0)` since they're 256-bit field elements. The live board uses Server-Sent Events with a polling fallback.\n\nThe most important design decision was **window-gating the signing endpoint**. The obvious attack on a timed drop is generating a proof in advance and submitting it the instant the drop opens. Because the RP request must be signed by our backend, we simply refuse to sign outside the drop window — so a valid proof cannot exist before the drop is live. The window and capacity are both enforced server-side; client time is never trusted, and allocation happens inside the same transaction as the claim insert so concurrent claims at T can't over-allocate.\n\nThe notable subtlety is **reusing one World ID action across all drops**. Nullifiers are RP- and action-scoped, so giving each drop its own action would return unrelated handles with no error — recognition would silently break and look like a matching bug. With one action, each person's handle is stable across drops, and per-drop uniqueness comes from a `UNIQUE (drop_id, nullifier)` constraint rather than the `UNIQUE (action, nullifier)` pattern the docs prescribe. That deviation is deliberate: the documented constraint allows one claim *ever*, and we need one claim *per drop*. Replay protection is the constraint violation itself — we never upsert.\n\nAnonymous handles on the board are a short non-reversible hash of the nullifier, so returning participation is visible without exposing raw credentials. We surface no identity and make no uniqueness claim; the trade-off is that one action means we *can* correlate handles across drops, which we state openly rather than hide.",
+  "auto_summary": "A Next.js app that gates limited-time claims using World ID Selfie Check and tracks verified allocations per drop.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/presence-gate-20ayb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

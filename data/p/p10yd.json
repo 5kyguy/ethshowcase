@@ -1,0 +1,47 @@
+{
+  "id": "p10yd",
+  "slug": "typhooncashx",
+  "title": "TyphoonCashX",
+  "tagline": "TyphoonCashX is a protocol enabling bridging any ERC20 native tokens across any EVM compatible chain in an anonymous fashion. We embrace the multi chain ecosystem by allowing our users to fluidly navigate their funds across the ecosystem, while preserving their privacy. ",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p10yd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/gx600V8mKn8jo4ZC9jvDVpFjmgKrTSly02yKfoqWk5B01U/high.mp4",
+  "source_url": "https://github.com/TyphoonCashX",
+  "prizes": [
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "🎼 Hyperlane — Best Inter Chain Application",
+      "title": "Hyperlane"
+    },
+    {
+      "sponsor": "Sismo",
+      "sponsor_id": "4i0qt",
+      "placement": "5️⃣ Sismo — Top 5",
+      "title": "Sismo"
+    },
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🏊 Neon EVM — Pool Prize",
+      "title": "Neon EVM"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Paris 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "TyphoonCashX is an anonymous bridge protocol that leverages zero-knowledge technology to create a privacy layer through a cross-chain mixer, expanding upon the vision of the renowned Tornado Cash protocol. The protocol employs Sismo technology to generate off-chain proofs of membership for depositors' groups, ensuring eligibility for claiming funds on another chain after deposit. Additionally, it utilizes the Hyperlane protocol to efficiently broadcast messages from the arrival chain to all other chains, preventing various attacks from occurring.\n\n  \n\nThe underlying architecture of the protocol involves a departure chain (with an EnterNode) and an arrival chain (with an ExitNode), which are privately selected by the user among all available chains. The primary objective is to facilitate the bridging of an ERC20 token from the origin to the destination blockchains, with anonymity and resistance against double withdrawal attacks being the key properties targeted.\n\n  \n\nThe protocol can be broken down into three main steps:\n\n  \n\n1. Deposit: When a user wants to deposit funds into our contract, they are added to a common Sismo group utilized to produce off-chain proofs of membership.\n\n2. Redemption: When a user wants to redeem their funds, they submit a proof of membership to the common group. The protocol verifies that they have not already tried to withdraw the funds. Subsequently, they are added to a pending registry, and Hyperlane broadcasts this information to all other chains, indicating that the user has requested redemption. A relayer takes care of gas funding for privacy reasons.\n\n3. Withdrawal: The protocol verifies whether the user is in the pending registry. If so, they are removed from the registry, receive the funds on the output address, and a relayer funds the gas cost of the withdrawal operation.\n\n  \n\nThe TyphoonCashX protocol offers versatile and powerful use cases:\n\n  \n\n1. Enhanced Mixer Functionality: The protocol serves as a robust mixer. It not only obscures the link between the departure and arrival addresses but also conceals the arrival chain itself, ensuring an additional layer of privacy.\n\n2. Multi-Chain DeFi Integration: TyphoonCashX embraces the complexities of the evolving multi-chain DeFi ecosystem by capitalizing on the unique features of each blockchain for various purposes. Users can leverage the protocol as a mixer to anonymously transfer funds from and to any supported chain and benefit from cost-effective redeem and withdraw operations.\n\n3. Privacy Layer for On-Chain Operations: TyphoonCashX is designed for future integration with a cross-chain swap protocol, enabling private token swaps across chains. It could also be used for creating a cross-chain private lending protocol.\n\n  \n\nIt is worth noting that relayer funding can be omitted on Gnosis since gas fees are offered by the chain, making the withdraw cost be approximately 0. It makes the Gnosis chain a place of choice to withdraw, creating activities and volume on the chain as an anonymity hub.\n\n  \n\nFurthermore, TyphoonCashX's ERC20 token agnostic nature allows it to become permissionless with ease. The flexibility and permissionlessness of Hyperlane deployement enable bridging with really new and innovative blockchains like Neon, zetaChain, Linea and ZkSync while still supporting already well supported networks as Gnosis, Polygon and Layer 2s. Utilizing these chains reinforces the privacy mechanism while benefiting from their high throughput and low transaction cost, making the mixer particularly effective.\n\nMore broadly, our flexible design can be integrated with the following protocols to enhance their features :\n\nZetaChain:\nAs ZetaChain is a prime hub for interoperability with different chains such as Bitcoin and Dogecoin. Once associated with an anonymous bridge its connection with the strongest and most uncensorable networks, it becomes a true place for cypherpunks.\nWe deployed there using the same deployer address.\n\nLinea:\nLinea is very recent, it has to build its network and reputation as the fastest and most interesting L2 in the space. Using the permissionless deployement of Hyperlane and our protocol we made it accessible from several other chains and everything with an anonymous manner. Bringing life and utility to the network.\n\nPolygon ZkEVM:\nThe relatively recent network is fast and can bootstrap an anonymous bridge as a flagship product of a solid network.\n\nGnosis:\nUsing the sponsored transactions from Gnosis, the UX of the bridge is drastically improved.\n\nZkSync:\nZkSync being the most used Zk L2 a new bridge is meant to be deployed there. Bringing anonymity to scalability.\n \n\n  \n\nIn conclusion, TyphoonCashX offers an advanced and versatile solution for achieving privacy and security in cross-chain transactions, providing users with enhanced mixer capabilities and effectively adapting to the intricacies of the multi-chain DeFi landscape.\n",
+  "how_its_made": "The main challenge in implementing the protocol lies in effectively handling double withdrawal attacks. It is crucial to invalidate the proof after its usage to prevent the possibility of withdrawing funds twice, potentially on multiple chains simultaneously.\n\n**Deposit**: As mentioned in the general description, the deposit procedure involves accepting user funds into our smart contract and storing the user's identity in the omni-chain, common Sismo group.\n\n**Redeem**: When an address requests to redeem, the protocol ensures that the requesting address is associated with a depositor's address. To achieve this, it utilizes a zero-knowledge proof generated by the Sismo infrastructure. The protocol then verifies the proof along with a signature of the output address and the gas fee, ensuring that the user agrees to the amount spent and the address they wish to withdraw to. A permissionless relayer handles the execution of this transaction for privacy reasons. The user's vaultId, corresponding to their identity in the common group, is then added to a pending registry. To prevent double spending, a minimum delay must pass before the withdrawal is executed by a relayer again with proof for the gas spending. (More details on the mechanism are provided in the next paragraph).\n\nThe Hyperlane message passing protocol is then employed to broadcast the newly registered vaultId to all other chains supported by the protocol. This informs them that this vaultId is awaiting withdrawal on another chain, thus preventing the user from withdrawing the funds in multiple places.\n\nTo address this edge case, a special mechanism is implemented:\n\nWhen an ExitNode smart contract receives information from another chain that a user has called the redeem function, it checks if the user is already in the pending registry. If they are, only the smallest chainId retains the transaction, while it is canceled in the other chains. This process allows the protocol to deterministically find the one chain from which withdrawal is valid.\n\nRegarding the minimum delay, it is set to at least twice the expected maximum delay of the bridge to relay the information to every chain.\n\nAs a result, the scenario in which the user has already withdrawn, and the ExitNode receives their vaultId as a new registration, cannot occur.\n\n**Withdraw**: We verify whether the user is in the pending registry, as described above. If so, the user can proceed with the withdrawal. The vaultId is removed from the pending registry, and the relayer takes care of the gas funding for withdrawal, adhering to the agreed-upon signature to prevent the relayer from specifying different gas fees than what the user signed. Subsequently, the funds are transferred to the output address, minus the gas fees and premium, ensuring proper incentivization for the relayers.\n\n**Information :** \n\nthis address was used to deploy accross all chains : 0x17e12400f50592e060cfD2d80c9614a36375df61",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/typhooncashx-p10yd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

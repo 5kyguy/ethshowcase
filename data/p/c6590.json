@@ -1,0 +1,29 @@
+{
+  "id": "c6590",
+  "slug": "weave",
+  "title": "WEAVE",
+  "tagline": "Node based Visual Automation Tool for 0G Mainnet (Push Notifications)",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c6590/banner/default.jpg",
+  "demo_url": "https://github.com/charlesms1246/weave",
+  "source_url": "https://github.com/charlesms1246/weave",
+  "prizes": [
+    {
+      "sponsor": "0G ",
+      "sponsor_id": "g8xu4",
+      "placement": "4th place",
+      "title": "Building Onchain AI dapps with 0G"
+    }
+  ],
+  "finalist": false,
+  "description": "WEAVE is a no-code, node-based listener for the 0G EVM chain. On a visual canvas, a builder composes a rule by choosing Network → Contract + Event → (optional) Filters → Adapter, then deploys it with one click. Behind the scenes, a Go backend embeds PocketBase, subscribes to 0G via WebSocket RPC, decodes logs using an ABI, stores matches, and pushes notifications to Discord or Telegram in real time.\n\nThe goal is day-one observability for 0G: faster dev loops, safer launches, and crisp demos without writing indexers or bots. Teams can track ERC-20 Transfer events, custom app events (e.g., Echoed(address,string)), or any ABI-described event, and pipe alerts straight to the channels they already use. WEAVE persists both rules and notifications for auditability, giving builders a simple, reliable way to “see” their contracts breathe on mainnet.\n\nPlanned next steps: field-level filters (e.g., from, to, value_gte), composite rules with time windows, more adapters (Slack, Email, signed Webhooks), retry/backoff, per-rule ABI, rule templates/marketplace, and an NL (natural-language) rule builder. The long-term vision is to become the standard listening layer for 0G—akin to how 1inch unified routing or Push unified on-chain notifications.",
+  "how_its_made": "Frontend (web/):\n\nNext.js 14 (App Router) + React 18 for the app shell.\n\nReactFlow (@xyflow/react) for the drag-and-drop canvas where users assemble listener rules.\n\nTailwindCSS + shadcn/ui + lucide for clean, fast UI primitives.\n\nA serializer converts the graph into a payload and POSTs it to the server’s POST /weave/add.\n\nA Rules page lists saved rules via the PocketBase JS client (sorted by -created) and subscribes to realtime updates.\n\nBackend (server/):\n\nGo app embedding PocketBase (lightweight REST + DB + schema bootstrap).\n\nOn boot, it creates two collections: rules (contract, event signature, chain, filters, adapter, active) and notifications (decoded payload, block/tx metadata, status).\n\nA custom route POST /weave/add persists rules; a delete route removes them.\n\ngo-ethereum ethclient (WS) connects to 0G’s WebSocket RPC. For each active listener rule it builds a FilterQuery with the contract address and topic keccak(eventSignature).\n\nABI decoding: loads abi.json; on matching logs it unpacks indexed/non-indexed params into a map, stores a notifications record, and dispatches to the chosen adapter.\n\nAdapters:\n\nDiscord: webhook POST (expects HTTP 204).\n\nTelegram: Bot API sendMessage with Markdown formatting.\n\nData flow:\n\nWeb posts a listener rule → PocketBase saves → server subscribes to logs.\n\nLog arrives → match by address + topic → decode via ABI.\n\nPersist notification → send alert (Discord/Telegram).\n\nWeb Rules page updates via realtime subscription.\n\nPartner/infra:\n\n0G mainnet WS RPC for low-latency listening.\n\nDiscord/Telegram for immediate human-in-the-loop alerting.\n\nMVP pragmatics:\n\nSingle abi.json for decoding (per-rule ABIs planned).\n\nFilters captured/stored; enforcement on decoded fields is the next small addition.\n\nPocketBase bootstraps schema on first run for speed.\n\nDemo workflow:\n\nA tiny EchoRepeater contract (emitEcho(string) → Echoed(address,string)) is deployed on 0G to produce deterministic events during demos.\n\nWEAVE listens to Echoed(address,string) and pushes alerts to Discord/Telegram within seconds—clean, predictable proof of end-to-end functionality.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/weave-c6590",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

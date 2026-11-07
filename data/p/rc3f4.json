@@ -1,0 +1,26 @@
+{
+  "id": "rc3f4",
+  "slug": "uniswap-nameflow-app",
+  "title": "Uniswap NameFlow App",
+  "tagline": "A fun, flowy, wavy app called NameFlow that displays Uniswap V3 pool info using Curvegrid and ENS.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rc3f4/banner/default.jpg",
+  "demo_url": "https://nameflow-sage.vercel.app/",
+  "source_url": "https://github.com/DarkMiclos/hackathon_2026_ethglobal",
+  "finalist": false,
+  "description": "NameFlow is a fun, flowy, wavy app that displays Uniswap V3 pool activity using Curvegrid and ENS. It watches a set of V3 pools on Sepolia and shows every swap the moment it is indexed: a force-directed network of traders and pools with particles flying along the link when a trade lands, a Sankey of value flow from trader to pool to token, a per-pool timeline, live price and volume charts, a trade tape, and a pool card with the on-chain price, liquidity, tick range and net token flow.\n\nThe twist is identity. Traders and pools appear under ENS names and avatars instead of hex, and the pool watchlist itself is not hardcoded: it lives in ENSv2 text records under nameflow.eth. Each pool is a subname such as weth-usdc-3000.nameflow.eth carrying its address and pair metadata, and the app verifies that metadata against the pool contract before trusting it. The namespace owner can add a new pool from the UI, which registers the subname in the ENSv2 registry and publishes its records in one transaction, while anyone else sees a read-only badge. That is ENSv2 access control made visible.\n\nBecause a testnet is quiet, the app ships its own traffic: five ENS-named wallets run real swaps through SwapRouter02, alternating direction so the tiny testnet pools stay balanced, and a replay mode re-runs the indexed history through every view with a scrubber and speed control. All of it stays under about seven MultiBaas requests a minute at idle.\n\nFor the next steps we planned to use webhooks and cloud wallets provided via Curvegrid, however since we were short on time we didn't have the time to implement this. The idea certainly has potential to improve upon further the name is catchy and the idea is fun!",
+  "how_its_made": "Frontend is Vue 3 with the Composition API, Vite, Tailwind, and D3 v7 plus d3-sankey for the force graph, Sankey, timeline and charts. Every chart is hand-built on D3 so we control the animations: new swaps are diffed by transaction hash and only those animate.\n\nAll on-chain data comes through Curvegrid MultiBaas via the official TypeScript SDK. We linked the pool contracts and defined a saved event query over the Uniswap Swap event; the dashboard reads it with executeEventQuery, uses countEventQueryRecords as a one-request \"anything new?\" probe, and runs an arbitrary event query with server-side aggregators (add, min, max, last) grouped by contract for net token flow and tick range. Live price and liquidity come from callContractFunction on slot0() and liquidity(), and the pool card shows getEventIndexingStatus. This meant no indexer and no log scanning of our own. A Vercel edge function proxies the read endpoints so the API key never ships in the bundle.\n\nENS is done with viem against Sepolia. The directory record on nameflow.eth lists pool and wallet subnames; pool records hold JSON metadata that we validate against token0(), token1() and fee() before use. Trader names use a managed reverse lookup at address.lookup.nameflow.eth, accepted only when forward resolution matches, with a standard primary-name fallback. Registration scripts create ENSv2 subregistries through the registry factory and grant role bitmaps, and the in-app \"Add pool\" flow does the same from a browser wallet with every write simulated first.\n\nThe hacky parts: readiness for the swap simulator is derived from chain state in one multicall instead of a local flag, so a reload never re-funds wallets. Polling is a count probe first and rows only when the count moves, with visibility-aware back-off. ENS lookups are folded into multicall3 batches with a fallback list of public RPCs, which took a fresh load from 150 throttled requests to about ten. And Sepolia liquidity is so thin that a 5 USDC swap moved one pool 150%, so the simulator alternates direction per wallet and per round to stay net-neutral.",
+  "auto_summary": "A Vue dashboard that visualizes Sepolia Uniswap V3 pool activity using Curvegrid MultiBaas and ENS-based naming and configuration.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/uniswap-nameflow-app-rc3f4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

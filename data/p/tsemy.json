@@ -1,0 +1,27 @@
+{
+  "id": "tsemy",
+  "slug": "phinary",
+  "title": "Phinary",
+  "tagline": "Binary markets AS Uniswap pools. No external oracle, no orderbook, no API, no service",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tsemy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wM2VWrmj1pQdyAxLo8s9pwMSQXHRe9aF86NPElQyj34/high.mp4",
+  "demo_url": "https://web-production-7a0813.up.railway.app/",
+  "source_url": "https://github.com/oynozan/phinary",
+  "finalist": false,
+  "description": "Phinary is a prediction market built from Uniswap pools, where betting on binary positions is just a token swap. There are no external oracles, off-chain APIs or order books: it runs entirely on Uniswap pools, and everything a market needs is calculated inside Uniswap v4 hooks.\n\nEach market asks one question, such as \"Will ETH be above $2,689.27 at 22:45?\", and has two ERC-20 tokens, UP and DOWN, each trading against USDC in its own v4 pool. At expiry the winning token redeems for exactly 1 USDC and the losing one for nothing. Four tracks run on one hook and one vault: ETH and SOL, each with 1-minute and 15-minute markets.\n\nPricing with Black–Scholes:\n\nThe fair price of UP is the probability that the price ends above the strike. PredictionHook computes it on every swap with the Black–Scholes formula for a binary option. All three inputs come from Uniswap itself:\n\nS, the underlying pool's price at the start of the current block;\nK, the strike, which is the pool's price when the market opened;\nσ, the volatility, which the oracle hook measures from the same pool's price history over the last 30 minutes.\nA market settles on the average price over its final 10 or 30 seconds, not on a single instant, so the hook prices exactly that:\n\nUP price = Φ( (ln(S/K) − ½σ²·T_D) / (σ·√T_V) )\n\nΦ is the normal distribution. T_D and T_V are the time to expiry, adjusted for averaging over the settlement window. With no window, this is the textbook binary option price N(d₂). DOWN is priced as the mirror image of UP.\n\nWe wanted to make a new financial product available through infrastructure traders already use. Phinary puts option pricing and settlement inside a Uniswap v4 hook, with UP and DOWN　positions represented as tradable tokens. Our demo uses a fork of the Uniswap interface to show the full journey from purchase to payout.\n\nLiquidity providers fund the other side. They deposit USDC into a shared vault through the Phinary dashboard and receive shares representing their stake. That vault backs multiple option markets. Its value changes with trading spreads and settlement payouts, so providing liquidity carries risk as well as the opportunity to earn returns.\n\nThe current deployment runs on Unichain Sepolia, with one-minute and fifteen-minute options for both ETH and SOL. We also built a TypeScript SDK so other applications can quote and execute trades against the same contracts.",
+  "how_its_made": "The core is a Solidity hook for Uniswap v4. In beforeSwap, it calculates the option price from the underlying pool price, volatility and time to expiry. We use a Black–Scholes-based binary pricing model adapted to the average-price settlement window. The hook returns the swap amounts to PoolManager through custom accounting, replacing the usual AMM pricing curve for these trades.\nGetting this pricing logic to work through Uniswap's existing swap flow was a key part of the build. V4Quoter provides quotes, Permit2 handles token permissions, and UniversalRouter executes swaps. We wrapped those interactions in a TypeScript SDK and modified a fork of the Uniswap interface to support option discovery and trading.\nThe price source is another Uniswap v4 pool. A dedicated oracle hook records the price at the start of each block and tracks volatility. Earlier swaps in the same block cannot change the price reported for that block. Settlement uses the average pool price over a window just before expiry. This still depends on the underlying pool's liquidity and resistance to manipulation.\nFor the testnet demo, a bot trades the underlying pools toward Coinbase reference prices, standing in for arbitrage in a live market. The option contracts read the pools; they do not call Coinbase or consume its API directly.\nA shared USDC vault backs all four option tracks. Complete-set accounting reserves one USDC for each UP/DOWN pair, covering the winning side's payout. Once a market settles, the hook accepts the winning token through the swap path and returns one USDC per token. That lets the trader use the same interface for both entry and payout.\nBots keep the markets running by calling permissionless market-opening and settlement functions. The Next.js dashboard provides vault deposits, withdrawals and allocation views. Our Foundry tests cover pricing math, oracle behavior, the trade-to-settlement lifecycle and attack scenarios.",
+  "auto_summary": "Phinary implements binary prediction markets on Uniswap v4 using Solidity hooks, a shared vault, SDK tooling, and web/indexer/bot components.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/phinary-tsemy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

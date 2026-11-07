@@ -1,0 +1,27 @@
+{
+  "id": "74kd2",
+  "slug": "wishers",
+  "title": "Wishers",
+  "tagline": "Human-anchored AI agent executing trades via Uniswap API, triggered by live data from The Graph",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/74kd2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Tl00NHH00JfeFB2MXuiX47Ki1FFZjB9XOyEF8Jzgm6iJY/high.mp4",
+  "demo_url": "https://wishers-lisbon.vercel.app/",
+  "source_url": "https://github.com/Pianochicken/wishers",
+  "finalist": false,
+  "description": "WISHERS (Human-Anchored AI Execution Agent) is a decentralized application that enables users to automate complex DeFi interactions simply by speaking their mind. Verified humans (authenticated via World ID) can express natural language financial \"wishes\" (e.g., \"If the WETH pool TVL rises above $200M, swap my ETH to WETH\", or \"If TVL drops below $100M, swap to USDC\"). \n\nUnder the hood, an AI agent parses these natural language intents into strict, executable parameters. A continuous background poller monitors real-time on-chain data using the Uniswap V3 Subgraph on Ethereum Mainnet via The Graph. The moment the live TVL or price data reaches the user's defined condition, the agent automatically kicks in. It fetches the optimal swap route via the Uniswap Trading API (v1) and instantly executes the transaction on-chain using a delegated agent wallet. This provides users with a 24/7 autonomous, data-driven agent acting strictly on their behalf.",
+  "how_its_made": "WISHERS is built on a React (Vite) frontend and a Node.js/Express backend. To achieve our radical \"Walletless\" vision, we completely removed traditional wallet connectors. Instead, we use World ID (IDKit) as the sole entry point.\n\nOne particularly notable (and slightly hacky) approach is our deterministic agent generation: we combine our backend's RP_SIGNING_KEY with the user's World ID nullifierHash to cryptographically generate a unique, app-specific Ethers.js Agent Wallet on the fly. This fundamentally changes the UX—the user's World ID literally is their crypto account, requiring zero onboarding friction.\n\nFor autonomous execution, we integrated AgentKit. Because our AI Agent executes trades on behalf of the user while they are offline, it must prove human delegation. To optimize for the hackathon and minimize execution latency, we built a One-Roundtrip SIWE execution flow. Instead of relying on the standard AgentKit HTTP 402-challenge (which requires two network roundtrips), our backend Polling Engine manually constructs and signs the SIWE payload, attaching it directly to the execution request. The API then strictly verifies this signature and validates the Agent against the on-chain AgentBook contract, achieving authenticated execution at maximum speed.\n\nTo monitor the blockchain, we rely heavily on The Graph. We built a lightweight recursive polling engine that queries the massive Ethereum Mainnet Uniswap V3 Subgraph (USDC/WETH). Instead of making a network request per user, our engine batches multiple user intents (e.g., \"Wrap my ETH if TVL drops below $200M\") and evaluates them in parallel against a single GraphQL query, heavily optimizing our server's network overhead.\n\nFinally, user intents are parsed by OpenAI's Structured Outputs into strict Zod schemas. When The Graph data satisfies a user's specific threshold condition, our verified Agent utilizes the Uniswap Trading API v1 to fetch the optimal route and automatically execute the swap on World Chain.",
+  "auto_summary": "A React and Express app that turns World ID-verified natural-language DeFi conditions into automated Uniswap trades using live The Graph data.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/wishers-74kd2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "i5dwj",
+  "slug": "tabir",
+  "title": "Tabir",
+  "tagline": "Graduated liquidation protection with a policy no one can see. not even the node operators.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i5dwj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9vfO00NIs02KUs0100jQ2023cKCjYICEJhx25NQ298VDQkgI/high.mp4",
+  "demo_url": "https://tabir-agent.vercel.app/",
+  "source_url": "https://github.com/artomily/tabir",
+  "finalist": false,
+  "description": "Tabir protects a leveraged ETH/USDC position from liquidation without giving away how it does it.\n\nMost liquidation bots work off a single visible threshold: when health factor drops below some level, repay the debt. That survives the first shock, but it burns the borrower's emergency capital and closes out a position they wanted to keep. Worse, a public rule is a rule an adversary can probe, nudge the price just far enough to trigger a costly defensive action, repeat, and drain the protection budget without ever needing to liquidate anything.\n\nTabir does two things differently. It responds in proportion to the actual threat rather than to a fixed level, using the rate of change in health factor to estimate time-to-breach and intervening only when a breach falls inside the reaction window. And it rations the emergency budget across the whole price path, holding reserve for a second shock it cannot see coming, so it survives multi-leg drawdowns that exhaust a naive strategy on the first dip.\n\nThe protection policy itself, thresholds, buffers, sizing, budget caps, never leaves a hardware-isolated enclave. Observers see the action taken. They never see the reasoning behind it, or how much capital is left.\n\nThe name is Indonesian for veil.",
+  "how_its_made": "Tabir is a Chainlink CRE Confidential Workflow in TypeScript, compiled to WASM with @chainlink/cre-sdk. It protects a leveraged vETH/vUSD position on Sepolia.\n\nA log trigger on PriceUpdate (with a cron fallback) calls handlerInTee. Inside the enclave, the workflow pulls the signer key, the RPC URL, and the policy from the Vault DON, then reads the position over JSON-RPC and rebuilds the price history from logs. It then runs decide() and signs the deposit or repay transaction with viem. The DON publishes a receipt with a salted hash of the policy, so we can later prove which policy ran without revealing it.\n\ndecide() is pure bigint TypeScript, shared by the enclave and our rubric simulator, so the simulated scores describe the code that ships: 89.65 average, 0 of 11 scenarios liquidated.\n\nWhy CRE: a public policy can be attacked by pushing the price just past its thresholds. The TEE keeps every threshold sealed, and only the action comes out.\n\nHacky: the EVM write capability has no TEE support, so we send raw JSON-RPC and sign transactions inside the enclave. Every tick also runs the same path whether it acts or holds, so timing can't leak the thresholds.",
+  "auto_summary": "A Chainlink CRE workflow monitors a leveraged position and privately decides protective actions inside a TEE using a shared TypeScript strategy.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tabir-i5dwj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

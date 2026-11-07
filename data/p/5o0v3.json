@@ -1,0 +1,27 @@
+{
+  "id": "5o0v3",
+  "slug": "trust-circle",
+  "title": "Trust Circle",
+  "tagline": "Trust Circle uncollateralized loans backed by people who know you, not banks.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5o0v3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/e00natwIihyd6vU14ykzFc3jD7DRU3mELGXxHAZ502gH4/high.mp4",
+  "demo_url": "https://canva.link/eme5zsqr5eia996",
+  "source_url": "https://github.com/erdemasik001/trust-circle-main",
+  "finalist": false,
+  "description": "Trust Circle is a decentralized social credit protocol that turns real-world trust into programmable, enforceable credit. Instead of requiring collateral or a credit history, borrowers get vouched for by people who actually know them friends, family, or community members who stake USDC as a guarantee.\n\nThe protocol is built natively inside World App using MiniKit 2.0, with World ID 4.0 ensuring every participant is a verified unique human making Sybil attacks impossible. Each user gets an ENS identity  that carries their trust score, vouch history, and repayment record across the ecosystem.\n\nWhen someone vouches for a borrower, they lock USDC in a smart contract. The vouch activates after a 48-hour delay to prevent flash-loan attacks. The borrower's credit limit is determined by the total vouched amount, weighted by each voucher's reputation multiplier. Upon repayment, 80% of the interest goes to vouchers making selective vouching economically rational. Default triggers automatic slashing and a trust score penalty, with an insurance pool covering 30% of voucher losses.\n\nThe result is a selfreinforcing system where repaying builds credit, vouching earns yield, and defaulting has real consequences aligning everyone's incentives without a single bank or algorithm involved.",
+  "how_its_made": "Trust Circle is built as a World App Mini App using MiniKit 2.0, with a React.Native + Tailwind frontend that abstracts all blockchain complexity from the user. Users never switch networks, never sign raw transactions — a dynamic network router detects the action and routes it to the correct contract via getContracts(chainId) automatically.\nThe protocol runs across two chains. World Chain hosts TrustCircleV2.sol, which handles World ID 4.0 verification, vouch registration, loan record creation, and USDC disbursement to borrowers. Arc Testnet hosts TrustCircleArc.sol, which manages the liquidity side — when a user repays from Arc, their USDC is burned via Circle's CCTP contract. Circle's Attestation Service then generates a cryptographic signature for that burn event, which is read by the World Chain CCTP mint contract to issue the equivalent USDC natively on World Chain. The minted USDC flows directly into TrustCircleV2.sol, closes the loan, and distributes principal + interest to vouchers automatically.\nOn-chain identity is handled via ENS subnames — every user is registered as name.trustcircle.eth at signup, tying their trust score and repayment history to a portable, human-readable identity.\nThe most notable technical decision was treating Arc as a liquidity hub rather than a secondary chain — users with USDC on Arc never need to manually bridge. The burn-attest-mint cycle via CCTP happens under the hood, making cross-chain repayment feel like a single transaction.\nSmart contracts: TrustCircleV2.sol, TrustCircleArc.sol, ReputationEngine.sol, InsurancePool.sol, CircuitBreaker.sol.",
+  "auto_summary": "A mini app and Solidity protocol for human-verified social collateral lending with vouching, reputation, and ENS-based user identities.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/trust-circle-5o0v3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

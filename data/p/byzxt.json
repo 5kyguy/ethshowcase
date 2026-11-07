@@ -1,0 +1,30 @@
+{
+  "id": "byzxt",
+  "slug": "nyx",
+  "title": "nyx",
+  "tagline": "Fair launchpad that uses Uniswap V4 with CCA, ENS, and agentic trading with Ramen (our mascot)",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/byzxt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qnJAlyyFhprUzs27EIxEVUnLIH6EYfcZl5r3gofwbXA/high.mp4",
+  "demo_url": "https://nyx.libkakashi.dev",
+  "source_url": "https://github.com/libkakashi/hackmoney",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Nyx makes it easy for anyone to permissionless-ly create a token, fair launch it, and bootstrap liquidity for it one single flow in under 30 seconds.\n\nWe’re using Uniswap CCA (continuous clearing auctions) to create a fair launch mechanism which overcomes traditional bonding vulnerabilities of sniping and MEV. We’ve abstracted out much of CCA’s complexity to make it more retail friendly and more suited for memecoins and smaller project tokens.\n\nRamen, our cool mascot and AI agent that helps people:\n\n- Discover top auctions & tokens (highest volume, fastest filling auctions, highest price gain).\n- Place bids in an auction, buy or sell a token, perform multi hop swaps (buy $100 worth of token with BTC).\n- Buy ENS names or update your primary ENS name for reverse lookups.\n- Learn about CCA and other platform features/details.\n\nENS Usage: \n\n- We also have ENS integration to let users automatically buy ENS names (eg token.eth) for their launched tokens (in the launch flow). Nyx rewards this behaviour by giving a verified badge to tokens that own the ENS names for their tickers.\n- This creates a user friendly way for retail to invest into a token (rather than copy-pasting the ugly 0x21.. address), prevents impersonation, and makes the token stand out from others with the same ticker.\n- ENS names for users are displayed alongside their activity (leaderboards, discussion threads, and comments) as usernames. This prevents spam, artificial comments by bots, and makes posts and rankings verifiable and publicly attributable.\n",
+  "how_its_made": "```\ncontracts/     Foundry — Solidity 0.8.26, Cancun EVM\ndapp/          Next.js 16 — App Router, React 19\nindexer/       Envio — real-time event indexing, GraphQL API\n```\n\n### Contracts\n\nThe `Launchpad` factory contract handles the full lifecycle: deploying a UERC20 token, spinning up a CCA auction, and migrating proceeds into a Uniswap V4 pool via a `FullRangeLBPStrategy`. A companion `LaunchpadLens` provides read-only aggregated views of auction state, bids, pool prices, and strategy status.\n\nKey dependencies: Uniswap V4 (core + periphery), Liquidity Launcher, Continuous Clearing Auction, UERC20 Factory, OpenZeppelin.\n\nWe've hardcoded most CCA parameters to abstract out the complexity for more retail audience with primary focus on memecoin launches.\n\n### Indexer\n\nEnvio-based indexer tracking `TokenLaunched` events and `Transfer` events for all launched tokens. Serves a GraphQL API consumed by the dapp for token discovery, holder analytics, and leaderboards.\n\n### Dapp\n\n- **Framework** — Next.js 16, React 19, React Compiler for zero-runtime optimizations\n- **Styling** — Tailwind CSS 4, Radix UI primitives, CVA for component variants\n- **Web3** — Wagmi hooks, Viem for SIWE and Ethereum interactions, RainbowKit for wallet connection\n- **API** — tRPC for type-safe APIs, GraphQL (Envio) for indexed chain data\n- **AI Agent** — Vercel AI SDK + Claude for conversational interface\n- **Storage** — PostgreSQL with Kysely for type-safe SQL queries, Atlas for schema definitions, IPFS (Pinata) for decentralized storage\n\nThe app ships with an AI agent (\"Ramen\") that can discover tokens, place bids, execute multi-hop swaps, manage ENS names, and answer questions — all through a conversational interface.\n\n## Design\n\n- **Terminal aesthetic** — monospace fonts, green/purple accents, `$` command prompts, `//` comment annotations. The UI is supposed to feel like a terminal.\n- **Single-transaction launches** — salt mining for deterministic CREATE2 addresses, token + auction + strategy deploy in one tx.\n- **Agent-first UX** — complex flows like multi-hop swaps and ENS registration are abstracted behind natural language. The agent handles approvals, routing, and execution.\n- **Automatic liquidity** — no manual LP provisioning. The strategy contract handles pool creation and full-range position management after auction settlement.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nyx-byzxt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

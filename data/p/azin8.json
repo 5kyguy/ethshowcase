@@ -1,0 +1,42 @@
+{
+  "id": "azin8",
+  "slug": "themis-zkml-loyalty",
+  "title": "Themis: ZKML Loyalty",
+  "tagline": "Themis is a framework for improving protocol incentives and optimizing for long-term loyalty through data-driven analysis. It delivers those improvements in a trustless manner using Zero-Knowledge Proofs over the Machine Learning model results (ZKML).",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/azin8/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XCA2czLWR2nN01W00qiMy8B801VynFuTJUdMbJfInhkFhY/high.mp4",
+  "demo_url": "http://themis.cenit.finance/",
+  "source_url": "https://github.com/CenitFinance/ethglobal_istanbul_2023",
+  "prizes": [
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "Best use of Polygon zkEVM",
+      "title": "Best use of Polygon zkEVM"
+    },
+    {
+      "sponsor": "Aave Grants DAO",
+      "sponsor_id": "oiv32",
+      "placement": "2nd Place",
+      "title": "Best Aave DAO tooling"
+    }
+  ],
+  "finalist": true,
+  "description": "Web3 protocols commonly employ airdrops or other kinds of incentives for improving user acquisition and rewarding user engagement with the project. However, it’s clear that this mechanism lacks the ability to retain users or boost users’ loyalty.\nWe propose Themis, a framework for improving protocol incentives towards long-term user loyalty and engagement with the project. The general process is as follows:\n\n(1) A machine learning forecasting model to predict long-term user loyalty is built over on-chain data and proposed to the protocol community. \n\n(2) The DAO or equivalent governing body votes and approves on the model based on its performance, deploying a ZK verification smart contract. The model and its compiled ZK version for generating proofs are published for anyone to use.\n\n(3) Anyone can now generate new predictions with the model based on new valid on-chain data, and submit the new predictions to the smart contract. The smart contract will only accept predictions if they have been generated correctly from the approved model. Therefore, this step is trustless and permissionless.\n\n(4) An interactive dashboard can be used to read and analyze the predictions submitted to the smart contract, as well as other relevant user base data, and decide on a strategy for distributing the incentives, represented by a set of parameters. For example, a strategy could optimize for preventing churn by incentivizing users with high likelihood of ceasing further activity in the protocol. A different strategy could instead optimize for rewarding users with likelihood of high engagement.\n\n(5) After a strategy is decided, with a certain token allocation, it can be approved and then the tokens can be claimed by the respective recipients.\n\n(6) Periodically, the same model, associated with the deployed ZK-proof verifier, can be used to trustlessly update the predictions (along with inference proofs) and create new incentive strategies.\n",
+  "how_its_made": "Themis is a complex project with plenty of moving parts:\n\n(1) On-chain data acquisition and feature extraction: we extract transaction data from several chains and projects and process it in order to extract high-level features related to user engagement, to be used as input variables for the model. In particular, we extracted data from Dune Analytics and built feature extraction using Python. In the future, we plan to use the AxiomREPL, once available outside of Goerli, in order to process this historic data trustlessly using Zero-Knowledge Proofs to integrate with the model proofs.\n\n(2) Machine Learning training: we employ machine learning techniques over the collected data from the previous step to build a forecasting model of long-term user loyalty that can be used to optimize an incentives strategy. In particular, we use PyTorch for training deep neural networks for the forecasting models, as well as several machine learning techniques in order to prevent model overfitting, such as cross-validation, and group-kfold to prevent data leaks. In fact, we’ve built 8 models for 8 different protocols, in this case all of them L1 or L2 chain projects.\n\n(3) Zero Knowledge Machine Learning: we employ the EZKL library to compile the previously trained models, and deploy a verifier smart contracts on-chain. This verifier smart contract can be used to verify that any new predictions submitted to the incentives management smart contract come from the approved model. In the future, once using Axiom, it can also verify that the data used as input to the forecasting model has also been compiled and preprocessed correctly.\n\n(4) Smart Contracts: we’ve deployed a smart contract written in Solidity to manage the incentives distribution. This smart contract relies on the verifier smart contract created from the compiled ML model to verify the proofs sent by the user that the new predictions are valid. It also stores the parameters that define the incentives distribution and allows users to claim these tokens.\n\nIt should be noted that the field of Zero Knowledge is still in its very early days, and the process for compiling the models, generating proofs, and verifying them is precarious, as well as requiring very specific model types and transformations. Additionally, the infrastructure is still not quite there yet in order to support the verification of the full data pipeline (from on-chain data to the model outputs) for the mainnet data we’ve used to train the models. However, it should soon be there thanks to Axiom, which we couldn’t use in this occasion due to only supporting Goerli testnet data, which is unsuitable for building the forecasting models we needed.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/themis-zkml-loyalty-azin8",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

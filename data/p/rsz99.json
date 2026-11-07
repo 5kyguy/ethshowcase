@@ -1,0 +1,22 @@
+{
+  "id": "rsz99",
+  "slug": "intento",
+  "title": "Intento",
+  "tagline": "One Intent. Multiple tokens from Any Chains. Every Market...",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rsz99/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tsXpAUMRSAu2DOx3r1jZGYEJEh9PoAjXfExFRASvxJk/high.mp4",
+  "demo_url": "https://intento-frontend.vercel.app/",
+  "source_url": "https://github.com/hack-money-hackathon-intento/intento-contracts",
+  "finalist": false,
+  "description": "Intento is a payment widget for prediction market apps that allows any user to charger accounts from any EVM network and with any token, without worrying about where their liquidity is located. The app we built at the hackathon aggregated Polymarkets and let the user choose a market and an outcome, and pay from whichever network/token they had available. ENS acts as an identity layer, allowing users to trade with a name instead of addresses and to apply account rules (e.g., fees or user settings).\n\nBehind the scenes, Intento automatically orchestrates everything necessary to ensure funds reach the correct destination and the trade is executed in the market (e.g., Polymarket), and then the user receives the outcome of their position. In practice, it transforms a fragmented action across multiple networks into a single \"pay → execute charger\" flow within the same product interface.",
+  "how_its_made": "The app is built as a multi-chain orchestrator split into Client + Server + Smart Contracts + Relayers, designed to execute a full “swap/bridge → settle → action” flow with minimal user friction.\n\n The Frontend is built with a Next.js application, using React + TypeScript for the core logic and a clean UI layer (Tailwind/modern component styling) to let users select tokens and define the per-chain routing intent. The Backend runs on Node.js and acts as the routing brain: it queries wallet balances and token metadata through LI.FI API (e.g. /wallets/:address/balances?extended=true), validates Primary ENS (to decide whether to charge the Intento fee), and constructs the final quotes/routes array that will be executed on-chain. \n\nThe Smart Contracts are written in Solidity using OpenZeppelin Upgradeable and SafeERC20 for safer ERC-20 handling. The main contract (Intento) keeps the flow simple: users register and choose which tokens are enabled; when the relay calls executePayment(), it checks the user/token permissions, pulls the required amounts with safeTransferFrom, applies the fee rule based on ENS (_hasEns), sets allowances with forceApprove when needed, and then executes each LI.FI route (decoded into to/approval/value/data) via a low-level call. It also includes a recoverFunds function and emits events to track execution. \n\nA Listener/Relay completes the last mile: once the USDC lands on Polygon, it triggers the Polymarket interaction to create the user’s charge.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/intento-rsz99",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "2sk5w",
+  "slug": "hermes-v2",
+  "title": "Hermes v2",
+  "tagline": "Encrypted messaging for AI agents, now reasoning over live, spam-filtered DEX data from The Graph.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2sk5w/banner/default.jpg",
+  "video_url": "https://stream.mux.com/imAZMXRQybEXgQbRNlaJC00HSI9D5e1CMPjlWSk1WHUs/high.mp4",
+  "demo_url": "https://hermes-web-kpkzmdfqlq-uc.a.run.app/demos/quorum",
+  "source_url": "https://github.com/Red3lue/Hermes",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "2nd place",
+      "title": "Best AI Tooling or AI Use Case with The Graph (Continuity)"
+    }
+  ],
+  "finalist": true,
+  "description": "Hermes is an end-to-end encrypted, asynchronous messaging layer for AI agents. Every agent is an ENS name that publishes its encryption keys; messages are sealed, stored on 0G, and routed through a small inbox contract on Sepolia. A quorum of three agents (Architect, Pragmatist, Skeptic) answers a user's sealed question, and a coordinator writes the final report.\n\nPRE-EXISTING WORK: all of the above was built for ETHGlobal Open Agents (April–May 2026) and is everything up to git tag v1-baseline. It is disclosed in CONTINUITY.md. Judged diff: https://github.com/Red3lue/Hermes/compare/v1-baseline...ethonline-2026\n\nBUILT DURING ETHONLINE 2026: Hermes agents now reason over live on-chain data from The Graph.\n\n1. A live DEX data service, packaged as an MCP server. It gives any AI client (Claude Code, Claude Desktop, Cursor) live data for Uniswap v3, Curve and SushiSwap, using one query pattern across Messari's standardized dex-amm subgraphs.\n\n2. Numbers you can trust. The subgraphs' own TVL is wrecked by spam-token pricing (Uniswap v3 reports about $136B, and we have seen $1e43; the real blue-chip figure is about $466M). Hermes counts only pools whose every token is a blue-chip asset, matched by address, and reports real TVL, 7-day volume, market share, capital efficiency and the effective fee traders pay, stamped with the Ethereum block the data comes from.\n\n3. A grounded agent quorum. When a user asks a DeFi question, the coordinator fetches that data before fanning the question out, all three agents deliberate over the same numbers, and the report cites them and ends with the exact subgraphs and blocks used. In a live round, every figure the agents cited matched The Graph data, and when a question was underspecified they abstained and explained why instead of guessing.\n\nLive demo: https://hermes-web-734709088945.us-central1.run.app\nBuilt with Claude Code as a pair programmer; details per file in AI_USAGE.md",
+  "how_its_made": "TypeScript pnpm monorepo. The new packages/mcp-server uses the MCP TypeScript SDK over stdio and queries The Graph Network gateway with a Subgraph Studio API key. Its data module is also imported by the existing agents-server, whose quorum coordinator grounds DeFi questions before fan-out. Both services run on Google Cloud Run.\n\nTHE GRAPH: Messari's Standardized Subgraphs were the key. Every DEX shares the dex-amm schema, so one GraphQL pipeline serves Uniswap v3, Curve and SushiSwap unchanged, and adding a protocol is one registry entry with no new queries or normalization code.\n\nTHE HACKY PARTS:\n- Spam-token filter: protocol TVL from the subgraphs is unusable, so pools are kept only when every token is on an address allowlist (symbols get spoofed).\n- Discovery off the hot path: finding those pools means sorting tens of thousands of pools by volume, which takes 10–20s and times out when indexers lag. It runs in the background with a checked-in seed list as fallback, so a round needs one fast query.\n- Graceful degradation: each protocol gets a 12s deadline; if the gateway is slow, the last good result (at most 30 minutes old) is used and marked \"(cached)\", and a background refresher keeps it warm. Rounds start in seconds.\n- RPC rate limits: on Cloud Run's shared IPs, the agents' inbox polling hit a public Sepolia RPC's limits, so the RPC now takes a fallback list (a keyed endpoint first, public second). The web app's inbox scans now cover only recent blocks and poll less often.\n- ENSv2 surprise: Sepolia's default Universal Resolver now routes ENSv1 names through an ENSv2 mirror resolver that accepts reads but reverts writes, which broke setting user records from the app. We traced it and set records on the real v1 resolver.\n\nPRE-EXISTING STACK (Open Agents): viem, ENS NameWrapper subnames as the key directory, X25519-sealed envelopes signed with EIP-191, 0G Storage, the HermesInbox contract on Sepolia, Claude for agent reasoning, and a React frontend.",
+  "auto_summary": "An ENS-addressed agent messaging system that stores encrypted messages off-chain and adds live The Graph DEX data to AI quorum responses.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hermes-v2-2sk5w",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

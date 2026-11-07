@@ -1,0 +1,22 @@
+{
+  "id": "5zyyc",
+  "slug": "multizap",
+  "title": "MultiZap",
+  "tagline": "Atomic swaps between Ethereum and Starknet via Dutch auctions and HTLC-based trustless escrows.",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5zyyc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8yuVfYXfzo28qPmWPQ1RP100eSXJzPVzZ2H3svtRJCSg/high.mp4",
+  "demo_url": "https://multi-zap.vercel.app",
+  "source_url": "https://github.com/0xNilesh/MultiZap",
+  "finalist": false,
+  "description": "**MultiZap** is a fully-functional prototype for **cross-chain Dutch-auction-based atomic swaps** between **EVM (Ethereum Sepolia)** and **Starknet (Sepolia)**.\n\nIt extends the [1inch Fusion+](https://1inch.io/fusion/) architecture by enabling **trustless token swaps between L1 and L2 chains**, powered by off-chain agents and HTLC smart contracts. Users can swap tokens (like USDC) across Ethereum and Starknet without relying on centralized bridges or custodians.\n\nAt the heart of the system is a **Dutch auction mechanism** that allows resolvers (off-chain liquidity providers) to bid competitively on user-submitted swap orders. The winning resolver deposits liquidity on both chains into time-locked, hash-locked escrows. This ensures a **trust-minimized atomic swap**, where either both sides are executed or none are.\n\n---\n\n### 🧩 System Components\n\n- 🔗 **Smart Contracts** on both Ethereum and Starknet:\n  - HTLC escrow contracts\n  - Escrow factory contracts for deterministic deployments\n\n- 🛰 **Relayer Service** (Node.js backend):\n  - Manages order book\n  - Runs Dutch auctions\n  - Exposes APIs for frontend and resolvers\n\n- 🛠 **Resolver Bot**:\n  - Computes bids for Dutch auctions\n  - Deploys escrows on both chains\n  - Coordinates settlement and secret revelation\n\n- 💻 **Frontend DApp**:\n  - Allows users to create cross-chain swap orders\n  - Tracks order and escrow status\n  - Interacts with relayer and wallet providers (Metamask, ArgentX)\n\n---\n\n### 🔐 Why It Matters\n\n- ✅ **No Bridges**: Swaps are native and require no centralized bridge.\n- 🔒 **Fully Trustless**: Uses hash-locked and time-locked escrows to ensure atomicity.\n- 🔧 **Composable**: Resolver and relayer logic are modular and extendable to any token or chain.\n- ⚙️ **1inch Fusion+ Upgrade**: Makes existing L1 DEX infrastructure usable for Starknet ↔ Ethereum flows.\n\n---\n\n### 📈 Example Use Case\n\n> Alice wants to swap 100 USDC from Ethereum to Starknet. She places a swap order using the frontend.  \n> The relayer runs a Dutch auction for resolvers to compete in fulfilling her swap.  \n> The winning resolver deposits 100 USDC on Starknet and locks 100 USDC on Ethereum in an HTLC.  \n> Alice claims her funds on Starknet by revealing a secret, which the resolver then uses to claim their funds on Ethereum.",
+  "how_its_made": "**MultiZap** is built using a modular architecture with on-chain HTLC escrows and off-chain coordination for Dutch auctions and swap execution.\n\n### Technologies Used\n\n- **Solidity + Foundry** for EVM smart contracts (`HTLCEscrowFactory`, `HTLCEscrow`)\n- **Cairo 1.0 + Starkli** for Starknet contracts with equivalent escrow logic\n- **React + TypeScript** frontend with `ethers.js` and `starknet.js` for dual-chain wallet support\n- **Node.js (Express)** backend as the **Relayer**, which:\n  - Manages swap orders and Dutch auctions\n  - Exposes REST APIs to frontend and resolvers\n- **Resolver Bot** written in Node.js:\n  - Polls relayer for orders\n  - Bids in auctions\n  - Deploys escrows and handles claims on both chains\n\n### Integrations & Benefits\n\n- **1inch Fusion+ model** extended cross-chain with HTLCs and off-chain bidding\n- **Keccak-based HTLC coordination** between Solidity and Cairo (no bridges used)\n- **Factory pattern** for deterministic escrow address prediction\n\n### Notable Hacks\n\n- Dutch auction logic is entirely off-chain for gas efficiency\n- Secrets are revealed by users and reused by resolvers to complete swaps atomically\n- Fully trustless design with no dependency on centralized relayers or bridges\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/multizap-5zyyc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

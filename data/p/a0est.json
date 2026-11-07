@@ -1,0 +1,30 @@
+{
+  "id": "a0est",
+  "slug": "cardanoswap",
+  "title": "CardanoSwap",
+  "tagline": "Bidirectional cross-chain atomic swaps for Cardano and EVM chains",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a0est/banner/default.jpg",
+  "video_url": "https://stream.mux.com/85MjGVDB9mwmvr9VYuGxBxkNWGYMcBt1jELPQ5e7Ipg/high.mp4",
+  "demo_url": "https://www.loom.com/share/6d21eddb5fd1406197741ab78606776e",
+  "source_url": "https://github.com/ronakgupta11/cardano-swap",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "1st place",
+      "title": "Extend Fusion+ to Cardano"
+    }
+  ],
+  "finalist": true,
+  "description": "A trustless atomic swap protocol enabling seamless token exchanges between EVM networks and Cardano. Our solution implements Hash-Time-Locked Contracts (HTLCs) with sophisticated safety mechanisms including resolver deposits, timelock cascades, and public withdrawal periods. The system features two swap flows: EVM→Cardano using Limit Order Protocol integration, and Cardano→EVM with AuthVault pre-authorization. Built with Solidity smart contracts, PluTS validators, and a React frontend with real-time WebSocket monitoring. Users enjoy \"fire-and-forget\" swaps while resolvers facilitate cross-chain liquidity with economic incentives ensuring honest behavior and atomic execution guarantees.",
+  "how_its_made": "\n\n## Technical Architecture & Implementation\n\n**Core Technology Stack:**\n- **Smart Contracts**: Solidity (EVM) + PluTS/Plutus (Cardano)\n- **Frontend**: Next.js 15, React 19, TypeScript, TailwindCSS\n- **Backend**: Node.js, Express, PostgreSQL, WebSocket\n- **Blockchain Integration**: wagmi/viem (EVM), MeshSDK (Cardano), Blockfrost API\n\n## The Nitty-Gritty Details\n\n**Cross-Chain Challenge Solution:**\nThe biggest technical hurdle was bridging two fundamentally different blockchain architectures - EVM's account model vs Cardano's eUTXO model. We solved this by implementing dual HTLC systems that speak each chain's \"native language\" while maintaining atomic execution guarantees.\n\n**EVM Implementation:**\nWe leveraged **1inch's HTLC contracts** as our foundation, extending their Limit Order Protocol with a two-phase interaction system:\n- `preInteraction()`: Validates maker's signed order and locks ETH/ERC20 tokens\n- `postInteraction()`: Creates escrow contracts using minimal proxies (EIP-1167) for gas efficiency\n\nThe particularly **hacky but elegant** solution was using CREATE2 for deterministic escrow addresses. Resolvers can pre-calculate escrow addresses off-chain and pre-fund safety deposits before the contract exists - solving a chicken-and-egg problem.\n\n**Cardano Innovation:**\nBuilt custom PluTS validators implementing HTLCs in Cardano's functional paradigm. The breakthrough was creating an \"AuthVault\" system enabling \"fire-and-forget\" user experience on Cardano - users lock funds once, then resolvers can execute swaps using only off-chain signatures.\n\n**Real-Time Coordination:**\nImplemented a WebSocket-based monitoring service that watches both chains simultaneously, automatically sharing secrets when both escrows are detected. This required building custom blockchain event parsers for both UTXO and account-based transaction models.\n\n**Partner Technology Benefits:**\nUsing 1inch HTLC contracts provided battle-tested security primitives and gas-optimized implementations. Their modular design allowed us to extend functionality without reinventing core HTLC logic, significantly reducing development time and security risks.\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cardanoswap-a0est",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

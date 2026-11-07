@@ -1,0 +1,20 @@
+{
+  "id": "57m78",
+  "slug": "attackgen",
+  "title": "AttackGen",
+  "tagline": "LLM agent which analyses a given smart contract for vulnerabilities and creates a smart contract to attack it.",
+  "event": {
+    "slug": "singapore2024",
+    "name": "ETHGlobal Singapore",
+    "start_time": "2024-09-20T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/57m78/banner/default.jpg",
+  "source_url": "https://github.com/pranay5255/AttackGen",
+  "finalist": false,
+  "description": "AttackGen automates the analysis of a smart contract by taking its address as input and retrieving the source code and ABI from Etherscan. Using this data, a machine learning model (LLM), guided by audit insights, generates a custom attack contract to exploit vulnerabilities such as Reentrancy and Public minting issues. The generated contract is then deployed to test the target contract for weaknesses. The entire process runs within Phala Network’s Trusted Execution Environment (TEE), which provides several key benefits: it ensures the confidentiality of the contract data, protects the vulnerability detection results, isolates the testing environment from external attacks, and maintains the integrity of the attack generation process. Multiple instances of these agents can automatically include vulnerabilities as part of verification of contracts.These features make TEE vital not just for secure deployment but also for preserving the privacy and security of the overall testing workflow, offering a safer and more effective tool for security researchers and bounty hunters. ",
+  "how_its_made": "Implements a RAG pipeline to create embeddings out of Solodit Cyfrin audits github repo(https://github.com/Cyfrin/cyfrin-audit-reports). Finds out the most relevant chunks of examples and code snippets most similar to the Source code and adds it to the Prompt. \n The prompt is tailored to generate solidity smart contracts which can interact with the input contract by passing the ABI and source code into the prompt.\nThis agent is implemented using Phala networks TEE agent template(Trusted execution environment). Have used Open AI API embeddings to create the vector store of chunks audits data. Use cosine similarity to find the most similar chunks to the source code of the input contract. Saved the vectors into markdown_embeddings.json file for easy access and experimentation. Alternatively you can run the \"setup_pgvector_db.sh\" to setup a local vector DB using postgres, this will need you to setup pgVector to correctly setup. \nCreating or adding new vectors/embeddings from other relevant documents will require you to run \"embedCreate.py\" with a folder where all the documents are present in markdown format. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/attackgen-57m78",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

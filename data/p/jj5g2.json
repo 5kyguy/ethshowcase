@@ -1,0 +1,21 @@
+{
+  "id": "jj5g2",
+  "slug": "ens-bulk-mint",
+  "title": "ENS Bulk Mint",
+  "tagline": "Batch-mint ENS subdomains with Merkle-proof access, commit-reveal security, and pause controls.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jj5g2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HEDs9equ24u9gLLKUOx2ovOAW027QEFdrA02q2rdaPjJI/high.mp4",
+  "source_url": "https://github.com/Shubz224/ens-bulk-subdomain-factory",
+  "finalist": false,
+  "description": "ENS BulkMint Factory revolutionizes ENS by enabling the distribution of thousands of subdomains in a single, gas-optimized transaction. Leveraging Merkle-proof access control, a commit-reveal scheme to thwart front-running, and a robust pause/unpause safety mechanism, this solution delivers enterprise-grade security without altering parent domain ownership. Built with Foundry-powered Solidity contracts, a Node.js API for Merkle tree management, and a React dashboard for seamless user interaction, BulkMint Factory empowers DAOs, gaming communities, enterprises, and events to onboard large audiences instantly and reliably—transforming ENS from a niche naming service into a scalable, mass-adoption platform.",
+  "how_its_made": "The ENS BulkMint Factory is the result of a tightly integrated, full-stack architecture crafted for security, performance, and scalability:\n\nFoundry + Solidity\n\nWe wrote BulkSubdomainFactory.sol, leveraging Foundry for rapid compilation, testing, and scripting.\n\nIt orchestrates a commit-reveal anti-MEV pattern, Merkle-proof access control, and batch calls to the ENS NameWrapper contract.\n\nWe used OpenZeppelin’s ReentrancyGuard and Ownable for reentrancy protection and pausable admin controls, plus custom fuses and expiry checks so subdomains can never outlive their parent.\n\nNode.js + Express Backend\n\nOur backend generates Merkle trees from CSV or database lists of authorized claimers, using the merkletreejs library for efficient proof generation.\n\nIt exposes REST endpoints for: 1) deploying new factory instances (via Ethers.js scripts), 2) publishing fresh Merkle roots, and 3) serving per-user proofs on demand.\n\nWe integrated Alchemy’s JSON-RPC API for reliable on-chain interactions and Infura’s WebSocket subscriptions to monitor transaction confirmations in real time.\n\nReact + Ethers.js Dashboard\n\nThe React frontend uses wagmi and Ethers.js to connect wallets, switch networks, and call contract functions.\n\nWe built custom hooks to manage commit timestamps, enforce the 10-minute delay, and display live transaction status.\n\nThe UI automatically generates clickable proof links (Etherscan, ENS App), and administrators can upload new claimer lists via a drag-and-drop CSV uploader.\n\nPartner Technologies\n\nOpenZeppelin Defender automates guardian-style pause/unpause actions and sends alerts on critical events (e.g., suspicious claim volume).\n\nDune Analytics dashboards track gas usage and claim statistics, helping us fine-tune gas thresholds and batch sizes.\n\nNotable Hacks\n\nWe implemented an on-chain gas smoothing mechanism that dynamically adjusts the Merkle proof batch size based on block.baseFee to avoid out-of-gas failures during congestion.\n\nTo minimize storage costs, we bit-packed our Config struct so all parameters fit into two storage slots, saving over 5,000 gas per campaign.\n\nOur deployment scripts detect reopened campaigns and reuse existing factory instances by reading on-chain state, avoiding unnecessary redeployments and preserving campaign history.\n\nBy combining these tools and techniques, BulkMint Factory delivers a production-ready, battle-tested system for issuing ENS subdomains at true Web3 scale—and it’s all orchestrated end-to-end from smart contracts to user interface.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ens-bulk-mint-jj5g2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

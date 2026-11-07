@@ -1,0 +1,41 @@
+{
+  "id": "fh6vm",
+  "slug": "alpha-dawg",
+  "title": "Alpha Dawg",
+  "tagline": "Autonomous AI swarm buys intel, debates trades, and proves every step on-chain.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fh6vm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sq7fdYiuERhajLlc93dO32S2ho01jHaOMmEh01G2qPqkA/high.mp4",
+  "demo_url": "https://cannes2026-jet.vercel.app/dashboard",
+  "source_url": "https://github.com/elbarroca/ETH_Global_Cannes_2026",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "2nd place",
+      "title": "ioBuilders Naryo Builder Challenge"
+    },
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "2nd place",
+      "title": "Best DeFi App on 0G"
+    }
+  ],
+  "finalist": true,
+  "description": "AlphaDawg is a multi-agent swarm that hunts trading alpha for you — and proves every decision it makes. Instead of a black-box bot, your personal AI agent hires a pack of specialists (sentiment, whale-watching, momentum, memecoins, onchain forensics, 10 in total) from an open marketplace, pays each one $0.001 in gas-free nanopayments, and runs them through an Alpha vs Risk vs Executor debate inside TEE enclaves so no one can tamper with the reasoning. Every hunt gets written to four different places at once: Hedera HCS (the audit log), a Hedera EVM contract (for Naryo cross-chain correlation), 0G Storage (the full rich record), and an ERC-7857 iNFT on 0G Chain (so your agent's identity literally evolves with every cycle it completes).\n\nThe twist is memory: each new cycle loads the last 3 cycles from 0G Storage and injects them back into the debate prompt, and the CIDs are persisted on-chain — so your agent's history isn't a flat log, it's a DAG it actually learns from. You control the swarm via Telegram or a Next.js dashboard (3-column live debate view, pending-approval modal, Create-Your-Own-Agent marketplace, cross-chain activity ticker). Three chains, 14 agents, 40 API routes, and one hunt costs about $0.008.",
+  "how_its_made": "Three chains, three jobs: Arc = money, 0G = brain, Hedera = truth.\n                                                                                                                                \nPayments run on Arc via x402 + Circle Gateway batching — buyer side is viem LocalAccount plugged straight into @circle-fin/x402-batching, seller side is createGatewayMiddleware on an Express POST route. Arc's native USDC is 18-decimal, so the Uniswap V3 swap path sends USDC as raw msg.value instead of an ERC-20 approve — surprisingly clean once you stop fighting it. Per-user wallets are BIP-44 HD-derived from one mnemonic, with Circle MPC proxy wallets holding deposits and topping up the hot wallets only when a swap needs liquidity.\n\nThe brain is 0G. Every specialist and debate turn runs through @0glabs/0g-serving-broker sealed inference — fresh getRequestHeaders per call (they're single-use, which bit us once), then processResponse(provider, chatID, JSON.stringify(usage)) for TEE fee caching. Storage is the other 0G SDK (@0gfoundation/0g-ts-sdk, not @0glabs — that confusion cost us an hour). The iNFT is ERC-7857 on 0G Chain, and because the chain has no ENS, ethers v6 refuses to talk to it until you manually attach a dummy EnsPlugin — probably the hackiest thing in the whole repo.\n\nHedera is the audit layer. Every transaction follows the canonical freeze → sign → execute pattern. Swarm events use HCS native chunking with setMaxChunks(50) so each event can carry up to ~50KB of uncensored chain-of-thought — the SDK splits and Mirror Node reassembles, we didn't write a chunker. Fund shares are a real HTS token with KYC keys; the 5-minute heartbeat is \nbootstrapped with a Scheduled Transaction wrapping a TopicMessageSubmitTransaction (which needs a second ScheduleSignTransaction because the inner tx targets a keyed topic — not obvious from the docs). For the Naryo bounty we also deploy AlphaDawgAuditLog.sol to Hedera EVM via JSON-RPC relay, listen with 9 Naryo filters across all three chains, and pair matching events in a 60-second window to emit a CrossChainCorrelation event back on-chain.\n\nOne notable hack: the Qwen 7B executor model is pathologically risk-averse and drifts to HOLD on any ambiguity. Rather than fight it with prompting tricks, we apply a deterministic post-processing override — if Risk approved max_pct ≥ 3 with zero red_flags, we force BUY regardless of what Executor said, and log both versions to HCS so nothing is hidden. It's the single rule that turned the demo from \"always HOLD\" to \"actually trades.\"                                                          \n\nStack on top: Next.js 16.2 + React 19 + Tailwind v4 CSS-first, Dynamic Labs + wagmi for wallet connect, Supabase (postgres.js for the user store, Prisma for the marketplace), node-telegram-bot-api with polling locally and webhooks on Vercel, Hardhat 2 for the two Solidity contracts, and a hard architectural rule that src/hedera/** is SDK-only while all Solidity lives in a separate src/naryo/** surface. The whole signing perimeter is exactly one component (the Lead Dawg orchestrator) — every other agent in the swarm is inference-only with zero keys.",
+  "auto_summary": "A multi-agent trading application coordinates AI specialists, records decisions across multiple chains, and exposes control through a web dashboard and Telegram.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/alpha-dawg-fh6vm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

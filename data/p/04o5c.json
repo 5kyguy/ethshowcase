@@ -1,0 +1,22 @@
+{
+  "id": "04o5c",
+  "slug": "flashpayz",
+  "title": "FlashPayZ",
+  "tagline": "Automated payroll with LP-backed lending, multi-chain payments & salary streaming",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/04o5c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2RrghIKbwvxY007PrKMYabatjG800HcFqGz1uAVmYEHKU/high.mp4",
+  "demo_url": "https://flashpay-git-main-idea-lab.vercel.app",
+  "source_url": "https://github.com/psychemist/flashpay",
+  "finalist": false,
+  "description": "FlashPay is a next-generation payroll infrastructure that transforms how organizations pay employees and how employees access their earned wages.\n\nThe Problem: Traditional payroll is slow, inflexible, and disconnected from DeFi. Employees wait weeks for pay, have no access to salary advances, and employers manage fragmented systems across HR, banking, and lending.\n\nOur Solution: FlashPay creates a unified platform where:\n\n- Organizations set up on-chain payroll with role-based salaries, batch execution, and treasury management\n- Employees can provide liquidity to Uniswap v4 pools and borrow against their LP positions—without employer visibility into their personal finance\n- Payments flow in real-time via Yellow Network state channels, not monthly batches\n- Multi-chain support lets employees receive salary on their preferred chain (Base, Arbitrum, Polygon) in their preferred token\n\nThe Uniswap v4 hook tracks LP positions automatically, preventing over-withdrawal when loans are active. Loans are repaid via automatic payroll deductions, making it a win-win: employees get liquidity access, protocols get LP, and employers offer better benefits.",
+  "how_its_made": "FlashPay is built across three layers using six partner technologies:\n\nEVM Smart Contracts (Foundry/Solidity):\n\n> OrgRegistry.sol\n - NFT-based organization management with role/salary configuration\n> Payroll.sol\n - Batch payment execution with Merkle verification\n> PayrollHook.sol\n - Uniswap v4 hook implementing beforeAddLiquidity, afterAddLiquidity, beforeRemoveLiquidity, afterRemoveLiquidity to track employee LP positions. The hook prevents withdrawal below required collateral when loans are active\n> LendingPool.sol\n - Collateralized lending with interest calculation and payroll-integrated repayment\n\nSui Move Contracts:\n\n> multi_token_payroll.move\n - Organization payroll with generic token support, designed for PTB (Programmable Transaction Block) composition\n> token_swap.move\n - DeepBook integration for automatic swaps when employees want payment in a different token than the treasury holds\n\nFrontend (Next.js + wagmi + RainbowKit):\n\n> Circle Wallets SDK - Embedded wallet creation for employees without existing wallets\n> LI.FI REST API - Cross-chain routing for payroll execution. We query quotes and build transactions for any source→destination chain/token combo\n> ENS resolution - Payroll can reference alice.eth instead of raw addresses\n> Yellow Network Nitrolite - State channel-based salary streaming. Instead of monthly batches, salary accrues per-second and employees can withdraw anytime\n\nHacky bits worth mentioning:\n\ni.   The Uniswap v4 hook stores employee positions in a triple-nested mapping (orgId → employee → poolId → Position) to support multiple orgs and pools per employee\nii.  We use int256→int128→uint128 casting chain in the hook because v4's liquidityDelta is signed\niii.  LI.FI integration uses their REST API directly instead of the SDK to avoid dependency issues in Next.js 16\niv.  The Sui contracts use TypeName to store employee token preferences, enabling truly generic multi-token support",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/flashpayz-04o5c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

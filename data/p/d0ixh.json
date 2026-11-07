@@ -1,0 +1,41 @@
+{
+  "id": "d0ixh",
+  "slug": "pensieve",
+  "title": "Pensieve",
+  "tagline": "Pensieve is a decentralized file storage to recreate your those moments in your memories and share with others. As you upload these memories, you can also choose to take part in the documentation of the HISTORY OF APES (HOMO SAPIENS).",
+  "event": {
+    "slug": "hackfs2023",
+    "name": "HackFS 2023",
+    "start_time": "2023-06-02T13:00:39.046Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d0ixh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7mP4PAT4e7AW4QD5g5L01E1OGZIU46qtCyJPOuvHfjIM/high.mp4",
+  "source_url": "https://github.com/ahsueh1996/Pensieve-",
+  "prizes": [
+    {
+      "sponsor": "Beryx",
+      "sponsor_id": "u0e0c",
+      "placement": "🥇 Beryx — Best use of Beryx API",
+      "title": "Beryx"
+    },
+    {
+      "sponsor": "Bacalhau",
+      "sponsor_id": "4hh1n",
+      "placement": "🥇 Bacalhau — Best Use",
+      "title": "Bacalhau"
+    },
+    {
+      "sponsor": "DataverseOS",
+      "sponsor_id": "op6xo",
+      "placement": "🥇 DataverseOS — Best Use",
+      "title": "DataverseOS"
+    }
+  ],
+  "finalist": false,
+  "description": "Some of us take too many photos and videos of our lifes that our phone is constantly out of storage. Some of these are great photos and some are blurry duplicates of an exciting moments that are junk to human eyes nows; however, potentially useful data in the future for machine learning and AI computer vision algorithms in reconsctructing immersive moments of your memories. How about a dApp to save them ALL - save all those memories like Dumbledore's pensieve....\n\nPensieve is a decentralized file storage to recreate your those moments in your memories and share with others. As you upload these memories, you can also choose to take part in the documentation of the HISTORY OF APES (HOMO SAPIENS).\n\n# Memory Token Actions on FVM\n1. Anyone can add an Event by registering a POAP.\n2. POAP NFT grants par<ticipants access to read and add data (CID) to that Event.\n3. Non-participants, who want to read data about an Event, can propose deals where POAP holders of that Event can vote to decide whether to accept them. \n4. Deal reward will get a split amount the POAP holders who have contributed (e.g. uploaded photos) to reconstruct that shared memory.\n5. (NOT DONE YET) People can vote on significance of the event and the events with significance score above a threshold will form our decentralised \"HISTORY OF APES\".\n6. (NOT DONE YET) Anyone can challenge to say a piece of data is fake. If they are wrong, they lose their stake. If they are right, they claim their stake and the data uploader's penalty.\n\n# Data Flow and Technologies \n1. The user connects on Filecoin network (calibration testnet) to the dApp through the Dataverse Wallet (their address will get resolved to their ENS name on Ethereum (goerli) testnet).\n2. This grants the dApp access to that user’s encrypted storage (via Lit Protocol’s Lit Action) on Ceramic ComposeDB (with the bulky files like images on IPFS)\n3. Once connected, the user can interact with Pensieve Dao’s smart contracts on Filecoin’s FVM!\n3. The user can register a new event, thereby getting read and write access to that event, by proving their ownership of POAP NFT of that event (the algo groups photos based on POAP). The POAP NFTs for demo are created on FVM with their metadata stored on NFT.Storage.\n4. When users upload photos, the photos are encoded then passed to Bacalhau’s containerized machine learning image processing flow which runs segmentation and timestamp photos based on Filecoin’s tipset height (queried from Beryx API). Bacalhau stores the processed output on IPFS.\n5. The client frontend queries the processed images from IPFS optimzed via Filecoin Saturn CDN. However, this CDN integration currently seems broken :(\n\n#Some Future Directions\n1. Fix integration bugs and optimise integration flow (communication with Bacalhau is very slow right now!)\n2.Allow people to vote on significance of the event and the events with significance score above a threshold will form our decentralised \"HISTORY OF APES\".\n3.Allow people to challenge the data’s “trueness”. So that people cannot upload AI-generated fake pictures of things that never happened. \n\nSee our project trello board for a list of ideas that we never got to finish implementing!",
+  "how_its_made": "#Image Processing and Upload (with Bacalhau)\nWhen you upload a picture to Pensieve, it automatically processes the photo with the following proceedure:\n\n1. Deep Learning Inference using *fcn-resnet* image segmentation to locate and detect scene objects ([example](https://github.com/ahsueh1996/Pensieve-/blob/79f04f3c6e5f057a322aff5b7301a33abdb4129a/baca-image-modules/upload-qr.py#L44))\n2. Harr face detection\n3. All detect faces are blurred and\n4. Cut Grab algorithm removed backgrounds from randomly selected Bored Apes\n5. The resulting Apes get placed on the blurred faces for aesthetics\n6. The image is timestamped with the tipset height of Filecoin (using Beryx API)\n7. Metadata and imagaes saved onto IPFS\n\nThe ***coolest part*** is that all the above was done in Python (a language not normally associated with Web3 development) by a datascience guy all ***thanks to Bacalhau***. We discovered that the best way to iteratively develop on Bacalhau is to pass a specific python script and inputs to a Bacalhau node running a generic Docker image. It should be familiar to most data science people to think of Bacalhau as the virtual environment that you'd set up first first prior to running scripts or projects on. The following \"nota benes\" should be considered to make this design pattern work:\n- Write a script to list out your specific dependencies to be used, this will help you test the Bacalhau node to make sure it's working for all future scripts that require the same dependencies ([example](https://github.com/ahsueh1996/Pensieve-/blob/79f04f3c6e5f057a322aff5b7301a33abdb4129a/baca-image-modules/baca-executor/main.py#L22))\n- Optimize Dockerfile to reduce layers, image size & thus the Docker build and push times ([example](https://github.com/ahsueh1996/Pensieve-/blob/79f04f3c6e5f057a322aff5b7301a33abdb4129a/baca-image-modules/baca-executor/Dockerfile#L5))\n- Docker build with linux platform as the target, currently Bacalhau only has linux nodes ([cite](https://bacalhauproject.slack.com/archives/C052BAZJVEU/p1686613471277019?thread_ts=1686609901.665389&cid=C052BAZJVEU))\n- Build and push your custome environment (hopefully once!). Do this early and be prepared for ***long build and push times***. \n- ***Avoid*** using API in scripts because Bacalhau has a whitelist of which networks can be reached from within the Bacalhau node. Use --network=full or --network=html and --domain=example.com to get connected.\n- ****Bacalhau is default to be used by CLI, but we worked out how to use generic API endpoint!****\n- The entry point can carry data in string format. We used this to avoid uploading unprocessed photo to any host during the Pensieve upload process by passing the base64 string in the POST body. ([example python](https://github.com/ahsueh1996/Pensieve-/blob/79f04f3c6e5f057a322aff5b7301a33abdb4129a/testing/baca-restfulClient/main.py#L145))([example CLI](https://github.com/ahsueh1996/Pensieve-/tree/main/baca-image-modules/examples-cli))\n- And now a big catch is how to make the call use JS. This is the key line ([code](https://github.com/ahsueh1996/Pensieve-/blob/79f04f3c6e5f057a322aff5b7301a33abdb4129a/dataverse-frontend/src/components/EventCard.tsx#L210))\n\nThe limitation right now is that using MediaRenderer to put ifps picture on to the app takes a while to work. We think the pinning needs to happen before the http gateway is resolved.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pensieve-d0ixh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

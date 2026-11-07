@@ -1,0 +1,27 @@
+{
+  "id": "sppjz",
+  "slug": "finch-token-tracker",
+  "title": "Finch, Token Tracker",
+  "tagline": "Discover Robinhood tokens which landed in your wallet randomly",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sppjz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ihFKEohJFKJLV1M78ur2bo3EJ2cw84O8eOn8iXxRCV8/high.mp4",
+  "demo_url": "https://t.me/FinchRH_bot",
+  "source_url": "https://github.com/alphaBenj/Finch",
+  "finalist": false,
+  "description": "  \n  Finch snitches on where your tokens really came from.\n\n  On Robinhood Chain, wallets receive tokenized stocks — NVDA, COST, GLD — they never bought, with no obvious cause. Here's why: someone launches a memecoin on Pons, it graduates to a Uniswap V4 pool paired against a stock, and the\n  creator's fee cut — paid in that stock — gets redirected through a holder-fee distributor to holders. A wallet just sees \"+0.09 NVDA from 0xe25e…\"; no block explorer says which memecoin that came from, or why that wallet.\n\n  Finch is a Telegram bot (@FinchRH_bot) that reconstructs the route: it finds the transfer, resolves the payer on-chain (cross-checked against the official PonsHolderFeeManager registry, never inferred from a getter alone), and confirms\n  the creator-fee path from the Pons launch through its Uniswap V4 pool to the payout. Ask it \"why did I get NVDA?\" and it answers in plain language — with the technical trace available as a drill-down, and every response honestly labeled\n  confidence: \"signal only - not a recommendation\". It also surfaces Pons's own activity directly — recent launches and graduations to a live Uniswap V4 pool.\n\n  The same backend is callable three ways: the Telegram bot, an HTTP API wrapped as a metered Bazantic x402 gateway, and an MCP server for Claude/Cursor — Finch is a peer other agents call, not a gatekeeper.\n",
+  "how_its_made": " Finch is a Telegram bot backed by a Substreams pipeline indexing Pons launchpad activity on Robinhood Chain (EVM 4663). Stack: a parameterized Rust Substreams module (published finch-substreams@v0.1.1) → substreams sink postgres → Aiven\n  Postgres → a Node/TypeScript bot (grammy) with an HTTP API, MCP server, and Bazantic x402/MPP gateway, all deployed as systemd services on an AWS box behind Caddy.\n\n  Partner tech: The Graph is load-bearing twice over — StreamingFast's Robinhood endpoint (via a thegraph.market Substreams token) is the only data source Finch has, and a separate call to The Graph's canonical ENS subgraph resolves\n  addresses to .eth names. Bazantic wraps the same HTTP API as a metered x402 gateway and hosts a published Recipe (FINCH_GRAPH_ENS) chaining both of Finch's own tools as one LLM-orchestrated call.\n\n  Hacky/notable bits, honestly: we pivoted off subgraphs entirely mid-hackathon after The Graph's dev-rel confirmed a Goldsky-hosted subgraph doesn't satisfy the track — the whole query layer got rewritten from GraphQL to raw SQL against\n  the Substreams sink. The 1 GB free-tier Postgres meant the sink can't hold full chain history, so an hourly prune job truncates pool-swap tables and keeps only a rolling transfer window. Uniswap V4's singleton PoolManager has no\n  per-pool address to watch, so the Substreams module decodes Initialize events directly and filters by Pons's Meme Hook address to find only the relevant pools. And the Bazantic Recipe's LLM kept returning its answer wrapped in a\n  different ad-hoc JSON shape almost every run — fixed by parsing defensively by field role (a list of known key-name aliases) instead of chasing exact key names each time it drifted.\n\n",
+  "auto_summary": "A Telegram bot and agent-facing API traces why Robinhood Chain wallets received tokenized-stock payouts by indexing Pons and Uniswap v4 activity.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/finch-token-tracker-sppjz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "hcjh0",
+  "slug": "protocol-guardian",
+  "title": "Protocol Guardian",
+  "tagline": "AI agent that catches DeFi exploits in the mempool before they hit the blockchain",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hcjh0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00MguFs7WTUVEX63M3w7QyjjmshYTeY9XflVfnAaBI8I/high.mp4",
+  "demo_url": "https://protocol-guardian.vercel.app",
+  "source_url": "https://github.com/janneh2000/protocol-guardian-mvp",
+  "finalist": false,
+  "description": "Protocol Guardian is an autonomous AI security agent that protects DeFi protocols from exploits in real-time. Unlike traditional security tools that react after an attack confirms on-chain, Protocol Guardian monitors the Ethereum mempool to detect threats BEFORE they land in a block.\n\nThe agent runs a 5-stage pipeline: (1) mempool pre-transaction monitoring via Alchemy WebSocket subscription, filtering pending txs targeting watched contracts; (2) pattern matching against 32 exploit function selectors extracted from $3.7B in historical attacks; (3) EVM trace simulation using eth_call to see exactly what a suspicious transaction would do before it confirms; (4) RAG-enriched Claude AI risk assessment, where the AI reasons about the threat with full context from 21 historical exploits including Euler ($197M), Ronin ($624M), Wormhole ($326M), and Beanstalk ($182M); (5) autonomous on-chain emergencyPause() via a Guardian smart contract holding the PAUSER_ROLE.\n\nThe system monitors 7 DeFi protocols across 12 contracts representing $45B in TVL (Aave, Uniswap, Compound, MakerDAO, Lido, Wormhole), with contracts deployed on Sepolia testnet for the demo. The entire response — from mempool detection to on-chain pause — happens before the malicious transaction is even mined.",
+  "how_its_made": "Protocol Guardian is built in Python with six integrated modules:\n\nMempool Monitor: WebSocket connection to Alchemy's enhanced alchemy_pendingTransactions API, filtering pending transactions by target contract address. Supports fallback to standard newPendingTransactions subscription and HTTP polling. Sub-millisecond analysis latency (0.10ms average).\n\nExploit Pattern Engine: 32 function selectors across 6 attack categories (flash loan, reentrancy, oracle manipulation, access control, price manipulation, governance), with multi-vector combo detection that identifies dangerous combinations like flash loan + reentrancy that have historically caused the largest losses.\n\nEVM Trace Simulator: Uses eth_call and debug_traceCall to simulate suspicious transactions before confirmation. Extracts internal call traces, token transfers, ETH value flows, state diffs, and DELEGATECALL/SELFDESTRUCT detection. Provides concrete evidence to the AI layer, not just pattern matching.\n\nRAG Knowledge Base: 21 structured exploit records from 2016-2026 ($3.7B total losses) indexed by attack category, function selector, and tags. When a threat is detected, relevant historical parallels are retrieved and injected into Claude's prompt so it reasons with domain expertise.\n\nMulti-Protocol Watchlist: Registry of 7 DeFi protocols (Aave V3, Uniswap V3, Compound, MakerDAO, Lido, Wormhole) with contract addresses, critical function selectors, risk tiers, and TVL tracking. Extensible — anyone can add protocols.\n\nSmart Contracts: MockLendingPool and ProtocolGuardian deployed on Sepolia. ProtocolGuardian holds PAUSER_ROLE and executes emergencyPause() autonomously when Claude confirms a critical threat with high confidence.\n\nTech stack: Python 3, FastAPI, web3.py, websockets, Claude API (Anthropic), Solidity/Hardhat, Alchemy, Supabase, Vercel.\n\nNotably hacky: The mempool monitor scans embedded function selectors inside calldata (not just the primary selector), which catches flash loan callback payloads that contain nested exploit calls — this is how we detect multi-step attacks in a single pending transaction.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/protocol-guardian-hcjh0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "ph6bx",
+  "slug": "airlock",
+  "title": "Airlock",
+  "tagline": "Human-consent gateway for AI agents. AI for power, humans for consent, blockchain for certainty.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ph6bx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/meV8TtI692I2gHf00dNbROZpC7Q9CfqZhIAcnIyKPlS8/high.mp4",
+  "demo_url": "https://airlock.polyoctant.com",
+  "source_url": "https://github.com/cheng-chun-yuan/airlock",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "Best Use of World ID for Agents",
+      "title": "Best Use of World ID for Agents"
+    }
+  ],
+  "finalist": false,
+  "description": "The human-consent gateway for AI agents: frontier AI for power, humans for consent, blockchain for certainty.\n\nAI agents leak confidential data the moment they call a frontier model. Airlock is an OpenAI-compatible gateway that any agent (LibreChat, Hermes, Claude Code) can point at instead of a model provider. It works in six steps:\n\n1. Local by default. Requests are answered by a local model.\n2. Redact. When an agent needs a frontier model, Airlock replaces names, companies, amounts and IDs with placeholders.\n3. Attack-test. The local model tries to re-identify the placeholders; a correct guess forces high risk.\n4. Read the policy from ENS. The agent's egress policy comes from ENSv2 records.\n5. Human approval. For confidential data, Airlock pauses the agent until a human approves through World ID for Agents. The approval is bound to the payload's hash, and the approver must hold a live ENS subname under the approver role. Revoke the subname and the approval fails.\n6. Send, restore and audit. Only the redacted text leaves, streamed. Real names are restored locally. Every decision is appended to a hash-chained audit log whose Merkle root is anchored to ENS.\n\nAnyone can run their own: sign in with a wallet, create a gateway and it becomes <name>.airlock.eth on ENSv2 Sepolia, with its own resolver, policy, approver role and audit anchor. Use the Airlock-hosted models (no keys needed) or bring your own local and frontier models, invite people with a role (member, approver, admin), and give each agent a per-member API key. Admins assign each member an agent whose ENS policy governs everything they send.",
+  "how_its_made": "- Gateway: TypeScript monorepo with a Hono server that speaks the OpenAI API, including streaming. It uses a local Qwen 3.5 on vLLM (NVIDIA GB10) and a local codex-lb (gpt-5.6-sol) as the frontier upstream.\n- Redaction: rules + company dictionary + optional Presidio + local-LLM tagging. A streaming rehydrator handles placeholders split across tokens.\n- World ID for Agents: Human Continuity OIDC on the event sandbox, using the authorization code flow with PKCE. The OIDC nonce is a hash of the approval id and payloadHash. The ID token is verified in the backend against JWKS (iss, aud, nonce, auth_time), and state is single use.\n- IDKit: World ID 4.0 Proof of Human is also supported, with the signal bound to payloadHash. It was verified with real staging proofs.\n- ENSv2 on Sepolia: a script builds the whole name tree with viem: a UserRegistry per level, a PermissionedResolver, MockUSDC commit-reveal registration, and subnames with expiry. The Enhanced Access Control split lets only a security account change policy records, while the gateway may write only airlock.approver and airlock.auditRoot.\n- Design finding: only leaf names get a resolver. Otherwise the wildcard lookup of the name-keyed resolver lets unregistered approvers keep resolving.\n- Self-serve gateways: Sign-In with Ethereum (no shared token). Creating a gateway runs 11 resumable Sepolia steps: a PermissionedResolver and two UserRegistries of its own, <slug>.airlock.eth owned by the creator's wallet, policy., approvers., audit. and agents. subnames, the policy records, then a hand-over: on the resolver the platform key keeps only ROLE_SET_TEXT on airlock.approver and airlock.auditRoot (plus the approvers registry, to enroll and revoke approvers), so later policy changes and agent links are transactions the owner's wallet signs, which the server checks from the receipt.\n- Per-gateway models and keys: local = Airlock-hosted or your own OpenAI-compatible URL (public addresses only on the hosted server); frontier = Airlock-hosted (no key, 5 frontier requests per person per hour) or Anthropic / OpenAI-compatible with the gateway's own key, AES-256-GCM sealed at rest. Per-member API keys (alk_…) pick the gateway, the person and the agent; identity headers from clients are ignored.\n- Console: a single HTML page: sign-in, a create-gateway wizard, a Get started checklist, the chamber view with hold-to-approve, the linked redaction view, the hash-chained ledger, and Manage (members and invites, a live people → agent → ENS policy diagram, models, API keys).\n- Tests: 35 unit tests (OIDC against a mock IdP, sign-in, role checks, API keys, agent assignment, owner-signed ENS changes, rate limits), plus end-to-end runs against the real World sandbox and Sepolia, and browser runs of the Console with a scripted wallet.",
+  "auto_summary": "An OpenAI-compatible gateway routes AI agent requests through local redaction, human approval, and ENS-based policy checks before frontier model egress.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/airlock-ph6bx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

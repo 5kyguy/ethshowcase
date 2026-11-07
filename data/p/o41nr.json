@@ -1,0 +1,36 @@
+{
+  "id": "o41nr",
+  "slug": "borrowbot",
+  "title": "BorrowBot",
+  "tagline": "Borrow against your crypto assets with agents managing everything for you",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o41nr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qXsgS5E4h6sppLg8t2ETBhfxbdtlw46HmU025odhgnC00/high.mp4",
+  "demo_url": "https://borrowbot.kibalabs.com",
+  "source_url": "https://github.com/kibalabs/money-hack",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackMoney 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "The DeFi landscape is cluttered with manual tools that demand constant vigilance and expose users to liquidation risks. \n\nBorrowBot is a fully autonomous DeFi agent that lives on Base. You deposit collateral (WETH or cbBTC) from any chain, and the agent takes over — it borrows USDC against your collateral via Morpho Blue, deposits the USDC into a yield vault (40acres or YO), and then monitors your position 24/7, auto-rebalancing regularly to maximize yield while keeping you safe from liquidation. If prices drop and your LTV spikes, the agent pulls funds from the vault and repays your debt before you even notice. If markets are calm and your LTV is low, it borrows more to increase your yield. When you want your money back, the agent bridges it to whichever chain you want — Ethereum, Arbitrum, Optimism — all executed on Base with gas paid by the Coinbase Paymaster. You never pay gas.\n\nWhat makes BorrowBot different from other DeFi dashboards is that it's genuinely autonomous. The agent has its own wallet (Coinbase CDP + EIP-7702 smart wallet), its own ENS identity (`name.borrowbott.eth`), and its own on-chain constitution — ENS text records that the owner sets as guardrails (max LTV, minimum yield spread, kill switch). The agent reads its constitution before every action cycle and governs itself accordingly. You can change your agent's behavior from any ENS interface and it obeys within 5 minutes. The agent writes its status back to ENS too — what it last did, when it last checked — creating a verifiable on-chain audit trail.\n\nCross-chain access is powered by LI.FI. Users deposit from any chain using the embedded LI.FI Widget (Composer routes the funds to Base automatically). For withdrawals, the agent itself fetches a LI.FI quote, approves USDC to the LI.FI Diamond, and executes the bridge transaction — all via ERC-4337 UserOperations with paymaster sponsorship. The agent communicates proactively through Telegram — sending alerts on rebalancing, liquidation warnings, and cross-chain bridge status. There's also a Gemini-powered chat interface where you can ask your agent about your position, and it responds with real data using a tool-calling agentic loop.\n",
+  "how_its_made": "The backend is Python with FastAPI, PostgreSQL, and an asyncio worker loop that runs continuously. The worker reads all active positions from the DB, fetches live on-chain data (Morpho collateral/borrow amounts, ERC-4626 vault balances, wallet token balances via Alchemy), reads the agent's ENS constitution from mainnet, and then decides what to do. The decision engine (`LtvManager`) compares current LTV to target, checks profitability gates (yield APY vs borrow APR, minimum annual gain threshold, price volatility suppression using 1h/24h historical data from Alchemy), and outputs an action: auto-repay, auto-optimize, or do nothing.\n\nAgent wallets are EOAs created via Coinbase CDP, then upgraded to smart wallets using EIP-7702 delegation to the Coinbase Smart Wallet implementation. This lets us batch multiple contract calls into a single UserOperation. All transactions go through a Coinbase Bundler with `shouldSponsorGas=True` — the paymaster covers everything. The bundler validates every call target against a whitelist (Morpho, USDC, Yo Vault, LI.FI Diamond, ENS Resolver) to prevent the agent from being used for unintended operations.\n\nENS integration was one of the hackier parts. Each agent gets a subname under `borrowbott.eth`, registered via NameWrapper on mainnet. We batch 8 `setText` calls into a single `resolver.multicall()` transaction to save gas. The agent reads constitution records (max-ltv, min-spread, pause) from mainnet every cycle, and writes status back (last-action, last-check). We hit a critical bug early on — Python's `hashlib.sha3_256` uses NIST SHA-3, not keccak256. ENS uses keccak for `namehash()`. Everything looked correct but resolved to garbage until we switched to `eth_utils.keccak`.\n\nLI.FI is used in both directions. Deposits use the `@lifi/widget` React component embedded in the frontend, configured with `toChain=Base`, `toAddress=agentWallet`. The agent's worker loop auto-detects idle wallet assets and deploys them into the Morpho position. For withdrawals, the backend calls the LI.FI quote API (`/v1/quote` with `toAddress` set to the user's destination wallet), stores the quote's transaction request data, then executes two UserOperations: one to withdraw USDC from the vault, another to approve+bridge via the LI.FI Diamond (`0x1231DEB6...`). The worker polls `/v1/status` each cycle to track bridge completion and sends Telegram notifications.\n\nThe AI chat uses Gemini with a tool-calling loop. Tools are pluggable (`ChatTool` base class) — the bot can look up position data, get market rates, preview withdrawals, and check price analysis. It loops up to 10 iterations, executing tools and feeding results back to the LLM until it produces a final response. Same loop powers both the web chat widget and the Telegram bot.\n\nThe frontend is React/TypeScript with the @kibalabs/ui-react component library. The agent dashboard shows a live LTV gauge, yield spread, assets-vs-debt breakdown, an \"agent terminal\" that displays the agent's recent actions with a typing animation (makes it feel alive), a cross-chain activity panel, ENS constitution display, and a floating chat window. The setup flow is a multi-page wizard: choose collateral → name your agent → fund via LI.FI or direct deposit → deploy (5-tx batch: approve collateral → supply to Morpho → borrow USDC → approve USDC → deposit to vault).\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/borrowbot-o41nr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

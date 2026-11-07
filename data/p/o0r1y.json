@@ -1,0 +1,36 @@
+{
+  "id": "o0r1y",
+  "slug": "lan",
+  "title": "LAN",
+  "tagline": "A hybrid central limit orderbook for lending, with a focus on composability, UX, and modularity.",
+  "event": {
+    "slug": "ethonline2022",
+    "name": "ETHOnline 2022",
+    "start_time": "2022-09-02T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o0r1y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5q6O6zmKhECuEd00xeMg3honXWcqXEQO600s01rCsk8u3s/high.mp4",
+  "demo_url": "https://lan-testnet.vercel.app/",
+  "source_url": "https://github.com/burrowfi/ethjunionline",
+  "prizes": [
+    {
+      "sponsor": "Yearn",
+      "sponsor_id": "zhkg5",
+      "placement": "🥉 Yearn — Best Use",
+      "title": "Yearn"
+    },
+    {
+      "sponsor": "Connext",
+      "sponsor_id": "ygz83",
+      "placement": "🏊‍♂️ Connext — Pool Prize",
+      "title": "Connext"
+    }
+  ],
+  "finalist": false,
+  "description": "LAN is a dated lending orderbook, which heavily leans into the composability with on chain liquidity pools, providing base layer infrastructure for which existing forms of lending to be replicated, and new forms of lending to take shape.\n\nAt a high level, the protocol works by structuring loans as limit orders with a fixed time in force*, 1 week, 1 month, etc.\n\n*For assets with more liquid markets, an oracle can be referred to, creating premature liquidations after an LTV is breached.\n\nSuppose Jadid has several NFTs that he wants to take leverage on.\n\nIf there is an existing pool configured, Jadid is able to receive 10 USDC at an APY of 10% of instant liquidity for his NFTs for a fixed duration. \n\nThe bid accrues value until maturity, such that if the loan defaults, the pool acquires Jadid’s NFTs at nominal price of 10.XX USDC.\n\nIf there is a better order, improving on either price or APR, the bid is taken and Jadid has received better terms on his NFTs. \n\nIf there isn’t a pool configured, the auction becomes an RFQ for liquidity providers, and the same process of price improvement/refinancing is observed here. ",
+  "how_its_made": "The core contract (mainliquidations) stores auction data in a struct, creating gas savings.\n\nBaseBidding is an abstract contract which specifies basic pool information that each pool should implement, allowing for either replication or innovation \n\nBaseBid1 is a rough replica of Compound V3. It's single borrowable asset, has a utilization curve with a kink, and has whitelisted collateral, and implements OZ's ERC4626 for greater interoperability with DeFi. Unlike Compound, it swaps idle funds into Yearn to earn additional yield.\n\nBaseBid2 doesn't allow external depositors, and is only focused on providing loans to whitelisted assets.\n\nA special Art Gobblers focused implementation of basebid implements a VRGDA for selling vault tokens, and deposits idle funds into Aave instead.\n \nIPriceOracle is a standardized oracle interface for contracts to interact with. \nAdapters for Chainlink and Tellor oracles were made.\n\nWrapper is a simple NFT Bundler for ERC20s to allow for compatibility with the smart contracts. The URI is stored on IPFS.\n\nWe deployed our contracts to the mainnets/testnets of Cronos, Polygon, Skale, Optimism, Oasis and, Aurora.\n\nFinally, we successfully tried the x-call over NXTP, and added calldata to allow for crosschain use of the wrapper contract.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lan-o0r1y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

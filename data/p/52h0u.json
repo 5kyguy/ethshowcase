@@ -1,0 +1,21 @@
+{
+  "id": "52h0u",
+  "slug": "guardiankit",
+  "title": "GuardianKit",
+  "tagline": "AI Wallet Guardians, owned as ERC-7857 iNFTs on 0G Chain, with persistent memory.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/52h0u/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00SM01jmbkP8lxUsKuhf8P3biDNU6c3vgfpe8vkFcwK1g/high.mp4",
+  "source_url": "https://github.com/aouadev/guardiankit",
+  "finalist": false,
+  "description": "GuardianKit lets any user mint a personal AI security agent (a \"Sentinel\") that analyzes blockchain transactions before they are signed. Each Sentinel is an ERC-7857 intelligent NFT deployed on 0G Chain, with its system prompt, knowledge base, and full analysis history stored as encrypted memory on 0G Storage.\n\nThe agent classifies transactions as SAFE, WARNING, or DANGER, with structured reasoning and a confidence score. Four transaction types are supported: native transfers, token transfers, token approvals, and contract interactions. Every analysis is appended to the Sentinel's persistent memory, building a verifiable on-chain track record that grows with use.\n\nMost AI agents today are SaaS products. You don't own them, you rent them. ERC-7857 changes that: the intelligence and memory are sealed on 0G Storage, the ownership is enforced on 0G Chain, and the whole package is transferable like any NFT. Your Sentinel travels with your wallet, not with a vendor.\n\nBuilt as a defensive guardian for the average crypto user, who loses billions every year not to hacks but to malicious approvals signed without understanding what they grant.",
+  "how_its_made": "GuardianKit is a monorepo with three layers.\n\nSmart contract: a Solidity ERC-7857 implementation deployed on 0G Galileo testnet (chainId 16602). The GuardianINFT contract handles minting, ownership, and stores a memoryHash pointing to the agent's encrypted blob on 0G Storage. A MockOracle contract simulates the sealed-key authorization flow defined by the ERC-7857 standard.\n\nBackend: a NestJS application with modular architecture. Key modules include og-storage (handles upload/download of agent memory blobs), inft (mint, read, analyze endpoints), llm (router with OpenAI gpt-4o-mini as primary provider and a 0G Compute stub ready for integration), and transaction-enricher (uses Etherscan API to fetch contract metadata and verify spender contracts on Ethereum mainnet during analysis).\n\nFrontend: Vue 3 with Vite, Metamask integration via ethers.js. The UI exposes two main views: My Sentinels (list of owned and tracked iNFTs with live stats) and Analyze (transaction analysis form with three pre-built example scenarios for testing).\n\nPersistent memory flow: when a Sentinel is minted, its initial state (system prompt, knowledge base of safe contracts and known scams, empty history) is uploaded to 0G Storage. The returned root hash is stored on-chain as the iNFT's memoryHash. Every subsequent analysis triggers a download of the current memory, an LLM inference call with that context, and a re-upload of the updated memory with the new analysis appended. The memoryHash is updated on-chain.\n\nThe structured prompt was specifically engineered to prevent hallucination: the agent is constrained to only reason from fields explicitly provided in the input, with strict rules against inventing information about spender age, reputation, or history that isn't in the knowledge base.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/guardiankit-52h0u",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

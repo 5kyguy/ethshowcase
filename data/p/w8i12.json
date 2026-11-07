@@ -1,0 +1,42 @@
+{
+  "id": "w8i12",
+  "slug": "superchain-deployer",
+  "title": "Superchain Deployer",
+  "tagline": " A hardhat plugin that allows developers to deploy contracts to exact same addresses and verify them on multiple networks (superchain or any EVM compatible network) with few commands. ",
+  "event": {
+    "slug": "superhack",
+    "name": "Superhack",
+    "start_time": "2023-08-04T19:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w8i12/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tZqoJNAJghb02qET2FcTXsM02DRRnJS9qSXKSU01qFkpbU/high.mp4",
+  "demo_url": "https://github.com/onuruci/hardhat-superchain-deploy",
+  "source_url": "https://github.com/onuruci/hardhat-superchain-deploy",
+  "prizes": [
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🚀 Optimism — 🥈 Best Superchain Dev Tools & Infra",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "Base",
+      "sponsor_id": "h5ps8",
+      "placement": "🛠️ Base — Base Nodes",
+      "title": "Base"
+    },
+    {
+      "sponsor": "Mode Network",
+      "sponsor_id": "0vx1d",
+      "placement": "🤝 Mode — Best Developer",
+      "title": "Mode"
+    }
+  ],
+  "finalist": false,
+  "description": "Superchain Deployer is a hardhat plugin that allows developers to deploy contracts to exact same addresses and verify them on multiple networks (superchain or any EVM compatible network) with few commands. \n\nUsing same addresses is needed when it comes to building cross chain dApps. This prevents confusion both for developers and users. The best approach for deploying a contract on multiple networks is to generate a fresh EOA and fund it on multiple networks, then run deploy script on all networks. Superchain Deployer handles this process.\n\n*With \"generate-deployer\" it generates a deployer EOA account, asks for a password, encypts and saves .json file. This aacount can later be used by any browser wallet application (ex. Metamask). \n\n*Developers can fund this deployer account with \"fund-deployer\" on multiple networks. This command takes contract and constructor arguments as input, calculates the gas needed to make deployment transaction succeed for sure and sends it to deployer account. For this to work devs need to define a funder account on config file.\n\n*Later using \"superchain-deploy\" devs can deploy their contracts to all configured networks. This takes the usual deployment script written by the dev and runs it on wanted networks.\n\n*After the deployment they can verify their contracts on all explorers with `superchain-verify` command.\n\nAdditionally there are \"check-balances\" and \"get-private-key\" commands. Devs write their usual deployment script and later run commands in this project to deploy on multiple networks. With this approach it becomes as easy to deploy a dApp working on multiple chains as it is to deploy dApps working on a single network.",
+  "how_its_made": "This project uses Hardhat Runtime Environment for deploying and verifying smart contracts. It uses ethers library for estimating deployment gas, sending funds, checking balances, generating accounts and encrypting/decrypting them. It is a cli tool and uses ‘chalk’ and ‘prompt-sync’ for user interaction (asking for password, logs, error messages etc..).\n\nIt was somewhat hard to change the network on HRE during runtime. For sending funds it was not a problem. Since sending funds was not involving HRE. But for deployment and verifying tasks need to change network constantly and do the same operatiın on each configured network. Directly manipulating hre.network was not working so I took another approach using hre.hardhatArguments to change the network for deploying and running terminal commands with ‘child_process’ for verifying.\n\nTo calculate deployment cost I needed several information first how much gas it would take to make the transaction and the gas price. So I used ethers library, took contract and constructor arguments as inputs, generated a deployment transaction and extracted gas estimation from this data. From the provider of the network to deploy called fee data to get current gas. Then in order for deployment transactions to succeed for sure I’ve declared 1.5 times of the deployment cost to be sent from dev’s funder account to deployer account.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/superchain-deployer-w8i12",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

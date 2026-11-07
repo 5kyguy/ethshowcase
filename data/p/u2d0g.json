@@ -1,0 +1,35 @@
+{
+  "id": "u2d0g",
+  "slug": "zkfusion",
+  "title": "zkFusion",
+  "tagline": "ZK-powered Dutch auctions for fast, private, provable intent settlement - Extension for 1inch LOP",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/u2d0g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RhrS3rwNxNCUR7QKRCB3g69aGoZKOATPQl6lEPop5jw/high.mp4",
+  "source_url": "https://github.com/hamiha70/zkFusion",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "2nd place",
+      "title": "Expand Limit Order Protocol"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 Unite DeFi 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "## Description\n\n**zkFusion** replaces the on-chain Dutch auction used in 1inch Fusion with an zero knowlege based approach which does not rely on downcounting by block but provides the same privacy and guarantees as an onchain Dutch Auction\n\n### Problem\nIn Fusion and Fusion+, 1inch currently runs a descending-price Dutch auction for every intent (maker order). This auction happens on-chain, and resolvers compete by waiting until the price falls far enough to bid. This creates three challenges:\n\n- ⚡️ **Latency**: Block time limits the speed of the auction.\n- 🔒 **Privacy**: Bids are visible or implied through transactions.\n- ❌ **Inefficiency**: Higher-value bids may be missed due to timing or congestion.\n\n### Our Solution: zkFusion\n\n- ✔️ Bidders submit **hashed commitments** to their bid (price, amount, nonce) to an on-chain contract created by a known factory.\n- ✔️ An **off-chain auction runner** collects revealed bids and selects the optimal set (e.g., highest price or maximum fill).\n- ✔️ The runner generates a **ZK proof** that:\n  - All revealed bids match prior on-chain commitments.\n  - The selected bids were the best available.\n  - No better bids were omitted.\n- ✔️ An **on-chain verifier contract**:\n  - Verifies the proof using Groth16 (via Circom/SnarkJS).\n  - Confirms that each winning bidder’s commitment matches their `msg.sender`.\n  - Validates the commitment contract came from the known **factory**.\n  - Triggers a call to `fillOrder()` in the 1inch Limit Order Protocol to settle the trade.\n\nThis architecture matches the security guarantees of on-chain Dutch auctions but executes faster, more privately, and more flexibly.\n\nWe extend the LOP by the `IAmountGetter` interface",
+  "how_its_made": "## How it's made\n\n**zkFusion** is implemented using zero-knowledge circuits (Circom) and Solidity smart contracts, integrating with the 1inch Limit Order Protocol (LOP).\n\n### Technical Stack\n\n- **Circom + SnarkJS (Groth16)**: ZK circuit proves that selected bids are optimal, valid, and committed.\n- **Solidity** smart contracts:\n  - `CommitmentFactory`: Deploys `BidCommitment` contracts, tracks origins.\n  - `BidCommitment`: Stores bidder-submitted Poseidon hashes of their bids, tied to `msg.sender`.\n  - `zkFusionExecutor`: On-chain verifier and executor. Checks proof, validates commitments, calls LOP's `fillOrder()`.\n- **Hardhat + Ethers.js**: For deployment, simulation, and bid reveal tooling.\n- **1inch LOP Integration**: Uses standard LOP order format for maker intents. `fillOrder()` is triggered from verifier contract post-proof.\n\n### Architecture\n\n1. **Commit Phase**: Bidders submit commitments on-chain. Only the real bidder (via `msg.sender`) can submit a hash.\n2. **Reveal & Proving Phase**: After bidding closes, the auction runner collects revealed bids, checks them, and generates a proof that:\n   - Bids match commitments\n   - The chosen set is optimal for the maker\n3. **Verification & Settlement**: The ZK proof is submitted on-chain. The verifier:\n   - Validates the proof\n   - Checks the commitment contract address came from the known factory\n   - Verifies each winner’s bid matches the on-chain commitment\n   - Executes the trade via `fillOrder()` from LOP\n\n### Design Innovations\n\n- ✅ **Decouples from block time**: Unlike Fusion’s price decay, this sealed-bid model is instantaneous once proof is ready.\n- ✅ **No information leakage**: Only winning bids are revealed. All others remain private.\n- ✅ **Trust-minimized**: Even though the auction runner sees revealed bids, they can't omit better ones without being caught.\n- ✅ **Composable**: Could extend to Fusion+ HTLC setup with minor changes, since only the Dutch auction is replaced.\n\n### Security Model\n\n- All bids are tied to `msg.sender`; the auction runner cannot forge entries.\n- Only commitment contracts created via a known factory are accepted by the verifier.\n- All on-chain checks are enforced before a fill is triggered.\n- ZK proof binds the commitment contract, maker order, and winning selection.\n\n### Future Enhancements\n\n- 🌲 **Merkle tree commitments** for larger bidder sets.\n- 🔐 **Encrypted bid commitments** for privacy even from the auction runner.\n- 🌐 **Cross-chain compatibility** via HTLC extensions (zkFusion+).\n- 📦 **Universal proof verifier** contract for multiple auction formats.\n\nKey documents from the repo are:\n- Log from demo run: https://github.com/hamiha70/zkFusion/blob/main/demo-output-2025-08-03T09-59-18-260Z.md\n- Cirum Circuit: https://github.com/hamiha70/zkFusion/blob/main/circuits/zkDutchAuction.circom\n- Demo Script:\nhttps://github.com/hamiha70/zkFusion/blob/main/demo-showcase.js\n- React Front end: https://github.com/hamiha70/zkFusion/tree/main/frontend\n- Onchain Contracts: 5 conracts deployed: https://github.com/hamiha70/zkFusion/tree/main/contracts\n- A lot of testing at circuit, smart contract, integration and orchestration level:\nhttps://github.com/hamiha70/zkFusion/tree/main/test-circuits\nhttps://github.com/hamiha70/zkFusion/tree/main/test",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkfusion-u2d0g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

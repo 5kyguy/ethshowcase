@@ -1,0 +1,27 @@
+{
+  "id": "71cie",
+  "slug": "nacre",
+  "title": "nacre",
+  "tagline": "Your Uniswap range can go quiet. Nacre puts a funded floor under your trading fees.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/71cie/banner/default.jpg",
+  "video_url": "https://stream.mux.com/i9wqGmeFsDHqTMx6pawBeEhvV6VFbnS2RhOEjmQeBv4/high.mp4",
+  "demo_url": "https://nacre.lol/",
+  "source_url": "https://github.com/Nishu0/nacre",
+  "finalist": false,
+  "description": "The APY looked great when you deposited. Then the price moved.\n\nConcentrated liquidity gives LPs control over where their capital works, but very little certainty about what it earns. A position can spend days outside its range, generating no trading fees.\nNacre lets LPs buy protection against that fee shortfall. Underwriters fund price ranges and set the premium, coverage duration and maximum payout per position. LPs choose an available range, supply liquidity and purchase coverage backed by that capital.\n\nSay you protect 10 USDC of fees over 30 days. If your position earns 6 USDC in eligible fees, coverage pays the missing 4 USDC. If it earns more than 10, there is no payout. The premium is the cost of buying that protection.\n\nUnderwriters earn premiums for taking the other side. Their capital pays the claims, so pricing badly has real consequences. Each bid has limited capital and a fixed number of spots. Once those are taken, more coverage cannot be sold against the same capacity.\n\nNacre protects fee income. Token price losses and impermanent loss remain with the LP. The current prototype runs on Base Sepolia with test assets.",
+  "how_its_made": "Nacre combines Uniswap v4 positions with a custom underwriting application built on 1inch Aqua.\nUniswap v4 provides the liquidity positions, pool state and fee collection. Our Solidity contracts bind coverage to a specific position NFT, price range, fee target and duration. The policy vault holds the NFT during coverage so the LP cannot remove liquidity or change the insured position after buying protection.\n\nAt activation, the vault collects and forwards any existing fees. At settlement, it collects the position’s fees again, values both tokens through the configured oracle and calculates the eligible shortfall. Payouts cannot exceed the policy cap.\n\n1inch Aqua handles the underwriting quote allocation and execution. Funded offer contracts publish quotes through Aqua’s ship function. When an LP buys coverage, our Aqua application pulls the full payout collateral into the policy vault and transfers the premium to the selected offer. An active policy therefore has its maximum payout reserved.\n\nOne tricky part was letting investors choose narrower ranges inside an underwriter’s funded range without multiplying the available backing. Those positions share the bid’s capital and spot limit. The contracts enforce both when coverage is purchased.\n\nThe frontend uses Next.js, React and viem. A Bun and Fastify API reads contract state and stores registered positions in SQLite. Historical fee data powers pricing suggestions and profit scenarios, while settlement uses fees collected from the actual position. Foundry fork tests exercise the integration against deployed Uniswap and Aqua contracts.",
+  "auto_summary": "A DeFi insurance prototype that underwrites fee shortfall protection for Uniswap v4 liquidity positions using custom Solidity contracts and a web interface.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/nacre-71cie",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

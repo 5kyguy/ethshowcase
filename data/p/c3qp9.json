@@ -1,0 +1,29 @@
+{
+  "id": "c3qp9",
+  "slug": "aggregate-together",
+  "title": "Aggregate Together",
+  "tagline": "A set of smart contracts and modules to bring lower gas costs for multisig wallets on EVM rollups via aggregated BLS signatures",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c3qp9/banner/default.jpg",
+  "demo_url": "https://pitch.com/public/948d7077-a6f9-4af7-8b15-baac5df7c0fd",
+  "source_url": "https://github.com/Sednaoui/bls-aggregator-for-multisig-wallets",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🔀 Polygon — Best use of zkEVM",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "If you have used a multisig wallet, you might have probably noticed the higher gas fees that you paid in comparison to a regular EOA. We have created a set of smart contracts that implements a BLS-based signature aggregator, to validate aggregated signatures of multisig wallets.\n\nWe designed two implementation: \n\n1. An Aggregation Auth Module for Safe\n2. ERC-4337 BLS multisig signature aggregator\n\n\n**Aggregation Auth Module for Safe**\nWallet:\n1.  Aggregate all owner signatures\n2. Generate bitmask\n3. Call Aggregation Auth Module\n\nModule: \nInstead of taking a signature field, it takes an aggregated signature. The module then calls the validateTxSignature on the aggregator contract with the following arguments: list of public address, aggregated signature, message hash\n\n**ERC-4337 BLS multi-sig aggregator**\n\nBackground:\nERC-4337 Account Abstraction introduces a singleton contract called the entrypoint to execute bundles of UserOperations. Bundlers/Clients whitelist the supported entrypoint.\n\n**Signature Aggregation for multi-owner accounts**\nMultisig Account: \n1. The account setup its aggregator\n2. The owners of the account are BLS owners\n3. The rest of the account implementation is exactly the same\n4. The wallet aggregate the signatures of different owners into a single aggregated signature\n\nBundler:\n1. Received multiple aggregated signatures from different multisig accounts\n2. Take the aggregated signature of each user operaton\n3. Aggregate the aggregated signature offchain\n4. Output: Aggregated signature ",
+  "how_its_made": "This project uses BLS signatures to efficiently reduce callData cost to verify multisig wallet signatures. We have mainly built on top of ERC-4337 Account Abstraction and Safe Contracts. We deployed our contracts on optimistic rollups and zk-rollups where calldata cost is the main cost reduction. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aggregate-together-c3qp9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

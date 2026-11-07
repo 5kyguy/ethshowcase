@@ -1,0 +1,26 @@
+{
+  "id": "broif",
+  "slug": "doublequote",
+  "title": "DoubleQuote",
+  "tagline": "The same USDC quotes in two order books at once. Whichever fires first atomically unwinds the other.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/broif/banner/default.jpg",
+  "video_url": "https://stream.mux.com/L01zEQ9I3toHloIDliKKTtnoifdIjulz4q4W1UyszY9Q/high.mp4",
+  "source_url": "https://github.com/Bouananhich/doubleQuote",
+  "finalist": false,
+  "description": "A Morpho Midnight maker buy-callback that parks a lender's capital in a Uniswap LP position instead of leaving it idle in a lending market, and unwinds exactly as much of it as is needed, just-in-time, when a fixed-rate offer is taken.\n\nToday a Midnight maker's capital is committed the moment they want to quote. doubleQuote removes that: the maker signs an offer that locks nothing, keeps earning Uniswap LP fees while it sits in the book, and only gives up liquidity at the instant a loan is actually filled — for exactly the size filled.",
+  "how_its_made": "Stack: Solidity 0.8.34, Foundry, deployed and verified on Base. Uniswap v3 and v4 adapters, Midnight for fixed-rate lending, all bound through interfaces against already-deployed contracts — 207 tests, every one of them a fork of Base at a pinned block. Nothing is mocked.\n\nThe hard part is quoting. Midnight asks a maker \"how much can you source?\" through buyerAssetsBound, an external view reached by eth_call. So we had to model a burn, a swap and a slippage check inside a view — and no official Uniswap quoter is view-callable, because every one of them is simulate-and-revert. QuoterV2 and V4Quoter both work by executing a swap and reading the revert payload, which a view cannot do. So we reimplemented the concentrated-liquidity swap loop and the tick-book walk as 812 lines of pure math (SourcingMathLib + TickBookLib), fed by storage getters. TickBitmap.nextInitializedTickWithinOneWord takes mapping storage self, so it's unusable off-storage too — the bitmap walk is ours.\n\nThe bound is found by bisection on liquidity burnt, capped at 0.5 of active liquidity — above that the sourced amount stops being monotone and bisection is silently wrong.\n\nPark, route and reference are three independent venues. Where the position sits, where the residual swap executes, where the price is read. Parking is permissionless; routing and referencing are not — they're constructor immutables, unreachable through the maker-signed callbackData. That column is the safety envelope. The price reference is a 1800s v3 observe() TWAP, and never read from a hook on the parked pool, since a hook owner profits from breaking the feed.\n\nv4 does the whole unwind inside one unlock — burn, swap, settle, take — using flash accounting, so no intermediate token ever touches the callback.\n\nNotable hack: our foundry.toml scopes via_ir to Midnight's ratifier path to keep one compiler profile. It doesn't work. The deploy script reaches HashLib through a digest helper, so the whole unit compiles under the IR profile and every deployed contract is the IR build — confirmed by diffing on-chain runtime code against both artifacts with immutable slots masked: 14,225 bytes vs the default's 15,485. We found it during deployment, not before.\n\nEvery sharp edge like that went into FRICTION.log as it happened, and FEEDBACK.md is 19 findings edited down from it — each with a file, a line, and a time cost.",
+  "auto_summary": "Solidity contracts let a Midnight lender source loan liquidity from Uniswap v3 or v4 LP positions at fill time.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/doublequote-broif",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

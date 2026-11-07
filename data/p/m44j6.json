@@ -1,0 +1,22 @@
+{
+  "id": "m44j6",
+  "slug": "streamvault",
+  "title": "StreamVault",
+  "tagline": "StreamVault: real-time USDC payroll streams—fund, claim instantly, with yield-ready buffer control.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m44j6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/F1Yz7kzwJdsRVrdhg5wpwqeNlzg8idVzCFwFBiTbsxM/high.mp4",
+  "demo_url": "https://hack-money2026-l30rydg8v-anderarteagacontijoch-9176s-projects.vercel.app/",
+  "source_url": "https://github.com/ander-deran-arteaga/HackMoney2026",
+  "finalist": false,
+  "description": "StreamVault is a smart-contract payment streaming vault built around USDC that lets a payer create a stream to a payee with a per-second rate and a defined start/end window. The payer can fund the stream over time, and the payee can claim at any moment the amount that has accrued so far (claimed ≤ accrued ≤ funded is enforced). Streams can be canceled by the payer, which snaps the end time to “now”, stops further accrual, preserves what the payee has earned, and refunds any unaccrued remainder back to the payer. The vault exposes clear events (StreamCreated, StreamFunded, StreamClaimed, StreamCanceled, StreamRefunded, StreamFinished/Reopened) so the UI can index history, show live claimable balances, and verify actions on-chain.\n\nOn top of streaming, StreamVault includes buffer and rebalancing primitives to keep enough USDC liquid to satisfy claims, with an optional yield configuration (teller + USYC) for future “invest surplus / redeem when needed” behavior. Rebalance computes the buffer target based on total active stream rates and a configurable bufferDays window, emits diagnostics, and (when enabled and configured) can deposit or redeem via a yield adapter. The project ships with a Next.js + wagmi UI to connect wallets, select a deployed vault, create/fund streams, and claim as a payee, making real-time payroll, subscriptions, and milestone-based payments simple and transparent.",
+  "how_its_made": "I built StreamVault as a Foundry-first Solidity system with a Next.js dApp on top. The core is a Solidity 0.8.24 contract that stores per-stream state (payer, payee, start/end, rate, funded/claimed) and enforces the key invariants (claimed ≤ accrued ≤ funded). I handle USDC transfers with OpenZeppelin SafeERC20, and I protect the critical flows (fund/claim/cancel/rebalance) with ReentrancyGuard + Pausable + Ownable2Step. I used Foundry (forge build/test, cast for live RPC inspection) to iterate fast, validate edge cases, and verify events and receipts on Arc testnet.\n\nOn the frontend I used Next.js App Router with wagmi + viem to connect wallets, read contract state (streams, claimable/accrued, balances), and send transactions (createStream, fund, claim, cancel). The UI waits for receipts and listens to StreamVault events so it updates only after confirmations and keeps a clean on-chain audit trail. I styled everything with Tailwind and structured the app into small components (connect, vault selector, stream forms, status panels) so it’s easy to extend.\n\nI also added optional yield “plumbing” in the contract via a Teller-style adapter (deposit/redeem into USYC) so the vault can later rebalance liquidity: keep a safety buffer for claims while investing surplus; redeem when liquidity is needed. The most hacky-but-useful part was wiring cast + event logs + UI watchers together so I could debug slow confirmations and “missing emits” end-to-end on a real testnet, making the app behave like a real-time payroll/payment rail instead of a demo.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/streamvault-m44j6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

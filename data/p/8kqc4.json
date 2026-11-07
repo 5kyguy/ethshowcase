@@ -1,0 +1,34 @@
+{
+  "id": "8kqc4",
+  "slug": "mintcondition",
+  "title": "MintCondition",
+  "tagline": "Multi-Agent-powered NFT valuations with transparent confidence",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8kqc4/banner/default.jpg",
+  "source_url": "https://github.com/lindsayzhng/ETH-2025",
+  "prizes": [
+    {
+      "sponsor": "Artificial Superintelligence Alliance",
+      "sponsor_id": "pjq8a",
+      "placement": "2nd place",
+      "title": "Best use of Artificial Superintelligence Alliance"
+    },
+    {
+      "sponsor": "OpenSea",
+      "sponsor_id": "e8ob5",
+      "placement": "2nd place",
+      "title": "Best AI Experience with OpenSea MCP"
+    }
+  ],
+  "finalist": true,
+  "description": "An AI-assisted NFT appraisal tool that lets collectors, traders, and builders paste a contract address to instantly see a fair-value estimate in ETH with a clear confidence score—and the reasons behind it. It combines model-backed pricing with live market context (floor, averages, recent sales, 24-hour volume) and trait intelligence that normalizes rarity and surfaces an overall rarity score. Results are transparent: you can see each contributing model’s suggested value, weight, and explanation. We use multiple agents—ChatGPT, Claude, and Gemini—and a consensus agent (ASI:one Agentic) with “thinking” enabled to consolidate their reasoning streams and deliver the most accurate, calibrated prediction. This tool is particularly useful to obtain appraisals for NFTs that have little to no transaction history. The interface is clean and focused, with a collapsible sidebar for navigation and an appraisal view that keeps the summary card, traits, and model breakdown neatly separated so you can understand value at a glance.",
+  "how_its_made": "On the product side, the app is a focused NFT valuer: you paste a contract address and get a fair-value price in ETH with a confidence score, plus trait rarity, market context (floor, averages, recent sales/volume), and a transparent model breakdown. The UI is React with a clean Tailwind layout. We use wagmi to link the user’s wallet (for future features like portfolio and listing guidance), and Supabase as our Postgres + auth layer to store appraisals, watchlists, and session metadata with RLS for per-user privacy. For data, we pull collection/item metadata and stats from OpenSea; our agent code integrates with the OpenSea MCP streaming endpoint using Bearer auth and specific tools like search_collections, get_item, get_collection, and trending endpoints, which gives us reliable floor/trait context and live collection information (connection & auth details and available tools are enumerated in our agent README). \n \nUnder the hood, pricing is handled by a multi-agent system. We run individual pricing agents for ChatGPT (OpenAI), Claude (Anthropic), and Gemini; each returns a structured price, reasoning, and confidence. These agents communicate over a shared protocol (uAgents) that defines request/response models—NftPricingRequest, NftPricingResponse, and consensus message types—so every response includes fields like price_eth, confidence, traits_analyzed, and market_data. \n\n We then use a consensus agent (we call it ASI-1:colon1) with “thinking” enabled to consolidate their reasoning streams and produce a final price + confidence; our test harness demonstrates the orchestrated flow (consensus → three pricing agents → MeTTa/consensus reasoning → report) and explicitly names OpenAI/Anthropic/Gemini participants and the ASI/MeTTa consensus details. \n\nEach pricing agent can also operate directly against OpenSea via MCP. The OpenAI-backed agent uses GPT with native MCP tools to parse the user query (“Price {collection} #{token}”), fetch item + trait metadata, compare trait floors, and produce a single fair-value price with structured reasoning; the code shows the prompt shape and tool wiring (server URL, auth header) used to pull real-time OpenSea data. \n \nOn the “how it benefits us” front, MCP gives us consistent access to collection stats, similar items, and traits, which we then distill into conservative/fair/optimistic bands or a single fair price with rationale—capabilities outlined in the agent README’s core features and pricing methodology.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mintcondition-8kqc4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

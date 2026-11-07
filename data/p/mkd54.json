@@ -1,0 +1,30 @@
+{
+  "id": "mkd54",
+  "slug": "crossliquid",
+  "title": "CrossLiquid",
+  "tagline": "Agent-managed cross-chain liquidity for earning fees on USDC-ETH pairs on Uniswap v4",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mkd54/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DoOiaDcA00a4kJVoeFpzH027flgW00teGnCW3lHaNVvTeA/high.mp4",
+  "demo_url": "https://crossliquid.duckdns.org/",
+  "source_url": "https://github.com/mathijs81/crossliquid",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Uniswap v4 Agentic Finance"
+    }
+  ],
+  "finalist": true,
+  "description": "CrossLiquid is agent-managed, cross-chain liquidity for earning fees on USDC-ETH pairs across Uniswap v4 pools.                                   \n   \nConcentrated liquidity generates great yield but comes with amplified impermanent loss and requires constant rebalancing. Also, the best opportunities shift between chains. Managing this manually is a hassle.\n\nCrossLiquid's off-chain agent automatically manages and rebalances positions across multiple L2s. It scores opportunities per chain (based on yield, volatility, gas costs) and moves funds via li.fi to the highest-yielding chain.\n\nUsers deposit ETH into a vault on one chain (Base) and receive $CLQ tokens. After that the agent handles everything: swapping for USDC, bridging, adding to uniswap v4 and rebalancing if necessary. \n\nA SvelteKit frontend shows real-time scores and position status.",
+  "how_its_made": "Core technologies:\n\n- Foundry for Solidity contracts, extensively using openzeppelin\n  - Vault contract for swapping ETH for \\$CLQ tokens\n  - PositionManager contract for managing the funds, deploying and retrieving from uniswap v4 pools and bridging across chains\n  - Hook for uniswap v4 to allow dynamic fees\n- Typescript on node.js for the offchain agent, using SQLite for data persistence and viem for interacting with the blockchain\n- SvelteKit for the frontend, with viem and wagmi. DaisyUI for the UI.\n\nUniswap V4\n\nThis was my first time working with Uniswap V4. It took some time getting familiar with the PoolManager and doing everything as part of the unlock callback. It also took some time getting the local setup with the full v4 stack to work, but after that was done it worked great.\n\nLi.Fi integration\n\nIt was a bit harder because I couldn't test it locally or on a testnet. I tested everything thoroughly up to the point of sending a transaction, and then deployed to Base & Unichain to make it all work, and there were no surprises then.\n\nAgent logic\n\nThe typescript agent has a loop for executing actions that are needed for rebalancing and getting funds from the vault to the PositionManager. It tracks these in-flight actions and makes sure there are not multiple actions affecting the same chain.\n\nIt also has a 'stats' loop where it fetches univ4 pool data every 30s. It stores fee growth, liquidity and current price in a sqlite database. That's how we can calculate the \"Liquidity Opportunity Score\" by looking at recent pool APR, volatility and we also factor in gas costs.\n\n(Interestingly the volatility is not so useful to compare between chains because all chains are nearly 100% correlated, even during the high volatility events of last week).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/crossliquid-mkd54",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

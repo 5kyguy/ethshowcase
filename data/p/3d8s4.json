@@ -1,0 +1,36 @@
+{
+  "id": "3d8s4",
+  "slug": "slise",
+  "title": "Slise",
+  "tagline": "Slise is an NFT mint list analytics tool for web3 creators. We help creators to understand their audience, find opportunities for collaborations, predict sell-out, and make data-driven decisions, giving them full control over the collection launch.",
+  "event": {
+    "slug": "hackfs2022",
+    "name": "HackFS 2022",
+    "start_time": "2022-07-08T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3d8s4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/d9IQtvJnN002ahzH102JGc61lFrwmb2DbGnAJw01rAr202c/high.mp4",
+  "demo_url": "https://www.slise.xyz/",
+  "source_url": "https://github.com/slise-org",
+  "prizes": [
+    {
+      "sponsor": "NFTPort",
+      "sponsor_id": "i90pd",
+      "placement": "🏊‍♂️ NFTPort — Pool Prize",
+      "title": "NFTPort"
+    },
+    {
+      "sponsor": "Covalent",
+      "sponsor_id": "f7o0p",
+      "placement": "🥈 Covalent — Best Use",
+      "title": "Covalent"
+    }
+  ],
+  "finalist": false,
+  "description": "Problem: \nDespite all the publicity of on-chain data, the marketing and product management in web3-projects are surprisingly uninformed and are built on intuition and common practices. Because of that, creators waste their time and budget on growth efforts that do not return the expected results. Particularly painful it is for token-based projects in the growth stage, when the token is not yet on the market, and creators can just guess who will be the future holders.\n\nOur solution: \nWe build a user analytics platform to empower web3 project creators. Particularly, we concentrate on pre-mint stage and allow creators analyze their NFT mint list users as well as their on-chain activity. We use ML to surface insights on who are their community's most influential members, connect their web3 and web2 identities, find new opportunities for collaborations, create lookalike audiences for targeting, filter bots, and more, to give creators full control over their token-project launch or NFT mint.\n\nWhat is implemented in the submission:\n- The landing page (slise.xyz) and the app (app.slise.xyz) with demo collections and mint list upload functionality, working on Ethereum. \n- \"Dashboard\" page with a short preview of wallets and mutual holders tables and information on Whales and BC holders (bots and social are not working yet).\n- Sell-out prediction module where given \"Mint price\" and \"Supply\" the probability of sell-out is predicted for a given mint list.\n- \"Mint list\" page with a table view of individual wallets in the mint list and their features.\n- \"Mutual holders\" page with a list of collections with the largest interest of mutual holders as well as their stats.\n- \"ML targeting\" page with data cloud visualization and \"export to a file\" functionality of a list of new wallets similar to the mint list wallets by a given threshold. \n- bots detecting, multi-wallets, and \"social activity\" pages are presented for demonstration of future functionality only and hasn't been implemented yet (2 weeks, c'mon).\n[[ There is a known bug with an empty name showing for new collections, just click on the empty row in the dropdown, the data will be displayed ]]\n\nWe really pushed our limits to make it possible and thank the organizers for this opportunity. \n\n\"Mint out or die trying\" (c) Slise",
+  "how_its_made": "The Slise project was developed and uses a variety of APIs and algorithms to build analytics on collections and wallets. We used Node.js + TypeScript as the main backend language and also: PostgreSQL as the main database with Prisma ORM, Redis for caching, and Amazon S3 for file storage. Deploying to Heroku as a container. Github for version control.\n\nThe frontend of the app was made using JavaScript, Next.js, MUI, HTML & CSS, and deployed to Vercel. We used Charts.js for dashboards, axios for communication with backend, and localstorage as frontend storage.\n\nWe build REST API for communication with Frontend according to the Open API specification. \n\nTo work with the blockchain, we used native web3.js, Bitquery, Moralis, NFT Port, Covalent.\nweb3.js: getting the current Ethereum exchange rate\nCovalent:  getting collection holders\nNFT Port: fetching collection info (rate, logo, supply, transaction stats) https://api.nftport.xyz/v0/transactions/, fetching NFTs https://api.nftport.xyz/v0/nfts/\nBitquery: fetching user token balances by address\nMoralis: getting user balances Moralis.Web3API.account.getNativeBalance\n\nSince we have to process a large amount of data, we have divided the whitelist parsing into 2 asynchronous stages:\n\n1. After the user uploads the whitelist, we save it and create a parsing task for the queue\n2. In the background process, we receive a task with wallet data from a file and asynchronously process each user: csv parsing in loop → get balance for user & get tokens for user → storing in our database\n\nOur ML service was written and python and deployed through FastAPI. As of submission date we only chose to tackle 2 big tasks (sell-out prediction and targeting) while bot detection and multi-wallet require much longer R&D\n- The first task was approached through linear regression trained on public data of NFT collections and implemented in scipy and sklearn\n- For the targeting wallets were encoded using OH encoding based on their NFT holdings and compared using cdist.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/slise-3d8s4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "whn84",
+  "slug": "oryn-finance",
+  "title": "Oryn Finance",
+  "tagline": "Borrow stablecoins with fixed-rate loans using your Uniswap V3 NFT positions as collateral.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/whn84/banner/default.jpg",
+  "video_url": "https://stream.mux.com/oobgHy02vs004rl15007xirjKs7FUavADJr1CD4300RLZcA/high.mp4",
+  "demo_url": "https://oryn-fi.vercel.app/",
+  "source_url": "https://github.com/panugothrakesh/oryn.fi",
+  "prizes": [
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "1st place",
+      "title": "Most Innovative use of Pyth pull oracle (Price Feeds)"
+    }
+  ],
+  "finalist": true,
+  "description": "Overview\n\nThis project is a Collateralized Debt Position (CDP) protocol that allows users to deposit Uniswap V3 position NFTs as collateral and borrow stablecoins against them. By unlocking the value of liquidity positions, users can access liquidity without having to close their Uniswap positions.\n\nHow It Works : \n\nCollateralization : \nUsers deposit their Uniswap V3 liquidity position NFT into the protocol.\nThe system tracks the NFT, its token ID, current value, and associated pool details.\nUnclaimed fees from the NFT are also monitored as part of the collateral’s value.\n\nBorrowing : \nUsers can borrow a protocol-issued stablecoin against the NFT collateral.\nBorrowing power is calculated based on the USD value of the position (sourced via on-demand queries and Coingecko for prices).\nA fixed interest rate (5%) applies to borrowed amounts.\n\nRepayment : \nUsers can repay the borrowed stablecoin at any time.\nUpon repayment, the collateral NFT is released back to the user.\n\nRisk Management : \nThe system calculates health factors to determine collateral safety.\nIf the health factor drops below a threshold, the position can be liquidated.",
+  "how_its_made": "Architecture : \nThe protocol is primarily on-chain:\n\nSmart Contracts (Solidity):\nManage NFT collateral deposits (Uniswap V3/V4 positions).\nIssue stablecoins (oUSD) against collateral.\nTrack borrow balances, interest accrual, and repayments.\nHandle liquidations when health factors fall below thresholds.\nIntegrate Uniswap V4 hooks to automate NFT deposit and stablecoin minting when providing liquidity.\n\nOff-chain Pyth Updater :\nA lightweight service that fetches external token prices and submits them to the Pyth oracle.\nEnsures the on-chain price feeds used to calculate collateral USD values are up-to-date.\n\nData Sources : \nUniswap V3/V4 Position Manager Contract:\nFetch NFT ownership and metadata (token ID, liquidity, fee tier, token pair).\nQueries include positions(), collectableFees(), and pool state functions.\n\nPyth Price Oracle (On-chain) :\nProvides real-time USD prices for collateral valuation.\nOff-chain updater ensures these prices are refreshed continuously.\n\nBorrow Power Calculation :\nWhen a user deposits an NFT, the contract reads underlying token amounts and converts them to USD using Pyth prices.\nA collateral factor (e.g., 50%) determines the maximum borrowable oUSD.\nHealth factors are recalculated on-chain whenever price updates occur.\n\nFrontend : \nBuilt with React + TypeScript.\nConnects via MetaMask or WalletConnect.\nFetches NFT and borrow data directly from smart contracts.\n\nDisplays :\nNFT details (pool, fee tier, token amounts, unclaimed fees).\nCollateral USD value.\nBorrow limits, borrowed amounts, health factor.\nProgress indicators for deposit, borrow, and repay operations.\n\nHacky/Notable Solutions : \nFully on-chain MVP avoids needing a backend.\nOff-chain Pyth updater ensures accurate real-time USD valuations.\nUniswap V4 hooks allow automated liquidity provision → NFT deposit → oUSD minting in one seamless step.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/oryn-finance-whn84",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

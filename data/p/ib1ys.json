@@ -1,0 +1,21 @@
+{
+  "id": "ib1ys",
+  "slug": "myquantumkey",
+  "title": "MyQuantumKey",
+  "tagline": "Register a key that can be used in the quantum future to authenticate yourself",
+  "event": {
+    "slug": "singapore2024",
+    "name": "ETHGlobal Singapore",
+    "start_time": "2024-09-20T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ib1ys/banner/default.jpg",
+  "video_url": "https://stream.mux.com/stht5S01jQTyO2jQwB3FriErITilke4Nnw2eW01iK6gds/high.mp4",
+  "source_url": "https://github.com/tanteikg/myquantumkey",
+  "finalist": false,
+  "description": "In the future, quantum computers will compromise existing public key cryptosystems. This requires a migration of the cryptosystem which involves changing the cryptosystem and all the users’ public and private keys. How this migration will happen is still undecided.\n\nApplications such as blockchains use public key cryptography for user and transaction authentication. It also uses public key cryptography for user identification. E.g. The wallet address is the hash(public key). Currently, proof of ownership of a wallet address is achieved when the user creates a digital signature using the private key associated with the public key.\n\nWhen quantum computers come, users will lose the ability to prove this address ownership since attackers can also create the same digital signing proof. The project is to allow wallet owners to register a quantum-safe authentication key onchain (when it is still safe to do so) so that existing wallet owners can perform a proof of ownership in the future after the migration.\n\nWe will use ENS to store this key, and use MPC-in-the-head, a quantum-safe zero-knowledge proof to perform the proof generation and verification.\n\n\nAssumptions\n-\tCurrently, besides the wallet owner, no other persons/attackers can create a valid digital signature corresponding to the wallet address. This can be enforced by ENS.\n-\tA hash performed using SHA256 on a random secret pre-image values of size larger than 256 bits is resistant against quantum cryptanalysis.\n-\tThere exists a quantum-safe context-sensitive zero-knowledge proof system that wallet owners can use in the future to prove knowledge of the secret pre-image of a SHA256 hash. We will use MPC-in-the-head zero-knowledge proof system.\n",
+  "how_its_made": "The project will use ENS that supports the registration of key verification information by any wallet owner, and allow for the retrieval of this verification information in the future.\n\nSolution\n1)\tthink of a secret\n2)\tCreate a ENS TEXT record with key \"myquantumkey\" that stores the text which should be created based on Keccak256(Keccak256(secret)+walletaddress)\n3)\tCreate a ENS “myquantumkey” front-end client to support\n  a) Creation of the record:\n        - Input parameter is:\tsecret value \n        - Operation\n                •\tPerform SHA256(secret)\n                •\tCreate TEXT record in ENS\n  b) use of the record\n     - \tInput parameter is: ENS name, Secret\n      -\tOperation\n                •\tretrieve TEXT record\n                •\tif ZKProof = SHA256(Secret)+challenge // note that the zero-knowledge proof. needs to be quantum-safe\n                    o\tprint verified successfully\n\nThreat model\no\tAttacker attempts to perform an unauthorized record creation\n-\tNot possible since Attacker does not have wallet key to sign the transaction\no\tAttacker attempts to retrieve the secret from TEXT record\n-\tNot possible since Keccak256 cannot be reversed\no\tAttacker attempts to impersonate as wallet owner after using a quantum computer to find the wallet private key\n-\tNot possible since Attacker does not know the secret, and cannot present the zero-knowledge proof of the secret\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/myquantumkey-ib1ys",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

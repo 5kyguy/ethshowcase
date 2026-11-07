@@ -1,0 +1,35 @@
+{
+  "id": "z11ah",
+  "slug": "wamia",
+  "title": "Wamia",
+  "tagline": "A liquidity backstop for yield trading that stops unfair liquidations.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z11ah/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BJrA65ptmpSJduMQDB5zFYpmgDIwnaLkJ8b67L018e6A/high.mp4",
+  "demo_url": "https://wamia.vercel.app/",
+  "source_url": "https://github.com/HediKharouf0/Wamia",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "2nd place",
+      "title": "Build an Aqua App"
+    }
+  ],
+  "finalist": true,
+  "description": "Wamia is a standing liquidity backstop for Pendle's PT (yield trading) markets, built for 1inch's \"Build an Aqua App\" track. On Aug 25, 2026, an attacker forced Pendle's router to sell millions of PT reUSD by repeatedly buying YT, pushing PT price down about 3% in roughly 9 minutes. Morpho's 15 minute TWAP oracle followed that dip down, and borrowers who had done nothing wrong got liquidated. $37.35M in debt became eligible for liquidation across 20 positions, even though PT's actual value at maturity never changed.\n\nWamia addresses this by giving the market a bid that's always there. LPs ship idle capital (SY, Pendle's yield bearing wrapper token) to a Wamia strategy on 1inch Aqua, without locking it up. The strategy runs a pricing algorithm that reads live onchain Pendle, Curve and SY state on every trade and decides whether the current PT price looks like manipulation or a genuine repricing. When it judges a dip to be manipulation, it pays a small discount to fair value for PT; when the signals look more like a real depeg, a real loss in the vault's rate, or a real news driven move, the algorithm scales its discount down or stops quoting rather than absorbing the loss. When someone dumps PT into a thin pool and Wamia is willing to buy, a zero capital searcher sells that PT to Wamia and immediately buys it back on Pendle in the same transaction, helping pull the price back up before the oracle average can drag it down further.\n\nIn a fork replay of the real attack, 5M SY of Wamia liquidity took liquidatable debt from $37.35M down to $0 in that scenario, while LPs earned an estimated 11.3% annualized (versus 10.58% at fair value) and the searcher made about 8,900 PT with no starting capital. Across a set of scripted collapse scenarios (a real depeg, a real drop in the vault's exchange rate, a real large repricing), the same algorithm held back or refused to quote, which is the behavior we're aiming for.",
+  "how_its_made": "Wamia runs entirely on 1inch's deployed, unmodified contracts: Aqua v1.0.0 and AquaSwapVMRouter (swap-vm v1.0.2). A Wamia strategy is a SwapVM order whose program is a single Extruction instruction pointing at WamiaQuoter, a stateless Solidity contract that prices every PT sale from maker-set parameters and live onchain reads: Pendle's spot, the SY exchange rate, and Curve's reUSD/USDC EMA price, never from taker-supplied data. Two optional v2 steps, WamiaRateGuard and WamiaSpendLimit, compose into the same program to add a high-water-mark check and a per-block spend cap. WamiaArb is the zero-capital searcher contract: it sells PT to Wamia through the router, and inside the router's preTransferInCallback immediately buys that PT back on Pendle with the SY it just received, keeping the leftover PT as profit or reverting if unprofitable.\n\nThe contracts are built and tested in Foundry, with unit tests, a full local deployment of real Aqua/SwapVM release tags, and fork tests against live Pendle, Morpho and Curve contracts at the exact block of the Aug 25 attack. On the TypeScript side, @1inch/aqua-sdk and @1inch/swap-vm-sdk build the same order and program that the Solidity side produces, verified byte-for-byte (including the strategy hash) by a dedicated parity test. Fork replays use viem and anvil to mine block-by-block against forked mainnet state, comparing no-backstop, a reactive taker bot, and Wamia at several capital levels. The frontend is a Vite + React app with four screens (attack replay, LP shipping flow, market health dashboard, strategy inspector) that read committed replay data or talk to a locally deployed Wamia via npm run app:server.\n\nThe full list of integration notes and suggestions we sent back to the 1inch team lives in FEEDBACK.md.",
+  "auto_summary": "Aqua-based Solidity and TypeScript system that quotes, tests, and replays a Pendle PT backstop strategy on 1inch SwapVM.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/wamia-z11ah",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

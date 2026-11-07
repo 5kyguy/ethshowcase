@@ -1,0 +1,27 @@
+{
+  "id": "9eh9m",
+  "slug": "hydra",
+  "title": "Hydra",
+  "tagline": "An anti-fragile agent swarm. You can't kill what evolves from pain.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9eh9m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WARIiRU2xfVZCBHOA00WwAz1Ro54N02kRD6wVc62v01hDw/high.mp4",
+  "demo_url": "https://hydra.hacklabs.in",
+  "source_url": "https://github.com/Mithran-MV/Hydra  ",
+  "finalist": false,
+  "description": "HYDRA is an anti-fragile agent swarm. Three independent agent processes — \"heads\" — coordinate over a peer-to-peer mesh. Cut off one head, and two grow back, inheriting the dead head's memory plus a learned \"scar\" defense rule against whatever just killed it. Every attack makes the swarm stronger.\n\nThe mechanic is mythological — Hercules's many-headed serpent — but the implementation is fully on-chain. Each head runs as a separate Node process with its own AXL P2P node, signs its messages with ed25519, and writes state to 0G Storage. When consensus confirms a head is dead (after a 15-second heartbeat window), the leader spawns two replacement children, KeeperHub redistributes the position via a workflow-audited transaction, and the cause-of-death is minted as an ERC-721 iNFT on 0G Galileo testnet — with the defense rule stored in the token's metadata. The defense rule then propagates to every other head as a permanent inherited learning.\n\nLive demonstration at hydra.hacklabs.in/dashboard with four real attacks captured during the hackathon — process_killed, wallet_drained, api_timeout, key_revoked. All four cause types, all four resulting iNFTs on chain, all five transaction hashes per attack independently verifiable on chainscan-galileo. The full audit trail with cross-references to KeeperHub workflow runs, AXL message stream, and 0G Storage upload receipts is at hydra.hacklabs.in/chronicle.",
+  "how_its_made": "Stack: Next.js 15 + React 19 + TypeScript for the dashboard and Chronicle audit page; Node.js workspaces for the agent runtime; Solidity 0.8.26 + Hardhat for four contracts (HydraRegistry, HydraTreasury, HydraExecutor, HydraScars v2 — full ERC-721 + ERC-165 + ERC-721Metadata) deployed to 0G Galileo testnet (chain id 16602); three Go binaries for the AXL P2P sidecars under systemd; nginx with Let's Encrypt SSL.\n\nKeeperHub is the execution backbone — every consensus-confirmed death fires a KH workflow as the on-chain audit trail, treasury redistribution runs through KH, and each scar mints an iNFT through KH. We integrate via the MCP execute_workflow path. We initially used the webhook auth path, hit a 401 bug, reported it via the hackathon check-in, and the KeeperHub team shipped a fix in 36 hours and clarified the wfb_ user-key versus kh_ org-key distinction. We adopted MCP execute as the path that works most reliably for autonomous agent flows.\n\nGensyn AXL is the nervous system — a 7-message coordination protocol layered over AXL's encrypted P2P transport: heartbeat, suspect, confirmed, resurrect, born, scar, panic. 84,000+ messages exchanged across separate AXL nodes during the build. Full protocol spec with payload schemas, state machines, and sequence diagrams in docs/AXL_PROTOCOL.md.\n\n0G provides three layers of persistence — Chain (four contracts, four iNFT scars permanently recorded with defense rules in metadata), Storage (scar blobs uploaded via the 0G Indexer SDK with verified rootHash and txHash returned per upload), and Compute (SDK wired for verifiable TEE inference; honest gated by the Galileo testnet 3 OG ledger minimum, with skip events emitted to the audit trail showing the funding-gap blocker).\n\nThe hacky bit: during the build we stress-tested our own consensus protocol and caught three race conditions — systemd's Restart=always racing the 15-second consensus window (heads respawned too fast to be declared dead), stale panic state blocking fresh causes from being recognized, and ghost peers from disk-cached keys inflating quorum thresholds. All three are documented in ADVERSARIAL_TESTING.md with reproduction steps and fixes, all three caught and patched within the hackathon window. Everything verifiable: live system at hydra.hacklabs.in, full source at github.com/Mithran-MV/Hydra, sponsor-facing audit page at /chronicle.",
+  "auto_summary": "A multi-process agent swarm coordinates over AXL, records events on 0G, and uses KeeperHub-triggered workflows for recovery actions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hydra-9eh9m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

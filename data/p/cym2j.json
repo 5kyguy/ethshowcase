@@ -1,0 +1,22 @@
+{
+  "id": "cym2j",
+  "slug": "aegiss-protocol",
+  "title": "Aegiss Protocol",
+  "tagline": "AI agents: Onchain accountability through verifiable decisions and consequences.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cym2j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/IKtBEcv02RhRJD12wuKfidKkr9x2Y702UsTPpwv9MZEbA/high.mp4",
+  "demo_url": "https://app.aegisprotocol.uk/",
+  "source_url": "https://github.com/JoelEmmanuelCloud/aegis-protocol",
+  "finalist": false,
+  "description": " Aegis is the accountability layer for AI agents. Every major framework — LangChain, CrewAI, Claude, OpenClaw — solves how agents reason and decide. None solves what happens after the agent acts.\n\nAegis fills that gap. A builder adds one AXL call to their agent after every decision. That decision is committed permanently to 0G Storage with a cryptographic root hash as a tamper-proof receipt. The attestation propagates across four Gensyn AXL nodes — Witness, Propagator, Memory, and Verifier — each running its own ed25519 identity key on the Yggdrasil mesh. No central coordinator.\n\nWhen a decision is disputed, the Verifier fetches the original record from 0G Storage and replays it through 0G Compute's TEE — same model, same inputs. If the output diverges, the verdict is FLAGGED, recorded on AegisCourt.sol, and KeeperHub fires the remedy transaction automatically — no manual trigger.\n\nEvery agent gets an ENS subname (trading-bot.aegis.eth) with live accountability text records — reputation score, verdict history, flagged count — readable by any wallet or DeFi protocol without touching the Aegis backend. ENS becomes the trust signal for the entire AI agent ecosystem.",
+  "how_its_made": "Aegis is a TypeScript monorepo with six services communicating over the Gensyn AXL (Agent eXchange Layer) P2P mesh. Four AXL nodes run as separate processes, each with a distinct ed25519 key and unique api_port and tcp_port — satisfying Gensyn's requirement for genuine cross-node communication, not in-process simulation. Messages travel as encrypted AXL payloads over the Yggdrasil overlay network, following the autoresearch broadcast pattern from Gensyn's collaborative demo.\n \n0G Storage handles immutable decision records. Each attestation is uploaded via the 0G TypeScript SDK using a Batcher + Indexer flow, returning a content-addressed root hash. 0G KV stores real-time reputation state. 0G Compute provides the TEE replay environment — we wrap the OpenAI-compatible endpoint with lazy initialisation so the client only instantiates when an actual dispute is filed. ENS integration goes beyond naming. AgentRegistry.sol calls the ENS Name Wrapper to auto-issue subnames on iNFT mint. ENSIP-25 text records link each name to the registry contract and agent ID. The Memory Node writes live accountability data (aegis.reputation, aegis.lastVerdict, aegis.flaggedCount) to ENS text records after every event — any app can read the agent's trust score with a single ENS lookup.\n\nKeeperHub listens for AegisCourt.sol's VerdictEmitted event and fires the aegis. Execute the remedy workflow automatically — retry logic, gas optimisation, and a full audit trail included. The dashboard is built with React, wagmi, and RainbowKit, connecting to the 0G Galileo testnet (chainId 16602). AgentRegistry.sol implements ERC-7857 (iNFT standard) with an on-chain accountability split encoded at mint time — determining proportional liability between the agent user and its builder.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aegiss-protocol-cym2j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "fxq0e",
+  "slug": "agent-mesh",
+  "title": "Agent Mesh",
+  "tagline": "Agent mesh is a decentralized network where agents hire, pay and collaborate with each other",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fxq0e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fRqjeVHuMdbkFmnXE18aNsLlfEW6so1F015mOoNJ6UpY/high.mp4",
+  "source_url": "https://github.com/Isaac-Kingsley007/Agent-Mesh",
+  "finalist": false,
+  "description": "Agent Mesh is a multi-agent network where AI agents autonomously hire each other and pay using real crypto. Each agent runs on a peer-to-peer mesh (AXL), exposes services via MCP or A2A protocols, and charges $0.001 USDC per request using x402 on Base Sepolia. When one agent needs a capability it doesn't have, it discovers a peer, pays automatically from its wallet, gets the result, and bills its own caller. No human approves anything. Agents earn and spend money on their own — real autonomous agent commerce, end to end.",
+  "how_its_made": "Using the Gensyn AXL each agent is made to run in a local node and communicate in a TLS-encrypted peer-to-peer network. All the inter agent communication travels through AXL Mesh\n\nEach MCP Server runs in a node and exposes various tools used by various AI Agents\n\nEach agent (except B) also runs an A2A server (a2a_agent.py). This wraps the agent's capabilities in a conversational interface. Instead of calling tools/call → summarize, a peer agent sends a natural language message \"Help me analyze this.\" The A2A server detects intent, routes to the right internal tool, and replies in natural language. A2A agents also expose a public agent card at /.well-known/agent.json,  a machine-readable business card describing what the agent offers and what it charges.\n\nEvery POST endpoint on every MCP server and A2A server is wrapped with the x402 Flask middleware. When a request arrives without payment, the middleware returns a 402 challenge containing the payment requirements wallet address, amount, network. The calling agent must sign a USDC payment on Base Sepolia and retry with the payment embedded in the request body (tunneled through the JSON envelope since AXL transports only JSON, not HTTP headers). The middleware verifies the payment on chain before the request reaches the Flask handler\n\nGemini Acts as an Agentic Brain for the agents in the demo",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-mesh-fxq0e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "tmwiy",
+  "slug": "fastx402",
+  "title": "Fastx402",
+  "tagline": "Sub-second USDC payments for AI agents on Ethereum mainnet via x402 + preconfirmations",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tmwiy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7xxQM6YKdgudMaDqFo5xlhjjgvuRblXric5oEPgaQCQ/high.mp4",
+  "demo_url": "https://x402-facilitator-gold.vercel.app",
+  "source_url": "https://github.com/primev/mainnet-x402-facilitator",
+  "finalist": false,
+  "description": "Fastx402 is the first x402 payment facilitator deployed on Ethereum mainnet, enabling AI agents to pay for API resources with sub-second (~1.2s) USDC settlement. Built on Coinbase's x402 protocol (https://github.com/coinbase/x402) using @x402/core, @x402/evm, and @x402/hono npm packages. Traditional on-chain payments require 12+ seconds for block finality — far too slow for real-time agent workflows. Fastx402 solves this by combining: (1) EIP-3009 transferWithAuthorization for gasless agent signatures — agents only need USDC, never ETH, (2) mev-commit preconfirmations via FastRPC for ~100-200ms transaction inclusion guarantees, and (3) sponsored gas through the mev-commit gas tank so agents pay zero fees. The flow: an agent requests a paid resource, gets an HTTP 402 response with payment requirements, signs an EIP-712 authorization, and retries. The resource server calls Fastx402's /settle endpoint, which verifies the signature, checks on-chain balance and nonce, then submits the USDC transfer via FastRPC. The agent gets access in ~1.2 seconds total. Live on mainnet at https://x402-facilitator-gold.vercel.app — registered as ERC-8004 Agent #23175 for on-chain verifiable identity.",
+  "how_its_made": "Built on the x402 protocol (https://github.com/coinbase/x402) using @x402/core for protocol types and payment header parsing, @x402/evm for Ethereum-specific signature verification and settlement logic, and @x402/hono for Hono middleware integration (npm: https://www.npmjs.com/package/@x402/core, https://www.npmjs.com/package/@x402/evm, https://www.npmjs.com/package/@x402/hono). The API layer runs on Hono framework deployed on Vercel Edge Runtime for global low-latency serverless execution. Uses Viem for type-safe Ethereum interactions — EIP-712 typed data signature verification, on-chain USDC balance checks via balanceOf, and authorization nonce validation via authorizationState to prevent replay attacks. The core settlement flow encodes transferWithAuthorization calls on the mainnet USDC contract (EIP-3009) and submits them through Primev's FastRPC endpoint with maxPriorityFeePerGas set to zero, leveraging the mev-commit gas tank to sponsor all transaction fees. This means the relay wallet never needs to hold ETH for gas. The preconfirmation layer from mev-commit guarantees transaction inclusion in ~100-200ms, compared to the standard 12+ second block finality. Smart contract interactions were validated using Foundry fork tests against mainnet USDC, covering happy path, signature expiration, wrong signer rejection, insufficient balance handling, and replay protection. The facilitator is registered as ERC-8004 Agent #23175 on-chain for verifiable identity. Deployed live at https://x402-facilitator-gold.vercel.app with endpoints: POST /verify, POST /settle, GET /supported, GET /health, GET /agent.json.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/fastx402-tmwiy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

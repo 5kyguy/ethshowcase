@@ -1,0 +1,22 @@
+{
+  "id": "vcsh3",
+  "slug": "blocksight",
+  "title": "Blocksight",
+  "tagline": "Blocksight is an AI-powered analytics platform for Web3 communities.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vcsh3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JJQd01Lw5MCPqVSBxiLNsJNlkgoblLnRaLDjxcfOUNC00/high.mp4",
+  "demo_url": "https://eth-global-blocksight-web.vercel.app/",
+  "source_url": "https://github.com/DeepeshKalura/EthGlobal-Blocksight",
+  "finalist": false,
+  "description": "Blocksight is a tool for DAOs and Web3 projects that need to better understand their token holders and community members. While many blockchain tools focus on trading and finance, Blocksight provides actionable insights into community behaviour. It transforms raw on-chain data into a comprehensive analytics dashboard. Key features include a proprietary \"Activity Index\" to score wallet engagement, a \"Token Concentration Analysis\" using the Gini Coefficient to show wealth distribution, in-depth transaction pattern analysis, and a full suite of NFT analytics including adoption metrics, spam filtering, and collection diversity. The platform also includes a Natural Language Query interface where users can ask questions in plain English, which are then converted to SQL queries to provide precise, data-backed answers",
+  "how_its_made": "Blocksight operates through a multi-stage process that begins with user input on the frontend, fetches raw data via a backend service, performs complex analysis directly in the browser, and leverages a separate AI service for natural language queries.\n\nThe process begins on the 'Deep Dive Analytics' page, as seen in `apps/web/app/analytics/page.tsx`, where a user provides a list of Ethereum addresses by either pasting them into a textarea or uploading a CSV file. The frontend performs an initial client-side validation using the `ethers.isAddress` function. Upon clicking 'Start Fetching,' the application navigates to the `/data-fetching` page, passing the addresses and selected network as URL parameters. This page then initiates parallel API calls to the Python FastAPI backend for each address. Each call to the `/api/v1/wallet/{address}/full` endpoint, defined in `apps/service/api/routes/wallet_routes.py`, triggers the `wallet_service`, which uses the Alchemy SDK to retrieve comprehensive on-chain data, including token balances, asset transfers, and NFT holdings. While this happens, the frontend displays individual progress bars for each wallet, updating the UI to show which are loading, completed, or have encountered an error.\n\nOnce all the raw data is returned to the frontend, it is stored in a React Context via the `ResultsProvider`. The dashboard page then performs a series of complex, in-browser computations to generate insights. This includes calculating a proprietary Activity Index score for each wallet using the `calculateActivityIndex` function in `dataAggregation.ts`, which weighs recent transactions more heavily. The `transactionAnalysis.ts` module aggregates raw transactions to build timelines, analyze patterns like incoming versus outgoing volume, and estimate gas spending. For multi-wallet analysis, the `tokenDistribution.ts` module computes advanced economic metrics like the Gini Coefficient and Herfindahl-Hirschman Index to measure wealth concentration. Finally, the `nftAnalysis.ts` module processes NFT data to generate adoption metrics, filter spam, and analyze collection diversity.\n\nFor direct inquiries, Blocksight offers an AI-powered Natural Language Query feature. On the 'AI' tab, a user types a question into the `QueryInterface.tsx` component. This question is sent to the `/api/v1/query` endpoint on the FastAPI backend. There, the `nl_query_service.py` uses LangChain and the Google Gemini model to translate the plain English question into a valid PostgreSQL query, using the database schema for context. This SQL query is then executed against our indexed blockchain database. The raw results are sent back to the Gemini model, which synthesizes the data into a clear, human-readable answer. The backend returns the original question, the generated SQL, the raw data, and the final natural language answer, all of which are displayed to the user.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/blocksight-vcsh3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

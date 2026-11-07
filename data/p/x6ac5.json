@@ -1,0 +1,27 @@
+{
+  "id": "x6ac5",
+  "slug": "copy-check",
+  "title": "Copy Check",
+  "tagline": "Is that wallet worth copying? Scored after gas, and only on trades it makes after you find it.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x6ac5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/j5k7mS66O9Nh5pp7AuJ7P3KJti02AWNHRrJC00gXORwJA/high.mp4",
+  "demo_url": "https://shud26.github.io/copy-check/",
+  "source_url": "https://github.com/shud26/copy-check",
+  "finalist": false,
+  "description": "Copy-trading tools rank wallets by win rate and total PnL. Both mislead.\n\nOne wallet we tracked closed 68 trades at a 38% win rate and still showed +0.033 ETH after gas. Remove its single largest winning trade and it became -0.083 ETH — to copy it profitably you had to be inside one specific trade, which is a timing problem, not a wallet-selection problem. Another wallet sat at -0.00001 ETH before gas and -0.00197 ETH after: 99% of the loss was gas.\n\nCopy Check scores a wallet under three rules the code enforces rather than merely documents:\n\n1. Forward-only. Registering a wallet pins the current block, permanently. Trades before that block are discarded and counted separately. A score computed over a wallet's past is a number you chose after seeing the answer.\n\n2. Gas is measured, not estimated. Measured gas per swap ranged 0.000030-0.003157 ETH, a 104x spread. Receipts that fail to fetch stay null and are counted — never filled with zero.\n\n3. Drop the single best trade. If a wallet only survives with its best trade included, it is reported as one-hit dependent, not as a pass.\n\nThe tool also refuses to answer. It returns \"withheld\" when gas was not retrieved, \"too few\" under 20 closed round-trips, and skips bots entirely. A judgment without evidence is worse than a wrong one, because you cannot tell it is wrong.",
+  "how_its_made": "Python standard library only — no framework, no database, no server. The boundary that matters: verdict.py knows nothing about data sources. It takes a list of swaps, so it runs and self-tests with no API key and no network.\n\nData comes from The Graph. We query the Uniswap v3 Ethereum subgraph for a wallet's swaps, then translate raw amount0/amount1 sign pairs into buy/sell decisions. Several things only measurement revealed: urllib's default User-Agent is blocked by Cloudflare with error 1010 before authentication is even reached; nested filters (transaction_: {blockNumber_gte}) take 40s and fail with \"bad indexers\" where timestamp_gte returns in 1.7s; ascending order silently truncates busy wallets, so we page newest-first and stop at the pinned block; and skip is capped at 5000, so the candidate scanner pages by timestamp cursor instead.\n\ntransaction.gasUsed ships as 0, so tx hashes come from The Graph and gas comes from public RPC receipts with 12 parallel workers — 8.7 minutes of sequential lookups became 8.7 seconds. Per-wallet scoring went from 270-450s to 4.5-7.4s.\n\nThe UI is a single static HTML file generated from the verdict JSON, with inline SVG icons and zero external requests, so it deploys anywhere and opens offline.\n\nAdded during ETHOnline: a candidate finder that is blind to past profit by construction (it never reads prices, and counts round-trips by quantity alone), bot-fleet detection by token-basket fingerprint — found after seven addresses turned out to trade an identical basket to stay under the per-address bot threshold — a public live page, and daily automated re-scoring.",
+  "auto_summary": "A Python tool scores Uniswap v3 wallets for copy-trading viability using forward-only swap history, measured gas costs, and conservative withholding rules.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/copy-check-x6ac5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

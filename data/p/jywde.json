@@ -1,0 +1,27 @@
+{
+  "id": "jywde",
+  "slug": "reclaim",
+  "title": "Reclaim",
+  "tagline": "Executable receipts that let buyers cancel, refund, transfer, or dispute onchain purchases.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jywde/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cGXdgnhjS5Luaoj8bASaJUe1Csw7DH01kAr5N3eilpA4/high.mp4",
+  "demo_url": "https://reclaim-plum.vercel.app/",
+  "source_url": "https://github.com/ShivamSoni20/Reclaim",
+  "finalist": false,
+  "description": "Reclaim turns payment receipts into executable interfaces for onchain purchases. Instead of a receipt being a passive record, each purchase creates a portable receipt that exposes the rights attached to that transaction, such as cancelling an eligible purchase, requesting a refund, transferring the claim, or opening a dispute. Arc is the canonical settlement layer, where USDC is held and purchase state is enforced by the escrow contract. ENSv2 gives each receipt a portable identity such as order-1.reclaimprotocol.eth, together with records describing its status, amount, merchant, claim owner, deadlines, and available actions. The result is a receipt that acts like a remote control for the purchase while keeping financial authority onchain.",
+  "how_its_made": "Reclaim uses a Solidity escrow contract deployed on Arc Testnet with USDC for settlement. The contract manages purchase lifecycle states including PAID, REFUND_REQUESTED, CANCELLED, REFUNDED, FINALIZED, and DISPUTED, and exposes the actions currently available to each user. We built and tested the contract with Foundry and verified a real 49 USDC lifecycle on Arc: approve → purchase → PAID → cancel → CANCELLED → funds returned.\n\nThe application is built with TanStack Start, React, TypeScript, Vite, and viem. The frontend independently reads canonical order state from Arc instead of trusting browser state.\n\nFor ENS, Reclaim uses ENSv2 Beta on Ethereum Sepolia. reclaimprotocol.eth acts as the parent namespace, with a Permissioned Registry creating receipt subnames such as order-1.reclaimprotocol.eth. A Permissioned Resolver stores receipt metadata including status, amount, Arc chain ID, escrow contract, order ID, merchant, claim owner, deadlines, transferability, and available actions.\n\nA dedicated server-side synchronizer reads the canonical Arc order and updates ENS only after verifying the real onchain state. ENS never authorizes or moves funds. We also use ENSv2 Enhanced Access Control so authoritative receipt fields remain controlled by the synchronizer while the current claim owner can receive narrowly scoped permissions such as editing a customer note.\n\nGitHub Actions is used for contract deployment and real lifecycle verification, and the application is being packaged as a single Vercel deployment with a same-origin /api/receipt-sync server endpoint.",
+  "auto_summary": "The project builds an escrow-based purchase receipt system on Arc where ENSv2 subnames mirror onchain order state and permitted actions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/reclaim-jywde",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

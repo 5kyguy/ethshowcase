@@ -1,0 +1,41 @@
+{
+  "id": "tc9fp",
+  "slug": "kagi-wallet",
+  "title": "Kagi Wallet",
+  "tagline": "Give AI agents delegated keys from a self-custody MPC wallet. Spend more? Your ESP32s sign over IR.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tc9fp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JjjJ2AbtQ3dnsgvyVF9jPXPWTCDBebn02L6zpJxho21Y/high.mp4",
+  "demo_url": "https://kagiwallet.com/",
+  "source_url": "https://github.com/team-somehow/kagi-wallet",
+  "prizes": [
+    {
+      "sponsor": "Intercepta",
+      "sponsor_id": "t4hjq",
+      "placement": "1st place",
+      "title": "Safe Agent-to-Agent Payments with x402"
+    },
+    {
+      "sponsor": "Curvegrid",
+      "sponsor_id": "5e2gc",
+      "placement": "Best AI Agent Project",
+      "title": "Best AI Agent Project"
+    }
+  ],
+  "finalist": true,
+  "description": "Kagi is an open-source threshold wallet for AI agents. It gives your agent its own spending key, capped and set to expire, while the key that actually controls your money stays split across hardware you hold.\n\nAgents need money to be useful, but today you pick between two bad options. Either you give the agent a hot key, and one prompt injection drains you, or you approve every transaction, and the agent is useless. Most crypto theft comes down to a stolen key, so we made sure no single device, server or phone ever holds one. Kagi splits every key with FROST threshold Schnorr signatures (the RFC 9591 family), and each half is useless on its own. Together they produce one standard BIP340 signature.\n\nKagi works as a spending ladder:\n\n- **Under the cap:** your agent pays on its own with an ephemeral session key. The smart account enforces the limit and the expiry on-chain, so the agent can't overspend even if it's compromised.\n- **Over the cap:** the agent files an on-chain request with its reason. Your phone shows it, and you approve with your fingerprint plus a held button on your Kagi Wallet, an off-the-shelf $21.50 ESP32 stick. Together they form a 2-of-2 key.\n- **The treasury:** needs a 3-of-3 key that includes a second stick, the vault. After setup the vault keeps its radio off and signs only over infrared, so you have to walk over and point your Kagi Wallet at it.\n- **Revoke:** hold the revoke button on the phone, or hold B on the stick for 2 seconds.\n\nAny AI can use it. ChatGPT, Claude, Claude Code, Codex, Cursor and VS Code connect through our MCP server with a personal connector link from the app. The agent can send ETH, check its allowance and ask for more.\n\nKagi uses two partner technologies:\n\n- **Intercepta** decides *who* the agent may pay. The cap limits *how much* it can lose. Every recipient is screened before the session key signs. Clean addresses pass. Risky ones are held for your approval on the phone and stick, even when the payment is under the cap. Sanctioned addresses and known scammers are refused outright.\n- **Curvegrid MultiBaas** gives the agent a memory. It indexes every payment, limit request, approval and revoke, so you can ask your AI \"what did my agent spend today, and who approved the raise?\" MultiBaas Event Queries also power the Spending screen in the app.\n\nThe website at kagiwallet.com lets you flash a stick straight from Chrome with no toolchain, connect your AI in a few clicks, and see what unlimited agent authority has cost people, drawn from real incidents. The Android app is on GitHub Releases. Everything runs on Sepolia, and the app can switch to Ethereum mainnet.\n\nKagi is a working wallet you can use today, and a pattern for giving agents real money without giving them your keys.",
+  "how_its_made": "#### Hardware\nWe used two M5Stack StickS3 boards (ESP32-S3), each with a screen, two buttons, a speaker and an IR transmitter and receiver. We flash the same firmware build to both, and a role saved on the device makes one stick the Kagi Wallet and the other the vault. The Kagi Wallet talks to the phone over Bluetooth LE. The vault joins the key once: we reshare it from 2-of-2 to 3-of-3 during a 2-minute radio window you open by holding a button on the vault. After that its radio stays off, and it signs only over infrared, after a press on the vault itself. We wrote the IR link ourselves on the ESP32's RMT peripheral: a 38 kHz carrier, NEC-style pulses, 4-byte frames with a sequence number, a CRC-8 and an acknowledgement, and retries, so a hand passing over the window slows a signature down instead of breaking it.\n\n#### Firmware\nThe firmware is C++ built with PlatformIO. We wrote FROST ourselves on top of mbedTLS's big-number and elliptic-curve primitives, and used NimBLE for Bluetooth and M5Unified for the display, buttons and speaker. The IR link talks to the ESP32's RMT peripheral directly through ESP-IDF. Every approval is a deliberate hold on the button, and letting go early cancels it. The speaker stays quiet while the IR receiver is listening, because the StickS3 can't do both at once.\n\n#### Smart contracts\nThe contracts are Solidity 0.8.30, built with Foundry. `KagiAccount` holds the manager key, the agent keys and their limits (`grant`, `spend`, `requestLimit`, `raiseLimit`, `declineLimit`, `revoke`). `RootTreasury` holds the 3-of-3 key. Ethereum has no Schnorr precompile, so we verify BIP340 signatures with the `ecrecover` trick, and that makes threshold Schnorr work on any EVM chain. The account supports ERC-1271 for the manager key only, which makes SIWE and Permit2 work. Agent keys are left out on purpose, because a signed permit would move money around the cap. There are 61 unit and fuzz tests, including the official BIP340 vectors and real FROST signatures made by the phone code.\n\n#### Mobile app\nThe app is built with Expo and React Native. The phone's shard lives in secure storage behind a biometric unlock, and the app uses @noble/curves for FROST, viem for the chain and react-native-ble-plx for Bluetooth. The phone signs in TypeScript and the stick signs in C++, and the two must produce identical bytes. A shared test fixture catches it the moment they drift. The phone also keeps a small gas wallet and tops up each agent's key when it grants one, so we didn't need a relayer.\n\n#### Agent MCP server\nThe server is Node, using the official MCP SDK and viem, and runs behind Caddy. Each person's connector link carries their own key, so one server can serve everyone. It finds each wallet's chain from where its contract is deployed, so the same link works on Sepolia and on mainnet.\n\n#### Intercepta\nEvery payment runs a Quick Scan on the recipient, and a Deep Scan on anything that gets flagged. The result maps to pass, hold or refuse. A held payment goes through the contract's existing `requestLimit` → `raiseLimit` path, so it still needs the phone and the stick, and we didn't change the contract at all. If Intercepta can't be reached, the payment is held, never passed.\n\n#### Curvegrid MultiBaas\nFree public RPCs refuse or cap log queries, and one call to MultiBaas's events endpoint replaced all of that. Every user deploys their own wallet, so the server registers the ABI and links each wallet with MultiBaas the first time it connects. Event Queries add up spending by agent and by recipient, plus limit raises and requests, for the app's Spending screen and the `get_spending_summary` tool.\n\n#### Website\nThe site is built with React, TypeScript and Vite, with Motion for animation, and is hosted on Firebase. esp-web-tools lets anyone flash a stick over Web Serial straight from Chrome or Edge.\n\n#### Hacks we're proud of\nSchnorr verification through `ecrecover`, a vault you can only reach by light, one firmware build that plays both roles, and FROST that matches byte for byte between TypeScript and C++.\n",
+  "auto_summary": "An AI-agent wallet system combines threshold-signed smart accounts, mobile and ESP32 hardware, and a server for payment controls and activity queries.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kagi-wallet-tc9fp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

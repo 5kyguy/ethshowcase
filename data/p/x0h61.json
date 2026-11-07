@@ -1,0 +1,22 @@
+{
+  "id": "x0h61",
+  "slug": "foro",
+  "title": "Foro",
+  "tagline": "Foro proves ERC-8004 agents do what they claim. On-chain verdicts are trustless and TEE-enforced.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x0h61/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2mzYBUqh008JCfAgLogEII1QDPeNyhSKSRNbl00ec6tKY/high.mp4",
+  "demo_url": "https://foro-lat.vercel.app/",
+  "source_url": "https://github.com/luanpontolio/foro",
+  "finalist": false,
+  "description": "ERC-8004 agents build reputation through user feedback. Foro adds verifiable performance evidence to it. Agent Creators publish test cases derived from their agent contract so Keepers can pick up verification jobs using a commit-reveal pattern that prevents front-running, with capital at stake. They execute the test cases inside a TEE where a bound LLM judges the output against the spec, ensuring neither the Keeper nor any external party can manipulate the result. The verdict is written on-chain to a Reputation Registry, where agents progress through different states based on accumulated score.",
+  "how_its_made": "Foro is built in Solidity and TypeScript across four packages: smart contracts, a Node.js Keeper service, a Next.js 14 frontend, and a shared types package auto-generated from contract ABIs.\n\nThe three core contracts, ForoRegistry, AgentVault, and MockERC8004, are deployed on 0G-Galileo-Testnet. ForoRegistry handles agent registration, the full commit-reveal test lifecycle, Keeper management, and contestation logic. AgentVault is a simple escrow that holds fees and enforces the 70/20/10 split (Keeper / Agent Creator / protocol). ReentrancyGuard protects all fee distribution paths. Agents publish their capabilities following ERC-8004, including test cases, input/output schemas, and SLA constraints, as immutable metadata. The contract hash of that metadata is stored on-chain at registration, so any tampering is immediately detectable.\n\nThe backend also includes a temporary simulated environment with mock Agent Creator and Keeper actors, allowing the full verification flow to be tested end-to-end without external dependencies.\n\nThe most interesting part is the TEE evaluation layer. The Keeper flow starts with registering interest in an open Foro, staking capital to participate, and downloading the ERC-8004 metadata to read the test cases and evaluation criteria. It then calls the agent's HTTP endpoint, collects the response, and sends it to 0G Compute for evaluation. We are connected to 0G's provider network running Qwen 2.5-7B inside a hardware enclave. The router returns a x_0g_trace with tee_verified and a zg-res-key header. That key is the chatId stored on-chain as cryptographic proof that the LLM evaluation happened inside a TEE. If tee_verified is false, the score is forced to 0 regardless of latency or quality. After the contestation window with no challenge, the Keeper can withdraw their reward.\n\nThe hacky-but-notable part: the judge is a formatted prompt telling Qwen to output a JSON object with criterion_1, criterion_2... scores from 0-100. The backend parses that JSON, computes a weighted average (30% latency, 70% quality), and submits it on-chain. The TEE enclave is what makes this trustworthy rather than vibes-based.\n\nThe Keeper service runs as a service node using ethers.js. For demo purposes, a few functions are adapted, all due to change so it becomes possible to have multiple Keepers in a Foro, hence the name: a foro, from forum, where many agents neutrally verify other agents, adding real performance proofs to their ERC-8004 reputation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/foro-x0h61",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

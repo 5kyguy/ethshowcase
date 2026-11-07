@@ -1,0 +1,21 @@
+{
+  "id": "vzk2y",
+  "slug": "opto",
+  "title": "Opto",
+  "tagline": "1inch Cross-chain Swap (Fusion+) with thorough UI to show ETH Sepolia ↔ Sui testnet swaps",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vzk2y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qSp88F9Yvj02gx202U9w4V7dJYgh1KPah3Q4mwx3rhxjI/high.mp4",
+  "source_url": "https://github.com/abcd5251/1inch-on-sui",
+  "finalist": false,
+  "description": "Opto is an innovative cross-chain atomic swap solution built for the ETH Sepolia ↔ Sui testnet. It successfully extends the 1inch Fusion+ protocol to the Sui ecosystem, enabling bidirectional atomic swaps between Ethereum and Sui using a Hashed Timelock Contract (HTLC) mechanism. This approach provides a secure and efficient decentralized trading experience.\n\nWe also built a comprehensive UI that visualizes all ETH Sepolia ↔ Sui testnet swap activities, ensuring everything works correctly and remains easy to understand.",
+  "how_its_made": "Our cross-chain swap implementation merges two distinct on-chain environments:\n\nEthereum (Sepolia)\nWe integrate 1inch’s Limit Order Protocol and Dutch-auction smart contracts to handle intent-based order creation, competitive bidding, partial fills, and settlement. All contracts enforce a hashlock/timelock escrow: funds are locked against a SHA-256 preimage and automatically refunded if unclaimed before timeout.\n\nSui (Testnet)\nWe developed parallel Move modules—packaged in our sui-fusion-sdk(https://github.com/abcd5251/1inch-on-sui/tree/main/packages/sui-fusion-sdk)—that replicate the same HTLC escrow guarantees in Sui’s non-EVM execution model. Each module exposes functions to initiate swaps, verify secrets, and enforce timeouts.\n\nOff-Chain Relayer\nAt the core lies a unified Node.js relayer service (relayer)[https://github.com/abcd5251/1inch-on-sui/tree/main/packages/relayer] that continuously monitors both Ethereum and Sui full-nodes:\n\nEvent Detection\n\nListens for AuctionStarted or HTLC creation events on the source chain.\n\nPreimage Handling\n\nFetches the secret from on-chain logs or computes it via the SDK’s intent parameters.\n\nCross-Chain Transaction Generation\n\nSerializes and signs the claim transaction for the target chain, converting between EVM ABI and Sui BCS.\n\nConclusion\nBy combining proven 1inch Fusion+ auction mechanics on Ethereum with bespoke Move-based HTLC logic on Sui, and orchestrating them via our custom relayer, we deliver a robust, end-to-end cross-chain swap engine. The comprehensive TypeScript SDK and clear abstractions empower developers to integrate this functionality seamlessly into any dApp.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/opto-vzk2y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

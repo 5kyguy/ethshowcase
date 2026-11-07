@@ -1,0 +1,22 @@
+{
+  "id": "fcvat",
+  "slug": "ai-auditor",
+  "title": "AI Auditor",
+  "tagline": "AI smart contract auditor that stores reports on 0G's network.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fcvat/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RZfs7wrsoictWNdK6MnDbboO01xQhisIn9D2ZuQQrtno/high.mp4",
+  "demo_url": "https://ethglobal-ai-auditor.vercel.app/",
+  "source_url": "https://github.com/AlejandroPanos/ethglobal-ai-auditor",
+  "finalist": false,
+  "description": "AuditAI is a full-stack web application that delivers instant, AI-powered security audits for Solidity smart contracts. Developers paste their contract code into a Monaco-powered code editor, and the platform analyses it for critical vulnerabilities including reentrancy attacks, access control flaws, arithmetic overflow, unsafe external calls, and more. \n\nThe audit results are returned as a structured report covering a security score, risk rating, methodology, and detailed per-vulnerability findings. Each finding comes with a description, affected code reference, and specific remediation recommendation. \n\nThe report is then generated as a professional PDF and stored permanently on the 0G decentralised storage network, giving developers a verifiable, immutable record of their audit. Users receive a unique cryptographic root hash that allows them to retrieve their PDF report at any time from anywhere, without relying on any centralised database or server storage.",
+  "how_its_made": "AuditAI is built with a React + TypeScript frontend powered by Vite, Tailwind CSS v4, and shadcn/ui components. The Monaco Editor provides a VS Code-like experience for pasting Solidity code with syntax highlighting. TanStack Query handles all server state and mutation logic, React Router handles the routing, and Axios communicates with the Express backend.\n\nThe backend is a Node.js + Express REST API with two core services. The AI service calls the Anthropic Claude API with a carefully engineered system prompt that instructs the model to perform static security analysis across seven vulnerability categories and return a strictly typed JSON object validated against a JSON schema to ensure consistent, parseable output every time. \n\nThe PDF service uses PDFKit to programmatically render the structured JSON into a professional multi-page audit report, including severity colour coding, inline code formatting via a custom mixed-text renderer that detects backtick-wrapped code segments and switches fonts dynamically, and a full disclaimer page.\n\nThe most notable integration is 0G decentralised storage. Once the PDF is generated and written to a temporary file, the 0G TypeScript SDK uploads it to the distributed storage network using a funded wallet managed entirely on the backend, which means users never need to connect a wallet or hold any tokens. \n\nThe SDK computes a Merkle tree over the file and returns a cryptographic root hash, which is sent back to the frontend as the user's permanent retrieval key. The temp file is then deleted immediately. On retrieval, the backend downloads the file from 0G's node network using the root hash, streams it directly to the browser as a PDF download, and cleans up again. \n\nThis architecture means no audit report ever touches a centralised database. Every report lives exclusively on 0G, permanently and verifiably.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ai-auditor-fcvat",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

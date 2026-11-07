@@ -1,0 +1,35 @@
+{
+  "id": "ftqb7",
+  "slug": "scenario-engine",
+  "title": "Scenario Engine",
+  "tagline": "SCENARIO: hedera-harness runs native multi-actor Hedera plans and checks the public mirror",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ftqb7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hvwVxUoaJtI3rvbrPn737O1iRo3jH3CCXVwSk702ZL800/high.mp4",
+  "demo_url": "https://github.com/hedera-dev/hedera-harness/pull/61",
+  "source_url": "https://github.com/U-GOD/hedera-harness",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Open Source — Improve the Hedera Harness",
+      "title": "Open Source — Improve the Hedera Harness"
+    }
+  ],
+  "finalist": false,
+  "description": "This is an open-source improvement to hedera-dev/hedera-harness, the CLI that drives a coding agent to build Hedera apps and then decides whether the work passed.\n\nThe harness already had CHAIN: one throwaway testnet wallet injected into the generated app. That is the wrong layer for two-party transfers, HTS airdrops, or HCS messages. People were left hoping Playwright clicked Transfer, or trusting a toast after the agent wrote 40 to 80 lines of SDK boilerplate. A toast is not proof. The agent does not get to grade itself.\n\nThis project adds SCENARIO, an opt-in fifth stage. You write a short YAML plan with named actors (alice, bob), steps (transfer HBAR, create a token, associate, airdrop, create an HCS topic, submit a message), and asserts. The harness funds those actors from your testnet operator, sends real transactions with the official @hiero-ledger/sdk, then polls the public testnet mirror until the effects are visible: Bob's HBAR, Bob's token balance, the topic text. The coding agent does not run this and does not declare success.\n\nStage order is GENERATE, ASSERT, SCENARIO, SMOKE, EVALUATE. A failed native plan skips the browser, so you do not pay for Playwright when the chain work already failed. A mirror or SDK outage is treated as infrastructure, not as an app failure.\n\nThere is also hedera-harness validate-scenario, which runs the plan alone with no agent. That is the demo path. Testnet only. Mainnet is rejected. Actor keys are never committed.",
+  "how_its_made": "Built in TypeScript on top of hedera-harness 2.0 (schema v3, their dev branch). The new code lives in src/scenario/: a YAML plan parser, operator env reuse from chainValidation, real AccountCreate / AccountDelete for named actors, an executor that uses the @hiero-ledger/sdk already shipped with the CLI, and a small REST client that polls https://testnet.mirrornode.hedera.com for HBAR balances, token balances, topic messages, and pending airdrops.\n\nSteps map to real SDK transactions: TransferTransaction, TokenCreateTransaction, TokenAssociateTransaction, TokenAirdropTransaction, TokenClaimAirdropTransaction (PendingAirdropId built from the mirror, not a fake fromString), TopicCreateTransaction, TopicMessageSubmitTransaction. Later steps can refer to earlier ones by id (token: gold, topic: chat).\n\nThe stage is wired into attemptStages so it runs after ASSERT and before SMOKE. sessionRunner provisions actors once per run and sweeps leftover HBAR at the end (best effort: a token treasury cannot be deleted). doctor checks operator env and plan shape. CLI help and validate-scenario call the same executor as a full run. harnessGit treats scenario-actors.json as a secret.\n\nNo in-process fake ledger. No simulated consensus. Tests cover plan parsing, recipe load (inline and file:), mainnet rejection, CLI wiring, and cleanup of actor keys. Docs are in docs/scenarios.md plus the README stage table. The skeleton ships a two-actor HBAR / HTS / HCS example.",
+  "auto_summary": "This project extends the Hedera Harness CLI with a YAML-driven scenario stage that executes and verifies real Hedera testnet actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/scenario-engine-ftqb7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

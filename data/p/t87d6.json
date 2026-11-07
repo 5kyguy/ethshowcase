@@ -1,0 +1,29 @@
+{
+  "id": "t87d6",
+  "slug": "cyrup",
+  "title": "Cyrup",
+  "tagline": "Decentralized marketplace for Lean theorem proving - post challenges, verify proofs, earn rewards",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/t87d6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lhVnrPlhSHIfH02CLwrtIzbSvuuTD8WOHLqrdUO3SPpU/high.mp4",
+  "source_url": "https://github.com/wjorgensen/Cyrup",
+  "prizes": [
+    {
+      "sponsor": "Flow",
+      "sponsor_id": "fjaae",
+      "placement": "Flow Builder Pool Prize",
+      "title": "Flow Builder Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Cyrup is a decentralized marketplace that connects people who need mathematical proofs with expert theorem provers. The platform bridges the gap between theoretical computer science and practical verification needs by creating an economic incentive layer for formal verification.\n\nAt its core, Cyrup allows users to post mathematical or logical challenges that require formal proofs, set USDC rewards, and have experts submit solutions using the Lean 4 theorem prover. The platform features a sophisticated reputation system that tracks user performance and ensures only qualified verifiers (top 10% by reputation) can validate submissions.\n\nThe system operates through smart contracts deployed on Base Sepolia, ensuring transparent and automatic reward distribution. When a proof is submitted, it goes through both automated verification via a Lean 4 runner service and human verification by qualified experts. Once both the challenge creator and assigned verifier approve a solution, rewards are automatically distributed - 95% to the solver and 5% to the verifier.\n\nKey features include an integrated web-based Lean IDE for writing proofs directly in the browser, a comprehensive leaderboard system, gas-optimized smart contracts using clone patterns and packed storage, and a persistent Lean verification service that validates proofs in real-time.",
+  "how_its_made": "Smart Contracts (Solidity/Foundry):\n  - Built with ultra-optimized Solidity contracts using packed structs, custom errors, and the clone pattern for gas efficiency\n  - ChallengeFactory deploys minimal proxy clones using CREATE2 for deterministic addresses\n  - ChallengeEscrow manages the lifecycle: challenge creation → verifier selection → solution submission → dual approval → automatic reward distribution\n  - ReputationSystem implements dynamic top 10% tracking with efficient threshold algorithms and tiered point calculation based on USDC amounts\n  - Deployed on Base Sepolia for low-cost transactions\n\n  Backend (Go/Gin):\n  - Microservices architecture with two separate services: API server and Lean runner\n  - API server built with Gin framework handles HTTP requests, database operations (PostgreSQL via sqlx), and queues verification requests\n  - Lean runner service runs in a Docker container with persistent Lean 4 environment, avoiding restart overhead between verifications\n  - Services communicate via HTTP, deployable on Railway with automatic port detection and internal networking\n  - Implements submission tracking with unique UIDs linking blockchain transactions to off-chain Lean code\n\n  Frontend (Next.js/React):\n  - Next.js 14 app with TypeScript, Tailwind CSS for styling, and wagmi/viem for Web3 integration\n  - Coinbase CDP SDK integration for streamlined wallet connections and transaction signing\n  - Monaco Editor integration provides a full-featured IDE for writing Lean proofs in the browser\n  - React Markdown with syntax highlighting for rendering challenge descriptions\n  - Custom hooks abstract contract interactions and API calls\n\n  Lean 4 Integration:\n  - Docker containerized Lean 4 environment with pre-built mathlib for fast verification\n  - HTTP service wrapper around Lean that accepts code, verifies proofs, and returns results\n  - Persistent container architecture eliminates cold start delays\n  - Database stores proof code with IPFS hashes for permanent storage\n\n  Notable Technical Achievements:\n  - Gas optimization through clone pattern saves ~90% deployment costs per challenge\n  - Packed storage reduces state variables from 8+ slots to 3-4 slots per struct\n  - Bitmap approval system tracks dual signatures in single uint8\n  - Dynamic reputation threshold algorithm efficiently maintains top 10% without full sorting\n  - Microservices architecture allows independent scaling of verification workload\n  - Integration of formal verification (Lean 4) with blockchain creates trustless proof marketplace",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cyrup-t87d6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

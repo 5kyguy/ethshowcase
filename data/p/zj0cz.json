@@ -1,0 +1,27 @@
+{
+  "id": "zj0cz",
+  "slug": "phora",
+  "title": "Phora",
+  "tagline": "Consent-based, Sybil-resistant identity rail: one human, one record, wallets attached by consent.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zj0cz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4b6bLklrR00pIZonkzcyTPTaXFT1E00Mzzgud74M9t2rI/high.mp4",
+  "demo_url": "https://youtu.be/zivZ1MS1n0c",
+  "source_url": "https://github.com/justinwender/phora",
+  "finalist": false,
+  "description": "Pseudonymous onchain markets have a commitment problem, not just a privacy one: you cannot prove a wallet's history is yours and complete without also losing control of it. Phora separates those two things.\n\nPhora anchors one permanent record to one verified human, lets wallets attach to that record through time-scoped, append-only attestations, and exposes a consented view of on-chain behavior to authorized counterparties. Crucially, the human can sever any wallet at any time without that wallet's private key, so a stolen wallet can be cut loose, and its later activity stops being attributable to you.\n\nThe result is a rail where shown history is unforgeable and undeletable, but disclosure stays sovereign: you choose who sees what, and revoking access is a first-class operation. Phora computes no score, grade, or rating. It is consented data access, not credit scoring. The demo runs the full flow: a verified human registers, links a wallet, addresses it with a human-readable name, and a lender views that wallet's live DeFi footprint, then watches access go dark the instant the wallet is unlinked.",
+  "how_its_made": "Four layers, each a real partner integration.\n\nUniqueness: World ID 4.0 provides proof-of-personhood. One human maps to one identity record, enforced at the protocol level by the nullifier and backstopped by a database uniqueness constraint, so one-human-one-entry holds at two independent layers.\n\nCommitment: an append-only, hash-chained attestation registry (Postgres, with a database trigger rejecting any UPDATE or DELETE). A wallet signs an EIP-191 statement at link time to prove control; the identity owner, not the wallet, authorizes unlinking, which is what makes severing a stolen wallet possible without its key. Each row carries the hash of the previous one, so tampering is detectable, and disputes are appended rows that annotate rather than delete.\n\nAddressing: ENS used as a DNS-parallel, multi-tenant namespace (phora.eth then username.phora.eth then usecase.username.phora.eth), served offchain through a CCIP-Read resolver that is a live projection of the registry. Resolution is consent-gated: unlink a wallet and its name stops resolving, verified on-chain through a deployed offchain resolver with signed responses. (Sepolia is mid-migration to ENSv2, so the registry-to-resolver link is deferred while the full CCIP-Read resolution and consent-gating run end-to-end against the deployed resolver.)\n\nRendering: Allium's positions API supplies the behavioral layer. A consented wallet's live DeFi footprint, lending positions with health factors, LP positions, staking, is fetched server-side and rendered as a lender's view. Raw data only, with raw totals; no derived score. Auth and embedded wallets are handled by Dynamic.",
+  "auto_summary": "Phora links verified humans to wallets with append-only attestations, consent-gated ENS resolution, and server-rendered onchain activity views.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/phora-zj0cz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

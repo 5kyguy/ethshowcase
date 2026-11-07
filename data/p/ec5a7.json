@@ -1,0 +1,27 @@
+{
+  "id": "ec5a7",
+  "slug": "clinical-quantum",
+  "title": "Clinical Quantum",
+  "tagline": "USDC agents on Arc pay for quantum NHS work only when it beats a classical floor",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ec5a7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02FC1grQ3yQQSj00d2EFTvSeG02nhp4hNeAmpw5fIZRphM/high.mp4",
+  "demo_url": "https://arcquantum.lovable.app",
+  "source_url": "https://github.com/arunnadarasa/arcquantun",
+  "finalist": false,
+  "description": "Clinical Quantum Exchange is an agentic marketplace where autonomous agents buy, grade and pay for quantum computation using USDC on Arc Testnet — but only when that computation is actually worth paying for.\n\nFour agents with their own Circle developer wallets run a seven-step pipeline over synthetic NHS waiting-list pathways (MSK physiotherapy, dermatology, ophthalmology, cardiology and more). A Trust agent applies policy and budget caps. A Baseline agent computes a classical floor and runs a dequantization gate — if a classical method matches the quantum result, the job is refused and nobody gets paid. A Nexus agent executes against committed Quantinuum Nexus specifications. A Registry agent grades the receipt, anchors its hash on Arc through a deployed, Arcscan-verified ReceiptAnchor contract, then releases USDC settlement to the agents that earned it.\n\nEvery receipt carries a SHA-256 digest sealed with SLH-DSA (post-quantum signatures), so the evidence layer survives the closing quantum gap that Circle's own quantum tracker measures at 96 demonstrated logical qubits against the 824 needed to break ECDSA — while being explicit that Arc transaction signing itself is still ECDSA.\n\nThe endoscopy pathway is deliberately blocked and shown as blocked: its 32-qubit register exceeds the 26-qubit emulator ceiling. Honest refusal is a first-class outcome. No quantum-advantage claim, no diagnosis or outcome claims — the framing is capacity, cost and patient experience only, on synthetic cohorts.",
+  "how_its_made": "Built on TanStack Start (React 19, Vite 7) with all money and crypto logic in server functions.\n\nCircle Developer-Controlled Wallets provide the four agent wallets on ARC-TESTNET, created through a bootstrap script against a freshly reset entity secret. Payments are native USDC transfers via the Circle Wallets API; on Arc, USDC is also the gas token, so the Registry wallet funds its own contract calls.\n\nReceiptAnchor.sol (Solidity 0.8.24) is deployed through Circle's Smart Contract Platform at 0xd924f134e69f678e09bd31394f975b3cdbd2f52f on chain 5042002, and verified on Arcscan via a Blockscout standard-JSON verification script. It anchors each receipt hash exactly once and rejects duplicates. An Alchemy Arc RPC endpoint is held server-side for balance and state reads.\n\nPost-quantum sealing uses @noble/post-quantum's SLH-DSA-SHA2-128f — a 48-byte seed, 32-byte public key and 17KB signature per receipt, generated and verified server-side; only fingerprints reach the browser. Anchoring and settlement are gated on a verified seal.\n\nQuantum results come from committed Quantinuum Nexus emulator specifications and run records rather than live QPU calls, with resource estimates (qubit counts, depth) driving the block/allow decision.\n\nThe hacky bit worth flagging: Circle transaction polling originally blocked the request for 24 seconds and hung the whole run. The pipeline now returns pending Circle transfer IDs immediately and the UI upgrades each row to an Arcscan link once a txHash lands.",
+  "auto_summary": "A web app runs a gated multi-agent workflow that verifies identities, anchors receipts on Arc, and conditionally settles USDC for quantum-compute jobs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/clinical-quantum-ec5a7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

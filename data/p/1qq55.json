@@ -1,0 +1,29 @@
+{
+  "id": "1qq55",
+  "slug": "wayval",
+  "title": "wayval",
+  "tagline": "Mint an ERC-721 representation of an account's assets to provide verifiable account information (wallet validation).",
+  "event": {
+    "slug": "roadtoweb3",
+    "name": "Road to Web3",
+    "start_time": "2022-02-03T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1qq55/banner/default.jpg",
+  "demo_url": "https://mumbai.polygonscan.com/address/0xA36210fA6072b9E4FB6b906C48D40cE8213F1bb7#code",
+  "source_url": "https://github.com/toyv0/wayval-ui",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊 Polygon Pool Prize",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "You wouldn’t go to your local coffee shop with every asset to your name so why do we interact with web3 in this way? every time we connect our wallets and interact with applications we are putting holdings at risk. Because many applications involve proof of ownership users frequently interact with web3 with accounts that hold a significant percent of their portfolio. \r\n\r\nTo solve for this I have created Wayval - a wallet validation platform that allows you mint an ERC-721 token called a wave. A wave acts as a proof of an account’s holdings at a given point in time. \r\n\r\nWhy is this helpful? This allows for a user to provide an account with proof of ownership without the account having to hold the underlying assets. \r\n\r\nIf an account holding a wave is compromised or you no longer want to provide that account with proof of ownership you can recover any waves that are held by other accounts. \r\n\r\nWayval v2 will incorporate a smart contract in the minting process where a user can deposit funds into a contract to mint a wave as proof of collateral. \r\n\r\nThis would enable a user who holds a wave to borrow against this proof of collateral and access funds on an as needed basis. Each time a user borrows funds it will update the metadata on the wave to update the collateral balance accordingly.  \r\n\r\nNow when a wave is recovered, if the remaining balance is 0 a user can simply burn the wave and liquidate their collateral or deposit the wave into the contract and receive their leftover collateral.",
+  "how_its_made": "Frontend / UI:\n\n\n\nI created the fronted to interact with the solidity contract using Javascript, React, Moralis, and Ethers.js. Moralis was very handy in order to quickly query all the assets associated with an account. \n\n\n\nHaving the assets and account information I was able to create react components to display account information and the custom ERC-721 data. \n\n\n\nIn order to get the snapshot of an accounts holdings I would compile an object from the data retrieved from Moralis plus account information using ethers.js and base64 encode it to pass it to the solidity contract as a parameter.  \n\n\n\nPlugging in the contract abi, I used ethers.js to trigger functions on the contract in order to mint and recover the ERC-721 tokens. \n\n\n\n\n\n\n\nERC-721 Contract:\n\n\n\nI created an ERC-721 solidity contract that extended the ERC721URIStorage open zeppelin token contract. I added two mappings to the contract in order to quickly do validation of what address minted a given token and retrieve all tokens minted by a given address. \n\n\n\nI used a version of a transfer function in order for an account to recover a token at any given time, coupled with custom logic to ensure only the minting account could be the account to recover the token. \n\n\n\nIf you are checking out the contract you might also see a burn function I implemented. It also has custom validation to make sure only the minting account would be able to burn a specific token. \n\n\n\nWithin the burn function I had a bit of fun trying to figure out the best way to manipulate the array of tokens an account has minted. I thought about two different approaches and left them both in for reference. I went with the choice to change the array length because it would make it easier on the front end to read in data. \n\n\n\nIn order to test and deploy the contract I used hardhat and alchemy. You can clone and run the tests for yourself if you would like by running npm run local. This will run the run.js file I used for testing the contract’s functions. \n\n\n\nIf you made it this far thank you for taking the time to read this and checkout my project. I really appreciate any and all feedback. It’s been a blast building!",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wayval-1qq55",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

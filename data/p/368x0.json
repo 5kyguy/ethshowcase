@@ -1,0 +1,35 @@
+{
+  "id": "368x0",
+  "slug": "bailiff",
+  "title": "Bailiff",
+  "tagline": "Any keeper can liquidate restricted-RWA loans via Uniswap v4. The RWA never leaves the allowlist.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/368x0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FqphtA6TH4t3DyxThIXj5IV01mN9Z58Uol3dXhowRB2g/high.mp4",
+  "demo_url": "https://youtu.be/GT6e6Lab5Ig",
+  "source_url": "https://github.com/eugenioclrc/bailiff",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "2nd place",
+      "title": " Best Uniswap Stack Contribution"
+    }
+  ],
+  "finalist": true,
+  "description": "Restricted RWA tokens (ERC-3643 style) only move to wallets the issuer has allowlisted. On lending markets like Aave Horizon, seized RWA collateral can only go to the issuer's allowlisted holders. So liquidators must be KYC'd, pre-funded in stablecoins and able to hold the RWA. If that small group is slow or missing, lenders can be left with bad debt.\n\nBailiff splits the trigger from the receiver. Any keeper can call the LiquidationAdapter, even with 0 USDC. In one transaction it sells the seized RWA on a Uniswap v4 permissioned pool, repays the liquidated debt and pays the keeper a USDC bounty. The keeper never touches the RWA. If the sale cannot cover the debt, everything reverts.\n\nBailiff expands the keeper set without expanding the holder set.\n\nThe issuer keeps control. On the liquidation side it flags one sell-only contract, the adapter, next to the pool's own wrapper, and never the keeper. The token's controls (allowlist, freeze, pause, forced transfer) and the issuer's bounded NAV oracle still apply. Revoke the adapter and the same keeper call reverts in Uniswap's hook. Bailiff is an extra route next to KYC liquidators, not a replacement.\n\nThe buyer is the pool's allowlisted LP, a KYC market maker in the demo, whose USDC sits in the pool ahead of time. Aave's liquidationCall sends the collateral first and pulls the stablecoin from the caller at the end, with no callback in between. v4 flash accounting lets the adapter sell the RWA before it holds it, so the keeper fronts nothing.",
+  "how_its_made": "Solidity 0.8.26 and Foundry on Uniswap v4-core and v4-periphery. No custom hook. The demo runs on an Anvil fork of Sepolia and the pinned tests on a Foundry fork, both at block 11782723, against Uniswap Labs' deployed PoolManager, PermissionsAdapterFactory and PermissionedHooks. My PermissionsAdapter comes from the real factory, and the adapter's constructor checks verifiedPermissionsAdapterOf.\n\nInside one PoolManager.unlock, LiquidationAdapter:\n- previews the exact repay and seize amounts\n- swaps exactly the seize amount of vRWA (the PermissionsAdapter wrapper) for USDC. Flash accounting leaves the vRWA delta open, so it sells collateral it does not hold yet. No keeper capital, no flash loan.\n- before any transfer: reverts if proceeds < repay; bounty = min(surplus * keeperBps / 10,000, the market's 6% bonus on repay); reverts if bounty < minBounty\n- takes the USDC, repays the market, receives the RWA\n- closes the vRWA delta: sync, RWA to the PermissionsAdapter, wrapToPoolManager, settle\n- pays the keeper and pushes the rest to the borrower\n\nNotes:\n- msgSender() returns the adapter, so Uniswap's hook checks the adapter, not the keeper.\n- PermissionedV4Router checks allowedHooks and the deployed hook leaves that to callers. The adapter calls PoolManager directly, so it runs the same check (test_adapter_hookNotAllowed).\n- MockRWA3643 (ERC-3643-style: HOLDER, freeze, pause, forcedTransfer; no ONCHAINID) is its own IAllowlistChecker. One issuer registry answers Uniswap's SWAP/LIQUIDITY flags and the token's HOLDER gate.\n- The console's keeper has no swap permission, so it quotes by eth_call on the adapter, then sends with minBounty at 97% of the quote.\n\nKnown gaps:\n- No NAV execution floor yet: the swap has no price limit. The protocol-side guard is proceeds >= repay; minBounty only protects the keeper's cut.\n- The surplus is pushed to the borrower's wallet, not credited, so a borrower that cannot receive USDC can block its own liquidation.\n\nTests: 59/59 pass (unit, fuzz, 6 invariants on a simulated venue, local PoolManager, fork tests on latest Sepolia). A 32-test acceptance suite pins block 11782723, its parent hash and the Labs codehashes: 13 pass, and 19 are red on purpose because they specify fixes not built yet, including a claimable borrower credit and the NAV floor. Main proof: test_anonDirectFails_adapterSucceeds and test_wrapperRevocationChangesSameCall. Demo console: SvelteKit + viem, local fork only, 225 passing bun tests. FEEDBACK.md has integrator notes for Uniswap.\n",
+  "auto_summary": "A Solidity and Svelte project demonstrates liquidation of restricted ERC-3643-style RWA collateral through Uniswap v4 permissioned pools without keeper pre-funding.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bailiff-368x0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "h09mv",
+  "slug": "zuno",
+  "title": "Zuno",
+  "tagline": "Four AI agents debate every Uniswap v4 rebalance. You see the reasoning. Then you sign.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h09mv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2hNP802BoAKCHCDzEah9H8k4cd029u78LO25yaf00Emcz00/high.mp4",
+  "demo_url": "https://zuno-suw4.onrender.com",
+  "source_url": "https://github.com/Meriem-BM/algorithmic-desc",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Best Uniswap API integration"
+    }
+  ],
+  "finalist": true,
+  "description": "Zuno is a terminal-native copilot for Uniswap v4 liquidity providers. You type plain English (\"rebalance position 42\") and watch four AI agents debate the move in real time before anything touches your wallet.\n\nThe debate model is the core idea. Scout reads the position and the market regime from chain. Strategist proposes 2 to 5 candidate ranges. Critic re-runs the math (stress simulation, gas-to-yield ratios, risk-profile floors) and either accepts, asks for revisions, or vetoes every option. If two rounds pass without convergence, an Arbiter reads the full transcript and picks one. The whole argument streams to your terminal as it happens, so you never approve a plan you can't explain.\n\nCrucially, the LLMs only pick reasoning shapes (width multiplier, center offset, exposure bias). Deterministic code does every piece of math that touches money: tick snapping, inventory allocation, calldata building, slippage bounds, policy enforcement. The model cannot hallucinate a tick, an amount, or an address. The Critic re-verifies every number with the same primitives Scout used. A hard policy gate (allowlisted Position Manager, no native value transfers, simulation must succeed, risk verdict must not be reject, approvals must be sufficient) runs before Turnkey is ever asked to sign.\n\nThe agent wallet is Turnkey-backed with sub-organization isolation. The CLI never holds a signing key — only short-lived (1h) session API credentials generated from a P256 ephemeral keypair after email-OTP sign-in. A separate background monitor polls positions every minute and pings you on Telegram when one drifts out of range, so you know to ask Zuno for a recommendation before the impermanent loss compounds.\n\nThe result: an LP workflow you can audit, that runs entirely from your terminal, and that never asks you to trust a black-box answer.",
+  "how_its_made": "Zuno is built as a pnpm + Turborepo monorepo with seven packages and four apps: the CLI, the web landing page, the Mintlify docs, and a Cloudflare Workers auth proxy that lets the public CLI talk to Turnkey without shipping parent-org credentials.\n\nThe CLI is built with Ink + React for the terminal UI. The landing page uses Next.js 16, Tailwind 4, and IBM Plex Mono. The agent layer runs four independent AXL nodes, one per role, wired through Gensyn’s Agent eXchange Layer. Each agent is its own process with an ed25519 peer id, and messages flow as typed AXL envelopes: flow_start, context_observed, proposal, critique, deadlock, plan_ready, and agent_thought.\n\nWhen AXL nodes are not visible locally, the CLI silently falls back to an in-process orchestrator that runs the same four handlers in one Node process. If the OpenAI key is unset, a deterministic recommender takes over with the same message kinds. This gives Zuno three execution paths with the same user-facing surface.\n\nEvery LLM call uses OpenAI structured outputs with zod schemas, so malformed or out-of-range responses are rejected before they reach business logic. The Critic re-runs stress simulation, gas/yield ratios, and rebalanceCostUsd from the same on-chain inputs Scout used, instead of trusting the Strategist’s claims. Risk-profile floors like BUFFER_FLOOR_HOURS and GAS_YIELD_CEILING are typed Records keyed by RiskProfile and applied identically in the LLM and deterministic paths.\n\nPool discovery is done through real on-chain probing of Uniswap v4. Zuno deterministically derives PoolKey hashes for every token0, token1, fee tier, and tick spacing combination across a curated stable and volatile token allowlist, then reads StateView.getSlot0 and getLiquidity to confirm initialization. There is no subgraph dependency or centralized indexer. Calldata for rebalance and mint is built deterministically with Viem’s encodeAbiParameters against the Uniswap v4 PositionManager, so the LLM never produces bytes that hit chain.\n\nWallet flow is powered by Turnkey email-OTP sign-in. The CLI generates a P256 ephemeral keypair locally, gives the public key to Turnkey via otpLogin, and stores 1-hour session API credentials in ~/.zuno/session.json with mode 0600. First-time sign-in provisions a Turnkey sub-organization, so even the parent org only has read-only access to the wallet. Every apply flow runs through prepareApply -> simulatePlan -> checkExecutionPolicy -> ethSendTransaction. Any policy failure, including blocked target, native value transfer, revert, missing approval, or risk reject, aborts before signing.\n\nPartner tech is central to the project: Gensyn AXL powers the agent mesh transport, Turnkey provides custodial signing with sub-org isolation, Uniswap v4 is the target protocol, and OpenAI powers the structured agent reasoning layer.\n\nNotable hacks: ZUNO_UNISWAP_REBALANCE_CALLDATA lets us test the apply path with hand-crafted calldata during development. The peer-discovery layer also treats unreachable AXL nodes as offline and automatically routes through the in-process orchestrator instead of failing, which made the hackathon demo much more robust.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zuno-h09mv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

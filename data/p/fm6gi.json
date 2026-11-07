@@ -1,0 +1,21 @@
+{
+  "id": "fm6gi",
+  "slug": "near-fusion",
+  "title": "NEAR Fusion+",
+  "tagline": "Its an Fusion + extension for NEAR protocol that allows token to be swapped with HLTC escrows",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fm6gi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7M401mBy24JUzjCiy9I5L1zkS00kHCM9FrW023oGYrsQ9E/high.mp4",
+  "source_url": "https://github.com/mayanktestweb/fusion-plus-extension",
+  "finalist": false,
+  "description": "This escrow contract implements a comprehensive HTLC system where makers create orders by depositing tokens through fungible token transfers, and resolvers can fill these orders partially or completely by providing safety deposits. The system uses hashlocks (cryptographic secrets) to ensure atomic swaps - either both parties get their tokens or the transaction fails entirely. The contract supports partial fills through Merkle tree proofs, allowing large orders to be filled incrementally by multiple resolvers. A sophisticated timelock mechanism provides four distinct phases: private withdrawal (resolver with secret), public withdrawal (maker with secret after timeout), private cancellation (taker only), and public cancellation (anyone after extended timeout). The unique feature is that even \"public\" withdrawals still require the secret, ensuring the atomic swap property is maintained throughout the process.",
+  "how_its_made": "Built using NEAR SDK for Rust, the contract leverages Borsh serialization for efficient data storage and retrieval. The core architecture centers around two main data structures: MakerOrder storing order details and ResolverOrderFill containing immutable swap parameters. For partial fills, the system implements a Merkle tree verification system where orders with N parts require N+1 secrets - the first N secrets unlock individual parts, while the final secret must be used to complete any remaining amount, ensuring proper order completion tracking. The contract integrates with NEAR's fungible token standard through the ft_on_transfer callback, automatically processing incoming token transfers and validating maker orders. Safety deposits are enforced through NEAR's payable function decorators, and all mathematical operations use checked arithmetic to prevent overflows. The timelock system uses NEAR's block timestamp for time-based validations, while the secret validation relies on SHA-256 hashing provided by the shared utility library. Storage is optimized using NEAR's LookupMap for O(1) access to orders, with automatic cleanup when orders are fully withdrawn or cancelled.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/near-fusion-fm6gi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

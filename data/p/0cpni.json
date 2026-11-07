@@ -1,0 +1,26 @@
+{
+  "id": "0cpni",
+  "slug": "proxyproof402",
+  "title": "ProxyProof402",
+  "tagline": "ProxyProof402 proves AI API providers’ usage, costs, and failures with zkTLS.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0cpni/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tnrCdyFbUgR00Ux7aWke9Taxxit6800sqrBKpHQ1WTFWs/high.mp4",
+  "source_url": "https://github.com/Raaffs/ProxyProof402",
+  "finalist": false,
+  "description": "ProxyProof402 verifies that AI API providers honestly represent the third-party AI services they use and charge for. A provider may have API access to powerful models such as Claude fable 6, GPT 5, Gemini 3.1 Pro, etc while a client may only need these expensive models occasionally. Instead of maintaining direct access to every model, the client can pay a provider on a pay-per-token basis using x402 payments settled on Hedera, with the provider making the upstream API call on their behalf. zkTLS lets the client prove the provider’s claims about that interaction, including which API/model was used, how many tokens were consumed, what response was returned, and whether an overpayment was refunded.\n\nThe problem is that x402 payment happens before the client knows what the provider actually did. A provider could claim it used Claude while calling a different API, misreport token usage, keep an overpayment, or simply crash after receiving payment. Independent validators can compare outputs against a base model, but this remains heuristic and cannot independently observe what happens inside proprietary AI systems. Escrow can provide stronger guarantees, but adds additional on-chain interactions and gas overhead. ProxyProof402 instead gives the client a way to prove the interaction itself: when using zkTLS, the client can prove that it established a session with the provider and cryptographically demonstrate what the provider returned, or that the provider failed, crashed, returned an error, or otherwise violated the agreed conditions. A smart contract can then evaluate this evidence and automatically determine the provider’s resulting trust score and economic consequences.\n\nzkTLS does not have to be used for every request. If a provider has built a high trust score through previous verifiable interactions, a client can choose to send a normal TLS request and avoid the zkTLS overhead. Clients can define their own policies around when proof is required, such as requiring zkTLS for new or low-score providers while trusting high-score providers by default. World ID selfie verification adds human uniqueness to prevent participants from cheaply creating identities to manipulate these scores. The result is a system where providers can be used normally when trusted, while clients retain a cryptographic mechanism to prove when a provider lied, failed, or violated the terms of a pay-per-token transaction, with that evidence automatically reflected in the provider’s trust score.\n",
+  "how_its_made": "ProxyProof402 lets clients verify AI API providers instead of simply trusting their claims. Providers first complete a World ID selfie check through the World App to prove they are unique humans and reduce Sybil attacks. They then register an AI agent using ERC-8004, including the third-party AI API/model they claim to use, while their skills are registered on Hedera HCS-26 for A2A discovery.\n\nClients discover a suitable provider through HCS-26 and pay per token using x402, with Blocky402 as the facilitator and settlement on Hedera. The provider makes the upstream request and uses Reclaim zkTLS to prove what actually happened, including the API/model used, token usage, and response. The client can also use zkTLS to prove what happened between itself and the provider, including cases where the provider lied, failed, returned an error, or violated the agreed conditions.\n\nIf a client successfully proves a violation through the ERC-8004 Validation Registry, the provider loses 1 trust point while the client earns 1 trust point. Client points can later be used to access services from other providers, creating an incentive to verify dishonest behavior. If a client significantly overpays for a request, the provider can refund the excess payment, with the refund also included in the zkTLS proof so the client can verify that it actually happened.\n\nBecause ProxyProof402 uses pay-per-token x402 through Blocky402, there is no escrow or payment-locking overhead. Payments remain a simple x402 flow, while zkTLS provides the evidence and ERC-8004 records the resulting reputation. zkTLS is only required when the client chooses it, such as for new or low-score providers. Trusted providers can use normal TLS, keeping the system lightweight while preserving the ability to cryptographically prove when a provider breaks its promise.",
+  "auto_summary": "A multi-component app for registering human-backed AI providers, settling paid requests, and validating provider behavior with zkTLS proofs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/proxyproof402-0cpni",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "vkjoi",
+  "slug": "agentbounty",
+  "title": "AgentBounty",
+  "tagline": "Permissioned AI agents pay for data, complete bounties, and earn verified rewards.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vkjoi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sYsR5souhb6ng3n9k6piIW3sKBacZirnQuA66ydQ4R8/high.mp4",
+  "demo_url": "https://agent-bounty-khaki.vercel.app/",
+  "source_url": "https://github.com/hanumantjain/agent-bounty",
+  "finalist": false,
+  "description": "AgentBounty lets AI agents safely do real economic work. Each agent gets a real ENSv2 subname identity (e.g. researcher.agentbounty.eth) with an on-chain spending limit set as an ENS text record, editable only by a scoped Enhanced Access Control role. Agents browse a bounty marketplace, claim tasks atomically on an escrow smart contract, and pay for data via Hedera's x402 protocol — a real signed Hedera transaction settled through the Blocky402 facilitator, permanently logged to a Hedera Consensus Service topic as an independent audit trail.\n\nData itself comes from The Graph: one standardized GraphQL query runs identically across multiple live Messari-schema subgraphs (Aave, Compound, Morpho), so the agent needs zero protocol-specific code. An LLM judges the result and submits an answer on-chain, but it's never blindly trusted — an independent verifier re-runs the same live query and compares results before any reward is released, in whichever asset (HBAR or our HTS token, ADC) funded the bounty.\n\nThe result: agents with a provable identity, a hard spending ceiling they cannot exceed, and an auditable trail for every dollar spent — not an unrestricted wallet and an API key.\n",
+  "how_its_made": "Frontend: React 19 + Vite + Tailwind 4, calling a small Express 5 API that drives the agent's live-execution timeline.\n\nIdentity: ENSv2 (Sepolia beta contracts, called directly — no manager.ens.dev). A setup script deploys our own subname registry, mints researcher/intern/director subnames, and writes an agent.spending.limit text record editable only via a scoped Enhanced Access Control grant. viem reads it live, never from a config file.\n\nPayment: Hedera testnet via @hashgraph/sdk and viem (one ECDSA key covers both Hedera and EVM). Data requests go through a real x402 flow via the Blocky402 facilitator; every settlement logs to a Hedera Consensus Service topic as an independent, mirror-node-checkable audit trail.\n\nData: The Graph — one GraphQL query written once against the Messari lending schema, run unmodified across three live subgraphs (Aave, Compound, Morpho).\n\nJudgment: OpenAI gpt-4o-mini via a hand-rolled fetch wrapper (no SDK), temperature 0. The same judge path runs both when an agent claims a bounty and when an independent verifier re-checks it before payout.\n\nContracts: one Solidity escrow (raw solc, deployed with viem — no Hardhat) holding HBAR or our own HTS token (ADC), with exclusive-claim semantics so a multi-identity race resolves to one on-chain winner.",
+  "auto_summary": "A multi-part app where ENSv2-identified agents claim bounties, buy live blockchain data, and settle payments and rewards on Hedera.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentbounty-vkjoi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

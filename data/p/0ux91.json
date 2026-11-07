@@ -1,0 +1,48 @@
+{
+  "id": "0ux91",
+  "slug": "sherlocked",
+  "title": "SherLOCKED",
+  "tagline": "An FHE based privacy enabling infrastructure for EVM blockchains.",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0ux91/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Oct1lZRel7S9XdsE015kqKUx02SbXTzwVGX00bY6md37Jg/high.mp4",
+  "demo_url": "https://sherlocked-fhe.vercel.app",
+  "source_url": "https://github.com/nlok5923/SherLOCKED",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": " 🔀 Polygon — Best Use of zkEVM",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Pool Prize",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🥈 Scroll — Best Use",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Everything on blockchain is public by design. Once a transaction is added to the blockchain, it becomes visible to anyone who wishes to see it. Though it caters to the core decentralised nature of the blockchain, it also open multiple scenarios of information getting snooped. Some of them are:\n\n1. Wallet Spying - Since whatever values an account holds is visible on the block explorer. Anyone can analyse the wallets about the activity, which might not be desirable for every account holder like institutional investors, or some account owners who doesn’t wishes to disclose its amount.\n\n2. MEV Extraction - Searchers could see the transaction data and can leverage those information to extract MEV out of user's transactions. Which leads to user getting bad prices.\n\n3. Scam Attacks - Dusting attacks is a perfect example, where an attacker sends small amounts of cryptocurrency to a large number of public addresses. Since all transactions are publicly recorded, the attacker can then track the movement of these \"dusted\" funds and try to identify patterns or clusters of addresses that belong to a single entity. Armed with this information, the attacker could engage in more targeted phishing attempts or other types of fraud.\n\nOn all the above issues, the core problem is the public visibility of the data on the blockchain. sherLOCKED is a full scale developer friendly infrastructure to encrypt this public transaction data, so anyone trying to snoop on the data is unable to make sense out of it as the data on the blockchain would be avalaible in the encrypted manner.\n\nSherLOCKED is a full fledged infrastructure developed from scratch which devs can use to write their custom smart contracts capable of operating on encrypted data over the blockchain.\n\n1. When the user sends the transaction to the smart contract, before calling the function on chain, it is first encrypted by the network of nodes which uses MPC to encrypt data and the encrypted comes to the SDK.\n\n2. SDK then calls the smart contract function with encrypted data as function parameters. Thus the smart contract operates on the encrypted data. As now encrypted data get passed into function parameters so the data visible onchain is itself a cipher.\n\n3. Computation on the encrypted data is gas heavy, therefore it is outsourced to zkVM based RISC0 proof computer (Bonsai) which computes and provide the proofs to ensure that the operations performed are legit. The proof is then verified by the relayer deployed on the EVM chain and then finally states updated.\n\n4. On chain every computation happened in encrypted domain, the user can decrypt the data later with the help of MPC based decryptor, after proving the ownership of data.\n\nFor this hackathon we have demonstrated it over the ERC20 tokens. We have implemented our own custom ERC20 contract which stores the token balance in encrypted domain. All operations like transfer, balanceOf is done in encrypted domain, which is decrypted by the network of nodes to show the exact asset value.",
+  "how_its_made": "TLDR;\n\nZK + MPC + FHE = SherLOCKED\n\nDescription\n\nThere are a total of three major components in this infrastructure \n\n- SherLOCKED SDK\n- Network of nodes\n- zkVM compute infrastructure\n\nsherLOCKED SDK\n\n- it’s an javascript npm package that enables developers to build encrypted transactions. And get the encrypted data decrypted. The sdk communicates with the network of nodes. It sends the data needed to encrypt to a network of nodes then the network encrypts it and sends it’s back to the sdk. Similarly, when user needs to see the balance in raw form the sdk makes call to network of nodes with a signed message from user to prove his ownership over that address the network of nodes checks the ownership and if it’s fine then it returns decrypts the data and send’s it back to the sdk.\n\nNetwork of nodes:\n\n- Network of nodes is a really crucial entity here where every node contains a shard of a  private key. When the network receives a request a encrypt a particular piece of data the network performs MPC (multi-party computation) and gathers the actual key and encrypt the data with that key and returns it back to user. Similarly when it receives request to decrypt the data it verifies the ownership of data via a signed message decrypts the data and sends back to the sdk. Additionally, we are somehow planning to leverage eigen layer restaking protocol to enable existing trusted validators to operate the nodes in the network of nodes.\n\nzkVM compute infrastructure:\n\n- Basically, all the operations in the smart contract are occuring on the encrypted data. Additionally, as this operations are occurring on encrypted data these operations are pretty gas-heavy. To facilitate this operation we are leveraging the zkVM proof compute infrastructure (Bonsai). In zkVM proof infra we wrote our own Fully homomorphic encryption functions for addition and subtraction in rust in zkVM environment. So whenever the smart contract needs to perform an addition operation over two encrypted values it calls the relay and our relay fires the event which is picked by the zkVM proof compute infra and then the infra computes the final encrypted value and the proof (stating correct execution of homomorphic functions) and relay contract then receives the final value and proof and then verifies the proof if the proof is valid then it updates the states of the contract with the encrypted output.\n\nAdditionally, we deployed our infra to multiple EVM based chains which include scroll sepolia testnet, sepolia testnet, zkEVM testnet, mantle testnet to show that our infrastructure can be deployed on any EVM absed chain",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sherlocked-0ux91",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

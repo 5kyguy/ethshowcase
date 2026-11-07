@@ -1,0 +1,35 @@
+{
+  "id": "atdw9",
+  "slug": "semaphore-relay-bot",
+  "title": "Semaphore Relay Bot",
+  "tagline": "A relay bot which could help in relaying transaction through semaphore network",
+  "event": {
+    "slug": "circuitbreaker",
+    "name": "Circuit Breaker",
+    "start_time": "2024-02-02T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/atdw9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cK2Kc1RXBzHoYdktQ2j02S5sUwqyiLjFnIOR01E00fmLAc/high.mp4",
+  "source_url": "https://github.com/Prajjawalk/Semaphore-relay",
+  "prizes": [
+    {
+      "sponsor": "Sindri",
+      "sponsor_id": "h0nyy",
+      "placement": "1st place",
+      "title": "Most unique use of Sindri"
+    },
+    {
+      "sponsor": "Iron Fish",
+      "sponsor_id": "cycii",
+      "placement": "Best use of the Iron Fish protocol with interaction from an EVM chain ",
+      "title": "Best use of the Iron Fish protocol with interaction from an EVM chain "
+    }
+  ],
+  "finalist": true,
+  "description": "Semaphore Relay bot enables anybody to relay transactions by simply messaging the bot all the transfer details such as to-address, asset amount, asset class, etc. and the bot completes the transaction on the user's behalf. This creates the most user-friendly transaction interface while preserving the user's privacy.  The semaphore bot is a smart contract that could be added to any semaphore group by generating its new identity and adding its identity to the group.\n\nThe user first anonymously funds the bot using the $IRON token on the Ironfish network which is a zk-based privacy-preserving blockchain network and generates the proofs in the Noir circuit of spend limit to be used for relay bot verification. After successfully funding the bot and generating proof, the user can message the bot \"/bot send {token_amount} {token_name} {to_address}\" and attach proofs of spend limit. The bot parses the message, verifies the proof of spend limit, computes the relay proof which ensures that the amount relayed + transaction fees is within the user's spend limits on Sindri, and executes the transaction. \n\nAfter the transaction is successfully executed the bot returns the transaction hash of the relayed transaction which users can verify onchain.\n\nThe are a lot of super cool applications of this amazing bot including but not limited to - \n1. Anonymous crowdfunding\n2. Trustless transactions between two private entities\n3. Anonymous governance voting",
+  "how_its_made": "The base layer of the semaphore relay bot is the semaphore network which enables anonymous messaging between group members while ensuring their privacy. The semaphore relay bot is simply a wallet address that has a unique identity in a semaphore group. When the semaphore relay bot gets added to the group it listens to all the group feedback and filters out feedback with \"/bot\" invocation. After filtering all invocation feedback it parses them to extract transfer details such as asset name, amount, to-address, proofs, etc. and after verifying all the proofs successfully it executes the transactions on the user's behalf.\n\nIronfish network is used for compensating the bot for all the user's transactions because of its feature supporting ZK-based anonymous transactions. The user first transfers the $IRON tokens to the bot address and generates the proofs of transfer and spend limit. After generating the proof of transfer and spend limit user uses these proofs for transaction relay. An append-only  Merkle tree is maintained of all the user's transactions to the bot consisting of info common to only the bot and users such as transaction hash, and shared keys, and this Merkle root is used as the verification key of the user's spending limit proofs. \n\nThe Noir is used for all the proof generation and verification. There the two proofs involved in the entire user journey - \n1. The first proof is of the spending limit which is generated on the user's side after successfully funding the relay bot with $IRON. This proof checks that the Merkle tree root matches with the root generated from the latest relay bot funding transaction information and verifies that the spending limit is correct.\n2. The second proof is generated on the relay bot's side and it makes sure that the asset amount + relay transaction is within the user's spending limits.\n\nSindri is used for anonymous proof generation of the relay bot's side to ensure that none of the user's private information such as location, address, etc. leaks in the process of proof generation, and Sindri is also used for making semaphore bot scalable as all the major heavy lifting of proof generation and verification is outsourced to Sindri backend.\n\nThe Scroll is used as the semaphore relay bot smart contract execution layer. We have used Scroll to deploy the semaphore network and relay bot. The relay bot smart contract takes all the transaction parameters and proofs as input, verifies proofs on-chain, and on successful verification it executes the transactions on the user's behalf on the Scroll network.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/semaphore-relay-bot-atdw9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

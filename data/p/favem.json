@@ -1,0 +1,22 @@
+{
+  "id": "favem",
+  "slug": "agent-verify",
+  "title": "Agent-Verify",
+  "tagline": "Trust layer for AI agents: ENS identity, on-chain execution proof, and decentralized storage.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/favem/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iWA87OvFmkU6ldh01rh02IhJqCL01o00M00LfNyQ01CefMkSc/high.mp4",
+  "demo_url": "https://agent-verify-marcos.vercel.app/",
+  "source_url": "https://github.com/tusharshah21/agent-verify",
+  "finalist": false,
+  "description": "AgentVerify is the trust infrastructure for autonomous AI agents. Today, AI agents execute trades, trigger automations, and move funds — but there's no way to verify who they are, who authorized their actions, or whether execution actually happened.\n\nAgentVerify solves this with five integrated layers: ENS gives every agent a verifiable on-chain identity (.eth name on Sepolia). KeeperHub automates gasless task execution with an immutable audit trail. Uniswap V3 provides trustless on-chain price verification for agent-proposed swaps. 0G Storage persists agent state on a decentralized network — no single point of failure. Gensyn AXL enables encrypted P2P agent-to-agent communication and capability discovery across a decentralized mesh.\n\nThe result: any agent action can be traced from identity → authorization → execution → settlement → storage. The autonomous agent economy needs this infrastructure before it can be trusted at scale.\n",
+  "how_its_made": "AgentVerify is built on Next.js 14 with a five-protocol integration layer:\n\nENS (Ethereum Name Service): Every agent registers via the Sepolia Reverse Registrar (0xA0a1...DC0C6) using ethers.js v6. The setName() call fires a real on-chain transaction — not a simulation. Confirmed tx: 0x5e7d423f76412c12df644f89142bfd2c010fda92dbbbae1f07f6dcd8c0e44044.\n\nKeeperHub: We use KeeperHub's org API (kh_ prefix key) to queue and execute agent tasks gaslessly via a keeper network. The workflow uses a Web3 action to read live wallet balances on Sepolia and log execution results with full tx hashes.\n\nUniswap V3: We call the QuoterV2 contract's quoteExactInputSingle via staticCall — no swap executed, just a real on-chain read of the ETH/USDC pool price. This lets agents verify settlement prices trustlessly without an oracle.\n\n0G Storage: Agent state is written to the 0G decentralized network. We probe the EVM RPC (evmrpc-testnet.0g.ai) and the KV store. The EVM chain is live at block 31M+, proving decentralized persistence is active.\n\nGensyn AXL: Agents broadcast capability announcements and discover peers via AXL's P2P mesh protocol. On Windows (no binary available yet), we run a protocol-compatible local simulation. The message format, encryption, and routing logic are identical to production AXL.\n\nThe hardest integration was ENS — most Sepolia wallets don't own names, so we used the Reverse Registrar which lets any address set its reverse record without owning a domain. This costs ~0.0000001 ETH and produces a real, Etherscan-verifiable transaction in 3 seconds.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agent-verify-favem",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

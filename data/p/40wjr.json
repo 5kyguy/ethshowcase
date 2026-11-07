@@ -1,0 +1,29 @@
+{
+  "id": "40wjr",
+  "slug": "zkpoapcommunities",
+  "title": "zkPoapCommunities",
+  "tagline": "Prove you own a POAP from a specific event, without revealing your wallet address!",
+  "event": {
+    "slug": "scaling2024",
+    "name": "Scaling Ethereum 2024",
+    "start_time": "2024-04-05T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/40wjr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/YSRI4jWWP009XcYtJTy001x3TGg75LEN02Utz1jYW6mHL8/high.mp4",
+  "source_url": "https://github.com/FaezehShakouri/xPOAP",
+  "prizes": [
+    {
+      "sponsor": "RISC Zero",
+      "sponsor_id": "axdu9",
+      "placement": "ZK Coprocessor Bounty",
+      "title": "ZK Coprocessor Bounty"
+    }
+  ],
+  "finalist": false,
+  "description": "Background:\nPOAPs are everywhere and a lot of people own them. Here is a description from the official website https://poap.xyz:\nPOAP, short for \"Proof of Attendance Protocol,\" allows you to mint memories as digital mementos we call \"POAPs.\" Give POAPs to people for sharing a memory with you.\n\nTechnically, POAPs are simply NFTs on a blockchain. This means that the protocol is permissionless and composable by design. For example, someone could create a gated chat application on top of the POAP protocol to allow holders of EthGlobal POAPs to chat and interact.\nHowever, there is a fundamental privacy issue with the way the POAP protocol is currently implemented. Specifically, for holders to prove they own a POAP issued by EthGlobal, they need to disclose their wallet address. This, in turn, exposes more information about the holders than is necessary for the chat application.\n\nSolutions:\nA new protocol 🤔\nAn obvious solution to the privacy problem is to design and implement a new protocol with privacy built into its design. While this approach might work, it would require significant duplicate engineering efforts and would need the promotion of an entirely new protocol. And then what about all the POAPs already issued? do people then have to migrate to the new protocol?\n\nZK to the rescue 💯\nAn ideal solution would work like this: The existing POAP protocol continues to function as usual, allowing people to issue and own POAPs just as they always have. However, when a holder wants to demonstrate ownership of a POAP from a specific event, they can do so without revealing their wallet address. Additionally, applications could integrate with the privacy-preserving protocol in a permission-less manner.",
+  "how_its_made": "Holders would generate a zero-knowledge proof of ownership for a POAP from a specific issuer off-chain. They could then use this proof to join a Semaphore group. By leveraging the Semaphore protocol, application developers could enable anonymous interactions using existing tools. Additionally, a Semaphore identity offers the added benefit of allowing holders to interact with the system without needing to regenerate a proof each time.\n\nWhat exactly is being proven is zero knowledge?\n1 - POAP data\nEach POAP is associated with an eventId. And all the required information is stored on-chain. More specifically the following view on the POAP contract is all we need:\n\nfunction tokenDetailsOfOwnerByIndex(address owner, uint256 index) external view returns (uint256, uint256);\n\nThis view takes in an owner address and an index. It then returns the corresponding tokenId and eventId. From this information, we'll want to expose the eventId and keep everything else (owner, tokenId, index) private. For this part, We'll make use of the view-call library of risc0 to query the blockchain and generate a proof of the validity of data.\n\n2 - Ownership of the wallet\nSo far we have generated a proof that there exists an owner holding a POAP issued in a given event. Now the holder needs to proof that they actually have the private key of the owner wallet.\n\nFor this, the user is required to signed predetermined message, like the following and pass it to the risc0 guest program:\n\nThis is a message that will be signed, and verified within the zkVM. It is intended to prove ownership of a POAP with eventId xxxx\n\nthe guest will then extract the signer of this message from the provided signature and makes the blockchain query described in step 1.\n\nWhat is the nullifier?\nTo prevent a holder from joining multiple times, the hash of their signature is used as a nullifier. However, even though this prevents the same owner from joining more than once, it does not prevent a new owner from using the same token if it is transferred. To address this, we need to freeze the block number at which the blockchain query is made, effectively disabling transfers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkpoapcommunities-40wjr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

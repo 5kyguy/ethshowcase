@@ -1,0 +1,46 @@
+{
+  "id": "k1rut",
+  "slug": "powdone",
+  "title": "POWDone",
+  "tagline": "Gamified goal and milestone accomplishment with adaptable verification methods suited for private, group and public goal tracking. Replace tedious journaling and flimsy accountability groups with technology similar to POAP’s. ",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/k1rut/banner/default.jpg",
+  "source_url": "https://github.com/Podima2/POWDoneProtocol",
+  "prizes": [
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "🥈 Lit Protocol — Best use of PKPs",
+      "title": "Lit Protocol"
+    },
+    {
+      "sponsor": "UMA",
+      "sponsor_id": "fp1x1",
+      "placement": "🏊‍♂️ UMA — Pool Prize",
+      "title": "UMA"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊‍♂️ Scroll — Pool Prize",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "🏊‍♂️ Arbitrum — Pool Prize",
+      "title": "Arbitrum"
+    }
+  ],
+  "finalist": false,
+  "description": "The front-end allows users to sign in with gmail utilising LIT protocol account abstraction, this mints a proxy for a wallet that the user has without having to actually onboard web3, nor do they need to know. This is important because the best strategy for onboarding web2 users is not to mention blockchain related terminology unfortunately. Then, the goal description, deadline, stake amount and verification method are selected. These are non-trivial parameters and users will be notified to think carefully when defining them. \n\nThe flow from here depends on the verification method. Let’s assume the user has selected a goal whereby a counter increments with every instance of activity related to the goal. That counter exists as an API endpoint saved on IPFS through an Infura end-point. When this goal is set by the user several things occur. Keep in mind that this would be an example of a public goal that anyone can verify.\n\nFirst, the IPFS hash is read and assigned to the PKP that is being minted and populated with all the goal parameters. This PKP utilises the decentralised private key to sign any transactions, therefore if the Lit Action is called, it will only be executed if this particular PKP is connected. \n\nThe interesting step from here and the power of LIT protocol is that a burn and grant process occurs now to the PKP, all abstracted away from the user of course. The PKP has a public key associated to the decentralised private key held on all the LIT nodes, this pair in-turn is associated with the wallet the user created, meaning the user wallet can only initiate transactions signed by that PKP. This association can be severed and instead, replaced with the hash of the IPFS file, meaning that the code defining the activity progression can only use the specific PKP to sign transactions. \n\nThe consequences of this is that anyone calling the Lit Action can cause the transaction to be signed, but only by the particular PKP minted by the goal declaration. Meaning all calls of the Lit action, irrespective of their origin, all cause a state change on the smart contract that tracks the goal progression for the specific user and their specific goal. In this way, a similar technology to a POAP is achieved. \n\nNow let’s assume the goal is shared amongst a group, an accountability group. In this case, the difference in the flow is that instead of a Mint-Burn-Grant and associating the IPFS hash to the PKP, we associate certain users to call the Lit Action and only then dissociate the original wallet. This is a common verification method used by goal tracking applications, this is the supervisor selection method. ",
+  "how_its_made": "Stack:\nnextjs\ntailwindcss\nshadcn ui\nbun js runtime\naws\nhardhat\n\nLit protocol is used as a authentication method. The whole application is powered by lit, UMA is another verification method. Arbritrum and Scroll are used to store the goal hash which is IPFS. Filecoin is be used to pin IPFS file.\n\nLit Helper\n\nPKP Ethers Wallet Fixes:\n Added call method to pkp ethers wallet to execute contract calls through pkps\n Utility to populate tx when using pkp to call contract methods. usage in mintgrantburn\nTests\nBrowser\n setTask flow\n fetchTasks flow\n markDone flow (unable to test)\n[] verify\nNode.js test script\n setTask tested\n fetchTasks tested\n markDone tested\n verify signature against stored ipfs hash tested\n\nUma as a verification method: https://github.com/Podima2/POWDoneProtocol/blob/3d6a4b02871f2af626569e137c5b3cf94b33ff00/services/3033-smart-contracts/packages/hardhat/contracts/PowDoneGoal.sol#L168\n\nScroll and Arbitrum to store goals and FileCoin as IPFS pinning service ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/powdone-k1rut",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

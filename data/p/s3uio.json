@@ -1,0 +1,35 @@
+{
+  "id": "s3uio",
+  "slug": "roman-kyoto",
+  "title": "Roman Kyoto",
+  "tagline": "a MASP (multi asset shielded pool) that allows for users to deposit and transfer ERC20s privately",
+  "event": {
+    "slug": "sydney",
+    "name": "ETHGlobal Sydney",
+    "start_time": "2024-05-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s3uio/banner/default.jpg",
+  "demo_url": "https://roman-kyoto-frontend.vercel.app/",
+  "source_url": "https://github.com/blockhackersio/roman-kyoto/",
+  "prizes": [
+    {
+      "sponsor": "dabl.club",
+      "sponsor_id": "h24ko",
+      "placement": "1st place",
+      "title": "Launch an MVP on Polygon Cardona"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Sydney Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Our project is RomanKyoto, a Cross-Chain Multi Asset Shielded Pool.\n\nIt allows users to deposit, and then privately transfer ERC-20 tokens across. Users can then withdraw their tokens from the pool at any time, and can withdraw however much or little they want (up to their current balance in the MASP). \n\nWe currently only support private single chain deposit, withdrawals, and transfers. CCIP contracts are created, but we need additional integration for cross-chain private transfers.",
+  "how_its_made": "This is a hardhat/circom circuit based project.\n\nFirst things first, we utilised our private transfer proving model for a shielded asset pool largely based on the tornado nova protocol, but unique differentiator is that we support multiple assets within the same contract.\n\nOur proving model is based on UTXO notes stored within the contracts merkle root. Each time a user deposits an asset, they create a record (an encrypted 'note' with a value) within the contracts merkle tree.\n\nOnce a user has a note, they can transfer values up to that amount (or up to the sum of any other notes they have) to other addresses.\n\nIf a user has a note, they can also just withdraw that amount straight back to the erc20 that that note represents.\n\nOur example flow in our integration test:\n\n1. User deposits X amount of USDC or WBTC ERC20, and generates an encrypted note within the contract that represents their asset, now encrypted.\n2. The user can transfer their encrypted token to other users within the RomanKyoto contracts state. Example, user A deposits 10 USDC, and sends 5 USDC to user B within the RomanKyoto contract calling the transfer function.\n3. Both user A and user B can call withdraw, and get their 5 USDC ERC20s back, leaving their encrypted balance with a total of 0.\n\nWe deployed these contracts to Base Sepolia (https://sepolia.basescan.org/address/0xC60B012f38017f512D2069aE3210Ad36075ACA6f) and Polygon Cardano (https://cardona-zkevm.polygonscan.com/address/0xC60B012f38017f512D2069aE3210Ad36075ACA6f) as their cheaper transaction costs make these more expensive proving operations much more feasible.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/roman-kyoto-s3uio",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

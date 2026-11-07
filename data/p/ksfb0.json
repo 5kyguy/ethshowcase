@@ -1,0 +1,28 @@
+{
+  "id": "ksfb0",
+  "slug": "the-cashback-sdk",
+  "title": "The Cashback SDK",
+  "tagline": "The Web3 Cashback SDK that allows developers to encode user journeys in their smart contract and reward the users who successfully execute them.",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ksfb0/banner/default.jpg",
+  "source_url": "https://github.com/ivaylostefanov97/cashback-sdk",
+  "prizes": [
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "🏊 Worldcoin — Pool Prize",
+      "title": "Worldcoin"
+    }
+  ],
+  "finalist": false,
+  "description": "Nowadays you have many companies (Crew3, Galxe, etc) that allow web3 projects to build quests. However, they are mainly bringing Twitter followers, Youtube channel watchers, and generally users that may not convert to actual dApp users. Some of them allow for minimal quests that also involve simple dapp actions, but nothing outstanding. \n\nOur project is solving this problem by targeting the creation of web3 quests that reward the users of a given dapp only if they have completed a full user journey in it (a set of on-chain actions). By doing so, we bring actual on-chain traffic to the dapps! \n\nFrom the side of the developers, minimal coding is required in order to integrate it. First, they need to list the ABIs of the event logs that describe the user journey. Second, they need to describe the parameters of the event functions or in other words, put filters for them. Third, they need to fund the newly generated cashback campaign contract and specify the reward for a successful journey. And voila, they can now sit on the couch.\n\nFrom the side of their users, they need to claim their interest in participating in the campaign by minting a soulbound NFT. While the campaign is active, they are holders of the NFT and execute the specific journey, they will be rewarded for their actions.",
+  "how_its_made": "The core engine of the SDK is its transaction interceptor. We are creating a transaction subscriber to listen for the events of a specific dapp contract. Afterwards, we are manually going through the logs of the smart contracts and decode them using the ABIs provided by the developers. A successful journey is represented by an ordered set of even logs and conditions for their individual parameters. If we detect that a random user has completed the encoded journey, we check if he is also a holder of the NFT voucher for the specific campaign. If that's the case, then he is a participant who is eligible to receive an award. \n\nIn order to protect the network from voucher sniping, we are using Worldcoin SDK on the on-chain level. We are invoking the verifyProof method whenever someone tries to execute the mint method of the collection and then upon success put the user in a list to prevent subsequent attempts. Along with that, we are also allowing the developers to put Premint-like token-gating filters for their participants using Airstack. For example, one can say that only people who are holders of a given token can mint a voucher. \n\nOn the level of the contracts, there are three main ones that are deployed on Polygon: CampaignFactory, Campaign and Voucher. The voucher is simply a Soulbound NFT. The Campaign contract holds the logic for funding the specific campaign as well as withdrawing the rewards to the users' wallets. Finally, the CampaignFactory holds access to all campaigns and manages their status through the Chainlink Keepers. Whenever they notice that a campaign has to be started, they call a function on the voucher collection that releases the tokens to the public for minting. When the campaign has ended, they call a function that burns the vouchers. All these contracts were developed using Hardhat, Ethers, and Typechain. \n\nWe have also created a simple interface to mint tokens using Tailwind and React. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/the-cashback-sdk-ksfb0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

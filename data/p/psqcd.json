@@ -1,0 +1,36 @@
+{
+  "id": "psqcd",
+  "slug": "covervault",
+  "title": "CoverVault",
+  "tagline": "World's first premiumless and claimless insurance with tokenized & tradeable on-chain risk",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/psqcd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/y400SwJ9ljfzCpPA9i02vFeD6BsFIYzMhSCpC4pV4wfb00/high.mp4",
+  "demo_url": "https://covervault.netlify.app/",
+  "source_url": "https://github.com/zalatar242/CoverVault",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Hedera Overall Winner",
+      "title": "Hedera Overall Winner"
+    },
+    {
+      "sponsor": "Flow",
+      "sponsor_id": "fjaae",
+      "placement": "1st place",
+      "title": "Best Cross-Chain DeFi on Flow"
+    }
+  ],
+  "finalist": true,
+  "description": "Problem: $2 Billion lost in 2025 so far due to on-chain risks. No available solution to recover lost funds.\n\nFor this hackathon, I focused on insurance of yield protocols. Users deposit yield-bearing assets (like aUSDC or cUSDT) and receive dual-tier risk tokens that can be traded on Uniswap. The more risk tokens sold in the market, the more insurance coverage is provided to the community.\n\nHere is a more concrete use-case:\n\n1. Alice deposits 1000 aUSDC → receives 500 CV-SENIOR + 500 CV-JUNIOR tokens\n2. Bob deposits 1000 cUSDT → receives 500 CV-SENIOR + 500 CV-JUNIOR tokens\n3. Bob wants more downside protection, so he trades on CV-SENIOR/CV-JUNIOR pool:\n   - Sells 200 CV-JUNIOR tokens → receives 190 CV-SENIOR tokens (5% lost in value)\n4. Bob now holds 690 CV-SENIOR + 300 CV-JUNIOR tokens (990 total)\n   - Result: Bob forfeited 10 tokens of potential upside for senior claim priority\n5. Alice see a opportunity to buy cheap CV-JUNIOR tokens that are redeemable to the same underlying token, so she buys the them. She now holds 310 CV-SENIOR + 700 CV-JUNIOR tokens (1010 total)\n6. If one of the underlying yield protocols get exploited: Bob's 690 senior tokens get paid before any junior tokens. He can withdraw up to 990 yield tokens.\n7. If there was no exploit: Alice's 310 senior tokens get paid before any junior tokens. She can withdraw up to 1010 yield tokens.",
+  "how_its_made": "I built CoverVault as a full-stack DeFi protocol that transforms insurance into a liquid, tradeable market. It combines innovative smart contract design, a modern web3 frontend, and thoughtful tokenomics. The core of the protocol is a phase-based insurance vault system with automatic lifecycle transitions. The main contract, RiskVault.sol, manages the full insurance flow from deposit to coverage, claims, and redemption. I implemented phase transitions by checking timestamps during user interactions, which removes the need for external keepers and keeps things gas-efficient and decentralized. RiskToken.sol handles ERC20 tokens for senior and junior risk tiers. I also designed a proportional redemption mechanism that fairly distributes assets between tiers without relying on external oracles. For demo purposes, I added a forcePhaseForward() function to simulate time-based transitions instantly.\n\nInitially, I planned to use ERC-4626 to represent yield-bearing vaults, but I also wanted the tokens to be Omnichain Fungible Tokens (OFTs) to enable unified pricing and liquidity across chains. The idea was to solve a core problem in on-chain insurance: fragmented, shallow liquidity. If users could access the same pool of risk tokens across chains with consistent pricing, trading costs would drop significantly. But I quickly found that building reliable OFTs was much more complex than expected, especially when maintaining pricing parity. Even with more time, this would be a difficult challenge. I still laid the foundation with a multichain architecture, which is why I deployed to Flow, Hedera, and Mantle testnets with chain-specific RPC handling and refresh logic.\n\nThe stack includes Hardhat and TypeScript for smart contracts, using OpenZeppelin for security. The frontend was built with Vite, React 18, and TypeScript. I originally used the Lovable UI to get started quickly, but it introduced a lot of bloat — unused components, redundant styles, and general heaviness. Midway through development, I did a full cleanup and refactored everything using shadcn/ui (Radix-based) and Tailwind CSS, which gave me a much more minimal, accessible, and maintainable UI. For wallet connectivity, I used ethers.js v6 and integrated Privy for seamless social login with email and Google, lowering the barrier for non-crypto-native users.\n\nI deployed the protocol on Flow’s EVM Testnet for its high throughput and low fees, and verified all contracts on Flowscan. I also deployed on Hedera and Mantle, and accounted for each chain’s RPC behavior with dynamic polling intervals (e.g. Flow can handle fast refreshes, Hedera requires slower ones).\n\nSome technical highlights: I built a script to auto-generate frontend config files from contract artifacts to keep the UI in sync with deployments. I implemented clean phase-based access control with Solidity modifiers. The risk engine fairly allocates assets during redemptions based on token holdings and vault state. I also created mock yield-bearing tokens like MockAUSDC and MockCUSDT for realistic testing and demos.\n\nMy development workflow included Hardhat Ignition for reproducible deployments, a comprehensive test suite with reasonable coverage on critical paths, automated contract verification, and frontend deployment via Netlify with environment-based configuration.\n\nIn summary, CoverVault reimagines DeFi insurance as a composable, accessible, and eventually cross-chain protocol. While the OFT-based vision for unified liquidity was too complex to fully implement in this timeframe, the multichain foundation and lessons learned shaped the architecture. The combination of technical experimentation and practical refactoring — including cutting bloat from the frontend — made this one of the most rewarding builds I’ve done.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/covervault-psqcd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "xg9k4",
+  "slug": "sekisho",
+  "title": "Sekisho",
+  "tagline": "Sekisho screens AI agent payments before signing and records the evidence behind each decision.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xg9k4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/A5lnQjyJUGKffUXZ00udgmjlPswiUBA13x02Oa022yzVdI/high.mp4",
+  "demo_url": "https://sekisho-phi.vercel.app",
+  "source_url": "https://github.com/MarcusC-ops/sekisho",
+  "finalist": false,
+  "description": "AI assistants can buy information and pay for online services, but businesses need control over who those assistants pay. A payment to a scammer or flagged recipient can create financial loss, investigation work and compliance concerns.\nSekisho places a policy checkpoint before an assistant signs an x402 payment. It gathers risk evidence about the other wallet, applies configurable business rules, and returns one of three decisions. ALLOW permits signing, HOLD pauses for review, and BLOCK refuses the payment. Seller-side checks also let a service screen the buyer before accepting payment.\nOur browser demonstration follows an assistant purchasing a sample Ethereum-to-Japanese-yen market report for 0.05 test USDC on Base Sepolia. Visitors can run the demonstration without connecting a wallet. We verified both a successful purchase that delivered the report and a flagged purchase that stopped before signing.\nEach decision preserves its supporting evidence and records a report fingerprint onchain through Curvegrid MultiBaas. This connects payment enforcement with an inspectable record of why the decision was made.\nSekisho also includes a private review console and escrow contracts. Deposit, clearance, release and refund were tested separately. The complete provider-triggered HOLD-to-escrow journey remains unverified. Sekisho is a working testnet prototype, not a guarantee of wallet safety or a replacement for a complete compliance programme.",
+  "how_its_made": "Sekisho combines a Python FastAPI backend, a Python SDK with x402 payment hooks, Solidity contracts, a Next.js operator dashboard and a public browser trial.\nThe buyer-side hook runs before payment authorization is signed. It calls the backend to screen the recipient and binds the returned decision to the actual recipient, amount, token and network. The seller-side hook screens the payer before payment verification and acceptance. An unreachable gate or unusable Quick Scan response pauses payment rather than being treated as a clean result.\nIntercepta supplies live wallet risk scores and traits. We supplement these with onchain sanctions-oracle checks and a bounded source-of-funds trace built from Blockscout transaction data. A deterministic policy engine evaluates the evidence. Language-model explanations are optional and cannot change the verdict. The hosted demonstration runs with the language model disabled.\nThe backend serializes each decision report into consistent JSON bytes and calculates a Keccak-256 fingerprint. Our ComplianceRegistry contract records the verdict, report fingerprint and policy identifier. Curvegrid MultiBaas provides runtime contract calls, transaction submission, indexed events and authenticated webhook delivery, allowing the Python application to maintain its audit trail without building a separate blockchain indexer. Foundry handles contract deployment and testing.\nA separate ComplianceEscrow contract supports conditional release and refunds. Payment receipt verification independently checks the successful transaction and exact USDC transfer before marking a case paid. Recording a decision is therefore distinct from proving settlement.\nThe website runs on Vercel. A restricted Docker service on Render hosts the public trial with persistent SQLite storage. Server-managed testnet wallets let visitors try the flow without supplying credentials. Persistent spending reservations, request deduplication and fixed purchase limits prevent retries or redeployments from casually creating additional payments.\nA useful engineering detail is the separation between mainnet risk research and testnet execution. We read risk evidence from Ethereum and Base mainnet while keeping all demonstration payments and contract writes on Base Sepolia. Reports identify live, cached and unavailable checks, and simulations are labelled separately.\nRecorded verification includes 485 Python tests, 18 contract tests and successful hosted paid/refused flows with confirmed attestations and genuine MultiBaas webhook delivery. Claude Code and Codex assisted development under human direction, with development records and AI-use disclosures retained in the repository.",
+  "auto_summary": "Sekisho screens counterparties in x402-style payment flows, applies policy decisions, and records decision fingerprints onchain with an operator dashboard and escrow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sekisho-xg9k4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

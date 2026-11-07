@@ -1,0 +1,41 @@
+{
+  "id": "apkf3",
+  "slug": "luban-the-paymaster",
+  "title": "Luban the Paymaster",
+  "tagline": "A customized paymaster that allows user to hold asset on one EVM chain and use it to sponsor transactions on all other EVM chains",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/apkf3/banner/default.jpg",
+  "demo_url": "https://drive.google.com/file/d/1GKYrS-750RrM17p0yF6rCJ2bC6CZWXvT/view?usp=sharing",
+  "source_url": "https://github.com/da-bao-jian/luban-the-paymaster",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🤝 Polygon — Best Public Good with AA",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "💸 Hyperlane — Most Innovative Use Case",
+      "title": "Hyperlane"
+    },
+    {
+      "sponsor": "XDC Foundation",
+      "sponsor_id": "mraad",
+      "placement": "🥇 XDC Foundation — Best Use",
+      "title": "XDC Foundation"
+    }
+  ],
+  "finalist": false,
+  "description": "Luban the Paymaster operates by utilizing a custom paymaster - CrosschainPaymaster.sol - designed for Account Abstraction wallets, in conjunction with a unique JSON-RPC method, eth_checkCrossChainBalance. Here's a step-by-step breakdown of how it works:\n\nUser Balance on Hosting Chain: The user needs to maintain a balance only on the hosting chain. This is achieved by depositing assets into the AccountEscrow.sol singleton contract on that chain. The deposit can be any ERC20 token or ETH.\n\nUser Transaction on Transacting Chain: When a user wants to transact on a different chain, they submit a UserOperation with the paymasterAndData field pointing to the CrosschainPaymaster.sol address on the target chain, along with the chain ID of the hosting chain\n\nBalance Check: The bundler initiates a JSON-RPC eth_checkCrossChainBalance call to verify if the user has sufficient balance in the AccountEscrow.sol on the hosting chain. If the balance is adequate, the CrosschainPaymaster.sol sponsors the transaction. If not, the UserOperation is discarded.\n\nTransaction Flow: The UserOperation then follows the regular transaction flow. The key difference is that during the postOp phase, CrosschainPaymaster.sol initiates a cross-chain transfer call to deduct the user's deposit from the AccountEscrow.sol.\n\nUniversal Application: This pattern is applicable to any transactions, swap, smart contract wallet deployment, adjust liquidity positions on AMMs.\n\nIn the future, it's conceivable that a user would only need to maintain assets on a single EVM chain. These assets could then be used to sponsor transactions on all other EVM chains, as long as Luban is there to facilitate the process. This should be the pattern for future cross-chain transactions.",
+  "how_its_made": "There are three major components: \n1. dumb bundler - a rust bundler implementation that implements all of the Json-RPC methods according to the ERC4337 spec, and a new Json-RPC method eth_checkCrossChainBalance\n2. AccountEscrow.sol - a singleton contract that allows users to deposit any erc20 tokens to sponsor transaction on other evm chains. One can imagine AccountEscrow will be deployed on all EVM chains in the future, where user could use any EVM chain to be the hosting chain to sposor transaction on other chains\n3. CrossChainPaymaster.sol - a customized pay master on the transacting chain that pulls user's deposits from the hosting chain through cross chain protocols ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/luban-the-paymaster-apkf3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

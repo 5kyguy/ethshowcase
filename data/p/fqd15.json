@@ -1,0 +1,29 @@
+{
+  "id": "fqd15",
+  "slug": "metu",
+  "title": "metu",
+  "tagline": "a scatter gather chain abstraction first wallet. a form of unified tokens wallet.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fqd15/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sVkV7MZAtz1LgQOnb00wM1sGqYq01a4jqGWo3FjeJOCs4/high.mp4",
+  "source_url": "https://github.com/code-z2/hack-money",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Metu is an iOS smart wallet application designed to abstract away the complexities of multi-chain interactions using EIP-7702 and Intent-Based Architectures. It allows users to control their funds across multiple blockchains using a single, secure identity (Passkey) and a unified user interface, treating the entire crypto ecosystem as a single synchronous network.",
+  "how_its_made": "\nMetu isn't another wallet wrapper; it's a Universal Intent Execution Engine running on iOS. We didn't want to build a \"multi-chain wallet\" where users manually bridge and swap. We wanted a synchronous, unified experience where the user just executes an action and the protocol figures out the rest/ sources the funds.\n\n RouteComposer & The Global Accumulator\nComplex cross-chain actions are orchestrated by the RouteComposer (found in our Compose package). It breaks down a user's high-level intent into a DAG of chain-specific actions.\n\nThe \"Global Accumulator\": This is our deterministic smart contract that acts as a clearinghouse. It is bound to a unified token account to validate intents globally. When you want to bridge-and-swap, the Accumulator is the target recipient on the destination chain. It receives the funds + a signed message payload instructing it what to do next.\n\nTo achieve this, we had to get creative with EIP-7702 and a custom Global Accumulator architecture.\n\nCross-Chain Pairing: Across + Li.Fi\nWe built a specialized routing pipeline that pairs Across V3 with Li.Fi:\n\nLi.Fi serves as our aggregation layer. It scans DEXs and bridges to find the optimal swap routes and calldata.\nAcross V3 provides the settlement speed. Because Across uses intent-based bridging (resolvers front capital), we can execute \"fast exits\" where the resolver fills the user's request on the destination chain almost instantly.\n\nThe Flow:\nSource: RouteComposer uses Li.Fi to swap Token A → Bridge Token (if needed).\nBridge: We initiate an Across V3 deposit with a custom message payload targeting our Accumulator. All participating chains i.e fund sources execute this payload.\nDestination: The Accumulator receives the funds + message from the sources, validates the intent hash, and accumulates incoming funds until it is certain all participating chains has deposited. If output token is needed, the accumulator executes a lifi action on the destination and forwards the accumulated funds to the target.\n\nENS as a Primitive\nWe didn't stop at a resolver on a text field. ENS is baked into the validation logic as a first-class citizen. We implemented a custom ENSService that performs just-in-time resolution during the intent construction phase.\n\nTech Stack\nLanguage: 100% Swift (No React Native).\nUI: SwiftUI with a reactive, component-driven architecture.\nState Management: Observation framework (Swift 5.9+).\nModules: We structured the app into distinct packages (RPC, AA, Compose, Account) to keep the \"crypto plumbing\" strictly separated from the UI logic.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/metu-fqd15",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

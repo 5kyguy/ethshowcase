@@ -1,0 +1,27 @@
+{
+  "id": "pqkmn",
+  "slug": "settleone",
+  "title": "SettleOne",
+  "tagline": "Prepare contractor payments, approve the exact list, settle once on Arc",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pqkmn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/odBKDoJhBc47urKgsI42gc3AY6Lrg5uNiKYD5HC18M8/high.mp4",
+  "demo_url": "https://settleone.vercel.app/",
+  "source_url": "https://github.com/AnkanMisra/SettleOne",
+  "finalist": false,
+  "description": "SettleOne is a contractor payment app. You build a USDC batch off-chain, check every recipient and amount, then send one on-chain settlement.\n\nConnect a wallet on Arc Testnet. Sign a short message so the API knows the draft is yours. That signature does not spend money. Add payees and amounts under a budget. Optional Sepolia ENS names get pinned to an address before they go in the list. When the list is ready, Prepare builds the exact settleBatch call: each recipient, each amount, Arc chain 5042002, official USDC 0x3600000000000000000000000000000000000000, expiry, and total. If you change anyone or any amount, you prepare again. You tick that the preview is right, approve that USDC total, and sign one transaction.\n\nThe contract enforces replay protection, expiry, a total cap, and atomic transfers. The API will not mark the draft confirmed unless the Arc receipt matches the payer, the settlement contract, the calldata, a USDC Transfer, DraftPayment, and DraftSettled. A random hash cannot lock the draft as submitted. A second tab cannot sign the same draft while a send may still land.\n\nIdentity writes stay on Sepolia. Vendor evidence from The Graph can only exclude or send a wallet to the form. It never types an amount. The wallet is the only spender.",
+  "how_its_made": "The app is three pieces that stay separate on purpose.\n\nThe Next.js frontend talks to Arc Testnet and Sepolia through wagmi and viem. RainbowKit connects the wallet. Prepare is a backend job. The browser then rebuilds settleBatch with encodeFunctionData and refuses to send if that calldata does not match the preview byte for byte. USDC on Arc is 6 decimals on the ERC-20 at 0x3600000000000000000000000000000000000000 and 18 decimals as native gas, so the client checks both the token balance and a native reserve before approve and settle.\n\nThe Rust Axum API owns drafts in SQLite. Sign-in is a one-time personal_sign challenge, recovered address, hashed bearer token. Amounts are canonical integers. After Prepare the calldata is immutable. Finalize asks Arc for the transaction and receipt, then checks chain id 5042002, payer, to, input, USDC Transfer, DraftPayment, and DraftSettled. A null getTransactionByHash is not treated as pending. That was a real bug. An unknown hash used to pin submitted and trap the session.\n\nThe Solidity contract is SessionSettlement. settleBatch takes a draftId, the recipient/amount list, a totalLimit, and expiresAt. Replay is payer-scoped. Transfers are atomic. The backend will not register a contract unless the signer matches on-chain owner() and the runtime bytecode keccak matches the live Arc deploy.\n\nArc is the settlement network. ENSv2 is Sepolia only. We resolve the current resolver before a write, grant authorizeTextRoles for service.metadata, and keep a tab-local secondary key for the allowed text update and the forbidden setAddr check. The Graph Agent0 subgraph is queried server-side. If _meta is older than seven days the agent is exclude. Graph never types an amount. We hit this. The live index is still 4 March 2026, so inclusion is blocked.\n\nHacky bits worth saying. The payer deployed the contract from MetaMask because this Linux box had no PRIVATE_KEY. A signing state is written before the wallet popup so a second tab cannot send a second batch. Replacement hashes are accepted only after a successful receipt. Demo hosting is Tailscale Serve onto 127.0.0.1, not a public port. Native USDC gas and ERC-20 USDC share the same pool, so spending the whole token balance leaves nothing for the settle tx. The old Yellow and LI.FI path is still in the tree. It is not wired into this payment flow.",
+  "auto_summary": "A three-part app that prepares and verifies batched USDC contractor payments on Arc, with ENS-based identity on Sepolia and backend receipt validation.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/settleone-pqkmn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

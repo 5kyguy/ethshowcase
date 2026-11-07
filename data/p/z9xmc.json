@@ -1,0 +1,27 @@
+{
+  "id": "z9xmc",
+  "slug": "fuda-continuity",
+  "title": "fuda [continuity]",
+  "tagline": "Membership as an on-chain right — issued in seconds, verified at the door with no server to trust.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z9xmc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9ruvUqPDcI3bHcaWELbOFUBNpBnTfWIsyn65puRFbXo/high.mp4",
+  "demo_url": "https://app.fuda.sh/@ethtokyo2026/home",
+  "source_url": "https://github.com/oboroxyz/fuda-sh",
+  "finalist": false,
+  "description": "fuda turns memberships, tickets and loyalty cards into on-chain Rights that people carry as passes in Apple Wallet, Google Wallet or the browser. A member scans a QR and holds a pass seconds later: no app install, no wallet, no account. A gate reads the Right from the chain and admits. The Right outlives the app that issued it — anyone can verify it without asking fuda.\n\nThat frictionless claim is the product's whole point, and it was also its blind spot. A Right proves *a right exists*; it proves nothing about *how many distinct people hold them*. One person could claim the same Right on three phones, and the only thing in the way was a per-IP hourly budget — an abuse brake, not a uniqueness claim.\n\n----\n\n**What we built at this event: a Verified Human badge.** A member who already holds a Right can attach a World ID Proof of Human to it. Claiming stays instant for everyone, including attendees with no World App; the gate keeps verifying from the chain alone with no call to World or to fuda's API; and a venue can now make a promise addressed to a person — one badge per attendee, a scarce benefit shared fairly — and have it mean something. The human check happens exactly once, at the moment it produces value, and never again.",
+  "how_its_made": "**Rights on chain.** Each Right is an EAS attestation on Base (Entitlement schema), issued under an IssuerDelegation attestation that says which issuer a gate should trust. Admission reads the chain, not our database, so a third party can verify a Right without our cooperation.\n\n**The service.** Cloudflare Workers running Hono, D1 through Drizzle, viem for chain access. Passes are built for Apple Wallet and Google Wallet; the browser pass is the fallback. The member app and the gate are hono/jsx/dom SPAs. Discovery runs through a subgraph on The Graph; issuer and member names resolve through ENS.\n\n**The badge (new at this event).** A `badges` table records one badge per `(Right, kind)` and enforces one subject per `(verifier, scope)`. A `BadgeVerifier` seam holds a single adapter for World. The member app uses the headless `@worldcoin/idkit-core`; the Worker signs `rp_context` with `signRequest` from `@worldcoin/idkit-server` and forwards the proof to `POST /api/v4/verify/{rp_id}` server-side. The `signal` is the Right's EAS UID, so a proof minted for one pass cannot badge another. We store the nullifier and nothing else.\n\n**Deliberately general.** The schema separates what is claimed (`kind`) from who attested it (`verifier`), the column is `subject_key` rather than `nullifier`, and the routes are `/badges/human` rather than `/world/*`. The gate verdict carries a `badges` array from its first version so a second kind is not a breaking change.\n\n**Hardware.** The physical gate is a desk QR reader (a NETUM NT-5090) plugged into the machine showing the web gate. It presents as a keyboard: it types `fuda:v1:<uid>` and presses Enter, so the gate reads a scan whether or not a field has focus, and a scan arriving while a verdict is still on screen replaces it — a queue moves without anyone touching the screen. The reader speaks the same payload the camera path already did, and the admission decision is unchanged: the badge never touched it. What the badge changed is what the screen says afterwards.\n\nEverything built at this event is on the `feat/idkit`  branch, not yet merged: github.com/oboroxyz/fuda-sh/compare/main...feat/idkit is exactly the event's diff.",
+  "auto_summary": "A monorepo for issuing on-chain membership rights, wallet passes, and venue admission flows with web apps, contracts, and Cloudflare-based services.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/fuda-continuity-z9xmc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

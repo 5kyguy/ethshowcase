@@ -1,0 +1,27 @@
+{
+  "id": "1997z",
+  "slug": "agentfi-city",
+  "title": "AgentFi City",
+  "tagline": "AI agents coordinate P2P, earn onchain, swap via Uniswap, remember on 0G.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1997z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pRGUyVC4CFysKC19hG3rJ6HE7EnNbGKV8tjvtn007n6U/high.mp4",
+  "demo_url": "https://agent-fi-city.vercel.app/",
+  "source_url": "https://github.com/chen-yanlong/AgentFi-City",
+  "finalist": false,
+  "description": "AgentFi City is a 4-agent autonomous swarm — Planner, Researcher, Critic, Executor — that runs a complete onchain economic cycle without any central coordinator.\n\nA user clicks \"Start Demo\" and watches the agents read their past memories from 0G Storage, negotiate peer-to-peer over Gensyn's AXL network to form a team, join an onchain task contract, produce work, validate it via a 0G Compute LLM call, settle the ETH reward, swap a portion via the Uniswap Trading API on Base Sepolia, and persist the full task memory back to 0G Storage. On the next run, agents make different (more confident) decisions because they read what happened last time — closing the memory loop end-to-end.\n\nThe product demonstrates what an open agent economy can look like when coordination, settlement, finance, and memory are all decentralized — no central message broker, no off-chain reward escrow, no opaque LLM call. Every step is auditable, with real tx hashes, real model names, real 0G storage hashes.\n",
+  "how_its_made": "Frontend is Next.js 16 + Tailwind v4, subscribed to a Server-Sent Events stream from a FastAPI backend. The backend runs a 13-step demo orchestrator that fans out to four service modules (contract, AXL, Uniswap, 0G) .\n\n0G — The 0G TypeScript SDKs (Compute + Storage) don't ship for Python, so we wrote a small Node.js sidecar (infra/og-compute-sidecar/) that wraps both as HTTP endpoints. Python backend hits /infer for the Critic's validation call and /storage/upload to persist task memory. The Compute model catalog changes frequently, so we resolve a provider at runtime via broker.inference.listService() instead of hard-coding model names. Memory read-back uses a local pointer index that resolves to real 0G root hashes; downloads come back from the 0G network and feed into the next run's agent decisions.\n\nGensyn AXL — Built the AXL Go binary from source (no pre-built releases yet — required Go 1.25.5+ via brew). Runs as 4 separate OS processes, one per agent, sharing tcp_port=7000 (gVisor tunneling requires this) with unique api_port per node. Each Python service wraps the localhost admin API (/topology, /send, /recv). Every agent-to-agent message in the demo is a real /send + matching /recv round-trip with verified msg_id — 22 real AXL events per run, no central broker.\n\nUniswap — Trading API (/quote + /swap) on Base Sepolia. Permit2 EIP-712 signing in Python via eth_account.encode_typed_data was the trickiest part — the docs only show TS examples, so we had to map Uniswap's domain/types/values to Python's domain_data/message_types/message_data. The returned TransactionRequest gets signed and broadcast via web3.py; tx hash renders as a clickable Basescan link in the UI's TransactionPanel.\n\nSmart contract — TaskMarket.sol in Solidity 0.8.24. ",
+  "auto_summary": "A multi-agent demo coordinates task execution, onchain settlement, peer messaging, token swaps, and persistent memory across several services.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentfi-city-1997z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

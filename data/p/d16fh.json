@@ -1,0 +1,30 @@
+{
+  "id": "d16fh",
+  "slug": "d4-syn",
+  "title": "d4-syn",
+  "tagline": "High-frequency compute market. Enforcing QoS via Yellow state channels and ENS.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d16fh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SftPcN43E9eDkdEYb00gKanR2P7SiWk01QXdQ018ujCvVc/high.mp4",
+  "demo_url": "https://d4-syn.vercel.app/",
+  "source_url": "https://github.com/alienworld1/d4-SYN",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "d4-syn is a high-frequency commodities exchange where autonomous agents discover, vet, and trade compute resources (LLM inference) using cryptographic rails.\n\nWe built this because the current infrastructure for AI agents is fundamentally broken in two ways:\n\nFinancial Identity: Agents cannot hold bank accounts or pass KYC for standard SaaS APIs.\n\nThe \"Granularity Gap\": L2 blockchains (like Optimism or Base) settle every 2 seconds. AI inference happens in milliseconds (50ms per token). You cannot enforce a 50ms latency SLA (Service Level Agreement) on a 2-second ledger.\n\nExisting solutions like x402 enable \"Pay-per-Request,\" but they fail to address Quality of Service. If an API provider lags or hangs, the agent still pays full price. In the machine economy, this is unacceptable.\n\nThe Solution: Micro-SLA Enforcement\n\nd4-syn solves this by treating compute as a Liquid Asset, not a service subscription.\n\n1. Execution Layer (Yellow Network)\nWe use Yellow Network state channels to enforce Micro-SLAs per token. The client acts as a local oracle, measuring the time-delta between every streamed packet.\n\n<100ms: Full payment signed.\n>100ms: Payment is programmatically slashed in real-time.\n>500ms: The \"Flash Switch\" triggers. The agent instantly closes the channel, takes the context history, and fails over to a backup provider without interrupting the stream.\n\nThis \"Pay-for-Performance\" model is impossible on L1 or L2 due to gas costs and block times. It is only possible with Yellow's zero-latency state channels.\n\n2. Identity Layer (ENS as DeFi Primitive)\nWe treat ENS domains as Bearer Assets for Capital. To list on the d4-syn registry, providers must lock an ETH bond into a ServiceBond contract linked to their ENS Node Hash.\n\nTransferable Reputation: Because the bond and Trust Score are tied to the Name, not the Wallet, selling the ENS domain on a secondary market transfers the business reputation and capital to the new owner.\n\nSybil Resistance: Our discovery engine sorts providers by \"Capital Gravity\" (Logarithmic Bond Size + Age), making it mathematically unprofitable for attackers to spin up fake nodes (\"Bond Parking\").\n\nEconomic Rationality\nd4-syn creates a Negative-CAC (Customer Acquisition Cost) environment for hardware providers. Instead of spending 30% of revenue on sales teams and Stripe fees, providers simply bond their ENS domain to become globally discoverable. They can monetize idle GPU capacity by serving background agent tasks at reduced rates, turning wasted cycles into liquid revenue.\n\nIdentity via ENS. Physics via Yellow. Economics via d4-syn.",
+  "how_its_made": "We built d4-syn using Next.js for the full-stack application and Foundry for the smart contract layer. The core logic lives in the browser-side AgentBrain: a state machine that orchestrates discovery, negotiation, and execution.\n\nYellow Network (The Physics)\nWe integrated the Nitrolite SDK to handle the high-frequency payment rail. The implementation goes beyond simple transfers; we built a custom YellowClient wrapper that acts as a \"latency watchdog.\"\n\nThe \"Physics\" Engine: For every SSE (Server-Sent Event) chunk received from the AI provider, the client calculates the time-delta (performance.now()) against the previous packet.\n\nMicro-SLA Logic: We implemented a linear penalty formula directly in the signing loop. If latency exceeds 100ms, the signed state update is programmatically reduced. This required optimizing the React render cycle to handle ~20 state updates per second without freezing the UI.\n\nThe \"Flash Switch\": The most complex piece was the failover mechanism. If the SLA is violated, we force-close the WebSocket, settle the Yellow channel, and instantiate a new channel with a backup provider in <500ms.\n\nENS (The Asset)\nWe treat ENS domains as financial primitives rather than just usernames.\n\nCapital Bonding: We deployed a ServiceBond.sol contract on Sepolia that maps bytes32 Namehashes (not addresses) to staked ETH. This allows the reputation to be transferred if the underlying ENS name is sold on a marketplace like OpenSea.\n\nDiscovery Engine: Instead of a centralized database, our agent queries the d4-registry.eth text records directly to discover peers, then multicalls the bond contract to verify \"Skin in the Game.\" We use a logarithmic sorting algorithm on the client side to filter out \"Bond Parking\" attacks (Sybil resistance).\n\nThe \"Context Re-hydration\" during the provider switch was the trickiest hack. When the Agent dumps a slow provider mid-sentence, the new provider has no idea what was being discussed. We capture the raw text buffer from the first stream, inject it as \"history\" into the handshake payload of the second stream, and resume generation. To the user, it looks like one continuous thought; under the hood, it’s a relay race between completely different AI models paid via different state channels.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/d4-syn-d16fh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

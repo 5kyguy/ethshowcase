@@ -1,0 +1,27 @@
+{
+  "id": "900h1",
+  "slug": "eve",
+  "title": "Eve",
+  "tagline": "Crypto ride-hailing with Privy wallets and Arc USDC escrow for fares.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/900h1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XczIVrM1fiZgtHTaD009yTyF2hE01Y1Q01dPSKpxbtp5Fo/high.mp4",
+  "demo_url": "https://github.com/13x54n/Eve",
+  "source_url": "https://github.com/13x54n/Eve",
+  "finalist": false,
+  "description": "Eve is a crypto-native ride-hailing marketplace with separate rider and driver mobile apps. Riders request trips, drivers send fare offers, and once a match is accepted the fare is locked in USDC escrow on Circle’s Arc network until the trip settles, is refunded, or goes through dispute. That replaces opaque fiat holds with clear on-chain settlement both sides can verify.\n\nWe chose Arc for native USDC settlement and very low gas fees — ride payments need cheap, predictable settlement that doesn’t eat into fare margins. Identity and wallets use Privy: email/SMS login, embedded Ethereum (and Solana) wallets without seed phrases, and the same wallet signs escrow transactions. The wallet UX also supports receiving USDC (address QR) and cashing out to an external address.\n\nEve is built as a real product path, not a throwaway hackathon demo — the goal after ETHOnline is to carry this Arc + Privy settlement stack toward a live market. Hackathon focus is a reliable end-to-end escrowed ride demo plus polished wallet flows aimed at Arc’s stablecoin/payment track and Privy’s financial-flow track.",
+  "how_its_made": "Eve is a monorepo: Expo (React Native) rider and driver apps, a Next.js admin/ops console, a Next.js marketing site (www), and a Node.js backend with PostgreSQL, Redis, and optional Kafka for domain events. Auth exchanges Privy identity tokens for Eve JWTs; ride matching and real-time updates run through the ride/location/notify stack; payment owns @Arc Testnet, and @Privy wallets, RideEscrow quotes/confirms, and treasury payouts.\n\nOn Arc Testnet (chain id 5042002), RideEscrow holds native/ERC-20 USDC views for trip deposits, settlement with a short dispute window, refunds, and finalize. Mobile apps pull chain/token/contract config from the payment API and sign escrow calls with the Privy embedded wallet via eth_sendTransaction after switching onto Arc. Arc Testnet was not in Privy’s default allowed chains, so we added custom EVM chain configuration so the embedded wallet can use Arc.\n\nPartner tech that matters: Privy for auth + embedded wallets (and wallet UX without MetaMask), Circle Arc for USDC settlement and low fees, viem for chain clients/treasury sends, Expo for native builds (including ExpoCamera for cash-out QR). Notable hacky bit: treating Arc’s dual USDC view carefully (18-decimal native vs 6-decimal ERC-20) and wiring escrow so product UX feels like a normal ride while settlement stays on-chain.",
+  "auto_summary": "A monorepo ride-hailing app that uses Privy-authenticated wallets and Arc-based USDC escrow for trip payments and driver payouts.",
+  "scores": {
+    "originality": 6,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/eve-900h1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

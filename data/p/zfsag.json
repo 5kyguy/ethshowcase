@@ -1,0 +1,27 @@
+{
+  "id": "zfsag",
+  "slug": "zikibols",
+  "title": "Zikibols",
+  "tagline": "Fund real-world cashflows on Hedera: agent pays for diligence via x402, backers pledge with email.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zfsag/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MLc86gisjzk7ehXDZ3du6B9e4ZxyHKLSwkuF00RkGlQY/high.mp4",
+  "demo_url": "https://zikibols-ethonline.fly.dev/",
+  "source_url": "https://github.com/yabuking84/zikibols",
+  "finalist": false,
+  "description": "A backer should be able to fund an invoice bond or harvest share without a seed phrase, without trusting a screenshot of \"DeFi history,\" and without receiving a meme ticker.\n\nZikibols is that product: a crowdfunding app for tokenized real-world cashflows, built from scratch for ETHOnline 2026. One app, three load-bearing sponsor integrations — Privy for login and the pledge, The Graph for live diligence, Hedera for paid risk notes, an HCS audit trail, and the token lifecycle.\n\nIt is not a general crowdfunding clone. A founder starts a campaign — a diligence-gated listing for invoice receivables or revenue-share assets. After funding, the campaign becomes a restricted token with a coupon that needs two people to release.\n\nDue diligence has two layers:\n- The campaign (free). When a founder starts a campaign they publish the story, creator name, optional email, and Ethereum wallet. That is the public brief anyone can read without paying.\n- Paid due diligence. Before pledging, a backer can Check this creator. The agent queries live DeFi books, searches the public web for that name and email, pays Hedera x402 for a written risk note, and hashes the result onto HCS.\n\nA backer can:\n- Read the campaign, then Check the creator (live Graph + founder research + paid note) before sending money\n- Pledge HBAR after logging in with email or social (no seed phrase)\n- See the campaign turn into a restricted Hedera token, then a coupon that needs two people to release",
+  "how_its_made": "Zikibols is a Next.js 16 / React 19 app for tokenized invoice and harvest-share campaigns. The stack is three sponsor pipes, not a pile of demos: Privy gets a backer in, The Graph is the only on-chain source the diligence agent is allowed to trust, and Hedera is where money, the audit trail, and the security actually live.\n\nA founder publishes a free campaign brief (story, name, optional email, Ethereum wallet). A backer clicks Check this creator, which hits POST /api/agent. That agent queries Aave v3, Compound v3, and Spark Lend with one Messari lendingProtocols query and one account(id) query through the Graph Gateway. Same schema, three books; one subgraph can 500 without killing diligence. Adding a protocol is one subgraph id. There is no mocked Graph fallback — missing THEGRAPH_API_KEY fails on purpose.\n\nThose live books then become paid compute. The agent pays two x402 services on Hedera testnet through the Blocky402 facilitator: founder OSINT (Tavily, priced per query: name vs name+email) and a written risk note. wrapFetchWithPayment signs HBAR from the agent key, retries on HTTP 402, and we publish both settlement tx ids plus SHA-256 of the note and profile onto an HCS topic. Without Tavily we skip and label the profile; we never invent a biography.\n\nPrivy is the only auth. Email/social login creates an embedded EVM wallet (createOnLogin: \"users-without-wallets\"). The app registers Hedera testnet (chain 296) as the sole chain, switchChains, and sendTransactions HBAR to the campaign treasury. No extension, no seed phrase; HashScan is the receipt. After funding, the Operator desk issues an Asset Tokenization Studio bond (@hashgraph/asset-tokenization-sdk v8): Bond.create clones factory 0.0.9213391, mints one unit to the backer’s Privy 0x, Security.pause is the compliance op, then ICoupon.setCoupon plus a tiny HBAR coupon after a 2-of-2 (Privy founder + treasury). Campaign book, approvals, x402 receiver, and topic id live in .data/state.json — on-chain txs are the source of truth.\n\nWhat the partners actually unlocked: Blocky402 made a real pay-per-call agent path possible on testnet in days. Messari’s shared lending schema is why three protocols are one query. Privy’s embedded wallets are why a judge can pledge HBAR without MetaMask.\n\nThe hacky bit worth mentioning is ATS. The published SDK is MetaMask-first (“only metamask is compatible right now”). We load the CJS build with createRequire so Next doesn’t double-bundle ethers, stub window only around Network.connect({ debug: true }), and inject an ethers Wallet signed by the operator ECDSA key. Internal KYC is on at Bond.create because deployBond encoding requires it, then we deactivateInternalKyc so minting does not need a Terminal3 VC. The SDK’s Coupon.setCoupon sent empty calldata under Next, so we call ICoupon.setCoupon on the diamond ourselves. Coupon size is a lifecycle proof (tinybars), not yield.",
+  "auto_summary": "A Next.js app lets users fund campaigns for tokenized cashflow assets using Privy wallets, The Graph-based diligence, and Hedera settlement and token operations.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/zikibols-zfsag",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "zxhkp",
+  "slug": "pixport",
+  "title": "PIXPORT",
+  "tagline": "Instant Pix payouts for AI agents with automated spending limits and proof of humanity.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zxhkp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PLr3LZVWbKRau8YMbmo1uZtR3B2PUwvScI502zJ8HxHk/high.mp4",
+  "demo_url": "https://eth-lisbon-pixport-front.vercel.app/",
+  "source_url": "https://github.com/ffelipesimoes/eth-lisbon-pixport",
+  "finalist": false,
+  "description": "PIXPORT solves the $1.2B/year problem of legacy OTC trading desks and autonomous finance: human error, 4-hour settlement delays, and rogue trader over-spends. \n\nPIXPORT introduces programmable BRL fiat Pix mandates for AI Agents, enforced at machine speed (<1s finality) by Hedera HIP-336 native token allowances and World ID Zero-Knowledge (ZK) proof identity verification with 0% smart contract / Solidity risk.\n\nWhen an AI Agent attempts a Pix payment, PIXPORT checks the agent's World ID proof level (Orb vs Device) to resolve its spending tier, verifies remaining on-chain token allowances on the Hedera Mirror Node (HIP-336), and executes sub-second fiat payouts. If allowance is exceeded, PIXPORT triggers an immediate on-chain RECUSA (rejection) before touching the bank API. \n\nEvery decision is immutably logged to Hedera Consensus Service (HCS Topic 0.0.9742958) and follows the x402 / HTTP 402 Payment Required protocol standard.",
+  "how_its_made": "PIXPORT is built as a production-grade TypeScript monorepo using Node.js, Express, Next.js 15, and native SDKs:\n\nHedera SDK (@hashgraph/sdk) & Mirror Node REST:\nUses AccountAllowanceApproveTransaction (HIP-336) to approve native token allowances on Hedera Testnet for Token 0.0.9742957 (EURC-demo)  zero Solidity or EVM smart contracts required.\nQueries Hedera Mirror Node REST API (/api/v1/accounts/{owner}/allowances/tokens) for real-time allowance state.\nSubmits structured JSON decision payloads to Hedera Consensus Service (TopicMessageSubmitTransaction) on Topic 0.0.9742958 for immutable, timestamped audit logging.\n\nWorld Identity Check (Beta ZK Proof Gate):\nIntegrates @worldcoin/idkit-core/backend (verifyCloudProof) to validate Zero-Knowledge Proofs (ZKP), mapping unique human Orbs to HIGH tier limits (10k BRL), mobile devices to MEDIUM tier (1k BRL), and unverified proofs to ZERO tier (immediate rejection).\n\nPix Instant Payout Gateway & EMV BR Code Engine:\n\nFeatures a custom EMV QR / BR Code parser with CRC16-CCITT validation and a PSP abstraction layer (BitpagPixAdapter) executing real Pix cashouts via standard REST/JWT APIs.\nx402 / HTTP 402 Protocol Standard:\n\nImplements HTTP 402 (Payment Required) status codes with custom WWW-Authenticate headers when agents require ZK proof renewal or allowance approval.",
+  "auto_summary": "A TypeScript monorepo for policy-gated Pix payouts that uses Hedera native services and World ID verification to approve or reject payments.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pixport-zxhkp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

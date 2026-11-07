@@ -1,0 +1,27 @@
+{
+  "id": "w3jpz",
+  "slug": "faregate",
+  "title": "Faregate",
+  "tagline": "Policy-governed AI agents autonomously transact for onchain data with human-in-the-loop controls.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w3jpz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5mMac00QRQkcyGC2V91Lq1S01sZr284Iy1SARMrRv02hoc/high.mp4",
+  "demo_url": "https://web3-faregate-web.vercel.app/",
+  "source_url": "https://github.com/souravmalviya/web3Faregate",
+  "finalist": false,
+  "description": "Faregate is a permission and payment gateway that lets AI agents autonomously purchase paid onchain data while keeping humans in control of what agents can access and spend.\n\nA human defines an agent's capability, including its allowed data scope, maximum cost per query, daily spending limit, and the amount above which human approval is required. The agent can then request blockchain data using natural language. An LLM interprets the request and produces a structured query, but it never makes the authorization decision.\n\nFaregate uses a deterministic policy engine to validate the structured query against the agent's capability, current spending ledger, query price, and approval rules. Requests can be denied, automatically approved, or paused for human approval. Once authorized, the agent pays for the query through x402 on Hedera using USDC, and Faregate retrieves the requested data from The Graph using the Messari standardized lending schema.\n\nThe resulting data can be analyzed by an LLM, but the analysis is grounding-checked against the retrieved dataset so unsupported addresses or hashes are not presented as facts. Agent identity and capabilities are represented through ENSv2 passports on Sepolia, with live revocation checks on every request.\n\nThe key idea is to give an AI agent a controlled capability instead of an unrestricted API key, wallet, or payment credential. Humans define the boundaries, deterministic code enforces them, and the agent operates autonomously within those boundaries. If the human revokes the agent, that revocation takes precedence even if the agent already holds an approved payment quote.\n",
+  "how_its_made": "Faregate is built as a TypeScript monorepo with an Express/TypeScript gateway, a Next.js dashboard, a separate demo agent, and shared domain logic. The gateway coordinates identity resolution, natural-language request interpretation, deterministic policy evaluation, pricing, payment, data retrieval, AI analysis, spend tracking, and audit logging.\n\nThe agent sends a natural-language request to the gateway. OpenRouter with a structured-output LLM interprets the request into a validated query, but the model is deliberately excluded from the authorization path. A pure deterministic policy engine evaluates the agent's ENS capability, requested scope, query cost, daily spend, existing ledger, and human approval threshold. Pricing uses integer micro-USD values, avoiding floating-point rounding problems.\n\nFor payments, Faregate integrates x402 with Hedera testnet and USDC, enabling machine-to-machine, per-query payments without API keys or subscriptions. ENSv2 subnames on Ethereum Sepolia act as agent passports, with capabilities stored in ENS text records and resolved through the Universal Resolver. The Graph is used as the data layer, with Messari's standardized lending schema allowing the same query documents to fan out across multiple protocol subgraphs.\n\nThe project also includes several security-focused implementation details: policy is re-evaluated before quoting and again at payment release, payment nonces are single-use, requests are idempotent, human actions use wallet signatures, structured queries are validated and clamped, agents are rate-limited, and the gateway fails closed when identity resolution fails. AI-generated analysis is checked against the retrieved data to catch unsupported claims.\n\nThe most notable design choice is the separation between AI reasoning and authorization: the LLM can interpret what the agent wants, but deterministic code decides whether it is allowed. ENS revocation is also checked live, so an agent can be rejected even after receiving an approved quote. The gateway never holds the user's funds or private keys; the agent pays from its own account.",
+  "auto_summary": "A TypeScript monorepo that gates AI agent access to paid onchain data using deterministic policy checks, ENS-based identity, and x402 payments.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/faregate-w3jpz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

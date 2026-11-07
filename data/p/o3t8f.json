@@ -1,0 +1,20 @@
+{
+  "id": "o3t8f",
+  "slug": "ec-rln",
+  "title": "EC RLN",
+  "tagline": "Elliptic Curve Rate Limiting Nullifier for spam protection based on shamir secret sharing",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/o3t8f/banner/default.jpg",
+  "source_url": "https://github.com/wanseob/ec-rln",
+  "finalist": false,
+  "description": "# EC Rate Limiting Nullifier\n\nThis is a simple rate limiting nullifier mechanism using Shamir Secret Sharing and an elliptic curve cryptography.\n\nUsing this scheme, you don't need to generate zkp for every signals which is critical for the high frequency and low latency networking. If you use elliptic curve's homomorphism together, you can use ZKP only once when you create a session and then send Elliptic Curve points instead of ZKP which is much faster than and also pretty affordable for the consensus layer too.\n\nTo be more detail, the transmitter creates (a,b,c,d,e) 5 shamir secret sharing keys and submits a commitment g^(abcde) to the receiver. And the transmitter gives a zkp that (a,b,c,d,e) are constructing a polynomial which evaulates to the private key for a given account at zero. After then, the transmitter can send up to 4 messages, and should send messages with a simple elliptic curve point reference togeter like {a, g^(bcde)}.\n\nThe detail mechanism should be something like\n\n1. Transmitter handshakes with the receiver, and the transmitter creates a zkp for its handshake protocol to commit the shamir secret sharing points and prove that they're dervied from the given account's private key.\n\n2. Creating a zkp will take a few seconds, and then if there's enough stake, the receiver starts a session with the given zkp & the scalar multplication commitments.\n\n3. The transmitter can send messages using the shamir secret keys until its threshold.\n\n4. The receiver will ping the transmitter to refresh the session with a new zkp before a few seconds before the session ends. It's just to give enough time to generate a zkp for the next session.\n\n\nFor more information, \nhttps://github.com/rate-limiting-nullifier",
+  "how_its_made": "I used circom, and some finitie field and elliptic curve cryptography libraries. It's based on groth16 and bn128 curve. \n\nI've also built a smart contract too just for demo, but for the most usecase, it should be fully offchain and only the slashing transaction should be an on-chain stuff.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ec-rln-o3t8f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

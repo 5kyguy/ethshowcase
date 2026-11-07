@@ -1,0 +1,22 @@
+{
+  "id": "ssq07",
+  "slug": "ledger-guard",
+  "title": "Ledger Guard",
+  "tagline": "Agent plans DeFi guards; you clear-sign on Ledger; Graph indexes; x402 keeper executes.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ssq07/banner/default.jpg",
+  "video_url": "https://stream.mux.com/L3dIZDryngGkoUWK2UGR4RfeA9axR7T1bwTb6g5zBcs/high.mp4",
+  "demo_url": "https://ledger-gaurd.vercel.app/",
+  "source_url": "https://github.com/n1shanthb/CircuitVault-",
+  "finalist": false,
+  "description": "Ledger Guard (Ledger Guardian Agent) is hardware-bounded delegation for autonomous DeFi exits on Base.\n\nYou clear-sign stop-loss, take-profit, LP bounds, or buy-dip policies on a Ledger OLED. The master key never leaves the device. A headless keeper loads secrets from Ledger Key Ring (not .env), discovers live policies from our Receipt Graph on The Graph, checks Pyth bands, and only attempts execution after paying HBAR through an x402-gated POST /trigger (Blocky402 on Hedera).\n\nEvery fill emits an on-chain ExecutionReceipt that the subgraph indexes so Activity can prove trigger, Pyth spot, fill price, slippage, and compliance against the clear-signed caps. One Ledger kill switch revokes all policies and session authority.\n\nAn Agent room helps draft and explain protections; the LLM never pays and never broadcasts fills. Autopilot / pay-on-hit is the consumer that settles x402 and drives the keeper Driver.\n\nDemo: https://ledger-gaurd.vercel.app/ — Start from Scratch (net-new) for ETHOnline 2026, aimed at Ledger + The Graph AI Use Case + Hedera x402.",
+  "how_its_made": "Contracts on Base (Foundry): GuardianPolicyManager (ERC-7579-style policy + session path), Pyth price verify, Uniswap v3 SwapRouter02 for fills. Users sign setGuardianPolicy / killSwitch via Device Management Kit (DMK) WebHID in packages/web and packages/hardware-test, with ERC-7730 clear-signing descriptors for OLED labels.\n\nFrontend is Next.js (packages/web): Protect journey, Protections explorer, Activity timeline, Agent SSE UI, and a site-wide fill congrats overlay fed by Receipt Graph and Base ExecutionReceipt logs.\n\nIndexing: custom Receipt Graph (policies, kills, executionReceipts) on Subgraph Studio / Gateway — load-bearing for Autopilot, not decoration. Subgraph MCP + @lga/graph-data compose Messari lending/DEX decisions for the Solver path.\n\nKeeper (packages/keeper, TypeScript): Key Ring decrypt → capability broker (read:graph, read:pyth, pay:trigger, execute:policy). Roles: Composer/Clerk/Solver (LLM), Payer + Autopilot pay-on-hit (x402), Driver executePolicy. Host returns 402 unpaid; consumer pays HBAR via Blocky402, then Hermes/Pyth VAAs + session key fill on Base. Payment audits land on-chain / HashScan for the Hedera story.\n\nNotable: POLL_MS=0 so unpaid polling cannot burn Graph quota; pay-on-hit settles once per policy id; Graph policy list cached with cooldown on 429; master key never in keeper process — Key Ring holds keeper secrets.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ledger-guard-ssq07",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

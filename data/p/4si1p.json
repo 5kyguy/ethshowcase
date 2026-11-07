@@ -1,0 +1,35 @@
+{
+  "id": "4si1p",
+  "slug": "yoru",
+  "title": "YORU",
+  "tagline": "YORU is a privacy-preserving DApp for social crypto payment. YORU leverages account abstraction and stealth address to make a token transfer. Token is sent to a one-time address, which is owned by the receiver and only known by the sender and the receiver.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4si1p/banner/default.jpg",
+  "demo_url": "https://youtu.be/bOa3mGhHDTI",
+  "source_url": "https://github.com/TheYoru/yoru-contracts",
+  "prizes": [
+    {
+      "sponsor": "Ethereum Foundation",
+      "sponsor_id": "362vt",
+      "placement": "🥷 EF — ZK, Semaphore, RLN, & Unirep",
+      "title": "Ethereum Foundation"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Tokyo Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "There are two main challenges for social crypto payment.\n1. **Anyone can track transaction history**.\n\t* Transaction is transparent and can be traceable on chain if the receiver address is the same. This is not allowed for social payment if anyone other than the sender and the receiver make sense of the asset transfer. In addition, anyone can track the wallet balance from the same address. \n2. **User experience is bad on web3**.\n\t* First, it’s difficult for users to remember wallet addresses. We can remember our friends’ social media accounts, but we cannot remember his wallet address.\n\t* Second, anyone who sends an Ethereum transaction needs to pay ETH for gas fees. If a user receives some tokens from others, he needs to buy some ETH before withdrawing the tokens. \n\nImagine a scenario where a merchant receives tokens from his customers, but everyone knows how much the merchant earned everyday by monitoring the receiving address. Another case is that we do know who participates in ETHTokyo hackathon, if we watch the registration address. That is bad user experience  for crypto payment and is privacy compromising. \n\n## Solution \n\nConsidering the user experience and privacy transfer, YORU is designed to offer social crypto payment capability. YORU is an innovation to combine stealth address scheme with account abstraction to offer privacy-preserving wallet. \n\nAs for privacy transfer, a one-time receiver address is generated every time by the sender if the sender knows the receiver’s public key. If the sender wants to send the transaction to the same receiver again, he will generate a fresh receiver address. The nice thing is that this is done without the receiver needing to generate multiple private keys or wallets. Most importantly, no one can identify which address is linked to the receiver’s wallet address.\n\nFor better wallet experience, we leverage DID and ENS for public key registration. User can bind his wallet account with his social media account, like gmail, twitter, line and so on. For example, if Bob is in Alice’s telegram contact, then Alice can make a transfer to Bob by querying Bob’s telegram profile to get his public key. Then Alice can directly send the tokens to a one-time stealth address that is only controlled by Bob. Or he can do the same thing by registering the info on ENS.\n\nIn order to withdraw the tokens without paying the gas fee, we leverage paymaster in account abstraction to sponsor transactions so the receiver does not need to deposit ETH in the one-time stealth address. This is super helpful for user onboarding. \n\n\n## Future\n\nThe way our system works is really similar to a UTXO contract wallet. We believe it not only can be used as crypto payment but also is a good wallet architecture design for centralized exchange on L2. ",
+  "how_its_made": "\nYORO is currently available on Goerli tetsnet. \n\nIn this project, we leverage \n\n* DID to resolve receiver’s public key\n   * ENS (web3)\n   * Lens Protocol (web2)  \n* Account abstraction (EIP-4337) to make gasless transactions\n* Stealth address (EIP-5546) to create stealth accounts\n* CREATE2 (EIP-1014) to precompute abstract account addresses\n\nFor the stealth account part, we use umbra-js to create an account with the secret number. \n\nOur DApp in composed of four smart contracts.\n \n1. Yoru.sol\n   * Used by the sender to send tokens to a CREATE2 precompute abstract account address which is controlled by the receiver’s stealth account\n   * This contract mainly serves the purpose of storing relevant information for each transfer so receiver can recover the transfers by scanning the emitted events\n2. PayMaster.sol\n   * Used to cover the gas fee when receiver wants to spend his stealth fund\n3. StealthWallet.sol\n   * The abstract account to store receiver’s stealth fund\n4. StealthWalletFactory.sol\n    * A factory contract to create stealth wallet contract  \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yoru-4si1p",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

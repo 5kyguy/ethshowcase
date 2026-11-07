@@ -1,0 +1,41 @@
+{
+  "id": "racfy",
+  "slug": "accrue",
+  "title": "Accrue",
+  "tagline": "Get paid to wait. The most-watched line on Earth is now a bot-proof on-chain ad market.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/racfy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ElsPJLSFFm01lbUbArKTiMZOOflAWCEdBTDcyULyqnhc/high.mp4",
+  "demo_url": "https://youtu.be/FowaGrNNosM",
+  "source_url": "https://github.com/ethanminh01/accrue",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "AI & Agentic Payments on Hedera",
+      "title": "AI & Agentic Payments on Hedera"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New York 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "The Claude and Codex waiting spinners are the most-watched lines on Earth. 18+ million hours per month are spent waiting for AI to respond, yet that attention is worth nothing to the people providing it. \n\nAccrue turns AI wait time into income. Instead of a loading spinner, users see a 5-second ad, and 50% of ad spend goes directly to them. Advertisers get verified-human reach inside the world's fastest-growing attention sink; users get paid to prompt. \nIt's built on-chain because the off-chain version breaks in two places. \n\n1) Payments: Traditional processors impose minimum payouts and high fees that make per-impression revenue sharing impractical; and have withdrawal limits and don't support many non-US banks causing user dissatisfaction and churn. \n\nSolution: Advertisers escrow USDC and bid for a spinner slot in an on-chain auction. Users earn as they prompt, and funds can be claimed instantly to a wallet anywhere in the world.  \n\n2) Fraud: Client-side ad traffic can be faked: 1 person farming 10 accounts is indistinguishable from 10 real users.\n\nSolution: World ID and AgentKit bind each earning agent to a single verified human making Sybil/bot farming economically unviable. \n\nThe path to a sustainable network effect is clear: users are retained by frictionless earning, while advertisers get higher conversion and stronger ROAS because they only pay for verified-human attention. More advertiser demand → higher user earnings → more users attracted → more attention for advertisers. ",
+  "how_its_made": "The client is a TypeScript VS Code extension that replaces Claude Code and Codex “thinking” states with a sponsored line through per-tool adapters, with idempotent impression/click tracking and a remote kill-switch.\n\nIdentity runs on World. On first launch, the extension registers the agent wallet with @worldcoin/agentkit-cli, creating a Human-Backed Agent record in AgentBook on World Chain. Impressions are reported through createAgentkitClient().fetch over x402 with EIP-191 signatures. The ad server is a Hono x402 resource server using createAgentkitHooks and createAgentBookVerifier to resolve each request to an anonymous humanId, enforce per-human earning caps, block nonce replay, and run tryIncrementUsage for free-trial logic. AgentKit proof-of-human is the Sybil defense.\n\nSettlement runs on Hedera. AuctionHouse, CampaignEscrow, RevShare — 50/50 split, clicks at 50x — and Settlement are Solidity contracts paying out HTS-USDC. Sub-cent fixed fees make per-impression settlement viable. The hard part is that HTS-USDC is not a standard ERC-20: it routes through the 0x167 precompile, and accounts must associateToken before receiving funds. We hide that behind one adapter and make association a single onboarding tap.\n\nWallets come from Dynamic. Embedded and server wallets replace OAuth, onboard non-crypto and non-US users by email, and give each agent its own wallet for payouts.",
+  "auto_summary": "A VS Code extension and companion web/server stack that turns AI waiting time into paid ad impressions with on-chain settlement and human verification.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/accrue-racfy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

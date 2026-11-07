@@ -1,0 +1,27 @@
+{
+  "id": "wv5dk",
+  "slug": "degen-art-museum",
+  "title": "Degen Art Museum",
+  "tagline": "First-person WebGL museum exhibiting the biggest Polymarket losses, narrated by a posh AI butler",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wv5dk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XWhfebn2KWWRcexgYU01fKUzPWdScFKtTOsd73CdOryY/high.mp4",
+  "demo_url": "https://museum-of-degenerate-art.netlify.app/",
+  "source_url": "https://github.com/NickVanzo/polymarket_museum",
+  "finalist": false,
+  "description": "The Museum of Degenerate Art is a first-person Unity WebGL game that turns Polymarket's most spectacular losses into a fine-art experience. Visitors walk through a gallery hung with AI-generated \"masterpiece\" paintings, each one commemorating a real six-figure loss (Super Bowl bets, US election calls, UFC outcomes) and ring a bell to summon Reginald Liquidsworth III, the museum's impeccably posh AI butler. He narrates each ruin in one or two dry sentences and invariably compares the loss to an appropriately fine-art masterpiece. Loss data is indexed by a custom TheGraph subgraph that tracks every realized Polymarket loss on-chain (CLOB fills, redemptions, FPMM exits, neg-risk conversions) from contract genesis. Players can immortalise a loser permanently by minting their loss as an ENS subname delivered straight to the loser's wallet, all from inside the game. The demo never blocks: every network call has a timeout and a funny canned fallback so the butler always has something to say.",
+  "how_its_made": "The project has three layers wired together at runtime. The game itself is a Unity WebGL build: first-person controller (Unity Input System), a humanoid butler with NavMesh pathfinding and a speech-bubble UI that typewriter-animates his lines, ten framed paintings per wing assigned by a function, a leaderboard monument, and a curtain-reveal alcove for the daily worst loss. The AI narration runs through the 0G Galileo testnet in Direct mode, the player's MetaMask wallet signs and pays per inference request via single-use settlement proofs, so no API key ever ships in the bundle. A TypeScript bridge (web/, Vite + esbuild + node polyfills for the browser) wraps 0g-compute-ts-sdk and ethers v6; Unity calls it with a flat JSON envelope (nested data travels as serialised strings because Unity's JsonUtility cannot deserialise per-method shapes). The loss data comes from a custom TheGraph subgraph deployed on Polygon that re-implements Polymarket's cost-basis accounting (average buy price per user and tokenId) and materialises a LossEvent entity every time a position exits below cost, covering CLOB order fills, losing-side redemptions, merges, and neg-risk conversions across all four Polymarket contracts. ENS subname minting is a single contract call from the bridge, with a mint flag so the demo path is unbreakable if the contract isn't deployed. A TTS model reads every butler line aloud. The entire game is also fully playable in the Unity editor via a MockWebBridge that returns canned JSON after fake latency.",
+  "auto_summary": "A Unity WebGL game uses 0G inference, a custom The Graph subgraph, and ENS subname minting to present onchain Polymarket loss data.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/degen-art-museum-wv5dk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

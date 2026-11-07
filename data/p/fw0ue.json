@@ -1,0 +1,27 @@
+{
+  "id": "fw0ue",
+  "slug": "pulse",
+  "title": "Pulse",
+  "tagline": "Galaxy-brain-resistant agent commitments. Drift is detectable, slashable, and unswappable.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fw0ue/banner/default.jpg",
+  "video_url": "https://stream.mux.com/J8Ep00P91iuF8t00HCw4JZJieZgKgaG8sWGVYzlixDgEo/high.mp4",
+  "demo_url": "https://ipfs.io/ipfs/bafybeicojk7pl3ysxuudixchu3j32wsd555humddzpgdkb4opaxvvs2y6q/?agent=pulseagent.eth",
+  "source_url": "https://github.com/ss251/ethglobal-openagents",
+  "finalist": false,
+  "description": "Pulse makes agent reasoning auditable and slashable on-chain.\n\nAt decision time the agent calls 0G Compute for sealed reasoning plus an EIP-191 signature. It commits keccak256(nonce || abi.encode(action)) plus the sealed-reasoning CID on-chain, keyed by ENS name and ERC-8004 token ID. Within a fixed reveal window it must reveal an action whose hash matches the commitment. Mismatch triggers -1000 to ERC-8004 reputation; no reveal triggers -500; a kept commitment scores +100.\n\nOn Uniswap v4 the PulseGatedHook enforces this atomically in beforeSwap. Wrong intent reverts before any state change.\n\nIdentity is portable. The agent's ENS name (pulseagent.eth) carries an ENSIP-25 verification record, five text records, IPFS contenthash for the live frontend, and five named subnames (pulse, hook, gate, lend, inft). It also resolves to an ERC-7857 iNFT on 0G Galileo that stores the encrypted state and full commitment history. Transfer the iNFT and the new owner inherits the reputation trail.\n\nTwo reference consumers show the integration pattern. PulseGatedGate is a 115-line contract any protocol can fork to gate behavior on Pulse-tagged reputation. PulseGatedLendingPool is an overcollateralized credit primitive where borrow is gated by one IPulseGate.assertGate(agentId) call. Both are live on Sepolia and have executed real capital movement as agent #3906.\n\nOperator infrastructure is a KeeperHub workflow on 5-minute cron that sweeps expired commitments, replacing the previous always-on expirer.",
+  "how_its_made": "Solidity 0.8.26 with Foundry (via_ir on, 55 forge tests passing). Pulse.sol is the core commit-reveal primitive. It stores keccak256(nonce || abi.encode(action)) plus sealed-reasoning CID per commitment and uses OpenZeppelin's SignatureChecker to verify EIP-191 signatures from the 0G TEE provider on-chain (supports both EOA and ERC-1271).\n\nPulseGatedHook is a Uniswap v4 hook (BaseHook from @openzeppelin/uniswap-hooks) with only BEFORE_SWAP_FLAG. CREATE2-mined salt 6357 embeds the permission flags in the address. Swaps pass hookData = abi.encode(commitmentId, nonce). The hook either atomically reveals a Pending commitment or hash-verifies a Revealed one. Wrong intent reverts before any state change.\n\nERC-8004 IdentityRegistry and ReputationRegistry are the canonical Sepolia deployments. Pulse writes feedback tagged \"pulse\" with outcomes {kept, violated, expired}. PulseGatedGate reads getSummary filtered by tag1=\"pulse\" and pins Pulse as the only authorized client.\n\nERC-7857 iNFT (PulseAgentINFT) is deployed on 0G Galileo (chainId 16602). Token #1 holds the agent's encrypted state blob (AES-256-GCM), the Pulse identity binding (agentId, ENS namehash, Pulse contract, source chainId), and an append-only history of commitment IDs.\n\nENS integration uses five text records, an ENSIP-25 verification key with ERC-7930-encoded ERC-8004 binding, IPFS contenthash via setContenthash, five named subnames (pulse / hook / gate / lend / inft), and ENS resolution inside the gate frontend itself. The frontend is pinned to IPFS and served from pulseagent.eth's contenthash.\n\nOperator infrastructure is a KeeperHub workflow (keeperhub/workflows/pulse-mark-expired.json) on */5 * * * * cron using eth_getLogs + contract calls. A local TypeScript fallback (scripts/keeperhub-mark-expired.ts) provides the same idempotent logic off-network.\n\nThe agent runs as an autonomous Hermes container (NousResearch/hermes-agent) with Sonnet-4.6 and the ten-skill pulse-skills bundle: pulse-commit, pulse-reveal, pulse-gated-swap, pulse-status-check, pulse-introspect, pulse-recover, pulse-autonomous-trade, pulse-inft, sealed-inference-with-pulse, and keeperhub-bind. The same bundle works with Claude Code, OpenClaw, ElizaOS, LangChain, or raw Anthropic SDK.\n\nBuilt with bun workspaces (@pulse/sdk, @pulse/agent) and viem for all TypeScript clients. Full stack is reproducible from the v0.9.0 tag.",
+  "auto_summary": "Pulse is a commit-reveal protocol that verifies agent decisions on-chain and gates swaps, reputation checks, and iNFT-linked identity around them.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pulse-fw0ue",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

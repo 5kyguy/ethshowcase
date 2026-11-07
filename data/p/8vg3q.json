@@ -1,0 +1,22 @@
+{
+  "id": "8vg3q",
+  "slug": "memevault",
+  "title": "MemeVault",
+  "tagline": "AI-agentic meme yields: Deposit anywhere, auto-route cross-chain w/ Avail intents + Pyth prices.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8vg3q/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4a4GY78Rosb6EfaOdYjgWvfEmHdnO3IkLQBDqQ7ZAwU/high.mp4",
+  "demo_url": "https://community.bgipfs.com/ipfs/bafybeibprx4vt7z45jncw6n6v7547anu7phiebsz443tjeafupcv7alh6e",
+  "source_url": "https://github.com/wijnaldum-eth/memevault",
+  "finalist": false,
+  "description": "MemeVault is an agentic DeFi dApp that empowers meme coin holders (\"degens\") to unlock fragmented yields across chains without the hassle of manual bridges or scattered APY hunting. Tired of PEPE on Ethereum sitting idle while high-yield vaults on Base or Optimism pump? Users connect their wallet, deposit memes (e.g., PEPE, DOGE) from any supported testnet (Sepolia/Base), and our lightweight AI agent instantly analyzes Pyth-fed prices to suggest optimal routing: \"Swap 20% to USDC via Yellow off-chain, then intent to 15% APY vault?\" One-click execution via Avail Nexus abstracts the cross-chain magic—seamless, 2s deposits vs. 5min bridges.Core flow: (1) RainbowKit connect shows balances; (2) EtherInput selects asset/amount/chain; (3) Agent (LangChain off-chain) queries real-time Pyth oracles for APYs/liquidity; (4) Yellow Nitrolite handles instant swaps (session-based, on-chain settle); (5) Avail executes intent (e.g., ETH→Base yield farm); (6) Dashboard tracks txs with Blockscout embeds + shareable proofs for X virality.Built for degens: Solves liquidity silos (e.g., no more DEX hopping) and FOMO on yields, targeting $1k-5k holders who want passive compounding without spreadsheets. \n\n",
+  "how_its_made": "Solo-shipped in 24h frenzy using Scaffold-ETH 2 (Hardhat framework) for boilerplate bliss: Auto-gen Wagmi hooks (useScaffoldWriteContract for deposits, useScaffoldReadContract for Pyth prices) + Next.js/Tailwind/daisyUI for mobile-dark UX (Zapper-inspired dashboard cards w/ frog memes for flair).Nitty-Gritty:Contracts: Started w/ template YourContract.sol → MemeVault.sol (ERC-4626 vault inheriting OZ ReentrancyGuard/Pausable). Added PythHermes for price pulls (updatePriceFeeds in deposit fn), Avail SDK for intents (createIntent emits cross-chain events). Deploy scripts (packages/hardhat/deploy/00_deploy_vault.ts) tag for Hardhat 3 bonus—yarn deploy --network sepolia spins to testnet in 2m, verified via yarn verify.\nFrontend: /packages/nextjs/app/page.tsx w/ RainbowKitCustomConnectButton (auto-balance), EtherInput for deposits, custom hook for agent (LangChain chain in /utils/agent.ts: Pyth query → if APY>threshold, suggest Yellow swap). Pieced via viem for signing, daisyUI toasts for \"Yield routed! +12% \".\nIntegrations: Pyth SDK for on-chain prices (benefits: tamper-proof, <1s freshness); Yellow Nitrolite for off-chain swaps (API endpoint in React utils, settles via hub contract—cut latency 80%); Avail Nexus widgets for intent UI (mocked Base routing w/ test endpoints). Hacky win: Fallback Pyth staleness (avg last 3 feeds) via simple array reducer in agent.ts—passed 100 Hardhat fuzz tests w/o exploits. LangChain off-chain for speed (no on-chain AI overhead), but Lit Protocol hooks for optional zk-privacy on closes.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/memevault-8vg3q",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

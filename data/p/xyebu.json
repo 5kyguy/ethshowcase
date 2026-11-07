@@ -1,0 +1,35 @@
+{
+  "id": "xyebu",
+  "slug": "nonet",
+  "title": "NoNet",
+  "tagline": "Enable onchain transactions completly without internet or cellular",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xyebu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/JcgpzmrEIM44V4RwRYq95PdSxeXe9CxrvLLeuw3FMCg/high.mp4",
+  "source_url": "https://github.com/team-somehow/nonet",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "1st place",
+      "title": "Hedera EVM: Smart Contracts & Cross‑Chain Integrations"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New Delhi 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Resilient Financial Infrastructure for Everyone!\nNONET is a decentralized mesh networking application that enables blockchain transactions to be signed and transmitted without the internet. By using Bluetooth Low Energy (BLE), transactions hop from one nearby device to another until reaching a gateway with internet access, which broadcasts them to the blockchain.\n\nOffline First: Users can send and receive crypto transactions during internet outages, censorship events, or in remote areas.\n\nAccessibility: Designed for communities with limited or unstable connectivity, ensuring financial access is not tied to infrastructure availability.\n\nEmergency Ready: A peer-to-peer safety net for financial communication during disasters or blackouts.\n\nA Multi-Chain Offline Gateway to Web3\nNONET isn’t locked to a single ecosystem. It supports Ethereum, Flow, and Hedera, with a pluggable transaction layer that makes it chain-agnostic.\n\nGasless Transactions: Through EIP-3009, relays or gateways can pay gas fees on behalf of users.\n\nCross-Community Payments: Users transact seamlessly across supported chains, even without mobile data.\n\nPrivacy & Security: Transactions are cryptographically signed, fragments validated, and user keys never leave their devices.",
+  "how_its_made": "NONET is built by combining mobile mesh networking with blockchain transaction signing in a single, mobile-first experience.\n\nCore Technology Stack:\nFrontend & App Layer: React Native + TypeScript with Expo for rapid mobile iteration.\nBluetooth Mesh Networking: react-native-ble-plx for scanning, react-native-ble-advertiser for advertising fragments. Custom chunking protocol (3-byte header + 8B payload) enables large transactions to be broken into ~1KB max messages.\n\nBlockchain Integration:\nEthereum/EVM (via ethers.js) for signing & EIP-712 structured data.\nFlow SDK and Hedera SDK for non-EVM support.\nEIP-3009 smart contracts for gasless meta-transactions.\nKey Storage: Local encrypted storage (SecureStore/Keystore/Keychain) ensures user keys never leave the device.\n\nMesh Networking Protocol:\nTransactions are signed locally, split into 6-byte fragments, and broadcast via BLE advertisements.\nRelays re-broadcast unseen fragments while maintaining a deduplication cache to prevent flooding.\nGateways detect internet access, reassemble the transaction, verify signatures/nonces, and then submit to the blockchain.\nReceipts are propagated back through the mesh so the originator sees confirmations even offline.\n\nEngineering Hacks & Tradeoffs\nForeground Service Hack (Android): Used to keep BLE advertising alive in the background — necessary for continuous mesh propagation.\nAdvertisement-Only Mode: Chose to rely on advertisements (instead of GATT connections) to maximize battery life and scalability.\nPayload Efficiency: Every byte matters — headers compacted to 3B, giving maximum space for useful transaction data.\nExpo Eject Strategy: Since BLE advertising isn’t fully supported in pure Expo, the project uses custom dev clients for native BLE support.\n\nUser Experience Layer\nModern Neo-Brutalism UI: Clean, accessible design system with intuitive wallet + mesh status screens.\nQR Code Support: For quick wallet sharing and transaction input when BLE isn’t viable.\nDebugging Tools: Verbose logging and packet visualization to test fragmentation & relay performance across multiple devices.\n\nBy combining offline-first networking with secure crypto signing, NONET creates a new paradigm for blockchain resilience — financial transactions that can survive without the internet.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nonet-xyebu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

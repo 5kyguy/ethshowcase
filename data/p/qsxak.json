@@ -1,0 +1,66 @@
+{
+  "id": "qsxak",
+  "slug": "mevictim-rebate",
+  "title": "MEVictim Rebate",
+  "tagline": "Designing better market incentives by identifying MEV victims using historical on chain data and airdropping victims a token to access a token gated Uniswap v4 pool on Scroll",
+  "event": {
+    "slug": "newyork2023",
+    "name": "ETHGlobal New York",
+    "start_time": "2023-09-22T13:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qsxak/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9xonZNDIBFprfpM902ZKhphYI9BCkzsfb01rhl3p0049Sc/high.mp4",
+  "demo_url": "https://youtu.be/gFVWhqzcLqI",
+  "source_url": "https://github.com/mliuuu/ETHNYC23/",
+  "prizes": [
+    {
+      "sponsor": "Nouns DAO",
+      "sponsor_id": "e3t1p",
+      "placement": "🏆 Nouns DAO — Best Public Good",
+      "title": "Nouns DAO"
+    },
+    {
+      "sponsor": "Axiom",
+      "sponsor_id": "1do5k",
+      "placement": "🏆 Axiom — Best Use",
+      "title": "Axiom"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🏊‍♂️ The Graph — Pool Prize",
+      "title": "The Graph"
+    },
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "🏆 Hyperlane - Best Interop Hack",
+      "title": "Hyperlane"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊‍♂️ Scroll — Pool Prize",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Flashbots",
+      "sponsor_id": "mba9h",
+      "placement": "📈  Flashbots — Best Data Analysis Hack",
+      "title": "Flashbots"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New York 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "This project identifies victims of MEV attacks on ETH Goerli and grants these victims an ERC-721 token that qualifies the holder for a rebate when the holder provides liquidity to a Uniswap v4 pool on Scroll. Ultimately, this project incentivizes better behavior on Scroll based on a user's historical on chain data on ETH Goerli.\n\nThis is a powerful new primitive--proving statements about historical on chain behaviors and using this proof to qualify certain users for privileges on complex, next generation DeFi.\n\nFirst, a subgraph of ETH Goerli transactions is used to identify potential MEV victims (individuals who have been front run / sandwich attacked / back run). Transaction hashes and log ID are then provided as inputs to an Axiom circuit. \n\nThe Axiom circuit uses the transaction hashes to prove whether the wallet addresses are indeed victims of an MEV attack. If eligible, the wallet address receives an ERC-721 token (the Nouns NFT created using Unlock Protocol, contract is called MEVictim). \n\nThe ERC-721 token can then be bridged using Hyperlane Warp Route deployment to Scroll. \n\nOnly the holders of the ERC-721 token will be able to swap on a token gated Uniswap v4 pool on Scroll. While we had originally wanted to qualify the ERC-721 holders for a rebate on swap fees, we ran out of time and look to add this complexity in the future. We implemented the token gating as a proof of concept that a Uniswap v4 hook can be used to provide such rebates to token holders.\n\nDesign: https://app.pitch.com/app/player/c8d9c39c-6e49-4a21-be66-50decda3e35e/f4bd41d9-fbff-420e-954b-50e8e66e0595",
+  "how_its_made": "Using a Subgraph for an Axiom Query\nThis project used a subgraph of ETH Goerli transactions specifically from a pool of transactions that have previously occurred (pool is wrapped BTC to USDC). This subgraph gets individual transactions from that specific aforementioned pool and aggregates transactions from the pool. It then analyzes these transactions for a potential MEV (sandwich attacks). The subgraph is sorted through by pool and block height.\n\nAxiom Circuit\nUsers prove that their transaction was victim in a frontrunning MEV attack. Three sequential transactions from a single block: current, previous, and next transaction. The following conditions must be satisfied:\n\nPrevious transaction index < current transanction index < next transaction index\nGas price limit of previous transaction > Gas price limit current transaction\nThere must be a gain in swap between previous and next transaction\nThe transactions are in the same block\nInputs are transaction hash, respective log index Receive the gas price limit for each tx, index for the transaction on the block, block number, receipt from each tx. Use this to validate that the victim is being frontran.\n\nA later iteration of this circuit would be to iterate through pairs. The end result is a proof that the wallet address is a victim of an MEV attack. This proof is then tied back to a callback address using the Axiom v2 client contract that is the wallet address of the victim.\n\nCode Walkthrough: https://youtu.be/sPZaCm08IHY\n\nAutonomous Airdrop\nIf given more time, this project allows users to autonomously claim an airdrop of an ERC-721 token. Users utilize a data-fetching layer on top of Axiom to autonomously prove that their transaction matches the parameters outlined above before submitting a query.\n\nHyperlane Deployment on Scroll\nThis project deployed a Hyperlane Warp Route on Scroll, allowing permissionless bridging of the ERC721 asset to Scroll Sepolia.\n\nTo establish a warp route, this project deployed HypERC20 contracts to Scroll Sepolia.\n\nHyperlane Deployment: https://sepolia.scrollscan.dev/address/0xbF57d398b7a166E255c0Bf83f6e9C322d12FB00a\n\nUniswap v4 + Hook Launch on Scroll\nThis project would launch a Uniswap v4 on Scroll Sepolia with a custom hook that disallows participation on the DEX without the ERC-721 that can only be minted by wallet addresses that were cryptographically proven to be victims of MEV attacks (MEVictim).\n\nThis uses Scroll's Quiknode RPC.\n\nIf given more time, this project would design custom swap fee rebates for holders of the ERC-721 (MEVictim).\n\nGood Actor Nouns NFT\nThis project created a lock on Unlock Protocol to create a Nouns NFT (ERC721) for qualifying addresses as proven by Axiom. This NFT is to signal that holders are good actors.\n\nNFT Contract Address: https://goerli.etherscan.io/address/0x2f8fc6507ace624dfb4649b8db61c4e48e2f1713\n\n- Nouns: The soulbound NFT is adorned with a Nouns pfp because the soulbound NFT is a pass to a brighter, better, fairer future where using crypto is more equitable and fun. Public goods like this project will only serve to increase crypto adoption when more developers realize it is possible to programmatically incentivize better behaviors based on based behavior. Every recipient receives a uniquely generated Noun.\n\n- Flashbots: This project showcases the detrimental impact of MEV attacks on users and highlights how it is possible to detect MEV attacks using Axiom to qualify wallet addresses for benefits in the next generation of DeFi protocols. Flashbots brought mass attention to quantifying MEV -- new tools have since emerged to allow using historical on chain behavior to identify MEV victims and compensate victims in some form.\n\n- Alliance: This is the most compelling project that may become a startup--the ability to reward and define future on chain behaviors using historical on chain data will become the foundation of consumer brands and public goods. This is fundamentally an anti-Sybil tool that can be embedded in disbursement of engagement NFTs and fungible tokens to reward loyal behaviors of actual crypto users. Being able to further refine the recipient tool will ensure that the most deserving of recipients actual receive the engagement token.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/mevictim-rebate-qsxak",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

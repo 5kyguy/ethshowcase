@@ -1,0 +1,27 @@
+{
+  "id": "98bhf",
+  "slug": "pegpulse",
+  "title": "PegPulse",
+  "tagline": "Monitor stablecoin de-peg risk in real time and hedge it with on-chain prediction markets.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/98bhf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wmK5301n14Mcy02g01KGW4gbcEHKwVLuccHwrlRY00ekUkA/high.mp4",
+  "demo_url": "https://pegpulse-ethglobal-cannes-2026.vercel.app/",
+  "source_url": "https://github.com/metehancaliskan/pegpulse-ethglobal-cannes-2026",
+  "finalist": false,
+  "description": "PegPulse helps users track stablecoin health, USDC, EURC and act on it before it's too late. Instead of just watching a price feed and hoping for the best, users can open hedge positions in on-chain prediction markets directly from the dashboard.\n\nThe app pulls live price and TVL data from DefiLlama and CoinMarketCap, runs a risk scoring model, and surfaces the markets most relevant to current conditions. Bets resolve on-chain, winnings are claimable without trust, and the whole flow takes under a minute.\n\nBuilt on Arc Network using Solidity smart contracts, a Next.js frontend, and wagmi for wallet interactions. The goal was simple: make de-peg risk something you can actually do something about.\n",
+  "how_its_made": "The contracts are written in Solidity and deployed on Arc Network. Arc was a natural fit \nbecause its native gas token is USDC, which means every position, payout, and fee in \nour prediction markets happens in USDC without any wrapping or token swaps. One side \neffect of this: Arc's USDC has 18 decimals like ETH, so we just use viem's formatEther \neverywhere. Technically hacky, practically perfect.\n\nFor real-time stablecoin data we use two external APIs. DefiLlama gives us TVL history \nand circulating supply for USDC and EURC, we use this to detect liquidity stress over \ntime. CoinMarketCap gives us live peg prices, which we run through a risk scoring model \non the frontend. The further a coin drifts from its peg, the higher its risk score and \nthe more its markets get surfaced. Neither integration required an oracle on-chain,\nthe data lives in the UI layer and only influences what users see, not what the contract \ntrusts.\n\nThe frontend is Next.js with wagmi v2 and viem. We use Next.js API routes as a thin \nproxy for DefiLlama and CoinMarketCap calls so keys stay server-side and responses get \nnormalized before hitting the client. All wallet interactions, connecting, taking \npositions, claiming winnings, go through wagmi with no ethers.js anywhere.\n\nEURC being a Circle product made it a good second asset to track alongside USDC. \nCross-currency peg risk behaves differently from USD-pegged risk, so having both in the \ndashboard gives the tool more real-world utility for anyone holding EUR-denominated \nstablecoin exposure.\n",
+  "auto_summary": "A Next.js and Solidity app for monitoring stablecoin risk and opening on-chain prediction market positions on Arc testnet.",
+  "scores": {
+    "originality": 5,
+    "practicality": 7,
+    "technicality": 6
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pegpulse-98bhf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

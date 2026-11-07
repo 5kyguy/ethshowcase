@@ -1,0 +1,21 @@
+{
+  "id": "ga0e1",
+  "slug": "onchainaura",
+  "title": "OnchainAura",
+  "tagline": "AI-powered agent for automated video content creation, posting, and donation for existing",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ga0e1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/c802hr62p7S8nTFDl02JQK6F12GSkMVgw00wIJi1EcVQrA/high.mp4",
+  "source_url": "https://github.com/QualiPe/onchain-aura",
+  "finalist": false,
+  "description": "Secured AI agent with the wallet from CDP and x402 messages security. AI-agent is a fully automated, on-chain video creator whose entire editorial workflow—from topic selection to public distribution—lives across a smart-contract and an off-chain compute pipeline. The contract logs the message, emits an event and updates a circular content-plan stored on chain. A  style brief from a fine-tuned LLaMA-3 model running, then hands the prompt to Luma’s Dream-Machine for 9-second vertical video generation. In parallel the same text is passed to ElevenLabs to synthesize an English voice-over. Once both assets are ready, the backend merges them with ffmpeg, uploads the finished .mp4 directly to YouTube via the Shorts API, retrieves the public URL and writes that URL back into the contract. The result is a self-sustaining “robot creator” whose content calendar can be steered by token-gated messages but whose production and distribution require zero human labour; viewers see only a steady stream of AI-made Shorts whose provenance and publishing history are immutably stored on-chain.",
+  "how_its_made": "The project uses two Docker containers orchestrated by docker-compose. The contracts container uses HardHat (with HardHat + Ignition plugins) to deploy the Solidity contract on the Base testnet. It exposes its JSON-RPC on port 8545 for local scripts. The backend container is a NestJS application written in TypeScript. It listens to contract events through the @cdp sdk, loads environment secrets with dotenv, and queues generation tasks.\n\nPrompt generation happens inside a Compute slot. The backend sends an RPC to spin up a lightweight LLaMA-3 8B worker, passes in chain state plus caller message, and receives a one-shot prompt and script. Luma Dream-Machine is called via its REST API for video generation, while ElevenLabs v2 handles text-to-speech. Both return pre-signed URLs that the backend fetches as streams.\n\nYouTube upload uses the official googleapis client with an offline refresh token. The short is classified automatically by aspect ratio and duration, so no extra calls are needed. A Telegram bot (written with Telegraf) exposes manual overrides—generate prompt, generate audio, merge assets, upload—to simplify debugging.\n\nThe final generated video content is signed and an attestation proof is made on-chain to guarantee uniqueness of both the content and the prompt used for generation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/onchainaura-ga0e1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

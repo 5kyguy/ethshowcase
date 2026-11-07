@@ -1,0 +1,27 @@
+{
+  "id": "9eww7",
+  "slug": "glasshouse",
+  "title": "Glasshouse",
+  "tagline": "Glasshouse runs sealed-bid auctions in 1inch SwapVM: highest bidder wins, pays the runner-up price.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9eww7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00iZETpk02mFWRSEquEYJ3kfI00ycGw9B8HDRrA00RrFlwY/high.mp4",
+  "demo_url": "https://glasshouse-ashy.vercel.app",
+  "source_url": "https://github.com/IIITManjeet/Glasshouse",
+  "finalist": false,
+  "description": "Glasshouse is an on-chain sealed-bid auction mechanism for allocating the right to fill orders based on participant valuation rather than identity or timing.\n\nWe compare three allocation gates on the same order: an allowlist, a time-based Dutch auction, and Glasshouse’s sealed-bid second-price auction. In Glasshouse, participants commit a hashed bid, reveal it during a defined window, and the highest bidder wins while paying the second-highest bid. The winner receives an exclusive window to fill the order; once it expires, anyone can fill at the base price.\n\nAcross the same participants, the allowlist required 10,000 bps of base, the Dutch auction 10,618 bps, and Glasshouse 9,756 bps. More importantly, Glasshouse was the only mechanism where the participant with the highest valuation received the fill.\n\nThe project also emphasizes reproducibility and honest measurement. Every published figure is tied to its underlying computation, with automated linting to prevent unsupported claims. Checks with no applicable data are explicitly reported as “not applicable” rather than treated as passes. The accompanying subgraph deliberately refuses to compute metrics such as market share, concentration indexes, or USD-denominated values when the contract does not emit sufficient data to support them.",
+  "how_its_made": "We built Glasshouse as a fully on-chain commit-reveal auction system integrated with 1inch Aqua on Base. GlasshouseBook is a standalone Solidity contract where commit stores a bid hash, reveal validates the bid, and settle determines the winner and second-price payment. It has no owner, admin, or upgrade path, and all parameters become immutable after a round opens. The contract is only 6,149 bytes, with CI enforcing the size limit.\n\nThe auction is exposed through a custom SwapVM instruction, opcode 0x2e, in a redeployed AquaSwapVMRouter connected to the official 1inch Aqua contracts. We use Aqua to run Glasshouse alongside its existing identity and Dutch-auction allocation gates, allowing us to benchmark all three mechanisms under identical conditions rather than making theoretical claims.\n\nOne of the more interesting engineering decisions was never re-implementing Aqua's order encoding in TypeScript. A Foundry fork test uses the upstream MakerTraitsLib and TakerTraitsLib against real Base state to generate the order encoding, which is then verified on chain before any transaction spends funds. We also use a LIVE_ROUND value in hook data to retry orders without changing semantic auction parameters.\n\nFor indexing, we built a Messari-conventions subgraph covering all GlasshouseBook events and added an off-chain derivation of the top-two bidding rule, publishing whether it matches the contract settlement. The subgraph deliberately avoids unsupported metrics such as USD values, TVL, market share, and concentration indexes when the emitted data cannot answer them.\n\nThe frontend is a fully static Next.js export with no backend or API key. It reads the contract directly through eth_call, while Vercel rewrites provide clean round and profile URLs. Bidding happens entirely in the browser using commit-reveal, with cryptographically secure salts stored and read back from localStorage before the wallet transaction begins.\n\nOur strongest verification layer is an independent verify-run script that reads raw contract logs from any RPC and reconstructs every auction outcome without importing the contract, subgraph, or frontend implementation. It verified 9 auctions with 8 passed, 0 failed, and 0 not-applicable. A second verifier compared the published subgraph against the same independent replay across 135 fields, with every comparison agreeing. We also added provenance linting, chain-call budget tests, a Uniswap V3 QuoterV2 benchmark as an external pricing reference, and automated contract-size checks. The final test suite contains 97 Solidity tests, 59 JavaScript tests, and the provenance lint, all passing.",
+  "auto_summary": "An on-chain sealed-bid auction system integrates with 1inch Aqua to allocate order fill rights and publishes verification data through a frontend and subgraph.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/glasshouse-9eww7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

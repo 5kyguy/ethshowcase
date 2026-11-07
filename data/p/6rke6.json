@@ -1,0 +1,21 @@
+{
+  "id": "6rke6",
+  "slug": "stellarswap",
+  "title": "StellarSwap",
+  "tagline": "Cross chain swapping between EVM and Stellar Soroban powered by 1inch Fusion+",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6rke6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8zjER7m010001wzIh5S6FpaB02Zl7rAJOMih01HHHQQv02SQA/high.mp4",
+  "source_url": "https://github.com/MarcusWentz/eth_unite_defi_2025",
+  "finalist": false,
+  "description": "### StellarSwap\n\nThis project introduces a bidirectional cross-chain swap protocol that connects EVM-compatible chains with the Stellar network. It extends the architecture of 1inch's Fusion+, allowing the trade of assets between Ethereum and Stellar.\n\nThe protocol ensures the atomicity and security of swaps through a system of hashlocked and timelocked escrow contracts deployed on both the source and destination chains by implementing low level Rust components equivalent to those of 1inch's Fusion+.\n\nThis preserves the core security principles required for trustless cross-chain interactions. To achieve optimal and fair pricing, the system incorporates a Dutch auction mechanism, inspired by 1inch Fusion, which dynamically discovers the exchange rate for orders, with the possibility of partial fills. \n\nUsers receive competitive rates for their cross-chain trades in a decentralized manner, where resolvers can bid for relayed orders signed by makers.   \n\n",
+  "how_its_made": "### How it's made\n\nThe project is built with a modular architecture, separating Stellar and EVM environments, and uses a central resolver logic.\n\n**Stellar Backend:**\nThe core of the protocol resides on a set of interconnected Stellar smart contracts written in Rust, that are implemented to follow the 1inch fusion+ logic.\n\n*   An **Order Protocol** contract, analogous to the 1inch Limit Order Protocol, serves as the main hub for managing swap orders and their execution logic.\n*   An **Escrow Factory** contract is responsible for deterministically deploying matching `EscrowSrc` (source) and `EscrowDst` (destination) contracts.\n*   The **Base Escrow** contracts implement the fundamental cross-chain logic, utilizing hashlocks and timelocks to secure user funds during the swap process until the secret is revealed or the time expires.\n*   A **Dutch Auction Calculator** contract is implemented to handle the dynamic price discovery for swaps, mirroring the functionality of 1inch Fusion to provide fair value to users.\n*   A **Resolver** contract acts as the primary entry point, orchestrating the deployment of escrows and the ultimate settlement of the trade across both chains.\n\n**EVM-side Integration:**\nThe project includes a standard **Foundry** setup to manage the EVM-side components. These contracts are designed to interact with the 1inch Limit Order Protocol on an EVM chain, initiating the first part of the swap and generating the secret required to unlock the funds on the Stellar side.\n\n**Client and Deployment:**\n*   A command-line client was developed using **Bun** and **TypeScript** with the `@stellar/stellar-sdk` to facilitate interaction with and demonstration of the deployed Stellar contracts.\n*   The entire development and testing environment is automated with a `deploy_full_stack.sh` script. This script handles starting a local Stellar network via Docker, compiling all Rust contracts and deploying them in sequence with initial configurations.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/stellarswap-6rke6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

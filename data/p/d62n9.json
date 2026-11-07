@@ -1,0 +1,27 @@
+{
+  "id": "d62n9",
+  "slug": "verafi",
+  "title": "VeraFi",
+  "tagline": "TEE-powered options market maker for fXRP. Verifiable pricing via Intel TDX on Flare.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d62n9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ORqdZhR02khesyS1SxsdgBw4E8dTYGIJkxpZZheEj6100/high.mp4",
+  "demo_url": "https://vera-fi.vercel.app/",
+  "source_url": "https://github.com/ethglobalcannes/VeraFi",
+  "finalist": false,
+  "description": "VeraFi is a TEE-powered options market maker for fXRP on Flare (Coston2). The pricing runs inside an Intel TDX enclave — Monte Carlo seeded from on-chain SecureRandom, spot from FTSO, volatility from FTSO archive blocks. Every quote is accompanied by a hardware attestation published on-chain. The price is either computed honestly on the registered hardware, or the proof doesn't verify.\n\nXRPL users access it via Flare Smart Accounts — no EVM wallet needed.\n\nRysk Finance lists fXRP covered calls on HyperEVM. fXRP is Flare's own FAsset. The options should be on Flare.",
+  "how_its_made": "The core pricing engine is a Python Monte Carlo simulator (GBM, 10k paths, vectorised NumPy) running as a Flare Compute Extension (FCE) inside an Intel TDX enclave, built on the fce-sign template. The enclave holds a private key and signs EIP-712 Quotes cryptographically bound to the hardware attestation registered on the Coston2 TeeExtensionRegistry.\n\nAll pricing inputs are sourced on-chain. FTSO V2 provides live XRP/USD spot enables 30-day realized vol computed from FTSO archive-block snapshots — no off-chain data source involved. Per-RFQ Monte Carlo seeds are derived as sha256(epoch_random, rfq_id) where epoch_random is Flare's on-chain SecureRandom (commit-reveal across ~100 data providers), making every draw sequence reproducible and taker-manipulation-resistant. Black-Scholes runs in parallel as a convergence check.\n\nFor the XRPL user flow, Flare Smart Accounts bridge XRPL and Flare: an XRPL wallet sends a standard XRP Payment with a memo-encoded RFQ intent, the Flare Data Connector (FDC) attests the payment on-chain, and the Smart Account broadcasts the RFQ. Settlement is gated by an on-chain Attestation Verifier that checks the TEE signature against the registry before the quote is accepted.\n\nSince Rysk Finance is not yet deployed on Flare (chain ID 14), we deployed a mock Opyn Gamma-compatible settlement contract as the primary path — same attestation story, self-contained on Coston2.",
+  "auto_summary": "A multi-repo app for XRP-triggered option RFQs on Flare using TEE-based quote generation, attestation verification, and smart-account style instruction flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/verafi-d62n9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

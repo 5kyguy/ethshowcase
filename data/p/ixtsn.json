@@ -1,0 +1,26 @@
+{
+  "id": "ixtsn",
+  "slug": "privatesignal",
+  "title": "PrivateSignal",
+  "tagline": "Private risk scores in a Chainlink TEE on  Graph data; Arc agents pay USDC and act only if cleared",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ixtsn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qu02n4FIP01uitClVVys8FLhjasjF2oFNQkgxV7Li1IA8/high.mp4",
+  "source_url": "https://github.com/AgenticPortfolioX/PrivateSignal",
+  "finalist": false,
+  "description": "PrivateSignal is confidential risk intelligence for on-chain agents. DeFi positions are public, but proprietary risk policy is not supposed to be. If scoring weights, thresholds, and cross-protocol rules are exposed, competitors copy them and agents leak intent before moving capital. Centralized black-box scorers restore secrecy but destroy verifiability.\nPrivateSignal solves that with a narrow pipeline: live multi-protocol portfolio data from The Graph is aggregated across lending markets such as Aave V3 and Morpho Blue using standardized schemas and optional natural-language/MCP query entry. A proprietary risk model then runs inside a Chainlink CRE confidential workflow, loading sealed model weights, thresholds, and policy profiles from Vault DON secrets. Only a public verdict leaves the enclave: score, recommendation, coarse reason codes, and execution metadata. Model internals stay sealed.\nAn Arc agent can pay a native USDC fee for that confidential result and is hard-gated by it. If the score clears policy, the action may proceed. If not, capital movement is blocked. The system fails closed when Graph data is missing or unreliable, rather than treating empty data as a healthy portfolio.\nThis is not a liquidation bot, MEV searcher, or generic dashboard. It is decision infrastructure: public market state in, private policy evaluation sealed, public verdict out, agent behavior constrained. The product thesis is composability across The Graph, Chainlink CRE confidential compute, and Arc’s native USDC agent environment.",
+  "how_its_made": "PrivateSignal is assembled as a three-layer pipeline: public multi-protocol data intake, confidential scoring, and agent-side policy enforcement.\nOn the data side, TypeScript services query live The Graph decentralized-network subgraphs for Aave V3 and Morpho Blue. A schema mapper normalizes those responses into one UnifiedAccountData shape, and an aggregator derives cross-protocol features such as combined exposure and concentration. Natural-language prompts are routed through a Graph MCP-style path into structured queries so the judged entrypoint is not hand-written GraphQL.\nThe scoring core is a Chainlink CRE confidential workflow written against the CRE TypeScript SDK and compiled to QuickJS WASM. The handler is registered with handlerInTee under a Nitro TEE constraint. Inside the enclave, model weights, thresholds, and policy profiles are loaded from Vault DON secrets through batched getSecrets—a real fix we needed after sequential getSecret calls only resolved the first secret in the deployed runtime. The scorer is pure and fail-closed: missing or empty Graph data returns GRAPH_DATA_UNAVAILABLE instead of a fake healthy score. Only score, recommendation, coarse reason codes, and an honest non-claiming execution envelope leave the enclave.\nThe product API and Next.js frontend sit outside the DON. They prepare validated payloads, call the deployed private-registry workflow over the zone-a gateway with an authorized ECDSA EVM key, and display operator-vs-enclave boundaries without exposing sealed parameters. On Arc testnet, an agent wallet pays a native USDC fee and runs a hard allow/deny gate on the confidential result before any capital action.\nNotable engineering details: secrets are the source of truth on the DON path rather than compiled constants; config targets were reconciled for local simulation vs private staging; and we deliberately avoided self-minted “verified” attestation theater. Partner stack benefit is composability: Graph for standardized public state, CRE for sealed policy evaluation, Arc for native-USDC agent enforcement.",
+  "auto_summary": "PrivateSignal aggregates DeFi position data, scores risk inside a confidential Chainlink workflow, and uses the result to gate agent actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/privatesignal-ixtsn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

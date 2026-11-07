@@ -1,0 +1,36 @@
+{
+  "id": "e2ai5",
+  "slug": "piggybank-6551-nft",
+  "title": "Piggybank 6551 NFT",
+  "tagline": "Piggybank NFTs are 6551-powered ETH savings accounts.  Anyone can mint a Piggybank, send it some ETH, and keep track of your growing balance in the NFT's onchain rendered SVG metadata. To get the ETH out, you'll have to burn the Piggybank NFT. ",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e2ai5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TLEHLWpx00M2lnj7314CMhXl2t017DeKHIkqKiZiCvzss/high.mp4",
+  "demo_url": "https://testnets.opensea.io/collection/piggybanknft6551",
+  "source_url": "https://github.com/nnnnicholas/6551piggybank",
+  "prizes": [
+    {
+      "sponsor": "Tokenbound",
+      "sponsor_id": "bmhmf",
+      "placement": "🎨 Tokenbound — Best Interactive Design",
+      "title": "Tokenbound & ERC-6551"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Waterloo 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Piggybank 6551 is a playful NFT savings account. Users can mint Piggybank NFT, then load them with ETH via a payable function, or by sending ETH directly to the NFT's 6551 account address. As ETH accumulates in each Piggybank, the NFT metadata's color, text label, and attributes update immediately, thanks to 100% onchain metadata rendering. Once the ETH is locked in the NFT, the only way to extract it is to burn the NFT, either by calling the burn function, or manually sending the NFT to its own 6551 account. When the 6551 account receives the NFT, it immediately returns the contained ETH to the account that burned the NFT, and updates the metadata to sat \"Burned\". \n\nPlease try it out!\n\n1. Mint an NFT (0.01 eth) and Add ETH to it, then Burn to redeem your piggybank's contents. Note: Etherscan's inputs are denominated in Ether, not Wei. \nhttps://goerli.etherscan.io/address/0x45b261623b217b4d64cab48216eace6ec4a114c3#writeContract\n\n2. Check out your creations on Opensea\nhttps://testnets.opensea.io/assets/goerli/0x45b261623b217b4d64cab48216eace6ec4a114c3/",
+  "how_its_made": "Piggybank 6551 is composed of two parts. \n\nFirst, I built a custom 6551 Account implementation called Piggybank6551Implementation.sol. This 6551 account implementation removes the arbitrary call execution and 1271 signature functionality that come standard with 6551's reference account implementation, so that the account owner cannot exfiltrate ETH that has been sent to the account via transfer or approvals. This contract's custom onERC721Received and onERC1155Received functions refuse to receive any ERC-721 or 1155 tokens other than the Piggybank NFT associated with the given account itself. Upon receiving the NFT that owns it, the account contract sends its balance to the address that burned the NFT. The contract also emits events and custom errors where appropriate. \n\nThe second part of the project is an ERC-721 contract called PiggybankNFT.sol. This contract issues Piggybank NFTs for a small fee, set in the constructor. It stores the address of the implementation contract described above, and is thus able to compute and interact with the accounts associated with each NFT in the collection. For convenience, I also included an addEth(tokenId) function, which forwards the msg.value to given token's corresponding 6551 account address — though this could be achieved by sending ETH directly to the address, too.  The tokenURI function returns a base64 encoded JSON metadata, which it renders onchain. The NFT's SVG, name, and attributes change based on the amount of ETH locked in the piggybank, or if it has been burned. The NFT contract also includes a burn function, which overrides OpenZeppelin's burn implementation to send burned NFT's to their own 6551 addresses, rather than the burn address. \n\nInterestingly, the Piggybank account implementation is compatible with all existing NFTs, not just the PiggybankNFT contract described above. This means that you could create piggybank style vault wallets for any existing NFT, and the only way the owner would be able to extract the ETH would be to burn their Bored Ape, Milady, or other NFT. This is the power of 6551!\n\nThe contracts are written in Solidity 0.8.19 with a Forge test suite. The contracts rely upon ERC-6551 and its example implementations, as well as OpenZeppelin's 721 contracts, Strings library, Base64-sol, and a StringSlicer library that I wrote for a previous project.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/piggybank-6551-nft-e2ai5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

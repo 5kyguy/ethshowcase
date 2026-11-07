@@ -1,0 +1,27 @@
+{
+  "id": "7zm7s",
+  "slug": "cloak",
+  "title": "Cloak",
+  "tagline": "Private invoicing for freelancers — get paid on-chain without exposing your income or clients.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7zm7s/banner/default.jpg",
+  "video_url": "https://stream.mux.com/70268Fvzvef25J48ehRGu202800gVE9zcBA3lY6GDY002ys/high.mp4",
+  "demo_url": "https://ethglobal-cannes-26.vercel.app/presentation.html",
+  "source_url": "https://github.com/ben-harper27/ethglobal-cannes-26",
+  "finalist": false,
+  "description": "Cloak is a private invoicing platform for freelancers built on Base Sepolia. Freelancers connect their wallet via Dynamic, which derives a deterministic privacy account through Unlink's ZK pool — no wallet addresses or secrets are ever stored server-side.\n\nWhen a freelancer creates an invoice, they share a payment link with their client. The client can pay with USDC directly, or with ETH/WETH which is automatically swapped to USDC via Uniswap V3's SwapRouter02 using a disposable burner wallet. The swap happens inside the privacy pool, and the exact invoice amount is deposited to the freelancer's anonymous Unlink address. Excess funds and gas are refunded to the payer.\n\nOn-chain, there is zero connection between the payer and the freelancer. The platform's database stores only invoice IDs, anonymous Unlink addresses, and amounts — no wallet addresses, no transaction hashes, no seeds. The freelancer can withdraw their private balance to any wallet at any time, completely unlinkable to the original payments.\n\nThe privacy model ensures that even the platform operator cannot link payers to freelancers, and a full database breach reveals nothing about user identities.",
+  "how_its_made": "Built with Next.js 15 App Router as a single monorepo — API routes handle all backend logic, no separate server.\n\nUnlink SDK is the core privacy layer. Freelancer accounts are derived deterministically from an EOA wallet signature — the user signs a fixed message via Dynamic, we keccak256 hash the signature to produce a seed, and pass it to unlinkAccount.fromSeed(). This means the same wallet always recovers the same privacy account, and the seed never needs to be stored server-side. Deposits use the two-phase Permit2 witness flow — our server calls /transactions/deposit/prepare to get the EIP-712 typed data, the payer signs it in their browser wallet, and we submit the signature back to Unlink. The payer's private key never leaves their browser.\n\nUniswap V3 powers cross-token payments. When a payer selects ETH or WETH for a USDC invoice, we generate a disposable burner wallet server-side, the payer sends funds to it in a single transaction, then the server wraps ETH to WETH, calls exactOutputSingle on SwapRouter02 to get the exact invoice amount in USDC, deposits the output to the freelancer's Unlink address via Permit2, and refunds leftover ETH back to the payer. We use QuoterV2 on-chain to show a live quote before the payer commits. The burner is destroyed after use.\n\nDynamic JS SDK handles wallet authentication. We restrict to EOA wallets only because MPC wallets produce non-deterministic signatures which would break our seed derivation model — a key architectural decision we hit during development.\n\nTurso (libSQL) stores only invoices — ID, anonymous Unlink address, amount, status. No wallet addresses, no seeds, no transaction hashes. We deliberately removed tx hash storage mid-build when we realised it would let the freelancer identify the payer's on-chain address, breaking the privacy model.\n\nNotably hacky: the entire cross-token swap flow runs through an ephemeral burner wallet that lives only in server memory for the duration of one API call, handles 5+ on-chain transactions (wrap, approve, swap, approve Permit2, deposit), then self-destructs and refunds the payer.",
+  "auto_summary": "A Next.js monorepo for private freelance invoicing that routes invoice payments into unlinkable recipient accounts and supports ETH/WETH-to-USDC swaps.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cloak-7zm7s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

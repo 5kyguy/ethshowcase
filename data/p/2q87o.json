@@ -1,0 +1,35 @@
+{
+  "id": "2q87o",
+  "slug": "closingbell-hook",
+  "title": "ClosingBell-Hook",
+  "tagline": "Uniswap v4 hook that prices tokenized-stock swap fees off the market calendar and chainlink feed",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2q87o/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jS6EI5MheJEqzlX1UqIdLTwVTJ2MgZc3AlxScjDULx4/high.mp4",
+  "demo_url": "https://www.loom.com/share/c0e29c53065a4f43ae76a40bc9a80007",
+  "source_url": "https://github.com/0xtitan6/ClosingBell-Hook",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "Best Uniswap Stack Contribution",
+      "title": "Best Uniswap Stack Contribution"
+    }
+  ],
+  "finalist": false,
+  "description": "ClosingBell is a Uniswap v4 dynamic-fee hook for tokenized-stock pools on Robinhood Chain.\n\nThe problem: US stocks trade about 19% of the week, but the tokens trade 24/7. For the rest of the time a Uniswap pool is the only on-chain price for the stock, while the Chainlink reference sits frozen at the last close. When the market reopens the real price arrives in one swap, and whoever makes that swap takes the gap out of the LP. Every existing LP-protection signal (realized volatility, deviation from a live price) reads \"calm\" on a Sunday afternoon.\n\nClosingBell sets the fee on every swap from three things at once:\n1. The trading calendar. Regular hours, extended, overnight, or closed, including DST and NYSE holidays as rules in code. Closed sessions get a higher floor.\n2. Staleness. While the calendar is closed the fee ramps with time since the close and caps.\n3. Deviation, priced on where this swap would leave the pool relative to the live reference, so it's size-aware and can't be escaped by splitting. A swap that widens the gap pays more. A swap that closes a gap the pool itself created pays only the floor. But a swap that closes a gap the reference created (the weekend reopen arbitrage) is charged, because that's the trade that takes money from LPs.\n\nThe pool never pauses. Uninformed weekend flow still fills and pays LPs; only the toxic direction and size is priced out. During regular hours with the pool tracking the market, the hook is invisible: 5 bps.\n\nNot deployed to mainnet; parameters are provisional. The fork tests and a local demo UI reproduce every number above.",
+  "how_its_made": "Solidity 0.8, Foundry, OpenZeppelin uniswap-hooks (BaseOverrideFee), Uniswap v4-core, Solady, Chainlink Data Feeds.\n\nContracts (727 lines total):\n- ClosingBellHook (200 lines): BaseOverrideFee subclass implementing _getFee only. Stateless and view; one immutable instance per pool, bound in afterInitialize, which also refuses a start price more than 10x off the reference (catches a flipped token orientation). Reads pool state with StateLibrary and estimates the post-swap price with v4's own SqrtPriceMath, behind an external self-call in try/catch so an impossible trade size can never revert a swap.\n- FeeCurve: pure library, floor x staleness x deviation, round-to-nearest, cap at MAX_LP_FEE-2 (a protocol fee compounds 999,999 to 100%, learned from Uniswap's StablePair hook).\n- MarketHours: pure calendar, UTC to ET with DST, four sessions, NYSE holidays as rules with no table to expire.\n- ChainlinkEquityAdapter: stateless view over AggregatorV3 feeds with an optional quote feed for non-dollar pools, a 6-round window for the \"did the reference move\" rule, staleness and plausibility checks, and ERC-8056 oraclePaused().\n\nThe hacky parts worth mentioning:\n- The hook reads the adapter with a raw staticcall and a 256-byte length check, then decodes eight uint256 words by hand. try/catch cannot catch a decode failure in the caller, and a decode failure in beforeSwap would freeze every swap. A malformed or dead feed reads as \"closed floor\" instead.\n- Robinhood Chain's PoolManager is a non-canonical deployment. It was verified two ways: bytecode, and recomputing all 25,139 poolIds from their PoolKeys.\n- The demo forks Robinhood Chain at a block from Sunday of Labor Day weekend (the primary RPC has no archive state, one public RPC does) and deploys a ReplayFeed that answers latestRoundData with the real Chainlink rounds as of the chain clock, so the feed wakes up on Monday night exactly as it did on mainnet. Real AAPL and USDG balances are seeded by writing the token's balance storage slot on anvil (USDG is a proxy that packs balances into 64 bits).\n\nTesting: 175 unit tests at 10k fuzz runs, 7 fork tests against the live chain, six internal audit rounds with independent reviewer prompts; every fix has a regression test and a build note. AI (Claude Code) was used throughout and is attributed per file and per function in the README.",
+  "auto_summary": "A Solidity project that implements a Uniswap v4 hook to adjust swap fees for tokenized-stock pools using market hours and oracle data.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/closingbell-hook-2q87o",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

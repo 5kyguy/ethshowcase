@@ -1,0 +1,47 @@
+{
+  "id": "8ngw6",
+  "slug": "openbook",
+  "title": "OpenBook",
+  "tagline": "The data marketplace for AI agents. Fresh data or your money back. ",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8ngw6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qd5D2r5bXmLoh2H024ytQGukgaAAn3Za01NZP7dFhjWGQ/high.mp4",
+  "demo_url": "https://openbook.litai.ca/",
+  "source_url": "https://github.com/Aliserag/OpenBook",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "3rd place",
+      "title": "Best Use of Composable or Standardized Graph Products"
+    },
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "Best Agentic Economy Application with Circle Agent Stack",
+      "title": "Best Agentic Economy Application with Circle Agent Stack"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "The people driving the next trillion-dollar economy have a blind spot that is going to hemmorage as high as $7 billion by the end of this year The people driving this are infact not people. They are AI agents, and entire economies will be built around how they make decisions as well as the data they use for those decisions.\n\nEvery day, agents spend real money on data at machine speed. On Polymarket's fastest markets, bots already move 55 to 62% of the volume (Dune). A prediction-market agent buys odds before it takes a position, and for it, current data is edge worth paying for.\n\nEvery day, some of that data arrives stale, and the agent acts on it anyway. There is no refund, no dispute, no half dead discord, nobody to call at tech support. Bad data of every kind already costs the average organization $12.9 million a year (Gartner, via IBM). Today 54% of organizations are deploying agents (KPMG, Q1 2026). Gartner's own forecast is that more than 40% of agentic AI projects will be canceled by 2027, and it names the reason: inadequate risk controls. These problems are only going to get more expensive as the agentic ecconomy approaches $1.5 Trillion dollars by 2030 (Juniper).\n\nRecourse is the missing primitive of the agentic economy. Agents will not be trusted with real budgets until spending can be undone. Not by a court or a support ticket, but by the contract that holds the money.\n\nRecourse is the missing primitive of the agentic economy. A refund that the contract executes itself bounds an agent's loss per query to the gas it spent, which is what makes an agent's budget underwritable. It is also what turns freshness into something people can profit from: a seller can charge more for a tighter freshness window and forfeits the fee when it misses, so the incentive runs toward faster indexers and better feeds, and the freshness premium becomes an open, observable price instead of a private contract. Refundable spend lets agents hold real budgets, real budgets create demand for fresher data, and that demand pays the people who make data fresher. An economy where agents decide every block needs data priced every block.\n\nOpenBook is that market: the data marketplace for AI agents, with a freshness guarantee that enforces itself. Sellers list a dataset under their own onchain name (an ENS name) with a price per query and a freshness promise. A buyer agent asks in plain English, its payment locks into an escrow on Arc with the promise written in, and the data arrives from The Graph stamped with the block it was recorded at. Fresh: 98% to the seller, 2% to the protocol. Stale: the contract refuses to pay and the money goes back. Every settlement, refund and fee is written into public books anyone can audit.\n\nPrediction markets, lending rates, pool prices, NFT trades and name registrations are on the market today; any active ubgraph (15k+ as of today) can be transformed into it's own monetized market with one config line, and an MCP server lets agents discover, compare and buy. Tomorrow, anything an agent acts on is sold this way, and the $7 billion blind spot is not litigated. It is refunded.",
+  "how_its_made": "Stack: Solidity contracts with Foundry; a TypeScript seller service, buyer CLI and MCP server on Bun; a Vite and React web app served from one bundle on Cloudflare Pages and Vercel, with its server routes as Cloudflare Workers and Vercel functions; a Graph subgraph in AssemblyScript; a server-side language model on Fireworks (DeepSeek) for the console; Circle developer-controlled wallets for the page and a Circle Agent Wallet for the x402 lane; 409 unit tests, 20 Foundry tests and a 20-check browser audit in CI.\n\nSettlement runs on an ERC-8183 hook on Arc. Every purchase is a job on my own instance of Circle's ERC-8183 escrow on Arc testnet, paid and gassed in USDC. I wrote SlaHook.sol, the hook the escrow calls on every action: on submit it records the hash of the delivered bytes, and before complete it requires a signed attestation over that hash and checks that the delivery's block clears the freshness floor set at payment. If either check fails it reverts with SlaNotMet and the job can only be refunded. The 2% platform fee goes to a PolicyWallet treasury I wrote with onchain per-transaction and daily caps, since Circle's policy engine is not available on testnet.\n\nThe data comes from The Graph, stamped with its block. Every dataset is a live subgraph on The Graph gateway (three on Messari standardized schemas, plus ENS and Overtime). I append _meta { block { number } } to each query, hash the payload and sign the observation; that block number is what the hook compares against the floor, which is the only reason a freshness guarantee can be enforced onchain. One route settles a job: verify the hash, post the attestation, simulate complete(), then send complete() or reject() in the same request. My own open-book subgraph indexes every payment, settlement, refund and fee into public books.\n\nEvery ENS name is a market. openbook.eth is registered in the ENSv2 registry on Sepolia and runs its own UserRegistry subregistry, so the name is a namespace of markets: each dataset is a subname with its own price, freshness window and payee in text records (svc.price, svc.sla, svc.payee), and aave-v3-arbitrum-lending.openbook.eth already quotes 0.15 while the parent quotes 0.10 and pays a different wallet. A new subname needs no setup: without a resolver it inherits the parent's, so a market exists the moment the name does. The identity is the storefront and the ledger at once: svc.pnl points at the name's public books, and agent-registration, agent-context and agent-endpoint records (ENSIP-25/26, tied to ERC-8004 agent 894065) let an agent find the market, its terms and its history from the name alone. Onboarding a seller is an Enhanced Access Control grant: I gave alpha.openbook.eth's key write access to svc.price only, on its own node, and it repriced itself onchain while every other write reverts, so a seller runs its own market under a parent it does not control. Anyone can register a name and set three records to sell; the server re-resolves price and payee before every job and there is no default anywhere in the code. No ENS, no market.\n\nThe interface is a console that takes English, plus an MCP server for agents. Anything typed that is not a command goes to a server-side LLM that maps it to a validated command; the model never touches data or produces a number, and a purchase asks for its freshness window before spending. sla-subgraph-mcp is my open-source MCP server (seven tools, keyless quickstart): discover_datasets searches The Graph's Subgraph MCP and returns config entries, choose_seller reads live ENS terms and current index lag and picks a seller with a written rationale, and the buy tools return a signed, block-stamped payload.\n\nWallets are Circle's. On the web app the buyer and seller are Circle developer-controlled wallets with gas from Circle Gas Station, so a judge can buy with nothing installed; with a browser wallet connected, the wallet creates and funds the job and the seller quotes it from its Circle wallet. The treasury funds the buyer across chains with App Kit's CCTP bridge and a Gateway unified balance, and an x402 lane sells the same delivery per call, paid from a Circle Agent Wallet.",
+  "auto_summary": "OpenBook is an onchain marketplace that sells subgraph-backed data to agents with escrowed USDC payments and automatic refunds for stale deliveries.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/openbook-8ngw6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

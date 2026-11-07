@@ -1,0 +1,27 @@
+{
+  "id": "jrtru",
+  "slug": "arcset",
+  "title": "ArcSet",
+  "tagline": "ArcSet turns a DeFi thesis into a self-custodial portfolio you can review and execute on Arc.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jrtru/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vFSaQPLSh1xkgiCwKIdoUBrXpnKhG79TUVtdUNhyFTg/high.mp4",
+  "demo_url": "https://arcset.vercel.app/",
+  "source_url": "https://github.com/stalin670/ArcSet",
+  "finalist": false,
+  "description": "ArcSet is a self-custodial portfolio app for Arc Testnet. It turns an investment thesis, such as stablecoin yield, Bitcoin income, currency diversification, or cross-chain liquidity, into a basket with clear target weights. Users create a Circle modular wallet secured by a device passkey, fund it with USDC, inspect the assets, protocols, risks, fees, and exit paths, then request a fresh execution plan. Every swap, vault deposit, minimum output, and estimated fee is shown before signing.\n\nArcSet uses Circle App Kit to swap USDC into EURC or cirBTC and EarnKit to deposit USDC into a screened Morpho ERC-4626 vault. Its experimental cross-chain basket deposits part of the investment on Arc, bridges canonical USDC to Base Sepolia through CCTP, swaps half for WETH, and creates a Uniswap V3 liquidity position. Confirmed steps are recorded, allowing an interrupted route to resume without repeating an earlier transaction or bridge burn.\n\nAssets and positions remain in the user's wallet. ArcSet reads live balances, values holdings, links receipts to each basket, calculates allocation drift, and provides reviewed exit and rebalance flows. Since Arc uses USDC for gas, the same balance can fund investments and network fees. The project also includes a Messari-compatible Graph subgraph for Morpho deposits, withdrawals, TVL, and vault activity.",
+  "how_its_made": "We built ArcSet with Next.js 16, React 19, TypeScript, viem, and Circle's Arc stack. The frontend talks to Arc Testnet through viem, with fallback RPC endpoints for balance reads, contract checks, and transaction receipts.\n\nCircle Modular Wallets provide the wallet layer. A device passkey controls a Circle smart account, so users never handle a private key. We wrote a custom EIP-1193 provider that translates standard wallet calls into sponsored ERC-4337 user operations through Circle's bundler and paymaster. It supports `wallet_sendCalls`, transaction status polling, and regular transaction requests, which lets Circle App Kit work with the passkey wallet on both Arc Testnet and Base Sepolia.\n\nCircle App Kit supplies fresh swap quotes for USDC, EURC, and cirBTC. Each quote includes fees and a 1% minimum output before execution. EarnKit discovers the active Morpho USDC vault on Arc. We then verify the vault ourselves by checking its deployed bytecode and ERC-4626 `asset()`, `decimals()`, and `totalAssets()` responses. ArcSet rejects mock or inactive vaults, non-USDC assets, and vaults with red risk warnings.\n\nEach basket is a versioned set of execution adapters. An adapter must support entry, exit, position reads, and valuation before its strategy appears in the catalog. Composite baskets quote every leg together, then execute the swaps and Morpho deposit in sequence. We record each confirmed transaction separately. If a later step fails, ArcSet keeps the completed receipts and retries only the unfinished steps with fresh quotes.\n\nThe cross-chain basket uses Circle CCTP to bridge canonical USDC from Arc to Base Sepolia. It deposits one part into Morpho on Arc, bridges another part, swaps half of the received USDC for WETH, and mints a wide-range Uniswap V3 LP NFT. Exact approvals, minimum outputs, and a Testnet pool-price sanity check protect the Uniswap steps. We persist progress after each stage so resuming the route cannot repeat a completed CCTP burn.\n\nOne surprisingly tricky Arc detail is USDC accounting. Arc exposes the same underlying USDC balance through an 18-decimal native interface for gas and a 6-decimal ERC-20 interface for transfers and approvals. ArcSet treats these as one asset, uses the ERC-20 view for portfolio accounting, and reserves the native view for gas and `msg.value`. This avoids displaying or counting the same money twice.\n\nWe also wrote a Messari Yield Aggregator compatible subgraph for The Graph. It indexes Morpho ERC-4626 deposits and withdrawals on Arc and calculates vault activity, TVL, share supply, and user metrics. The portfolio view combines live onchain balances with locally recorded execution attribution, then calculates allocation drift and prepares user-reviewed exit or rebalance actions.",
+  "auto_summary": "A Next.js app that builds and executes Arc-based USDC investment baskets with Circle wallet flows, CCTP bridging, and a Graph subgraph.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/arcset-jrtru",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

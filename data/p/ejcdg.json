@@ -1,0 +1,21 @@
+{
+  "id": "ejcdg",
+  "slug": "graph-trail",
+  "title": "Graph Trail",
+  "tagline": "A ledger of large stablecoin transfers where every number traces back to its onchain source.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ejcdg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/81s9Zfg66MWIcIRVhjZf00sWMwRlpO3gXMvdhFxY9ihU/high.mp4",
+  "source_url": "https://github.com/mtartar/eth26-graph-trail",
+  "finalist": false,
+  "description": "Graph Trail is a compliance-officer's ledger for large USDC/USDT/PYUSD transfers. \n\nAsk a plain-English question and Claude resolves it into a filter, real transfer data comes from The Graph's Token API, and an AI-generated summary sits alongside a sortable table. \n\nEvery row links straight to its transaction on a public block explorer, so nothing shown is asserted without a source you can independently check yourself.\n\nNote: this is my first project in blockchain. I hacked solo for a few hours, only to built something and having fun doing it. No rocket science here!",
+  "how_its_made": "Backend: FastAPI, with Pydantic models (Transfer, QueryFilter, FlagResult) as the single schema contract the whole app is built around. \n\nData sources sit behind one interface (TransferDataSource) chosen by a DATA_SOURCE env flag (fixture or token_api). The real data source calls The Graph's Token API directly for USDC/USDT/PYUSD transfers on Ethereum.\n\nNL layer: a natural-language question (\"USDC transfers over $1M last week\") gets turned into a structured filter via a single forced tool (call to Claude Haiku 4.5). A second Claude call turns the resulting transfer list into a short plain-English summary.\n\nFrontend: Streamlit, using its native column_config.LinkColumn and row-selection (on_select).\n\nAll fixture data is real, currently-existing on-chain transactions — pulled live via a public RPC (eth_getLogs). The NL layer is tested against the real Anthropic API, not just mocks. ruff and ty (types) stayed clean throughout.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/graph-trail-ejcdg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

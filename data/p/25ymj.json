@@ -1,0 +1,22 @@
+{
+  "id": "25ymj",
+  "slug": "doorno-402",
+  "title": "DoorNo.402",
+  "tagline": "Door No.402: Guarding x402 Autonomous Agent Payments Against Exploits Using KeeperHub & ENS",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/25ymj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/vlXaq1AgNwrVb5YflRsxu1jIdguqw8q96AS700ZwEgLY/high.mp4",
+  "demo_url": "https://doorno402.vercel.app/",
+  "source_url": "https://github.com/Kal-MrNobody/DoorNo.402",
+  "finalist": false,
+  "description": "DoorNo.402 is an open-source security SDK, which is a middleware of the x402 payment protocol. AI agents using x402 are vulnerable to price inflation attacks, prompt injection through the description field, unknown recipients with no on-chain reputation, budget drain through micro-payments, TLS downgrade attacks, redirect hijacking and fake delivery. The x402 spec does not assume anything about the client side and assumes that all servers are honest.\nDoorNo.402 stops every 402 response before the agent pays. It runs it through a 7-stage validation pipeline and blocks anything suspicious before a single transaction is signed. ENS reverse resolution is a decentralized payee registry — addresses without an ENS name score 0 and are blocked. Once DoorNo.402 approves the payment, KeeperHub executes it on-chain guaranteed.\nYou can protect any existing x402 agent with these two lines of code Available on PyPI (pip install doorno402) and npm (npm install doorno402).",
+  "how_its_made": "The SDK core is written in Python and TypeScript. Python catches 402 responses before x402Httpx with httpx event hooksClient processes them. The hook runs full validation pipeline and either raises PaymentBlockedError or mutates response to 403. \nKeeperHub MCP integration with interceptAndForward Same logic is wrapped around fetch in Typescript.\nENS integration uses web3.py to reverse-resolve payTo address on Ethereum mainnet, checks registration age via ENS BaseRegistrar contract and builds a trust score from 0-90. Addresses with a score below 40 are automatically blocked.\nDoorNo.402 after approval, is executed on-chain by KeeperHub through its Direct Execution API. We built 6 live malicious servers on Vercel (CryptoInsider, ChainPulse, BlockBrief, NodeTimes, Web3Daily, ComboAttack) each attacking a different vulnerability, plus one honest server (ChainWatch) that DoorNo.402 approves properly. The CLI spins up an autonomous research agent on all 7 servers and shows real on-chain transactions that are blocked and then executed on Base Sepolia. Real USDC transfers confirmed on Basescan. Published on PyPI and npm as doorno402 v0.4.0",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/doorno-402-25ymj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

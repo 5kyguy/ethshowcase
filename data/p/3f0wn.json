@@ -1,0 +1,21 @@
+{
+  "id": "3f0wn",
+  "slug": "deepperp",
+  "title": "DeepPerp",
+  "tagline": "DeepPerp is a fully on-chain perpetual futures exchange built on Sui using Virtual AMM model.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3f0wn/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pcCz1rvIRkLXYSTs02piGusd4201c4Ee5Gp5gHyQM4k1g/high.mp4",
+  "source_url": "https://github.com/a-simptoad/deepperp",
+  "finalist": false,
+  "description": "eepPerp brings the capital efficiency of perpetual futures to the Sui network without relying on external liquidity providers. By implementing a Virtual AMM model inspired by protocols like Perpetual Protocol, DeepPerp allows users to open leveraged Long or Short positions purely against a virtual liquidity pool. This design ensures traders can execute orders instantly with predictable slippage and zero price impact at entry, regardless of the trade size relative to real collateral. To maintain equilibrium between the protocol's internal trading price and the external spot price of the asset, DeepPerp employs a dynamic funding rate mechanism. This mechanism continuously calculates the divergence between the virtual Mark Price and the external Index Price, charging the dominant market side to pay the minority side, which naturally incentivizes the price to converge over time.",
+  "how_its_made": "DeepPerp is engineered entirely in Sui Move, leveraging the blockchain's object-centric data model for high composability and security. The core logic is encapsulated within the VirtualPool module, which implements the constant product formula (x * y=k) using virtual token reserves to calculate price impact deterministically without requiring physical liquidity. The Market module acts as the central orchestrator, managing user margin accounts, handling collateral deposits, and executing trade logic such as leverage checks and PnL calculations. Every user's margin account is instantiated as a distinct Move object, ensuring parallel transaction execution and robust asset isolation.\n\nFor accurate market data, we integrated the Pyth Network oracle. Since Pyth operates as a pull oracle on Sui, our system is designed to accept signed price updates (VAAs) pushed by the client during the transaction block. The smart contracts rigorously verify the timestamp of these updates against the Sui Clock to ensure data freshness—typically rejecting prices older than 60 seconds—before calculating the Mark Price or Funding Rates. This integration ensures that our internal vAMM price is constantly anchored to the real-world Index Price. We validated the system using the Sui::test_scenario framework, simulating complex market conditions such as high-volatility whale trades, funding rate arbitrage, and liquidation scenarios to ensure mathematical precision and protocol solvency.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/deepperp-3f0wn",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "jamj9",
+  "slug": "battles",
+  "title": "Battles",
+  "tagline": "Oracle-less prediction market: back memecoins in 1v1 battles powered by custom Uniswap v4 hooks.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/jamj9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dSZaXaCByeuim46CEkzHTktgay9W8f6CRsvFs02An7Rc/high.mp4",
+  "demo_url": "https://battles-navy.vercel.app/",
+  "source_url": "https://github.com/web3senior/battles-ETHOnline2026",
+  "finalist": false,
+  "description": "Battles is a decentralized prediction market for coin vs. coin performance with zero external oracle dependence. Two tokens face off in a fixed-duration battle, and whichever coin achieves a higher percentage price growth takes the pot.  Traditional prediction markets rely on off-chain reporters, feeds, or dispute windows. MemeMarket eliminates third-party reliance by measuring performance directly inside each coin's native pool using a custom Uniswap v4 hook. Relative performance is calculated in log-space via tick accumulators, making it mathematically impossible for single-block flash loans or last-minute price spikes to alter the outcome.  Participants take positions in an in-contract constant-product odds market. Buying a side shifts odds based on crowd sentiment without altering token prices or touching the underlying assets. Once the timer expires, any user can execute settlement to claim a keeper bounty, and winning predictions redeem their share of the pool. Fully trustless, admin-free, and automated. ",
+  "how_its_made": "**Smart Contracts (OracleHook.sol & Arena.sol):** We developed a cardinality-1 accumulator hook in Uniswap v4 to track running sums of tick-times-seconds during afterInitialize and afterSwap events. Since ticks are log-space, the relative performance between two tokens simplifies to basic subtraction, eliminating precision loss or overflow concerns. The Arena contract oversees battle creation, operates an in-contract FPMM odds market for low-overhead trading, and facilitates trustless bounty-rewarded settlements with automated refund paths for scenarios like dead heats, dead oracle pools, and empty corners. The entire suite has undergone thorough verification, successfully passing 11/11 end-to-end tests against a live PoolManager. \n\n**Indexing (The Graph):** We implemented a custom Subgraph to map events such as BattleCreated, Staked, Sold, and Settled. For every trade, the mapping retrieves exact `odds()` and `performance()` views directly from the contract within the same block, enabling the generation of real-time performance line charts and live stake reports.\n\n**Frontend & App Engine:** The frontend is built with Next.js, SCSS Modules (BEM), and Wagmi/Viem. It employs a hybrid architecture where state and balances are queried directly from the blockchain, while historical charts and activity reports are seamlessly integrated from the indexer.",
+  "auto_summary": "A decentralized prediction market uses a custom Uniswap v4 hook and a subgraph to settle token performance battles on-chain.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/battles-jamj9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

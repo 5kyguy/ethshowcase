@@ -1,0 +1,27 @@
+{
+  "id": "sn1ic",
+  "slug": "iter",
+  "title": "Iter",
+  "tagline": "Onchain CLOB+pool DEX: LPs set their own price tolerance, so sandwiche attacks stop",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sn1ic/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7jj3VBwqrd2Ddmhy4UZ4Rez9lIUQQCijRqp9WKkPYnE/high.mp4",
+  "demo_url": "https://iter.cx/home",
+  "source_url": "https://github.com/iter-cx/iter-contracts",
+  "finalist": false,
+  "description": "\nIter is a decentralized spot exchange that separates the two questions every trading venue has to answer: who supplies the tradable inventory, and how a trade is priced and settled.\n\nEvery AMM fused those into a single bonding curve. That is why a Uniswap LP cannot decline a price — the curve fills their capital at whatever price the market pushes it to, all the way down. Onchain order book DEXes fixed settlement but abandoned inventory: their liquidity still comes from professional market makers, not permissionless LPs.\n\nIter answers both. Settlement is a fully onchain central limit order book, with price-time or size priority chosen per pair at listing. Inventory is a pool layered on top that converts permissionless LP capital into ordinary limit orders on that same book, rather than a second pricing primitive. Every position carries its own slippageLimit, so an LP sets the worst price they will accept. At slippageLimit = 0 a position only ever executes at the reference price, which bounds its worst-case impermanent loss by construction.\n\nPool trades are priced against a TWAP reference rather than instantaneous spot, so the price an attacker can manufacture inside one block is not the price the pool trades at. In our simulation this cuts same-block sandwich extractability by roughly three orders of magnitude — to negative attacker profit once gas is counted.\n\nBecause settlement is an order book, a trade can also add liquidity: it settles whatever it can match and the remainder rests as the trader's own limit order, instead of an AMM route's all-or-nothing revert.\n\nThe costs are real and we state them: occasional partial fills when tolerant liquidity is thin, and roughly 6x Uniswap v2's gas per swap, which makes Iter an L2 protocol by construction.",
+  "how_its_made": "CONTRACTS (Solidity 0.8.24, Foundry). MatchingEngine + Orderbook are the settlement layer: a fully onchain order book in 8-decimal fixed point (DENOM = 1e8), with price-time or size priority selected per pair at listing. src/swap holds the inventory layer — BandPool, PoolBands, BandPositionManager, BandSwapRouter. A \"band\" is a price tolerance anchored to the orderbook TWAP. The whitepaper described this as a per-position slippageLimit; in the shipped contracts we hoisted it into discrete buckets, because a continuous per-position tolerance had no bucket to be fungible inside. Band is a uint32 tolerance packed alongside shares and an open flag, so a band costs no extra storage slot.\n\n",
+  "auto_summary": "A decentralized exchange project with onchain orderbook settlement, pooled liquidity contracts, and a frontend that includes cross-chain USDC deposit flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/iter-sn1ic",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

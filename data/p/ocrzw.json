@@ -1,0 +1,27 @@
+{
+  "id": "ocrzw",
+  "slug": "usenami",
+  "title": "Usenami",
+  "tagline": "Live, signed market data from The Graph as the trust anchor for an AI trading agent's spend policy.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ocrzw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hSROo02a36NzW01lTpBld6GP5aab01PWz2B02OlPsbxNMnE/high.mp4",
+  "demo_url": "https://drive.google.com/file/d/1rFVNVnVLN-SV4Fvav2O-asaBiAaUrowt/view?usp=sharing",
+  "source_url": "https://github.com/namixai/signer-ethonline2026",
+  "finalist": false,
+  "description": "Usenami Signer seals exchange API keys inside an AWS Nitro Enclave. The signing secret never leaves the enclave, and every signing request is checked against policy before a signature exists. That policy engine isn't new for this hackathon — it's a Continuity project, live today, gating trade size and blocking withdrawals. We've proven it with real money: completed trades on Binance and Hyperliquid mainnet, and the full signing path proven on OKX.\nFor ETHOnline we're extending it with a new input: live market data from The Graph. An agent reads Uniswap V3 pool state through The Graph's x402 gateway — no API key, no account needed. The indexer's own response comes back signed, tied to the exact request and exact bytes: EIP-712, verified against the live on-chain DisputeManager and the indexer's real stake of 604,359 GRT. We build a canonical snapshot from that signed response and sign it ourselves, with a key whose address is published in our attestation. That snapshot is the designed input for the enclave's policy — the piece that lets \"is this order priced sanely\" become something a machine can check, not just a human watching a screen.\nThe layer that actually enforces a price bound from this data ships in the rotation after submission. What ships in the window is the producing half: read, pay, verify the indexer's signature, build the signed snapshot the enclave will consume next.",
+  "how_its_made": "The core signer already runs a hard architectural boundary: the enclave has no network access at all, it only talks to its parent over vsock. Any external data - including a subgraph response - arrives from an untrusted party by construction. Trust can't come from \"it's on-chain\" or \"The Graph served it\"; inside the enclave that provenance is unobservable, only bytes are. Trust has to come from a signature the enclave can check with a baked-in key.\nWe read Uniswap V3 pool state (canonical, immutable factory 0x1F98431c8aD98523631AE4a59f267346ea31F984) through The Graph's x402 gateway — GraphQL directly, USDC on Base, $0.01 per query, no API key. The gateway response carries a graph-attestation header: an EIP-712 signature over (requestCID, responseCID, subgraphDeploymentID). We verified that signature end-to-end against two live paid responses. responseCID matched the exact response bytes on both. ecrecover against the current Horizon DisputeManager - 0x2FE023a575449AcB698648eD21276293Fa176f96 on Arbitrum, the address changed in a recent protocol migration and we caught the stale one before trusting it — resolved to an allocationID, and SubgraphService.getAllocation() resolved that to a real indexer staking 604,359 GRT on the exact subgraph deployment we queried. That signature proves integrity and binding - these exact bytes, for this exact request - not correctness; even a genuine indexer signs what it answered, not that the answer is true, and we treat it that way.\nBeyond the new data path, the base signer already proves something most policy engines can't: a refusal is a signed receipt, not a log line you have to trust. It carries a request hash, a sequence number and a boot ID, tying it to one specific request and one specific running image. The response itself carries decided_by: enclave. The refusal happens before a signature exists - a bypass of the outer check runs straight into an independent inner one. That's the target the new market-data input plugs into: what ships in this window is the producing half, and the enforcing half - checking the snapshot's freshness and computing a price bound from it inside the enclave - starts after submission. It isn't part of what we're claiming today.",
+  "auto_summary": "A signing system uses AWS Nitro Enclave isolation, The Graph x402-fetched market data verification, and Uniswap Permit2 validation to gate exchange actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/usenami-ocrzw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

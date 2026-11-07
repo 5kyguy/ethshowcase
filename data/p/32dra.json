@@ -1,0 +1,35 @@
+{
+  "id": "32dra",
+  "slug": "skillname",
+  "title": "Skillname",
+  "tagline": "ENS-native skill discovery for AI agents to resolve names and load tools.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/32dra/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Zw02hBDt01aEf2n02DM57IR3XqUp1jEjUVVL4u8SG1Z01Dw/high.mp4",
+  "demo_url": "https://staging.skillname.pages.dev/",
+  "source_url": "https://github.com/hien-p/Skillname",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "3rd place",
+      "title": "Best ENS Integration for AI Agents"
+    }
+  ],
+  "finalist": true,
+  "description": "The goal is simple: resolve a name, load the skills, and let agents discover trusted tools through ENS.\n\nSkillname is an ENS-native skill discovery layer for AI agents. It lets any MCP-compatible AI client resolve an ENS name into a verified, content-addressed skill bundle, then dynamically load tools without hard-coded APIs or custom adapters.\n\nToday, every AI agent framework needs custom integration work for each protocol or tool. Skillname turns ENS into the discovery layer for those skills. A protocol, developer, or agent can publish a skill manifest under an ENS name such as research.skillname.eth. That ENS name stores a text record pointing to a bundle on IPFS or 0G Storage. The bundle contains MCP-compatible tool definitions, prompts, examples, metadata, execution rules, and optional trust information.\n\nIn the demo, an AI client resolves an ENS name at runtime, reads the skill manifest record, fetches the bundle, validates it, and registers the available tools. This means ENS is not just used as a cosmetic username. ENS provides identity, metadata, discovery, and verification for AI agents. The project also supports ENSIP-25-style verification, so an ENS name can be linked to an onchain agent identity such as ERC-8004.\n\nVerify any of it on-chain:\n  - SkillLink dispatch registry:\n  https://sepolia.etherscan.io/address/0x428865D8Dec9Bcc882c9e034DB4c81CBd93293A5\n  - ERC-8004 IdentityRegistry:\n  https://sepolia.etherscan.io/address/0x48f77FfE1f02FB94bDe9c8ffe84bB4956ace11e4\n  - ENS records: https://app.ens.domains/agent.skilltest.eth (xyz.manifest.skill =\n  0g://0x12158e3970…2343dc)\n  - 0G storage manifest: https://indexer-storage-testnet-turbo.0g.ai/file?root=0x12158e39707f477432588085a2452daeb14204aee2b52dcffcd84d41bc2343dc",
+  "how_its_made": "Skillname is built as a TypeScript monorepo with a CLI, SDK, MCP bridge, example skill bundles, and a web demo. The core flow is: ENS name → ENS text record → content-addressed manifest bundle → MCP tool registration.\n\nThe SDK uses viem to resolve ENS text records at runtime. Each ENS name can publish records such as xyz.manifest.skill, xyz.manifest.skill.version, and xyz.manifest.skill.schema. The main record points to a skill bundle stored on IPFS and optionally mirrored to 0G Storage. The bundle is a JSON-based manifest that defines available tools, input schemas, prompts, examples, dependencies, and execution configuration.\n\nThe MCP bridge acts as the adapter between AI clients and ENS. When a client asks to load skills from an ENS name, the bridge resolves the ENS record, fetches the bundle, validates the schema, and dynamically registers the tools as MCP capabilities. MCP is used as the runtime interface because it already standardizes tools, resources, prompts, and client-server capability negotiation for AI applications.\n\nPartner technologies are used in the parts where they matter most. ENS is the identity and discovery layer. 0G Storage is used as a decentralized storage layer for skill bundles and helps position the project as framework-level infrastructure for agents. KeeperHub is used for onchain execution: a manifest tool can declare execution.type = \"keeperhub\", and the MCP bridge routes that call through KeeperHub for contract execution. x402 can be used for paid tool calls, so an agent can pay before using a premium skill.",
+  "auto_summary": "A TypeScript monorepo resolves ENS text records to fetch and validate content-addressed AI skill manifests for MCP-compatible clients.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/skillname-32dra",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,35 @@
+{
+  "id": "oh2ae",
+  "slug": "abacast",
+  "title": "Abacast",
+  "tagline": "Abacus relayer fee incentivisation implementation and profit/loss dashboard",
+  "event": {
+    "slug": "ethmexico",
+    "name": "ETHMexico",
+    "start_time": "2022-08-19T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oh2ae/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ErBvcz84At011MiGXwU8lNwx5kEOukP2XhJtXjJY00N9M/high.mp4",
+  "source_url": "https://github.com/meirbank/ETHMexico",
+  "prizes": [
+    {
+      "sponsor": "Abacus",
+      "sponsor_id": "0ndp2",
+      "placement": "🥇 Abacus — Best Use",
+      "title": "Abacus"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "💡 The Graph — 🥇 Best New Subgraph",
+      "title": "The Graph"
+    }
+  ],
+  "finalist": false,
+  "description": "This project consists of a modification to the Rust based off-chain Relayer for Abacus. Specifically, we:\n- Check how much gas has been paid by the user on the origin chain.\n- Convert units of native tokens on the origin chain and destination chain to USD.\n- Calculate the total gas cost for the relayer to send the message to the destination chain.\n- If the relayer will make at least X percentage more than they need to spend on gas to execute the message, then we will execute the message.\n\nOn the dashboard we show a simple user friendly line chart that shows the net daily profit/loss from running a relayer. ",
+  "how_its_made": "For the fee incentivisation feature we modified the Rust-based Abacus Relayer client using ethers-rs and coingecko API.\n\nFor the dashboard we created and deployed two live subgraphs to index the relevant contracts on the abacus network in order to calculate the daily profit (from user submitted fees) and daily loss (from gas expenses sending messages). With the help of the Graph team we were able to overcome some tricky bugs in our code. Unfortunately we  ultimately discovered it is not possible to view the gasUsed for a tx on any graph hosted dashboard API versions (we needed this info), and for our use case we needed to index the mainnet contract so the studio was not a viable option.\n\nWe ended up indexing the events of the relevant contracts in memory in the frontend using ethers-js and plugging that data into our chart.\n\nWe used react and chart.js to create a user friendly chart to showcase the data. We also realized from our data that currently Abacus relayers are losing up to 2 ETH per day just between Optimism to Ethereum (Abacus supports dozens of networks and directions). This data suggests that the Rust client modification is very important for the sustainability of the protocol, and is something we are very open to continue working on after the hackathon.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/abacast-oh2ae",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

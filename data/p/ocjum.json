@@ -1,0 +1,27 @@
+{
+  "id": "ocjum",
+  "slug": "rebind",
+  "title": "Rebind",
+  "tagline": "An agent job pool that only pays when the buyer and worker are two different humans.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ocjum/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wNbLfjsXn301lTOW3IzkZc00amgEhzeMeynNLoJ01gv0000g/high.mp4",
+  "demo_url": "https://rebind-psi.vercel.app",
+  "source_url": "https://github.com/toorcn/Rebind",
+  "finalist": false,
+  "description": "One person. Two agents. A sale to themselves.\n\nRebind stops that sale from becoming revenue. A buyer agent escrows a reward and a worker delivers the job. Payment requires two different people, verified through sandbox World ID. If one person controls both sides, the work can finish, but the reward stays locked.\n\nTry the 40-credit demo: one human on both sides means zero paid. A second human verifies the buyer, and the same delivery gets paid.\n\nAn on-chain demo enforces the same rule on World Chain Sepolia, with refunds after expiry. Its test tokens and fixture identities are separate from the live sandbox credit pool.",
+  "how_its_made": "We built the app with TypeScript, Express and viem, with Solidity contracts tested using Foundry. Three.js powers the 3D interface, MetaMask Connect handles wallet connections, and Vercel hosts the app.\n\nWorld ID for Agents supplies the settlement check. Our server starts a sandbox device grant and verifies the returned token's signature against World's JWKS, plus its issuer, audience and expiry. Payment requires delivered work and two verified, different pairwise subjects. Pending or denied requests attach no identity. Client-supplied subjects and differentHumans flags are ignored; settlement is recomputed from stored proofs.\n\nOn World Chain Sepolia, an ERC-8183 ACP core holds DemoUSD, a test token separate from in-app credits. HumanRegistry stores keccak256(issuer + \"|\" + pairwiseSubject), keeping raw subjects off-chain. TwoHumansHook gates complete(): matching hashes revert with SameHuman; missing identities revert with Unproven. Refusal leaves the job Submitted and escrow untouched. claimRefund remains available after expiry. Explorer links show both a mined refusal and a successful payout.\n\nThe credit pool accepts real sandbox World App approvals. The on-chain demo uses registrar-written fixtures; connecting live approvals to the registry is unfinished. Browser-carried state is signed with HMAC-SHA256, and automated tests use Node's test runner. The /flow walkthrough moves no money.",
+  "auto_summary": "This project enforces that escrowed agent-job payments only settle when buyer and worker are verified as two different humans.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/rebind-ocjum",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

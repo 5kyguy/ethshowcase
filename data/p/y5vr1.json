@@ -1,0 +1,30 @@
+{
+  "id": "y5vr1",
+  "slug": "warpsend",
+  "title": "WarpSend",
+  "tagline": "Send USDC to any wallet or ENS across chains with one unified balance via Circle Gateway.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y5vr1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/EqmuIaJ8HSPk02uLRKSyZ01bGb8f4mjuMgVlgdXKmkVes/high.mp4",
+  "demo_url": "https://warpsend.vercel.app/",
+  "source_url": "https://github.com/adipundir/warpsend",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "WarpSend is a multi-chain USDC sending and receiving app that makes “cross-chain” feel like a single-balance experience. Instead of treating USDC on each network (Ethereum, Base, Avalanche, etc.) as separate, WarpSend uses Circle Gateway to aggregate deposits from supported chains into one unified Gateway balance. From that unified balance, you can send USDC to any recipient wallet address or an ENS name and choose the destination chain by just scanning a QR code —WarpSend constructs an EIP-712 burn intent for you to sign, submits it to the Gateway API, retrieves the attestation/signature, and then mints USDC to the recipient on the target chain via the Gateway Minter contract. It also includes a “receive” flow that generates a payment-request QR code (amount + chain) so someone else can scan and pay you, with funds landing on the chain you selected. The frontend is built with Next.js + TypeScript, using wagmi/RainbowKit for wallet connections and viem for chain/contract interactions and ENS resolution.",
+  "how_its_made": "The core “partner tech” is Circle Gateway. We define a set of supported networks (Gateway domains, RPCs, testnet USDC addresses, explorers) and wire them into wagmi transports so the UI can read balances and submit transactions on any chain. For sending, the app builds an EIP-712 typed burn intent (source/destination domain, recipient, amount, etc.), prompts the user to sign it, then calls the Circle Gateway API to submit the intent and retrieve an attestation + signature. That data is then used to call gatewayMint on the destination chain’s Gateway Minter contract, which mints USDC to the recipient on the chain they chose—without the user manually bridging or juggling multiple “per-chain” balances.\n\nReceiving is implemented as a QR-based request flow: the app encodes the payment request (amount + destination chain) into a QR code that another user can scan to pre-fill the send form, making cross-chain payments feel like a simple “scan and pay” UX. The slightly “hacky” but valuable part is stitching together off-chain attestation fetching (Gateway API) with on-chain mint execution in one guided flow, while keeping all chain/domain configuration centralized so adding more networks is mostly config work rather than rewriting logic.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/warpsend-y5vr1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

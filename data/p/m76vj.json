@@ -1,0 +1,26 @@
+{
+  "id": "m76vj",
+  "slug": "fintessa",
+  "title": "FinTessa",
+  "tagline": "A DApp router that atomically splits one token into a weighted basket —> one tx, zero dust.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m76vj/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3EPlo3n1S1UxHMJAQ00UsUybVxVaRrh2H01nkwtC4e4zA/high.mp4",
+  "source_url": "https://github.com/allencdhas/fintessa",
+  "finalist": false,
+  "description": "FinTessa is a DApp that splits one token into a basket of tokens in a single transaction. You pick how much of each token you want (weights in basis points, must add up to 100%), send one token in, and get all your output tokens out — no separate swaps, no partial fills. If any swap in the basket gets a worse price than you set, the whole thing reverts. Nothing sits in the router between calls; v4’s flash accounting means the input is pulled once and outputs go straight to your wallet. There’s a Next.js frontend where you move sliders to set your basket, see live price quotes from V4Quoter, and submit in two clicks.",
+  "how_its_made": "Contracts are in Foundry on top of Uniswap v4. The router calls PoolManager.unlock(), and inside that callback, it loops through each basket leg, calling poolManager.swap() once per token. When all swaps are done, it settles the input once and sends each output straight to the caller.\nThe deploy script spins up 5 mock ERC-20s, seeds four pools with liquidity, and dumps all the addresses and pool keys into a JSON file. A small npm script reads that file plus the Foundry build output and generates the typed config the frontend uses — so you never have to copy-paste addresses by hand.\nThe frontend is Next.js with wagmi and viem. Quotes are real on-chain simulations via V4Quoter, not hardcoded math. There’s a mock wallet connector pinned to a local Anvil account so you can test without MetaMask.",
+  "auto_summary": "A dApp and router that atomically splits one input token into multiple output tokens using Uniswap v4 pools and on-chain quoting.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/fintessa-m76vj",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

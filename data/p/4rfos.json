@@ -1,0 +1,35 @@
+{
+  "id": "4rfos",
+  "slug": "coldcascade",
+  "title": "coldcascade",
+  "tagline": "A maker on HyperEVM that prices off Hyperliquid's book, hedges on the perp, and buys the cascade.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4rfos/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ap9JZoiolYU6GKxLoi9xvyiTraB02vQJ9ynHRUkgvA1I/high.mp4",
+  "demo_url": "https://coldcascade.vercel.app/app/",
+  "source_url": "https://coldcascade.vercel.app",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "2nd place",
+      "title": "Build an Aqua App"
+    }
+  ],
+  "finalist": true,
+  "description": "coldcascade is an automated market maker on HyperEVM whose price is not set before the trade that takes it.\n\nEvery automated maker is potentially arbitraged for the distance between its own price and the reference venue's, because its quote is written earlier and somebody is paid the difference. That's the loss-versus-rebalancing, and fees only scale it down. This maker reads Hyperliquid's own order book (best bid, best ask, mark and oracle) through the HyperCore precompiles inside the call that settles the swap, and clamps its quote to what crossing that book would have paid. Thus there is no earlier price to take. It is close to an oracle-pegged AMM, with one difference that decides everything: an oracle is an index of other venues' prices, and you cannot execute against an index. The book is the price you can actually get. On ordinary flow the two agree and neither is arbitraged: both zero across the live record. It takes a broken book to separate them, and to show that we reconstructed the whole liquidation cascade of 10 October 2025 and replayed it: over that session an arbitrageur takes $222 from the oracle-pegged maker, $3,558 from a plain curve, and $0 from this desk.\n\nOne of our example transactions on mainnet can be used to represent the claim: the desk paid 79,539.60 against an L1 bid of 79,699.00, exactly its own 20 bps parameter, while its own constant-product curve wanted to pay 163 bps over the book.\n\nIn the crash event, the same rule gets one condition inverted, and that lets it absorb a liquidation cascade: when forced sellers eat the bid, the desk quotes inside the gap they opened and becomes the best bid in the market, buying from people who have no choice but to sell. Protection and aggression are the same code with one boolean the other way round.\n\nThe desk is a contract that hedges its own inventory on Hyperliquid's perp, and two short positions stand on chain 999 right now, both opened during the hackathon: one sent by the owner by hand, one by an automation key configured through Privy that is permitted to call cover() and nothing else.\n\nAnd because HyperCore's book is node state rather than chain state, the venue keeps no history of it: ask for any past block and the precompiles answer with the present, without an error. So the floor writes the book down itself, once a minute, and a Substreams package reads it back and joins every fill to the book that followed it. That record is on chain, and an MCP server serves it to any agent.\n\nAll these contracts are deployed on mainnet, and brought to life in the webpage: a smart market maker engine that can be quoted against. The user can create a wallet seamlessly with email or discord thanks to Privy, with a set of policies configured such that the funds remain secure and bounded to the maker's operational requirements. Plus a faucet that drips the gas for a first trade on our created demo desk.",
+  "how_its_made": "Three partners were used and complement each other perfectly in key areas:\n\n- 1inch Aqua and SwapVM. The maker is an Aqua program, XYCSwap || Extruction(CoreQuote), shipped to the official AquaSwapVMRouter on chain 999 at release 1.0.2, the one version 1inch has in production. CoreQuote is a custom extruction: it reads precompiles 0x080e, 0x0806 and 0x0807 inside extruction and returns min(curve, bound), so the taker can never get a better price than crossing Hyperliquid's touch. Funds never leave the maker's account (Aqua pulls them at fill time) which is what makes a maker that prices off an external book possible at all.\n\n- Privy. A visitor with an email address or a Discord account gets an embedded wallet, and a server wallet under a policy drips exactly one gas allowance and can do nothing else. A second server wallet is the desk's hedge operator: its policy permits eth_sendTransaction only where the chain is 999, the recipient is that desk, the value is zero and the calldata decodes to cover(). A check asserts eleven refusals against the live wallet. Building it surfaced a real gap (a spending cap bounds a wallet's EVM balance but not assets it holds in a second execution domain reachable from the same chain) which we closed with a DENY rule and wrote up.\n\n- The Graph. Subgraph Studio reports subgraphsSupportLevel: \"none\" for hyper-evm, so there is no hosted subgraph to deploy to; Substreams through The Graph Market is the path that exists. A Rust package decodes four events over a block index, so a scan from the deployment block to head is over half a million blocks and a couple of dozen messages. A keeper streams fills, joins each to the book five, fifteen and sixty minutes later, posts the result to MarkoutLedger, and reads its own decisions back off the same stream, which is how it knows what it already published. eth_getLogs caps at 1000 blocks here, so paging that corpus by hand is hundred requests.\n\nSome awkward hacky parts, which were most of the work: the HyperCore precompiles have no bytecode, so a fork cannot reach them and the tests etch a mock at their addresses. forge script cannot broadcast a transaction that touches one, because it runs run() in an EVM that has none, so the deploy scripts print cast lines instead. HyperEVM rejects a nonce ahead of the account rather than queueing it. And the precompiles ignore the block tag, which is the whole reason the book archive exists.",
+  "auto_summary": "An onchain market-making system on HyperEVM uses Hyperliquid book data for swap pricing, hedging, and recorded post-trade analysis.",
+  "scores": {
+    "originality": 9,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/coldcascade-4rfos",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

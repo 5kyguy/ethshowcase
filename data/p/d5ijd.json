@@ -1,0 +1,22 @@
+{
+  "id": "d5ijd",
+  "slug": "credible",
+  "title": "Credible",
+  "tagline": "Credible — performance‑based reputation layer, milestone proofs and issuer‑verified completion.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d5ijd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/x00ULWRFUjpoXSKsEJgV02WBuMslUGKcs9Kq02K6O02xoO4/high.mp4",
+  "demo_url": "https://credible-org.github.io/Credible/",
+  "source_url": "https://github.com/credible-org/Credible",
+  "finalist": false,
+  "description": "Credible is a decentralized, performance‑based reputation app. Users complete issuer‑defined milestone packs, submit encrypted proofs, and mint a non‑transferable ERC‑1155 credential upon approval. Built on a modular stack with IPFS/Filecoin (Lighthouse) for persistence, Lit Protocol for programmable access control, and an indexer for fast reads, Credible turns static certificates into verifiable journeys.",
+  "how_its_made": "Credible is a modular Web3 app for performance‑based credentials. We stitched together an EVM stack for on‑chain state, permanent storage for encrypted proofs, and programmable access control so issuers can verify privately and holders stay in control.\n\n- Smart contracts\n    - Solidity with ERC‑1155 for “Pack” credentials. Each pack is a tokenId; minting is holder‑initiated after all milestones are approved.\n    - Non‑transferable behavior enforced via transfer hook to make packs SBT‑like.\n    - Events drive the app and indexer: PackCreated, MilestoneSubmitted, MilestoneApproved, PackMinted.\n- Execution and data availability\n    - EVM rollup (Polygon CDK‑style approach) for low‑fee, high‑throughput interactions.\n    - Avail as a DA layer to keep per‑milestone interactions cheap while retaining verifiability.\n- Persistence and privacy\n    - Lighthouse (IPFS/Filecoin) stores both milestone proofs and the final credential metadata.\n    - Lit Protocol provides Access Control Conditions:\n        - Ephemeral, state‑based access for issuers during “Pending” review.\n        - Time‑bound access for third‑party verifiers post‑mint.\n    - Client encrypts proofs before upload; Lit nodes release key shares only when ACC checks pass.\n- Indexing and reads\n    - Envio HyperIndex listens to contract events and exposes a fast GraphQL API for UI reads, progress bars, and issuer review queues.\n- Frontend\n    - Next.js + React with Wagmi/Ethers for wallet and contract interactions.\n    - Holder flow: encrypt proof → upload to Lighthouse → submitMilestone(tx).\n    - Issuer flow: fetch encrypted blob → Lit decrypt if status is Pending → approve on‑chain.\n- DevXP and CI\n    - Monorepo layout: apps/web, packages/contracts, packages/sdk.\n    - Conventional Commits, Prettier, ESLint, Solhint.\n    - GitHub Actions: install, build, test on PRs to develop and main.\n    - Branch strategy: main (release), develop (integration), feature/* (short‑lived).\n- Why these partners helped\n    - Avail: decouples execution from data availability so the “chatty” milestone loop is affordable.\n    - Lighthouse: “pay once, store forever” for proofs and metadata with stable IPFS CIDs.\n    - Lit Protocol: lets us express privacy as code tied to on‑chain state, eliminating manual access revocation.\n    - Envio: real‑time indexing without operating our own subgraph infra.\n- Hacky but notable\n    - State‑bound decryption: we piggyback the MilestoneSubmitted event to pre‑register Lit ACCs keyed to the submission status. When the issuer approves, the on‑chain state flip automatically kills decryption access without any extra cleanup.\n    - Holder‑pull minting guard: a single require compares holderProgress vs. pack.milestoneCount to make minting atomic and trust‑minimized.\n    - “Dry‑run” developer mode: a toggle that swaps real Lit decryption with mocked envelopes so frontend and CI run without secrets during early iterations.\n- Future polish\n    - Auto‑verified milestones for on‑chain achievements.\n    - Hardhat test matrix with forked chains and gas snapshots.\n    - Role‑gated issuer dashboards and richer analytics plugged into the Envio index.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/credible-d5ijd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

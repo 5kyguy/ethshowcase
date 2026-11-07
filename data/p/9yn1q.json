@@ -1,0 +1,27 @@
+{
+  "id": "9yn1q",
+  "slug": "merxet",
+  "title": "Merxet",
+  "tagline": "End-To-End Encrypted Retail Protocol On Hedera with merchant-branded storefronts",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9yn1q/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dQYoyTSASz01SHisIdr5ij02FOzNiouH01mbmQgLLHd00vY/high.mp4",
+  "demo_url": "https://merxet.com",
+  "source_url": "https://github.com/landofcash/merxet",
+  "finalist": false,
+  "description": "Merxet is an end-to-end encrypted retail protocol built on Hedera.\n\nIt lets merchants sell products online and offline through a simple checkout, with payments handled on Hedera, private messages and sensitive order data protected by end-to-end encryption.\n\nBeyond distributing QR codes offline, sellers can create online storefronts for their product catalogs and customize them with the Merxet AI agent. Each store can have a short, unique ENS name, and sellers can verify themselves through World Selfie Check.\n\nBuyers use the Merxet app as a personal shopping cart with a built-in Hedera wallet. They can shop across different stores and pay with supported tokens, including HBAR and USDC.\n\nWhat makes Merxet different?\n\n1. Decentralized commerce with private order data. Sensitive order data is encrypted and stored on-chain. Only the buyer and seller can decrypt it.\n\n2. Transparent payments with predefined rules. Merxet's public payment protocol on Hedera uses escrow and predefined settlement rules, giving buyers and sellers a clear view of how payments are handled, without unexpected holds, extra platform fees, or verification delays.\n\n3. A fast, affordable way to start selling. Upload your products, generate QR codes for offline sales, and create an online storefront with AI customization, all within Merxet.\n\nMerxet brings Hedera into everyday commerce, helping merchants start selling while giving buyers and sellers greater privacy, transparency, and control.\n",
+  "how_its_made": "We built Merxet around a simple flow: a seller publishes a catalog and can create an online storefront for a traditional online shopping experience or share QR codes for offline purchases. Buyers place their orders, and payment stays in escrow until the order is completed. The seller portal, buyer app and storefront template use React, TypeScript, Vite and Tailwind. Node.js and Express services handle chain indexing, storefront generation and agent orders. The commerce MVP runs on Hedera Testnet.\n\nHedera does most of the work. Our Solidity contract, built with Hardhat and OpenZeppelin, manages catalogs, HBAR and token payments, escrow, settlement and refunds. Order details and delivery messages are encrypted in the browser with AES-GCM, with the encryption key wrapped separately for the buyer and seller using ECIES. We store the ciphertext in HFS and send small references and hashes through HCS. A Mirror Node sync service indexes the public state so the apps can load order history quickly. This lets us use the same network for payments, storage and messaging without putting delivery addresses in plaintext on-chain.\n\nMost of the recent work went into letting sellers build their own shops. A seller describes the design they want, and the builder sends their brief, catalog and existing template to OpenAI's Responses API. It returns structured file edits. Each build runs in a disposable Railway sandbox, where we run type checks, lint, a production build and Playwright browser checks. The model can change the presentation, while catalog loading and checkout links stay protected. Sellers preview a revision before publishing it and can roll back later. Bunny Storage holds the source, built files and an append-only journal, so the builder can recover its state without a SQL database.\n\nWe added ENSv2 on Ethereum Sepolia for readable shop names such as coffee.merxet.eth. Resolver records link the name to the storefront, catalog and Hedera seller account. The backend handles registration gas, so sellers can claim a name from their existing Hedera session. Buyers see a name only after its records have been verified. That gives the shop a recognizable identity while keeping payments on Hedera.\n\nWorld Selfie Check is an optional seller badge. A wallet signature links the check to the seller's account, and a separate service verifies the proof with World. It stores verification metadata in SQLite, without storing selfies or raw proofs. Demo and sandbox badges are labeled separately; the badge is a person-presence signal, not a business guarantee.\n\nFor AI-assisted shopping, our MCP server lets an agent prepare an order through a custom x402 flow and return an approval link or QR code. The buyer still reviews and signs in their browser wallet. Redis stores the quotes, and confirmation checks the matching Hedera transaction evidence.",
+  "auto_summary": "Merxet is a multi-app encrypted commerce protocol using Hedera for payments, escrow, messaging references, and storefront-linked identity features.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/merxet-9yn1q",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

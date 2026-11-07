@@ -1,0 +1,29 @@
+{
+  "id": "rt9sd",
+  "slug": "tether-insights",
+  "title": "Tether Insights",
+  "tagline": "Combining Dune and Observablehq, \"Tether Insights\" describes uncommon insights from analyzing the tether stable coin.",
+  "event": {
+    "slug": "ethindia2022",
+    "name": "ETHIndia 2022",
+    "start_time": "2022-12-02T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rt9sd/banner/default.jpg",
+  "demo_url": "https://observablehq.com/d/984d8d3c09d73348",
+  "source_url": "https://github.com/har777/stablecoin-analytics-dune",
+  "prizes": [
+    {
+      "sponsor": "Dune",
+      "sponsor_id": "juzwo",
+      "placement": "🥇 Dune — Best Use",
+      "title": "Dune"
+    }
+  ],
+  "finalist": false,
+  "description": "I used Dune to give me better insights Tether which isn't/not available on other existing websites. \n\nSome interesting insights I could find out:\n1. Tether has had a total of 153 mint events with some huge spikes in mint value from mid 2020.\n2. Tether has only had 2 burn events ever happen. This was for a total of $7.5B and happened furing May and June of 2022.\n3. Tether has had a total of 807 blacklists happen.  46 of them were unblacklisted later.\n4. Did you know Tether can destroy(burn) away the balance held by any blacklisted address? So technically they can decide to blacklist your address and burn it away. This functionality usually exists for regulatory reasons. A total of 574 such events have happened and it destroyed $162.75M in value.\n5. The dashboard has a tool to query a address and build a directed graph showing all the addresses it has interacted with via transfers. It was interesting to put in a few blacklisted addresses and see which addresses they interacted with via transfers prior to getting blacklisted.\n6. The dashboard also explores infinite allowances inside Tether. A total of 7269 spenders has infinite allowance given to them by atleast one other address. The largest of these spenders has infinite allowance given to them by 443,701 other addresses. It will be very interesting to explore this more and figure out how much money could be in jeopardy if these top spenders get compromised.",
+  "how_its_made": "1. Dune v2 uses Spark SQL which I wasn't too familiar with. \n2. How queries get cached on the Dune side wasn't too clear. Sometimes the queries take a long time while sometimes its super fast.\n3. Continuing from the above point, requests could time out on Heroku if a query takes too long. I solved it in a very hacky way using some caching and precomputation scripts. But ideally I would setup some workers to regularly keep the results of our queries updated.\n4. You have to keep polling the Dune API to figure out if your query is completed or not. I would have preferred some webhook functionality. You can't poll too often either because there is some rate limiting on the Dune side which isn't clear to me. I just used a larger polling interval till the errors stopped.\n5. I wish I had more time to write more interesting queries. It's not super easy to iterate with queries because it does take a while to run on Dune.  \n6. I used observablehq to build my dashboards consuming the data from my queries. Observablehq has its own complicatations when it comes to building the graphs you want properly using D3.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tether-insights-rt9sd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "30d5n",
+  "slug": "zkcasino",
+  "title": "zkcasino",
+  "tagline": "Decentralized casino: deposit, bet on games, trusted entity resolves on-chain.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/30d5n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qkK84OiLzzQkZlO5Is5zwJFC017R6A01ypN7EzUSZtce00/high.mp4",
+  "source_url": "https://github.com/hridyacp/ZK-casino",
+  "finalist": false,
+  "description": "ZkCasino is a foundational smart contract for a decentralized gambling platform. It allows users to deposit and manage their funds securely on-chain. While supporting popular games like Binary Blitz and Coin Flip, it integrates off-chain game logic for outcomes, which are then resolved on the blockchain by a trusted entity. To ensure transparency and verifiability, all game outcomes are also published to Avail for data availability, paving the way for future zero-knowledge proof integrations",
+  "how_its_made": "This project is a full-stack decentralized casino leveraging several cutting-edge web3 technologies. The frontend is built with Next.js and React, providing a responsive and interactive user experience. Tailwind CSS handles the styling, creating a modern and sleek interface, enhanced with Framer Motion for smooth animations that elevate the user experience in games like Binary Blitz and Coin Flip.\nThe core of the decentralized casino lies on the Polygon Mumbai testnet, where the ZkCasino smart contract is deployed. This contract, written in Solidity, manages user deposits, bet placements, and the resolution of game outcomes. Wagmi hooks are extensively used in the frontend to connect to user wallets (like MetaMask), interact with the smart contract, fetch balances, and send transactions for deposits and placing bets. Ethers.js is also used for utility functions like generating unique gameIds.\nA Node.js/Express.js backend acts as a trusted intermediary for game resolution. When a user places a bet on the frontend, the transaction is sent to the ZkCasino contract via Wagmi. Once confirmed on-chain, the frontend triggers the backend, which then determines the game outcome (e.g., coin flip result, price movement for Binary Blitz). Crucially, the backend then calls the resolveBet function on the ZkCasino contract, effectively updating the user's balance based on win or loss.\nFor data availability and verifiability, game outcomes are also submitted to Avail Nexus. The backend uses the @polkadot/api and @polkadot/keyring libraries to sign and send data availability transactions to the Avail network, creating an immutable record of each game's result. This is a significant step towards a trust-minimized architecture.\nLit Protocol is integrated to enable private, verifiable storage and retrieval of user-specific data, such as game statistics. The frontend uses LitJsSdk to encrypt user stats with access control conditions (e.g., only the wallet owner can decrypt). The encrypted ciphertext and its hash are then sent to the backend for storage. The backend, using its own LitNodeClient instance, can then facilitate decryption requests from authenticated users, ensuring that sensitive data remains private yet auditable.\nOne \"hacky\" but effective element is the current trusted backend model for game resolution. While the contract is designed for ZK proofs, for this initial iteration, the backend directly determines results and calls resolveBet as the onlyOwner. This allows for a functional demonstration of the casino flow while laying the groundwork for replacing the trusted backend with zero-knowledge proof (ZKP) verification in a future iteration, which would completely remove the need for trust in the casino operator for game fairness. The random number generation for game outcomes (like coin flips or simulated price movements) is also currently pseudorandom for demonstration, and would be replaced by a Verifiable Random Function (VRF) like Chainlink VRF for a production system.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkcasino-30d5n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

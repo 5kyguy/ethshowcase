@@ -1,0 +1,27 @@
+{
+  "id": "hmwie",
+  "slug": "holster",
+  "title": "Holster",
+  "tagline": "A TWAP price band for AMM LPs: pull the losing side on sudden moves. Uniswap v4 hook + 1inch Aqua.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hmwie/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QLw00nUZ02Tn9s029icNGoex1Qt2wnpEheT5lt7B6bpzw00/high.mp4",
+  "demo_url": "https://holster-nine.vercel.app/",
+  "source_url": "https://github.com/yuta-mine/holster",
+  "finalist": false,
+  "description": "Holster is a TWAP price band for AMM LPs, built as a Uniswap v4 hook and a 1inch Aqua strategy. The LP holds a bid below and an ask above the price. \nWhen the price jumps away from its on-chain TWAP, the losing side is pulled, so the LP doesn't buy a pump or sell a dump; once the price settles, both sides return next to the price. \nChecks run before every swap, fully on-chain. Backtested on real data.",
+  "how_its_made": "Holster is written in Solidity with Foundry, plus a small Python backtester.\n\nOn Uniswap v4, a hook holds the LP's funds and manages two one-sided positions. It records 1-minute prices on-chain to build its own TWAP, and right before each swap it decides which sides may quote and re-places liquidity inside the swap itself. Anyone can also trigger the same step, so a keeper is optional.\n\nOn 1inch Aqua, the same rules run as a SwapVM strategy on the official router. Aqua's virtual balances were a natural fit: the maker's funds never leave its wallet, a stopped side is simply refused at quote time, and re-placing is just updating a price, so it needs no keeper and no gas for re-placement. Since 1inch has no official testnet, we deploy Aqua and the router from source.\n\nThe trickiest parts were keeping quotes and swaps consistent on Aqua, fitting the strategy parameters into SwapVM's small instruction format, and getting the hook to move its own liquidity safely in the middle of a swap.\n\nThe backtest replays real swap data from Allium with concentrated-liquidity math, fees and gas.",
+  "auto_summary": "A Solidity project implementing a TWAP-based liquidity management strategy as a Uniswap v4 hook and a 1inch Aqua SwapVM strategy.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/holster-hmwie",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

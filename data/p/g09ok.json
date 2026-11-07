@@ -1,0 +1,53 @@
+{
+  "id": "g09ok",
+  "slug": "donation-station",
+  "title": "Donation Station",
+  "tagline": "Donation Station saves you from high gas fees in the next Gitcoin round by allowing you to donate on your favorite L2. ",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/g09ok/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TO4BnT2zUqyCfj1MUhupveOkIwYFCfR02mKnC01aXVdDQ/high.mp4",
+  "source_url": "https://github.com/lennardevertz/ethLisbon2023",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊 Polygon — Build on Polygon",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🏰 Optimism — Deploy on Mainnet ",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Deploy a Smart Contract",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "🥉 Mantle — Best Use",
+      "title": "Mantle"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Lisbon Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "This project injects web3 into web2! In an example of current relevance, Donation Station lets you donate to Gitcoin Round participants on your favorite L2 chain. While it saves you from paying $30+ per donation, you also have the benefit of not having to leave the website you are getting all your information from: Twitter. \nA browser extension crawls all the Twitter usernames showing up on your feed. Whenever a registered Twitter user (here: Gitcoin Round participant) shows up, you see an extra icon next to their username. By hovering this icon, you can interact with the donation contracts on the chain of your choice. \nThis can be expanded without limitation:\nVisit @uniswap to swap ETH for PEPE directly on Twitter\nVisit @AaveAave to add liquidity\nVisit @opensea to sell/buy NFTs\n\nFor the scope of this hackathon, I deployed simplified donation contracts on Linea, Optimism, Polygon zkEVM, Scroll and Mantle. The browser extension opens a background script to interact with these contracts. The extension window also has the ability to look up round info and displays the bio in a small text box.",
+  "how_its_made": "There are three main aspects:\n1) browser extension\n2) blank website running a script\n3) contracts\n\nThe browser extension looks for specific classes/elements on a user's Twitter feed. It can easily be adjusted to also scrape other websites (think of Etherscan, Snapshot, ...). Because extensions don't have access to all window apis, the window.ethereum object is not defined for the background/content script. As a workaround, I created a blank website (2) that runs a script. This website is opened without focus, so that the user is not taken away from Twitter. It handles the wallet connection, token amount calculation and contract interaction. As this is a \"normal\" webpage, it can run any code imaginable to bring web3 apps into web2 platforms. The contracts I deployed are relatively simple donation contracts that forward a tip \"vote\" to the recipient. When the next Gitcoin round starts, the actual Gitcoin contracts can be plugged in.\n\n(Sponsor) tech stack used:\nFor contract development and deployment\n- Hardhat\n- Truffle Dashboard\n- The Optimism contract natively integrates the [Attestation Station](https://github.com/ethereum-optimism/optimism/blob/willc/alpha-final/packages/atst/docs/sdk.md), which attest donations on-chain and fully automated\n- inspiration from IDriss open source tipping contract for donation contract: https://github.com/idriss-crypto/contracts/blob/main/src/contracts/Tipping.sol\n\nFor Website (including the script)\n- hosted with Github Pages: https://lennardevertz.github.io/ethLisbon2023/website\n- webpack compiler\n\nFor Extension\n- IDriss (Twitter ID lookup)\n- webpack compiler\n\nOther\n- I am using Chainlink price feeds:(https://github.com/lennardevertz/ethLisbon2023/blob/main/website/index.js) to get the current price of ETH needed for donation amount calculation\n- Contracts deployed on Optimism Mainnet + Testnet, Polygon zkEVM testnet, Linea, Mantle and Scroll (see links to verified contracts in my github readme)\n- Optimism contracts implement AttestationStation v1 contract and attests that the donor is a public goods supporter",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/donation-station-g09ok",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

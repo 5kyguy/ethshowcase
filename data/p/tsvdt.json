@@ -1,0 +1,22 @@
+{
+  "id": "tsvdt",
+  "slug": "hookwizard",
+  "title": "HookWizard",
+  "tagline": "A Uniswap v4 hook wizard for non-coders users to launch hook backed policy-aware pools in minutes.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tsvdt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4q7C88l1LaHVopwvTtqlWQv02JRgn01B2NnbyliEv01y9w/high.mp4",
+  "demo_url": "https://jaskara-n.github.io/HookWizard/",
+  "source_url": "https://github.com/jaskara-n/HookWizard",
+  "finalist": false,
+  "description": "HookWizard is a Uniswap v4 hook builder and deployment cockpit. It lets anyone describe a hook in plain English, select hooks features with toggles, and use audited Uniswap v4 hook contracts or deploy new ones without touching Solidity. From the same UI, users can deploy ERC‑20 test tokens, initialize pools, create pools, and add liquidity on any chain using a guided, non‑technical flow.\n\nThe app ships three core  audited and robustly tested hook templates out of the box: a fee threshold hook that only transfers fees above a configurable threshold to save gas and increase accounting, an on‑chain limit order hook which is gas efficient that walks price ticks to execute limit orders, and an Arc USDC‑only settlement hook that enforces USDC‑only pools and emits settlement events if insufficient local liquidity for our listener to process using arc. These hooks are wired to Uniswap v4 PoolManager, Universal Router, PositionManager, StateView, and Permit2, so deployed pools are immediately tradeable and observable.\n​\n\nHookWizard is agent‑ready: all Arc settlement events are designed to be consumed by off‑chain listener that can orchestrate cross‑chain USDC refills via LI.FI. This keeps cross‑chain complexity off‑chain \n\nHookWizard also uses Li-Fi to execute any sort of bridge required before any transaction, for example before swap, adding liquidity to the newly created pool from any chain.\n\nHookWizard can also be used by other agents such as Eliza to automatically deploy hooks and customize them in a secure and fun way.",
+  "how_its_made": "The HookWizard frontend is a React/Vite app using Wagmi, RainbowKit, and Viem to connect wallets and talk to Uniswap v4 and Arc contracts on Sepolia, Base Sepolia, Optimism Sepolia, etc and Arc testnet. The UI dynamically assembles hook contracts from TypeScript templates based on user‑selected toggles, then compiles and deploys them via a simple deployment flow.\n\nOn the smart contract side, I used Foundry to develop and test a set of Uniswap v4 hooks and helper contracts, including a fee threshold hook, a limit order hook, and an Arc USDC‑only settlement hook. These contracts are wired into a Sepolia Uniswap v4 registry (PoolManager, Universal Router, PositionManager, StateView, Permit2) plus the Arc testnet registry (native USDC, Gateway Wallet/Minter, CCTP TokenMessengerV2 and MessageTransmitterV2), so the app can spin up real pools against known addresses.\n\nFor the cross‑chain flow, I built a small Node.js agent script that listens to Arc settlement events from the hook and calls the LI.FI API to fetch quotes for refilling USDC into the target treasury address. Because LI.FI does not support testnets, the script focuses on generating and logging an execution payload that can be reused on mainnet, demonstrating the full intent and integration without relying on live bridges during the hackathon.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hookwizard-tsvdt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,28 @@
+{
+  "id": "b0moi",
+  "slug": "stether",
+  "title": "stETHer",
+  "tagline": "Uniswap v4 hook implementing dynamic fees and proper rebasing token handling ",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b0moi/banner/default.jpg",
+  "source_url": "https://github.com/mcmoodoo/stETHer",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": " v4 Hooks on Unichain"
+    }
+  ],
+  "finalist": true,
+  "description": "I created a new type of AMM that works completely differently from traditional pools. Instead of the usual x*y=k curve that causes slippage, I use x+y=k which enables perfect 1:1 swaps when the pool is balanced.\n\nThe magic happens with my dynamic fee system - I charge zero fees for ETH→stETH swaps (encouraging staking) but apply increasing fees for stETH→ETH swaps as the pool gets imbalanced. This naturally keeps the pool stable while generating revenue that funds incentives to bring it back into balance.\n\nThe pool also properly handles rebasing tokens like stETH, so liquidity providers don't lose their staking yield just because they're providing liquidity.",
+  "how_its_made": "The core innovation is using x + y = k instead of the traditional x * y = k formula. This means when the pool is balanced, you can swap 100 ETH for exactly 100 stETH with zero slippage - something impossible with regular AMMs.\n\nI implemented this as a Uniswap v4 hook that intercepts swaps and applies my custom logic. The fee structure is intentionally asymmetric:\n\n    ETH → stETH: Always 0% (I want to encourage staking)\n    stETH → ETH: Dynamic fees that increase as the pool gets unbalanced\n\nDynamic Fee Tiers\n\nThe fees automatically adjust based on how much ETH is left in the pool:\n\n    Pool has 70-80% ETH: 0.1% fee (balanced, low fee)\n    Pool has 60-70% ETH: 0.5% fee (slightly unbalanced)\n    Pool has 50-60% ETH: 1.0% fee (getting concerning)\n    Pool has 40-50% ETH: 2.0% fee (significantly unbalanced)\n    Pool has <40% ETH: 5.0% fee (emergency mode)\n\nThis creates natural economic pressure to keep the pool balanced - as ETH gets scarce, it becomes more expensive to withdraw, which encourages people to deposit more ETH instead.\nRebasing Token Support\n\nOne of the trickiest parts was handling stETH properly. Regular AMMs break when you add rebasing tokens because the balances change over time. I solved this with a shares-based accounting system that preserves the underlying yield.\n\nMy test stETH implementation gives 5% APY, and crucially, LPs don't lose this yield when they provide liquidity. The rebasing happens continuously based on time elapsed.\nLP Token System\n\nI built a proper ERC20 LP token that represents your share of the pool. When you add liquidity, you get LP tokens. When you remove liquidity, you burn your LP tokens and get back your proportional share of the pool PLUS any fees that accumulated while you were providing liquidity.\n\nThe cool part is that fees automatically compound - instead of needing to manually claim them, they just increase the value of your LP position over time.\nRevenue Sharing\n\nHere's where it gets interesting economically. When fees are collected, they're split:\n\n    90% goes to liquidity providers (you earn fees for providing liquidity)\n    10% goes to the protocol\n\nBut here's the clever bit - those protocol fees don't just sit there. They fund incentives for ETH→stETH swaps. So when the pool gets unbalanced (too much stETH, not enough ETH), we can use the accumulated protocol fees to give people a small bonus for depositing ETH.\nThe Self-Balancing Loop\n\nThis creates a beautiful self-balancing system:\n\n    Pool gets unbalanced (too much stETH)\n    stETH→ETH swaps become more expensive (higher fees)\n    Higher fees generate more protocol revenue\n    Protocol revenue funds incentives for ETH deposits\n    People deposit ETH to get the bonus\n    Pool rebalances naturally\n\nThe system is completely sustainable because it only spends what it earns.\n\n    Self-Balancing: Incentives funded by fees collected from the opposite direction\n    Rate Limiting: Incentives capped at 0.1% and only when sufficient protocol fees exist\n    Sustainability: System only spends what it earns, ensuring long-term viability\n\nTechnical Features\nSmart Contract Components\n\n    Main Pool Contract (Counter.sol): Core AMM logic and Uniswap v4 hook integration\n    LP Token (ConstantSumLP.sol): ERC20 token for liquidity provider shares\n    Revenue Manager (RevenueManager.sol): Fee calculation and distribution\n    Rebasing Token (StETH.sol): Mock stETH with 5% APY for testing\n\nKey Functions\n\n    addLiquidity(): Add liquidity and receive LP tokens\n    removeLiquidity(): Burn LP tokens and withdraw assets + accumulated fees\n    beforeSwap(): Uniswap v4 hook that implements constant-sum swaps with dynamic fees\n    claimFees(): Allow LPs to claim accumulated fees\n    rebase(): Update stETH balances based on time-based yield\n\nTesting Suite\n\n    74 Tests Total covering all functionality\n    Unit Tests: Individual contract functionality\n    Rebasing Tests: Time-based yield mechanics\n    Fee Distribution Tests: Multi-LP scenarios\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/stether-b0moi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

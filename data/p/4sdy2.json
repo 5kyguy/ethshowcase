@@ -1,0 +1,27 @@
+{
+  "id": "4sdy2",
+  "slug": "unlockd",
+  "title": "Unlockd",
+  "tagline": "Equity-rich, cash-poor? unlockd.bond turns vested RSUs/options into verifiable liquidity on Hedera.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4sdy2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/018sOYPQnvGYSNoykBm00XGLnrLugJp00dTNNqjrj12I34/high.mp4",
+  "demo_url": "https://unlockd-bond.vercel.app",
+  "source_url": "https://github.com/hospodin/unlockd.bond",
+  "finalist": false,
+  "description": "Employees at private companies can hold six or seven figures in vested equity and still living pay-check to pay-check. Selling isn't always possible pre-exit, and waiting for one can mean years. Financing exists for the exercise side, but there's no simple product for someone who already owns vested shares and just needs cash against them.\n\nunlockd.bond fixes that. An employee selects their company, enters their vested RSU or option grant, and instantly sees a transparent offer: reference share price, vested value, a 70% loan-to-value cap, and the exact amount they can draw as testnet demo-USDC.\n\nWhat makes it more than a lending form is that the financing lifecycle is real, not just displayed. Authorization, funding, repayment, and liquidation are recorded as actual state transitions on Hedera: HCS lifecycle events, HTS-minted Advance Note and synthetic collateral NFTs, and one atomic settlement that only completes once Hedera returns a consensus SUCCESS. Anyone, employee or liquidity provider, can independently check the trail on Mirror Node and HashScan instead of trusting our backend.\n\nToday it's an honest testnet prototype: synthetic employee profiles, synthetic collateral, no real shares change hands. It's built to show what transparent, verifiable liquidity for private-company equity could look like once wired into real cap tables and legal infrastructure.",
+  "how_its_made": "unlockd.bond is TypeScript end to end: React 19 + Vite frontend, Express 5 + Zod API, PostgreSQL for persistence (with an in-memory demo store so it runs with zero infra), Vitest + Biome for tests and linting.\n\nVALUATION: Per-share pricing for the selected private company comes from external private-market dataset. We compute intrinsic value per vested unit and apply a deterministic 70% equity LTV cap: advance = min(requested amount, decision limit, equity cap). Pricing fails closed if no trustworthy reference is available rather than silently guessing a number.\n\nHEDERA: This is where the financing lifecycle actually happens, and it's the core technical decision behind the project, no Solidity, pure Hedera SDK (HTS + HCS). HCS publishes an ordered, tamper-evident trail of lifecycle commitments (ADVANCE_AUTHORIZED, ADVANCE_FUNDED, LIQUIDATION_AUTHORIZED, ADVANCE_LIQUIDATED). HTS mints two NFTs per position, an Advance Note and a synthetic collateral receipt, and one atomic transaction moves Demo USDC to the employee, the Advance Note to the pool, and collateral into escrow together, so a funded position can never exist without its matching note and collateral state. We only mark a position funded once Hedera returns a consensus SUCCESS receipt, and every transaction is independently checkable via Mirror Node and HashScan rather than trusting our UI.\n\nNOTABLE HACK: all payment math is exact integer and bigint arithmetic, no floats ever touch money. Funding, repayment, and liquidation are idempotent, guarded by Postgres row locks plus an Idempotency-Key header, so a retried request can't double-fund a position. If a Hedera call's outcome is ambiguous, say a timeout right after submission, we never auto-resubmit. The position instead flips into a REPAYMENT_REVIEW_REQUIRED or LIQUIDATION_REVIEW_REQUIRED state for manual reconciliation against Mirror Node, and we built a hedera:retire-orphan script specifically to recover an Advance Note stranded mid-lifecycle, because a hackathon demo is exactly where that happens.",
+  "auto_summary": "A TypeScript app that models private-company equity-backed advances and records funding lifecycle events and token actions on Hedera testnet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/unlockd-4sdy2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

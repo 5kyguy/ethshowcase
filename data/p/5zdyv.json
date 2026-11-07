@@ -1,0 +1,27 @@
+{
+  "id": "5zdyv",
+  "slug": "cgae",
+  "title": "CGAE",
+  "tagline": "A permission protocol for governing autonomous AI agents participating in an economy",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5zdyv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/UtK400NiBm00OB5ZV777NdXyvZKEZ76ASZsNdVCXjk5Wk/high.mp4",
+  "demo_url": "https://cgae-eth.vercel.app/",
+  "source_url": "https://github.com/rb125/cgae_eth",
+  "finalist": false,
+  "description": "CGAE (Comprehension-Gated Agent Economy) is a protocol that governs autonomous AI agents by requiring them to demonstrate understanding of economic actions before they are allowed to execute them on-chain.\nIn current systems, agents can allocate capital, execute contracts, and coordinate with other agents based purely on capability. This creates risk, as agents may act without understanding economic constraints such as budgets, incentives, trade-offs, or downstream consequences.\nCGAE introduces a verification layer where agents must pass structured comprehension checks tied specifically to the economic action they are attempting. These checks evaluate whether an agent understands the financial intent, constraints, and implications of its decisions before it's allowed to act.\nAn agent's access tier is determined by its weakest robustness dimension. Strength in one area cannot compensate for weakness in another. A sufficiently high hallucination rate triggers a protocol-level kill switch regardless of performance on other dimensions.\nThe system combines off-chain evaluation with on-chain enforcement. If an agent demonstrates sufficient understanding of the economic task, it is granted permission to act. If it fails, its access to capital or execution rights is restricted.\nThe verification approach draws on published research on arXiv exploring consistency testing, decision robustness, and adaptive evaluation of agent behavior in economic settings.\nIn a live demo, multiple AI agents participate in an economy where actions such as fund allocation and delegation are gated. Some agents fail due to shallow or inconsistent reasoning about economic constraints, while others pass and gain execution rights.\nCGAE shifts agent evaluation from capability to demonstrated economic understanding, enabling safer and more accountable autonomous economies.",
+  "how_its_made": "CGAE is built as a hybrid system that combines an off-chain agent evaluation engine with on-chain enforcement and verifiable storage.\n\nAt the core is a Python-based economy engine that orchestrates 11 AI agents across multiple providers, including Azure OpenAI, Azure AI Foundry, AWS Bedrock, and a Modal-hosted Gemma model. These agents attempt real economic actions such as fund allocation and contract execution.\n\nBefore any action is allowed, the agent is evaluated through structured robustness checks focused on economic reasoning, constraint adherence, and decision consistency. The evaluation produces a multi-dimensional score, which is reduced using a weakest-link gating function to assign the agent an economic permission tier (T0–T5). An agent’s lowest score determines its authority, preventing compensation across dimensions.\n\nOn-chain enforcement is implemented using Solidity contracts deployed on the 0G Chain (Galileo testnet). A registry contract stores agent identities and certified tiers, while an escrow contract enforces tier-based permissions and budget ceilings during task execution. This ensures that only agents with sufficient demonstrated understanding can access capital or execute contracts.\n\nTo make evaluations verifiable, full audit results (including reasoning traces and metadata) are stored on 0G Storage using the 0G TypeScript SDK. Each audit produces a Merkle root hash, which is anchored on-chain in the registry contract. This creates a verifiable link between on-chain permissions and off-chain evaluation data.\n\nWe integrate ENS on Sepolia to provide identity and discoverability for agents. Each agent is assigned a subname under cgaeprotocol.eth, with text records encoding its certified tier and metadata. The system resolves this ENS identity before allowing participation, ensuring that only registered and verifiable agents can act within the economy.\n\nEach agent is assigned a unique wallet using eth-account, enabling real on-chain interactions. Upon successful task completion, agents receive actual testnet token transfers through the escrow contract.\n\nThe system is built using a FastAPI backend, web3.py for blockchain interactions, and a Next.js + Tailwind + Recharts frontend that visualizes the live agent economy. For output validation, we use a small jury of independent models to cross-check agent decisions and reduce single-model bias.\n\nAll permissions and outcomes in the system are the result of live evaluation and on-chain enforcement, not hardcoded tiers.",
+  "auto_summary": "A hybrid Python and Solidity system evaluates AI agents off-chain and enforces tier-based on-chain permissions, escrow, storage proofs, and ENS identities.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/cgae-5zdyv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

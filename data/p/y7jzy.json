@@ -1,0 +1,27 @@
+{
+  "id": "y7jzy",
+  "slug": "mev-tax-hook",
+  "title": "Mev Tax Hook",
+  "tagline": "Taxing Arb bot so that LPs can get the extra income for dealing with the Loss.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y7jzy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/t3z96YnJ023zI01AuEGETN2hhzM01IzcCoKewezHczB88w/high.mp4",
+  "demo_url": "https://mev-tax-hook.vercel.app/",
+  "source_url": "https://github.com/harshkas4na/mev-tax-hook",
+  "finalist": false,
+  "description": "Passive LPs bleed to arbitrage. Every time the real price moves on a faster venue, the first\nbot to trade against the stale pool price keeps the difference (loss versus rebalancing).\nSince UNIfication, LPs also hand part of their fee income to a UNI burn. Paradigm's\n\"Priority Is All You Need\" showed that on a chain with strict priority ordering, a bot racing\nto be first must bid roughly the value of the opportunity as its priority fee, so the bid is an\nhonest signal of extracted MEV. Unichain's Flashblocks made that ordering provable in\n2025. I built the hook that reads that bid and hands the money back to the LPs it was\ntaken from.",
+  "how_its_made": "It moves the arbitrage value from the sequencer to the LPs without shrinking it or\ntouching retail. On 33 hours of real ETH/USDC minute prices replayed through the actual\nhook and PoolManager, the same $162 of arbitrage value left the pool either way; without\nthe hook 95% of it was priority fees to the sequencer, with the hook 86% was donated to\nLPs, LP income rose 11.8%, and 0 of 399 retail swaps were taxed. Unique execution: the\ntax is charged through a beforeSwapReturnDelta and donated through\n\nPoolManager.donate in the same call, so the credit and debit cancel inside the flash-\naccounting lock and the contract has no ERC20 code at all. It cannot hold funds, so it\n\ncannot lose them, and donations sit outside the protocol fee switch so all of it reaches\nLPs. No oracle, no AVS, no FHE, no second chain. Six additions harden it: a clamped\nrolling-average exemption, absolute caps, an immutable hard ceiling, a price-impact\nsurcharge, a backrun rebate and a PFDA coexistence discount. Live on Unichain Sepolia\nwith a frontend where anyone can send the same swap as four bidders and watch the tax\nland with the LPs.",
+  "auto_summary": "This project implements a Uniswap v4 hook that taxes high-priority-fee swaps and donates the proceeds to LPs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mev-tax-hook-y7jzy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

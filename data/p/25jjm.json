@@ -1,0 +1,27 @@
+{
+  "id": "25jjm",
+  "slug": "chainpilot",
+  "title": "ChainPilot",
+  "tagline": "DeFi safety, simplified. Check risks. Trade safer. Just chat.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/25jjm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00aE2iVOLX3tYyMetqQ601ZELmJiRnSBsNr68t1bUjenQ/high.mp4",
+  "demo_url": "https://chainpilot-khaki.vercel.app",
+  "source_url": "https://github.com/Lilyhao24/chainpilot",
+  "finalist": false,
+  "description": "ChainPilot is a DeFi safety agent built for people who've never used DeFi before. Users just chat — \"Is USDC safe?\" or \"swap 0.1 ETH to USDC\" — and ChainPilot automatically scans the token across six scored dimensions before any trade happens. The safety score uses cross-checking logic — for example, a mintable contract isn't automatically penalized if the source code is public and auditable. Three independent signals (liquidity, fake token, blacklist) can each block a trade on their own. Seven hard-coded rules enforce safety at the code level — the AI understands and explains, but it can never override these rules. Dangerous tokens trigger a full-screen block with a cooldown timer. Slippage is dynamically tied to the safety grade, not a fixed default. Token approvals use BigInt math capped at 110% — never infinite. Swap quotes come from Uniswap's Trading API. ENS is built in as a trust layer — identity cards with avatar and social links, not just address resolution. The whole interface works in English and Chinese. ChainPilot is non-custodial — it never touches your keys. It's not competing with exchanges. It's the safety layer that sits before every trade, so beginners feel safe enough to start.",
+  "how_its_made": "The frontend is React + Vite + Tailwind CSS with wagmi and RainbowKit for wallet connection. Security data comes from two sources — GoPlus API for on-chain risk flags (honeypot, tax, permissions, holders) and CoinGecko API for market cap. But raw API data isn't enough. A field like \"mintable\" means completely different things for USDC vs a scam token — so I built a cross-validation matrix that checks mintable status against open-source status to score them correctly. I also catch stealth honeypots that GoPlus misses: if sell_tax simulation fails while buy_tax returns normally, it gets flagged — something no existing tool does out of the box. Any token can be scanned, not just popular ones — CoinGecko Search API acts as a real-time fallback for tokens not in the hardcoded list of 35+. Warning signals from the mine detector actually penalize the score (-10 points each), and 2+ warnings trigger a grade downgrade. Three independent binary signals (liquidity, fake token, blacklist) can each block a trade on their own. Seven security rules are hard-coded in JavaScript — the AI layer (Gemini) handles natural language and explains risks in Chinese and English, but has zero control over safety decisions. Swap quotes come from Uniswap V3 on-chain quoter with fallback rates, proxied through Vercel serverless functions. Slippage isn't a fixed default — it's dynamically tied to the safety grade (A=0.5%, C=1%, F=blocked). Token approvals use pure BigInt arithmetic (amount * 110n / 100n) to avoid precision loss — never infinite approvals. ENS is integrated through viem — reverse resolution shows your .eth name automatically, and typing any .eth name returns an identity card with avatar and social links from text records. Scan history, block count, and stats persist in localStorage. The UI is inspired by Richard Mille mechanical watches . The hardest part was designing the safety score formula itself — I spent a lot of time stress-testing edge cases, fixing scoring bugs (USDC was originally getting penalized for being mintable), and building cross-validation logic that no existing tool provides.",
+  "auto_summary": "A React-based DeFi assistant that scans token risk signals and gates swap flows before showing Uniswap-based trade quotes.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/chainpilot-25jjm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

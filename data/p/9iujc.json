@@ -1,0 +1,35 @@
+{
+  "id": "9iujc",
+  "slug": "zoneproof",
+  "title": "ZoneProof",
+  "tagline": "ZoneProof aggregates county zoning data on-chain, cutting land due diligence from $12K to cents.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9iujc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Azck9M00ZzyBzg3HueoLEzxOKdDdpNKyg9K8gmLIasEI/high.mp4",
+  "demo_url": "https://zoneproof-fawn.vercel.app/",
+  "source_url": "https://github.com/jonumhills/zoneproof",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "\"No Solidity Allowed\" — Build with Hedera SDKs",
+      "title": "\"No Solidity Allowed\" — Build with Hedera SDKs"
+    }
+  ],
+  "finalist": false,
+  "description": "ZoneProof is a decentralized land registry and due diligence protocol that aggregates \ncounty-level zoning data through a Chainlink CRE oracle network and anchors every \npetition and parcel change on Hedera. Web3 lenders and land tokenizers like RealT, \nPropy, Maple Finance, and Centrifuge currently pay $12,000 to $20,000 to third-party \nvendors just to gather fragmented zoning records before minting a token or underwriting \na loan. ZoneProof eliminates that process.\n\nThree Chainlink CRE nodes independently scrape Wake County's open GIS data, reach \nBFT consensus on a SHA-256 Merkle root, and commit it to a smart contract on Hedera \nEVM. Every time a user pays for a due diligence report via the x402 protocol (0.05 \nHBAR), the oracle signs the report with its zoneproof.eth ECDSA key, logs an \nimmutable entry to a Hedera HCS topic, and mints a ZPR NFT receipt on Hedera Token \nService with no Solidity and pure Hedera SDK. AI agents can also autonomously request \nreports through an MCP server that detects the 402, pays HBAR via Hedera SDK, and \nretries with no human action required. The downloaded PDF embeds the cryptographic seal \nand a QR code so any counterparty can scan it and verify authenticity against the \noracle's ENS name in under 5 seconds.\n",
+  "how_its_made": "The backend is a FastAPI Python oracle that serves 434,000 Wake County parcels and \n2,000+ rezoning petitions loaded from Supabase. The frontend is React with Vite, \nMapbox GL JS for parcel polygon rendering, and jsPDF for generating the due diligence \nPDF with an embedded QR code.\n\nThe Chainlink CRE layer runs three independent scraper nodes that pull from Wake \nCounty's ArcGIS REST API, each computing a SHA-256 Merkle tree over the petition \ndataset. Two of three nodes must agree on the same root before it is committed to \nRezoningOracle.sol deployed on Hedera EVM, making the oracle Byzantine fault tolerant.\n\nFor Hedera we built a lightweight Node.js Express sidecar (port 8002) that wraps the \nHedera JS SDK. The Python oracle calls it via httpx after every report is generated, \ntriggering a TopicMessageSubmitTransaction to the HCS audit topic and a \nTokenMintTransaction to mint a ZPR NFT receipt on HTS, all with zero Solidity. \nx402 payment middleware intercepts requests, returns HTTP 402 with HBAR payment \ninstructions, then verifies the transaction on the Hedera Mirror Node with five retry \nattempts to handle the indexing lag.\n\nThe hackiest part is the oracle signing. Hedera accounts use secp256k1 keys, which \nare identical to Ethereum keys, so we reuse the Hedera private key directly in \nPython's eth_account library to produce EIP-191 personal_sign signatures. The same \nkey that controls zoneproof.eth on Sepolia ENS also signs every report, so anyone \ncan resolve zoneproof.eth, recover the signer from the ECDSA signature, and confirm \nthe report is genuine without trusting ZoneProof at all. The MCP server exposes parcel \ntools to AI agents and autonomously pays HBAR via TransferTransaction when it receives \na 402, making the entire due diligence flow completable by an AI with no human action.\n",
+  "auto_summary": "ZoneProof provides paid zoning due-diligence reports by combining county land data, oracle workflows, Hedera logging and NFT receipts, and report verification.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/zoneproof-9iujc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

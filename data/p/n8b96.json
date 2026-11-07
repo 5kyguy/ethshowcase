@@ -1,0 +1,41 @@
+{
+  "id": "n8b96",
+  "slug": "safemail",
+  "title": "SafeMail",
+  "tagline": "SafeMail is a simple way to send tokens to any google email address, even if they're not in crypto yet. No private keys, no wallets, just a google sign-in. Fund it with some tokens and you're good to go.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n8b96/banner/default.jpg",
+  "demo_url": "https://safemail-beta.vercel.app/",
+  "source_url": "https://github.com/cesarhuret/safemail",
+  "prizes": [
+    {
+      "sponsor": "Celo",
+      "sponsor_id": "inotq",
+      "placement": "📱 Celo — Best use of Social Connect",
+      "title": "Celo"
+    },
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "🔑 Lit Protocol — Best use of Lit Actions and PKPs",
+      "title": "Lit Protocol"
+    },
+    {
+      "sponsor": "NounsDAO",
+      "sponsor_id": "e3t1p",
+      "placement": "🏆 NounsDAO — Best Public Good",
+      "title": "NounsDAO"
+    }
+  ],
+  "finalist": false,
+  "description": "Sending transactions on Ethereum can be complex for the average non-crypto user. ETH addresses, wallets, gas, etc are all huge turnoffs and in order to bring the next billion users to crypto, we need to abstract all of this away.\n\nIntroducing SafeMail, a decentralized one-click onboarding experience for newcomers to web3!\n\nInstead of sending tokens to eth addresses and having to deal with the complexities of crypto, SafeMail enables simple transfers to email addresses via Safe and Lit Protocol.\nA user can send crypto to a given email address (example@gmail.com), and if the recipient logs into SafeMail, they'll have access to the funds they were sent.\n\nPitch Deck: https://docs.google.com/presentation/d/17YAL1C8KY2nwdeTNYX-rwPnmyyb1I9ZFa20QO1aXZCU/edit?usp=sharing\n\nYoutube Video Demo: https://youtu.be/J-hEB-qYrqA\n",
+  "how_its_made": "First we used Safe to create AA wallets on Polygon, Gnosis, Goerli and Celo. We'd create a safe for each user on SafeMail, corresponding to their email address, allowing us to compute their safe address via a hash of their email address in the salt. Without using Create2 and Account Abstraction, it wouldn't be able to compute a person's eth address just given their email.\n\nWe then used Lit Protocol to both sign in with google and handle the authentication of our user, but also to run lit actions in which we passed the user's OAuth tokens to then verify whether they owned an email. Lit Actions provided us with a decentralized and immutable environment to verify whether our users truly own their email addresses or not. We created a Lit Action that: verifies a Google OAuth token; checks which email the oauth token corresponds to using google api; checks if the email returned corresponds to the same email that was used to calculate the safe address and finally signs a given transaction. This makes sure that only a user with a valid OAuth token can get signatures for transactions of their email's safe.\n\nWe also used Gelato's 1Balance API to make a Paymaster that would pay for our safe deployment and interaction costs, across all the chains we deployed on, Goerli, Polygon, Celo and Gnosis. This made sure that users wouldn't need to buy gas tokens like ETH when they joined our website, but instead just need to focus on the ERC20 that they want to send.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/safemail-n8b96",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

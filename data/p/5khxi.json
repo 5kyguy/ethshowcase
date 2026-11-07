@@ -1,0 +1,30 @@
+{
+  "id": "5khxi",
+  "slug": "xiphias",
+  "title": "Xiphias",
+  "tagline": "Xiphias unifies markets, use hybrid AMM+CLOB, and adds zero-knowledge shielding.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5khxi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zFIvLrmkzqw01hjv02MwaYk5Uly529EdjWOBx82ZJHMyA/high.mp4",
+  "demo_url": "https://xiphiashack.vercel.app/",
+  "source_url": "https://github.com/Avoisavo/hackmoney26",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Xiphias is a decentralized prediction market protocol that solves three critical problems plaguing existing platforms: liquidity fragmentation, whale manipulation, and trade privacy.\n\nLiquidity Fragmentation: Traditional prediction markets fracture into dozens of nearly-identical markets (\"US strikes Iran on Feb 4?\" vs \"US strikes Iran by Feb 4?\"), each with thin order books and wide spreads. Xiphias introduces a unified time-based market where all logically related questions trade as bundles of atomic outcome shares against a single shared liquidity pool. \"On\", \"by\", and \"between\" trades all execute against the same order book, ensuring deep liquidity and tight pricing.\n\nWhale Manipulation: A single wealthy trader can push prices on one-sided platforms with no countermeasure. Xiphias deploys a hybrid AMM+CLOB execution model — trades are smart-routed to whichever venue (automated market maker or central limit order book) offers the best price. The AMM uses LMSR (Logarithmic Market Scoring Rule) cost-function pricing, which doesn't instantly jump on large orders. Manipulators must buy through the entire curve, paying massive slippage that gets captured as protocol revenue. Manipulation becomes expensive, not free.\n\nTrade Privacy: On-chain transparency enables copy-trading, front-running, and deters informed participants. Xiphias integrates Railgun full-shielding privacy with Uniswap V4 so trades are unlinkable to user wallets. ZK proofs (Groth16) verify transactions without revealing amounts or EOAs. Informed traders can participate without leaking alpha.",
+  "how_its_made": "Xiphias is built as a unified prediction protocol that addresses liquidity fragmentation and privacy through three core technical solutions:\n\n1. Unified Time-Based Markets Instead of splitting liquidity across separate markets for the same event, we implemented a single canonical market architecture. We use the Uniswap V4 Singleton to manage multiple \"atomic\" outcome tokens (representing specific dates or events) within a shared pool. By defining outcomes as mutually exclusive tokens (e.g., Feb 1, Feb 2, etc.), we allow users to trade \"bundles\" (like \"by Feb 17\") which are executed as simultaneous swaps across the underlying atomic pools. This ensures that every trade, whether for a specific day or a range of days, draws from and contributes to the same liquidity source.\n\n2. Hybrid AMM + CLOB Execution Engine To protect users from whale manipulation, we built a hybrid execution model:\n\nAMM (LMSR): We implemented the Logarithmic Market Scoring Rule as a cost-function market maker. Unlike standard AMMs that jump instantly based on the last trade, LMSR follows a strict mathematical curve ($C(q) = b * ln(sum(e^(q/b)))$). This makes it expensive for manipulators to move the price without real information, as they must pay significant slippage directly to the protocol.\nSmart Order Routing: We developed a backend router that compares the real-time executable price on the Central Limit Order Book (CLOB) against the LMSR AMM. It automatically fills from the cheapest venue first. If a whale pushes the CLOB price to a distorted level, the router shifts all new volume to the AMM, providing a \"price anchor\" that the manipulator cannot easily break without paying the protocol.\n\n3. Shielding Privacy Layer We integrated Railgun’s ZK-privacy protocol with Uniswap V4 to enable anonymized trading:\n\nZK-Proofs: In the frontend, we use the Railgun SDK to generate Groth16 zero-knowledge proofs. These proofs verify that a user has the funds to trade without revealing their wallet address or transaction history.\nPrivacy Adapter: We wrote a custom RailgunPrivacyAdapter.sol contract. This acts as a middleman that receives the ZK-proof, verifies it on-chain, and then interacts with the Uniswap V4 PoolManager. To outside observers and block explorers, all trades appear to come from the adapter contract, effectively unlinking the user's identity from their market positions.\n\n4. Identity & Infrastructure\n\nENS Integration: We built a custom onboarding flow using the ENS ETHRegistrarController on Sepolia. This allows users to register .eth names and subdomains directly within the app, which are then used as their primary identity for social features and leaderboards.\nOracle Resolution: We utilitise UMA’s Optimistic Oracle. When a market reaches its end date, any user can propose the outcome by posting a bond. This triggers a 24-hour dispute window where the community can challenge the result, ensuring decentralized and accurate settlement",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/xiphias-5khxi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

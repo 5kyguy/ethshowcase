@@ -1,0 +1,41 @@
+{
+  "id": "ybz7j",
+  "slug": "gastly",
+  "title": "gastly",
+  "tagline": "The one wallet to rule them all. Pay for gas using any token from any wallet, across all chains.",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ybz7j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BOA17DEFwEdSByvjhwXjAOsKOcPLpra3ITjegik1jUI/high.mp4",
+  "source_url": "https://github.com/ltyu/gastly-mono",
+  "prizes": [
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Pool Prize",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🥈 Scroll — Best Use",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Connext",
+      "sponsor_id": "ygz83",
+      "placement": "🥇 Connext — Best Use",
+      "title": "Connext"
+    }
+  ],
+  "finalist": false,
+  "description": "As web3 users navigate the diverse ecosystems across many chains, they will inevitably accumulate an abundance of disparate wallets, with many different tokens. \n\nThe goal of building Gastly is to unify all these wallets & tokens in a task that is ubiquitous across every chain: paying for gas. \n\nGastly is the glue that enables any of your wallets pay for a transaction, using any token, regardless of the chain.",
+  "how_its_made": "The frontend demo app is a next.js app with ethersjs. The backend uses nodejs and Safe SDK to relay signed transactions to smart contract wallets. The contracts are written in Solidity. The architecture of the contracts are described below.\n\n![diagram](https://raw.githubusercontent.com/ltyu/gastly-mono/master/diagram.png) \nThis project uses 5 core components: Liquidity pools,  Wormhole, Safe accounts, 1Balance relayers, xERC20 LP tokens. \n\n## Liquidity pools \nThese pools exist as a hub-and-spoke model, which consists of a single Root Pool (deployed on Goerli), and multiple cross-chain Branch Pools (deployed on Polygon, Scroll, and others). The idea is that the Root Pool will contain the target gas token (we use gEth on goerli). This is supplied by liquidity providers (LPs) in exchange for fees (currently 0% for this project, but should scale according to utilization). \n\n## Wormhole\nWormhole is used as a message relayer to send the credit amount from the Branch pool to the Root Pool. Gastly decided to use messaging instead of a token bridge to save gas i.e., if a user needs to bridge tokens every time, they would incur massive gas overhead costs.\n\n## Safe \nAccounts are used as a smart contract wallet to initiate transactions. For this project, it is a 1/1 Safe account. The Safe account uses 1Balance as the \"paymaster\".\n\n## Gelato/1Balance \nThe relayers that are sponsors of the Safe account's transactions. 1Balance accepts a specific token to meter gas use. For example, deposits are made in gEth on goerli testnet. In production, deposits are made in USDC on Polygon. Deposits are made on behalf of a single EOA account. In this case, it is the owner of the 1/1 Safe. \n\n## xERC20 Liquidity Provider Tokens\nSince it is expected that Pools can get unbalanced, LPs can bridge their tokens to rebalance the pools. They can be incentivized to do so by getting a rebalancing bonus/fee. Gastly takes advantage of xERC20 implementation with xCall on Connext\n\n## General User Flow\nWhen a user wants to pay with tokens on another chain, gastly will:\n1. Deposit in their tokens in the Branch Pool. \n2. Wormhole is used to send the credit amount from the Branch Pools to Root Pool. \n3. Upon receiving the credit, the Root pool will deposit to 1Balance on behalf of the user's wallet\n4. User can transact as normal through their Safe.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gastly-ybz7j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "pg694",
+  "slug": "attestat",
+  "title": "Attestat",
+  "tagline": "Show your EU ID wallet once, prove age in zero knowledge, get approved on chain. No passport copy.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pg694/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hqW00b6oAt2QLHhTVVpMzlf5Fl6Ihce5FIKPq3VdcpOE/high.mp4",
+  "demo_url": "https://attestat.dev/",
+  "source_url": "https://github.com/devdotbo/nachweis-app",
+  "finalist": false,
+  "description": "Exchanges, launchpads and funds keep your passport copy. Attestat lets a token issuer accept the EU digital identity wallet (EUDI) once and apply its approval to the customer's crypto wallet, with no document on chain.\n\nDemo: an investor connects her crypto wallet; her address is not permitted. The official German EUDI test wallet answers: given name, family name, over 18. Her browser tab proves in zero knowledge that it says over 18; only the proof reaches the registry. The issuer approves separately. Door one: the fund token reads the record; she subscribes. Door two: a Uniswap v4 permissioned pool reads the same record; she buys, no second presentation. One revoke closes both doors.\n\nOn chain: one record per address and policy (predicate bits, expiry); no name, no document; the address may still be linked to a person.\n\nLimits: test wallet, sample identity; sanctions and other checks simulated; revocation manual; Sepolia. https://attestat.dev, https://app.attestat.dev (read-only today).\n\nPrior work: the builder's public verifier library Klartext-ID/klartext-verifier (pre-event) is used; the Noir circuit adapts eid-privacy's swiyu circuit; see DISCLOSURE.md. Repositories keep the former name Nachweis.",
+  "how_its_made": "Contracts (Foundry): AttestationRegistry: one decision per address and policy; evidence and approval separate, isEligible needs both; proof verifiers pluggable per policy; FundToken and the Uniswap checker read it. Tests: forge 155 passed (20 fork skipped), 8 app, 19 automation, 5 Playwright.\n\nProved: a holder-bound SD-JWT presentation (the wallet's signed credential format) from the pinned issuer key says over 18; its nonce commits to the crypto wallet address.\n\nBrowser route: the verifier relays the wallet's encrypted answer unopened; the investor's tab decrypts and proves with Noir UltraHonk (noir_js, bb.js). Sepolia: prove about 11 s, attest about 4.58 million gas.\n\nFallback: SP1 zkVM, Groth16 wrap; the server proves and submits and saw the presentation; we say so.\n\nIdentity: OpenID4VP from the official German test wallet into the builder's public verifier library. Unchecked: x5c chain to a trust anchor, status list, challenge freshness (Noir route).\n\nUniswap v4: Uniswap's permissioned-pool contracts as deployed on Sepolia, plus the 41-line EudiAllowlistChecker.sol: swap and liquidity allowed iff registry.isEligible. The portal quotes from slot0; the quoter cannot quote a permissioned pool.\n\neIDAS 2 asks for zero-knowledge proofs in the wallet, none selected yet, so our side proves today; a wallet proof would need a verifier adapter, not built.",
+  "auto_summary": "This project links off-chain EUDI identity proofs to on-chain eligibility records used by token subscriptions and permissioned Uniswap v4 pools.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/attestat-pg694",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

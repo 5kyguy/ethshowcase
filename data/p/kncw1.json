@@ -1,0 +1,20 @@
+{
+  "id": "kncw1",
+  "slug": "solsearch",
+  "title": "solsearch",
+  "tagline": "Solsearch is a CLI tool for semantically searching over Solidity code. Search queries can be written in a custom Domain Specific Language (DSL) that closely resembles the Abstract Syntax Tree (AST) representation that's used internally by the Solidity compiler.",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kncw1/banner/default.jpg",
+  "source_url": "https://github.com/hrkrshnn/solsearch",
+  "finalist": false,
+  "description": "Here's why and for what solsearch can be used:\n\n1. Highly customizable linters: the DSL can encode simple linting rules.\n2. Highly extensible static analysis tools: the DSL can be used to write rules on the fly. Current\n   static-analysis tools require working with the AST directly in a high-level language like C++,\n   Rust or Python. The learning curve and feedback-loop for existing static-analysis tool is bad.\n3. Security research:\n   - A researcher can build their own internal set of rules, for common vulnerabilities and patterns\n     that they notice, and run it againt solidity contracts.\n   - When a new security bug is found, this search tool can be used to query against all verified\n     contracts on chain to find out affected contracts.\n4. Language designers: when existing features for solidity gets updated, the compiler team often\n   needs to understand the impact of the changes. This search tool can be used to precisely located\n   open-source contracts that use certain language patterns.\n5. Fun: I wanted to see how to design a query language to search over Solidity's AST and how\n   powerful such queries can get.\n",
+  "how_its_made": "It's in built on Rust, and uses some existing libraries ([solidity-rs](https://github.com/camden-smallwood/solidity-rs): I had to make a fork of this repo to use it as a library, [my fork](https://github.com/hrkrshnn/solidity-rs)) that has the Rust struct bindings for solc's AST. For the first few hours, I was mainly searching such a library. Implementing it from scratch would have been tedious and impractical for a Hackathon. ([tweet](https://twitter.com/_hrkrshnn/status/1646847609418715137): the replies to this tweet gave some other libraries.)\n\nMore importantly, functions or the visitor patterns are also needed for building the search tool. In retrospect, the visitor pattern implemented in this library wasn't suitable for building the generalized matching engine. In the end, I decided to de-scope the matching engine to only work with a few rules. If I were to build this over 2 weeks, I'd probably reimplement the visitor pattern to be something more suitable for my use-case.\n\nThe Domain Specific Language (DSL) was inspired by [Semgrep](https://semgrep.dev/playground/new?editorMode=advanced). Solsearch can be thought of as a highly specialized semgrep for Solidity. It understands the nitty-gritty annotations that the solidity compiler internally creates for the program. Working directly with the solidity AST can be powerful, as it has plenty of [rich details](https://twitter.com/_hrkrshnn/status/1646089480737116161) about the language.\n\nOnce the DSL and the AST could be internally represented, it was a matter of building the pattern matching engine for it. For the MVP, I decided to just support the pattern matching engine just for the AST node ``functionCalls``. The DSL has support for a few more type of AST nodes, but both do not completely support every AST node type from Solidity. Completing this would be a more ambitious project that would take around 2 weeks. The [future plans](https://github.com/hrkrshnn/solsearch#future-plans) are listed in the GitHub repo.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/solsearch-kncw1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

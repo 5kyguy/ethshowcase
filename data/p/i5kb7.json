@@ -1,0 +1,21 @@
+{
+  "id": "i5kb7",
+  "slug": "ipfs-recovery",
+  "title": "IPFS Recovery",
+  "tagline": "Our team is building a way for content to persist on IPFS despite damage to data and the network at large.",
+  "event": {
+    "slug": "hackfs",
+    "name": "HackFS",
+    "start_time": "2020-07-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i5kb7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZnsITRaP6bY2YvUHP46pC7jZgQZbttBLjAwJtd00023qw/high.mp4",
+  "source_url": "https://github.com/Wondertan/go-ipfs-restore",
+  "finalist": false,
+  "description": "This project brings erasure coding into IPFS by creating redundancies of data blocks in the MerkleDAG. We use industry standard Reed-Solomon codes as well as novel Alpha Entanglement codes to achieve this. The goal is to build a modular framework where all kinds of erasure codes (and in the future, maybe even confidentiality schemes like Shamir secret sharing) can be added. Alpha entanglements in particular are interesting as they provide the ability to create self-healing networks.\r\n\r\nWe're trying to move to a fully peer-to-peer world. Censorship resistance is a property that is very important in a system that has no single point of control. The degradation of data and network devices is thus a problem that is paramount to solve at the network level so as to ensure the integrity of content. Further work in this avenue can also ensure integrity in doomsday scenarios where large portions of the network can go down and still preserve content.",
+  "how_its_made": "We created a modular erasure coding interface that allows arbitrary redundancy schemes to work with IPFS. The interface has an Encode() and a Decode() method that can be implemented by a custom scheme. We implemented two such schemes, namely Reed-Solomon and Alpha entanglements.\n\n\n\nThe way it works is a root node of a dag is passed in to the encoder. Then, each parent recursively applies the encoder function to all its children. For example, let there be a root node A with three children B, C, D and C with another 3 children E, F, G. When Encode(A) is called, A discovers that C has children and then calls Encode(C). C encodes its child nodes using a coding scheme. For Reed-Solomon, this would look like RS({E,F,G}, {R1,R2}),where the parity value is 2 and R1, R2 are redundancies. The links (C,R1) and (C,R2) are created and R1 and R2 are added to the DAG. Then, the CID for C is updated in A and A performs RS({A,B,C},{R1',R2'}.\n\n\n\nFor Alpha Entanglement, we currently support a very similar scheme as Reed-Solomon. If we were to use the above example graph, it would work in the following manner: A first calls Encode(C) as above, and C creates XOR based redundancies of its child nodes. In this case, C creates R1 = E, R2 = R1^F, R3 = R2^G, where \"^\" is the XOR operation. The links (C,RN) are created and RN are added to the DAG. The same is repeated for A.\n\n\n\nFor the true power of entanglements to be unleashed, there need to be connections between arbitrary nodes in the DAG that don't necessarily have a parent-child relationship preserved (see https://github.com/Wondertan/go-ipfs-recovery/issues/4). Simple alpha entanglements take on a new form when combined with each other to corm complex entanglements. Such entangled data networks are self-healing to high degrees of node churn. The challenge in implementing such a scheme is that a lookup table needs to be maintained that maps nodes to position indices. These indices are used to determine how connections are made between nodes (see https://arxiv.org/pdf/1810.02974.pdf).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ipfs-recovery-i5kb7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

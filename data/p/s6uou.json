@@ -1,0 +1,22 @@
+{
+  "id": "s6uou",
+  "slug": "flash",
+  "title": "Flash",
+  "tagline": "Social trading pool: friends trade off-chain via state channels, settle on-chain once.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s6uou/banner/default.jpg",
+  "video_url": "https://stream.mux.com/WtHChyq601sexqIK8FEtrw9p01uZozvLBvTB4y01yeXIek/high.mp4",
+  "demo_url": "https://www.canva.com/design/DAHAWazUSGk/u33h-OyHEh2TyHnc8CWKuA/view",
+  "source_url": "https://github.com/frederickemerson/Flash",
+  "finalist": false,
+  "description": "Flash is a state-channel trading platform that enables high-frequency, zero-gas trading sessions on Base Sepolia, settled with a single on-chain transaction.\n\nTraditional decentralized trading suffers from high gas costs per transaction and MEV (front-running). Flash solves this by moving execution off-chain into ERC-7824 state channels while keeping rigorous settlement guarantees on-chain. Traders deposit USDC into a shared session pool, execute unlimited trades instantly via off-chain signed messages, and settle only the final net P&L.\n\nUnlike Perp DEXes that require complex oracle engines and liquidation bots, Flash uses a synthetic P&L model similar to CFDs—positions are calculated against live price feeds, and the deposit pool is chemically redistributed at the end of the session. This architecture makes it perfect for social trading groups, competitions, and high-frequency strategies that would be prohibitively expensive on L1 or even standard L2s.",
+  "how_its_made": "Flash is built as a hybrid off-chain/on-chain architecture designed for speed and gas efficiency.\n\nOn-Chain (Base Sepolia): The core is the FlashTradeSessionV3 smart contract written in Solidity. It handles:\n\nPooled Deposits: Users deposit USDC into a shared session vault.\nSession Keys: We use EIP-712 signatures to register ephemeral session keys with strict on-chain spend limits and expiry times, allowing users to trade securely without signing every transaction with their cold wallet.\nSynthetic Settlement: Instead of swapping tokens on a DEX, the contract acts as a settlement engine. It verifies the final state and redistributes the pooled funds based on the calculated P&L of each participant.\nOff-Chain (Yellow Network & Relay): For the trading engine, we integrated the Yellow Network / Nitrolite SDK (ERC-7824). This provides the state channel infrastructure where trades happen.\n\nThe Relay: A lightweight Node.js/WebSocket server acts as the communication hub, synchronizing state updates between players and the Solver.\nThe Solver: A background service that acts as the counterparty and referee. It listens to price feeds, calculates real-time P&L, and cryptographically signs state updates.\nThe \"Hacky\" Part: The most innovative element is our \"Zero-DEX\" settlement. We realized that for a trading competition or social session, we don't actually need to swap tokens on Uniswap for every trade. We only need to track the value of the positions. We built a custom P&L calculator that mimics a perpetual futures engine but runs entirely as pure logic in the state channel. This allows us to offer an experience that feels like a high-leverage Perp DEX but consumes 99% less gas.,",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/flash-s6uou",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

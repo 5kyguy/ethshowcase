@@ -1,0 +1,41 @@
+{
+  "id": "bnr04",
+  "slug": "unsui",
+  "title": "UnSui",
+  "tagline": "Unlock your Suica card's lost potential, collect unused funds as a crypto refund.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bnr04/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sDjJtplnLiUrcZYAOXiHkno2G3OeTAEmLkUjEh2iyyY/high.mp4",
+  "demo_url": "https://unsui.ca",
+  "source_url": "https://github.com/vm06007/unsui",
+  "prizes": [
+    {
+      "sponsor": "Sui",
+      "sponsor_id": "vsbye",
+      "placement": "1st place",
+      "title": "DeFi, Payments, Agents"
+    },
+    {
+      "sponsor": "Curvegrid",
+      "sponsor_id": "5e2gc",
+      "placement": "Best Digital Asset Dashboard",
+      "title": "Best Digital Asset Dashboard"
+    }
+  ],
+  "finalist": true,
+  "description": "Here is my story about experience in Japan (non-ai-generated) when it comes to visiting and re-visiting. My first even hackathon was in 2023 for ETHGlobal Tokyo. Since then transit card for Suica has been sitting with me with unused balance ever since! Only returning to the roots now I've realized that ths balances could have been used to a better purpose if it would be much easier to refund with minimal fees. And I'm not alone! There's thousands of tourists and visitors facing same issue with Suica cards unused balance on phisical cards. \n\nSo this time coming back I've decided to solve this by building UnSui mobile app service that can help anyone with unused leftover balance to be transferred to any wallet of your choice on SUI (スイ) blockchain or Mizuhiki: The Japan Chain as an option. This works even better with Welcome Suica red card that by default only lasts 28 days without any refunds supported by JR East.\n\nUnSui is an NFC app that connects a Japanese Suica card to a crypto refund workflow. Hold a physical card to the phone to read the latest balance and recent journeys. Simply choose what to do with leftover balance any time even after you've left Japan or forgot to deal with the refund while in Japan (which is also not an easy thing to do). This can serve as on-board to crypto too! Think about it taking in account how much Yen depreciated in value over these 3 years and you could have utilized it or converted to Bitcoin or other currency instead.\n\nA sample-card demo works when no card is available. After a reading, you choose a wallet and network, review the yen conversion, and submit a refund request. A shared development ledger stores the receipt, tracks the remaining allowance, and blocks duplicate requests. Scanning works offline. Refunds need internet access that would communicate with backend to use SoftBank merchant ID where Suica card can be charged for remaining amount (minus fee) to access this as a service. Once Yen is secured we can issue SUI tokens on SUI blockchain or MIZU tokens on Mizuhiki Japan chain to wallet of your choice as a exchange transaction. World-ID identifications helps us with regulatory compliances when it comes to tracking funds and following the lawful practical use case according to the rules of merchant business where Suica can be used as source of payment. ",
+  "how_its_made": "UnSui is a React Native 0.86 app. It reads a physical Suica card over NFC-F with react-native-nfc-manager and FeliCa system code 0003, decoding the balance and journey bytes on the phone then charging the card through SoftBank payment system (merchantID required). \n\nStation names come from a pinned, hash-checked Suica station table, with a small Tokyo fallback if that file is missing. A Node server on port 4100 is the refund ledger. It compiles the same TypeScript quote and allowance modules as the app, so the 2% fee, the network, and the remaining balance cannot drift between the phone and the server. Refunds above ¥1,000 open World’s official IDKit flow. \n\nThe server verifies the proof with @worldcoin/idkit-core and binds it to the card, amount, recipient, and request id. Sui names resolve through Sui mainnet GraphQL. On a dGen1 phone, ethOS WalletProxy supplies the Ethereum Mainnet or Mizuhiki Awaji address. \n\nA Sui Move treasury is deployed on mainnet, and the backend can submit a payout through @mysten/sui using that same 2% fee. The contract stores a keyed card commitment, so the raw card id never goes on chain. The notable hack is treating the closed Suica record as a readable balance, then keeping one set of refund rules in TypeScript for both the phone and the server. \n\nAdditinally there's a dashboard for user and admin to verify treasury, payouts or any activity in the UnSui service system so user does not need to use only phone UI if they wish to try desktop instead to view their refund history or card usag overall.",
+  "auto_summary": "A mobile and web system reads Suica card balances and records regulated refund payouts to Sui or EVM-based networks.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/unsui-bnr04",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

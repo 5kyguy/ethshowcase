@@ -1,0 +1,29 @@
+{
+  "id": "5uq0q",
+  "slug": "entropy-wheel",
+  "title": "Entropy Wheel",
+  "tagline": "A trustless crypto roulette and daily lottery using Pyth Entropy for verifiable randomness.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5uq0q/banner/default.jpg",
+  "video_url": "https://stream.mux.com/BWP9i202M6JPKvNOysj00iVS01LnsZMo9dUqX01hfpy5GDQ/high.mp4",
+  "source_url": "https://github.com/fchambi/Eth-Global-Buenos-Aires",
+  "prizes": [
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "Pyth Entropy Pool Prize",
+      "title": "Pyth Entropy Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "Entropy Wheel is a fully on-chain crypto roulette and daily lottery powered by verifiable randomness from Pyth Entropy V2. Players choose a crypto asset (BTC, ETH, SOL, AVAX, or DOGE), pay a ticket, and spin a wheel whose outcome is determined through an Entropy randomness request. If the player correctly guesses the selected asset, they are automatically added to that day’s whitelist for a daily lottery, which also uses Entropy to fairly and transparently pick a random winner. All game logic—roulette spins, whitelisting, and lottery draws—is entirely on-chain, auditable, and trustless, demonstrating a simple, engaging, and real-world use case of Pyth Entropy for provably fair on-chain gaming.",
+  "how_its_made": "Entropy Wheel is built around a dual-randomness architecture fully powered by Pyth Entropy V2. The system consists of two Solidity contracts—CryptoRoulette and DailyLottery—both implementing IEntropyConsumer and strictly following Pyth’s commit–reveal callback pattern. Each randomness request is assigned a unique sequenceNumber, which we map to a stored struct representing either a roulette spin or a lottery draw. When Pyth submits the verified random number on-chain, the callback reconstructs the context from the sequenceNumber, validates state, and deterministically computes the outcome (asset index for the roulette or winner index for the lottery).\nAll randomness is consumed on-chain using Pyth’s V2 fee mechanism, cryptographic verification, and callback flow, ensuring there is no reliance on block hashes, centralized VRF servers, or off-chain compute. Roulette spins require high-frequency randomness, while the daily lottery requires delayed but provably fair randomness—demonstrating two distinct consumption patterns of Entropy within a unified architecture.\nThe project is built with Foundry for contract development, testing, and deployment, and runs on Optimism Sepolia using Pyth’s deployed Entropy provider. The frontend, built with Scaffold-ETH 2, listens to emitted events (SpinRequested, SpinCompleted, DrawRequested, WinnerSelected) to create a real-time trustless game loop. Implementing state isolation, request-to-callback mapping, and cross-contract communication with strict randomness boundaries required careful design to avoid race conditions, double-fulfillments, and callback ambiguities.\nOverall, the project showcases a deep integration with Pyth Entropy, using it as the core mechanism for every game outcome and demonstrating how verifiable randomness can safely power interactive, fully on-chain gaming systems.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/entropy-wheel-5uq0q",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

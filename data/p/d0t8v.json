@@ -1,0 +1,35 @@
+{
+  "id": "d0t8v",
+  "slug": "cross-chain-ns",
+  "title": "Cross Chain NS",
+  "tagline": "ENS powered Walrus sites with custom resolver with chrome extension and subnames",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/d0t8v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tMyurvYrO0202Bqkpk83KwgoXXzL7GAN6eVSMk44PGQGA/high.mp4",
+  "source_url": "https://github.com/Cross-Chain-Naming-Service-CCNS/cross-chain-naming-service",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "3rd place",
+      "title": "Most creative use of ENS"
+    },
+    {
+      "sponsor": "Walrus",
+      "sponsor_id": "vsbye",
+      "placement": "1st place",
+      "title": "Best use or tooling for Walrus"
+    }
+  ],
+  "finalist": true,
+  "description": "The ENS powered Walrus sites project allows Ethereum Virtual Machine (EVM) developers to host decentralized websites on Walrus, a Sui-based storage protocol optimized for blobs and AI/DePIN workloads, and make them accessible via ENS domains (e.g., yourname.eth). Instead of storing individual blob IDs (43-character base64url strings), you store a hex-encoded site object ID (a Sui object ID representing the website's root, aggregating multiple blobs) in the ENS contenthash field using a custom multicodec (walrus-site-ns, protoCode e.g., 0xb29911). This ID is converted to base36 for URL-friendly subnames (e.g., [base36_id].your-portal.eth.limo), served through a Fluence-deployed Walrus portal for decentralized resolution. A Chrome extension (Manifest V3) resolves .eth domains in browsers by querying the contenthash, decoding it to the hex site ID, converting to base36, building the portal URL, and rendering the content, with web workers offloading tasks like fetching or decoding for performance. This creates a cross-chain solution: ENS on Ethereum/Sepolia for naming, Walrus on Sui for storage, and Fluence for scalable, decentralized portal hosting, enabling seamless website access in Chromium-based browsers (Chrome, Brave, Edge).\nKey Components\n\nENS Contenthash with Custom Multicodec:\n\nSite Object ID: A hex string (e.g., 0x1a2b3c4d...) representing the Sui object ID for a Walrus Site, created via the site-builder tool.\nCustom Multicodec: Defined as walrus-site-ns (mock protoCode 0xb29911), encoding the hex ID to bytes with a varint prefix, stored in the contenthash field of yourname.eth on Sepolia.\nEncoding/Decoding: Modified @ensdomains/content-hash library to handle walrus-site-ns, converting hex to/from bytes (e.g., encode('0x1a2b3c...') → varint + binary).\n\n\nBase36 Conversion for Subnames:\n\nThe hex site ID is converted to base36 (0-9, a-z) for URL-friendly subnames (e.g., 0x1a2b3c... → k2t6wyfsu4pfw...).\nSubnames mimic eth.limo (e.g., [base36_id].your-portal.eth.limo), resolved by the Fluence-deployed portal.\n\n\nFluence-Deployed Walrus Portal:\n\nFluence: A decentralized compute platform for running serverless, peer-to-peer applications. You deploy the Walrus portal as a Fluence service (using Aqua scripts and Fluence CLI) on a network of nodes, ensuring high availability and censorship resistance.\nRole: The portal resolves base36 subnames (e.g., k2t6wyfsu4pfw.your-portal.eth.limo), fetches the corresponding Walrus site object from Sui, reconstructs the site (HTML, CSS, JS), and serves it via HTTP.\nSetup: Deployed using Fluence’s Rust or TypeScript SDK, integrating with Walrus SDK (@mysten/walrus) for blob fetching and Sui RPC for object queries.\n\n\nChrome Extension with Web Workers:\n\nPurpose: Resolves .eth domains to Walrus site content in browsers.\nFlow: Intercepts .eth navigation (chrome.webNavigation), queries contenthash via viem on Sepolia, decodes to hex site ID, converts to base36, builds portal URL (e.g., https://k2t6wyfsu4pfw.your-portal.eth.limo), fetches content, and renders in the tab.\nWeb Workers: Offload tasks (e.g., contenthash decoding, base36 conversion, or fetching) to a worker thread to avoid blocking the UI, improving performance for large sites.\nCompatibility: Works on Chrome, Brave, Edge using Manifest V3.\n\n\nModified ENS Libraries:\n\n@ensdomains/content-hash: Added walrus-ns profile for encoding/decoding hex site IDs.\nens-app-v3: Updated validateContentHash to support walrus-site-ns with hex validation (no fixed length, as Sui object IDs vary).\nensjs: Updated to use modified content-hash for resolution.",
+  "how_its_made": "Technical Workflow\n\nHosting a Walrus Site:\n\nUse Walrus site-builder CLI (from MystenLabs/walrus-sites): site-builder publish ./my-site --epochs 1 (testnet).\nOutput: Hex site object ID (e.g., 0x1a2b3c4d...) representing the site on Sui.\nConvert to base36: BigInt('0x1a2b3c4d...').toString(36) (e.g., k2t6wyfsu4pfw...).\n\n\nStoring in ENS:\n\nUse local ens-app-v3 to set contenthash for yourname.eth on Sepolia.\nEncode: encode('0x1a2b3c4d...') using walrus-site-ns multicodec (varint 0xb29911 + hex-to-bytes).\nStore via Public Resolver (0x8FADE66B79cC9f707aB26793a6b97791FC928AC9).\n\n\nFluence Portal Deployment:\n\nDeploy a Walrus portal as a Fluence service using Fluence CLI (fluence init, fluence deploy).\nAqua script defines logic: Resolve subname (e.g., k2t6wyfsu4pfw.your-portal.eth.limo), convert base36 to hex, query Sui for site object, fetch blobs via Walrus SDK, serve HTML.\nConfig: Set Sui testnet RPC (https://fullnode.testnet.sui.io:443) and Walrus publisher (https://publisher.testnet.walrus.site).\n\n\nBrowser Resolution:\n\nUser navigates to yourname.eth in Chrome/Brave/Edge with extension.\nExtension:\n\nIntercepts via chrome.webNavigation.onBeforeNavigate.\nQueries contenthash with viem.\nDecodes to hex site ID using modified content-hash.\nConverts to base36.\nBuilds URL: https://[base36_id].your-portal.eth.limo.\nWeb worker fetches content (avoids UI blocking).\nContent script renders HTML in tab.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cross-chain-ns-d0t8v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,36 @@
+{
+  "id": "3f0h6",
+  "slug": "asset-guild",
+  "title": "Asset Guild",
+  "tagline": "Secure marketplace for selling digital assets without leaking them",
+  "event": {
+    "slug": "singapore2024",
+    "name": "ETHGlobal Singapore",
+    "start_time": "2024-09-20T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3f0h6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZLE3xB9hBDyEKp5yCfVxy8VXUQT01sEMuuULVxMwTcN4/high.mp4",
+  "demo_url": "https://asset-guild.vercel.app",
+  "source_url": "https://github.com/KryptoNights/asset-guild",
+  "prizes": [
+    {
+      "sponsor": "Fhenix",
+      "sponsor_id": "croq1",
+      "placement": "2nd place",
+      "title": "Best use of Fhenix Stack"
+    },
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    }
+  ],
+  "finalist": true,
+  "description": "AssetGuild allows you to upload any content which can be viewed only by people who have bought it. The content or their IPFS hashes are stored on-chain in special ways which guarantee someone can access it only after paying. We store 2 versions of a content: the preview, and the original. While the preview is openly stored, the original one is stored using Fully Homomorphic Encryption, on 2 levels and an asymmetric key cryptography to ensure only the seller and buyer can see it, not even the contract executing it.",
+  "how_its_made": "The project depends on Fully Homomorphic Encryption, which is a way to do computation on encrypted data. When the user uploads their content, the IPFS hash is what we want to protect, as you can access the content only with it, and without it you cannot.\n\nWhen our contract gets the hash, it encrypts it using a symmetric key which the uploader gives. On-chain, it stores this encrypted hash openly, and the symmetric key securely (in a manner it cannot be read from the chain state, on a chain which supports such a form of storage). Since the chain we are using only supports such storage for integers, there's some back and forth conversion between string and int.\n\nBefore the user requests the original content, they generate an asymmetric key in their client, and they pass the public key in the function to get the original hash. Inside the smart contract, initially we verify (using internal structs/records) if the user (function caller) has paid for the content or not. If yes, we decrypt the encrypted hash using the privately stored symmetric key, and then we re-encrypt this hash using the public key of the function caller using FHE.\n\nThe function returns the version of the original content hash which is encrypted using the public key which they themselves provided. So, they can decrypt it on their end. We also add the public key to a nullifier set so the same key cannot be passed in twice to fetch the content.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/asset-guild-3f0h6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "zak21",
+  "slug": "hardpull",
+  "title": "Hardpull",
+  "tagline": "Confidentially detects onchain loan stacking without any lender seeing another's book.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zak21/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tilJ00ZWI1tn015yzRN9iYN49Cp4izLCAOtaY4hn9DX4w/high.mp4",
+  "demo_url": "https://www.youtube.com/playlist?list=PLbSNxCvJpURY",
+  "source_url": "https://github.com/cagmero/Hardpull",
+  "finalist": false,
+  "description": "This project is a confidential exposure registry that lets undercollateralized onchain lenders detect loan stacking - a borrower drawing simultaneous, uncoordinated credit from several lenders who each believe the borrower is unencumbered - without any lender ever seeing another lender's book. A lender POSTs a subject to /v1/pull and gets back a verdict (CLEAR / WARNING / CRITICAL), an exposure bucket, an inquiry velocity, and a stacking flag - never a furnisher name, an exact amount, or a counterparty. Every pull is gated by borrower consent (a revocable onchain grant, non-transferable between lenders), metered per-inquiry via x402 on Hedera Testnet, and logged immutably to Hedera Consensus Service so the bureau itself cannot quietly edit its own audit trail. The cross-lender join that actually computes exposure runs inside a Chainlink CRE Confidential Workflow (a TEE), which is the only reason competing lenders are willing to contribute data at all - contributing normally means disclosing your loan book to a rival. Public on-protocol exposure (Aave v3, Morpho Blue, Maple) is normalized into one cross-protocol CreditPosition schema by a Graph subgraph, so the CRE workflow queries one shape instead of three separate protocol integrations. It is live end-to-end on Ethereum Sepolia (5 verified contracts) and Hedera Testnet, not a local demo.",
+  "how_its_made": "Hardpull is a pnpm monorepo. contracts/ (Solidity 0.8.24, Foundry, OpenZeppelin) holds five contracts on Sepolia - SubjectRegistry and FurnisherRegistry for identity, ReciprocityLedger and ExposureCommitments for the confidential join's inputs, and VerdictAttestations, which only accepts signatures from the CRE workflow's signing key and is covered by a 10,000-run Foundry fuzz test on the disclosure invariant. cre/ (Go, Chainlink CRE Workflow SDK) is a Confidential Workflow that runs the actual cross-lender exposure join inside a TEE, verifies commitments against on-chain state, and strips furnisher identity at the type level before anything leaves the enclave - tested with the CRE SDK's testutils runtime so we can assert plaintext never appears in the verdict or any enclave log. api/ (TypeScript, Hono, Postgres, Redis, Zod) is the bureau surface: it enforces the consent gate before any compute or payment happens, issues an HTTP 402 challenge via @x402/core and @x402/hedera against Hedera Testnet with @hiero-ledger/sdk, prices pulls differentially by reciprocity standing, and writes every inquiry to an HCS topic. subgraph/ (The Graph, AssemblyScript) normalizes Aave v3, Morpho Blue and Maple positions into one CreditPosition schema that both the API and the CRE workflow query - one shape instead of three protocol integrations. mcp/ wraps that subgraph as an MCP server with four credit-file tools. console/ (Next.js 15, wagmi, viem, Tailwind) is the lender console and borrower file viewer, with @worldcoin/idkit wired for World ID personhood checks (built, not submitted as a partner prize). sdk-node/ is a typed client generated from api/openapi.yaml. The gnarliest part was making the TEE boundary honest rather than asserted: the CRE workflow's tests specifically assert that plaintext, furnisher identity, and both private keys never appear in the signed verdict or the enclave's own logs, not just that the workflow runs. Every commit on this repo was pair-built with Claude Code (Opus 5 and Sonnet 5) as co-author - it wrote the initial scaffolding for each package, drafted the Foundry tests and the CRE workflow handler, and helped debug the three integration bugs (documented in docs/DECISIONS.md) that only surfaced once the flow ran against real Sepolia and Hedera Testnet infrastructure instead of local mocks.",
+  "auto_summary": "A monorepo for a privacy-preserving credit exposure registry that combines onchain contracts, a confidential workflow, an API, and Graph-indexed lending data.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hardpull-zak21",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "eo0eb",
+  "slug": "artwork-commons",
+  "title": "Artwork Commons",
+  "tagline": "Platform for artists and galleries exhibit and sell physical art utilizing ENSv2 ",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/eo0eb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wflDaf8JsihqUzf5g00lGDw8ILFJmtcOXRfSf01YlvSdk/high.mp4",
+  "demo_url": "https://eonmun-beta.ncrmro.workers.dev/",
+  "source_url": "https://github.com/ncrmro/ethglobal-tokyo-2026-artwork-commons",
+  "finalist": false,
+  "description": "**Artwork Commons is a template for artists and galleries to run their own marketplaces for NFTs tied to physical artwork.** An artist connects a wallet, chooses an ENS name they control, creates an artwork namespace such as `art.eonmun.eth`, and issues a named artwork record with its image and metadata on IPFS. A gallery uses its own ENS name to create exhibitions, invite artists to submit work, and offer accepted work for sale. Collectors can buy through an exhibition or directly from an owner. EON MUN is the example artist; the template is intended for others to use with their own names.\n\nThe novel part is that **ENSv2 names are the structure of the marketplace**, rather than labels added afterward. ENSv2 permissioned registries let an artist control artwork subdomains and a gallery control exhibition subdomains independently. Its extended access control underpins narrowly scoped, expiring gallery permissions: an artist can authorize a gallery to exhibit, list, or sell a particular work while retaining ownership until a purchase. The artwork and exhibition records link to the relevant contracts, so a buyer can follow a work’s identity and attributed exhibition history across galleries.\n\nThe contracts also enforce one standard artwork policy: the first sale can happen immediately, subsequent ownership transfers have a 180-day hold, and supported resales pay the original artist a 5% royalty. Gallery sales can include an agreed commission. The local blockchain demo exercises these rules with real contracts; the separate story demo uses staged data. Physical custody and historical claims are displayed as attributed records, not treated as blockchain proof that a painting was delivered or a past sale occurred.",
+  "how_its_made": "We built Artwork Commons as a Next.js 16 and React 19 application, statically exported and served by Cloudflare Workers. The interface has separate artist, gallery, collector, and public browsing flows. viem connects the site to Ethereum: the wallet signs setup and sale transactions, while read-only RPC calls reconstruct artwork, exhibitions, permissions, listings, and ownership from contracts. Public deployments target Sepolia; a separate local mode runs the real ENSv2 contracts on Anvil so we can rehearse the entire flow without spending testnet ETH.\nThe Solidity contracts divide responsibilities. An artist’s ArtworkRegistry issues one ERC-1155 singleton token per physical work and fixes its creator, metadata, and standard terms. An ArtResolver connects its ENS name to an IPFS content hash. A gallery’s GalleryRegistry creates exhibitions and records submissions and acceptance. A MandateRegistry gives a gallery limited permission to exhibit, list, or sell a particular work, with an expiry and minimum price; the artist keeps the token until sale. SimpleSettlement checks that permission, takes payment, transfers the token, and credits the seller, gallery, and original artist. The artwork contract enforces a 180-day hold after transfers, and supported resales pay a 5% artist royalty.\nENSv2 is the architectural ingredient. Its hierarchical permissioned registries let an artist publish works beneath their own name, such as blue-mountain.art.eonmun.eth, while a gallery publishes exhibitions beneath a different name. The registries can reference each other without either party surrendering control of its namespace. We also use ENSv2’s EnhancedAccessControl in the mandate contract. Name-management permission and permission to sell an artwork remain separate.",
+  "auto_summary": "A Next.js and Solidity application for ENS-based art marketplaces where artists and galleries manage named artworks, exhibitions, permissions, and sales.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/artwork-commons-eo0eb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

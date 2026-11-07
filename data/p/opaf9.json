@@ -1,0 +1,42 @@
+{
+  "id": "opaf9",
+  "slug": "1fx",
+  "title": "1fx",
+  "tagline": "Decentralized forex trading with up to 30x leveraging built with Aave and 1inch.",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/opaf9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/PiUMfSe00802t0235A767iSUwMPC00YuYeYU5I6y01LQxXGs/high.mp4",
+  "demo_url": "https://fx.1delta.io/",
+  "source_url": "https://github.com/1fx-eth/contracts",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊 Polygon — Build on Polygon",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "1inch Network",
+      "sponsor_id": "if0ri",
+      "placement": "🥇 1inch — Open Track",
+      "title": "1inch Network"
+    },
+    {
+      "sponsor": "Aave Grants DAO",
+      "sponsor_id": "oiv32",
+      "placement": "🥇 Aave Grants DAO — Best Use of Aave/GHO",
+      "title": "Aave Grants DAO"
+    }
+  ],
+  "finalist": false,
+  "description": "1fx is a cutting-edge protocol designed to empower traders with the ability to establish significantly leveraged positions within the Aave protocol. This is achieved by concentrating on token pairs that fall under the same eMode category.\n\nThe eMode category, which can be activated by a user, permits a higher collateral factor for asset arrangements that exhibit a high correlation. This feature provides traders the flexibility to maintain multiple leveraged positions simultaneously. Each position is meticulously isolated from the rest, ensuring the integrity of individual trades.\n\nEvery position is represented by a UUPS upgradeable abstract account. This account safeguards the balances in Aave on behalf of the user. Leveraging this architecture, users can open such a position seamlessly in a single transaction, streamlining their trading operations and enhancing efficiency.",
+  "how_its_made": "1fx leverages four primary features to facilitate single-click margin positioning.\n\n1) Abstract Accounts with Create2: At the heart of 1fx is a factory contract that deploys unique entities known as slots, essentially abstract accounts that signify an individual leveraged position.\n\n2) eMode Activation: Following the deposit, the slot contract enables eMode, a feature that empowers users to hold high-leverage positions.\n\n3) Aave Flash Loans: These flash loans play a crucial role in promoting the cost-effective generation of leveraged positions\n\nThe system eliminates the need to cycle through borrow-swap-supply loops to establish the desired leverage. Here's how the process unfolds when opening a position with a 10 USDC deposit as collateral and USDT as debt - all within a single transaction:\n\n(i) The factory creates an abstract account (the slot) using create2.\n\n(ii) An initial collateral of 10 USDC is supplied to the slot.\n\n(iii) The slot then flash loans the target collateral amount (in this case, for a 20x leverage on the initial deposit, it would be 190 USDC).\n\n(iv) The slot supplies the acquired 190 USDC.\n\n(v) With eMode enabled, the slot can borrow roughly 0.95 x 200 (=190) USDT.\n\n(vi) This 190 USDT is then swapped for USDC to enable the repayment of the flash loan.\n\n(vii) Consequently, the slot now maintains a 20x leveraged position in USDC/USDT on Aave on behalf of the user.\n\n-> this sequence of interactions is showcased in the slot https://polygonscan.com/address/0xB5Cee144309B9e36e7bce1B5B07432f8F2f42224#code and its creation transaction (it uses 20x leverage on 1 USDC initial deposit).\n\n4) 1inch Router/API: This heavily optimized router utilizes the input from the 1inch API. The calldata from the API is transferred into the flash loan where the swap from the borrowed currency to the collateral currency, as described in step (vi), is executed.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/1fx-opaf9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

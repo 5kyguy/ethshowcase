@@ -1,0 +1,22 @@
+{
+  "id": "16j85",
+  "slug": "jellynet",
+  "title": "jellyNet",
+  "tagline": "JellyNet: P2P LLM marketplace — agents pay per call, suppliers earn, memory lives on 0G, no servers.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/16j85/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VPpz00uzmYg1ow006wy4q0100nQwvFAwTe76nCNBuzXtnVU/high.mp4",
+  "demo_url": "https://www.jellynet.net/",
+  "source_url": "https://github.com/Mukul601/JellyNet_EthGlobal_Build",
+  "finalist": false,
+  "description": "JellyNet is a decentralized LLM API marketplace where AI agents pay per call and suppliers monetize idle API keys — no accounts, no lock-in. This demo shows the fully decentralized architecture: supplier nodes serve LLM inference over Gensyn AXL's P2P mesh (no central broker), inference is TEE-verified via 0G Compute (no one can read your prompt — not even JellyNet), and agent memory persists across full process restarts via 0G Storage KV. The agent survives a restart and recalls prior context loaded from onchain storage. In production, JellyNet's universal API key routes across 7 providers — 0G Compute is the verifiable, privacy-preserving option in that mix. Buyers bring one key, suppliers earn per call, agents pay via x402 micropayments on Solana.\nhttps://x.com/jellynet_",
+  "how_its_made": "Built in TypeScript on Node 18. Three layers:\n\n1. GENSYN AXL — P2P transport layer. Two AXL nodes (separate ed25519 keypairs, Yggdrasil mesh) replace JellyNet's centralized proxy. Supplier node polls /recv every 500ms. Buyer sends inference requests via POST /send with X-Destination-Peer-Id header and raw binary body. Critical fix discovered: AXL's DialPeerConnection assumes both nodes share the same tcp_port — mismatched ports cause silent 502s. Both nodes must use identical tcp_port values.\n\n2. 0G COMPUTE — TEE-verified inference via OpenAI-compatible API. Supplier calls 0G Compute broker, response includes TEE verification flag. KV write was originally blocking the reply path (~9s), causing buyer timeouts — fixed by firing kvWrite as a background promise and sending the AXL response immediately after inference completes.\n\n3. 0G STORAGE KV — Persistent agent memory. Buyer loads conversation history from KV on boot. Supplier logs every call to KV. Memory survives full process restart — the agent recalls prior context from onchain storage, not RAM.\n\nAI tools used: Claude (Anthropic) as CTO-brain for architecture decisions, debugging the AXL tcp_port issue, and the KV blocking fix. Claude Code for all TypeScript implementation across axl/client.ts, supplier/node.ts, and buyer/agent.ts.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/jellynet-16j85",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

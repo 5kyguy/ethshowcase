@@ -1,0 +1,35 @@
+{
+  "id": "8r4jm",
+  "slug": "onchainrouter",
+  "title": "OnchainRouter",
+  "tagline": "OpenRouter for onchain tools. AI agents discover, call and pay per use with x402.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8r4jm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/L14FJ01hA01xOP01hyoTp2c00EH01Qbk01FksmZNb6j1b7P02Q/high.mp4",
+  "demo_url": "https://onchainrouter.io/",
+  "source_url": "https://github.com/web3xDev/onchain-router",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "OnchainRouter is a catalogue of paid onchain tools for AI agents: one place to read the chain and to act on it. An agent connects once, over MCP or HTTP, sees every tool and its price for free, and pays per call with x402 from its own wallet, in HBAR on Hedera or USDC on Arc. No account, no API key, no subscription.\n\nThe router holds no wallet and takes no commission: the 402 names the tool author's address and the payment settles straight to it. No answer, no charge: a tool that cannot deliver is never settled. Tools return decisions, not tables, with the reasoning attached.\n\nSix tools today on The Graph's standardized subgraphs, across nine live chains: lending rates, withdrawal risk, liquidation pressure, protocol health, governance power, governance pulse. Coverage is probed, not claimed.\n\nAnyone can list a tool. The onchainrouter npm package wraps any function in an x402 paywall with one call, gives an agent a wallet that pays, and gives Claude Code the same wallet as an MCP server. Agents can list tools themselves over MCP. Live at onchainrouter.io, with a playground that runs real testnet settlements.",
+  "how_its_made": "Next.js serves the site, the HTTP API and a stateless remote MCP server from one registry: every tool is a zod schema, a run function and a payout address per rail, and the catalogue, the tool pages, the docs and /llms.txt are generated from it.\n\nPayments are x402 v2. One 402 offers both rails. Hedera settles through the Blocky402 testnet facilitator in native HBAR, gas sponsored, every payment visible on HashScan. Arc settles through Circle Gateway with Circle's x402 batching package, USDC from a deposited balance, gasless; the Arc signer is a Circle developer-controlled wallet, so the key never exists on the machine. \"No answer, no charge\" is enforced by never settling on a non-2xx over HTTP or on isError over MCP.\n\nData comes from The Graph's Messari-standardized lending and governance subgraphs, which lets one query fan out across 91 deployments on 19 chains and compare protocols: outliers discarded against the median, stale markets dropped by their own last snapshot, corrupt days reported. A probe script measures which deployments answer and the catalogue reads from its output.\n\nClaude Code cannot sign, so the npm package ships the wallet as a second MCP server with one tool, sign_x402_payment: Claude calls the router, gets payment required, asks the wallet, calls again. The same package's paid() is a web-standard Request to Response wrapper around the router's own resource-server code, so any handler becomes a listable x402 endpoint; the submit page reads price, rails and payout off its 402 and opens a prefilled GitHub issue.\n\nNotable: the standard x402 client refuses native HBAR unless allowlisted, so the wallet allowlists it with a per-payment cap; Hedera transaction ids need rewriting before HashScan accepts them; and the aave-v3 subgraph marks a market with billions borrowed as inactive, so liveness is judged from activity instead.",
+  "auto_summary": "A Next.js app and npm package expose AI-callable onchain data tools with per-call x402 payments over Hedera and Arc.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/onchainrouter-8r4jm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

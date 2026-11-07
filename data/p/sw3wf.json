@@ -1,0 +1,36 @@
+{
+  "id": "sw3wf",
+  "slug": "bleeth",
+  "title": "Bleeth",
+  "tagline": "Liquidity betting protocol based on vampire attacks as primitive",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sw3wf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dC2Vk5vJI6aiV02CJ8kOPoLaIxeS9f02sL5NAH8SqP6Kw/high.mp4",
+  "demo_url": "https://bleeth.me",
+  "source_url": "https://github.com/GianfrancoBazzani/ETHGlobal-Buenos-Aires",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "2nd place",
+      "title": "Best Use of Amp Datasets"
+    },
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "Pyth Entropy Pool Prize",
+      "title": "Pyth Entropy Pool Prize"
+    }
+  ],
+  "finalist": true,
+  "description": "Bleeth.me is a cornerstone protocol that systematizes the DeFi liquidity wars while enabling DeFi protocols to reduce their mercenary liquidity providers. Its core mechanic is built around Vampire Attack (VA) Pools. A VA Pool can be created permissionlessly by anyone to initiate a deliberately targeted liquidity-stealing attack against a competitor protocol. Additionally, to protect against mercenary liquidity, a configurable lockup period can be specified to ensure that the funds remain deposited as liquidity in the destination protocol for a predetermined amount of time.",
+  "how_its_made": "\n\nProtocol Specification\nVampire Attack Steps and Time Windows\nProtocol steps:\n\nVA Pool creation: Anyone can create a vampire attack pool specifying the VA Pool configuration parameters.\nBetting period: Once the attack is created, a betting period starts where third parties can bet 'for' or 'against' the attack.\nLiquidity migration period: Once the betting period is finished the direction of the attack is known and a liquidity stream channel is open to easily allow the users to dissolve their liquidity positions on the origin protocol and migrate the funds to the destination protocol adapter contract.\nLiquidity locking period: Utilization of migrated liquidity is incentivized in the destination protocol by distributing rewards.\nFunds unlock and rewards withdrawal: Once the locking period has passed the migrated users can unlock their funds and obtain the extra rewards.\n\nVampire Attack Pool Parameters\nThe configuration parameters of a VA Pool are specified by the VAPool struct.\n\n    struct VAPool {\n        IBaseAdapter attacker;\n        IBaseAdapter victim;\n        mapping(IERC20 => bool) rewardTokens;\n        uint256 penalizationCoefficient;\n        uint256 auctionEndTimestamp;\n        uint256 liquidityMigrationTimestamp;\n        uint256 lockTimestamp;\n        uint256 snapshotLookupTimestamp;\n        mapping(address => Bet) bets;\n        mapping(IERC20 => uint256) totalBetFor;\n        mapping(IERC20 => uint256) totalBetAgainst;\n        address[] invalidatableBetters;\n        VAPoolState state;\n    }\nIncentives\nLiquidity searchers: Actors that see value on migrate and lock liquidity (Protocols Ecosystems or Fandom community).\n\nLiquidity Pro: Actors that held liquidity (Victim protocol users).\n\nBetting\nWhen an attack is created the direction is not yet specified, meaning that attacker and victim protocols are specified but origin and destination of the funds (direction of the liquidity stream) are still pending do be defined. The resolution of the bet defines the direction of the attack. The bet allows to the users to bet 'for' or 'against' depositing reward token, the bet outcome is determined by the direction with higher value deposited.\n\nPossible outcomes:\n\n'for':\nattacker becomes destination\nvictim becomes origin\n'against':\nattacker becomes origin\nvictim becomes destination\nThe funds on the winning side will be used to be payed as rewards to the users that participate in the liquidity migration. The funds on the losing side will be returned to the loser betters minus a penalization that will be accounted to the winning side.\n\nIn order to prevent sniping (Last-minute bidding), the betting period finalization time is randomized using Pyth Entropy in a time window close to the finalization time specified by the user.\n\nPyth random finalization\n\nLiquidity Migration\nUsers can migrate the liquidity to the migration protocol once the betting period has been finalized. In order to allow only users that where actually providing liquidity to the original protocol the average liquidity during a certain period previous to the initialization of the VAPool of the users is snapshooted and calculated using The Graph Amp datasets.\n\nA merkle three is computed off chain with all positions and the root of this is submitted to the contracts by a trusted relayer, in order to be able to migrate the liquidity the users have to prove that they had liquidity in the origin protocol, by submitting a merkle inclusion proof to the core contract.\n\nRewards Distribution\nRewards are distributed during liquidity locking period only to users that use the migrated liquidity in the destination protocol using a rewards Synthetix like rewards distribution algorithm.\n\nHow are rewards calculated? \nBy using AMP, we index the blockchain at the moment of the attack. We created a dataset and later on a query that gets the balances of every user in the protocol that lost the 'liquidity war'.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/bleeth-sw3wf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

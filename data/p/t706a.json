@@ -1,0 +1,22 @@
+{
+  "id": "t706a",
+  "slug": "intentra",
+  "title": "Intentra",
+  "tagline": "Intent execution via Yellow Network RFQ → Uniswap v4 fallback. Best prices, guaranteed settlement.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/t706a/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MfFAgWn1jwCJ1xEwqiMs3BLHPK4paeVOuode5CHGrgc/high.mp4",
+  "demo_url": "https://hackmoney-landing.vercel.app/",
+  "source_url": "https://github.com/U1tra-Labs/Intentra",
+  "finalist": false,
+  "description": "Intentra is a hybrid DeFi execution system that combines the efficiency of off-chain Request-for-Quote (RFQ) settlement with the reliability of on-chain AMM liquidity. Our ‘Fair Fill’ mechanism makes chain abstraction simpler than the current model. It solves a critical problem in intent-based trading: what happens when market makers fail to deliver?\n\nHow It Works:\n\nUsers submit trade intents to the IntentChannel contract, specifying their desired swap (amount in, minimum amount out, expiry). Market makers can commit to filling these intents off-chain at quoted prices, offering better execution than standard AMMs by competing on price and speed.\nHowever, makers can fail for multiple reasons: insufficient funds, quote expiration, network delays, or simply backing out. Traditional RFQ systems leave users stranded when this happens.\n\nIntentra's innovation is a trustless fallback mechanism built on Uniswap v4 hooks. When an intent is committed by a maker but not executed (either through timeout or explicit failure), the system automatically releases the intent for fallback execution. A Uniswap v4 hook monitors these committed-and-released intents and executes them directly through the v4 liquidity pool, guaranteeing users always get their trade filled at worst-case AMM pricing. \n\n\nSome important highlights:\n- Dual execution paths: Primary RFQ for best prices, fallback AMM for reliability\n- Commit-release protocol: Makers commit to quotes, but failures don't block execution\n- Trustless verification: On-chain hooks verify commitment status before fallback\n- Cross-chain support: Integrates with LiFi for bridging and multi-chain intent execution\n- User protection: Minimum output guarantees respected across both execution paths\n\n\n\nBuilt with Foundry and integrating the Yellow Network SDK for off-chain clearing and maker coordination. Deployed on Ethereum Sepolia with monitoring via the yellow-watch CLI tool. The YellowClearingHook contract bridges on-chain intent verification with Yellow's off-chain settlement layer, enabling makers to compete for order flow while maintaining trustless fallback execution through Uniswap v4. Designed for production mainnet deployment with real MEV protection, cross-chain bridging via LiFi, and competitive maker dynamics powered by Yellow's clearing infrastructure.",
+  "how_its_made": "Built as a 3-layer stack: \n\nSolidity contracts (execution core), a TS router/aggregator (plan builder), and a lightweight SDK/CLI (watcher). On-chain, IntentChannel verifies EIP-712 trader signatures, stores planHash, escrows input tokens, and enforces a strict intent lifecycle. ExecutionCommitter validates the plan, attempts RFQ execution first, then falls back to either Uniswap v4 swap execution or a LI.FI bridge call. YellowClearingHook is attached as a Uniswap v4 beforeSwap gate, so only the committer can execute, only released intents can clear, and minOut/deadline must match channel state. Off-chain, the router gathers maker quotes, builds AMM fallback calldata via UniswapV4Adapter, and requests LI.FI quote calldata for cross-chain routes. Our yellow-watch CLI streams IntentChannel events and polls LI.FI status until destination settlement.\n\nUniswap v4 gave programmable execution guarantees, LI.FI handled cross-chain routing/status, and Foundry gave us reproducible Sepolia deployment/testing. ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/intentra-t706a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

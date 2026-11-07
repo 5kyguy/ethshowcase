@@ -1,0 +1,22 @@
+{
+  "id": "yq8h9",
+  "slug": "poop",
+  "title": "POOP",
+  "tagline": "Proof of Onboarding Protocol: Send crypto gifts via email with human verification",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yq8h9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1vr3pOQ6GkqzJhkUE5LAiLTMkorxAkN026Z02nTUo7DTo/high.mp4",
+  "demo_url": "https://poop-indol.vercel.app/",
+  "source_url": "https://github.com/csacanam/poop",
+  "finalist": false,
+  "description": "POOP (Proof of Onboarding Protocol) is a decentralized onboarding system that enables crypto-native users to send USDC gifts to anyone via email, with built-in proof-of-humanity verification.\n\nThe protocol works in two flows:\n\nSENDER FLOW: Users connect their Farcaster wallet in a Farcaster Mini App, enter a recipient's email and amount, then deposit USDC into the PoopVault smart contract on Celo Mainnet. The system generates a unique claim link.\n\nRECIPIENT FLOW: Recipients receive an email with a claim link. They log in with Privy (email-only authentication), complete their profile, verify their humanity using Self's zero-knowledge identity verification, and then claim their USDC to any Celo wallet address.\n\nThe smart contract (PoopVault) securely holds funds until verification is complete, preventing sybil attacks through Self's biometric/passport verification. Alchemy webhooks provide real-time blockchain event notifications, ensuring the backend stays synchronized with on-chain state.\n\nThis creates a trustless, verifiable proof that real humans were onboarded, making it perfect for community growth, referral programs, and incentivized onboarding campaigns.",
+  "how_its_made": "Built with a full-stack architecture:\n\nSMART CONTRACTS: PoopVault contract written in Solidity using Foundry, deployed on Celo Mainnet. Uses OpenZeppelin's IERC20 for USDC token handling. The contract implements deposit, claimFor (owner-only), and cancel functions with event emissions for Deposit, Claim, and Cancelled events.\n\nFRONTEND: Next.js 14 with App Router, Wagmi/Viem for blockchain interactions, and Farcaster Mini App Connector for wallet connection. Privy SDK handles email authentication and embedded wallet creation for recipients. Self SDK (@selfxyz/qrcode) provides QR code-based identity verification flow.\n\nBACKEND: Express.js/TypeScript server with Supabase for user and POOP state management. Alchemy webhooks (GraphQL-based) listen for Deposit and Cancelled events, automatically updating POOP states from CREATED → FUNDED → VERIFIED → CLAIMED. Self backend verifier (@selfxyz/core) validates zero-knowledge proofs server-side.\n\nINTEGRATIONS: \n- Alchemy: Real-time blockchain event webhooks with signature verification\n- Self: ZK-proof identity verification (passport/biometric ID) for sybil resistance\n- Privy: Email-based auth and embedded wallet creation\n- Farcaster: Native wallet connection in Mini Apps\n- Supabase: PostgreSQL database for user profiles and POOP tracking\n\nThe system uses a state machine: POOPs transition through CREATED → FUNDED (via Alchemy webhook) → VERIFIED (after Self verification) → CLAIMED (on-chain transfer). This ensures funds are only released after human verification, creating verifiable proof of onboarding.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/poop-yq8h9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

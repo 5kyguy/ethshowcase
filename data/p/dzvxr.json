@@ -1,0 +1,30 @@
+{
+  "id": "dzvxr",
+  "slug": "tanly-app",
+  "title": "tanly.app",
+  "tagline": "Launch Pools: Fund projects, get shares, win prizes. Crowdfunding + fair draws.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dzvxr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/gwXFCE01VAeuOQc6y72faYbS7E02kBEHeoSz53Ze00mAhI/high.mp4",
+  "demo_url": "https://tanly.app/",
+  "source_url": "https://github.com/NicoCaz/eth-global-hackathon",
+  "prizes": [
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "Best use of Pyth Entropy",
+      "title": "Best use of Pyth Entropy"
+    }
+  ],
+  "finalist": false,
+  "description": "Launch Pools is a decentralized crowdfunding platform that combines project funding with prize draws. Creators launch funding campaigns with a target and duration. Backers contribute ETH to support projects and automatically receive participation shares (1 wei = 1 share), entering them into a prize draw. The more you contribute, the more shares you get, increasing your chances of winning.\nAfter the funding period ends, a winner is selected using Pyth Network Entropy for verifiable, on-chain randomness. Funds are then automatically distributed between the project (for development), the platform (fees), and the winning backer (prize).\nBuilt on Base Sepolia with Hardhat 3, the platform uses smart contracts (RaffleFactory and ProjectRaffle) to manage Launch Pools. The frontend integrates Coinbase Developer Platform (CDP) embedded wallets for authentication and transactions. Winner selection uses binary search for O(log n) efficiency, and payments use a pull-payment pattern to prevent reentrancy.\nThis model incentivizes larger contributions while ensuring projects get funded, creating a sustainable ecosystem where backers are rewarded for their support. The platform democratizes access to funding by making fundraising more engaging and accessible through gamified prize mechanisms.",
+  "how_its_made": "Built on Hardhat 3 with Solidity 0.8.28, IR-based compilation, and 200-run optimizer. Smart contracts use a factory pattern (RaffleFactory) that deploys individual ProjectRaffle instances. Each Launch Pool tracks contributions as ticket ranges (1 wei = 1 share) stored in a TicketRange array with cumulative upper bounds.\nPyth Entropy integration uses a callback pattern: after the funding period, requestEntropy() sends a user commitment to Pyth's contract on Base Sepolia (0x41c9e39574F40Ad34c79f1C99B66A45eFB830d4c). Pyth calls back entropyCallback() with verifiable randomness. Since the npm package lacks Solidity sources, we vendored minimal interfaces (IEntropyV2 and IEntropyConsumer) locally—a workaround that keeps dependencies minimal.\nWinner selection uses binary search on ticket ranges for O(log n) efficiency instead of O(n) iteration. The random number from Pyth is modulo'd to a ticket index, then binary search finds the participant whose range contains that ticket.\nSecurity: OpenZeppelin's PullPayment pattern prevents reentrancy—funds are registered via _asyncTransfer() and beneficiaries call withdrawPayments() to claim. ReentrancyGuard protects critical functions. Distribution uses basis points (10000 = 100%) for precise splits between project, platform (0.05% fee), and winner.\nFrontend uses Coinbase Developer Platform (CDP) embedded wallets with React hooks (@coinbase/cdp-hooks). The wallet route is client-side only to avoid SSR issues. CDP handles authentication (email/SMS/OAuth) and automatically creates embedded wallets. viem provides blockchain interaction with Base Sepolia.\nDeployment uses Hardhat Ignition with automatic Pyth Entropy address configuration. The factory contract is deployed once, then creates unlimited Launch Pool instances. All contracts are verified on Basescan using @nomicfoundation/hardhat-verify.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/tanly-app-dzvxr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

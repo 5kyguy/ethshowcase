@@ -1,0 +1,35 @@
+{
+  "id": "n6aj5",
+  "slug": "stealth-safes",
+  "title": "Stealth Safes",
+  "tagline": "Stealth Safe: A proof-of-concept enabling Stealth Addresses for Safe multisigs. Facilitating privacy-preserved transactions; pivotal for AA users. No fund traceability.",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n6aj5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dZvRaxTCEhZU4RPBt102mJqnkst5CvYGynhESpHZFCNU/high.mp4",
+  "source_url": "https://github.com/70nyIT/stealth-safe",
+  "prizes": [
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "🔐 Gnosis Chain — Best Safe Project",
+      "title": "Gnosis Chain"
+    },
+    {
+      "sponsor": "Safe",
+      "sponsor_id": "weaax",
+      "placement": "⚡️ Safe — 🥇 Safe{Core} AA",
+      "title": "Safe"
+    }
+  ],
+  "finalist": false,
+  "description": "Stealth Safe wants to enable the advantages of Stealth Addresses, allowing privacy preserving transaction on public blockchains to Safe multisigs.\nThe idea of Stealth Address has been described by Vitalik back in January ( https://vitalik.ca/general/2023/01/20/stealth.html ), and has been implemented by Umbra.cash, limited to only EOA.\nWith the advent of AA, we believe it's extremely important to bring the advantages of privacy-preserving protocols to Smart Accounts, we thus decided to create the POC on Safe multisig, as Safe is the most adopted multisig, and could bring already direct benefits to current users.\nThe implementation maintains the privacy of Safe owners, and funds cannot be connected to the original Safe by external viewers.",
+  "how_its_made": "We decided to start from the work that Umbra.cash has done in the past months for EOAs, and extend their logic where necessary.\nWhile for EOAs each user who wants to receive funds on a Stealth Address needs to have a pair of View keys and Spending keys, with Safe accounts we had to do something slightly different.\nGiven M the multisig owned by one (or more) users, all owners need to register their EOAs on the Umbra protocol. After that, one of the M-owners can initiate a transaction to register the Safe in our modified onchain SafeViewKeyRegistry. This is only required once per Safe.\nIn fact, different from EOAs, for a Safe we generate a single view key and encrypt it for each M-owner. We don't need a Spending key as we mirror the current M-user structure to a new (Stealth) Safe at the time of the payment. To preserve privacy, the mirrored structure is done using the Stealth addresses of each user derived from a random number unique to each transaction. \nWhen someone wants to pay a multisig, it's enough to connect to our homepage, enter the multisig address and hit \"pay\". The payment transaction uses the previously registered Public View Key of the Safe, generates a new (Stealth) Safe, that fully mirrors the original one in the governing structure, but using the owners Stealth Addresses derived from the payment random number (Rp). This process is necessary to make sure that multiple payments won't result in the same Stealth Safe.\nThe payment goes through a modified Umbra Smart Contract, triggering an event, which can be captured by the holders of the Safe using their wallet private keys. Through our UI, M-owners can initiate a withdraw, interacting with the Stealth Safe of that payment. The withdraw destination is picked by the M-owners, and transaction is made through Gelato Relay network, to maximize the privacy.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/stealth-safes-n6aj5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

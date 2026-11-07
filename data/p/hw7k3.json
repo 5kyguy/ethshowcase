@@ -1,0 +1,35 @@
+{
+  "id": "hw7k3",
+  "slug": "chimiadao-pox",
+  "title": "ChimiaDAO PoX",
+  "tagline": "Decentralized peer review for experiments with type-specific reputation rewards",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/hw7k3/banner/default.jpg",
+  "demo_url": "https://chimiadaopox-n5tm7nkgf-chimia-dao-foundation.vercel.app/",
+  "source_url": "https://github.com/xchemtina/ethglobal-buenosaires",
+  "prizes": [
+    {
+      "sponsor": "Filecoin",
+      "sponsor_id": "bnkyu",
+      "placement": "3rd place",
+      "title": "Best storage innovation with Filecoin Onchain Cloud"
+    },
+    {
+      "sponsor": "Protocol Labs",
+      "sponsor_id": "9zj01",
+      "placement": "Open Data, Knowledge Graphs & Research Infra",
+      "title": "Open Data, Knowledge Graphs & Research Infra"
+    }
+  ],
+  "finalist": true,
+  "description": "PoX (Proof-of-X) is a blockchain-based reputation protocol that rewards validated scientific experiments with type-aware incentives. Scientists earn on-chain reputation by submitting analytical chemistry data (HPLC, NMR, PXRD, MS/MS) to decentralized storage (Filecoin Cloud), where cryptographic proofs enable trustless verification and beyond.\n\nThis is but the foundation of what will become the entire on-chain system for ChimiaDAO's network of on-demand chemical synthesis laboratory, following on from our Proof-of-Synthesis NFT contract which can be found here - https://ethglobal.com/showcase/chimiadao-xsmjg",
+  "how_its_made": "Architecture:\n\n•  PoXRegistryV2.sol: Registers experiments with auto-detected types (Like HPLC, NMR) based on difficulty scores. Stores Filecoin CIDs + cryptographic hashes (dataHash + metricsHash) for fraud proofs—not full data (500× gas savings).\n•  PeerReviewManager.sol: Type-specific reputation multipliers (PXRD 3×, NMR 2×, HPLC 1×) based on real scientific error rates. Economic model: $5.50/hour for NMR reviews if 1 reputation point = $0.10.\n•  Reputation.sol: Non-transferable, domain-specific social capital with time-decay (prevents hoarding). Authorization controls restrict who can adjust reputation.\n•  Security hardened: Input validation, overflow protection, 0.01 ETH challenge stakes, ReentrancyGuard, emergency pausability. 11/11 tests passing, Grade A security.\n\nOff-Chain Computation (TypeScript + Python):\n•  Python scripts generate synthetic HPLC/NMR/VOC traces with realistic physics (Gaussian/Lorentzian peaks, noise, J-coupling).\n•  TypeScript SDK (packages/experiments) computes deterministic difficulty scores: D = 1 + α·peaks + β·noise + γ·ln(resolution). Same seed → same output → reproducible verification.\n•  Set of synthetic NMR experiments generated with Lorentzian lineshapes, chemical shift regions, multiplet patterns (singlets, doublets, triplets).\n•  25 synthetic experiments on-chain (16 HPLC, 7 NMR, 2 Air Quality).\n\nDecentralized Storage (Synapse/FilOzone on Filecoin):\n•  Synapse SDK uploads raw experimental data to Filecoin, returns CID.\n•  EVM-compatible: same wallet for blockchain + storage (no separate auth).\n•  Smart contracts store CIDs, not data → fraud proofs download via CID, recompute hashes, challenge if mismatch.\n\nIndexing (The Graph Protocol):\n•  Subgraph indexes ExperimentRegistered events with LLM-readable metadata.\n•  Structured lab journal: enables queries like \"Show me all HPLC separations of caffeine.\"\n•  GraphQL API consumed by Next.js dashboard.\n\nFrontend (Next.js 16 + React 19 + Recharts):\n•  Real-time dashboard at localhost:3000/experiments.\n•  Fetches on-chain metadata, downloads traces from Filecoin, renders chromatograms.\n•  Type-specific badges (NMR purple, HPLC blue).\n•  Auto-refresh every 30 seconds for live blockchain monitoring.\n\nDeployment (Foundry):\n•  Deployed to Filecoin Calibration testnet (Chain ID: 314159).\n•  Total deployment cost: 0.0000379 ETH (213M gas).\n•  Automated scripts + manual deployment guides (DEPLOY_V2_MANUAL.md).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/chimiadao-pox-hw7k3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

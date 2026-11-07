@@ -1,0 +1,27 @@
+{
+  "id": "i4m5g",
+  "slug": "topin",
+  "title": "Topin",
+  "tagline": "Topin is an AI agent that is built to help users automate and manage their lending portfolio.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i4m5g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/D41KdcDBr2pilMpCNUbggrYYVBw3ON7R2whqrIA0156Y/high.mp4",
+  "demo_url": "https://topin-web.fly.dev",
+  "source_url": "https://github.com/ibold-dev/topin",
+  "finalist": false,
+  "description": "Topin is a DeFi liquidation-protection platform. It monitors lending positions on Aave V3 and Compound V3 in real time, calculates health factors and time-to-liquidation, and takes autonomous defensive action when positions approach danger. Users connect their wallet, add positions to monitor, and receive instant alerts when health factors drop. The system runs a background daemon that checks positions every 5 minutes and uses a risk engine to decide whether to notify, trigger an LLM analysis, or automatically repay debt. The platform is backed by a Fastify API with x402 micropayments, free users get limited analyses, while paid subscribers ($5/mo or $50/yr in USDC) get unlimited monitoring. A Chainlink CRE workflow runs defense logic inside a Nitro TEE for fully autonomous on-chain protection. The web dashboard is built with Next.js, showing live health gauges, AI-generated risk breakdowns, position cards, and real-time notifications. There's also a CLI agent that can analyze any address through a tool-calling LLM loop, and a fork demo that simulates a market crash to prove the protection works end-to-end against a real Aave V3 whale position.",
+  "how_its_made": "This project is a pnpm monorepo with six internal packages and three apps, wired together through workspace dependencies. The core risk engine pulls live lending data from The Graph Gateway via GraphQL, querying Aave V3 and Compound V3 subgraphs simultaneously, normalizing positions across both protocols into a unified health factor model. The database layer wraps Supabase with typed models for seven tables;  users, subscriptions, monitored positions, agent tasks, notifications, payment records, and watched wallets.\nThe background agent daemon runs on node-cron, checking all active positions every five minutes. It uses pure conditional logic for routine risk evaluation,  no LLM calls needed for the common case,  and only escalates to DeepSeek's deepseek-v4-flash model when positions are volatile or below the user's threshold. Notifications go out through Supabase's Realtime for instant UI updates, and critical alerts also trigger email delivery through Resend.\nThe API is a Fastify server with x402 payment middleware that gates premium endpoints behind USDC micropayments on Arc testnet and Hedera testnet. It has a self-hosted facilitator that settles x402 payments using @x402/core and @x402/evm, with a dev mode bypass for local development. Rate limiting is in-memory and tier-aware, disconnected users get one free analysis, connected users get five, and pro users get unlimited.\nThe frontend is a Next.js 16 app with dark theme, wallet connection via Privy, and real-time notifications through Supabase Realtime subscriptions. The x402 client implementation signs EIP-712 TransferWithAuthorization typed data through Privy's embedded wallet and retries the request with the payment header. There's also a Chainlink CRE workflow that runs the entire defense logic inside a Nitro TEE; it reads on-chain position data via raw JSON-RPC calls, calculates health factors, and executes repay and deposit transactions autonomously when positions get risky. The fork demo ties it all together by mimicking a real Aave V3 whale on an Anvil fork, crashing the weETH oracle price through bytecode replacement, and executing a live protection cycle with metrics logging.",
+  "auto_summary": "A monorepo for monitoring Aave and Compound positions, analyzing liquidation risk, and automating alerts, payments, and defense actions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/topin-i4m5g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

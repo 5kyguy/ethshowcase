@@ -1,0 +1,30 @@
+{
+  "id": "17k0a",
+  "slug": "patio-station",
+  "title": "Patio Station",
+  "tagline": "Live audio and tiny video broadcast through Ethereum’s mempool.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/17k0a/banner/default.jpg",
+  "video_url": "https://stream.mux.com/btIxRLJVpNUcO5a3j3101onCwV7MHvmFigC1KR02C8X00I/high.mp4",
+  "demo_url": "https://patiotokyo.vercel.app/",
+  "source_url": "https://github.com/victxx/patio",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Tokyo 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Patio is an experimental live radio that turns Ethereum's mempool into a broadcast medium.\n\nInstead of uploading a stream to a media server, Patio encodes live audio or tiny video directly into the calldata of pending Ethereum transactions. A listener watches those pending transactions, reconstructs the media in the browser, and plays the stream while the transactions are still moving through the mempool.\n\nBroadcasters can create Public broadcasts that appear in Patio's live directory, or Unlisted broadcasts that are accessible only through a shareable listener link.\n\nThe result feels like a tiny internet radio where Ethereum itself becomes the transmission layer: you connect a wallet, check your microphone or camera, press Start, and another browser can listen to the signal through Hoodi.\n\nPatio is intentionally experimental. The point is not to compete with conventional streaming infrastructure, but to explore an unintended capability of Ethereum:\n\nwhat if the mempool itself could be a live medium?",
+  "how_its_made": "Patio is built as a Next.js + TypeScript web application using viem for Ethereum interactions and the browser's native media APIs for capture and playback.\n\nWhen a broadcast is prepared, Patio generates an ephemeral session EOA in the browser. The broadcaster's connected wallet temporarily funds this session, but does not sign every media packet.\n\nThe temporary account is important because Patio deliberately manipulates transaction nonces and replacements. Media packets are encoded into transaction calldata and signed as future-nonce transactions. For each media window, Patio can replace the pending transaction with a newer candidate, effectively using Ethereum's transaction replacement mechanism as a tiny broadcast channel.\n\nFor audio, the browser captures Opus/WebM with MediaRecorder. Video uses a deliberately tiny VP8/Opus WebM profile with aggressive compression, fragmentation and frequent keyframes so it can fit within the constraints of the transport.\n\nOn Hoodi, the current transport uses QuickNode for transaction submission and txpool_contentFrom observation. The listener watches the broadcaster's temporary account in the pending transaction pool, validates Patio packets, orders and reassembles them, then feeds the resulting WebM data into MediaSource for playback.\n\nThis means the audio/video bytes actually travel inside Ethereum transactions, it is not WebRTC or a conventional video stream with blockchain metadata added afterward.\n\nPatio also has a small onchain registry for Public broadcasts. Public sessions announce their stream metadata so they can appear in the Listen directory, while Unlisted sessions skip discovery and work directly from a shareable URL.\n\nAt the end of a session, Patio uses replacement/cleanup transactions to consume the nonce range and returns the remaining temporary Hoodi ETH to the broadcaster where possible.\n\nSome of the hackier parts were making browser media behave over such an unusual transport: buffering WebM fragments without constantly seeking to the live edge, bootstrapping late video listeners, handling replacement transactions, preserving session state across cleanup, and keeping the whole thing usable despite the mempool being an intentionally unreliable place to build a radio.\n\nThe result is deliberately strange: the wallet funds a transmitter, pending Ethereum transactions become packets, the mempool becomes the airwaves, and a URL becomes the frequency.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/patio-station-17k0a",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "20pnr",
+  "slug": "cuttlefish",
+  "title": "Cuttlefish",
+  "tagline": "Defi rails for AI agents so they can hire other agents, pay them, and build together without humans ",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/20pnr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/202HXgCfTy00xsXlSYERWACMiQezx54hzzAUQWP8Tlo200/high.mp4",
+  "demo_url": "https://cuttlefish-landing.vercel.app/",
+  "source_url": "https://github.com/N44TS/cuttlefish",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Cuttlefish is an sdk tool/skill defi rails for ai agents such as Openclaw, allowing for them to become independant financial actors. I wanted to make a sort of Stripe for the ai agents. \n\nThey hire each other by ENS name which is not just an address but also their resume and linkedin, it contains their capabilities, endpoints, cost and reviews. In future it will also link to 8004.\nThey get a 402 + bill, pay (Yellow micropayments off-chain + on-chain settlement), and get the result—no humans, no API keys.\n\nOne agent says “I need this done,” another says “I can do it, it costs $0.05,” payment happens automatically, escrow happens, work runs, result comes back. No API keys, no human in the loop approving each step. It’s DeFi 2.0 in the sense that the financial actors are the agents; B2B becomes A2A. Cuttlefish building the primitive for that.\n\nPlatforms such as Moltbook shows agents talking autonomously. But they can’t yet:\ntell another agent “do work for me” in a structured way, attach payment to that request, handle result verification, automatically route or settle cash after work, now they can!\n\nCuttlefish turns:\n“I can help with that”\ninto\nPOST /jobs\n\nNow agents can query \"who can do X?\" and find endpoints automatically.\n\nThe crypo is abstracted away almost completly for both humans and bots, with a wallet and ENS spun up automatically on setup, which is just.a command line, the only reminder that its crypto based is the initial funding of the bot, just one transaction that can be from anywhere, wallet, exchange, second removed cousin in argentina etc. \n\nThe scam problem is real: what if the client gets the work and never pays? Or the client pays upfront and the worker disappears? On-chain, paying $0.01 every 10 seconds would burn more in gas than you’re moving. So we use Yellow as the micro-escrow rail: both sides lock funds, they open a Nitrolite session (the handshake), do micropayments off-chain—worker sends a chunk, client signs “I owe you $0.10,” repeat—then settle on-chain when the job is done. If the client ghosts, the worker can take the last signed state and proof of delivery to Yellow’s Adjudicator and get paid. So the deals aren’t pinky swears; they’re enforceable. That’s why we’re building on Yellow.\n\nHow to use; after installing onto your agent, you can choose to fund it and then let it out into the world to find a job and make its own money, or delegate jobs to other agents. ",
+  "how_its_made": "This project is built with Python and Typescript and uses Yellow as the main financial rails with ENS as the discovery layer. \n\nx402 is the 402 Payment Required flow (POST → 402 → pay → resubmit). Attestations are EAS on Sepolia for job reviews/reputation, used as a placeholder for ERC-8004 which hadn’t been out long at all. \nI also had to get an openclaw running in a github codespace.  \n\nThe Python side is the main SDK (agentpay): CLI (agentpay setup, agentpay worker), wallet (eth_account, key from env), ENS registration and provisioning.\n\nYellow’s Nitrolite SDK is TypeScript-only, so the Yellow layer is kept in TypeScript (yellow_test/): a bridge that does auth, createChannel, app sessions, channel_transfer, closeChannel. \nThe Python SDK calls that bridge (subprocess) at the right moments—when the agents need to lock (escrow), open a session, sign a state update, or settle.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cuttlefish-20pnr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

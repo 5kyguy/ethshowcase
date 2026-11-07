@@ -1,0 +1,36 @@
+{
+  "id": "ooxwk",
+  "slug": "zkmsocial",
+  "title": "ZKMSocial",
+  "tagline": "A new take on social media, using ZKML to ensure posts are honest and giving users more control over what they see. Making online sharing more genuine and trusted.",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ooxwk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/HPY02zCEzwwxsn0049Ysdxx9R00FO00W3pec9025uKLlw9wg/high.mp4",
+  "demo_url": "https://zkml-web.onrender.com/",
+  "source_url": "https://github.com/Volthai7us/ZKML-Censorship",
+  "prizes": [
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "🏊‍♀️ Mantle — Build on Mantle",
+      "title": "Mantle"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Pool Prize",
+      "title": "Scroll"
+    }
+  ],
+  "finalist": false,
+  "description": "In today's digital age, the type of content shared on social media platforms has become paramount. Our project introduces an innovative approach to this challenge by integrating the capabilities of Zero-Knowledge Machine Learning (ZKML) into the very fabric of social media interactions.\n\nWhen creating a post or comment, users are prompted to select a sentiment tag that they believe encapsulates their content's essence. However, merely selecting a sentiment isn't enough. Users are required to generate a proof, confirming that their content genuinely aligns with the chosen sentiment. If the generated proof doesn't pass the platform's verification process, the post remains unpublished, ensuring that the content remains genuine and true to its declared sentiment. The platform also offers a feature to filter out content that's tagged as sensitive. This ensures that users are exposed only to the content they are comfortable viewing, all the while knowing that each piece of content has been rigorously vetted through ZKML.\n\nIn essence, this project is not just about creating another social media platform; it's about redefining how users interact, share, and consume content.",
+  "how_its_made": "I initiated my project by training a machine learning model with PyTorch. The dataset I employed is available on Kaggle at this link[https://www.kaggle.com/datasets/kazanova/sentiment140]. For this phase, I generated two files, `word_to_index.json` and `index_to_word.json`. These files facilitate the conversion of texts into indexes, a necessary step as machine learning models cannot process strings directly. These files are securely stored on Filecoin.\n\nSubsequently, I exported the model's weights and biases for integration into Noir, Aztec's Zero-Knowledge (ZK) programming language, to develop machine learning circuits. For this purpose, I leveraged the `noir-ml` library available here[https://github.com/metavind/noir-ml/tree/main/noir_ml]. The circuit code, its compiled version, and related materials are hosted on Filecoin for transparency.\n\nUtilizing the `nargo` tool, I transformed this circuit into Solidity Verifier code. The core Solidity code, which manages functions like posts, comments, and likes, integrates this verifier specifically in the post and comment functions. Throughout the development phase, I employed Hardhat and conducted tests on Scroll Sepolia and Mantle Testnet. The application is now actively running on both these chains.\n\nThe frontend, crafted using React and Ethers, offers users an interface to post, comment, view content, and interact with others. However, before posting, users are required to validate that their content aligns with the sentiment tag they've selected.\n\nThe validation process entails two main steps. First, texts are translated into indexes using `word_to_index.json`. Following this conversion, a hash of these indexes is generated. To ensure compatibility with the Noir contract's `mimc_bn254`, I designed a parallel function in JavaScript. Using the generated hash, text indexes, and the user-provided sentiment tag, the circuit determines the validity of the sentiment tag for the given text. If the assessment is affirmative, users are granted posting privileges.\n\nOn the backend, the system manages the conversion of sentences to indexes and vice versa. While the backend possesses the capability for proof generation and verification, scalability is maintained by allocating the proof generation task to the frontend and verification to the contract.\n\nIn conclusion, I utilized Aztec’s Noir language to construct a ZKML circuit and swiftly deployed my contract on Scroll and Mantle using their platforms. The project's transparency is bolstered by hosting data, models, and circuits on Filecoin.\n\nThe significance of this project lies in its potential to address the challenges of the social media domain. While there's much people around, it grapples with censorship issues. Centralized ML-based censorship would undermine the core philosophy of web3. The introduction of ZKML paves the way for decentralized, trustless censorship in the future.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkmsocial-ooxwk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

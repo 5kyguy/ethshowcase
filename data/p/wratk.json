@@ -1,0 +1,30 @@
+{
+  "id": "wratk",
+  "slug": "house-protocol",
+  "title": "House Protocol",
+  "tagline": "Lets anyone be the house, plug in liquidity for betting games, and play provably fair bets.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wratk/banner/default.jpg",
+  "video_url": "https://stream.mux.com/v01zaTcxo01BZrVZ3J1ov01MkY7GsUlbCf022Q02KDwl00SYs/high.mp4",
+  "demo_url": "https://house-protocol.kwek.dev",
+  "source_url": "https://github.com/kelvinkn17/house-protocol",
+  "prizes": [
+    {
+      "sponsor": "Yellow",
+      "sponsor_id": "5wcw4",
+      "placement": "3rd place",
+      "title": "Integrate Yellow SDK: Trading apps/Prediction markets/Marketplaces "
+    }
+  ],
+  "finalist": true,
+  "description": "House Protocol lets anyone become the house. \n\nLiquidity providers deposit into an ERC4626 vault and earn yield as their capital backs the house side of betting games. Developers tap into that liquidity through an SDK to build fast, gasless betting experiences without managing bankroll or settlement infrastructure. Players enjoy instant bets with provably fair outcomes, verified on-chain through a commit-reveal mechanism in the HouseSession contract. \nAll gameplay runs off-chain via Yellow Network's Nitrolite state channels, so bets resolve instantly without gas fees. Only deposits and withdrawals hit the chain. \n\nThree roles, one protocol: stake it, build it, play it, own it. House Protocol.\n",
+  "how_its_made": "To build House Protocol, we ended up having to host our own Nitrolite Clearnode. Yellow Protocol's public Sepolia Clearnode had limited token support, and their scanner at nitrolite-scanner.dev stopped updating.\n\nSmart Contracts were built with Foundry. The core is HouseVault, an ERC4626 vault (OpenZeppelin) where LPs deposit USDH and receive sUSDH shares. We extended the internal deposit hook so every deposit automatically forwards funds into Nitrolite's on-chain Custody contract under the operator's address. No idle capital. HouseSession is a separate contract handling provably fair verification through commit-reveal: the app commits a hashed seed before the game, then reveals it on-chain afterward so anyone can verify the randomness was legit.\n\nFrontend is React with Vite. Auth is handled through Privy for frictionless wallet login. Players connect, deposit USDH into custody, and start playing. Everything game-related happens off-chain through state channels, so the UI feels instant with no transaction confirmations mid-game.\n\nBackend uses PostgreSQL with Prisma for session management, bet validation, seed storage for provably fair games, and the operator's co-signing logic for Nitrolite app sessions.\n\nState channels via Nitrolite make the whole thing feel fast. Players and the operator open app sessions off-chain, bets resolve through signed state updates, and only final outcomes settle on-chain. Zero gas during gameplay, near-instant resolution. The Nitrolite SDK (@erc7824/nitrolite) handles auth, sessions, and state management, while viem covers all on-chain interactions.\n\nThe stack pieces together as: Privy for login, ERC4626 vault for liquidity, self-hosted Nitrolite Clearnode for off-chain sessions, commit-reveal on HouseSession for provable fairness, and Foundry for contract testing and deployment to Sepolia.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/house-protocol-wratk",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "mmdca",
+  "slug": "financoor",
+  "title": "financoor",
+  "tagline": "Private, verifiable crypto tax for Indian users using zk proofs and on-chain verification",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mmdca/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02sBS7kQtx8bYD5KuyXDk02o86yXgwdEQzJ8mFy2U3KVk/high.mp4",
+  "demo_url": "https://financoor.vercel.app/",
+  "source_url": "https://github.com/chetanyb/financoor",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Financoor is a privacy‑first tax companion for Indian crypto users. It turns confusing wallet activity into a clear, human‑readable tax story: what counts as income, what’s a gain or a loss, and why the final number makes sense. It is designed for real people and real teams, not just power users.\n\nAt the heart of Financoor is the ENS Club. Instead of juggling long wallet addresses, a user can register a single ENS root like `family.eth` or `treasury.eth` and add subdomains for members, departments, or entities. Those subdomains map to wallets and can be imported into Financoor in one click. It is perfect for families, companies, DAOs, clubs, and personal wallet organization, while still allowing anyone to just paste wallet addresses directly if they prefer.\n\nOnce wallets are added, Financoor fetches all activity and automatically assigns categories like Income, Gains, Losses, Internal, or Unknown. Users can easily reclassify any entry in simple terms if needed, without touching complex tax jargon. With one click, Financoor generates a proof that the tax result is correct, without exposing the underlying transaction history. Users can download their wallet data in JSON and keep their proof files locally, so the platform stays transparent and portable.\n\nWe also built a Demo Lab so anyone can try the full flow end‑to‑end. It includes a faucet and simple profit, loss, and yield machines that create deterministic outcomes, so the tax calculation and proof flow can be tested in minutes without real funds.\n\nIn short: it just works. No spreadsheets, no address mess, no privacy tradeoff.",
+  "how_its_made": "We built Financoor as a full‑stack system with a strict separation of concerns. The frontend is Next.js + Tailwind + Aceternity UI, with wagmi + RainbowKit handling wallet connections and ENS actions. The UI manages session state locally, supports wallet groups, shows the ledger, allows category overrides, and drives tax calculation and proof generation. The backend is Rust (axum + tokio), using reqwest to call Alchemy Transfers for indexed activity and the ENS subgraph for subdomain resolution.\n\nCore tax logic lives in a shared Rust crate so the API and the SP1 prover use the same types and rules. The SP1 program (tax_zk) reads a committed ledger, computes tax, and outputs ABI‑encoded public values; the prover service wraps SP1 proof generation and returns proof artifacts. A Solidity verifier contract validates the proof on‑chain, and Foundry scripts handle deployment. This mirrors the zk‑sampler architecture but adapted to tax computation.\n\nPartner tech benefits: ENS enables the Club model (root domain + subdomains mapped to wallets), Alchemy provides fast, indexed transfer history without running an indexer, and SP1 enables verifiable computation without exposing user transaction data. Hacky but useful bits: Demo Lab contracts (faucet + profit/loss/yield machines) generate deterministic transactions for a repeatable demo, fixed pricing inputs keep tax math stable, and JSON export keeps wallet data and proofs portable.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/financoor-mmdca",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

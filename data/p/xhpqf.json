@@ -1,0 +1,27 @@
+{
+  "id": "xhpqf",
+  "slug": "slip",
+  "title": "Slip",
+  "tagline": "Send money by email/phone; recipients claim privately as local stablecoins, no wallet needed.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xhpqf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7jAtNgl02Eu3C63A01yDYMyDUu194YdoJ02GUxunQ6O200E/high.mp4",
+  "demo_url": "https://slip-production-4da9.up.railway.app/",
+  "source_url": "https://github.com/PratLyZol/slip",
+  "finalist": false,
+  "description": "Slip lets you send stablecoin payments to anyone using just their email, phone number, name, or .eth address. No wallet, app, or crypto knowledge required on either side. Under the hood, one \"send pipeline\" engine powers both single payments and batch payouts. Funds are bridged onto Circle's Arc network via CCTP, then shielded through Unlink so the transfer stays private (the privacy property is strongest in batch mode, where individual payouts are indistinguishable). Recipients get an email with a claim link; they confirm their identity with a one-time code (creating a Dynamic wallet behind the scenes) and withdraw gaslessly. Money arrives as a local stablecoin (i.e. EURC if you're in the EU), chosen automatically at claim time. Built on three sponsor integrations: Dynamic (pregenerated wallets + auth), Unlink (shielded private transfers), and Arc/Circle (chain, CCTP bridging, stablecoins) with claim links carrying everything in the URL fragment so single sends need no database. The experience speaks in money words, never chain words: recipients see \"you've received $50,\" not gas, tokens, or addresses.",
+  "how_its_made": "Slip is a Next.js and React app. All SDK wiring lives behind adapters, so each integration stays cleanly isolated.\n\nThe money path splits into two legs. First is the bridge: Circle's CCTP burns the total USDC on the sender's origin chain (Base Sepolia, Arbitrum Sepolia, etc.) and mints it on Arc, signed right in the browser by the connected Dynamic wallet. We bridge the whole sum once, not once per recipient. Second is distribution, where the privacy lives: Unlink shields the pile once, then fans it out as private transfers into a separate claim account per recipient. Since every payout comes from the same shielded deposit, the chain can't reveal who got paid or how much. One deposit in, many unlinkable payouts out, which is why batch is the hero: privacy only means something with a crowd to hide in.\n\nRecipients become payout addresses ahead of time using Dynamic's pregenerated wallets, handled server-side so the key never reaches the browser. \n\nThe claim link is the whole system: everything a recipient needs rides inside the link itself, in the part of the URL that never reaches our servers or logs, so a normal send needs no database at all. And the claim-link email goes through Resend's API.\n\nDynamic let recipients receive money with no wallet and no gas, just a one-time code and a withdraw. Circle and Arc gave us the chain, the cross-chain aggregation, and faucet-fundable stablecoins, with EU recipients routed toward EURC through Circle's StableFX. Unlink made it private. Together they make Slip feel easier than Venmo but genuinely private, and the recipient never sees a crypto word, just \"you've received $50\" and a button.",
+  "auto_summary": "A Next.js app for sending stablecoin payouts to recipients identified by contact details, using Dynamic onboarding, Circle bridging, and Unlink privacy flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/slip-xhpqf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

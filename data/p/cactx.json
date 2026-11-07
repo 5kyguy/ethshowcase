@@ -1,0 +1,30 @@
+{
+  "id": "cactx",
+  "slug": "cortex",
+  "title": "cortex",
+  "tagline": "Self-evolving AI agent twins — encrypted on 0G, TeeML-verified, ENS-discoverable, P2P via AXL.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cactx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aCI80158KzJnMlY4ncr02hO4ton01ds00ly7S4jLtNlKgpc/high.mp4",
+  "demo_url": "https://focus-swarm.vercel.app/protocol-twins",
+  "source_url": "https://github.com/Aghostraa/focus-swarm",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "4th place",
+      "title": "Best Agent Framework, Tooling & Core Extensions"
+    }
+  ],
+  "finalist": false,
+  "description": "Inspired by OpenClaw but fully decentralized: agent brains live on 0G Storage, every\n  response is TeeML-sealed (provably computed), identities are iNFTs on Galileo, and      \n  messaging is P2P via AXL. Agents are findable through ENS Naming and Text Records. No\n  central brokers. No unverified inference.                                               \n           \n  This enables protocols to build protocol buddies that help developers integrate their   \n  product, let different protocol buddies talk to each other, present multiple protocols\n  integrations side-by-side, and let agents learn from what went wrong during sessions and\n   Update their persistent memory on-chain.\n                                         \n  The flagship demo is three live protocol twins — 0G, AXL, and ENS experts — that declare\n   roles, query each other over AXL, evolve their skills from failure messages, and upload\n   updated encrypted brains to 0G Storage with a verifiable root hash. A second concrete  \n  Application is the apply-twin: a self-twin MCP server that connects to Claude Desktop,\n  drafts tailored cover letters via 0G Compute, and tracks your application pipeline in 0G\n   KV — your encrypted professional brain persists across devices with no data sent to\n  Anthropic or OpenAI.",
+  "how_its_made": "Cortex is a pnpm/TypeScript monorepo with real integrations split across @cortex/core,\n  @cortex/kit, @cortex/protocol-twins, @cortex/ens-gateway, and @cortex/contracts. The    \n  core package wraps 0G Storage, 0G KV, 0G Compute, and AXL. Agent brains are serialized\n  as JSON and uploaded to 0G Storage through the 0G TypeScript SDK, AES-256 encrypted     \n  before upload as a hard invariant — plaintext brain upload is treated as a bug.\n  Persistent state and episodic memory use 0G KV streams with deterministic stream IDs\n  derived from keccak256(\"persistent-agent:<name>:<kind>\").\n\n  Inference goes through 0G Compute using the serving broker and Qwen 2.5, and every      \n  response is passed through processResponse() so the runtime fails closed if TeeML\n  verification does not pass. The agent SDK exposes Agent.create, Agent.load, ask,        \n  remember, recall, send, and listen, tying together storage, memory, verified inference,\n  ENS discovery, and AXL messaging into a single object.\n\n  For identity and discovery, the repo includes an ENS CCIP-read gateway backed by SQLite.\n   Agents publish standard text records — agent.resume, agent.axl_peer, agent.protocol,\n  agent.skills, agent.proof, and agent.inft. The contracts package includes an            \n  OffchainResolver implementing EIP-3668/ENSIP-10 and a mint-only MintPersona\n  ERC-721/iNFT-style contract deployed on Galileo, where each token's encryptedURI points\n  to the agent brain root hash on 0G Storage.\n\n  The skill evolution flow is worth detailing: when a follow-up failure message arrives at\n   POST /evolve, the twin calls verifiedReason() to generate an updated skill .md file,\n  writes it with a .bak backup, then bundles all skill files, encrypts the bundle with a  \n  deterministic AES key derived from sha256(\"cortex-brain:<agentName>\"), uploads via\n  uploadEncrypted(), and returns the new 0G Storage root hash as proof. The UI links\n  directly to the 0G storage explorer so judges can verify the brain update happened\n  on-chain.\n\n  The hacky-but-working part was stitching AXL nodes, a local ENS gateway, 0G testnet     \n  storage and compute, and Galileo minting into one lifecycle: spawn twins, publish\n  identity, ask questions, verify inference, exchange peer messages over Yggdrasil mesh,  \n  persist memory, evolve skills, and update discoverable ENS metadata — all in one session\n   with no central coordinator.          \n\n  The project actually started as a focus-group system for generating persistent AI       \n  personas from real behavioral data. We built personas with life stories, values,\n  memories, and even traumatic backstory elements, then minted them so they could be      \n  listed in a marketplace and rented as they grew more skilled through repeated sessions.\n  The first AXL cohort acted as a decentralized focus group: multiple persona agents ran\n  as separate peers, exchanged messages through AXL, discussed a product idea, and\n  accumulated session memory. That cohort basically invalidated the original marketplace\n  direction by concluding that \"rentable NPC personas\" was not a strong enough value\n  proposition on its own. That feedback caused the pivot into Cortex: instead of generic\n  personas, the system became protocol agent twins that help developers integrate real\n  protocols, talk to other protocol twins, and improve from failed integration sessions.\n  The fact that the system's own output drove the product pivot is the clearest proof that\n   persistent, evolving agents with real memory actually work.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cortex-cactx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

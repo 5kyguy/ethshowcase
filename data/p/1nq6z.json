@@ -1,0 +1,40 @@
+{
+  "id": "1nq6z",
+  "slug": "cache-coherence",
+  "title": "Cache Coherence",
+  "tagline": "Extention of Account Abstract Smart Wallet Using CCIP And World Coin To Recover Lost Keys",
+  "event": {
+    "slug": "sydney",
+    "name": "ETHGlobal Sydney",
+    "start_time": "2024-05-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1nq6z/banner/default.jpg",
+  "source_url": "https://github.com/kirk-baird/cache-coherence/",
+  "prizes": [
+    {
+      "sponsor": "Worldcoin",
+      "sponsor_id": "3zpxc",
+      "placement": "2nd Prize",
+      "title": "Best World ID Usage"
+    },
+    {
+      "sponsor": "Base",
+      "sponsor_id": "h5ps8",
+      "placement": "1st place",
+      "title": "Best use of 4337 Account Abstraction"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Sydney Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "An extension to EIP-4337 account abstract smart contract wallet that can be deployed on any EVM chain, namely Base.\n\nThe wallet setup includes setting a WorldCoin ID. The WorldCoin ID provides a secondary authentication which can be used as a recovery method in case keys are lost.\n\nHowever, there is a limited number of chains which support WorldCoin sign-in authentication methods. Thus, CCIP is used to bridge between the account wallet and WorldCoin verifier. CCIP is bidirection and allows sending proofs from the account to WorldCoin. After verification a success or failure response is sent back to the account via CCIP. ",
+  "how_its_made": "This project is a Solidity EVM + React App front end that focuses on factory deployment and account recovery functionality.\n\nCurrently deploy contracts are an Abstract Account wallet deployed on Base Sepolia. This uses CCIP to bridge to and from Ethereum Sepolia.\n\nThe smart contract side starts with a factory. The factory setup is used to create new wallet accounts. Each account is initialized with a ECDSA address that is used to validate bundles and a World Coin ID which can be used for account recovery.\n\nThe account wallet is EIP 4337 compliant allowing for all RPC methods. This project is an extension which can easily be adopted by cloud providers to incorporate into their offerings. \n\nRecovery is a public function which allows calling by any user when they've lost ownership of their wallet. The caller must provider a World Coin proof associated with the ID and supply sufficient native tokens for the CCIP bridge. \n\nUpon sending a message through the CCIP bridge a smart contract developed by Cache Coherence is called. This contract connects with World Coin Verifier and forwards the proof.\n\nHowever, currently the World Coin Verifier is reverting for proofs on the ETH Sepolia chain. This may be due to the World Coin ID being used not being pushed on-chain before verification can occur. To facilitate, a temporary hack is applied to assume World Coin ID verification has succeeded.\n\nA call is made back through the CCIP bridge upon a successful verification. This will reach the account wallet and update the owner ECDSA address to reflect the new signed and authenticated address.\n\nA front end using React is implemented to facilitate the account creation via the factory and recovery of an account. The front end uses an IDKit QR widget which allows a user to generate a proof using their world ID.\n\nUpon generating a proof the front-end will submit a transaction to begin the recovery process. Only a single transaction is required as the rest of the process is automated thanks to CCIP automatic process of messages. After the two bridge transactions occur the ECDSA address is updated.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cache-coherence-1nq6z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

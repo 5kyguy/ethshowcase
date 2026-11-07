@@ -1,0 +1,26 @@
+{
+  "id": "oaust",
+  "slug": "hongbao",
+  "title": "HongBao",
+  "tagline": "Bot-proof red packets powered by World ID, ENS identity, and Arc cross-chain USDC",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/oaust/banner/default.jpg",
+  "demo_url": "http://hongbao-ecru.vercel.app",
+  "source_url": "https://github.com/lzhan195/hongbao",
+  "finalist": false,
+  "description": "The Human‑Only Red Packet brings the beloved lucky money tradition on‑chain — but with a twist: robots are strictly forbidden. WeChat‑style red packets are fun, but bots drain them instantly and money stays locked in a closed app. This project solves both problems by combining three web3 primitives into a single, seamless claim flow.\n\nHow it works: A sender funds a red packet with USDC from any chain via Circle Gateway. Claimers visit a simple web app, connect their wallet, and see their ENS name appear. To claim the lucky money, they must first prove they are a unique human using World ID 4.0. Once verified, Arc Gateway instantly sends the USDC from the pool on Arc to the claimer’s wallet on their preferred chain — no bridging, no chain switching. Finally, a verifiable claim receipt is written as a text record on the claimer’s ENS name, turning every red packet into an on‑chain, human‑readable memory.\n\nWhy it matters: Bots cannot steal the red packet. Users keep full custody of their funds. ENS gives every claim a human identity, not a raw address. Arc makes the entire cross‑chain journey invisible — the sender and receiver never even hear the word “Arc”. The result is a global, fair, and delightfully cultural on‑chain experience that works exactly like a traditional red packet, but is open to anyone, anywhere, with no middleman.",
+  "how_its_made": "The project was built in a single weekend using a pragmatic AI‑assisted but human‑directed workflow. The frontend was scaffolded with v0.dev, which generated a Next.js + Tailwind CSS + shadcn/ui base featuring a festive red‑and‑gold theme, a RainbowKit wallet button, and a claim flow skeleton. All subsequent web3 logic was added manually and iteratively inside Cursor with Claude Sonnet 4, with every generated block reviewed, tested, and refined.\n\nWallet & identity: RainbowKit and wagmi/viem handle wallet connection and chain switching. ENS primary names are resolved via viem’s getEnsName and displayed prominently. After a successful claim, viem’s setText writes a JSON receipt (redpacket.claim) to the claimer’s ENS name (or a subname fallback), making every claim permanently verifiable on‑chain.\n\nSybil resistance: World ID 4.0 is integrated via the @worldcoin/idkit package. The claim button opens the IDKit QR modal; the generated proof is sent to a Next.js API route that verifies it server‑side using World’s developer portal and a custom action ID. The entire claim flow is gated behind this verification — without a valid proof, no USDC can move.\n\nChain‑abstracted payments: Circle Gateway testnet APIs power the cross‑chain USDC flow. A pool wallet on Arc testnet receives deposits from Ethereum Sepolia via a Gateway‑generated deposit address. When a verified human claims, a Gateway withdrawal request sends USDC from Arc directly to the claimer’s address on Polygon Amoy. The sender and receiver never interact with Arc or switch networks; the entire journey is abstracted away.\n\nDemo resilience: A mock mode toggle bypasses real World ID, Gateway API calls, and ENS writes, allowing a smooth, reliable demo regardless of testnet conditions. localStorage enforces a simple daily claim limit per wallet. react-confetti adds a moment of delight on success.\n\nTransparency: All AI tool usage is fully documented in AI_USAGE.md and /ai-prompts/, and incremental Git commits show the entire evolution from scaffold to finished product.",
+  "auto_summary": "A Next.js app for creating and claiming cross-chain USDC red packets gated by World ID and annotated with ENS records.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hongbao-oaust",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

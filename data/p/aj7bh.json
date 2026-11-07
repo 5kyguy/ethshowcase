@@ -1,0 +1,27 @@
+{
+  "id": "aj7bh",
+  "slug": "plumb",
+  "title": "Plumb",
+  "tagline": "Lets you or your agent analyze live DeFi data from one GraphQL query across many protocols.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/aj7bh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/m022X01D9e5HxAMGJkngMKAw01939Lbfjn00THeJ01eWW9Tk/high.mp4",
+  "demo_url": "https://github.com/karmanayS/Plumb",
+  "source_url": "https://github.com/karmanayS/Plumb",
+  "finalist": false,
+  "description": "Plumb is a cross-protocol DeFi copilot for agents (Claude, Cursor, or a small web chat). It answers questions like “where is this wallet’s lending risk?” and “how do comparable markets look ?” by running one GraphQL document against many pinned subgraphs on The Graph, not by hard-coding a single protocol API.\n\nToday that means Messari lending markets: Aave v3 (Ethereum), Spark (Ethereum), and Moonwell (Base). The same MARKETS_QUERY and POSITIONS_QUERY are POSTed to every deployment. Adding another lending protocol is a registry.json row (display name, chain, pinned deployment ID) not a new mapper. The same registry-and-shared-query shape is how Plumb can later grow into other DeFi families (for example DEX) without becoming a pile of one-off integrations.\n\nHonesty is the product. Each protocol is pinned to a subgraph deployment ID. Queries go to The Graph gateway by that ID. If _meta.deployment does not match the pin, _meta.block is more than six hours behind, the call times out, or GraphQL/HTTP fails, the payload is discarded. Tools return structured failures[] and the UI/agent must say unavailable. They must not fill a cell with 0, a cache, or an LLM guess. The demo can break a pin on purpose so judges see that path.\n\nAgents do not just dump JSON. Four reusable MCP tools (list_lending_markets, query_market, compare_markets, wallet_lending) return the same columns across protocols: APYs, deposits/borrows, derived available liquidity, LTV/liquidation fields, and _meta provenance. The model is instructed (tool descriptions + SKILL.md) to reason on those rows: compare borrow APY and liquidity, talk about liquidation risk from schema fields only (Messari has no healthFactor), and always surface failures. A CLI and a local web UI call the same tools.\n\nThe Graph API key never leaves the server. There is no swap execution, no fake health factor, and no mocked market numbers in the product path.",
+  "how_its_made": "We built Plumb as a TypeScript (Node 22+, ESM) service with pnpm, Zod, and Vitest. There is no Next.js app and no GraphQL client that could cache answers. The product path is: MCP or UI → tools → honest Graph fetch → structured rows and failures.\n\nThe Graph is the only partner in the loop. A Subgraph Studio / Network API key lives only in the server process. Every query is an HTTP POST of a shared document to gateway.thegraph.com/api/<KEY>/deployments/id/<PIN> never /subgraphs/id/..., so we do not silently follow “latest.” registry.json maps protocol slug → chain → pinned deployment ID. Enabled protocols are queried in parallel (Promise.allSettled); one dead subgraph does not abort the others.\n\nTwo GraphQL templates cover everyone: Messari lending MARKETS_QUERY and POSITIONS_QUERY, both requesting _meta. After a 15s timeout, HTTP/GraphQL errors become QueryFailure. Success still goes through honesty: normalize _meta.deployment against the pin; stale if _meta.block.timestamp lags more than six hours (or is in the future). Failed bodies are dropped—callers never see numbers from a bad pin.\n\nMapping is schema-faithful, not protocol-specific. Supply/borrow APY come from rates (LENDER / BORROWER, prefer VARIABLE). availableLiquidityUSD is derived as max(0, deposits − borrows) because Messari has no such field. Positions use the intersection of Aave/Spark 3.1.0 and Moonwell 2.0.1 so one document still runs; we do not invent healthFactor. Asset match is inputToken.symbol with case variants; USDC.e is a separate row.\n\nMCP (@modelcontextprotocol/sdk, stdio) exposes list_lending_markets, query_market, compare_markets, wallet_lending. Handlers call the real tools and return JSON text. Logs go to stderr so stdout stays JSON-RPC. A small node:http API and Vite + React UI (and a CLI pnpm compare) use those same tools. Optional in-app chat is Anthropic tool-calling on the server; with no key, the UI is forms only.\n\nNotable hack: --break / a UI checkbox still hits the live gateway with a wrong CID or a mismatched pin. Unavailable is a real HTTP_ERROR or DEPLOYMENT_MISMATCH, not if (demo) return 0.",
+  "auto_summary": "A TypeScript service queries pinned The Graph subgraph deployments to compare lending markets and wallet positions across multiple protocols.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/plumb-aj7bh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

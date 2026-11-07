@@ -1,0 +1,35 @@
+{
+  "id": "knvbp",
+  "slug": "steam-tokenizer",
+  "title": "Steam Tokenizer",
+  "tagline": "Steam Tokenizer is a tool that bridges Steam digital assets by creating a Non-Fungible Token (NFT) backed by the corresponding asset stored in an escrow. The tool allows tokenizing any tradable asset, including trading cards, profile wallpapers, Dota 2 heroes, and CS:GO skins.",
+  "event": {
+    "slug": "ethnewyork2022",
+    "name": "ETHNewYork 2022",
+    "start_time": "2022-06-24T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/knvbp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XBoCnfK4yxa02pKfdL5Q202r15DYRsBLmPnuFRCQFYP8A/high.mp4",
+  "source_url": "https://github.com/cairoeth/steamtokenizer",
+  "prizes": [
+    {
+      "sponsor": "OpenSea",
+      "sponsor_id": "e8ob5",
+      "placement": "🥈 OpenSea — Best Integration",
+      "title": "OpenSea"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHNewYork Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Steam is a video game digital distribution service and storefront by Valve. In 2017, users purchasing games through Steam totaled approximately US$4.3 billion, representing at least 18% of global PC game sales, according to Steam Spy. By 2019, the service had over 34,000 games with over 95 million monthly active users. The Steam platform also includes a multi-billion dollar digital marketplace that allows users to buy and sell certain in-game items, in addition to digital trading cards, emotes, profile wallpapers, and other items designed for use with Steam.\n\nConsidering the significance of Steam within the web2 ecosystem, this tool aims to expand the current web3 gaming frontier by bridging the Steam marketplace and the Ethereum mainnet. Through this tool, users can send any digital asset to a Steam escrow and mint the backed NFT. Through any marketplace, such as OpenSea, users can sell, buy and trade the backed NFTs using a decentralized system. Furthermore, any experienced user can use the backed NFT as collateral for loans through permissionless lending protocols — the applications are endless. A user can receive back the Steam digital asset by burning the NFT through the smart contract.",
+  "how_its_made": "In order to create a seamless experience, users can directly send any Steam digital asset to the bot escrow using Steam’s marketplace interface. After receiving a new asset, the bot (programmed in Python) uses a custom Steam API endpoint to fetch the asset’s JSON data, including images, descriptions, tags, and general market information.\n\nWith this data, the bot creates a custom JSON metadata tailored to the Steam digital asset by following the ERC721 metadata standards recommended by OpenSea. Using the IPFS API Python client library, the bot uploads the metadata to IPFS, receiving the corresponding hash. The metadata attributes are generated dynamically, meaning that the ERC721 NFTs can adapt to different Steam digital assets or games. Furthermore, any recently traded asset in the Steam marketplace receives a cooldown period, which is also included in every metadata to prevent burning the NFT before it is tradeable again.\n\nWith the metadata ready, the bot uses a private key to generate a signed signature that includes the IPFS hash and the cooldown period value as a Unix timestamp. Afterward, the user receives a Steam message with the link to mint the NFT. Using Flask, a Python micro web framework, the IPFS hash, cooldown Unix timestamp, and signature are passed to the front-end interface through URL parameters. For example: “http://localhost:8080/?name=UMP-45%20|%20Riot%20(Battle-Scarred)&hash=Qmdyqmc7VsxqMNmFHXoz6zB8w8LVm9YWdzNE7iD1tm6D3q&cooldown=1656889719&signature=0x1d88f0d8a8cac9a5385f2df89965f6f6c608011a43de12e89f1871ab0b44032c30b74784fe54b1ada1bde5956017e3541fc6332ded26c2dbe2f08f8a8c59b2831b”. Through this interface, the user uses Metamask to mint the NFT. An important design consideration to enhance flexibility is that the mint link can be used by anyone who receives it.\n\nWhen interacting with the mint function, the smart contract checks the parameters and signature to ensure validity. This feature prevents users from sending a mint transaction with fake parameters, such as personalized metadata or a shorter cooldown period. This is achieved by implementing the ecrecover() function to validate that the incoming data is properly signed by the bot. Afterward, the contract checks if the Steam asset has already been minted using a mapping reference type. After correct validation, the NFT is minted and received by the user. \n\nLast but not least, the smart contract also contains a burn function, which allows the user to burn the NFT in order to receive back the Steam digital asset.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/steam-tokenizer-knvbp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

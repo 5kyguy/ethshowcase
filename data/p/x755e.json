@@ -1,0 +1,27 @@
+{
+  "id": "x755e",
+  "slug": "velum",
+  "title": "Velum",
+  "tagline": "Verify delivered work against private terms with Chainlink CRE before releasing one payment.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x755e/banner/default.jpg",
+  "video_url": "https://stream.mux.com/heUEi01900TdjtO4701JMj4pNxyrRfDwrstiYhNTDyZT2I/high.mp4",
+  "demo_url": "https://velum.aethe.me/demo.html",
+  "source_url": "https://github.com/Lawrence-eth/velum",
+  "finalist": false,
+  "description": "\n  A successful build does not prove a contractor delivered the agreed software revision. Velum verifies that boundary before releasing a work-order payment.\n\n  A payer’s work order specifies the accepted revision, recipient, payment amount and budget. When delivery is submitted, Velum reserves the work order and uses\n  Chainlink CRE to retrieve live GitHub evidence and evaluate it against the configured acceptance record and commercial terms. The resulting authorization\n  determines whether a Solidity treasury can pay.\n\n  The interactive demo shows two real, successful GitHub workflow runs. The earlier revision fails the acceptance check: payment is held and zero tokens\n  transfer. The accepted revision passes and releases 2,400 test tokens. Payment history survives a reload, concurrent requests cannot reserve the same work\n  order, and another attempt to pay the completed order is rejected.\n\n  Confidential Workflows are central to the design: credentials, source records and payment-policy evaluation belong inside the confidential handler, while the\n  public ABI authorization omits raw commercial terms.\n\n  This is a prototype with synthetic commercial terms and team-configured acceptance. It demonstrates actual CRE CLI simulation and live GitHub retrieval.\n  Settlement runs in a persistent, journal-backed local EVM with a mock forwarder; the primary flow does not send a network payment or demonstrate deployed TEE\n  attestation.",
+  "how_its_made": "\n  Velum combines TypeScript, Zod, Chainlink CRE, Solidity and Cloudflare Workers. A browser interface submits delivery evidence to a Worker API. SQLite-backed\n  Durable Objects reserve the work order and budget, queue execution, and persist payment history.\n\n  The CRE workflow registers handlerInTee. Inside that handler, it retrieves separate source and GitHub credentials, fetches the work-order record and live\n  GitHub evidence, and checks the accepted commit, numeric repository and workflow identities, branch, trigger, successful completion and pinned workflow\n  definition. These checks run alongside the commercial payment policy. Chainlink provides the workflow boundary for authenticated retrieval and confidential\n  policy evaluation, making the resulting report the input to settlement.\n\n  The workflow uses usingTheDons to return an ABI authorization without raw commercial terms. Our BatchTreasury contract checks its configured forwarder and\n  workflow identity, request commitments, recipient, amount, token, chain and expiry before atomically consuming authorization and transferring ERC-20 test\n  tokens.\n\n  A VM runner executes actual CRE CLI simulations and feeds their report bytes into compiled Solidity running in EthereumJS. A notable implementation detail is\n  the durable execution journal: it reconstructs each workspace’s local treasury from recorded operations, caches completed results and redelivers them until\n  acknowledged. Uncertain executions retain their reservations, and recovery resumes the same job rather than opening another payment path.\n\n  The project includes 58 unit tests, contract tests and deployed browser checks covering held and paid outcomes, concurrent reservations, reload recovery and\n  duplicate protection. Local execution uses mock forwarding and does not establish deployed enclave attestation. Work-order uniqueness relies on the reservation\n  service and journal; the contract independently prevents request replay.\n\n  Codex generated the implementation, tests, interface and drafts. Lawrence selected the Chainlink focus, configured and authenticated the development\n  environment, chose Velum’s identity and artistic direction, reviewed iterations and authorized the product direction.",
+  "auto_summary": "This project verifies GitHub delivery evidence in a Chainlink CRE workflow before authorizing ERC-20 work-order payments through Solidity contracts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/velum-x755e",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

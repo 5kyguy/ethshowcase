@@ -1,0 +1,35 @@
+{
+  "id": "a7w12",
+  "slug": "moleswap",
+  "title": "MoleSwap",
+  "tagline": "Cross-chain swap from TON to Ethereum using 1inch Fusion+ & BlockScout tracking",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a7w12/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00UOhHypZe401bBGo02z5QzJOM1vWrOAy9hAkyb9cLPJi00/high.mp4",
+  "source_url": "https://github.com/vikzh/ethprague",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Big Blockscout Explorer Pool Prize",
+      "title": "Big Blockscout Explorer Pool Prize"
+    },
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "Extensions for 1inch Cross-chain Swap (Fusion+)",
+      "title": "Extensions for 1inch Cross-chain Swap (Fusion+)"
+    }
+  ],
+  "finalist": false,
+  "description": "A fully scalable, intent-based cross-chain swap protocol enabling seamless token transfers from TON to Ethereum, with support for both EVM and non-EVM networks. The solution utilizes 1inch Fusion+ and the 1inch Limit Order Protocol for efficient and decentralized trade execution. Swaps are powered by a permissionless, hash-lock-based mechanism ensuring security and trustless settlement across chains.\n\nThe platform features an intent-based order book that allows users to express trade intentions without locking funds, improving flexibility and efficiency. Order tracking is handled via an extended version of BlockScout, enhanced to support TON and other non-EVM chains, enabling transparent and real-time cross-chain transaction monitoring.\n\nDesigned to support any token across multiple ecosystems, the architecture is built for broad scalability, allowing for the addition of new blockchains as the protocol evolves.",
+  "how_its_made": "Our cross-chain swap solution is composed of multiple tightly integrated components, combining smart contracts, indexing infrastructure, and protocol-level innovations. The architecture is modular, permissionless, and designed for scalability across both EVM and non-EVM blockchains.\n\n🔧 Core Components\nTON Smart Contracts\n\nWe implemented a escrow contract factory and individual order contracts on the TON blockchain. These manage the source-side of the atomic swap, holding TON tokens in escrow secured by a hashlock.\n\nEVM Smart Contracts\n\nOn Ethereum (Sepolia testnet), we deployed a corresponding escrow contract factory and order contracts that mirror the behavior of TON contracts. These handle ERC-20 tokens and ensure atomicity on the destination chain.\n\nHashlock Security\n\nSwaps are secured using a hashlock-based mechanism, ensuring funds are only released if the correct secret is revealed, enabling trustless execution between unrelated chains.\n\nBackend Indexer\n\nA custom indexer was built to connect to both TON and Ethereum RPC nodes. It continuously tracks relevant smart contract activity, indexes swaps, and exposes real-time data to external interfaces (like BlockScout). The indexer is blockchain-agnostic and ready to support additional chains and tokens.\n\nExtended BlockScout\n\nWe customized BlockScout to support:\n\nNon-EVM chains (e.g., TON) by extending its schema and data models\n\nCross-chain transactions by linking related swaps across networks\n\nA new UI/UX layer to display swap status, secrets, escrow details, and timing\n\nThis required deep changes in the MVC structure, new tables for tracking orders and secrets, and logic for rendering atomic swap flows.\n\nInfrastructure & Deployment\n\nThe solution is currently deployed on:\n\nTON Testnet\n\nEthereum Sepolia\n\nDigitalOcean and AWS for backend services, indexer, and UI hosting\n\n🔄 Atomic Swap Flow\n✅ Maker creates an escrow on TON, locking tokens with a hash of a secret.\n\n✅ Taker responds by creating a matching escrow on Ethereum, locking ERC-20 tokens.\n\n✅ Maker claims ERC-20 tokens by revealing the secret.\n\n✅ Taker observes the secret on-chain and uses it to claim the TON escrow.\n\n🎯 Taker also withdraws a safety deposit (if applicable), completing the atomic swap cycle.\n\n🤖 Notable Hacks & Innovations\nModified BlockScout to support a non-EVM chain (TON), which involved low-level database and parser modifications.\n\nUnified cross-chain swap logic in a chain-agnostic backend indexer, allowing future integration with other chains like Solana or Aptos.\n\nCombined 1inch Fusion+ routing with custom escrow logic to create a secure and user-driven intent-based order flow.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/moleswap-a7w12",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

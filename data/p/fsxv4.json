@@ -1,0 +1,30 @@
+{
+  "id": "fsxv4",
+  "slug": "x402-utils",
+  "title": "x402-utils",
+  "tagline": "A blockchain-based pay-per-execution service implementing the **x402 protocol** for micro utils.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fsxv4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pH3I02wNABhCBAvrrOd01aH1xTtEcZeyZNCmRmZ3NzELQ/high.mp4",
+  "demo_url": "https://x402.utils.com/",
+  "source_url": "https://github.com/anton-io/x402-utils",
+  "prizes": [
+    {
+      "sponsor": "Privy",
+      "sponsor_id": "ijybm",
+      "placement": "Best App Using x402 with Privy",
+      "title": "Best App Using x402 with Privy"
+    }
+  ],
+  "finalist": false,
+  "description": "x402 utils is a complete, production-ready implementation of the x402 protocol, focused on micro tasks/utils. It uses HTTP 402 “Payment Required” combined with blockchains to turn any task into real pay-per-execution microservice.\n\nWith x402 utils, every single job costs the user a tiny micropayment (0.01 U token). The moment payment is confirmed or authorized, the server instantly runs the requested task and streams live output back to the client through Server-Sent Events. There are no subscriptions, no API keys, and no rate limits—just pure pay-as-you-go enforced directly at the HTTP layer.\n\nThe project fully implements both x402 payment flows. In the classic flow, the server returns an HTTP 402 response with payment details, the user sends an ERC20 transfer on Base Sepolia, and the backend detects the on-chain payment and executes the job immediately. In the modern signature-based flow, the user signs a single EIP-712 message authorizing the exact amount for a specific job ID and sends the signature in the X-PAYMENT header. The server verifies the signature in fractions of second and runs the job with minimal delay.\n\nThis PoC system runs on Base Sepolia for near-zero fees and instant finality. The native payment token U is a LayerZero Omnichain Fungible Token, moving seamlessly between Ethereum Sepolia and Base Sepolia without bridges or wrapped assets. Privy provides embedded wallets with email or Google login and delegated signing, delivering a completely smooth Web2-like experience where approvals feel automatic.\n\nx402 utils ships with a FastAPI backend that handles payment verification, job queuing, and real-time streaming, plus two frontends (a no-build vanilla JS version with MetaMask and a full-featured React + Privy app) and an autonomous Python agent that periodically pays and executes jobs using signatures only. Everything starts almost instantenously with a single ./start.sh command and includes a public testnet faucet dispensing 1 U per day. Adding new paid jobs is just a few lines of Python.\n\nx402 utils is currently the most complete and user-friendly reference implementation of pay-per-execution on blockchain, proving that instant, cross-chain, micropayments for compute that is ready to use today!",
+  "how_its_made": "x402 utils is a solo-built, production-ready pay-per-execution engine that brings real HTTP 402 “Payment Required” to blockchain. Everything runs on Base Sepolia for sub-cent fees and instant finality.\n\nThe FastAPI backend is the brain: it exposes /jobs/request (returns 402 + payment details), constantly watches the U token for Transfer events via Web3.py websocket subscription (with polling fallback), and supports instant EIP-712 signature verification when the signature is sent in the custom X-PAYMENT header. The moment a valid payment or signature is confirmed, the requested job is executed and its output streamed line-by-line to the client using native Server-Sent Events.\n\nThe U token is a LayerZero Omnichain Fungible Token (OFT), so the same token lives natively on both Ethereum Sepolia and Base Sepolia — no wrapping, no bridges, just seamless cross-chain transfers in ~7 minutes. A simple on-chain faucet gives 1 U per address per day so anyone can test instantly.\n\nThe recommended React + Privy frontend uses embedded wallets (email/Google login) and delegated signing rules. Users click “Ping”, the 0.01 U signature is auto-approved in the background, and results appear instantly with zero popups and zero gas. There’s also a no-build vanilla JS frontend and an autonomous Python agent that pays and pings every few minutes using signatures only.\n\nCool hack: for the classic ERC20 flow, the temporary job ID is encoded directly in the transfer’s data field (bytes32), letting the backend match payments 100% trustlessly from on-chain events alone (i.e. no database needed).\n\nOne ./start.sh launches backend + both frontends at once. Adding new paid jobs is ~15 lines of Python. Total stack: Base Sepolia → LayerZero OFT → Privy → FastAPI/Web3.py → React/Vite + vanilla JS + Python agent.\n\nIt feels faster than most Web2 APIs while being fully on-chain and micropayment-native!",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/x402-utils-fsxv4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,22 @@
+{
+  "id": "m8uob",
+  "slug": "crossloc",
+  "title": "CrossLoc",
+  "tagline": "Trustless cross-chain swaps with HTLCs + Fusion+, bridging EVM to non-EVM chains.",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m8uob/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LaQnksfbaXO7hOtCBms2roOMQk7J28Xbali01paaXGI8/high.mp4",
+  "demo_url": "https://docs.google.com/presentation/d/1LvMsVV_Z9ghZXi7Fyz3CJ3Fa7yXS_31PNzxb8T44zkM/edit?usp=sharing",
+  "source_url": "https://github.com/sidarth16/swapLoc",
+  "finalist": false,
+  "description": "CrossLoc is a trustless cross-chain swap protocol designed for EVM → non-EVM interoperability. It uses Hashed Time-Lock Contracts (HTLCs) as the foundation for secure, atomic-style swaps: funds are locked against a secret hash on both chains, claimable by the counterparty only with the preimage, and refundable after timeout. On the EVM side, CrossLoc integrates 1inch Fusion+ for deep liquidity, gasless transactions, and MEV-protected execution. On non-EVM chains like Hedera, Kadena, Starknet, and others, CrossLoc deploys lightweight HTLC adapters tailored to each chain’s smart contract language (Solidity, Cairo, Rust, etc.). A decentralized relayer/watchtower layer ensures liveness and UX by monitoring lock events, relaying revealed preimages, and submitting claims on counterpart chains, while users always retain trustless fallback via manual claim/refund. The protocol exposes a unified SDK and APIs so developers and wallets can embed cross-chain swaps with minimal effort, supporting secure movement of assets between fragmented ecosystems. CrossLoc eliminates reliance on centralized bridges or custodial intermediaries, providing a safe, composable primitive for DeFi arbitrage, NFT payments, gaming token flows, and enterprise settlement across heterogeneous blockchain networks.",
+  "how_its_made": "CrossLoc is built as a hybrid protocol + SDK, combining smart contracts, relayers, and a frontend layer. On the EVM side, we used the 1inch SDK and Fusion+ protocol to access deep liquidity and gas-optimized swap execution. These swaps are wrapped into Solidity-based HTLC contracts that lock funds with a hashlock and timelock. For non-EVM chains like Starknet and Hedera, we implemented HTLC logic in their native environments (Cairo for Starknet, chain-specific SDKs for Hedera/Kadena) so the same secret-based claim/refund model works across heterogeneous runtimes.\n\nTo connect chains, we built a lightweight relayer/watchtower service in Node.js that listens for HTLC lock or claim events on one chain and submits the corresponding claim/refund transaction on the other. While users can always claim manually, this layer provides a smoother UX. For the frontend, we used Next.js + React to build a minimal dApp that interfaces with our SDK, handles wallet connections, and visualizes swap progress with real-time countdowns and status updates.\n\nWhat’s hacky but notable is how we extended Fusion+ workflows: normally Fusion+ is only EVM-native, but we hooked into it at the HTLC boundary, so liquidity aggregation benefits still flow into cross-chain swaps. Another hack was adapting Cairo HTLC contracts to closely mimic Solidity HTLC behavior, despite Starknet’s account model being quite different. This let us keep a consistent interface across all chains. Finally, we abstracted the whole flow into an SDK that exposes simple methods (lock, claim, refund), making it easier to demo swaps without drowning in low-level calls.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/crossloc-m8uob",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

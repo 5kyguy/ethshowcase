@@ -1,0 +1,21 @@
+{
+  "id": "pqr03",
+  "slug": "permitpool",
+  "title": "PermitPool",
+  "tagline": "Non-transferable trading licenses for institutional DeFi using ENS fuses + Uniswap v4 hooks",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pqr03/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00W7itFPDMatNoevh9kM38mgs4kkvgqXgmZAQWvZ002kg/high.mp4",
+  "source_url": "https://github.com/StevenDanielL17/permitpool",
+  "finalist": false,
+  "description": "PermitPool is the first decentralized \"Identity Clearing Layer\" designed to unlock the $1.5 Trillion institutional market for DeFi.\n\nCurrently, hedge funds and institutions cannot trade in permissionless pools because they cannot risk interacting with sanctioned addresses or anonymous actors. Traditional \"whitelist\" solutions are centralized, slow, and prone to database hacks.\n\nPermitPool solves this by moving compliance entirely on-chain. We utilize the ENS Name Wrapper to issue \"Soulbound Licenses\" (subdomains) to traders. We then use Uniswap v4 Hooks to enforce these licenses atomically before every trade.\n\nThe result is a \"Permissioned Pool on a Public Protocol.\"\n\nFor the Fund: A mathematically proven way to control employee access and prevent license transfers.\n\nFor the Trader: A \"Stealth Terminal\" experience that unlocks only when their on-chain identity is verified.\n\nFor the Ecosystem: A scalable, trustless architecture that proves compliance does not require centralization.\n\nWe are not just building a DEX; we are building the compliance infrastructure that allows RWA (Real World Assets) and Institutional Liquidity to flow safely into Ethereum.",
+  "how_its_made": "his project was built using a \"Trinity Architecture\" combining ENS (Identity), Uniswap v4 (Execution), and Yellow Network Logic (Clearing).\n\n1. The Identity Layer (ENS Name Wrapper):\nInstead of a database, we use the ENS V3 Registry as our source of truth. We deployed a LicenseManager contract that mints subdomains (e.g., trader.fund.eth) to users.\n\nThe Hacky Part: We utilize ENS Fuses (specifically CANNOT_TRANSFER and PARENT_CANNOT_CONTROL) to turn a standard ENS name into a \"Sovereign License.\" This ensures that the license is non-transferable (soulbound) and cannot be arbitrarily revoked by the issuer during a trade, creating a trustless compliance standard.\n\n2. The Execution Layer (Uniswap v4 Hooks):\nWe built a custom hook (PermitPoolHook.sol) that implements the beforeSwap callback.\n\nWhen a user attempts to trade, the hook intercepts the transaction.\n\nIt queries the ENS Registry to verify if the msg.sender owns a valid, fused subdomain node.\n\nIf the check fails, the transaction reverts. This brings \"Yellow\" clearing logic (pre-trade validation) directly into the swap lifecycle.\n\n3. The Stealth Interface (Frontend):\nThe frontend is built with Next.js and Wagmi/Viem. We implemented a \"Stealth Mode\" UX. The app reads the user's ENS fuses in real-time. If the user is unlicensed, they see a gamified \"New Employee Guide.\" Once the license is detected on-chain, the UI dynamically transforms into a professional \"Dark Mode\" trading terminal.\n\nTechnologies Used: Solidity, Foundry, Uniswap v4 (Periphery & Core), ENS Name Wrapper, Next.js, RainbowKit, Viem.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/permitpool-pqr03",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

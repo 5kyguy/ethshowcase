@@ -1,0 +1,30 @@
+{
+  "id": "1x2ef",
+  "slug": "meridian",
+  "title": "Meridian",
+  "tagline": "Autonomous treasury agent for companies converting between stablecoins with corporate level privacy",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1x2ef/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8KZgRXFOamJcFkltBeXY81016sRLCc3Dl6txFbeBJFqg/high.mp4",
+  "demo_url": "https://meridian.omnipass.world",
+  "source_url": "https://github.com/pulseplay-stack/meridian-fx.git",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Best usage of Chainlink privacy standard",
+      "title": "Best usage of Chainlink privacy standard"
+    }
+  ],
+  "finalist": false,
+  "description": "Companies doing cross-border business lose 1-3% on every currency conversion through their bank. That's $120 billion a year extracted globally, not for value, but for friction. Meridian FX replaces the entire bank FX workflow with an autonomous treasury agent.\n\nThe agent monitors USDC/EURC rates by cross-referencing three independent price sources: Chainlink price feeds, the Uniswap Trade API, and the Fynd DEX aggregator. When conditions are right, it executes swaps through Uniswap V3 on Base at 0.05% pool fees instead of 1.3% bank rates. Large orders are split into adaptive chunks using a TWAP engine with a quadratic urgency ramp, so the agent never dumps everything into one pool but always meets the deadline.\n\nTwo critical safety layers sit on top. First, trades above a configurable threshold require manual approval from the treasury manager before the agent can execute. Second, Unlink's privacy pool hides the treasury's on-chain identity during swaps using ZK proofs. On-chain observers see a swap happened, but they can't link it back to the treasury wallet. No front-running, no sandwich attacks, no competitors watching your cash flow.\n\nThe entire orchestration runs on Chainlink CRE inside confidential compute. The strategy logic, API credentials, and trade parameters are encrypted even from the node operators running the workflow. Nobody can see what the agent is about to do, and nobody can tamper with the execution.",
+  "how_its_made": "Meridian is a monorepo (Turborepo) with three core packages: a Next.js frontend, a Node/Express Oracle server, and a Chainlink CRE workflow compiled to WASM.\n\nThe Oracle server is the intelligence layer. Every 30 seconds it polls three price sources: Chainlink's on-chain EURC/USD price feed for tamper-proof ground truth, the Uniswap Trade API for executable quote discovery, and the Fynd DEX aggregator as an independent cross-check. It stores all prices in SQLite and computes a timing score (0-100) factoring in rate deviation, price momentum, cross-source divergence, and deadline urgency. The adaptive TWAP engine splits large orders into chunks with a quadratic urgency function that starts conservative and ramps as the deadline approaches.\n\nThe Chainlink CRE workflow is the orchestration brain. It runs as a WASM module simulated via the CRE CLI, triggered every 60 seconds by a bash loop with flock-based concurrency guards. Each tick calls the Oracle's strategy endpoint via Confidential HTTP (so no node operator can inspect the request), reads on-chain balances from the SwapExecutor contract on Base, and if the timing score clears the threshold, executes a swap by calling Uniswap V3's SwapRouter02.exactInputSingle() through our SwapExecutor contract. The minimum output is floored using Chainlink's price feed minus 0.5% slippage tolerance.\n\nFor privacy, we integrated the Unlink SDK to wrap swap execution in a three-step flow: deposit USDC into Unlink's shielded pool, execute the Uniswap swap with the pool address as the on-chain sender (treasury identity hidden behind ZK proofs), then withdraw the output EURC. The frontend has a privacy mode toggle that switches between the standard Base mainnet path and the private Base Sepolia path. Both modes use the same Oracle strategy engine.\n\nThe frontend is a Next.js app with a split-screen layout: the main trading interface on one side and a dev dashboard on the other showing live CRE tick logs, Oracle price panels, strategy decisions, and transaction hashes. Trades above the policy threshold get queued in an approval tab where the treasury manager manually signs off before the agent can execute.\n\nNotable hack: the CRE simulator uses a speed toggle (1x/10x) that lets us demo a 48-hour trading strategy in minutes. The Oracle exposes a /api/demo/speed endpoint that the bash loop reads each tick to adjust its sleep interval, so we can show the full adaptive TWAP lifecycle in a live demo without waiting two days.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/meridian-1x2ef",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

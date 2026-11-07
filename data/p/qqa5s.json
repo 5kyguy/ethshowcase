@@ -1,0 +1,36 @@
+{
+  "id": "qqa5s",
+  "slug": "replay",
+  "title": "Replay",
+  "tagline": "A tool to replay failed transactions in a convenient and easy way.",
+  "event": {
+    "slug": "superhack",
+    "name": "Superhack",
+    "start_time": "2023-08-04T19:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qqa5s/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qEk1O1tzcMDTp8n3HZ8thm2377za0102FC23FAALEgoZE/high.mp4",
+  "demo_url": "https://replay-fyd8ng5yj-trakcloud.vercel.app/",
+  "source_url": "https://github.com/janndriessen/replay",
+  "prizes": [
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🏊‍♀️ Optimism — Super Pool Prize",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "Covalent",
+      "sponsor_id": "f7o0p",
+      "placement": "🥇 Covalent — Best Use",
+      "title": "Covalent"
+    }
+  ],
+  "finalist": false,
+  "description": "Replay is a tool for replaying failed transactions on any of the sponsors' chains: Optimism, Base, Zora (incl. testnets).\n\nThe idea was inspired by the task #100 on the Optimism ecosystem contributions list (https://github.com/ethereum-optimism/ecosystem-contributions/issues/100). \n\nFor most users that are not tech-savvy it's a challenge to replay failed transactions. So this tool makes it easy and convenient by providing a simple-to-use interface. Additionally, it's also a developer tool as it should be equally convenient for them to replay failed tx's through it. Failed transactions could include approvals, functions calls (like in the demo depositing into WETH) or cross-chain messaging and deployments.\n\nWhen connecting your wallet, it automatically loads all recent transactions. For demo purposes successful and failed transactions are shown (checkmark or warning icon). Only the failed transactions can be replayed. For any transaction data fetching, I used the sponsor Covalent and its APIs.\n\nSwitching networks to Optimism, Base, Zora (incl. testnets) will automatically reload the transactions for the connected account on that network. So also transactions for any of these networks can be replayed. It's a tool for everyone on any chain.\n\nClicking the replay button a popup will open that shows the selected transaction hash at the top (which can also be opened in the block explorer). \n\nAn original feature from the idea on the Optimism contributions list was to be able to customize the gas limit. This is possible but I took it even further. On opening the popup the app will automatically estimate the fees for the tx but also auto-populate the custom gas limit.\n\nAdditionally, I added tenderly for simulations of the transaction. So the user can be really sure that this transaction will go through. In the demo, I also show that this works in terms of putting a custom gas limit that is too low. \n\nSo in most cases here the user won't even have to do anything but just verify that the tx would go through and then go with all automatically provided values.\n\nWhen hitting the replay button in the popup, this will open your wallet where you can sign the transaction - which then should be successfully replayed. In the success screen this can be verified on Etherscan too.",
+  "how_its_made": "The project is based on the optimism starter (https://github.com/ethereum-optimism/optimism-starter) which is a great template for hackathons. \n\nSince it's a fronted project, the main frameworks used are viem, wagmi and ChakraUI (all w/ typescript).\n\nFor fetching any transaction data, I used the API's of Covalent. \n\nIn addition to the original idea of the Optimism ecosystem contributions list, I added automatically fetching the gas limit and also for security of the user (to prevent another failed transaction), I added tenderly simulations.\n\nOnce the recent transactions where fetched (via Covalent API) and the user selected a tx to replay, the process of replaying transactions mainly works like this:\n\n- use the transaction hash and fetch a transaction object with viem/wagmi (getTransaction, line 78 ReplayTransaction.tsx)\n- use that tx data to estimate fees\n- determine whether to use custom gas limit (input by the user) or auto-set it\n- copy all necessary transactions data (especially to, from, data/input, value are important) to prepare it for sending a new transaction (replaying)\n- simulate tx with tenderly (to make sure it won't fail)\n- send tx",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/replay-qqa5s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

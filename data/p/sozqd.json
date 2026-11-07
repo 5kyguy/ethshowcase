@@ -1,0 +1,29 @@
+{
+  "id": "sozqd",
+  "slug": "banganoir",
+  "title": "Banganoir",
+  "tagline": "Banganoir is an ERC4337 Wallet controlled by your Aadhaar identity, which integrates NoirOTP, a trustless zkOTP system, to provide an additional layer of security for your funds.",
+  "event": {
+    "slug": "circuitbreaker",
+    "name": "Circuit Breaker",
+    "start_time": "2024-02-02T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sozqd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/t6E1bGp8Z01iGhYwmP4AWJFao100ve3fR54vrCOpmCgjg/high.mp4",
+  "source_url": "https://github.com/porco-rosso-j/banganoir",
+  "prizes": [
+    {
+      "sponsor": "Privacy + Scaling Explorations",
+      "sponsor_id": "pxs8d",
+      "placement": "Anon Aadhaar",
+      "title": "Anon Aadhaar"
+    }
+  ],
+  "finalist": false,
+  "description": "Aadhaar, India's biometric ID system, was set out in 2010 when half of the Indian population didn't have any identity document and succeeded in bringing rapid identity and financial inclusion to 1.3 billion people. Banganoir wallet that integrates Anon Aadhaar has the potential to bring a vast number of people to the crypto world by allowing for an easy and secure onboarding using the Aadhaar identity card. Furthermore, should Aadhaar credentials be compromised, NoirOTP, the trustless zkOTP system, serves as a robust safeguard against unauthorized attempts to seize wallet ownership.",
+  "how_its_made": "## Anon Aadhaar\nAnon Aadhaar is a zero-knowledge protocol that allows Aadhaar ID owners to prove their identity in a privacy-preserving way. It provides a set of tools to generate and verify proofs, authenticate users and verify proofs on-chain.\n\nBanganoir Wallet authenticates transactions by verifying the zero-knowledge proof generated using unique and private user data, which is retrieved from Aadhaar's secure QR code. The hash of the user data is stored on smart contract and passed to `verifyPoof()` function as a public input. This ensures the verification can only succeed if the user provides the exact data matching the stored hash.\n\nAdditionally, the function includes a parameter called `signalHash`, the hash of `userOpHash`, passed as a commitment to prevent on-chain front-running. Essentially, it acts as a form of transaction signature, enhancing the security and integrity of transactions within the Banganoir Wallet.\n\n## ERC4337\nBanganoir Wallet integrates Pimlico's ts library called permissionless.js and bundler to create user operations and broadcast transactions to scroll sepolia network.\n\n## NoirOTP\nNoirOTP is a zk-powered trustless TOTP(Time-based one-time password) solution compatible with any authenticator app, e.g. Google Authenticator. It leverages Noir, a DSL for writing zkp circuits, to authenticate TOTPs through the verification of Merkle-inclusion proof.\n#### Initial setup\n\nDuring the initial setup, a secret key is randomly created to pre-generate numerous TOTPs that can cover the effective period of all the TOTPs, e.g. 30 days. These TOTPs are hashed to construct a Merkle tree whose each leave is the hash of a TOTP and timestep value.\n\n- timestep: an incrementing value for each OTP ( = timestamp / step ).\n- step: a valid period of each OTP. it's normally 30 seconds but set to 3 mins in NoirOTP.\n\nNote that the secret key is only registered on the user's device, an Authenticator app through a QR code scan, and discarded immediately, instead of being stored neither on-chain nor on an external server.\n\n#### Authentication\n\nAt an authentication, the user gets TOTP from the Authenticator app and enters it on an app UI. Then, `noir_js` is used to execute & generate a Merkle-inclusion proof of the TOTP hash, where `root` is fetched from smart contract, and other necessary inputs, such as `hash_path[]` and `index` are computed using all the TOTP hashes stored on IPFS via Pinata.\n\nThe proof is verified by NoirOTP contract where `timestep` as a public input is calculated with `block.timestamp` beforehand. In this approach, the functionality that websites perform in the conventional TOTP scheme can be emulated on-chain without storing the secret anywhere.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/banganoir-sozqd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "z48d9",
+  "slug": "piro",
+  "title": "Piro",
+  "tagline": "An autonomous agent that watches prediction markets and rewires v4 swap fees before risk hits LPs",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z48d9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ny79fqrhZCeltqNtZQiPKD4QSP34sCVZ3G011a5TVrkQ/high.mp4",
+  "source_url": "https://github.com/FredMunene/Piro",
+  "finalist": false,
+  "description": "A Chainlink CRE workflow polls Polymarket's CLOB API every 60 seconds for the probability of \"Will ETH dip to $1,600?\", classifies it into Green/Amber/Red tiers, and publishes the tier on-chain to a RiskSignal contract via writeReport. The Uniswap v4 PredictionHook reads this tier in beforeSwap and returns a dynamic fee override (0.30% for Green, 1.00% for Amber) or reverts the swap entirely on Red. A 5-minute staleness window auto-escalates tiers if the CRE workflow stops updating, ensuring fail-safe behavior.",
+  "how_its_made": "The project has four Solidity contracts built with Foundry, a Chainlink CRE TypeScript workflow, and a zero-dependency frontend dashboard. **RiskSignal** is an Ownable contract that stores the current risk tier (Green/Amber/Red), a uint64 timestamp, and a uint16 confidence value in a single storage slot. It exposes `getEffectiveTier()` which handles staleness escalation — if `block.timestamp - updatedAt > STALE_WINDOW (300s)`, the tier is bumped up one level. **PredictionHook** implements the `IHooks` interface directly (BaseHook was removed from v4-periphery, so we wrote no-op stubs for all unused callbacks). Only `beforeSwap` is active — it reads the effective tier from RiskSignal and returns `BeforeSwapDelta` with `lpFeeOverride` set via `toFee()` for Green/Amber, or reverts with `SwapBlockedRedTier()` for Red. The pool is initialized with `DYNAMIC_FEE_FLAG` so the hook can override fees. The hook address was mined via CREATE2 through the Deterministic Deployer Proxy (`0x4e59...56C`) to encode the `beforeSwap` permission bit in the address. **PredictionRouter** implements `IUnlockCallback` for `PoolManager.unlock()` — it performs the swap, settles input tokens, and takes output tokens, with slippage and deadline checks. **RiskSignalReceiver** implements Chainlink's `IReceiver` interface to decode CRE `writeReport` payloads — it validates the forwarder address and function selector, then forwards `setTier(tier, confidence)` to RiskSignal. The CRE workflow uses the Chainlink CRE SDK: `CronCapability` triggers every 60 seconds, `HTTPClient` fetches from Polymarket's CLOB API with consensus aggregation (median across DON nodes), a classify step maps probability to tier, and `EVMClient.writeReport` publishes to the receiver on Arbitrum Sepolia. We switched from Polymarket's Gamma API to the CLOB API because Gamma doesn't reliably filter by condition_id. The frontend is a single `index.html` with inline CSS/JS that reads live on-chain state via raw `eth_call` RPC (no ethers/viem dependency) and fetches Polymarket probability client-side, auto-refreshing every 30 seconds. All 24 Foundry tests pass, CRE simulation succeeds end-to-end, and we have on-chain transaction proof of swaps under all three tiers on Arbitrum Sepolia.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/piro-z48d9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

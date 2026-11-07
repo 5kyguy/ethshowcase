@@ -1,0 +1,35 @@
+{
+  "id": "p536c",
+  "slug": "r00t-fund",
+  "title": "r00t.fund",
+  "tagline": "ReFi launchpad: a Uniswap v4 hook arbs a token's shielded + public pools to regenerate real land.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p536c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XEKTOHyhy8O02JmInZOZzOGY01ZcJRBKa2ntiCbayZ00Dk/high.mp4",
+  "demo_url": "http://r00t.fund",
+  "source_url": "https://github.com/OffGrid0xDAO/r00t.fund",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": "Best Uniswap Stack Contribution"
+    }
+  ],
+  "finalist": true,
+  "description": "Every day, pump.fun-style launchpads extract millions into casino tokens — sniped, farmed by MEV bots, and leaving nothing but a\n  dead chart. R00T.fund takes that exact machinery — token launches, price discovery, relentless arbitrage — and points it at\n  regenerating real-world land.\n\n  A community steward tokenizes a parcel of land and opens a Continuous Clearing Auction; backers bid $R00T. One transaction clears\n  the auction, sends the raise to the parcel's regeneration treasury, and seeds two paired markets at the same price: a ZK-shielded\n  pool where backer flow stays private, and a public Uniswap v4 pool for open price discovery.\n  \n  Here's the twist that makes it self-funding. Those two pools constantly drift apart as people trade — and normally that gap is pure\n  extraction, harvested by searchers. Instead, a single Uniswap v4 hook back-runs every swap with a real arbitrage between the\n  shielded and public pools, converges their prices, and sweeps the captured spread into the land's regeneration treasury. The\n  arbitrage a casino launchpad leaks to bots, this one recycles into soil, water, and trees.\n\n  One shared hook covers every market, so new land instantly plugs into the same engine. Same mania, same liquidity games, same\n  arbitrage — pointed at regeneration instead of a rug. Trading the token literally funds the land.",
+  "how_its_made": "R00T.fund is built ON a single Uniswap v4 hook. Everything else — the ZK pools, the launchpad, the frontend — exists to feed that\n  hook.\n\n  RegenArbHook is one shared v4 hook that serves EVERY market (the R00T/ETH base pair and every parcel/R00T pair). It uses only the\n  afterSwap permission, so we mine a CREATE2 salt until the deployed address encodes exactly that flag (addr & 0x3FFF == 0x40) — the\n  address IS the permission bitmap, which is how v4 gates hook callbacks.\n  \n  On every swap, afterSwap runs a REAL cross-pool arbitrage entirely inside the v4 PoolManager's unlock/settle flow. It reads the\n  pool's live price from StateLibrary.getSlot0 (sqrtPriceX96), reads the matching shielded pool's reserves, and a pure, unit-tested\n  computeArb decides direction and size with constant-product math, gated at 0.30% divergence with a governance-tunable per-arb cap.\n  It then executes a two-leg trade: it fronts the shielded leg from a small hook inventory, then does the public leg as a nested\n  PoolManager.swap, taking/settling deltas so the hook nets whole plus the captured spread — which it routes to the market's\n  regeneration treasury (converting to the treasury's numeraire on the same pool when needed). A reentrancy latch skips the hook on\n  its own nested swaps. It's fully currency-agnostic and native-ETH-aware via v4's CurrencySettler, so the identical bytecode arbs\n  native-ETH/R00T and ERC20 parcel/R00T pools.\n\n  The shielded side is presented to the hook through a thin IPrivatePool adapter (rebalanceSwap), so the hook drives a Groth16-backed\n  zkAMM without knowing anything about the ZK internals — the same hook code works whether the private pool is a mock or a real\n  shielded AMM.\n  \n  Launch path is pure v4: RegenLaunchpad clears a Continuous Clearing Auction and, in ONE clearAndLaunch transaction, calls\n  PoolManager.initialize + modifyLiquidity (via unlock) to seed the public v4 pool at the cleared price, seeds the matching shielded\n  pool, and registers the market with the hook. The hook also implements IInitializerHook (authorized()/supportsInterface) so the\n  OFFICIAL Uniswap v4 Liquidity-Launcher can initialize pools with our hook. Every market is then AUTO-DISCOVERED from the hook's\n  MarketRegistered event — the frontend and swapper add new pairs with zero hardcoding. A ParcelLauncher collapses a launch into a\n  single signature.\n\n  Proven live on Ethereum Sepolia: a public R00T/ETH swap emits Swap on the v4 pool, the hook's afterSwap rebalances the shielded\n  zkAMM, and SpreadCaptured(marketId \"R00T-ETH\", profit) sends ETH to the regen treasury — verifiable on-chain (the treasury balance\n  grows with volume).\n  \n  Hacky bits worth noting: CREATE2 hook-flag mining; a permissionless rebalance() anyone can call safely (it can only converge the two\n  prices toward truth and route the surplus to the land); and a one-way setLaunchpad hand-off that breaks the launchpad↔hook deploy\n  cycle when deploying via a CREATE2 factory.\n  \n  That leads with the v4 hook and hits the Uniswap judges' checklist: afterSwap, CREATE2 flag mining, PoolManager\n  unlock/settle/initialize/modifyLiquidity, StateLibrary.getSlot0, CurrencySettler, IHooks/IInitializerHook + Liquidity-Launcher\n  compat, singleton PoolManager, and a live on-chain proof.",
+  "auto_summary": "A monorepo for a land-funding crypto protocol that combines Uniswap v4 hook-based markets, private AMM components, frontend tooling, and indexing services.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/r00t-fund-p536c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

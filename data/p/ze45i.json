@@ -1,0 +1,27 @@
+{
+  "id": "ze45i",
+  "slug": "yevm-gate",
+  "title": "yevm-gate",
+  "tagline": "Verify what exact side-effects have you signed (not just blob) before broadcasting the transaction.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ze45i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/T8pJo02015RMZbNiMsan2j6a5sEfbIDbxYElGZa4RvcKo/high.mp4",
+  "demo_url": "https://gate.0xff.wtf",
+  "source_url": "https://github.com/sergey-melnychuk/yevm",
+  "finalist": false,
+  "description": "The yevm-gate is a transaction proxy that sits between your wallet and the network. Instead of broadcasting a transaction blindly, you send the signed transaction to the gate, which holds it before broadcast. You then connect with your wallet (authenticated via Sign-In-With-Ethereum, no accounts or passwords), and the gate's web UI runs a full EVM simulation of your transaction entirely in your browser via WebAssembly — against any RPC endpoint you choose, your own or a public one.\nThe simulation surfaces exactly what the transaction does: ETH balance changes, ERC-20/721 transfers, approvals, proxy implementation swaps, and gas usage — decoded by yevm-lens into human-readable side effects rather than raw opcodes. Critically, it also flags any address touched during execution that has zero prior on-chain activity, a strong signal for phishing contracts, freshly deployed scams, or social engineering attacks that rely on you not noticing an unfamiliar address in the call chain.\nOnce you've reviewed the side effects, you approve (the gate broadcasts the transaction) or reject (it's deleted, never sent). The server never sees your private keys, never executes the EVM itself, and never has custody of funds — it only stores the signed transaction bytes until you decide. This makes yevm-gate the first concrete open-source and publicly available piece of what can be called \"tx intelligence\": making every transaction inspectable and auditable before it's ever broadcast, with no centralized backend doing the actual analysis on your behalf. The safety net in an uninhabited area (post-sign) that allowed ByBit hack to happen; yevm-gate won't allow it anymore.",
+  "how_its_made": "The yevm-gate is a Axum-based server written in Rust and backed by SQLite, intercepting eth_sendRawTransaction calls (while passing through all other methods) and storing the raw signed transaction bytes rather than relaying them immediately. Authentication uses EIP-4361 (Sign-In-With-Ethereum): the server issues a nonce challenge, the user signs a structured message with their wallet, and the server verifies via ecRecover to issue a session token — no passwords, no accounts, no email.\nThe architectural decision that matters most: simulation does not happen on the server. Early versions ran the EVM backend-side, but that meant trusting the server with full visibility into every pending transaction — a centralization flaw that defeats the purpose of a \"trustless\" proxy. At the hackathon, this was refactored so simulation runs entirely client-side: the browser pulls the raw signed transactions from the yevm-gate proxy and executes it locally against whatever RPC endpoint the user supplies. Execution layer is the yevm - my own EVM implementation in pure Rust that compiles seamlessly into WebAssembly and thus can run in browser. State (storage, balances, nonces & code) is fetched lazily on demand against the latest block. All EVM-equivalent chains are supported (custom L2 fee calculations are ignored though), tested on Ethereum and also Base, Optimism and Arbitrum.\nThe operational part will consist of deploying it for public use and making it accessible globally under the designated demo URL. The hackathon work builds up on top of yevm v0.1.0 (clearly tagged commit in a public GitHub repository) after minor fixes and is provided in a separate pull-request on GitHub.",
+  "auto_summary": "A Rust-based Ethereum transaction proxy that delays broadcast and lets users review client-side EVM simulation results before approving submission.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/yevm-gate-ze45i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

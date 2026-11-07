@@ -1,0 +1,29 @@
+{
+  "id": "c1y18",
+  "slug": "minado",
+  "title": "Minado",
+  "tagline": "We build a Mixer for Mina, it allows private transactions in Mina with just 1 step.",
+  "event": {
+    "slug": "ethbogota",
+    "name": "ETHBogotá",
+    "start_time": "2022-10-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c1y18/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dT01pSYRwXORdo02JOx35xqdlBjowZJlV1AA3fN8MZMsM/high.mp4",
+  "source_url": "https://github.com/Sr-santi/mina-eth-bogota-contract",
+  "prizes": [
+    {
+      "sponsor": "Mina Protocol",
+      "sponsor_id": "6wi0d",
+      "placement": "🏊‍♂️ Mina — Pool Prize",
+      "title": "Mina"
+    }
+  ],
+  "finalist": false,
+  "description": "What did we build? \n\nWe build a Mixer Protocol in Mina, the high-level idea is to allow private transactions for Mina, which we believe is necessary for building a fully private and secure ecosystem. \n\nWhy a Mixer? \n\nAs ZkBuilders we believe that the future should not be one where you lose control over your data. Also, we build this protocol recognizing that security and privacy should not be hard for the end-user.  \nWe envision a world where people can control their data in a smooth and low-effort way. \n\nHow does it work? \nThe protocol is divided into 3 parts: \n\n-Deposit logic:\nIn the deposit, the following actions are executed.\n1. A Minado account that will pay the gas fees is funded\n 2. A userAccount is funded to deposit into our minadoZkAppAccount..\n * Note: In a real implementation this would not happen as the account already has a balance\n  3. A commitment needs to be created  C(0) = H(S(0),N(0))\nNote: S= Secret , N= Nullifier ( N(0) = Hash(PB(user),Random private key ))\n  3.1 A Secret is created using Poseidon ( Cryptography library in Snarky )\n  3.2 A Nullifier is created to avoid double spending\n 3.3 The Secret and the Nullifier are hashed and the commitment is created. \n 4. The commitment is added to the Leaf of the Merkle Tree.\n 5. A note which we can understand as a Zk-proof of the commitment is provided to the user to store it. \n 6.  Funds are sent from the user account to the minadoZkAppAccount\n\n-State management ( Merkle Tree) : \nThe steps we followed are: \n1. Create a Merkle Tree instance.  \n2. Wrap  the Merkle Tree into an off-chain storage form \n3. Set leaf with the Commitment Ex: C(0)\n4. Get the root of the tree \" Initial commitment\" Which would be used to \n verify the transaction \"\n\n-Validation and Withdraw  (Circuit)\n\n1. The user provides the note. \n2. With the note a  Merkle tree Witness is generated based on the commitment index ( Which comes from the commitment provided)\n 3. With help of the witness the commitment is verified, without revealing it. The witness allows us to \"reconstruct\" the Merkle path getting to the root and validating that the commitment is part of the Merkle path \n\n\nThe future of our project\n\nWe think this project is fundamental for creating a privacy and security ecosystem, also we are sure it could create more impact after this Hackathon.\n\nThe future steps that we will execute for this project are: \n\n- Integrate compatibility with Wallets: We want to focus first on delivering a secure, friendly, and high-quality product. We will integrate compatibility with Aura Wallet and then Chainsafe or Uniswap when the integration is ready, the goal is to increase adoption. \n\n-Upgrade from a Mixer to a Private Rollup: We want to build a privacy rollup that enables more builders to create ZkApps on top of our protocol, for example, Defi private protocols, including lending applications, staking applications, and an infinite number of possibilities.\n\n-Building bridges between Minado and other blockchains: We will start building bridges with other blockchains to increase volume and liquidity which will benefit other builders like us and will enhance network effects.",
+  "how_its_made": "For this project we used: \n-SnarkyJs\n-Mina. zk-CLI\n-The Merkle Tree implementation provided by Mina. \n-Different Mina implementations as an example for our implementation. . \n-We used Poseidon as our cryptography library to run different powerful Zk functions \n\nThe future steps that we will execute for this project are: \n\n- Integrate compatibility with Wallets: We want to focus first on delivering a secure, friendly, and high-quality product. We will integrate compatibility with Aura Wallet and then Chainsafe or Uniswap when the integration is ready, the goal is to increase adoption. \n\n-Upgrade from a Mixer to a Private Rollup: We want to build a privacy rollup that enables more builders to create ZkApps on top of our protocol, for example, Defi private protocols, including lending applications, staking applications, and an infinite number of possibilities.\n\n-Building bridges between Minado and other blockchains: We will start building bridges with other blockchains to increase volume and liquidity which will benefit other builders like us and will enhance network effects.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/minado-c1y18",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

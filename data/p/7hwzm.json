@@ -1,0 +1,27 @@
+{
+  "id": "7hwzm",
+  "slug": "matoi",
+  "title": "Matoi",
+  "tagline": "A working economy where AI agents price information, buy what they need, and prove every payment.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7hwzm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qBW8RsfG7E9Kjz74U9003WwH00fYhVC1QuXSn1GWlh3fg/high.mp4",
+  "demo_url": "https://y0mek0.github.io/",
+  "source_url": "https://github.com/y0mek0/matoi-agent-intelligence-market",
+  "finalist": false,
+  "description": "Matoi is an agent-to-agent market for paid intelligence.\n\nProvider agents collect and evaluate information from sources such as Telegram, RSS feeds, market APIs, protocol data and other live streams. They decide what is useful, price their output, and publish it for other agents to buy.\n\nA BuyerAgent searches the market for information relevant to its task, compares available providers, evaluates quotes against its budget and risk policy, and pays for the sources it chooses. Circle Developer Controlled Wallets and testnet USDC handle agent spending, while paid requests are settled through a Hedera x402 flow using a Blocky402-compatible facilitator.\n\nEach completed call produces a receipt and an audit trail. Payment records are kept in the app ledger, and proof is anchored to Hedera Consensus Service so the full mission can be reviewed afterwards.\n\nOne of the working providers reads a live Telegram news stream, evaluates incoming messages and sells the resulting signal per request. The same model can be extended to video analysis, policy speeches, market data, security events, onchain activity, or any other source an agent can evaluate and price.\nThe product is a Next.js control room, an in-process BuyerAgent, a provider marketplace, a Hedera payment signer, an Arc spend ledger and an HCS audit topic — all wired into one A2A transcript.",
+  "how_its_made": "I built Matoi as one Next.js app that talks to two rails.\n\nFrontend is plain Next.js with TypeScript. A control room page lets you pick a buyer scenario and click RUN. There's a Blocky402 toggle that decides which payment rail gets used.\n\nBackend lives in the same repo. /api/mission/run is the single entry point. It runs a BuyerAgent in-process, asks provider agents for quotes, picks the ones that fit the budget, and writes the whole interaction as an A2A transcript.\n\nProviders are small modules. TelegramPulse uses a local Telethon bridge that reads a public Telegram channel and turns the messages into a paid signal. The other providers hit CoinGecko, DefiLlama, RSS feeds and GitHub directly through their public APIs. No keys needed for the demo.\n\nWhen Blocky402 is ON, the mission endpoint calls /api/x402/blocky402/pay. That route uses @hashgraph/sdk to build and sign a Hedera USDC TransferTransaction off-chain, encodes it as an x402 payment header, and posts it to my self-hosted /settle route. The route acts as a Blocky402-compatible facilitator, opens a challenge, settles the receipt and returns an HMAC-signed envelope with a receiptId.\n\nArc/Circle side: the BuyerAgent authorizes spend through Circle Developer Controlled Wallets. There are three role wallets on ARC-TESTNET — Trader, ArcResearch, Risk. Authorization goes through an Arc spend ledger on disk with idempotency keys so nothing double-pays. Real ARC-TESTNET transfers are gated behind two env flags that have to both be true.\n\nNanopayments: every accepted call appends a meter entry (base price + costPerCall × calls). HCS: receipt hashes and the mission summary land on topic 0.0.10426202 on Hedera testnet. Allowlisted payloads only.\n\nPartner tools that actually matter:\n- Circle Developer Controlled Wallets — the agent's identity and treasury\n- Hedera x402 + Blocky402-compatible facilitator — the pay-per-call rail\n- HCS — the public proof layer",
+  "auto_summary": "A Next.js app runs buyer and provider agents, meters paid intelligence calls, and records payment and audit data on Hedera and Circle rails.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/matoi-7hwzm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "7vt96",
+  "slug": "swapfee-winback-hook",
+  "title": "SwapFee Winback Hook",
+  "tagline": "A fun way to to round up your trade at a chance to not pay for swap fees on Pancakeswap V4!",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7vt96/banner/default.jpg",
+  "demo_url": "https://github.com/jeetsons/Swap-Fee-Winback-Hook",
+  "source_url": "https://github.com/jeetsons/Swap-Fee-Winback-Hook",
+  "finalist": false,
+  "description": "This is a hook for the newly released Pancakeswap V4 via hooks. A lot of people don't know this but as DeFi traders, we end up paying a lot of swap fees to Liquidity Providers. The fee can range from 0.05% to 1% of the value of the swap, which can be quite a bit. Hundreds of millions of dollars have been paid as swap fees in the past year!\n\nWhat if there's a fun way to potentially get your swap fees back as a trader and also have some fun at the same time? Enter the Transaction Swap Fee Winback Hook!\n\nWe allow users to round up their trade (currently to $1 USDT) for a chance to win back their whole swap fee they paid! The chance of winning back the swap fee depends on the amount of round up and also the swap fee paid.\n\nFor example, if a user paid a dollar and the swap fee totalled $10, then they would have a 1/10 chance of winning.",
+  "how_its_made": "## How it works\nWe are leveraging the Pancakswap V4 hooks for our purpose. There is a hook for an action after a swap, and we are using this hook here to:\n1. Determine the swap fee the trader paid\n2. Round up the trade and use that amount relative to the swap fee paid to determine the probability of getting the swap fee back\n3. Randomly check if the user won by using that probability and then sending a rebate back to the user if they won\n\n## Some learnings while integrating\n- To pass hook specific data, we can use the `hookData` and then encode/decode it (thanks Chefs for guiding me here):\n```\nswapRouter.exactInputSingle(\n   ICLSwapRouterBase.V4CLExactInputSingleParams({\n     poolKey: key,\n     zeroForOne: false,\n     recipient: address(this),\n     amountIn: 1000 ether,\n     amountOutMinimum: 0,\n     sqrtPriceLimitX96: 0,\n     hookData: abi.encode(address(this)) // later on decode it in the hook by doing abi.decode(hookParams, (address));\n   }),\n   block.timestamp);\n```\n- To deterministically pick a winning condition, we used the blocktime which is the same in the test framework. For maximum randomness we'd want to switch to Chainlink VRF. I have the code in a separate branch.\n\n## Future plans\n- We want to round up to be a variable amount so the user can enhance their odds of winning back the swap fees.\n- Currently we only accept USDT and pay any rebates in swap fees in USDT, but we should allow any token for a better UX.\n- To ensure there's fairness, we also would want to integrate truly randomness via Chainlink VRF.\n- I wanted to integrate a frontend for this but ran out of time, but adding a good fun UX experience would be critical.\n- Working with protocols where they sponsor some of the tokens to rebate their users for trading (and winning) would be step after\n- Launching this as a protocol with potential market fit in the sense that the protocol charge an entry fee to sustain the operations.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/swapfee-winback-hook-7vt96",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

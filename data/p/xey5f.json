@@ -1,0 +1,36 @@
+{
+  "id": "xey5f",
+  "slug": "zkpa",
+  "title": "ZKPA",
+  "tagline": "Using ZK proofs, we created a tool to verify the authenticity of photos, images and video without introducing any traceable identities, whilst still allowing hacked cameras to be blacklisted. It uses hardware-attestation, the manufacturer is the root of trust.",
+  "event": {
+    "slug": "london2024",
+    "name": "ETHGlobal London",
+    "start_time": "2024-03-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xey5f/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ghWuYmNpbKQSIwPqKFSxh0100aGFmGqKkpMfGb021QhfrA/high.mp4",
+  "demo_url": "https://zkpa.vercel.app/",
+  "source_url": "https://github.com/ToxicPine/zkpa/",
+  "prizes": [
+    {
+      "sponsor": "Nethermind",
+      "sponsor_id": "bk5qx",
+      "placement": "1st place",
+      "title": "Zero-Knowledge (ZK) innovations"
+    },
+    {
+      "sponsor": "Aztec",
+      "sponsor_id": "nhs1x",
+      "placement": "Best Noir App",
+      "title": "Best Noir App"
+    }
+  ],
+  "finalist": true,
+  "description": "\n\nTHIS IS VERY WRONG AND ROUGH PLEASE SEE GITHUB README\n\n1. **Manufacturers Cryptographically Certify Cameras In-Factory.**\n\nManufacturers are the root of trust, however they can not distribute their own private keys on-device due to the risk of compromise, so they generate unique and revocable keys for each camera (can be generated on-device by secure enclave), then sign the pubkey (its PKI infrastructure, they're a CA root). This key will be used by the camera to sign images. This is a one-time set-up procedure, since the certificate of authenticity is saved on the camera and reused in future.\n\n2. **The Camera Takes A Signed Photo.**\n\nThe camera can now take a photo and sign the image hash and store the signature + its certificate in the EXIF metadata. Jointly, this proves that the photo was taken by a camera which is certified as secure and trustworthy by the manufacturer. \n\n3. **The Signatures Are Scrubbed.**\nWe prove that there is a valid camera signer in ZK\n\n\n- Core functions:\n1. **User Takes Photo On Camera**:\n    - The camera is trusted.\n2. **Camera makes the hash:** \n    - The camera hashes the uploaded photo using a hashing function, generating a unique hash value.\n    - When the camera hashes the uploaded photo, it essentially applies a specific algorithm to the image data, transforming it into a fixed-length string known as a hash value or hash code. This hash value is computed based on the content of the image, thus resulting in a unique hash value for each photo. Such hashing operations are commonly used for identifying and verifying the integrity of images, as even slight modifications to the image would result in significant changes to its hash value, allowing any tampering to be detected. Therefore, the camera generating hash values helps ensure the originality and integrity of the photos, while also being useful for image management and retrieval purposes.\n3. **The Camera Makes The Signature**\n    1. The signature proves that the image is genuine\n4. **The Zero-Knowledge Proof Hides The Signature**:\n    - The application generates a Zero-Knowledge proof, proving the authenticity of the photo without revealing the actual signature.\n    - Zero-Knowledge proofs ensure that users don't need to disclose any sensitive information while proving they possess the genuine photo.\n5. **Verification**:\n    - Users can choose to store the generated Zero-Knowledge proof along with the photo hash on the blockchain.\n6. **Querying**:\n    - When other users want to verify the authenticity of a photo, they can input the photo hash through the application.\n    - The application retrieves the relevant Zero-Knowledge proof and photo hash, and uses the proof to verify the authenticity of the photo without revealing its actual content.",
+  "how_its_made": "1. **Zero-Knowledge Proof (ZKP) Libraries**: Utilize Noir to compress and prove signatures without revealing sensitive information.\n2.  **Elliptic Curve Cryptography (ECC):** Generated in Noir and in the Python CLI, also verified in Noir. We use ECDH key agreements.\n3. **Image Processing Libraries (IPL)**: We use Pillow and EXIF in Python as processing libraries to extract relevant features or metadata from the photos, which can be used as inputs for the ZK signature verification process.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkpa-xey5f",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

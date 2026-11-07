@@ -1,0 +1,21 @@
+{
+  "id": "vdtmz",
+  "slug": "percolate",
+  "title": "Percolate",
+  "tagline": "Percolate: RISC Zero-verified private whitelist gating for swaps on 1inch Aqua/SwapVM.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vdtmz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/kcmqgHyxAvigsCVcsc7LVIr6UuTrxqZqVpns1zu02NAg/high.mp4",
+  "source_url": "https://github.com/0xMoZi/Percolate",
+  "finalist": false,
+  "description": "Percolate replaces that with a RISC Zero zkVM proof: takers prove Merkle-tree membership in the\nmaker's allowlist **off-chain**, and only a one-time-use nullifier is revealed on-chain. Neither the\ntaker's identity nor their position in the allowlist is ever exposed. The maker's allowlist root\nlives in a small, independently-deployed `PercolateVerifier` contract — decoupled from SwapVM's\norder/strategy lifecycle — so it can be updated any time with a single transaction, no re-signing\nor re-shipping required.",
+  "how_its_made": "Percolate is built across three layers that had to interoperate precisely: a Rust/RISC Zero zkVM core, a Solidity contract layer on Sepolia, and a Tauri desktop app for the Maker UI.\n\nThe privacy logic lives in percolate-core (Rust): a Merkle tree over public leaf commitments (hash(secret)), deliberately split into leaf-based functions so that rebuilding a membership proof never requires access to other participants' secrets, only the maker (who generates all secrets) touches the raw-secret variant. This same crate is compiled directly into both the CLI prover (percolate-host, used to generate STARK proofs) and the Tauri app's Rust backend, so the allowlist logic is never reimplemented, just reused across contexts.\n\nOn-chain, PercolateVerifier.sol holds a mutable allowlist root and nullifier set, decoupled entirely from 1inch's SwapVM/Aqua order lifecycle, updating an allowlist is a single setRoot() call, not a re-signed order or a re-shipped strategy. We implemented a custom SwapVM opcode, PercolateGate, that stores only the verifier's address in a maker's program bytecode (unlike SwapVM's built-in WhitelistCoequal, which encodes allowed addresses in plaintext) and reads the taker's proof from taker-supplied calldata at swap time, verifying it against the official permissionless RiscZeroVerifierRouter on Sepolia, no custom Groth16 verifier deployment needed. This was validated with a Foundry integration test that forks Sepolia and calls LimitSwapVMRouter.swap() end-to-end.\n\nKnown limitation, stated plainly: RISC Zero's Groth16 proof compression (needed for cheap on-chain verification) currently requires a Docker container on x86, a constraint of RISC Zero's own tooling, not our design. STARK proving works natively and completes in seconds; the Taker flow's proof-compression step is implemented in the CLI and integration-tested against a mocked verifier call, but not wired into the desktop app in this build.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/percolate-vdtmz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

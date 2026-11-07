@@ -1,0 +1,22 @@
+{
+  "id": "qp8ab",
+  "slug": "agentry",
+  "title": "Agentry",
+  "tagline": "A Ledger-secured, Graph-powered autonomous purchase agent on Hedera Network",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qp8ab/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8jafhAJOurVznYLcTQGQ7jikfk1Xea6bai02kWg02KCrw/high.mp4",
+  "demo_url": "https://agentry402.vercel.app",
+  "source_url": "https://github.com/anbusan19/ethonline",
+  "finalist": false,
+  "description": "A Ledger-secured, Graph-powered autonomous purchase agent. It pays for goods and services over Hedera's x402 rails, gates every payment behind a physical Ledger Nano approval, and reasons over its own on-chain purchase history — indexed by a subgraph — to suggest restocks and compare prices across vendors.\nThe commerce-agent architecture draws on established patterns from prior Zepto402/Maid402-lineage builds, but Vault402 itself — the Ledger payment gate, the Hedera/Blocky402 settlement path, the purchase-log contract, and the subgraph — is built fresh for this event.",
+  "how_its_made": "Ledger's role is scoped entirely to protecting the key behind the Hedera payment. It is not involved in the Ethereum Sepolia write at all — that's a separate, ordinary-key transaction, since Ethereum Sepolia's only job here is being a chain The Graph can index.\n\nDecides — the agent identifies a purchase to make (restock or new order).\nUnlocks the key — the Hedera operator's ECDSA key is encrypted at rest via the Ledger Key Ring (ring encrypt). The agent never holds it in plaintext; right before settlement it calls ring decrypt, which requires the physical Nano to be connected and confirm before releasing the key into memory. Note this is a gate on the key, not a hardware-produced signature — Hedera isn't a wallet-cli-supported currency, so the actual ECDSA signing happens in software once the key is released, not inside the device's secure element.\nSettles — the agent uses that briefly-decrypted key to build and submit the payment through the Blocky402 facilitator, settling on Hedera testnet in HBAR.\nLogs — the agent calls PurchaseLog.recordPurchase(...) on Ethereum Sepolia, using a standard key from .env — no Ledger involvement on this leg.\nIndexes — a subgraph deployed to Ethereum Sepolia picks up the PurchaseLog event live.\nReasons — the agent queries its own purchase history through the Subgraph MCP in natural language, computes consumption patterns, and surfaces restock suggestions and cross-vendor price comparisons.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentry-qp8ab",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

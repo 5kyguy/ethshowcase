@@ -1,0 +1,22 @@
+{
+  "id": "a41c5",
+  "slug": "hyperlinkgrid",
+  "title": "Hyperlinkgrid",
+  "tagline": "A $1 million onchain 100 × 100 grid of $100 tiles, each with a hyperlink and a color",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a41c5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00ZqCjwMJbxQTbXW01wvMgdwlSatCXobOsXlQEvj02tCNA/high.mp4",
+  "demo_url": "https://hyperlinkgrid.xyz",
+  "source_url": "https://github.com/LeftwayAI/hyperlinkgrid",
+  "finalist": false,
+  "description": "Inspired by the million dollar home page of early WWW, Hyperlinkgrid is part internet cultural canvas, part creative economics experiment, part art project. 10,000 tiles are available for $100 apiece. For that price you get to permanently imprint a hyperlink (to anywhere on the web) and a color (any valid hex code) on this 100 × 100 grid.\n\nOnce all 10,000 slots have sold for $100 apiece, there will be $1,000,000 in a smart contract.\n\nThe sale of the final tile will trigger an onchain function that picks 10 random participants who will be eligible to claim $100K from the smart contract holding the $1,000,000. I've also considered doing 1 lucky winner claims all $1 million, but I think 10 winners getting $100K each feels more interesting to me for some reason.",
+  "how_its_made": "Hyperlinkgrid lives in a pnpm monorepo: the UX is a Next.js App Router client (apps/web) styled with Tailwind, and the interactive grid page wires Privy login + Wagmi/Viem reads directly into the on-chain ABI (apps/web/app/grid/page.tsx). The client batches getTilesBatch calls so it can redraw hundreds of NFTs instantly, converts hex colors to ints before minting, and pipes a mocked USDC approval + purchase flow through Viem’s waitForTransactionReceipt, which feels hacky but makes Base Sepolia UX snappy without running a backend.\nAll smart contract work sits in packages/contracts and uses Hardhat 3 + TypeScript, TypeChain, and OpenZeppelin 5 on Solidity 0.8.24 (hardhat.config.ts). Deploy scripts target Base Sepolia today, with configs ready for Basescan verification and Sourcify uploads. Every tile is its own ERC-721 that stores a color + URL pair, and ENS subnames (e.g., 1.hyperlinkgrid.eth) get assigned off-chain for now. The whole stack deploys from Vercel, but the plan is to pin the static Next build plus the generated SVG art to IPFS and resolve it through hyperlinkgrid.eth once the mint finishes.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hyperlinkgrid-a41c5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

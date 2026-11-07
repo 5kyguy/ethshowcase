@@ -1,0 +1,30 @@
+{
+  "id": "2onr3",
+  "slug": "pptp",
+  "title": "PPTP",
+  "tagline": "A token standard where value is determined by real-world performance, not hype or speculation",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2onr3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/GHPsrO802BtPxwhXT02ft6vpQibGFktEoiJfisXLJTFt8/high.mp4",
+  "demo_url": "https://pptp-cannes.vercel.app",
+  "source_url": "https://github.com/gabrielantonyxaviour/pptp",
+  "prizes": [
+    {
+      "sponsor": "LayerZero",
+      "sponsor_id": "dkzkp",
+      "placement": "2nd place",
+      "title": "Best Omnichain DeFi Primitive"
+    }
+  ],
+  "finalist": true,
+  "description": "PPTP (Performance-Pegged Token Pools) is a protocol standard for issuing fungible tokens whose redeemable value is directly tied to real-world performance metrics. It introduces a lifecycle where tokens can only be minted and burned within epochs defined by a governing DAO, removing the influence of speculation, order books, or trading volume.\n\nEach token represents an entity whose value must be backed by measurable performance — such as goals for athletes, viewership for creators, traction for startups, or citation metrics for researchers. The DAO sets the oracle sources and scoring logic for each epoch. During the lock window, Chainlink Functions fetch relevant external data and aggregate it into a normalized score.\n\nWhen the burn window reopens, holders redeem their tokens for a share of a cross-chain USDC pool — calculated based on score and total performance across all token holders. The system supports regional incentives, sybil resistance, and omnichain interoperability. Governance is based on verified human identity (Self Protocol), not token balance.\n\nPPTP enables DAOs to tokenize and reward performance directly, while users earn based on how right they were — not how fast they traded. This structure enables completely new on-chain systems for fantasy sports, decentralized creator economies, proof-of-impact models, and verifiable milestone funding.\nAt its core, PPTP establishes a global, DAO-governed USDC pool from which token holders can redeem based on performance-based share. The protocol standardizes the lifecycle into epochs: tokens can only be minted and burned during DAO-defined windows. During locked phases, oracles determine score contributions per token (e.g., player, creator, research paper) and finalize them on-chain.\n\nEvery chain shares the same liquidity pool through LayerZero’s omnichain OFT+Composer, and every user is subject to human-based participation enforcement through ZK identity (Self Protocol). PPTP is domain-agnostic and can represent athletes, creators, projects, or even public goods.",
+  "how_its_made": "PPTP was built as a modular, extensible smart contract protocol using Solidity and Hardhat v3. We designed the system as a set of pluggable modules:\n\n- `PPTPPool.sol`: core mint/burn logic with DAO-configurable epochs\n- `PPTPOracleAdapter.sol`: fetches off-chain data via Chainlink Functions and applies DAO-set weights\n- `PPTPLiquidityMath.sol`: handles normalized scoring and reward share\n- `OmnichainRouter.sol`: uses LayerZero OFT + Composer for cross-chain mint/burn\n- `SelfRegistry.sol`: links verified zk identities to wallet addresses\n\n**Omnichain support** is enabled by LayerZero. We use:\n- `OFTv2` to allow mint/burn of player tokens across Arbitrum, Celo, Flow, and Zircuit\n- `Composer` to attach player ID, DAO ID, and score metadata in cross-chain payloads\n- `RateLimiter.sol` to cap maximum burn volume and defend against pool drain attacks\n- `lzBatch` for DAO-wide config propagation\n- `lzRead` (planned) for remote queries like score verification or zk identity fetches\n\n**Oracle data** is sourced from Chainlink Functions (deployed on Arbitrum). We used SportRadar and API-Football to fetch player stats like goals, assists, and minutes played. These are normalized to a 0–100 scale and used to determine reward share during the burn window.\n\n**ZK identity** is enforced using Self Protocol. Users prove humanity, nationality, and age via a zk proof, which is stored as a nullifier that maps to one or more wallet addresses. This is used for Sybil-resistant governance, fair mint/burn rules, and regional fee subsidies.\n\n**The frontend** is built with:\n- Next.js 15 App Router\n- TailwindCSS v3 (dark mode)\n- Zustand + shadcn/ui for state and styling\n- Privy for Web2/Web3 login abstraction\n\nWe also built a `/dev` test dashboard where all contract features (mint, burn, score simulation, DAO settings, zk identity proof) can be tested interactively with console logs and metadata previews.\n\n**Hacky things we did:**\n- Implemented a **virtual floor** in reward math to prevent low-mint, high-score scenarios from draining the pool\n- Enforced **fee bounds** that never exceed LayerZero bridge cost\n- Used **Cross-chain Composer with Replay Protection** to ensure that mint/burn payloads cannot be spoofed or replayed\n- Simulated oracles, epochs, and DAO proposals entirely through our dev interface\n\nEvery integration — Chainlink, LayerZero, and Self — is live on mainnet chains. The system is generic, fair, modular, and already supports real-world adaptation.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pptp-2onr3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

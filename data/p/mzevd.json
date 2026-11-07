@@ -1,0 +1,27 @@
+{
+  "id": "mzevd",
+  "slug": "ghostwriter",
+  "title": "GhostWriter",
+  "tagline": "Ghostwriter Mesh Swarm: Decentralized multi-agent editorial pipeline on Gensyn AXL.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mzevd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cynwWlK3NXGOPEJIN3YiG3daydSyoXalxvmoGDKZVg4/high.mp4",
+  "demo_url": "https://github.com/ODbeke/ghostwriter-mesh",
+  "source_url": "https://github.com/ODbeke/ghostwriter-mesh",
+  "finalist": false,
+  "description": "Ghostwriter Mesh Swarm is a production-ready, decentralized AI collaborative platform designed to demonstrate the power of the Agent eXchange Layer (AXL) protocol. At its core, the project utilizes a secure P2P mesh network powered by identity-based routing to coordinate a swarm of specialized AI agents - the Writer, the Fact-Checker, and the Senior Editor.\n\nUnlike traditional AI applications that rely on a single centralized API call, Ghostwriter Mesh Swarm operates as a distributed system. Each agent exists as a sovereign node within the mesh, communicating via raw byte payloads and public-key identities. This architecture ensures that the content generation process is resilient, private, and capable of operating without a central orchestrator.\n\nThe workflow follows a sophisticated multi-agent pipeline:\n\nThe Writer Agent generates an initial high-level draft based on user input and a specific Tone Metadata (Professional, Creative, Technical, or Viral) passed across the mesh.\nThe Checker Agent receives the draft via the P2P layer, performing strict technical fact-checking and terminology tightening.\nThe Editor Agent performs the final polish, transforming the fact-checked content into a crisp, authoritative blog post.\n\nGhostwriter Mesh Swarm represents a leap forward in how we build and coordinate decentralized agentic systems.",
+  "how_its_made": "Ghostwriter Mesh Swarm is built on a multi-layered architecture that combines decentralized networking, AI orchestration, and modern web design into a single cohesive platform.\n\nThe Networking Layer (AXL/Yggdrasil): The foundation of the project is the Agent eXchange Layer (AXL) protocol, a P2P mesh networking stack built on top of the Yggdrasil overlay network. I compiled the AXL node binary (written in Go) and configured three independent mesh nodes, each with its own identity keypair and HTTP bridge port. These nodes form a private mesh where messages are routed using public-key-based addressing rather than traditional IP addresses. Each node exposes a local HTTP API (/send and /recv) that my Python agents use to push and pull raw byte payloads across the network.\n\nThe AI Agent Pipeline (Python + Gemini): On top of the mesh, I built three specialized AI agents in Python using the Google Gemini API (gemini-flash-latest). The Writer Agent receives user input via a FastAPI backend and generates an initial draft. It then encodes that draft along with a TONE: metadata header as raw bytes and pushes it through the AXL mesh to the Checker Agent's public key. The Checker Agent polls its local AXL bridge, receives the payload, performs fact checking via a separate Gemini model instance with a strict system prompt, and forwards the corrected output to the Editor Agent. The Editor parses the tone metadata from the byte stream and performs a final polish before routing the finished article back to the Writer's node, where FastAPI picks it up and returns it to the frontend.\n\nThe Frontend (Vanilla HTML/CSS/JS): The UI was hand crafted without frameworks to keep the bundle size zero and the design fully custom. The tone selector uses pill-style buttons that inject metadata into the API payload, which then propagates through the entire P2P mesh.\n\nNotable Hacks: The most interesting engineering challenge was passing structured metadata (like tone selection) through a protocol that only supports raw bytes. Since AXL has no concept of headers or JSON, it's just a byte pipe. I invented a simple inline metadata format (TONE: Creative\\n\\n## Writer Draft\\n...) that gets parsed by downstream agents using basic string splitting. It's a deliberately low-level approach that mirrors how early internet protocols bootstrapped structure on top of raw streams. Another hack: the entire system runs on 6 concurrent processes (3 AXL nodes, 2 Python agents, 1 FastAPI server) coordinated purely through the mesh, there is no central orchestrator, message queue, or database anywhere in the stack.\n\nKey Technologies: AXL/Yggdrasil (Go), Python 3, FastAPI, Google Gemini API, HTML5 Canvas API, CSS3 (glassmorphism), vanilla JavaScript, python-dotenv for secrets management.",
+  "auto_summary": "A decentralized writing workflow sends drafts between Python agents over local AXL node HTTP bridges and returns edited content to a web frontend.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ghostwriter-mzevd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

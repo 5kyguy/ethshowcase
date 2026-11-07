@@ -1,0 +1,26 @@
+{
+  "id": "e582n",
+  "slug": "adaptive-hook-amm",
+  "title": "Adaptive Hook AMM",
+  "tagline": "Uniswap v4 dynamic-fee hook that neutralizes sandwich attacks & LVR via intra-block MEV dampening.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e582n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/lxbLs02uquxUR005OPd5ojRAo101F7C5ximy02zZwFrl015M/high.mp4",
+  "source_url": "https://github.com/Blurryface275/amm-ethonline",
+  "finalist": false,
+  "description": "AdaptiveVol AMM is a Uniswap v4 Hook that protects liquidity providers (LPs) from MEV bots and market volatility. \n\nNormally, dynamic-fee pools only look at old price data. Because of this, MEV bots can easily predict the fees and run sandwich attacks, causing LPs to lose money (known as LVR).\n\nOur hook solves this problem with two features:\n1. Volatility Fees: We index swap history with The Graph and calculate market volatility using Chainlink Functions. The hook changes the fee tier (0.10%, 0.30%, or 1.00%) based on how calm or wild the market is.\n2. MEV Defense: The hook checks the pool price at the start of each block. If a sudden intra-block price spike is detected during a sandwich attack, the fee immediately jumps to 5%. This makes the attack unprofitable for the bot while keeping regular gas costs very low (~16.7k gas).\n\nWe also created an interactive web interface where users can simulate swaps, test volatility changes, and see the MEV protection in action.\n",
+  "how_its_made": "We built this project using Solidity, Foundry, Uniswap v4, The Graph, and Chainlink Functions. Here is how the different parts work together:\n\n1. Uniswap v4 Hook (Solidity & Foundry):\nWe developed a smart contract called AdaptiveFeeHook. Inside the `beforeSwap` function, the hook checks the swap price. It remembers the pool price at the start of each block. If a swap causes a sudden, abnormal price jump in the same block (which is how sandwich bots attack), the hook immediately increases the fee to 5%. This stops the bot from making any profit and protects regular traders and liquidity providers.\n\n2. Indexing Swaps with The Graph:\nWe created a custom Subgraph in AssemblyScript. It listens to Uniswap v4 PoolManager events (Initialize and Swap) and stores recent pool prices and swap history in real-time.\n\n3. Volatility Bridge with Chainlink Functions:\nWe wrote a JavaScript script that runs on Chainlink Functions. It fetches the recent swap history from our Subgraph, calculates the price volatility (standard deviation), and sends the result back onchain. The hook then adjusts the pool fee between Low (0.10%), Medium (0.30%), and High (1.00%). If the oracle ever stops responding, the contract safely switches to the High fee tier automatically.\n\n4. Testing & Web Sandbox:\nWe wrote 32 unit and invariant tests in Foundry. Our tests prove that the hook only adds about 16.7k gas overhead and successfully causes sandwich attackers to lose money. Finally, we built an interactive web dashboard using simple HTML, CSS, and JavaScript so anyone can easily test the swaps and simulate MEV defense in their browser.\n",
+  "auto_summary": "A Uniswap v4 hook adjusts pool fees using onchain swap conditions and offchain volatility updates from a custom subgraph and Chainlink Functions.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/adaptive-hook-amm-e582n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

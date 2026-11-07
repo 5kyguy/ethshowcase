@@ -1,0 +1,28 @@
+{
+  "id": "226zv",
+  "slug": "hypbtc",
+  "title": "HypBTC",
+  "tagline": "A privacy-preserving cross-chain token transfer protocol powered by MPC",
+  "event": {
+    "slug": "taipei",
+    "name": "ETHGlobal Taipei",
+    "start_time": "2025-04-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/226zv/banner/default.jpg",
+  "source_url": "https://github.com/armanthepythonguy/HypBTC-ETHTaipei",
+  "prizes": [
+    {
+      "sponsor": "Hyperlane",
+      "sponsor_id": "gt566",
+      "placement": "Best Infrastructure",
+      "title": "Best Infrastructure"
+    }
+  ],
+  "finalist": false,
+  "description": "HypBTC introduces a novel privacy layer for token transfers across blockchains—starting with Bitcoin on the Citrea zkL2 and extending to other chains via Hyperlane. The key innovation lies in concealing the transaction amounts using Multi-Party Computation (MPC), ensuring that sensitive financial data remains private even on public chains like Ethereum.\n\nHere’s how it works: when users deposit cBTC (Citrea's bridged Bitcoin) into our smart contract on the Citrea chain, they opt into a privacy layer. From that moment, all subsequent transactions—whether they’re within Citrea or bridged to another chain—are amount-obfuscated, meaning no one on-chain can deduce the actual value being transferred. Behind the scenes, a committee of MPC nodes manage the balance ledger in secret-shared form, so no single party ever learns the actual balances.\n\nTo facilitate cross-chain transfers, we leverage Hyperlane, a modular interoperability layer, allowing private transfers to propagate securely to destination chains. All this happens without revealing the transaction amount at any step.\n\nTo enforce regulatory compliance, particularly concerning sanctioned entities, we integrate with the Self Protocol to perform private OFAC checks. Users who are found to be on the US OFAC list are prevented from initiating any transactions within the protocol.\n\nThis project represents a new primitive for privacy in a cross-chain, multi-asset world—one that balances both privacy and compliance, making it viable for real-world adoption.",
+  "how_its_made": "🔒 MPC (Multi-Party Computation) Layer\n1. We implemented an MPC protocol based on Shamir’s Secret Sharing (SSS) and additive secret sharing.\n2. Every user balance is split into secret shares and distributed across an MPC committee.\n3. When a user initiates a transfer, the amount is never revealed; instead, MPC parties update the ledger via additive operations on shares.\n4. We designed secure protocols for add and subtract to maintain balance correctness without leakage.\n\n🔁 Cross-Chain Transfer with Hyperlane\n1. We integrated Hyperlane as our cross-chain messaging protocol to support bridging to EVM chains.\n2. When a user initiates a bridge, the MPC committee confirms share availability and sends an obfuscated payload to the destination chain via Hyperlane.\n3. Destination smart contracts validate the message, and users can claim their tokens without any amount disclosure on-chain.\n\n🚨 OFAC Compliance with Self Protocol\n1. Before any user can transact, their identity is checked using Self Protocol’s privacy-preserving KYC framework.\n2. If they are found on the US OFAC sanctions list, their transaction is blocked at the MPC coordination layer.\n3. This ensures that we remain compliant with global regulations while maintaining privacy for legitimate users.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hypbtc-226zv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

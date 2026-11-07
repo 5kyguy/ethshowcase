@@ -1,0 +1,22 @@
+{
+  "id": "sx23h",
+  "slug": "sanctum",
+  "title": "Sanctum",
+  "tagline": "Safe Intent based agentic defi: agents operate inside explicit boundaries",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sx23h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MKf018K8EiHHi96V77njEk1CBVXaY02wdzjDEBPsy4bBI/high.mp4",
+  "demo_url": "https://sanctumfi.online",
+  "source_url": "https://github.com/0xMaxyz/Sanctum",
+  "finalist": false,
+  "description": "Sanctum is a settlement system for ERC4626 vault reallocations on Arbitrum One. Users express safety and economic constraints (vault allowlists, fee caps, slippage floors, cooldowns, executor choice, and execution-specific checks) inside a structured EIP-712 payload (IntentParams) tied to a two-step intent lifecycle in intents-api (reserve, then commit with signatures). A keeper or agent obtains calldata for Sanctum.settleWithIntent, submits the transaction, and the API verifies the receipt before marking the intent settled. On-chain, settleWithIntent verifies the intent signature, validates the unsigned SettleBundle against the signed policy, and runs deposit / fee / swap / IExecutor.execute in one atomic path—reverting with named errors on any violation. The design goal is user-sovereign policy: constraints live in the user’s signature, not in a trusted off-chain rules engine. The repo also ships a React dashboard, an MCP server for agent workflows, an optional settlement-worker, Morpho-aware planning, Uniswap quotes for cross-asset paths, and KeeperHub workflow examples for operators.",
+  "how_its_made": "Sanctum is a pnpm monorepo. Solidity 0.8.35 contracts live under [packages/contracts](packages/contracts), built and tested with Foundry (forge build / forge test), including fork tests against Arbitrum-style state. The Sanctum contract coordinates Permit3-style allowances, fee collection, optional Uniswap-style swaps via a router interface, and pluggable IExecutor implementations (including Morpho composite execution). Off-chain services are TypeScript on Node 20+: [packages/intents-core](packages/intents-core) holds shared types, Postgres-backed storage, EIP-712 helpers, settlement verification with viem, and an HTTP router; [packages/intents-api](packages/intents-api) exposes Express REST routes for intent lifecycle and calldata; [packages/db](packages/db) runs SQL migrations for intents metadata (including intentRef). [packages/frontend](packages/frontend) is Vite + React 18 with wagmi, viem, and RainbowKit, Tailwind + DaisyUI, and Morpho GraphQL-backed position reads. [packages/mcp](packages/mcp) uses the Model Context Protocol SDK so agents can reserve/commit intents and fetch quotes. [packages/settlement-worker](packages/settlement-worker) is an optional poller that builds and submits settlement txs. [packages/keeperhub-adapter](packages/keeperhub-adapter) demonstrates KeeperHub workflow integration. CI/deploy use GitHub Actions; local and stack runs use Docker-oriented config under [deploy](deploy). Partner surfaces: Morpho Blue-style execution, Uniswap quoting, KeeperHub for keeper orchestration, and an internal 0g-adapter workspace package where the build graph requires it.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sanctum-sx23h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

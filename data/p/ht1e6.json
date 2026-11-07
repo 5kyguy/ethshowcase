@@ -1,0 +1,34 @@
+{
+  "id": "ht1e6",
+  "slug": "univ4backtester",
+  "title": "UniV4Backtester",
+  "tagline": "An institutional grade UniV4 backtester that faithfully replays UniV3 events (Swap, Mint, Burn), and see how a hypothetical position would have performed over a time window.",
+  "event": {
+    "slug": "sanfrancisco2024",
+    "name": "ETHGlobal San Francisco",
+    "start_time": "2024-10-18T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ht1e6/banner/default.jpg",
+  "source_url": "https://github.com/Aperture-Finance/UniV4Backtester_ETHSF2024",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Integrations, Research, and Experiments"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal San Francisco 2024 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Uniswap v4 introduces the concept of hooks which allows DEX builders to customize behaviors throughout the swap lifecycle, i.e. before/after every swap and liquidity management actions.  A UniV4 pool is usually equipped with the concentrated liquidity curve of UniV3, but the hooks contract can customize how fees accrue to liquidity providers, among many others things, which can have a profound impact on LP profitability.\n\nAs UniV4 gets ready for production and as more and more hooks are being developed, it is essential to build fast and robust tools that can help analyze how a hooks implementation affects traders and liquidity providers.  In that spirit, we introduce our UniV4 backtester.\n\nOur UniV4 backtester fetches liquidity events from a specified UniV3 pool, and then replays these events (Swap, Increase Liquidity, Remove Liquidity) in a hypothetical UniV4 pool which may come with specified hooks.\n\nThis setup enables institutional grade backtesting analyses on how a UniV4 pool would have performed using the exact liquidity events of a real-world CLMM pool, rather than using aggregated (hourly or daily) historical data which will result in inaccurate and unrealistic results.\n\nThe backtester is able to set up a hypothetical position, and backtests the position’s performance through a specified time window. ",
+  "how_its_made": "We used a variety of technologies to make this backtester: Viem (NodeJS) to fetch UniV3 pool events; Foundry to fork the Sepolia testnet and execute the backtest.\n\n--- UniV3 Event Fetching ---\nUniV3 events are fetched from an Ethereum RPC node through `eth_getLogs` calls on the UniV3 pool contract.  For the demo, we fetched early events of the WBTC-WETH 0.3% pool on Ethereum mainnet.  Since each `eth_getLogs` call only supports a limited block range, we have to fetch events in batches.  Retry mechanism has been implemented to make event fetching more robust against temporary communication issues with the rpc node.\n\nDetails of Swap, Mint, Burn are recorded. Collect events are skipped as they do not affect the pool’s liquidity state.\n\n--- Backtester Engine ---\nWe use Foundry to create a fork of the Ethereum Sepolia network where UniV4 is deployed.  First, the specified UniV4 pool is created on the fork.  Two dummy token contracts are deployed since production tokens are not available on testnet.  A large amount of tokens are minted to an arbitrary whale address.\n\nLiquidity events are replayed:\n- Swap: the whale making a swap in the direction and amount recorded in the event\n- Mint: the whale creates a position (if one doesn’t already exist) or increases liquidity to the existing position with the magnitude recorded in the event\n- Burn: the whale decreases liquidity\n\nThe hypothetical position is set up at `startTime`, and its state (how much currency0 and currency1 can be collected) at `endTime` is returned as output at the end of the backtest.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/univ4backtester-ht1e6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

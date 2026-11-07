@@ -1,0 +1,36 @@
+{
+  "id": "05xdt",
+  "slug": "loyo",
+  "title": "Loyo",
+  "tagline": " Loyo is the loyalty program infrastructure.  No personal data required to get and spend loyalty rewards, all loyalty opportunities at one place. For businesses: 500x less infrastructure costs and open decentralized data with endless insight opportunities.",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/05xdt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RjalyCLgZJF11502vckFzNgV011YqMQmE2R7YQlxAVJUY/high.mp4",
+  "demo_url": "https://www.loom.com/share/50e4e139d906456b8e8579877f0476e8?sid=c3a166ef-5bb4-44d6-8f91-b7a94a9b9923",
+  "source_url": "https://github.com/luaroncrew/ETH_Global_Online_Loyo",
+  "prizes": [
+    {
+      "sponsor": "Tableland",
+      "sponsor_id": "eov0f",
+      "placement": "🏊 Tableland — Prize Pool",
+      "title": "Tableland"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Pool Prize",
+      "title": "Scroll"
+    }
+  ],
+  "finalist": false,
+  "description": "I wanted to join a loyalty program of a fast-food nearby and for the enrollment they asked me to provide my email address, phone number, billing address and birth date. Businesses ask for too much information. And then, with many loyalty programs your wallet gets overstuffed. You get all these annoying SMS, emails, calls like \"Happy birthday, would you like a 10% discount for your meal?\" In addition, setting up these loyalty programs cost a lot for businesses. This is why we came up with Loyo. We built the application from scratch during the hackathon.\n\nAfter a research we figured out, that we're not the one to suffer from this problem:\n\n- \"26% of consumers report that the brand asks for too much information or the enrollment process takes too long|\" : KobieMarketing\n\n- \"71 % of shoppers say they would be more likely to use their loyalty cards if they could access these cards and rewards from their mobile phone\" : report by ebbo.com\n\n- \"54% of loyalty memberships are inactive. Companies spend billions of dollars on loyalty programs every year, but that seems wasteful\" - report by Capgemini\n\nWith Loyo, customers are never asked for their personal information. Instead we use Ethereum smart wallet (exactly ERC-4337 abstracted wallet with paymaster) to identify the client. On Loyo you can get the loyalty rewards using the only one QR code everywhere. And then inside the app, you can your spend your loyalty points on a coffee, or send them to your friends with a certain limit. \n\nYou may ask yourself why businesses will switch to Loyo? At first, it's extremely cheap and easy compared to building and developing something in-house. But it's not the only reason.\n\nLet's talk about decentralized data! Every time a customer purchases a cup of coffee, or any other item, it's tracked on the Tableland database. Then businesses that use Loyo gain the privilege of accessing this invaluable database which is a gold mine of data insights.\n\nTo say it shorter, with the invisible blockchain integration for both user and business, we're solving a bunch of common loyalty infrastructure problems.",
+  "how_its_made": "When a merchant wants to use Loyo, he will use the web application to deploy his entity on the EVM chain. A business is represented as an ERC-20 token with some additional metadata about the business. - https://github.com/luaroncrew/ETH_Global_Online_Loyo/blob/main/contracts/Shop.sol\n\nSo, the merchant's business = ERC20 token 💸. Later in the explanation I will refer to a business smart contract as Shop.\n\nA merchant can distribute his token the way it wants and the way it defines, as Shop implements the ERC20 standard and the merchant is it's owner 🧑‍💻. \n\nClients of the merchant may install the Loyo mobile application built using ReactNative (accessible on both IOS and Android devices)\n-https://github.com/luaroncrew/ETH_Global_Online_Loyo/tree/main/mobile-app\n\n This application allows them to check how many loyalty points they have for different Shops, spend them or send to other people registered in Loyo. The ERC-4337 smart contract wallet is the game changer here 💪! Using ERC-4337 we implemented the gasless transactions (so that the users don't even understand that all happens on the blockchain).\n- https://github.com/luaroncrew/ETH_Global_Online_Loyo/blob/main/pre-bundler-backend/src/pre-bundler/user-operation/service.ts#L44\n\nThe creation of UserOperations is made possible thanks to userop.js library maintained by stackup. We also use their bundler and paymaster to handle and execute trascations on Polygon\n\nWe also may use some restrictions on the abstracted accounts, for example to prevent people from creating loyalty points DEX and use them. The diagram of loyalty sending with details is included to the submission.\n\nWe also have an Express backend server that collects the UserOperations (ERC-4337 transactions), parse them before sending to Bundler (executor of ERC-4337 transcations). This server writes all the transactions to a decentralized @Tableland database, so that the businesses can later analyze the activity of Loyo users.\n-https://github.com/luaroncrew/ETH_Global_Online_Loyo/blob/main/pre-bundler-backend/src/pre-bundler/user-operation/service.ts#L127\n\nThe UserOperation handling is implemented in the way it's chain-agnostic. That means, we can deploy Loyo on any EVM chain. Currently Loyo is deployed on @Polygon, @Mantle, @Scroll",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/loyo-05xdt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

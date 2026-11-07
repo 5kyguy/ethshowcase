@@ -1,0 +1,22 @@
+{
+  "id": "nk562",
+  "slug": "optimistic-roll-in",
+  "title": "Optimistic Roll In",
+  "tagline": "Layer-Agnostic Optimistic Roll-In For Self-State Management",
+  "event": {
+    "slug": "ethonline",
+    "name": "ETHOnline",
+    "start_time": "2020-10-01T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nk562/banner/default.jpg",
+  "video_url": "https://stream.mux.com/i3eBj1DrsYPB2Ts00TTUSOOGRiZi1Nu3h7FzfDou02Dq8/high.mp4",
+  "demo_url": "https://github.com/circle-free/wavy",
+  "source_url": "https://github.com/circle-free/optimistic-roll-in",
+  "finalist": false,
+  "description": "If your contract(s) has any functionality that results in isolated state changes for individual accounts, which means you could rewrite certain function to take in the user's state, and some arguments, and result ina a new state, via a pure function) then this library should allow your users to perform Optimistic Roll Ins. Effectively, your users can assert their intent to the chain, by providing their current state, the call data they would have sent to the chain normally, and their expected new state, and optimistically update their state, without wasting any gas actually performing the on-chain verifications and logic. They can perform as many of these state transitions as they want, one at a time, or even cheeper in batch (allowing for offline play and syncing afterwards), and any other users can validate their proposed state changes after the fact, and prove if anyone committed fraud. Users can enter and exit this \"optimistic\" state at will (some conditions) so that they can perform non-optimistic transitions that are the result on non-pure functions in your contract.\r\n\r\nThings to note:\r\n\r\n- There is a small overhead for each call, associated with the Optimistic functionality, so if all or most of your normal state transitions are cheaper than that, then it may not make sense to use this. The overhead varies, depending on the type of data.\r\n- This is ideal for things like games that have some single-player component, since many account state transitions don't rely on the shared world's state.\r\n- This is ideal for things that involve very expensive proofs (like ZKPs, where 90%+ of transaction gas is spent verifying the proof), since they can be performed optimistically, and verified offline by others, and challenged on-chain.\r\n- This is not ideal not ideal if the \"world state\" (i.e. global/shared variables) are used throughout your code, since it means your state transitions are not \"pure\".\r\n- There is no L2 here. As a matter of fact, this is layer-agnostic, which means that while it could run on its own on mainnet, it could theoretically run on EVM-based L2s (like Optimism / Optimistic Roll Up).",
+  "how_its_made": "'- Custom Append-able Merkle Tree Libraries supporting compact proofs (JS and Solidity)\n\n- Variable Delay Functions and other proofs of worth (or delay) to be optimistic about (JS and Solidity)\n\n\n\nA framework allows users of some on-chain platform to maintain their entire state as a single storage slot, shifting any data costs to much cheaper calldata. A proxy contract allows user state to transition by touching (reading and writing) world state, or purely. Any impure transition is is executed on chain, but the state remains as a root, where individual elements must be proven to be used. And pure transition can be done optimistically, and the call data and new state appending to an append-able Merkle tree. Any use can lock someones account in order to prove that a past transition was invalid by actually proving the calldata in question and actually calling the contract. If fraud was proven, the fraudulent user is slashed and forced to roll back. If no fraud is proven, account lockers are slashed. Eventually, after some time, users can exit optimism by \"coming up for air\" to perform transactions that once again touch world state.\n\n\n\nBecause of this optimistic framework, users can play game entirely offline, and batch upload their entire set of individual state transitions to the blockchain when they regain connectivity.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/optimistic-roll-in-nk562",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

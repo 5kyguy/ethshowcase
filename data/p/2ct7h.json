@@ -1,0 +1,21 @@
+{
+  "id": "2ct7h",
+  "slug": "eridanos",
+  "title": "Eridanos",
+  "tagline": "We're building provable Verifiable Credentials on Ceramic Protocol / DIDs",
+  "event": {
+    "slug": "hackfs",
+    "name": "HackFS",
+    "start_time": "2020-07-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2ct7h/banner/default.jpg",
+  "demo_url": "https://eridanos.on.fleek.co/",
+  "source_url": "https://github.com/cod1ng-earth/filDID",
+  "finalist": false,
+  "description": "Eridanos' goal is to demonstrate how Verifiable Claims can be stored as a dedicated ceramic doctype. Using Eridanos a user can generate a unique ceramic 3ID that's (for convenience and privacy) stored in a private 3box space. Using that identity the user can create / issue new verifiable credential documents that follow the ceramic protocol standard and each other identity can verify the issued credential.",
+  "how_its_made": "For eridanos we had to go the extra mile for identity storage because we couldn't use the DID provided by a 3box IdentityWallet (3id_connect) from a ceramic context (since ceramic obviously uses it's own DID resolver). Hence we brought together both worlds by first signing up the user on 3box, creating a seed once and store that in her private eridanos space on 3box. That seed is used to create the unique ceramic IdentityWallet keeping the 3ID used for all ceramic interactions.\n\n\n\nWe're starting the Ceramic API in the browser. There is no external ceramic node and we're attaching a browser based IPFS node to it (that's also used for the 3box connection). We're also calling for anchoring services (hence our submission of the cross-fetch usage 2 weeks ago) but don't get a valid response.\n\n\n\nWhile we first started thinking of simply going with JWTs created by the did-jwt-vc project we implemented credentials in eridanos using JOSE/JWS proofs that are inlined in the credential documents (according to the current w3c spec). Since the IdentityWallet's 3id provider doesn't come with JWS support (it's currently only on the isolated DIDProvider) we had to fork IdentityWallet and add that method to the 3id provider as well: https://github.com/cod1ng-earth/identity-wallet-js/commit/7c5c263b970e9027146d8091c1a07350cdfffb43 (not PR requested because it's basically Copy/Paste from the DIDProvider next door)\n\n\n\nThe code is Travis CI tested (well, no tests, just builds) on push and automatically built and continuously deployed on fleek. A specific challenge was to clone and build the forked submodules so the build runs also on remote systems using the modified resources.\n\n\n\nThe React frontend uses decentraland components, thereby being built on a semantic ui foundation. The frontend code is structured atomically.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/eridanos-2ct7h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

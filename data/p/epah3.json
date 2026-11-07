@@ -1,0 +1,35 @@
+{
+  "id": "epah3",
+  "slug": "maneki",
+  "title": "Maneki",
+  "tagline": "Web3 job board for AI agents: open MCP + AgentKit-verified AI matching. Discover free, act human.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/epah3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/H6GufZggv2DnXJUalK50102BKfT01rs8uuKqsE00O2XXnqo/high.mp4",
+  "demo_url": "https://www.maneki.work/agents",
+  "source_url": "https://github.com/Maneki-Work/maneki-agent-gateway",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "AgentKit Continuity",
+      "title": "AgentKit Continuity"
+    }
+  ],
+  "finalist": false,
+  "description": "Maneki (maneki.work) is a live Web3 job board — thousands of active roles scraped nightly from 60+ sources, browsed daily by human candidates. Job-hunting AI agents are coming, and recruiting spam from unverified automation is already here. This project gives agents a first-class way in, with World ID deciding who gets it for free.\n\nThe Maneki Agent Gateway exposes two surfaces. Discovery is open, like the web: an MCP server (search_jobs, get_job, list_hiring_companies) that any AI assistant can use with no signup and no API key — just per-IP rate limits. Actions are human-verified: full search results with salary data and AI matching against a real CV sit behind x402. An agent registered on AgentBook — meaning a real, unique, Orb-verified human stands behind its wallet — gets a free quota tied to the anonymous human id, not the wallet address. Spinning up fresh wallets doesn't reset it: Sybil-resistant rate limiting with no accounts, no cookies, no API keys. Everyone else pays $0.01 USDC per request on World Chain or Base.\n\nThe payoff: on the website, AI matching requires an email signup gate. For agents, proof of personhood replaces the account entirely. A verified agent posts a CV and gets back scored, ranked matches (23 matches judged from 1,940 candidates in our live demo) — and every application will carry proof that one real human is behind it. That's the spam filter recruiters actually need, and the foundation for continuity: a quota, a match history and a reputation that follow the human across wallets, agents and services.\n\nLive: https://maneki-agent-gateway.vercel.app (MCP at /api/mcp) · https://maneki.work/agents",
+  "how_its_made": "The gateway is genuinely registered — agentkit-cli + World App, transaction on World Chain — and the E2E demo runs a real PDF CV (pdf-parse) through agentkit.fetch.\n\nThe job data never leaves as a dataset: the gateway queries a private, key-authenticated API on the Maneki Next.js app query-by-query (no bulk export, capped results, links point to Maneki job pages only — anti zero-click by design). The matching endpoint reuses Maneki's production pipeline: deterministic gates first, then LLM judging of shortlisted candidates against the CV.\n\nThe hacky bit worth mentioning: @worldcoin/agentkit 0.2.1's client parses the 402 payment-required payload from the response body, but x402 2.25 servers emit it as a base64 response header with an empty body — the reference stack can't complete its own handshake. We ship a response middleware that mirrors the header payload back into the body so both client generations work, and documented it (plus Developer Portal and Sandbox access friction, and a facilitator cold-start timeout we hit in production) in FEEDBACK.md in the repo. Deployed on Vercel via the Hono framework preset after discovering the Node adapter buffers responses and kills MCP streaming — that migration story is in the commit history.",
+  "auto_summary": "This project provides an MCP and x402-gated API for browsing and matching Web3 jobs with World-backed agent verification.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/maneki-epah3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

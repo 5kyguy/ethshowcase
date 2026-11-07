@@ -1,0 +1,25 @@
+{
+  "id": "somky",
+  "slug": "x-e-cute",
+  "title": "X-E-CUTE",
+  "tagline": "A framework for verifiable secure trading strategies on Flare executed with Uniswap liquidity",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/somky/banner/default.jpg",
+  "source_url": "https://github.com/data4rtist/x-e-cute",
+  "finalist": false,
+  "description": "A Python framework for building and running verifiable automated trading strategies using Flare and Uniswap. It gives developers a clean way to define strategy logic, connect to Flare-native data and secure execution infrastructure, and route trades through Uniswap liquidity on supported EVM chains. Instead of stitching together custom bots, signing logic, price feeds, and execution code from scratch, builders can use a reusable set of abstractions for strategy definition, signal generation, execution, verification, and monitoring.\n\nThe framework is designed for systematic traders and developers who want a modular, testable, and easy-to-adopt stack. Users can plug in a wallet, configure a strategy, and run it through a standard interface, while more advanced builders can extend adapters, add custom strategies, and integrate additional controls. The project is testnet-first, framework-oriented, and built to showcase secure, transparent, and reusable strategy execution rather than a one-off trading app.",
+  "how_its_made": "I built the project as a local Flare Confidential Compute demo that runs my trading app inside the FCC extension container instead of as a separate bot. The stack uses Docker Compose\n  to bring up Flare’s upstream tee-node, tee-proxy, Redis, and an optional Cloudflare tunnel for public reachability. On top of that, I embedded my Python runtime in the extension\n  image, so the app loop runs inside the same container that Flare registers as the TEE machine. I kept the official Flare instruction flow for registration and proof (updateKey / sign)\n  and passed the official run-test, while my app code periodically evaluates whether to trade and then calls the Uniswap API for approval, routing, quote, swap construction, and real\n  Sepolia transaction execution. For market inputs I wired in Flare FTSOv2 price reads, and for execution I used Web3.py plus a hardened execution service that enforces gas reserves so\n  the bot cannot swap itself out of ETH. One notable hack was preserving the upstream Flare starter handlers for the FCC lifecycle while booting my own autonomous runtime thread beside\n  them, which let me prove both the Flare local TEE path and real Uniswap-powered onchain execution from the same container.\n",
+  "auto_summary": "A Python framework runs trading strategies inside Flare confidential compute and executes swaps through the Uniswap API on EVM testnets.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/x-e-cute-somky",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "mtawv",
+  "slug": "yume",
+  "title": "Yume",
+  "tagline": "First hybrid order book lending protocol on Sui, enabling fixed-rate, capital-efficient loans.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mtawv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/m01zREzFyudNL37udeQpQs02mYeILkhHdhWUTJbk02UtLc/high.mp4",
+  "source_url": "https://github.com/fac3m4n/yume",
+  "finalist": false,
+  "description": "Yume is a lending protocol that moves beyond the inefficiencies of the standard \"peer-to-pool\" model (like Aave) by implementing a Hybrid Central Limit Order Book (CLOB) for credit.\n\nIn traditional DeFi lending, capital is pooled, risk is socialized, and interest rates are volatile and algorithmic. Yume changes this by matching borrowers and lenders directly based on three parameters: Interest Rate, Duration, and Risk (LTV). This architecture enables:\n\nFixed-Rate, Fixed-Term Loans: Essential for institutional borrowing and liability matching.\n\nTrue Capital Efficiency: Eliminates the artificial spread between supply and borrow rates found in AMM-based lending.\n\nRisk Isolation: Lenders choose their collateral exposure rather than underwriting a global basket of assets.\n\nYume is \"Hybrid\" because it solves the cold-start liquidity problem found in pure P2P models. It integrates Passive Lending Pools that act as automated market makers, algorithmically placing orders into the book to ensure there is always liquidity for retail users, while allowing sophisticated actors to place limit orders inside the spread.",
+  "how_its_made": "Yume was built 100% natively on Sui Move, leveraging specific architectural advantages.\n\nThe Core Engine: The heart of Yume is a Shared Object Order Book. We utilized Sui’s object-centric model to parallelize order matching. Unlike Ethereum where a lending pool is a single choke point, Yume’s markets for different assets (e.g., SUI/USDC vs. ETH/USDC) operate as distinct objects, allowing the network to execute matches in parallel.\n\nAtomic Settlement (Hot Potato Pattern): We implemented a custom Hot Potato pattern for settlement. When a match occurs, the engine issues a MatchReceipt (a struct with no store, drop, or key abilities). This forces the transaction to complete the fund transfer and mint the Loan Position NFT within the same Programmable Transaction Block (PTB), guaranteeing atomic settlement without the protocol needing to custody idle user funds.\n\nLiquidations via DeepBook: Instead of building a custom liquidation auction mechanism, we integrated DeepBook (Sui’s native CLOB). Our liquidation module uses Cross-Program Invocations (CPI) to atomically seize collateral, swap it for the debt asset on DeepBook, and repay the lender in a single transaction.\n\nFrontend & PTBs: The frontend uses the Sui dApp Kit to construct complex Programmable Transaction Blocks (PTBs). We built \"Leverage Zaps\" that bundle swapping, depositing, and borrowing into a single click, abstracting the order book complexity from retail users.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yume-mtawv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

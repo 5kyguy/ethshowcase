@@ -1,0 +1,22 @@
+{
+  "id": "suii1",
+  "slug": "hot-potatoes",
+  "title": "Hot Potatoes",
+  "tagline": "Tokenized Wallets: NFTs that can sign arbitrary messages using Threshold signing",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/suii1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VjYBThLZPtkpWH1IxHy6vcEV8oZPKyrCtEx1nubTLuY/high.mp4",
+  "demo_url": "https://potatoes.marcelj.eth.link/",
+  "source_url": "https://github.com/marceljuenemann/hot-potato",
+  "finalist": false,
+  "description": "Hot Potatoes are ERC721 NFTs deployed on Arbitrum that are associated with a unique key pair. Signatures can be triggerd using a signHash(hash) method on the NFT without ever revealing the private key. This works using a bridge to the Internet Computer and Threshold Signing.\n\nSome use cases that are enabled through this:\n- Transfering a whole cross-chain portfolio with a single NFT transfer\n- Trading staked or locked positions\n- Allowing DAOs on one chain to hold assets on another chain\n- Allowing smart contracts including DAOs to sign personal messages (e.g. for transfer with authorization or UniswapX)\n- Programming any of the above use smart contracts\n\nA significant achievement of this project is a WalletConnect integration that lets you use the Potato's wallet on any dapp that support WalletConnect ",
+  "how_its_made": "Hot Potatoes are a standard ERC721 NFT deployed on Arbitrum, with the addition of a signHash method that can be used to create arbitrary signatures on behalf of the potato. The flow for signHash is as follows:\n1. signHash checks that msg.sender is the owner of the NFT\n2. It then invokes the Frosty Functions contract, which is a bridge between EVM and the Internet Computer. The token ID and hash to sign are passed as call data\n3. Both the NFT and the FrostyBridge emit events that will later be used to check that a signature for the given token and hash was authorized\n\nTo create the signature that was authorized, the Frosty contract on the Internet Computer (ICP) needs to be invoked with the block number in which to find the event. The Hot Potato frontend takes care of all that transparently, but under the hood the following happens:\n1. Frosty Functions checks that the Hot Potato function was actually invoked by using  ICP's EVM canister (ICP's smart contracts). That canister performs a HTTP outcall via JSON RPC's providers using eth_getLogs. (Note that all nodes of ICP have to reach consensus on the result of HTTP calls, so they need to be deterministic)\n2. If the event was found, the Hot Potato function is invoked. It will parse the call data to derive the signer for the specific Hot Potato. It then triggers the signature, which is performed by ICP's fiduciary subnet\n3. The r and s of the signature is logged\n4. The Hot Potato SDK takes care of parsing r and s from the logs and then recovers v using the public key of the Potato (which can be derived using ICP's known root public key).\n\nA large part of this project revolved around building a WalletConnect integration in the frontend (see video). As part of that, I built a rudimentary wallet interface that can handle both personal_sign and eth_sendTransaction requests. For transaction requests, I autofil gas parameters and the nonce using ethers.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hot-potatoes-suii1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

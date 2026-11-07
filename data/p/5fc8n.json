@@ -1,0 +1,30 @@
+{
+  "id": "5fc8n",
+  "slug": "whisperfi",
+  "title": "WhisperFi",
+  "tagline": "AI-powered DeFi assistant: chat naturally to swap, bridge, and manage crypto with built-in privacy.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5fc8n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7vpU3AFPyCfOsfNqg153PGwLK27HHIFHPPUMx1udeVU/high.mp4",
+  "demo_url": "https://whisperfi.vercel.app/",
+  "source_url": "https://github.com/bpthu123/whisperfi",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "WhisperFi is a chat-based DeFi interface that uses Claude AI to turn natural language into privacy-optimized crypto transactions. Users type what they want (\"swap 5 ETH for USDC with maximum privacy\") and the AI parses their intent, scores MEV/front-running risk, and generates an execution plan — splitting orders, adding time delays, or routing cross-chain to protect trades. Built on Uniswap v4 for swaps, LI.FI for cross-chain bridging, and ENS for a decentralized strategy marketplace where users can share and discover privacy strategies.",
+  "how_its_made": "WhisperFi is built on Next.js 16 (App Router with Turbopack) and styled with Tailwind CSS v4 and shadcn/ui components.\n\nThe core AI pipeline uses Claude Sonnet 4 via the Anthropic SDK with structured tool use — not free-form text generation. We defined three tools (parse_defi_intent, analyze_privacy, optimize_strategy) that Claude calls to return typed JSON. The API route streams results to the client via Server-Sent Events, so the UI updates in stages: parsing, privacy analysis, strategy optimization, and optionally a LI.FI quote.\n\nFor Uniswap v4, we build swap transactions targeting the Universal Router, encoding pool keys with viem's encodeAbiParameters and encodePacked. The privacy layer splits large orders into randomized chunks with time delays between them to prevent MEV bots from detecting the full trade size.\n\nLI.FI SDK powers cross-chain operations — when Claude detects a cross-chain intent (different source/destination chains), we fetch real-time quotes from LI.FI's aggregator and include the bridge transaction data in the execution plan. For maximum privacy, the optimizer routes through an intermediate chain to break the on-chain link between source and destination.\n\nENS integration stores and retrieves community privacy strategies as text records (keyed under com.whisperfi.strategy.*), creating a decentralized marketplace where users can publish and browse strategies on-chain.\n\nThe execution engine is a state machine built with wagmi hooks (useSendTransaction, useSwitchChain) that walks through multi-step plans — handling token approvals, chain switching, swap execution, timed waits with live countdowns, and bridge transactions — with full cancellation and error recovery.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/whisperfi-5fc8n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

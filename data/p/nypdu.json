@@ -1,0 +1,36 @@
+{
+  "id": "nypdu",
+  "slug": "flap-sh",
+  "title": "flap.sh",
+  "tagline": "Flap.sh gives NFT collectors a second chance to buy a blue chip NFT at an extremely low price, and it also creates an incentive for NFT traders to bridge their NFTs from L1 to L2. ",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/nypdu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ga02dI5Q02JU8Np28YmsYfmYHgbQR7c3SEw02OwCY3ndgw/high.mp4",
+  "demo_url": "https://www.flap.sh/",
+  "source_url": "https://github.com/flap-sh/flap-sh",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "⛓ Polygon — Best Cross-Chain Hack",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊‍♂️ Polygon — Pool Prize",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "We are trying to solve the following two problems faced by today's NFT market:  \n\n1. Low liquidity: The NFT market needs more buyers and sellers. Our protocol creates more \"buy orders\" in the market.\n\n2. No incentives to bridge NFT to Layer2s:  The gas cost on Layer2s is much lower than Ethereum. However, most NFT tradings still happen on Ethereum because people have no incentives to bridge their high-priced NFTs to layer2s. Our protocol creates an incentive by creating \"buy orders\"  that may have an offer price higher than the floor price on Layer 1.  \n\nThere are three roles in our protocol: \n\n- A box minter is a layer2 user who pays to mint a box, which is an unrevealed NFT. After the box reveals, the box minter may get a blue chip NFT worthing much more than he paid or a \"penny\" NFT worthing less than he paid, or even ethers in return. Under the hood, by selling boxes to the minters, our protocol raises money to buy other NFTs (blue-chip ones and penny ones). \n\n -  A keeper (arbitrage bot) is an NFT trader who sells NFTs to our protocol. For Layer1 NFT collections,  the keepers must first bridge their NFTs to Layer2. The keepers are willing to do so because our protocol can offer a better price to the keepers than Layer1.  Roughly speaking, the better price to the keepers comes from the fact that some box minters are losing their money or paying for an opportunity.    \n\n- A pool creator creates pools. A pool creator shares the protocol fee generated from the pool. He must try his best to ensure all the boxes from the pool will be minted. \n",
+  "how_its_made": "\n## Protocol \n\nRolling out so many codes in a limited time without Github Copilot is impossible. Big shouts to GitHub copilot! I love it! \n\nIf we don't go cross-chain, our idea is not difficult to implement for an experienced solidity dev. However, the cross-chain part adds a lot of complexities: \n\n- We have built a simple NFT bridge upon the underlying polygon ZKEVM bridge. The NFT address on Layer2 is deterministic based on its layer1 contract address. ( [here's how we implement it](https://bit.ly/3KN80ky) )   \n\n- We have built a VRF on polygon ZKEVM. It is implemented in a \"commit-reveal\" scheme: (1) a user requests a seed for an L2 app by interacting with our L1 seed provider contract. In that contract, we will decide the number of a future block (the target block) of which the randao reveal is the seed. The request will also be sent to the L2 app. When the L2 app receives that request, the seed will be committed.   (2) When the latest L1 block number exceeds the target block, we can supply the RLP encoding of the target block header to our L1 seed provider contract. The seed provider contract will verify the validity of the provided block header and extract the randao reveal from it. Of course, it will send the seed to the L2 app.   ([See how we implement it](https://bit.ly/40eZgsZ) ) . We use this VRF as a seed to shuffle our buyOrders(i.e reveal the box).   \n\n- To use the polygon ZKEVM bridge, you need to \"bridgeMessage\" on one chain and \"claimMessage\" on another. We don't like the two-step UX. So we build a simple script to automatically \"claimMessage.\"  But we don't have time to implement the logics to charge the user on the source chain. ( [Here's how we implement it ](https://bit.ly/406wIC1) )  \n\nAlthough we have done a lot of work on the cross-chain part, we did not have time to work on the UI for the bridging part.  However, all the NFTs used for the demo are bridged from L1 to Polygon ZKEVM. \n\n\n## App\n\nLess is more.\n\nSince this is a 2C project and we only have 36hr to implement it, if don't have to, no UI framework, no backend, no database, no intruducing anything else out of our goal, make sure users can reach each important design of the project first, whatever it costs in the performance, whatever how dirty the behind logic is.\n\nFrom the APP side, I prevent myself from hacking with just skipping or deleting the logic that attracting me to dive into, bcz hacking the overall process intead makes me happier now\n\n\n## Tech Management && limited\n\nOur team is made up with 1 solidity dev + 1 rust dev that we like the rust toolchain more than the ts/js toolchains for Ethereum, but somehow we finally decide everything in ts/js just because it can make our development speed faster indeed.\n\nGather everything in 1 repo, working seperatly first and sync at last.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/flap-sh-nypdu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

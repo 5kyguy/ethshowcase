@@ -1,0 +1,27 @@
+{
+  "id": "3z9ts",
+  "slug": "ens-intent-bus",
+  "title": "ENS -Intent-Bus",
+  "tagline": "Trade by publishing your intent onchain , AI agent reads your ENS executes swaps via Uniswap",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3z9ts/banner/default.jpg",
+  "video_url": "https://stream.mux.com/m2cvt5oV8BK7xj7zcTni5VRPZ2jnynRjFpppJdsiuhY/high.mp4",
+  "demo_url": "https://ens-intent-bus.vercel.app/",
+  "source_url": "https://github.com/iBrainiac/ens-intent-bus",
+  "finalist": false,
+  "description": "ens-intent-bus is an intent-based swap protocol on Base that uses ENS (Ethereum Name Service) as the sole authorization primitive for an AI execution agent.\nUsers express a swap intent (e.g. sell 0.01 WETH for USDC), which gets written as a text record into their ENS name on Ethereum Mainnet under the key uni-ens.intent. An offchain agent continuously monitors the Base escrow contract for IntentCreated events and runs a three-layer ENS identity verification before executing anything: (1) reverse resolution - does the depositor address have a primary ENS name? (2) text record match - does that ENS name carry the exact emitted intent ID? (3) forward resolution - does the ENS name resolve back to the depositor? All three must pass or the agent silently skips the event.\n\nWhen all checks pass, the agent calls the Uniswap Trading API to fetch optimal swap calldata, simulates the transaction, and executes it through the escrow contract  completing the swap on the user's behalf without requiring the user to be online at execution time.\n\nENS isn't cosmetic here. The text record is the signed authorization. The reverse lookup is the identity proof. The agent cannot be tricked into executing for an unauthorized address because the entire verification chain is onchain and cryptographically tied to ENS name ownership. No ENS name = no access. Wrong record = no execution.\nThe result: a trust-minimized agentic trading system where your onchain identity is the only key.",
+  "how_its_made": "Stack overview: Solidity + Foundry (contracts), TypeScript + viem (agent), Next.js + wagmi (frontend). Three separate packages, two chains (Ethereum Mainnet for ENS, Base for execution).\n## ENS Integration\n1. Text Records as an Intent Channel\nInstead of requiring users to sign a transaction to authorize the agent, the user writes a single text record to their ENS name. The agent reads this record to confirm the user intended a specific swap.(https://github.com/iBrainiac/ens-intent-bus/blob/main/agent/src/ens.ts), (https://github.com/iBrainiac/ens-intent-bus/blob/main/frontend/lib/contracts.ts)\n\n## Uniswap Integration\n 1. Two-Step Trading API Flow: `/quote` → `/swap`\nThe agent calls the Uniswap Trading API in two steps. `/quote` returns the expected output and a quote object. `/swap` takes that quote and returns executable calldata for the Universal Router.\n(https://github.com/iBrainiac/ens-intent-bus/blob/main/agent/src/uniswap.ts), \n\nThe escrow contract sends tokens to the Universal Router before calling it, so the router swaps from its own balance. This is the only pattern that works when the \"user\" is a smart contract.\n(https://github.com/iBrainiac/ens-intent-bus/blob/main/contracts/src/IntentEscrow.sol)\n### 3. Quote Fetch in the Frontend\n\nThe frontend fetches a live quote when the user enters an amount, pre-filling the minimum output at 0.5% slippage. The Trading API is proxied server-side because it does not support browser-origin requests (CORS).\n(https://github.com/iBrainiac/ens-intent-bus/blob/main/frontend/components/IntentFlow.tsx)\nOpenAI GPT-4o — used in the product itself\n\nThe frontend includes a chat interface (/api/chat) backed by GPT-4o with function calling. Users can create, check, and cancel swap intents through natural language. GPT-4o receives the user's ENS name, wallet address, and current intent list as context in a system prompt, then decides whether to call one of three tools: create_intent (parses token pair, amount, expiry from freeform input), get_status (returns filtered intent list), or cancel_intent (cancels by ID). This means the entire swap flow  normally four manual steps  can be initiated through a single message like \"swap 0.01 WETH to USDC, 1 hour expiry.\"\n\n",
+  "auto_summary": "A multi-package app lets users authorize token swap intents through ENS records, then executes those swaps from an escrow contract on Base.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ens-intent-bus-3z9ts",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,30 @@
+{
+  "id": "1iqtm",
+  "slug": "ethvaultpq",
+  "title": "EthVaultPQ",
+  "tagline": "A quantum safe vesting vault that allows time based payments. Ideal for Vesting and Unlocking.",
+  "event": {
+    "slug": "ethonline2025",
+    "name": "ETHOnline 2025",
+    "start_time": "2025-10-10T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1iqtm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00STien24RNl02kvbw01qQ4R47ERmdvWf6b4EeHWznrwWY/high.mp4",
+  "demo_url": "https://ethvault.qkey.co/",
+  "source_url": "https://github.com/qkeyco/EthVaultPQ",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "This project implement a quantum safe vesting vault using dilithium keys to allow you to place an amount of money into a vault and distribute it to its recipients over time.  It builds a time locked contract that distributes TO a quantum safe recipient. We implement a general purpose post-quantum MetaMask plugin (snap) that can receive and sent to normal addresses but must have a Dilithium signature to send. The Dilithium signature and a ZK proof are composed off chain (due to gas limits) and the ZK proof is performed on chain. Although the Dilithium infrastructure is not onchain it can be widely distributed by using Oracles to find available helpers. This is a way to implement ppst-quantum safety using current technology for long lived contracts such as vesting which might overlap Q-Day (the day on which quantum computers break ECC).",
+  "how_its_made": "EthVaultPQ combines ERC-4337 account \n  abstraction with ERC-4626 tokenized vaults \n  and post-quantum cryptography, built on \n  Solidity 0.8.28 using Foundry for the smart \n  contract layer and a React/TypeScript \n  dashboard with wagmi + viem for the frontend.\n   The architecture flows from user → React\n  dashboard → MetaMask signing → ERC-4337\n  bundler → EntryPoint contract → our PQWallet\n  contract → PQValidator for signature\n  verification, with OpenZeppelin providing\n  battle-tested ERC-4626 vault implementations\n  that we extended with linear vesting\n  schedules using packed struct storage\n  optimization (saving 50% on gas). We deployed\n   on Base (Optimism stack) to keep costs\n  reasonable since post-quantum signatures are\n  large (Dilithium: 3.3KB signatures, 387k gas\n  to verify vs ECDSA's 3k gas), and used\n  CREATE2 in our factory pattern for\n  counterfactual address generation. The \n  particularly hacky part: our Dilithium\n  verifier is a partial implementation—we built\n   the full parameter framework and\n  verification structure (~387k gas measured),\n  but the actual cryptographic operations like\n  SHAKE-128 expansion and NTT polynomial\n  multiplication are simplified because\n  implementing them fully in Solidity would\n  cost 2-5M gas per verification, so the real\n  production path is either ZK-SNARK wrappers\n  (verify off-chain, prove on-chain for ~200k\n  gas) or waiting for EVM precompiles via\n  future EIPs—essentially, we proved the\n  architecture works and is affordable on Base\n  ($0.003/verification) while acknowledging the\n   crypto layer needs optimization before\n  production use. Partner technologies like\n  OpenZeppelin saved months of development on\n  vault math, Base reduced our gas costs 100x\n  vs mainnet, and Foundry's gas reporting was\n  crucial for measuring that our simplified\n  Dilithium implementation uses comparable gas\n  to complex DeFi operations, making\n  post-quantum wallets practical today even\n  without full cryptographic implementation.\nMetamask snaps and flask dev system.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ethvaultpq-1iqtm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

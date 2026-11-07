@@ -1,0 +1,26 @@
+{
+  "id": "ocn48",
+  "slug": "hanko",
+  "title": "hanko",
+  "tagline": "The human seal for AI agent payments: onchain mandates, risk screening, and human approval.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ocn48/banner/default.jpg",
+  "demo_url": "https://github.com/sunagi/hanko",
+  "source_url": "https://github.com/sunagi/hanko",
+  "finalist": false,
+  "description": "HANKO is the human seal for autonomous AI agent payments. Inspired by the Japanese hanko—a personal stamp used to authorize important decisions—it explores how humans can delegate spending to agents while keeping meaningful control over their actions.\n\nAn agent buying a dataset or compute should not need a human to approve every small purchase. But it should also never have unlimited authority to spend. HANKO connects three questions before a payment can be signed: Is this agent authorized? Is this specific payment safe? Does it require a fresh human approval?\n\nEach agent has an ENS-based identity and a mandate that defines its spending limits, permitted counterparties, and approval threshold. The payment engine checks that mandate and screens the proposed payment. Routine payments within policy can proceed automatically. Higher-value payments or screening results that require review pause for a human seal through World. Blocked payments, revoked mandates, and denied or expired approvals stop before signing.\n\nThe dashboard brings these decisions together in a visual “seal book,” showing the steps and reasons behind each outcome. Operators can inspect agent mandates, change spending limits, revoke agents, and follow payment requests from proposal to settlement.\n\nThe working local demo covers five scenarios: a routine dataset purchase, a blocked counterparty, a purchase requiring human approval, a denied approval, and an attempted payment after revocation. HANKO is currently a testnet hackathon prototype with explicit simulation mode; live integrations are implemented, but end-to-end verification with sponsor credentials and funded wallets remains pending.",
+  "how_its_made": "We built HANKO as a TypeScript monorepo managed with pnpm. A Next.js and React dashboard handles the operator experience, an Express service exposes paid dataset and compute endpoints, and a separate core engine controls authorization and signing. SQLite stores the decision history, spending reservations, and payment state.\n\nENSv2 provides the agent identity and mandate layer. The live adapter traverses the registry hierarchy, checks registration state and expiry, and reads hanko.* resolver records. Those records define the authority the engine enforces. This makes the mandate inspectable independently of the dashboard and allows revocation to affect subsequent payment decisions.\n\nThe payment flow uses the official x402 SDK and server middleware, targeting USDC payments on Base Sepolia. A deliberate architectural choice is that the agent package never receives a private key. It prepares an unsigned payment intent, while the core engine retains exclusive control of the signer. We use a placeholder signature during SDK payload preparation, then replace it only after authorization checks succeed. The engine signs the exact EIP-712 data that was screened.\n\nIntercepta's address, token, and message scanning APIs provide the risk-screening layer. Responses map to PASS, HOLD, or BLOCK, and errors fail closed. World supplies the human verification step through its confidential device flow. The backend polls for completion and validates the signed ID token, including issuer, audience, owner identity, expiry, and authentication freshness. A browser-side success message cannot authorize a live payment.\n\nOne particularly important detail is how we handle concurrency and uncertainty. Spending is reserved in integer USDC micro-units inside SQLite transactions, preventing simultaneous requests from independently consuming the same remaining budget. After human verification, the engine rechecks the mandate and risk before signing. If settlement becomes uncertain, it retains the reservation and does not automatically retry the payment.\n\nThe prototype includes 20 automated tests covering policy enforcement, concurrent budgets, verification failures, revocation, signing, and uncertain settlement. Local simulation is explicitly separated from live mode, including mode-bound databases. Production builds pass, while live sponsor testing remains pending. In particular, Intercepta's support for screening the exact Base Sepolia EIP-3009 authorization still requires confirmation.",
+  "auto_summary": "A TypeScript monorepo for policy-controlled agent payments that combines ENS-based mandates, x402 payment handling, risk screening, and human approval checks.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hanko-ocn48",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

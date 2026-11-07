@@ -1,0 +1,22 @@
+{
+  "id": "4chp6",
+  "slug": "goodmaps",
+  "title": "GoodMaps",
+  "tagline": "“A location-based onchain review system using zero‐knowledge proofs and geofence verification.”",
+  "event": {
+    "slug": "newdelhi",
+    "name": "ETHGlobal New Delhi",
+    "start_time": "2025-09-26T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4chp6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/pGscA96Rcd0201qxxY00LJjXVyc5sYvoFl5xH93GvhmpJ00/high.mp4",
+  "demo_url": "https://youtu.be/FX12YzMRYkM",
+  "source_url": "https://github.com/surfer05/btchd",
+  "finalist": false,
+  "description": "This project enables users to prove their physical presence at a location and submit reviews tied to that geolocation, in a privacy-preserving, trust-minimized manner. Users can also switch to an “Explore” mode to see aggregated labels (residential, office, university, etc.) around them from crowdsourced data. The backend verifies proofs, stores review metadata and hashed proofs, and serves region summaries and label data for display.",
+  "how_its_made": "We built this using:\n\nFrontend / Mobile (iOS, SwiftUI)\n\nUses MapKit / Map SwiftUI APIs for map display and annotations.\n\nA bottom action bar UI to trigger proof & submit reviews.\n\nA second “Explore” tab that reads a JSON geographic dataset (e.g. delhi_labels.json), decodes into models, and displays map pins / polygons / overlays.\n\nWe compute a proof hash (e.g. using Keccak-256 on the proof bytes) and send that with reviews — not the full proof — to save bandwidth and protect privacy.\n\nBackend / Server\n\nValidates the proof hash + proof when needed, stores review records (place, rating, comment, proof hash), and stores or indexes the geo-labels.\n\nExposes APIs such as /postReview, /getRegionSummary, /getLabels etc.\n\nDatabase / Storage / Walrus\n\nWe use Walrus (a programmable storage / decentralized blob store) to host geospatial label data, version it, and allow transparent, verifiable reads.\n\nOnchain references (e.g. storing the final hashes, indices, or proof anchors) can be used to tie data immutably.\n\nCrypto / ZK Proofs\n\nYou already have the proof generation pipeline (in your geofence prover) — the UI interacts with that, hashes the result, and we only send the hash.\n\nThis ensures that data integrity and location proof validity are maintained, without leaking underlying proof details.\n\nData pipeline\n\nThe delhi_labels.json (or future city label sets) is versioned in Walrus.\n\nBackend reads label files, preprocesses into region cells / polygon overlays and stores them.\n\nThe Explore UI fetches relevant label slices as needed (e.g. bounding box around user) to reduce payload.\n\nUI & UX decisions\n\nSingle “Prove & Submit” button in the bottom bar for simplicity.\n\nTabbed navigation: one tab for proof + review, another for exploring region data.\n\nSafe area insets to prevent overlap with the tab bar.\n\nFilter chips to toggle label categories (residential, office, university, others).",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/goodmaps-4chp6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

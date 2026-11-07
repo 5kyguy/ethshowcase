@@ -1,0 +1,27 @@
+{
+  "id": "a2g3v",
+  "slug": "sky",
+  "title": "sky",
+  "tagline": "Check whether a transaction is a scam without telling anyone what you are about to trade.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a2g3v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/C7ruN2ww47FaJ3XcQ2je9d401Bv7zKoxDP00gJWzTEY00A/high.mp4",
+  "demo_url": "https://github.com/akerbabber/skye",
+  "source_url": "https://github.com/akerbabber/skye",
+  "finalist": false,
+  "description": "To find out whether a transaction is a drainer, you currently send your unsigned intent to a scanner's API. That intent contains the trade you are about to make. Somebody else now knows your position before the chain does, before you have signed, before it hits the mempool, at the moment the information is worth the most.\n\nsealed-check runs the adjudication inside a TEE on the 0G compute network. The operator running the model does not see your intent. You get back a verdict that is signed by the enclave and cryptographically bound to the exact transaction it was reached over.\n\nThat binding cuts both ways, which is the point. A checker that cleared a drainer has left signed, non-repudiable evidence that it did so.",
+  "how_its_made": "The judge accepts exactly one input: a Facts object validated against a zod schema. Nothing else is interpolated into the prompt.\nEvery field in Facts is a number, boolean, enum, address, or integer-as-string. There is no free-text field in the schema. Not for names, not for symbols, not for notes. tests/schema-audit.test.ts walks the schema tree and fails the build if any string field appears that is not regex-constrained to hex or digits.\nAddresses are rendered as hex, never resolved to a human-readable label.\nsrc/judge.ts imports from src/facts.ts and nothing else. It has no access to raw traces or contract source, and that is enforced by the import graph rather than by discipline.\nRevert strings are attacker-controlled too a honeypot can revert with \"SAFE: audited by CertiK\". Only the sell-outcome enum crosses the boundary.",
+  "auto_summary": "A TypeScript CLI simulates unsigned swaps, extracts structured execution facts, and submits them to a 0G TEE-backed inference endpoint for signed verdicts.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sky-a2g3v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

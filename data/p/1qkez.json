@@ -1,0 +1,22 @@
+{
+  "id": "1qkez",
+  "slug": "potluck",
+  "title": "PotLuck",
+  "tagline": "On-chain ROSCA savings circles: collateral-backed, with portable reputation resolved via ENS.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1qkez/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9CMqMcz8awBUglxjWW9ZAAEoEp9fGNC4qDZvqd4rCrI/high.mp4",
+  "demo_url": "https://youtu.be/s2QEcs6sAw0",
+  "source_url": "https://github.com/OoviyaManickam/PotLuck",
+  "finalist": false,
+  "description": "PotLuck is an on-chain ROSCA (Rotating Savings and Credit Association) — the oldest savings product in the world, the way billions of unbanked people already save today (chit funds, tandas, susus, hui). N people each contribute a fixed amount every round, and each round the whole pot rotates to one member; after N rounds everyone has paid in N times and received the pot once. It runs entirely on trust, which is exactly where it breaks: someone wins an early round and disappears, the organizer absconds, and there's no recourse and no record.\n\nPotLuck keeps the social product people understand and replaces the fragile trust layer with code. To join a pool you lock 50% of the pot as collateral; miss a payment and the contract slashes your collateral so the round still completes and honest members are never short-changed. The payout order is drawn randomly when the pool fills, so nobody can buy the coveted early slots. Completing a cycle cleanly raises your on-chain reputation (New → Bronze → Silver → Gold), unlocking larger pools; defaulting sets a permanent flag. Crucially, that reputation is served as a LIVE ENS text record — resolved on-chain at read time through the UniversalResolver on Sepolia — so it's a portable credit history any ENS-speaking app can read. It's a credit score for the unbanked, built from savings behavior instead of debt.",
+  "how_its_made": "Contracts are Solidity + Foundry on Ethereum Sepolia. ROSCAFactory deploys pools and enforces a 3-member floor plus per-tier caps at creation. ROSCAPool runs one cycle: join-with-collateral (collateral = pot/2), a Fisher–Yates payout shuffle seeded from keccak256(prevrandao, timestamp, address), and a per-round contribute → slash-on-miss → pay-winner → advance loop, with final settlement writing reputation and taking a 2% protocol fee (+5% creator bonus on invite-only pools). ReputationRegistry is the one piece of shared cross-pool state: cleanCycles plus a permanent hasDefaulted flag. Tiers.sol holds the tier ladder and caps as the anti-sybil ceiling.\n\nThe headline integration is ENS v2. We registered potluck.eth on Sepolia and attached a custom ReputationResolver as a wildcard resolver (ENSIP-10) with NO CCIP-Read and no off-chain gateway — every answer is computed at read time from on-chain state. When the factory creates pool N, our PotluckENS adapter auto-mints poolN.potluck.eth; on join, members get 0x<address-hex>.poolN.potluck.eth. The resolver answers the text key potluck.reputation by reading cleanCycles + hasDefaulted from the registry live, returning e.g. cleanCycles=3;defaulted=false;tier=Silver. The frontend (Next.js 16, React 19, wagmi 3 + viem 2, Privy for wallet onboarding, TanStack Query) resolves this through UniversalResolverV2 and displays reputation ONLY when it genuinely resolves live — never a client-fabricated value.\n\nEverything shared (identity, naming) sits behind an interface, so partner integrations are upgrades not dependencies: World ID drops in behind IIdentityGate (we shipped a NoOpGate — Selfie Check integration was attempted but we couldn't land it end-to-end in time), and ROSCAPoolVRF is a real Chainlink VRF v2.5 drop-in subclass swappable via a single setter, though the demo runs the synchronous on-chain shuffle so it needs no funded subscription.\n\nDeployed link : https://pot-luck-iota.vercel.app/",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/potluck-1qkez",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

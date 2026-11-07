@@ -1,0 +1,22 @@
+{
+  "id": "x6foz",
+  "slug": "uni-agent",
+  "title": "uni-agent",
+  "tagline": "AI agents compete to manage your Uniswap LP. You pick the best strategy. They earn when you win.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x6foz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/sj02m007nWB8W5wf3c5eJPQ36WsL3IUNKUUAaPHQkNMkM/high.mp4",
+  "demo_url": "https://uni-agent-gamma.vercel.app/",
+  "source_url": "https://github.com/fredmunene/uni-agent",
+  "finalist": false,
+  "description": "Uni-Agent is an open intent execution protocol for decentralized finance. Rather than building another swap UI, we built the infrastructure layer beneath it —  a standardized API that any wallet, dApp, or bot can use to submit a financial intent and receive a fully parameterized, risk-scored execution plan.           \n   \n  The protocol works in three layers. At the intent layer, callers POST a structured intent (asset, amount, risk tolerance, deadline) to the open REST API or emit it on-chain via the intent registry contract. At the solver layer, an AI agent powered by Gemini 2.0 Flash calls real Uniswap APIs to generate three competing execution strategies — conservative, balanced, and aggressive — each with live APR data and gas estimates. At the execution layer, the winning plan  is submitted on-chain: a real swap through the Uniswap Universal Router and an add_liquidity call to the Uniswap v4 PositionManager, signed by the caller's wallet.\n\n  Post-execution, the protocol monitors the active position. When price drifts outside the LP range, a rebalancing intent is automatically generated and surfaced for approval. The reference UI demonstrates the full flow, but the protocol is the primitive — any application can integrate it.",
+  "how_its_made": "The protocol exposes a REST API built on Next.js 15 route handlers, deployed serverlessly on Vercel with Upstash Redis for cross-instance state. The solver is a Gemini 2.0 Flash agent running a structured tool-calling loop: get_swap_quote hits the Uniswap Trading API (Base mainnet) for real price data, get_lp_params constructs Uniswap v4 USDC/WETH pool parameters, and simulate_bundle estimates gas via eth_call. APR data for strategy scoring is pulled from the Uniswap v3 subgraph via The Graph.                                                                                                                                        \n                  \n  On-chain execution uses wagmi v2 + viem — the solver output is passed directly to useWriteContract calls against the Uniswap Universal Router (swap) and v4  PositionManager (add_liquidity) on Base . An on-chain intent registry contract logs intents as events, making the solver layer permissionless — any solver can listen and compete to fill intents.                                                                                                                 \n                  \n  The reference frontend is built with Next.js 15 App Router and RainbowKit v2, supporting MetaMask and Coinbase Wallet. Shared types are enforced across the  protocol via Zod schemas in a Turborepo monorepo. The architecture is designed so the UI is one consumer of the protocol, not the protocol itself",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/uni-agent-x6foz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

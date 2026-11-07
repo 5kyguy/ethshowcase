@@ -1,0 +1,30 @@
+{
+  "id": "pb9hw",
+  "slug": "trustless-bridge",
+  "title": "Trustless Bridge",
+  "tagline": "Trustless Bridge project  shows how assets can be bridged from Optimism to Scroll leveraging L1SLOAD precompile.",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pb9hw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/d02AsJyrC1xUVcW02V35QFlWTqFZw6pBVosviObKGT00ro/high.mp4",
+  "demo_url": "https://trustless-bridge-frontend.vercel.app",
+  "source_url": "https://github.com/sobolev-igor/trustless-bridge",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Blockscout Explorer Big Pool Prize",
+      "title": "Blockscout Explorer Big Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "To move tokens between L2s, especially between different groups of L2s such as optimistic and ZK-rollups, users and developers normally need to leverage cross-chain messaging protocols such as Axelar and Layer 0. Each of those have specific trust assumptions (for example dependence on oracles), which if broken can lead to significant issues or even losses in the cross-chain transactions.\n\n Scroll’s new feature, e.g. L1SLOAD, allows to read data directly from L1, which consequently allows to eliminate any cross-chain messaging protocols from the flow of onramping assets from other L2 to Scroll and providing an opportunity to launch a truly trustless bridge.\n\nTrustless Bridge project in the current implementation shows how assets can be bridged from Optimism to Scroll leveraging L1SLOAD precompile.\n\nThe flow is following:\n\n1. User wants to transfer ETH from OP to Scroll, clicks “bridge” button in UI, which triggers a transaction in OP network. ETH moves from user’s address to the bridge contract, and corresponding  note of deposit appears in the bridge contract storage.\n\n2. UI waits for OP network to trigger change of its state root in L1. Once it happens, a button to claim appears on UI.\n\n3. User clicks on the button “claim” and triggers a transaction in Scroll network which calls “claim” function on bridge contract.\nA. UI transmits to the bridge contract in Scroll Merkle proof of OP deposit and bridge parameters (asset, value, recipient).\nB. Request OP state root from L1 with the help of L1SLOAD precompile.\nC. Check of validity of Merkle proof for received root and  bridge parameters\nD. Once check is successful, assets are transferred to recipient wallet in Scroll network.\n\nYoutube video: https://youtu.be/07ohcE1I7_Y",
+  "how_its_made": "How it is made:\nSolidity, Foundry - smart contracts\nReact, Web3JS, WalletConnect - frontend\n\nPartner technologies:\nPyth random number generator is used to gamify user experience and reduce bridge fees for lucky users.\nL1SLOAD precompile deployed in Scroll devnet is used to receive storage data from L1 which allows for trustless bridge experience.\nBlockscout, our favourite block explorer, provides users with insights about their transactions.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/trustless-bridge-pb9hw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

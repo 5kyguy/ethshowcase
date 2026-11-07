@@ -1,0 +1,41 @@
+{
+  "id": "fwsnb",
+  "slug": "oddsflow",
+  "title": "OddsFlow",
+  "tagline": "Bet on many prediction markets with one balance, spent only when someone takes the other side.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fwsnb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VyJYcsyLAfycijdwkZPoOwUp01tjBU2y7W01fxmelPK400/high.mp4",
+  "demo_url": "https://oddsflow-teal.vercel.app",
+  "source_url": "https://github.com/salviega/oddsflow",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "1st place",
+      "title": "Build an Aqua App"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Tokyo 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "OddsFlow lets you bet on many prediction markets with the same money, and that money is only spent when someone takes the other side. The maker places fixed-price limit orders on as many Seer markets as they like, such as \"YES at 0.40 here, NO at 0.25 there\", and the same sDAI balance backs all of them at once.\n\nThrough 1inch Aqua, each order is a strategy with its own virtual balance, and all of them draw on the maker's one real wallet balance. The sDAI never leaves the wallet: when a buyer takes the other side, only that order fills, and only for what it needs, in a single transaction. The maker's sDAI and the buyer's mint the outcome tokens together, each side gets its own, and every other order keeps running on what's left.\n\nAqua's official router has no fixed-price instruction, so OddsFlow adds three SwapVM opcodes of its own. FixedPriceSwap trades at exactly the price the maker signed. OnlyUnresolvedCondition and OnlyUnansweredQuestion stop every order the moment the market resolves or anyone posts an answer on Reality.eth, so nobody can fill a maker with information from after the event. The rule that cannot fail: the maker's sDAI never leaves the wallet unless their tokens arrive in the same transaction, at their price.",
+  "how_its_made": "The app is Next.js 16 (App Router) + TypeScript, with wagmi and viem for every read and write. It never holds a key. Order encoding lives in a shared packages/core, and a Foundry test writes a fixture that Vitest rebuilds byte for byte (program, strategy and hash). So the order the web shows is provably the order it publishes; that parity test caught a real divergence before the UI existed. The market list comes from Seer's public API, validated with Zod and cached for 5 minutes on the server. The Alchemy RPC stays server-only.\n\nThe chain layer is the official 1inch Aqua on Gnosis Chain, untouched. On top of it we redeployed AquaSwapVMRouter v1.0.2 with three opcodes appended after the official set, so no official index moves. FixedPriceSwap takes the price as an argument instead of reading it from balances, which is why LimitSwap can't price an Aqua strategy. OnlyUnresolvedCondition reads Conditional Tokens, and OnlyUnansweredQuestion reads Reality.eth's getFinalizeTS. The router's ownership was renounced in the deploy run, so nobody can call rescueFunds. ship and dock are always called by the maker's own wallet, so the maker is always the user, never an OddsFlow contract.\n\nThe one piece of glue is OddsFlowTaker. It sweeps up to 10 orders best-first, and inside SwapVM's preTransferInCallback it splits the maker's pulled sDAI plus the buyer's through Seer's GnosisRouter. That mints YES/NO/INVALID in the same transaction, and SwapVM reverts with AquaBalanceInsufficientAfterTakerPush if the maker's tokens don't arrive. It uses transient storage for its state and a callback guard, has no owner, holds nothing between transactions, and makers never approve it. Where the wallet supports EIP-5792, approve plus buy (or approve plus ship for several orders) goes out as one sendCalls batch, with a sequential fallback.\n\nAqua has no testnet, so everything is tested on a Gnosis mainnet fork against the real Aqua and a real Seer market. That's 55 Foundry tests: every forbidden path reverts, SwapVM's own CoreInvariants run against our opcode, and a fuzz test shows the maker never pays more than their price. Contract coverage is 97%. A local script spins up the same fork with OddsFlow at fixed addresses, funded accounts and seeded orders, so the whole flow runs end to end in the browser without a wallet extension.",
+  "auto_summary": "A Next.js and Solidity application for placing fixed-price Seer market orders backed by shared wallet collateral through 1inch Aqua.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/oddsflow-fwsnb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "z05zy",
+  "slug": "wayfare",
+  "title": "WayFare",
+  "tagline": "Agents with hardcoded endpoints aren't a market. Wayfare's agent finds its providers at runtime.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z05zy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eYpHi54ZW74ZSoqgQ8s9NAwWlcMsz01g2pSgZKb00Dx01o/high.mp4",
+  "demo_url": "https://wayfare-web.onrender.com",
+  "source_url": "https://github.com/Aditya-0037/wayfare",
+  "finalist": false,
+  "description": "Every agentic-payments demo hardcodes its endpoints. The agent already knows every service it will ever call, which means there is no discovery, no choice, and no market — just a scripted workflow with a payment attached.\n\nWayfare removes the config file. Its agent starts a run with a task, a budget, and no tools. It resolves an ENS parent name to enumerate providers it has never seen, reads each one's agent-context record to learn what it does and what it costs, and decides which are worth paying for. Payment happens per call over x402 on Hedera, settled through the Blocky402 facilitator. Every settled call is anchored to a Hedera Consensus Service topic, so the record of which provider was paid, how much, and for what is publicly verifiable rather than self-reported.\n\nBecause nothing is hardcoded, the agent's behaviour changes with its environment. Add a provider while the demo is running and the agent finds it on the next run with no code change. Cut its budget and it makes a different choice — cheaper provider, fewer calls, or it declines to proceed. Providers cannot write their own reputation records; that permission is held separately, so track record is something earned rather than claimed.\n\nWayfare is infrastructure, not an app. The agent is the demonstration; the discovery, settlement, and receipt layer underneath is the product.",
+  "how_its_made": "Wayfare is a TypeScript monorepo: an agent runtime, three independent x402-gated provider services, an ENS identity package, and a React frontend streaming over WebSocket.\n\nHedera handles settlement. Each provider returns 402 PAYMENT-REQUIRED with its price; the agent constructs a transfer transaction, signs it with its own key, and deliberately leaves it incomplete so the fee payer can finalise it. That partially signed transaction goes back as proof of intent, and the provider forwards it to the Blocky402 facilitator, which verifies it, adds its own signature to cover gas, and submits it. No provider in the system ever pays gas or settles on-chain itself. Pricing is metered per call rather than flat, so cost scales with the work requested. Every settled call writes a receipt to an HCS topic — provider name, amount, transaction id, result hash — confirmed via Mirror Node and linked to HashScan in the UI.\n\nENS is the discovery layer, not decoration. Each provider is a subname carrying ENSIP-26 records: agent-context describing its capability and pricing in a form an LLM reads directly, and agent-endpoint[mcp] pointing at its callable interface. The agent has no provider list; it resolves one. Enhanced Access Control is what makes the reputation record trustworthy — the role permitted to write it belongs to the settlement recorder, not to the provider being rated.\n\nBazantic sits between the agent and the providers. Each provider's API is registered as a gateway with a Recipe explaining when it's useful, what it needs, and how to read the result, exposed through Bazantic's MCP server. We ran the same task with the same model and settings against raw API specs versus Recipes, changing nothing else, and measured the difference in success rate and malformed calls.\n\nThe hackiest part is the guardrails. Spend ceilings are enforced server-side before every payment rather than requested in the prompt, because an agent told to stay under budget will not. A recorded-run replay endpoint re-emits a real run's events for demo resilience against testnet latency and cold starts.",
+  "auto_summary": "A TypeScript monorepo where an agent discovers ENS-listed providers, pays per call over Hedera x402, and records receipts to HCS.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/wayfare-z05zy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

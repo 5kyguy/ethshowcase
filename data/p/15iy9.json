@@ -1,0 +1,21 @@
+{
+  "id": "15iy9",
+  "slug": "x-com-poap-dispenser",
+  "title": "X.com POAP Dispenser",
+  "tagline": "Twitter bot validates coded image tweets and lets users log in to claim unique POAP mint links now!",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/15iy9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/N02u2JSH3lmjlG01gsprAUHsBlu0252W01ppu1Q2QTmGRjc/high.mp4",
+  "source_url": "https://github.com/poap-studio/xbot",
+  "finalist": false,
+  "description": "Community moments deserve more than a post—they deserve to be kept, remembered, and collected. Our project transforms social‑shared experiences into on‑chain souvenirs by turning posts into verifiable proof of presence. Whether it’s a concert, a community meetup, or a spontaneous street moment, participants don’t just share their memories online—they mint them into POAPs tied to their identity. The result is a bridge between lived experiences, social expression, and collectible digital artefacts.\n\nInstead of claiming a POAP passively, we anchor each claim to user‑generated content. The memory itself becomes the ticket.\n\nUser scans QR\n  >>\nUser logs in with Twitter\n  >>\nSystem assigns a unique claim code to that Twitter user\n  >>\nUser posts a tweet including code + image\n  >>\nBot monitors tweets for valid posts\n  >>\nBackend verifies tweet authenticity + code ownership + media\n  >>\nUser is authorized to mint a unique POAP linked to their account\n\nWhy it matters : \n\n\nLinks real participation to real content converting social proof into on‑chain proof.\n\nRewards storytelling instead of passive claiming\n\nTurns memories into permanent digital artifacts\n\nBy making experiences collectible, we give communities a new way to share, authenticate, and remember the moments that matter.",
+  "how_its_made": "We built **xbot** as a full-stack TypeScript app where a single codebase orchestrates the Twitter bot, the admin console, and the claim experience. The frontend is **Next.js 16 App Router + React 19 + Tailwind CSS**, backed by **PostgreSQL via Prisma**. Authentication is handled with **NextAuth.js using Twitter OAuth 2.0**, so the same Twitter identity is used both to log into the claim UI and to link back to the tweets the bot processed.\n\nOn the backend, we keep things very explicit and boring-on-purpose. A set of API routes under `/api/admin` exposes configuration, stats, and CSV exports; `/api/deliveries` serves the authenticated user’s POAP deliveries; and `/api/cron/process-tweets` is the brain of the bot. That cron endpoint is hit by **Vercel’s scheduled functions**, protected by a `CRON_SECRET` check so it can’t be called publicly. On each run, the bot loads the current config from Postgres (hashtag, required code, POAP event, reply template), calls **Twitter API v2** to pull eligible tweets, and then talks to the **POAP API** to reserve unique mint links before persisting a “delivery” record via Prisma. This cleanly decouples “found a tweet” from “user actually clicked and claimed”.\n\nThe web claim flow and admin UI are just thin React layers on top of those APIs. The claim page uses NextAuth session data to fetch deliveries for the logged-in Twitter account and renders a simple state machine: no deliveries / pending / ready-to-claim. The admin dashboard lives under `/admin` and is built as small Tailwind-styled components on top of `/api/admin/config`, `/api/admin/stats`, and `/api/admin/deliveries` so organizers can tune the bot and export results without touching code. Tests are wired with **Jest** and **Playwright** so we can exercise both the bot logic and the main flows end-to-end, and everything is deployed on **Vercel** with a single `vercel.json` wiring the cron job.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/x-com-poap-dispenser-15iy9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

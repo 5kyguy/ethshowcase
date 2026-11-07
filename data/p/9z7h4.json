@@ -1,0 +1,20 @@
+{
+  "id": "9z7h4",
+  "slug": "enchanted-aa-ca",
+  "title": "Enchanted AA/CA",
+  "tagline": "Transfer of tokens from one to another using Solvers and Zk proofs",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/9z7h4/banner/default.jpg",
+  "source_url": "https://github.com/livingrockrises/eth-bkk-showcase",
+  "finalist": false,
+  "description": "Cross-chain implementations are push-based where users start with a fragmented balance on one chain and “push” their tokens to another.\n\nThe wallet works by taking transaction from the User By locking his funds from source chain in a Time Lock contract and funding the destination chain using Paymaster. Once the paymaster funds the destination chain address of the user, it sends across the zk proof of the transaction through layerZero to TL contract which sends the money to paymaster as well as unlocks remaining amount to the user.\n\n1. Alice goes to the NFT mint site, and wants to insta buy\n2. Alice clicks mint button the paymaster service checks locked userBalance on all vaults across chains and sends back a special_signature\n3. paymasterAndData ****will be set to whatever paymaster service application/user opts into just like today, the data however includes the special_signature provided by the paymaster\n4. This userOp is sent to bundler → entrypoint\n5. Entrypoint calls validateUserOp() on the SCW and does the usual operations\n6. When Entrypoint calls validatePaymasterUserOp(……special_signature)\n7. Post the usual validations, the paymaster validates the signature and sets a map(address⇒amount) to allow userOp.sender withdraw the amount (which will be the SCW)\n8. The SCW will then leveraging the withdrawGasExcess method pull funds from the paymaster and execute the userOp that buys the NFT\n9. In the postOp operation\nmapping(address⇒amount) set earlier will be deleted to ensure no double spends\nan execution proof will be sent by the sender contract on L1 to an L2 or multiple L2s via the native-rollup-connections\nexecution proof is simply a proof to convince chainA of some execution that happened on chainB using ZK PROOF.\n10. Funds will be then deducted from the userVault and given to paymaster",
+  "how_its_made": "We used Chains Like Base Sepolia and Sepolia, We use 44337 methodologies to send tractions by abstraction the account layer leverages the existing Account Abstraction standard a - an innovative approach to allow users to leverage their assets held on-chain.\nFor chain Abstraction , with locked, the assets remain usable via the smart-account on any chain at any time. This one-time step required-to onboard as a part of deposit to SCW workflow, it is not required every-time before the assets are used..\nPaymaster checks(offchain) if there are sufficient funds with Alice in her chain abstracted balance and authorizes usage of paymaster funds via a special_signature\nUserOp is sent to bundler with paymasterAndData containing the special_signature that allows the SCW to pull funds from the paymaster’s pool of liquidity on BASE\nUserOp is normally executed onchain leveraging the paymaster funds, SCW leverages withdrawGasExcess(special_signature) to pull funds from paymaster\nPaymaster can now debit the respective funds from Alice’s chain abstracted balance in custody of smart-wallets (whichever chain or multiple-chains that they are on)\n\nWe used Snark and Circom to create a secure way to prove and verify transaction. \nWe have used Partners like LayerZero, Base, Pyth.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/enchanted-aa-ca-9z7h4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

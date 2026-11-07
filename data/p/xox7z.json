@@ -1,0 +1,27 @@
+{
+  "id": "xox7z",
+  "slug": "mandi",
+  "title": "Mandi",
+  "tagline": "Humans set the rules. Agents spend the money — ENS discovery, policy checks, x402 on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xox7z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Z6SroDvf3uaZsV3jyNRoB5IWra0013mfmbJKuHNPV2qk/high.mp4",
+  "demo_url": "https://mandi.up.railway.app/",
+  "source_url": "https://github.com/dinesh11515/Mandi",
+  "finalist": false,
+  "description": "Mandi is a procurement layer for autonomous agents. A human signs a spending policy with their own wallet. An agent discovers competing suppliers by name, but it cannot pay. A separate executor — the only module that holds the payment key — re-derives every fact from chain state and either signs an x402 payment on Hedera or refuses with reasons. Both outcomes are public.\n\nSellers connect their wallet, sign a registration, and get <label>.mandi.eth minted to their wallet on the ENSv2 Sepolia. Price, capability and the x402 endpoint live in the resolver. A Selfie Check in World App, bound to that same wallet, is the only accreditation a policy will accept.\n\nBuyers sign the policy, deposit HBAR from their wallet over Hedera’s JSON-RPC relay, and run a task like “Assess risk of Aave.” The agent ranks suppliers on attestation, then reliability from settled receipts, then price. The executor resolves the name again, checks price, remaining budget, the deposit ledger, success rate, and the verifier-signed attestation, then pays per call through Blocky402. Failures cancel (x402 v2 authorization flow) and the agent falls back. Nothing eligible means nothing paid.\n\nLive console: https://mandi.up.railway.app/\nSeller + Selfie Check: https://mandi.up.railway.app/seller\nHCS audit trail: https://hashscan.io/testnet/topic/0.0.10454931\nENS Names: https://app.ens.dev/mandi.eth",
+  "how_its_made": "One Hono process (server/) and one Vite + React app (web/). No database, no queue.\n\nENS. server/src/ens.ts talks to the live ENSv2 Sepolia contracts with viem. A UserRegistry subregistry under mandi.eth, a PermissionedResolver, and seller-owned names. Records: ENSIP-26 agent-context and agent-endpoint[x402], plus custom mandi:capability, mandi:price, mandi:chain, mandi:verified, mandi:upstream. The executor re-resolves at decision time. Prices are never hard-coded.\n\nHedera / x402. @x402/hono gates every supplier route with a per-route HBAR price. @x402/fetch + @x402/hedera sign the transfer only after policy checks, settled through Blocky402 (exact, HBAR 0.0.0). Buyers fund the executor from MetaMask on chain 296. server/src/buyer/funding.ts nets mirror-node deposits against anchored spend. POLICY_ACTIVATED, DECISION, and RECEIPT go on one HCS topic via @hiero-ledger/sdk and join on the transaction id. Reliability is computed from those receipts only. Agent identity is the ENS name, not HCS-14. executor.ts is the only file that reads BUYER_KEY.\n\nWorld App, selfieCheckLegacy, signal = seller wallet. The server signs RP context, verifies on the v4 endpoint, binds a 90-day attestation to the ENS name, and enforces one accreditation per human via a hashed nullifier. requireVerifiedFor reads the attestation, not the ENS flag.\n\nThe Graph. Messari subgraphs (aave-v3-ethereum, compound-v3-ethereum, morpho-aave-v3-ethereum, lido-ethereum) feed the paid risk endpoints. risk-pro does more queries per call than risk-basic — extra work, not a claim of being more correct.",
+  "auto_summary": "A full-stack app that registers suppliers under ENS names and lets an executor authorize per-call Hedera x402 payments using policy checks.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/mandi-xox7z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

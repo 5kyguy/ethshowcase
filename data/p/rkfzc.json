@@ -1,0 +1,27 @@
+{
+  "id": "rkfzc",
+  "slug": "shade",
+  "title": "Shade",
+  "tagline": "A protocol that allows your trading bots to be invisible on chain.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rkfzc/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zrtRpBcwaWr3IQ44ay7Pbv9cR0102aM1M02400K02hI01wogE/high.mp4",
+  "demo_url": "https://shade-woad.vercel.app",
+  "source_url": "https://github.com/JohannCFi/Shade",
+  "finalist": false,
+  "description": "An autonomous trading agent buys data per call (the x402 \"HTTP 402 → pay → read\" pattern). With bare on-chain payments, every purchase is a footprint: a competitor indexing the chain reconstructs which oracles it queries, how often, its remaining budget, and the wallet that funds it — its entire strategy, for free.\n\nShade runs the same agent over two rails and makes the difference visible:\n\n• Transparent rail — pay-per-call settles on-chain via Circle Gateway (x402). A \"spy\" indexer rebuilds funder, oracles, budget and strategy.\n• Private rail (Unlink) — the agent pays each oracle through Unlink private accounts; funding and spending are decoupled inside a privacy pool. The spy sees only noise.\n\nThe split-screen demo at /spy makes the contrast literal: press Run agent live, watch real transactions stream — the left panel reconstructs everything, the right stays dark. Tx hashes link to ArcScan, and a public withdrawal proves value moved without ever revealing who paid whom.\n\nWhat stays hidden: the agent's funding source, which data it buys, how much, how often, and the strategy those payments imply. Built for the Dynamic × Unlink × Circle private-nanopayments track, on Arc Testnet (USDC).",
+  "how_its_made": "Shade is a Next.js (App Router) + TypeScript app, stateless (no database), running on Arc Testnet where gas is paid in USDC.\n\nDynamic handles wallet creation and onboarding — an embedded-wallet, no-seed-phrase flow. The connected wallet signs one canonical message, and that signature deterministically derives the agent's private Unlink identity (fromEthereumSignature): so 1 wallet = 1 bot, with no account database. Dynamic also signs the on-chain deposit/withdraw, while per-call private payments need no popup — the derived Unlink account signs them off-chain.\n\nUnlink (@unlink-xyz/sdk) derives a shielded account, deposits the budget into the privacy pool, and routes each oracle payment as a private transfer — amounts, balances and counterparties stay confidential. A real private transfer runs on every demo, and a real withdrawal serves as trustless proof: each oracle cashes out to a public address, verifiable on ArcScan, without exposing the payer. A stateless wallet-signature proof (ShadeSig, two signatures: identity + freshness) lets any self-custody user run an external bot with Unlink tokens scoped to its own address — the admin key never leaves the server (bring-your-own-bot, no admin key).\n\nCircle + Arc settle the transparent rail: each call returns HTTP 402, the agent signs an EIP-3009 authorization, and @circle-fin/x402-batching (BatchFacilitatorClient) verifies and settles it gaslessly in batches — real sub-cent settlement, not one large transfer.\n\nHacky bit worth mentioning: deriving the entire private identity from a single wallet signature means there's no user database at all — the whole per-user auth model is stateless and deploys to Vercel as-is. Tested with 65 unit tests (vitest). Stack: viem · @dynamic-labs/* · @unlink-xyz/sdk · @circle-fin/x402-batching.",
+  "auto_summary": "A Next.js app demonstrates transparent versus private per-call USDC payments for agent-driven oracle access on Arc testnet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/shade-rkfzc",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

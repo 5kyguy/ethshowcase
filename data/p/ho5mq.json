@@ -1,0 +1,72 @@
+{
+  "id": "ho5mq",
+  "slug": "natural-chain-ai-toolkit-for-the-blockchain",
+  "title": "Natural Chain - AI Toolkit for the Blockchain",
+  "tagline": "NaturalChain is an AI Toolkit that empowers users to interact with the EVM ecosystem using natural language, facilitating tasks such as the creation and deployment of Smart Contracts, querying subgraphs from The Graph, or using the JSON-RPC API.",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ho5mq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bTiGEhGognhUPAssiCdoxnQKNcZEEUXx5Ne4SxSZQrE/high.mp4",
+  "demo_url": "https://naturalchain.cenit.finance/",
+  "source_url": "https://github.com/miguel-bm/naturalchain",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊 Polygon — Build on Polygon",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "🥇 Gnosis Chain — Best Use",
+      "title": "Gnosis Chain"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🏰 Optimism — Deploy on Mainnet ",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🏊 The Graph — Pool Prize",
+      "title": "The Graph"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "🏊 Scroll — Deploy a Smart Contract",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Neon EVM",
+      "sponsor_id": "0p5er",
+      "placement": "🥉 Neon Foundation - Best Use",
+      "title": "Neon Foundation"
+    },
+    {
+      "sponsor": "Mantle",
+      "sponsor_id": "jzpj5",
+      "placement": "🥈 Mantle — Best Use",
+      "title": "Mantle"
+    },
+    {
+      "sponsor": "MetaMask",
+      "sponsor_id": "4pn9u",
+      "placement": "🥷 MetaMask — 🥈 Built on Linea",
+      "title": "MetaMask & Linea"
+    }
+  ],
+  "finalist": false,
+  "description": "NaturalChain is a toolkit for interacting with the EVM ecosystem through natural language. It currently consists of:\n\n    1. A series of tools that allow Artificial Intelligence models like ChatGPT to access EVM chains and some related applications. This is achieved by teaching the model how to use these tools before the user’s query, and then parsing the model output to call these tools.\n\n    2. An AI agent, which is essentially a task manager that organizes how to call the LLM models and with which prompt, with the objective of performing a task that requires multiple steps.\n\n    3. Two possible integrations of these tools and the agent: as a CLI tool and as a chatbot running in a web application.\n\nWe have way too many ideas for possible tools to integrate with NaturalChain. During the hackathon, we managed to develop these:\n\n    - SmartContractWriter: a tool for writing Solidity smart contracts given a detailed and technical description of the functionality\n\n    - SmartContractCompiler: a tool for compiling a Solidity smart contract into bytecode\n\n    - SmartContractDeployer: a tool for deploying smart contract bytecode into an specified network\n\n    - TransactionSigner: a tool for sending transactions given a destination address, ether value, data and network to interact with. Returns the receipt.\n\n    - RPC API: a tool for calling an EVM-compatible JSON RPC-API endpoint\n\n    - Graph tool: a tool for querying a subgraph endpoint from The Graph\n\n    - Coinmarketcap Tool: a tool for retrieving token information from Coinmarketcap\n\n    - Contract Identifier: a tool for checking whether an address is a smart contract, and checking for proxies\n\n    - Calculator: a tool for making small computations\n\nThe agent is able to use the various tools and execute complex tasks that require multiple calls to the same tool, or the combination of multiple tools. For instance, it is able to use three distinct tools to write, compile, and deploy a smart contract. This planning/reasoning capability seems to be an emergent property of recent Large Language Models, which we can leverage to make complex and loosely defined automations.\n\nInterestingly, the tools themselves can be abstractions that call other Large Language Models to execute a sub-task. This is the case of one of the tools we developed, the SmartContractWriter.\n",
+  "how_its_made": "We developed our project using the LangChain framework (https://python.langchain.com/en/latest/index.htm), which enables the creation of applications powered by language models, specifically chatGPT 3.5 in our case. Specifically, we used LangChain to design the agent that would execute complex tasks related to the EVM ecosystem, as well as the tools it would need to do that.\nLangChain allows the use of almost any available Large Language Model. For this project, we decided to use Chat GPT 3.5, due to its demonstrated performance, low price, and speed. However, it would be possible to plug and play any other model (although the behavior of the our agent would of course change, since the model is used to make decisions and perform some tasks)\nBesides LangChain and ChatGPT, we integrated multiple technologies through our tools:\n\n    - We used The Graph to enable the agent to query information from subgraphs, such as the state of Uniswap pools\n\n    - We used Coinmarketcap to enable the agent to query coin prices, total supply, and others\n\n    - We used Infura to be able to interact with multiple EVM-compatible chains though RPC endpoints\n\n    - We used solc to compile smart contracts written by the models\n\n    - We used the Web3 library to integrate many of these other tools through Python bindings\n\nThe Graph, in particular, was a sponsored technology that proved to be very valuable. It allowed us to easily retrieve data that would have been extremely tedious  to obtain using just the RPC. By leveraging the Graph, we were able to effortlessly query various top pairs on platforms like Uniswap or Balancer, greatly enhancing the capabilities of our project. Interestingly, we discovered that chatGPT3.5 had a remarkable proficiency in writing GraphQL queries. \nBesides this blockchain-related technologies, we used the following technologies:\n\n    - Streamlit, to easily create and deploy a chat interface for our agent\n\n    - Typer, to integrate the agent into a CLI tool\n\n    - Docker, Poetry, pyenv, and others for dependency and environment management\n\nThroughout the development process, we aimed to make the agent more interactive with users. To achieve this, we incorporated a chat plugin within Langchain that allowed our agent to act in a conversational manner. The combination of langchain and the chat plugin significantly improved the tool's performance, allowing it to effortlessly handle complex queries and provide more accurate responses, as well as ask the user for feedback or further instructions when needed.\nThe main problem we encountered was related to prompt engineering. Specifically, we had to make a lot of adjustments to the tool descriptions to ensure that the model would know when and how to use them, and to use them with the correct syntax. Sometimes, the agent would get stuck in a loop. Other times, the agent would “make up” methods that were not implemented in our tools (actually, that provided us with ideas on how to improve the tools by creating these new methods). In general, the solution was to iterate and adjust the prompts, using explicit and exact language.\nThe second main difficulty was the context limit of the model (approximately 2500 words). Each tool we added had to be included and explained in this context, limiting the expansion in capabilities of the model, and its capacity to retain memory of past interactions. \nThis could be partially solved through the use of a more powerful model like Chat GPT 4, but in the future we aim to develop further abstractions to the agent that would allow it to segment its planning, tool choice, and prioritization mechanisms, limiting the prompts in each task, and also specializing the subtasks to enable better overall performance.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/natural-chain-ai-toolkit-for-the-blockchain-ho5mq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

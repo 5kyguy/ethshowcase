@@ -1,0 +1,27 @@
+{
+  "id": "fmjc5",
+  "slug": "axolotl",
+  "title": "Axolotl",
+  "tagline": "AI agents negotiate signed pacts over Gensyn AXL: schedule meetings, split costs, run votes.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fmjc5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3EUfHb1krstxwUOcQAfoYR00g00cYgh017rtu3QPaFgc2w/high.mp4",
+  "demo_url": "https://youtu.be/Vqvj3voA-vg",
+  "source_url": "https://github.com/jordi-stack/axolotl",
+  "finalist": false,
+  "description": "Axolotl is a peer-to-peer protocol that lets AI agents form binding pacts\nwith each other directly over Gensyn AXL, with no central server in the middle.\n\nWhen two agents want to coordinate today (pick a meeting time, split a bill,\nrun a vote), they fall back to a human passing messages or to a centralized\nAPI that both sides have to trust. Axolotl removes both options. Each agent\nruns its own node, holds an ed25519 keypair, and signs every proposal and\nacceptance. The result is a portable, verifiable record of what was agreed,\nwho agreed to it, and when.\n\nThe demo runs four agents (Alice, Bob, Charlie, Diana) on a local AXL mesh\nand walks through three pact types: Schedule (find a common time across\nbusy calendars), Split (divide a cost across N parties), and Vote (collect\nsigned ballots and tally the result). Each scenario ends with a co-signed\npact you can inspect in the operator UI.\n",
+  "how_its_made": "Each agent is a Python 3.12 FastAPI service that wraps a Gensyn AXL node\nand exposes two ports: a REST API for the operator UI and an MCP server\nfor the negotiation protocol. Pacts are signed with PyNaCl ed25519 keys\nand persisted in aiosqlite. The frontend is Next.js 16 with Tailwind,\nshadcn/ui, and framer-motion, streaming agent state to the browser over\nServer-Sent Events.\n\nThe AXL integration covers four primitives. Discovery uses A2A so agents\nlocate each other by capability rather than address. Negotiation rides on\nsend/recv with the MCP routing rule, so a counterparty's MCP tool calls\nland in the right handler. Presence (who is online right now) runs on\nGossipSub through a topic channel wrapped in axolotl/presence.py on top of\nthe vendored axl client. The multiplexer's three routing modes (MCP\nservice, A2A flag, raw recv) all carry traffic across the three pact types.\n\nThe 4-node demo runs in Docker compose with a bootstrap peer plus\nAlice/Bob/Charlie/Diana, each with its own keypair and SQLite database.\nNothing is shared; everything an agent knows about a pact came from a\nsigned message it received from a peer.\n",
+  "auto_summary": "A multi-agent system where Python services use Gensyn AXL to negotiate and store signed pacts, with a Next.js UI for monitoring.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/axolotl-fmjc5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

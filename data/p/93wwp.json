@@ -1,0 +1,22 @@
+{
+  "id": "93wwp",
+  "slug": "aegis7702",
+  "title": "Aegis7702",
+  "tagline": "Aegis7702: AI-verified EIP-7702 delegation + runtime defense + shared safety registry",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/93wwp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/J027xiuRWw01ouyqCZ7drzP1ZnnhR81PdDZZTejTQDjC4/high.mp4",
+  "demo_url": "https://aegis7702.github.io/webapp/",
+  "source_url": "https://github.com/techn0k1ng/aegis7702",
+  "finalist": false,
+  "description": "Aegis7702 makes EIP‑7702 delegation safe enough to actually use.\n\n---\n\nIn 7702, \"delegation\" is similar to installing a new program for your wallet.\nIf the implementation is malicious (or just buggy), it can drain funds, brick the account, or break when you switch implementations.\nThat’s why most wallets block \"delegate to an arbitrary address\" and rely on tiny allowlists.\n\nAegis7702 replaces blind trust with verifiable safety: before delegation, our AI Analyzer reviews any 7702-implementation address, produces a security report, and publishes a Safe/Unsafe verdict (plus an integrity fingerprint) to a shared on‑chain Safety Registry.\n\nAfter delegation to our Guard 7702-delegator, Aegis, every transaction is pre-checked by our AI Analyzer and risky actions are proactively blocked.\nWe also run post‑transaction monitoring: watchers compare expected vs actual outcomes and can trigger an emergency Freeze to stop further damage.\nUnfreeze is controlled by the user's offline recovery key—not by us.\n\nThe Safety Registry is public and composable: other wallets, apps, and analysts can reuse the same Safe/Unsafe verdicts and reports (keyed by implementation + code hash), so the ecosystem benefits from shared security knowledge instead of fragmented allowlists.",
+  "how_its_made": "On-chain, the AegisGuardDelegator is the EIP‑7702 delegation target. It stores only minimal per-wallet metadata in the EOA's storage using hashed, namespaced slots (EIP‑1967-style + ERC‑7201) to reduce collision risk.\nThe Guard only delegatecalls implementations that are marked SAFE and match the recorded fingerprint.\n\nOff-chain, we run a Python FastAPI service + worker pipeline. LLM-based analyzers emit structured SAFE/UNSAFE reports (JSON schema).\nA watcher continuously post-audits mined transactions, and triggers on-chain notes/freezes when it detects abnormal or drainer-like behavior.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aegis7702-93wwp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

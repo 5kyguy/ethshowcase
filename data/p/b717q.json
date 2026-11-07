@@ -1,0 +1,36 @@
+{
+  "id": "b717q",
+  "slug": "router402",
+  "title": "router402",
+  "tagline": "One API, multiple LLMs, true pay-per-use, x402 micropayments on Base leveraging Flashblocks.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b717q/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fS6ZR3XLE01S9BKONaXX3uCmxw02QXnFvHrO7AdwGeScA/high.mp4",
+  "demo_url": "https://www.router402.xyz/",
+  "source_url": "https://github.com/feyyazcigim/hackmoney",
+  "prizes": [
+    {
+      "sponsor": "LI.FI",
+      "sponsor_id": "1nz66",
+      "placement": "Best AI x LI.FI Smart App ",
+      "title": "Best AI x LI.FI Smart App "
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackMoney 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Router402 is an OpenRouter-compatible AI gateway that brings true pay-per-use billing to LLMs through x402 micropayments on Base. \n\nToday, subscription plans lock flagship models behind expensive tiers with hourly rate limits, and so-called \"pay as you go\" services like OpenRouter are actually prepaid: your money leaves your control the moment you top up. Router402 changes this. \n\nEvery API call settles the exact cost of your previous request as a USDC micropayment, so you never pay for usage that hasn't happened yet.\n\nWe modified the OpenFacilitator to use Base Flashblocks for ~0.2s on-chain settlement, built a Li.Fi MCP server for trustless bridge and swap without private key handoff, and ship with a TypeScript SDK, VS Code extension, and demo web client. One API, multiple models, true pay-per-use.",
+  "how_its_made": "Router402 is a Turborepo monorepo with Bun workspaces. The core gateway is an Express/TypeScript server backed by Prisma and Neon (Postgres). It exposes an OpenRouter-compatible /v1/chat/completions endpoint that proxies requests to Anthropic (Claude) and Google (Gemini). Authentication is handled through JWT tokens tied to session keys.\n\nThe payment layer is where it gets interesting. We use the x402 protocol for micropayments, but the stock OpenFacilitator was too slow for per-request settlement. So we forked it and rewired it to use Base Flashblocks, bringing settlement time down to ~0.2 seconds. This is what makes the \"every request pays for the previous one\" model viable: the on-chain payment confirms before the next LLM call even needs to be forwarded.\n\nFor account abstraction we use Pimlico and ZeroDev smart accounts with session keys. Users create a smart account in one click, deposit USDC (which they retain full custody of), and the session key handles signing without wallet popups on every request. All gas is sponsored, so the UX feels like a normal API.\n\nWe also built a Li.Fi MCP server deployed on Cloudflare Workers. It returns typed transaction data for bridge and swap operations, so users can move assets across chains directly from their own wallet. The key part: we never touch private keys. The server returns an unsigned transaction, and the user signs it themselves.\n\nThe frontend is a Next.js web app that doubles as a demo client, showing the full flow from smart account creation to chatting with an LLM. We also built a VS Code extension so developers can use Router402 directly from their editor, and a TypeScript SDK (@router402/sdk) for programmatic access. Shared types and utilities live in separate workspace packages (@router402/types, @router402/utils) to keep everything consistent across the monorepo.\n\nThe hackiest part was probably the Flashblocks integration. Base Flashblocks are relatively new, and adapting the OpenFacilitator to use them required diving into the facilitator internals and reworking how it waits for transaction confirmation. The result is that a full on-chain USDC micropayment settles in roughly the same time it takes to establish a TCP connection, which makes the whole \"pay per API call\" concept actually feel seamless instead of painful.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/router402-b717q",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

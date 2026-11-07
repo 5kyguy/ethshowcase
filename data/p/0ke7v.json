@@ -1,0 +1,35 @@
+{
+  "id": "0ke7v",
+  "slug": "agora-markets",
+  "title": "Agora Markets",
+  "tagline": "Prediction markets-based governance. Markets price the event, the best future wins.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0ke7v/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Dw1enx4rwTKQmVZYD12eQdvuq1vkxjs00DaakYQIrEBg/high.mp4",
+  "demo_url": "https://agora-chi-ecru.vercel.app/",
+  "source_url": "https://github.com/0xbri3t/Agora",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "2nd place",
+      "title": "Build an Aqua App - Continuity Track"
+    }
+  ],
+  "finalist": true,
+  "description": "Agora is a futarchy protocol: instead of voting on proposals, governance layers delegate decisions to prediction markets. \n\nAgora's goal is to completely automate the responsibility of decision making from humans to the collective intelligence of markets. \n\nGovernance proposal: (e.g. \"Should Tesla change the CEO to X?\") spins up two conditional token markets: YES (world where the proposal passes) and NO (world where it doesn't). \n\nEach market trades a conditional forecast: the price of YES is what traders believe the stock will be worth if the proposal passes, and NO is its price if it doesn't.\n\nExample:  YES trades at $130 and NO at $95, meaning the market expects Tesla stock at $130 with the CEO changed to X and $95 with him staying.\n\nEach market bootstraps and starts its price discovery through a Uniswap CCA,  a clearing auction where participants bid a USDC budget plus a max price, supply is released over time, and the clearing price rises with demand. The auction is the price-discovery engine.\n\nThen the live market phase opens on 1inch Aqua: makers ship fill-or-kill lots of YES/NO tokens, takers fill them through the Aqua router, and every fill feeds live candles. Traders are effectively betting on which world is better for the token holder.\n\nAt resolution, Agora compares the TWAP of both markets: if YES trades above NO, the market believes the proposal creates value, and it's approved on-chain. Winning-side holders receive butterfly options centered exactly on their side's final TWAP, the price they collectively forecast.\n\nEverything is live on Sepolia with real contracts: ProposalManager, per-proposal CCA pairs, Aqua trading, and on-chain resolution. Onboarding is gasless via embedded wallets, so a demo user goes from zero to bidding in an auction in under a minute.",
+  "how_its_made": "Contracts (Foundry, Sepolia): ProposalManager deploys, per proposal, two conditional ERC20s (YES/NO) and two Uniswap CCA auctions denominated in USDC. \n\nWe worked directly into the CCA source to get the bid lifecycle right. ExitBid only works for bids whose maxPrice beats the final clearing, outbid bids need exitPartiallyFilledBid with checkpoint blocks. Resolution reads TWAPs from both books and settles the proposal on-chain.\n\n1inch Aqua: the live market runs entirely on Aqua/SwapVM. Makers shipQuote fill-or-kill lots, takers fill via router.swap, our backend indexes Shipped/Swapped/Docked events into MongoDB and writes a PriceHistory entry per fill, which powers the candle charts.\n\nFrontend: Next.js + wagmi/viem. Openfort embedded wallets give gasless transactions. Auction view is a Gnosis-style order-book chart in Recharts (cumulative demand staircase vs released supply, clearing at the crossing), market view uses lightweight-charts candles plus an animated price-discovery strip that carries the auction's final clearing prices into the market phase.",
+  "auto_summary": "A futarchy governance system that launches paired conditional-token auctions and live markets, then resolves proposals on-chain using market price comparisons.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agora-markets-0ke7v",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

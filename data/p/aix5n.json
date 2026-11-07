@@ -1,0 +1,35 @@
+{
+  "id": "aix5n",
+  "slug": "kswap-vm",
+  "title": "KSwap-VM",
+  "tagline": "A formal semantics for 1inch's swap-vm, and formal verification for it's modules.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/aix5n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RfdwEN4YouBA0052pXcKKNscDiCQURM1bBG4Byy00MmFU/high.mp4",
+  "demo_url": "https://vovunku.github.io/swap-vm-verified/",
+  "source_url": "https://github.com/vovunku/swap-vm-verified",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "3rd place",
+      "title": "Build an Aqua App"
+    }
+  ],
+  "finalist": true,
+  "description": "Initial idea was to make swap-vm as secure as possible but also give a leverage for future builders to secure their composite programs on swap-vm\n\nFirst part of the project - is its numerous specs and proofs for instructions of swap-vm. These specs and proofs were good enough that we were able to find  bugs which lead us to filing relevant bug reports\n\nSecond -- formal semantics that allows to reason and write proofs for new composite programs written on swap-vm, which allows us to formally verify any code written with swap-vm as base. For example, we created our own tiny app called sweeper that we formally verified.",
+  "how_its_made": "One stack throughout: Kontrol on top of KEVM on top of K.\n\nFor the instruction proofs, specs are written as Solidity property tests and given to Kontrol. It compiles the contract, lifts the deployed bytecode into KEVM — the K semantics of the EVM — and symbolically executes it, sending side conditions to an SMT solver. Working on bytecode rather than source means what is proved is what actually gets deployed.\n\nMost of the effort went into making proofs terminate: tuning the Booster backend's equation limits and fallback, raising depth and SMT timeouts, and building a lemma library for byte-level reasoning. The bugs surfaced here, as counterexamples with path conditions. We did not call any of them confirmed until we had replayed them as forge tests that fail.\n\nThe second part is why the stack matters. We wrote the SwapVM semantics directly in K, the same language KEVM is written in, so both levels share a prover and a way of stating claims. \"This instruction's bytecode is correct\" and \"this composite program is correct\" differ in what they quantify over, not in how they are written or checked.",
+  "auto_summary": "This project verifies 1inch SwapVM instructions and semantics, and includes an Aqua-based dust-sweeping app built on the verified router.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kswap-vm-aix5n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

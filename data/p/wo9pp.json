@@ -1,0 +1,21 @@
+{
+  "id": "wo9pp",
+  "slug": "amino-hooks",
+  "title": "Amino Hooks",
+  "tagline": "Agent-aware Uniswap v4 hooks with bonded ERC-8004 identity, ZK compliance, and risk-adjusted fees.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wo9pp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/E735ZokUKNgJOVCOzHg00oxiv02JATHWwhpunHMQ3sGK00/high.mp4",
+  "source_url": "https://github.com/Jay-366/hackmoney",
+  "finalist": false,
+  "description": "This project implements a bonded-risk execution framework for Uniswap v4 that transforms liquidity pools from passive pricing venues into agent-aware risk markets. By integrating ERC-8004 agent identities, collateral bonding, and zero-knowledge compliance proofs directly into Uniswap v4 hooks, the system allows LPs to price execution risk dynamically instead of subsidizing toxic arbitrage and adversarial flow.\n\nEach swap is evaluated in real time using measurable stress signals such as price impact, liquidity exhaustion, and post-trade reversibility. Verified agents that post bonds and prove adherence to safe-flow constraints receive discounted “partner” fees, while anonymous or high-impact actors are charged higher, risk-weighted fees or deterred entirely. Slashing mechanisms enforce accountability without sacrificing trader privacy.\n\nThe result is a composable, privacy-preserving execution layer that aligns incentives between autonomous agents and LPs, reduces loss-versus-rebalancing (LVR), and enables Uniswap v4 to function as a programmable market for risk-aware liquidity.",
+  "how_its_made": "The system is built as a Uniswap v4 hook deployed on Sepolia and developed entirely with Foundry. The hook interposes both beforeSwap and afterSwap lifecycle calls to inspect swap parameters, resolve agent identity, and dynamically override pool fees at execution time. Uniswap v4’s singleton architecture allows the hook to act as a programmable enforcement layer without modifying core AMM logic.\n\nAgent identity and accountability are handled through an ERC-8004 registry contract, where agents register a human-readable name, lock collateral as a bond, and commit to execution constraints via a hashed policy. The hook resolves msg.sender against this registry and uses the bonded status to gate fee discounts or apply risk surcharges.\n\nPrivacy-preserving compliance is implemented using Groth16 ZK-SNARKs built with Circom and SnarkJS. Traders submit proofs through hookData, proving their swap respects predefined impact and safety bounds without revealing trade size, routing, or strategy. Post-swap, the hook performs a markout-style reversibility check to detect toxic flow; violations trigger on-chain slashing of the agent’s bond, directly compensating LPs.\n\nA notable hack is using Uniswap v4’s dynamic fee override as a real-time risk pricing mechanism, effectively turning fees into an insurance premium backed by agent collateral rather than a flat tax on all traders.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/amino-hooks-wo9pp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

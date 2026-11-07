@@ -1,0 +1,29 @@
+{
+  "id": "kr3cx",
+  "slug": "circles-subgraph",
+  "title": "circles_subgraph",
+  "tagline": "Circles V2 Subgraph + Path Explorer to visualize and understand trust-based flows on Circles Network",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/kr3cx/banner/default.jpg",
+  "demo_url": "https://circles-path-explorer.vercel.app/",
+  "source_url": "https://github.com/hdser/circles_subgraph",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "2nd place",
+      "title": "Best Use of The Graph Token API, Subgraphs, Substreams, or AI MCPs"
+    }
+  ],
+  "finalist": true,
+  "description": "Circles is a unique experiment aiming to redefine how we think about money.\nThe Circles network is based on a web of trust, where value flows from user to user through personal trust connections.\n\nTraditional block explorers only show the direct events of a single transaction. However, in Circles, a transfer from user A to user B can involve hundreds or even thousands of individual transfers across the trust graph. This makes standard explorers insufficient for understanding what's really happening.\n\nTo address this, the project set out to build a custom subgraph that not only indexes raw event data but also performs deeper processing—capturing complete transfer paths, the number of hops, user balances, and more. This enables fast and rich analytics.\n\nThe second part of the project was a frontend tool that connects to this enhanced subgraph, allowing users to explore and visualize the Circles network in a meaningful way. It also integrates with the MCP subgraph, enabling an on-demand agent to run smart queries on the Circles Hub smart contract—providing real-time answers and insights into the network.",
+  "how_its_made": "- Subgraph: Indexing + Path Reconstruction\nWe built a custom subgraph using The Graph Protocol to go beyond just tracking basic transfer events. The smart contracts emit complex events like StreamCompleted, which can represent 100s or 1000s of low-level token movements.\n\nTo make this actionable, we wrote custom logic in AssemblyScript that reconstructs complete transfer paths:\n\nIt listens for StreamCompleted events.\n\nIt gathers all related TransferSingle and TransferBatch events in that transaction.\n\nWe build a flow network and decompose it into individual paths using a custom findAllPaths function.\n\nThese paths are stored as entities like TransferPath and TransferHop for later querying.\n\nThis gives us rich data like number of hops, trust intermediaries, and flow amounts—impossible to get with standard block explorers.\n\n- Frontend: Circles Path Explorer\nThe frontend is a React + TypeScript app built with Vite and styled using Tailwind CSS. It’s fully responsive and uses ECharts for rendering Sankey diagrams to visualize token flow between users.\n\nWe structured the app around:\n\nReusable components (src/components)\n\nData-fetching hooks (src/hooks)\n\nApollo GraphQL client (src/services)\n\nGraphQL queries to interact with the subgraph\n\nA user can search by address or transaction hash, and the UI presents reconstructed paths, hop details, and flow visualization in a clean and intuitive interface.\n\n-Backend Bridge: Natural Language Interface\nTo add intelligent querying, we introduced an MCP bridge (Node.js/Express backend) that connects the frontend to the subgraph via OpenAI.\n\nHow it works:\n\nUsers ask a natural-language question in the chat UI.\n\nThe backend sends the message to the OpenAI API.\n\nThe model returns a GraphQL query.\n\nThe MCP client executes this query against the subgraph.\n\nThe result is formatted and returned to the frontend.\n\nThis enables on-the-fly queries about addresses, balances, trust links, and even custom transfer logic—without needing to understand GraphQL.\n\n- Architecture + Tools Used\nSmart Contract Data: Circles V2 contracts on Gnosis Chain\n\nData Indexing: The Graph Protocol (subgraph, AssemblyScript)\n\nVisualization: React, TypeScript, Vite, Tailwind, ECharts\n\nAI Integration: OpenAI API + custom query-to-GraphQL bridge\n\nBackend: Node.js, Express, WebSocket for real-time responses\n\nSubmodule Handling: Circles V2 Hub is a Git submodule, allowing independent development of the indexing logic.\n\n- Notable Hacks\nOne particularly hacky (and powerful) aspect is how we reconstruct transfer paths from event logs using a flow-network decomposition. This isn't native to The Graph or Circles—it’s custom logic that acts almost like a mini pathfinding algorithm embedded inside the subgraph.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/circles-subgraph-kr3cx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

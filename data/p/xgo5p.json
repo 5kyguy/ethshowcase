@@ -1,0 +1,22 @@
+{
+  "id": "xgo5p",
+  "slug": "stellinch",
+  "title": "Stellinch",
+  "tagline": "Cross-chain atomic swap between Base/ETH and Stellar/XLM using HTLCs and 1inch integration",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xgo5p/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8OdIxSnpFZGLAa2QRyFD02lfVnPsEicy18oxC5YDSIQ8/high.mp4",
+  "demo_url": "https://youtu.be/y134kvDtT3Q",
+  "source_url": "https://github.com/YYBer/Stellinch",
+  "finalist": false,
+  "description": "  This project implements a trustless cross-chain atomic swap system enabling secure trading between Base (Ethereum Layer 2) and Stellar networks without requiring intermediaries or custodians. The system uses Hash Time-Locked Contracts\n  (HTLCs) to ensure atomic properties - either both parties receive their desired assets, or both get automatic refunds.\n\n  The core innovation lies in sophisticated multi-stage timelock mechanisms that provide multiple recovery opportunities. On the Base/EVM side, it integrates with 1inch Limit Order Protocol and implements a three-stage timelock system:\n  private withdrawal (1-6 hours), public withdrawal (6-24 hours), and automatic cancellation (24+ hours). The Stellar side uses simpler HTLCs with pre-signed transactions for claiming and refunds.\n\n  Users can swap ETH for XLM through a 4-step process: setup (secret generation), funding (both parties lock assets), claiming (maker reveals secret to claim XLM), and completion (taker uses revealed secret to claim ETH). The system\n  guarantees cryptographic security through SHA-256 hashlocks and prevents fund loss through comprehensive timelock protection.\n\n  The implementation handles real mainnet transactions on Base while using Stellar testnet for demonstrations, supporting bidirectional swaps and comprehensive refund mechanisms for failed trades.",
+  "how_its_made": " The project is built using a hybrid architecture combining Solidity smart contracts on Base with TypeScript/JavaScript for Stellar integration.\n\n  Core Technologies:\n  - Hardhat & Ethers.js: EVM development framework for smart contract deployment and interaction on Base network\n  - Stellar SDK: JavaScript library for Stellar network integration and HTLC management\n  - 1inch Limit Order Protocol: Integrated for advanced EVM escrow functionality with multi-stage timelocks\n  - OpenZeppelin: Security-audited contracts for safe ERC20 transfers and access control\n\n  Smart Contract Architecture:\n  The EVM side uses an inheritance-based design with BaseEscrow as the abstract foundation, implementing IBaseEscrow interface. EscrowDst extends this with concrete withdrawal and cancellation logic. The factory pattern (EscrowFactory)\n  enables deterministic escrow address computation using CREATE2 for gas efficiency.\n\n  Stellar Integration:\n  Custom HTLC implementation using Stellar's native transaction system with pre-signed transactions for atomic operations. The system creates payment transactions with hashlock conditions that can be claimed by revealing the secret or\n  automatically refunded after timelock expiration.\n\n  Notable Technical Implementations:\n  - Cross-chain Secret Reveal: The system cleverly uses Stellar's transparency to reveal secrets on-chain, which are then extracted and used on the EVM side\n  - Multi-stage Timelock System: Unlike simple HTLCs, this implements a sophisticated three-phase withdrawal mechanism preventing permanent fund locks\n  - SHA-256 Cross-chain Compatibility: Uses the same hash function across both networks ensuring secret verification works seamlessly\n  - Access Token Gating: Public withdrawal phase requires access token ownership, adding an additional security layer\n  - CREATE2 Deterministic Addresses: Enables pre-computation of escrow addresses before deployment, crucial for atomic swap coordination\n\n  The most technically interesting aspect is the asymmetric timelock design - Stellar uses simple time-based locks while Base implements progressive unlocking phases, providing multiple recovery mechanisms while maintaining atomic properties\n   across fundamentally different blockchain architectures.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/stellinch-xgo5p",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

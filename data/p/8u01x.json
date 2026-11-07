@@ -1,0 +1,20 @@
+{
+  "id": "8u01x",
+  "slug": "whitehatcow",
+  "title": "WhiteHatCoW",
+  "tagline": "Automated fund recovery to secure CoW Protocol's trade hooks infrastructure and improve swap intent UX",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8u01x/banner/default.jpg",
+  "source_url": "https://github.com/mauricewbr/WhiteHatCoW",
+  "finalist": false,
+  "description": "This project combines CoW Protocol's trade hooks, CoW Hooks, with it's Programmatic Order Framework to improve the security and user experience of swap intents.\nIn a nutshell, WhiteHatCoW contracts automatically detect funds which are stuck or at risk of being drained, secures funds by preemptively transferring funds to a secure address, and finally tries to notify the owner through on-chain messaging as well as Twitter.\nWhen users interact with CoW Hooks, their transaction will touch multiple components of CoW Protocol's clever trade hooks infrastructure. One of those components is the Trampoline contract which acts as msg.sender to keep the underlying CoW contracts secured from malicious actors. This trampoline contract will be called when a user specifies a pre- or post-hook and is able to receive funds as well as have spending allowances for user funds.\nThere are two scenarios in which WhiteHatCoW improves security and UX for users that interact with CoW Protocol's swap intents. Firstly and most importantly, we secure users that unintentionally give spending allowances to the trampoline contract with remaining unspent amounts that could then be used to drain user funds from their addresses through the trampoline.\nThe second scenario is the user leaving funds inside the trampoline contract which are then sitting idle in the trampoline address and could be drained by any other user.\nIn both scenarios, funds will be transferred to a secure WhiteHatCoW address via CoW Protocol's CoW Hooks, Tenderly Web3 Actions, and WalletConnect's in-app messaging service.",
+  "how_its_made": "The off-chain bot that listens for remaining balances as well as residual allowances runs on a Django + Celery stack. When conditions for a WhiteHatCoW action are met (funds at risk - gas > 0), a CoW Hook appData structure is created which specifies the pre-hook necessary to transfer funds from the trampoline to the WhiteHatCoW address. This appData also contains a post-hook which fires an event that is picked up by Tenderly and WalletConnect and used to notify the funds' owner.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/whitehatcow-8u01x",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

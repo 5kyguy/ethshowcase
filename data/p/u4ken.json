@@ -1,0 +1,27 @@
+{
+  "id": "u4ken",
+  "slug": "leashguard",
+  "title": "LeashGuard",
+  "tagline": "Approve what your agent buys. Allow bounded credit top-ups with ENSv2 and Privy.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/u4ken/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ttYdK4FlctdwrQFpjLX1pJ5SEo6jgkang33x01vSsKWI/high.mp4",
+  "demo_url": "https://github.com/pnupu/leash/blob/master/docs/verification.md",
+  "source_url": "https://github.com/pnupu/leash",
+  "finalist": false,
+  "description": "Leash separates permission to buy a new service from permission to keep using one.\n\nA coding agent's first purchase waits for owner approval, even when it fits the agent's ETH transaction limit. After that purchase settles, the owner can separately authorize credit top-ups for the same merchant, product, account, and agent wallet. Each authorization has a per-top-up limit, cumulative budget, and expiry. A new product, exhausted budget, or expired permission brings the agent back for review.\n\nThe working demonstration sells prepaid dependency-report credits. A matching successful Sepolia receipt delivers three credits; a report consumes one. Repeating the same request does not pay or consume credits twice. A ten-tool MCP server exposes the workflow to coding agents without giving them permission to approve themselves. Owners can revoke top-ups or the whole agent.\n\nENSv2 provides agent identity, lifecycle, and standing transaction limits. Privy provides wallets and synchronized transaction policies. The trusted Leash service enforces product approval and cumulative budgets.\n\nThis is a native-ETH Sepolia prototype, with one owner per workspace and a single-host SQLite ledger. Leash operates the demonstration merchant; npm advisory data is public. Budgets exclude gas and separately approved purchases. There is no external SaaS billing, subscription, USD trial budget, x402 support, or production custody claim.\n\nThe demonstration link points to verification evidence, including real Sepolia first-purchase and automatic-top-up receipts. Supplementary UI clips and the first-approval and budget screenshots use mocked login, chain, and npm. They are simulated UI evidence, not an authenticated owner/coding-host recording. There is no public hosted application.",
+  "how_its_made": "A Solidity registrar creates ENSv2 workspace and agent registries on Sepolia, with per-key resolver roles and lifecycle controls. The service checks the exact live agent token and workspace ownership before reading its payment cap and recipient records at a single block. This prevents stale wildcard resolver records from reviving expired or revoked agents.\n\nPrivy supplies owner authentication, agent wallets, and transaction policies. Scoped agent credentials are hashed at rest and cannot approve purchases or authorize top-ups. For an exact owner-approved exception, the service synchronizes a temporary recipient/amount policy, submits once, and restores the current ENS-derived policy, falling back to deny-all on read failure. Service revocation disables credentials and top-up permissions and sets the wallet policy to deny-all.\n\nThe Next.js/React owner dashboard and TypeScript APIs share a durable node:sqlite ledger for invoices, approvals, budget reservations, payment IDs, credit accounts, and report replay. Mutations serialize per agent. Automatic top-up budget is reserved before submission; ambiguous outcomes retain their reservation and freeze further spending for operator reconciliation. Credits are delivered only after matching the successful receipt and transaction. Reports retrieve public npm advisory data and consume one credit atomically. The MCP stdio server exposes ten tools shared by Codex, Claude Code, and OpenCode.\n\nValidation: 35 application/MCP tests and 16 Foundry contract tests pass, along with typecheck, lint, production build, dependency audit, and deployment preflight. Live integration tests exercised actual ENS/Privy wallets, policy restoration, first approval, automatic top-up, budget exhaustion, product isolation, and revocation. Their owner actions used an operator ownership check, not a Privy browser login. Product/account approval and cumulative budgets are trusted-service controls, not independently enforced on-chain.\n\nDeployment: leash-tools-2026.eth; registrar 0xaa1b19B741fF876F95eE83054c561750af1CdE8f. Public deployment details and receipts are in the repository.\n\nAttribution and timeline: the first project commit is September 4, 2026 at 19:33:20 +03:00. September 4-5 built the initial prototype; September 10-11 hardened lifecycle/payment behavior and implemented purchase-versus-top-up rules; September 13 packaged and published it. Original history is preserved, including the larger final implementation commit. Development was AI-assisted. ENS Namechain, OpenZeppelin, Solady, and other third-party dependencies retain their original licenses; project-specific code is MIT licensed.",
+  "auto_summary": "A Sepolia prototype that mediates owner-approved first purchases and budgeted automatic top-ups for agent wallets using ENS-based identity and Privy policies.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/leashguard-u4ken",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

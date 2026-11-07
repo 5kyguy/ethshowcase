@@ -1,0 +1,26 @@
+{
+  "id": "mnxcm",
+  "slug": "solvent-aqua",
+  "title": "Solvent Aqua",
+  "tagline": "Solvent: the sum 1inch Aqua never computes and never over commits.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mnxcm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/s008Qm4UELQN1OXSKhj11oGxmjv8yMxZEHVytuSPVjX8/high.mp4",
+  "source_url": "https://github.com/kirtiiiiii110/solvent",
+  "finalist": false,
+  "description": "1inch Aqua lets makers quote directly from their wallets without deposits, with one wallet supporting multiple strategies. Aqua stores each commitment independently as balances[maker][app][strategyHash][token] and never aggregates them. ship() does not verify solvency. A maker can commit 15,000 USDC across three strategies while holding 10,000, leaving all quotes active until a taker triggers pull() and pays gas for the revert. On Base, Aqua has 191 real makers and roughly 2,500 fills, with material books repeatedly under backed.\n\nSolvent provides the missing aggregate. A view contract reads Aqua's registry, aggregates each maker's commitments by token, and compares them with effective wallet capacity, min(balance, allowance). It exposes PROMISED / BACKED / SHORT. Uniswap v4 pool state converts multi token shortfalls into one value. The Graph adds external exposure across 22 live lending and DEX deployments using Messari standard schema data. A Uniswap v4 hook enforces solvency and rejects insolvent fills with a decoded reason.\n\nBallast removes the revert. It runs on SolventVM, our custom SwapVM Aqua app, with a new AggregateClamp instruction. At quote time it aggregates live commitments, checks wallet capacity, and clamps each fill to the amount actually available after sibling claims. No oracle or keeper. Quotes remain byte identical to 1inch's router. Where the second 1inch fill reverts, SolventVM settles the 4,000 USDC actually available. When the wallet is drained, the position quotes zero and resumes automatically when refilled. The Graph also reconciles Aqua commitments with external app positions so solvers can see the maker's wider book.\n\nValidation: Aqua's registry and SwapVM router are deployed and bytecode verified on Ethereum mainnet and Base forks. Demo makers use real addresses and positions, and the shipped strategies are ours. 54 contract tests and 20 engine tests run through one command and fail if the UI disagrees with a direct cast call.\n",
+  "how_its_made": "Contracts use Solidity 0.8.30 and Foundry, with 1inch/aqua and 1inch/swap-vm vendored as untouched submodules. Our app extends AquaApp and our router extends SwapVM.\n\nSolventReader computes the aggregate Aqua lacks. SolventSwap is a fixed rate Aqua app for exact demo fills. SolventVM adds AggregateClamp at opcode 0x93 using the documented _dispatch extension pattern. Every router instruction requires strategy enlistment, making the maker's router book enumerable without an oracle. The clamp limits size, not price. Exact out is capped before the curve. Exact in probes the curve once, then reruns as exact out if output exceeds deliverable balance, preserving the curve's native price and SwapVM invariants. SolventVM is 24,259 bytes, 317 bytes below EIP 170, with optimizer runs fixed at 700. Mainnet and Base router v1.0.2 uses a positional opcode table and ABI that differs from swap vm HEAD, so the demo hand encodes v1.0.2 bytes and fork tests include a translator. Details are in FEEDBACK.md.\n\nSolventPriceV4 reads slot0 directly from PoolManager via extsload and selects the deepest of four ETH/USDC tiers by live liquidity. It is the only pricing path. SolventHook is a mined beforeSwap hook with only BEFORE_SWAP_FLAG set and rejects fills from insolvent makers.\n\nThe Graph uses three query documents for the versioned Messari lending schemas, covering 22 live deployments with no protocol specific code and six concurrent requests. Our subgraph indexes SolventVM Enlisted, Clamped, and Swapped events, with refused phantom liquidity as the impact metric. Hidden book reconciliation combines our on chain aggregate with the Naumachy Aqua index. Live data also showed that DEX TVL can contain corrupted rows, so depth uses only liquid reference assets.\n\nThe engine is TypeScript, viem, and React with two phase reads. Chain state renders in about 140 ms, then Graph data arrives seconds later and re ranks results. Demos use pinned Anvil forks with real Base makers impersonated without holding their keys, and ERC20 balances written directly to storage. verify.sh compares the UI against cast call and fails on any single digit difference. Puppeteer runs the end to end test against the real UI.\n",
+  "auto_summary": "This project adds solvency checking, clamped execution, Uniswap v4 pricing, and Graph-based exposure analysis around 1inch Aqua and SwapVM.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/solvent-aqua-mnxcm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

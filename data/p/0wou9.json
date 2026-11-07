@@ -1,0 +1,29 @@
+{
+  "id": "0wou9",
+  "slug": "searcher-auction-spec",
+  "title": "Searcher Auction Spec",
+  "tagline": "Significant # of txs are private order flow from Searchers to Builders via an auction & Searchers have to trust Builders run it fairly. To help transparency & debugging we put forth a spec, implementation, and dashboard for Builders to give anonymized visibility into the auction.",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0wou9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dcoPFNltqTppCo452VwzDUHR5gh397Bp4OFyKl48nO8/high.mp4",
+  "source_url": "https://github.com/gmbit-co/gmbit.co",
+  "prizes": [
+    {
+      "sponsor": "Airstack",
+      "sponsor_id": "fb98y",
+      "placement": "🏊 Airstack — Pool Prize",
+      "title": "Airstack"
+    }
+  ],
+  "finalist": false,
+  "description": "Since The Merge, the role of organizing transactions into blocks has been outsourced by 90% of validators to a specialized role called Builders. Builders collect transactions from the mempool and from separate endpoints for sending orders outside the mempool. Often, these private orders all compete over finding and extracting value over the same set of public transactions. The name for the role of people who do this are called Searchers. An example, would be many searchers competing to find arbitrage created after someone made a large trade and sent this trade in the mempool (where these searchers can see it).\n\nSearchers compete on extracting value from the same set of transactions in an auction. The Builder hosts this auction, and the Searchers trust the Builder to run it honestly. A dishonest Builder may see Searcher's requests, gain some insights from them (insider trading), and then use that to their advantage (eg. replace the Searcher request with their own and take all the extracted value). There are many other ways that Builders could behave dishonestly. Today we have little-to-no visibility in how this auction is being run.\n\nMeanwhile, these Builders are participating in _another_ auction - the Builder Bid Auction, where the highest paying Builder has their block accepted. A role called a Relay runs this auction, and forwards the highest paying bid to the Validator. Again, this is a situation of trust, the Relay could take the transactions from the builder, and build a new block where they keep profits for themselves. Meanwhile, they could be dishonest about the value to the block when sending it to the Validator. However, many tools have been built around the Relay and Builder relationship to provide visibility, such as https://relayscan.io, https://payload.de/data/, https://mev.to, and https://mevboost.pics.\n\nThe Searcher and Builder relationship lacks this caliber of visibility. We wanted to address this problem with primary goals:\n* Provide anonymized data for Searchers to compare themselves to their competition\n* Prevent insider trading, don't let Searchers get screwed over by the Builder stealing their bids\n* Provide visibility to understand why a Searcher's bid failed so they can fix their bugs\n\nWe began with a simple API spec that seeks to start accomplishing these goals. We wrote a reference implementation to it on-top of open-source https://github.com/flashbots/builder codebase. We built a front-end dashboard to visualize the data.",
+  "how_its_made": "* We used Quicknode to fetch transaction data for the tx Searchers are attempting to compete on extracting value from (aka the \"target tx\")\n* We use Airstack to provide more detailed information about what the target tx is doing (eg. token transfers and how much)\n* We wrote a patch to the builder on top of Go-Ethereum\n* We wrote the front-end dashboard in Next JS, React, etc.\n\nBuilder Codebase Patch: https://gist.github.com/JVillella/953a8444bcb4faba9e7440d10dfcdcc0 (this is done as a patch, we want to polish this up and make it into a PR upstream to flashbots/builder this week)\nDashboard code (PLEASE SEE PR 1): https://github.com/gmbit-co/gmbit.co/pull/1",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/searcher-auction-spec-0wou9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

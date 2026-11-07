@@ -1,0 +1,60 @@
+{
+  "id": "q2rvq",
+  "slug": "enseverywhere",
+  "title": "ENSEverywhere",
+  "tagline": "Buy, trade, and bridge ENS domains on L2s with the same cheap gas fees you would expect from L2s",
+  "event": {
+    "slug": "ethonline2022",
+    "name": "ETHOnline 2022",
+    "start_time": "2022-09-02T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q2rvq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xH8Cs4vYMLIoj3gmcKx9UAYauamAZKpf2V1g6U92H2c/high.mp4",
+  "demo_url": "https://ens-everywhere.vercel.app/",
+  "source_url": "https://github.com/dmihal/ens-everywhere-contracts",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHOnline Finalist",
+      "title": "ETHGlobal"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🏗 Optimism — 🥇 Best NFT Infrastructure",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "Optimism",
+      "sponsor_id": "rmkrz",
+      "placement": "🔟 Optimism — Top 10",
+      "title": "Optimism"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🗿 ENS — Obelisk",
+      "title": "ENS"
+    },
+    {
+      "sponsor": "NFTPort",
+      "sponsor_id": "i90pd",
+      "placement": "🏊‍♂️ NFTPort — Pool Prize",
+      "title": "NFTPort"
+    },
+    {
+      "sponsor": "XMTP",
+      "sponsor_id": "nbyyv",
+      "placement": "🏊‍♂️ XMTP — Pool Prize",
+      "title": "XMTP"
+    }
+  ],
+  "finalist": true,
+  "description": "One of the most successful products on Ethereum is ENS domains. Not only has it proven itself as a key piece of the future of the internet and decentralized usernames, but it's also one of the products capturing the most fees on Ethereum.\n\nAs more activity is moving onto L2s, the one thing that has not moved with them is ENS. There's currently no way to register and trade ENS domains on L2s, therefore users must continue paying L1 gas fees to interact with ENS. Although ENS is already working on supporting L2s using off chain data lookups and wildcard domain names, this doesn't solve the use case of registering top-level domains. This is important, as top-level domains are the most popular use-case of ENS, as well as the primary driver of ENS revenue. \n\nTo solve this problem we've built ENS Everywhere, which aims to make ENS domains first-class citizens on Ethereum L2s. Users can request domain purchases on Polygon, Optimism, or potentially more chains in the future. Relayers register these domains on L1, and bridge the ENS NFTs back to L2. And by using our new Bulk Registrar contract (described in detail below), we can provide up to 34% savings. \n\nWe believe this project can help make ENS domains more accessible to everyone, and continue to grow Ethereum's L2 ecosystem!",
+  "how_its_made": "ENSEverywhere is built around a relatively simple idea: users make a \"bid\" to purchase an ENS domain on L2, then a relayer fills that \"bid\" by purchasing it on L1 and bridging the domain to L2.\n\nHowever, this leaves one major issue: if the relayer has to purchase the domain on L1, won't they incur the same L1 transaction fees, which must then be passed along to the purchasers? This is indeed true, however we were able to come up with a solution to significantly reduce the L1 fees, allowing cost savings for users.\n\nWhen a user normally registers an ENS domain, they must send two transactions: a \"commitment\", which is just a hash stored on-chain, as well as a \"reveal\" transaction which completes the registration. This process involves many storage operations, which are the most expensive operations to perform on Ethereum.\n\nWe were able to develop a \"Bulk Registrar\" smart contract, which allows a single commitment to register many ENS domain names. By bundling many domain registrations together in a single transaction, we can significantly decrease the gas costs. For example, if we register 10 domains in a single batch, there's a 25.7% cost savings compared to registering all 10 individually. In fact, even registering 2 domains together has a 9.3% savings!\n\nTo be used in production, our registrar would need to be approved by the ENS DAO as a supported registrar. We plan on proposing this to the DAO following the hackathon.\n\nThe rest of our system is build on-top of this registrar contract. A domain registration follows the following process:\n- A user submits a request to purchase a domain to the L2 smart contract. This request includes a \"commitment\" hash, and deposits some funds for fee payment. The ENS domain isn't revealed at this time.\n- A relayer sees this request, and creates a commitment on L1 using the L1 ENSEverywere smart contract (which calls the Bulk Registrar contract)\n- The ENSEverywhere smart contract sends the commitment data to L2 using the ENSEverywhere bridge smart contract. We currently support the Polygon bridge (FXPortal) and the Optimism Bridge, but could theoretically build support for any chain with an arbitrary message bridge to Ethereum\n- The L2 ENSEverywhere contract receives the commitment, and processes the first payment from the user to the relayer\n- At this time, the user must share a signature with the relayer, which contains the actual domain name to be registered. This signature is transferred encrypted, off-chain using the XMTP messaging protocol.\n- The relayer sends a second L1 transaction to the L1 ENSEverywhere smart contracts. This transaction registers all domain names, and transfers ownership to the ENSEverywhere smart contract.\n- The ENSEverywhere smart contract sends the registration contracts across the ENSEverywhere bridge to L2\n- The L2 smart contract confirms the domain registrations, processes the second payment from the user to the relayer, and mints an L2 NFT representing the ENS domain!\n\nAnd that's it! The user now has ownership of an ENS domain on L2, and was able to save money when purchasing the name. If the user wishes, they can redeem this L2 NFT for the primary L1 ENS NFT (although this is not implemented yet).\n\nTo facilitate this process we build a simple dapp that walks the user through the process of registereing the domain. The dapp also shows the user all their existing L1 ENS domains (using the NFTPort API), which will allow the user to bridge existing domain names to L2.\n\nOne limitation of this protocol in it's current implementation is that, while it allows a user to \"own\" a domain name on L2, it doesn't allow the user to set values such as the resolved Etheruem address. We plan on solving this using the new EIP-3668 off-chain data lookup standard, which will allow us to store this data on L2.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/enseverywhere-q2rvq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

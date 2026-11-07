@@ -1,0 +1,30 @@
+{
+  "id": "otc07",
+  "slug": "evvm-tx-analyzer",
+  "title": "EVVM Tx Analyzer",
+  "tagline": "AI powered EVVM transaction analyzer that explains complex EVM in EVM transactions in plain English.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/otc07/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5g1zozPOCHs01ihbBmtnIfuIIvqS2x1gFKu6hfVrWL1g/high.mp4",
+  "demo_url": "https://github.com/0xLucca/evvm-tx-analyzer/blob/main/README.md",
+  "source_url": "https://github.com/0xLucca/evvm-tx-analyzer",
+  "prizes": [
+    {
+      "sponsor": "EVVM",
+      "sponsor_id": "gatm1",
+      "placement": "Use the MATE Metaprotocol",
+      "title": "Use the MATE Metaprotocol"
+    }
+  ],
+  "finalist": false,
+  "description": "EVVM Transaction Analyzer is an open source Python tool that transforms complex Ethereum transactions into clear, human-readable explanations. The tool is specifically designed to handle EVVM (EVM-in-EVM) transactions, which involve nested execution environments where an EVM is emulated inside another EVM.\n\nThe analyzer follows a three step process: first, it fetches complete transaction details from blockchain RPC nodes (Ethereum mainnet and Sepolia testnet). Then, it uses Tenderly's simulation API to accurately replay the transaction execution at specific block numbers, capturing all state changes and execution traces. Finally, it leverages AI (via OpenRouter) to generate concise, plain English explanations that identify the function called, describe token transfers, explain contract interactions, and detail state changes.\n\nA key feature is its built-in knowledge of EVVM Name Service functions, automatically detecting and explaining transactions involving username registration, offers, metadata management, and other name service operations. The tool supports contract state overrides for testing scenarios, allowing you to simulate transactions with modified contract storage, code, or balances.\n\nWhether you're analyzing a simple token transfer or a complex multi-contract EVVM transaction with nested calls, the analyzer provides clear, actionable insights into what happened and why. It's perfect for developers debugging smart contracts, researchers studying transaction patterns, or anyone who wants to understand what's happening on the Ethereum blockchain in plain language.",
+  "how_its_made": "The project is built as a modular Python package with a clean separation of concerns. The core architecture consists of three specialized clients: an RPC client using Web3.py for fetching transaction data from Ethereum nodes, a Tenderly client that leverages Tenderly's simulation API to replay transactions at specific block numbers with full state traces, and an OpenRouter client that integrates with Google's Gemini 2.5 Flash model via OpenRouter's unified AI API.\n\nThe implementation includes several notable technical features: a function selector matching system that automatically detects EVVM Name Service function calls by comparing 4-byte selectors against a comprehensive mapping of 50+ function signatures, enabling precise transaction interpretation. Contract state override support is implemented through Tenderly's state_objects API, allowing dynamic modification of contract storage, bytecode, and balances during simulation for testing scenarios.\n\nThe codebase uses Pydantic for type-safe data validation, FastAPI for the REST API with automatic OpenAPI documentation, and proper error handling with specific exception types for different failure modes. A particularly elegant aspect is the dual-path simulation approach: the system first attempts Tenderly's hash-based simulation (simpler and faster), then falls back to manual transaction construction if needed, ensuring robust operation across different transaction types. The AI prompt engineering includes context-aware function detection, where detected function names and signatures are explicitly injected into the prompt to guide the model toward accurate interpretations.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/evvm-tx-analyzer-otc07",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

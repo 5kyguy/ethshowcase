@@ -1,0 +1,40 @@
+{
+  "id": "c53bp",
+  "slug": "dead-men-tell-tales",
+  "title": "Dead Men Tell Tales",
+  "tagline": "A funded agent that publishes your encrypted secret if check-ins stop. A pirate dead-man switch.",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/c53bp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xF600nJ1P4D3OXFkq023Dhdzy4WpyC8nwG5GcpW2lm8os/high.mp4",
+  "source_url": "https://github.com/jasperdegens/dmtt",
+  "prizes": [
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "3rd place",
+      "title": "AI Agents x Ledger"
+    },
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "\"No Solidity Allowed\" — Build with Hedera SDKs",
+      "title": "\"No Solidity Allowed\" — Build with Hedera SDKs"
+    }
+  ],
+  "finalist": true,
+  "description": "DMTT (Dead Men Tell Tales) is a monitoring agent that acts as a dead man's switch for encrypted notes and documents. A journalist, whistleblower, activist, or at-risk researcher encrypts a memo locally in the browser, arms the agent with a Ledger-signed Hedera payment, and then trusts the prepaid agent to watch a public deadline and publish the release capsule only if the user's check-ins stop.\n\nThe key design idea is that the agent holds money and infrastructure authority, but never the secret itself. It can create Hedera topics, schedules, storage references, and bounty payments, but it cannot read the memo early, fake a human check-in, or quietly erase what happened. Each postponement requires a fresh World ID proof from the same human, so only the real person can keep delaying release. If the deadline passes, Hedera authorizes release, the agent publishes the correct capsule, and pays out the release bounty. The user can also cancel at any time with a Ledger-signed transfer that shreds the unreleased capsules. It is pirate-themed because why not.",
+  "how_its_made": "The web app is built with Next.js 15 and React 19 using TypeScript, pnpm, and Node throughout. Memos are encrypted in-browser with AES-256-GCM, and the plaintext never leaves the device. For the time-lock mechanism, the browser builds a ladder of drand/tlock capsules so a capsule cannot be opened before its scheduled drand round, and the capsules stay private with the agent until release is authorized.\n\nHedera is the backbone and is used natively with no Solidity. The Schedule Service posts the release authorization at the deadline, the Consensus Service records an ordered audit log of switch events (armed, check-in verified, capsule published, cancelled), the File Service plus HCS chunking stores ciphertexts, and the Mirror Node REST API is used to verify arm/cancel transfers and reconstruct public state. HBAR transfers prepay the agent, authorize cancellation, and pay the release bounty.\n\nWorld ID enforces human-only postponement: the first proof enrolls a nullifier into the switch policy, and later proofs must match the same human and exact check-in signal. We deliberately avoided delegated World AgentKit so postponement stays human-only. Ledger provides device-backed authority for the high-stakes arm and cancel signatures via WebHID.\n\nA notable hacky workaround: the Ledger Hedera app cannot sign AccountAllowanceApprove txs. So instead of an allowance, the user prepays the agent with a Ledger-signed CryptoTransfer whose memo encodes the policy hash, and the backend verifies it from the mirror node by checking the transaction succeeded, the memo matches, and the Ledger account shows a negative transfer (proving it signed).",
+  "auto_summary": "A Next.js application implements a dead-man’s-switch workflow using Hedera services, World ID verification, browser encryption, and Ledger-signed actions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/dead-men-tell-tales-c53bp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

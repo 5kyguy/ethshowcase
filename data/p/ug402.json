@@ -1,0 +1,35 @@
+{
+  "id": "ug402",
+  "slug": "waiola",
+  "title": "Waiola",
+  "tagline": "Private RFQ settlement on Uniswap v4 with ENS-based maker discovery and ZK enforcement",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ug402/banner/default.jpg",
+  "video_url": "https://stream.mux.com/bhVuxylR1eij5aZ5MIjTMlecXleqLPoLL85TkQ01PCpU/high.mp4",
+  "source_url": "https://github.com/DavidZapataOh/Waiola",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "3rd place",
+      "title": "Uniswap v4 Privacy DeFi "
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "Waiola is a Private RFQ (Request for Quote) settlement system built as a Uniswap v4 hook. In standard RFQ systems, quote requests leak intent, direction, and size to all market participants — enabling front-running, copy-trading, and quote fading. Waiola fixes this by moving quote negotiation offchain while enforcing settlement onchain with cryptographic guarantees.\n\n(1) ENS Discovery - makers publish RFQ endpoints and policy hashes as ENS text records, turning ENS into a functional discovery layer for DeFi.\n(2) Private Negotiation - takers request quotes over direct HTTP, not broadcast to any mempool.\n(3) ZK-Enforced Settlement - every swap through the hook requires a valid Noir zero knowledge proof that cryptographically binds the commitment to the quoted terms without revealing the exact output price onchain. The hook also enforces EIP-712 signature verification, expiry checks, and atomic anti-replay protection. This is not \"fully private swaps\" - it's reduced pre-trade information leakage with full onchain verifiability.",
+  "how_its_made": "The onchain layer is built with Foundry and Solidity on Uniswap v4.\nThe core is RFQSettlementHook.sol, a beforeSwap-only hook (minimal permissions pattern) that validates 7 conditions before allowing any swap: commitment existence, anti-replay, pool binding, maker match, EIP-712 signature, expiry, and Noir ZK proof.\nCommitments use Poseidon2 hashing (ZK-friendly, BN254-compatible) instead of keccak256 so the same hash can be verified inside the Noir circuit.\nENS text records (rfq-endpoint, rfq-policy-hash, rfq-pubkey) serve as a real discovery layer — takers resolve maker endpoints permissionlessly and verify policy integrity via onchain hash.\nThe offchain maker server is Express.js/TypeScript handling /quote, /policy, and /status endpoints with EIP-712 signing.\n124 tests cover unit, integration, replay protection, gas benchmarks, and fuzz scenarios.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/waiola-ug402",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

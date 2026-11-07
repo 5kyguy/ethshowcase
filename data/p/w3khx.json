@@ -1,0 +1,27 @@
+{
+  "id": "w3khx",
+  "slug": "chef-id-sapore-pay",
+  "title": "Chef ID - Sapore Pay",
+  "tagline": "World ID verifies unique humans; ENSv2 gives each Chef an on-chain identity for payouts.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/w3khx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Lp5xlVhQF00EQkJ5011DxxBYl1X9T3F4vpYyPTL2qJ6Po/high.mp4",
+  "demo_url": "https://sapore.food",
+  "source_url": "https://github.com/santinocc/sapore-pay",
+  "finalist": false,
+  "description": "Sapore is the crypto-only sibling of Chefini, a fiat recipe marketplace where Chefs sign in with ordinary OAuth (Google, Facebook, email/password). That authentication model lets one person create unlimited Chef accounts and bypass per-tier dish limits — there's no way to tell ten fake accounts from one real person.\n\nThis project fixes that for Sapore's Chef onboarding flow, live and working end to end on Sepolia: a Chef proves they're a real, unique human with World ID (IDKit v4, verified server-side against World's real infrastructure, not mocked), then claims their own ENSv2 subname (<alias>.sapore.eth) — which becomes both their public identity and the address future recipe-sale payouts will resolve to. A Privy embedded wallet signs the on-chain ENS records directly.\n\nWorld enforces uniqueness itself: a second verification attempt from the same person is rejected server-side with a real, reproducible nullifier-replay error — not a UI-only check we could fake.\n\nEverything shown is real: real World ID proofs against World's production verify endpoint, real ENSv2 registrations on Sepolia, deployed and reachable today at sapore.food (web) and api.sapore.food (API), fully open source.",
+  "how_its_made": "Built as a pnpm monorepo: apps/web (React + Vite) talks to apps/service (Express), backed by shared packages/world, packages/ens, and packages/core.\n\nWorld ID: apps/web uses IDKit v4 (IDKitRequestWidget + the proofOfHuman preset). Every verification needs a freshly-signed rp_context — apps/service signs it locally using @worldcoin/idkit-server's signRequest() and the RP's own private key, so the signing secret never reaches the browser. The completed proof is forwarded byte-for-byte to World's real /api/v4/verify endpoint; nothing about verification is mocked.\n\nENSv2: packages/ens implements Chef subname registration and record-writing against a real ENSv2 Permissioned Registry deployed on Sepolia (see contracts/subname-registrar). Claiming <alias>.sapore.eth calls a deployed SaporeChefRegistrar contract; payout addresses are written as resolver records, signed directly by the Chef's own Privy embedded wallet.\n\nNotable/hacky bits: World ID's real protocol was a hard-won discovery. An early attempt assumed a Developer Portal-hosted cloud endpoint could sign rp_context on our behalf — a genuine 404 in production, and then reading @worldcoin/idkit-server's own source, proved the SDK's only real signing path is local, over a private key we hold ourselves. Separately, Vite's dev-server dependency pre-bundler moved IDKit's WASM module without its accompanying .wasm file, so the browser was silently served index.html in place of the real binary — fixed with an optimizeDeps.exclude. Every diagnosis along the way, including the wrong turns, is logged in docs/engineering-log.md.",
+  "auto_summary": "A monorepo app that verifies chefs with World ID and registers ENSv2 subnames tied to payout records on Sepolia.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/chef-id-sapore-pay-w3khx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

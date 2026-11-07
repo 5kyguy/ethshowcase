@@ -1,0 +1,27 @@
+{
+  "id": "suu33",
+  "slug": "oscillon",
+  "title": "Oscillon",
+  "tagline": "Uniswap v4 hook for stable LP inventory: tax dumps vs last $1 print, cap size if no price",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/suu33/banner/default.jpg",
+  "video_url": "https://stream.mux.com/hnao2J78iLYtLbkfH00EuqrON8PJ4eKk00HQNxiwuoAgI/high.mp4",
+  "demo_url": "https://youtu.be/Fpe_hrt0Vo4 ",
+  "source_url": "https://github.com/sammed-21/oscillon",
+  "finalist": false,
+  "description": "Oscillon is a Uniswap v4 hook and testnet UI for stable–stable pools (USDe/USDT-class).The LP problem: when one stable trades cheap vs $1, vanilla 3 bps pools absorb the weak asset. LPs see it on withdraw. Static fees give that spread to arbs.The hook’s rule (as of the Sep 13 policy):If Chainlink has a usable print (age ≤ 24h heartbeat + 1h buffer), depeg is that print vs $1. Drain (weak coin in) can pay more than 3 bps. Restore stays at base fee.\nHeartbeat silence is not a depeg. A last print still ~$1 is treated as $1.\nIf there is no usable Chainlink (past heartbeat, floor, revert), we do not use pool TWAP as $1 and we do not charge max fee. Base fee + size cap.\n\nWhat we learned building it: push Chainlink stables usually update at ~50 bps or ~24h. Our backtest’s 3–20 bps USDe band almost never produces a new print, so a per-swap fee in that band cannot run on this feed. That is an infrastructure limit, not a missed if-statement. StablePair prices pool mid vs a reference for the same reason — that input exists every swap.The project is an experiment plus a path to an LP Health view (what a $10k position actually holds). It is not a claim that Oscillon beats official USDC/USDT StablePair or that LPs earn extra yield on quiet 8 bps tape.Testnet UI + Sepolia hook. Tests: 42/42 including 128k-call invariants.\n\nwebsite: https://beta-testnet.oscillon.xyz/swap\n\n",
+  "how_its_made": "Uniswap v4 hook (beforeSwap / afterSwap) on Sepolia. Solidity: OscillonHook, ChainlinkOracleAdapter (AggregatorV3 + heartbeat-aligned MAX_ORACLE_AGE), OscillonPriceEngine, OscillonFeePolicy (base 3 bps + drain surcharge), OscillonTwapOracle (pre-swap tick write so a swap cannot paint its own window). TWAP is not used as USD when Chainlink is down.Frontend: Next.js swap UI (wallet, quote, depeg/fee readout). Foundry tests + fuzz/invariants (128k calls). Chainlink-compatible feeds on testnet (RedStone-shaped aggregators where we needed them).Hacky / notable: first version treated 1h silence as stale and could max-fee a quiet book. We replaced that with heartbeat-aligned trust and “blind → cap, not max fee.” A 20 bps Chainlink-vs-TWAP disagreement guard still lives; a large fresh print while the pool is still at $1 can be zeroed — documented, not hidden.Partner tech: Uniswap v4, Chainlink-style feeds. No Data Streams in this submission (pull+verify is a different product than a 3 bps stable swap).\n\n",
+  "auto_summary": "A Solidity Uniswap v4 hook adjusts stable-pool swap fees using oracle-driven depeg logic and includes a testnet UI and backtesting tools.",
+  "scores": {
+    "originality": 6,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/oscillon-suu33",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

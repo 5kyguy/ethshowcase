@@ -1,0 +1,27 @@
+{
+  "id": "4j02n",
+  "slug": "assay-2",
+  "title": "Assay-2",
+  "tagline": "A pay-per-query onchain credit bureau an AI agent buys from with only a wallet, no API key.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4j02n/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3p7gZP1YtDpAGW3IpionmPExbNsDHxU02Ha00Imqq1ZNU/high.mp4",
+  "demo_url": "https://drive.google.com/file/d/1O9roQJorOK3mccd_H0X32-8b7QINVCug/view?usp=sharing",
+  "source_url": "https://github.com/RamanS1819/Assay",
+  "finalist": false,
+  "description": "Assay is a pay-per-query onchain credit bureau with an autonomous transfer agent.\n\nIt scores any wallet's creditworthiness from live on-chain lending data — account maturity, leverage, past liquidations, portfolio quality, and counterparty hygiene — using a transparent, deterministic model. The LLM never computes the score, so any result is fully recomputable and a blocked user can be told exactly why.\n\nScores are sold per query behind an x402 paywall: a caller pays a fraction of a cent in HBAR and gets a score back — no signup, no API key, just a wallet. That makes the bureau consumable by AI agents, not only humans.\n\nOn top runs an autonomous agent that buys scores, underwrites a tokenized credit line (an ERC-20 whose transfers are gated by an on-chain eligibility list), and issues or revokes it on Hedera. The payoff: when a holder is liquidated, the agent re-scores them, revokes the line, and their next transfer reverts on-chain — off-chain intelligence, enforced on-chain.",
+  "how_its_made": "A single Next.js 15 / React 19 app plus a Hardhat contract, TypeScript throughout, Neon Postgres for the console read-model. Everything is dependency-injected so mock and live adapters share interfaces, backed by 169 passing unit tests.\n\nThe Graph — scores are computed from the Messari standardized lending subgraph (Aave V3) via the gateway with Bearer auth. The account-level liquidation counter was unreliable, so we count liquidations directly from liquidates events — that fix is what makes the re-score → revoke beat real on live data.\n\nHedera — the CreditToken (ERC-20 + Ownable, with an eligibility control-list enforced in _update) is deployed to Hedera testnet via the Hashio JSON-RPC relay and verified on Sourcify. Pay-per-query is x402, settled by the Blocky402 facilitator in native HBAR (feePayer partial-signing).\n\nPrivy — a Privy server wallet is the autonomous agent that signs every issue/revoke. Privy signs but doesn't broadcast to Hedera, so we sign the chain-296 transaction with Privy and self-broadcast via ethers — that's what unlocked Privy-on-Hedera.\n\nHacky bits: we reverse-engineered Blocky402's x402 v2 payload from its validation errors — native HBAR is asset id 0.0.0, and the v2 payload carries the chosen requirements under accepted, not top-level scheme/network. We build the Hedera payment with @x402/hedera + @hiero-ledger/sdk because hand-rolled @hashgraph/sdk bytes drifted from what the facilitator decodes.",
+  "auto_summary": "A Next.js and Hardhat project that sells on-chain credit scores and controls a Hedera-issued ERC-20 credit line via an automated agent.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/assay-2-4j02n",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

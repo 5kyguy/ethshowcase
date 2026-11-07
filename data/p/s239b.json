@@ -1,0 +1,27 @@
+{
+  "id": "s239b",
+  "slug": "godaam",
+  "title": "Godaam",
+  "tagline": "Farmers borrow above collateral value using a private TEE risk score on tokenized crop receipts.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s239b/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Nuxh02Xq8NDVE4vmhZwerobtcvNsrIlwRW4g7nrBaQ1Q/high.mp4",
+  "demo_url": "https://godaam-ten.vercel.app/",
+  "source_url": "https://github.com/rohitshukla11/Godaam",
+  "finalist": false,
+  "description": "A smallholder farmer with a crop in a licensed warehouse holds a receipt worth 400 gUSDC and can borrow maybe 300 against it. The things that would justify lending more years of consistent yields, a clean repayment record, secure land tenure are exactly the things that cannot go onchain, because they are commercially sensitive and personally identifying.\nGodaam is a confidential agricultural lending vault built on India's e-NWR warehouse receipt system. A warehouse operator issues the receipt as a real ERC-1400 security token on Hedera using the Asset Tokenization Studio, with an allowlist and controller powers rather than a token with a name on it. The farmer pledges it, and a Chainlink CRE Confidential Workflow underwrites them inside a hardware-isolated TEE. Yield history, repayment history and land tenure are fetched into the enclave and never leave it. Only a score, an LTV band, a principal and a keccak commitment of the inputs reach the chain.\nThat private score is what makes undercollateralized lending possible. Our demo lends 880 gUSDC against 400 of grain a 220% LTV the collateral alone would never justify. Loans repay in installments; default triggers a forced transfer of the receipt to the treasury, enforced by the token's own controller powers.\nIdentity is gated by World ID: one verified human, one collateral claim, with the nullifier written onchain so a second address presenting the same identity is refused. Every number in the interface carries its provenance beside it, and a figure with no enclave behind it renders in red.\nSix contracts are deployed and Sourcify-verified on Hedera testnet, including a NAV oracle reading a live Chainlink price feed.",
+  "how_its_made": "Hedera: the warehouse receipt is a real ATS equity (token 0.0.10508257), 42,000 units at decimals 0, one token per kilogram of wheat, so the supply carries the actual quantity. We issued it through the ATS web app against the pre-deployed testnet factory, because the SDK's SupportedWallets enum offers only browser and custody wallets and cannot sign from a server route. That split turned out to mirror reality: issuing a warehouse receipt is a one-time act by a licensed operator, not something a farmer does in a lending app. GodaamVault, WarehouseReceipt, WorldIdRegistry, MockUSDC, MockCreForwarder and CollateralNavOracle are all Sourcify Full Match on testnet.\n\nChainlink: the risk model runs in handlerInTee with ConfidentialHTTPClient pulling the sensitive inputs into the enclave. Both fixtures simulate end to end, a good farmer scores 893 and clears 220%, a risky one scores 271 and is declined. CollateralNavOracle reads the live HBAR/USD feed with a staleness guard that zeroes the answer, decimals and timestamp rather than serving a stale price.\nWorld: grantKyc reverts with WorldIdVerificationRequired unless a nullifier is bound onchain. No verification means no collateral means no loan, proven by four live reverts on testnet.\nThe notable parts are the honest ones. Chainlink has no agricultural price feed, so the oracle keeps cropSource and referenceSource separate and a test asserts the crop price can never be Chainlink-sourced. When the confidential bureau lookup fails, the workflow declares bureauSource: unavailable and logs a warning rather than quietly returning a 20-point-lower score as though it were live.\nTwo things we hit and reported upstream. Hedera is in CRE's chain-selector registry but not in EVMClient's 63-entry write list, so we used experimental-chains and got a real transaction onto Hedera testnet, it reverted one function short because our mock forwarder implements forward() and the DON calls the Keystone report(). And writeReport returns txStatus: SUCCESS for transactions that revert; the official template's error handling would swallow that, so we added a receipt check that treats an unreadable receipt as failure.",
+  "auto_summary": "A Hedera-based lending app tokenizes warehouse receipts, gates borrowers with World ID, and uses Chainlink confidential underwriting for loan decisions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/godaam-s239b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

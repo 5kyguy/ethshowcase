@@ -1,0 +1,42 @@
+{
+  "id": "j3g2i",
+  "slug": "pika-vault",
+  "title": "Pika Vault",
+  "tagline": "Omnichain vaults with native USDC settlement and cross-chain positions.",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/j3g2i/banner/default.jpg",
+  "video_url": "https://stream.mux.com/mgymspPAUz4022uJHtJc3nb00VEz9ijf4twiKvlf2o6eg/high.mp4",
+  "demo_url": "https://www.loom.com/share/5014a11123bc4176be5a890cb01a67e3?from_recorder=1&focus_title=1",
+  "source_url": "https://github.com/adairrr/pika-vault-public",
+  "prizes": [
+    {
+      "sponsor": "LayerZero",
+      "sponsor_id": "dkzkp",
+      "placement": "2nd place",
+      "title": "Best Omnichain Interaction"
+    },
+    {
+      "sponsor": "LayerZero",
+      "sponsor_id": "dkzkp",
+      "placement": "1st place",
+      "title": "Best Omnichain DeFi Primitive"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal New York 2025 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Pika Vault is an omnichain vault system that lets users mint and redeem shares on any supported chain while the vault itself holds and reallocates assets across multiple chains. It's based on the 4626 standard, implementing 7540 for async redemptions.\n\nThe problem and potential solutions, from which our project is inspired, are outlined in depth in this video on \"async app architectures\" from ETH Denver: https://www.youtube.com/watch?v=Qhi1wZB9Ei4\n\nCurrent vault solutions are:\n- single chain, only supporting \"multi-chain assets\" through synthetic / wrapped assets\n- Only allow deposits on the source (\"hub\") chain via proxy messaging (see LayerZero OmniVault)\n- Rely on complex and opaque (all closed-source) off-chain orchestrators (like Veda BoringVault)\n- Cannot support qualified custodians (QCs) for vault holdings, restricting true institutional usage \n\nThe Pika Vault:\n- Allows for native USDC deposit / redemption on multiple chains without touching synthetic assets\n- Relies entirely on ONCHAIN orchestration, all performed via LayerZero message composition\n- Uses native USDC & CCTP for cross-chain USDC transfers\n- Supports QC addresses for vault positions held on non-hub chains\n\nBenefits:\n- Users: one vault position that spans chains without multi-chain bridges or gas. \n- Vault strategists: programmable cross-chain workflows,\n- Institutions: qualified custody support on spokes with infrastructure aligned with institutional requirements.\n- Protocols: use of native assets never having to leave the origin chains\n\nWhy \"Pika\"? \nthe Pika is is a small, mountain-dwelling mammal closely related to rabbits. They gather significant amounts of plant materials, including grasses and wildflowers, and store them in piles to protect them from the elements. We relate this to the user collecting tokens in the vaults, holding and protecting them.",
+  "how_its_made": "Our architecture architecture separates control and value planes:\n\nControl Plane:\n- LayerZero OApps / composers coordinate deposits, redemptions, claims, and share issuance on the hub chain\n\nValue plane:\n- Uses Circle CCTP and LayerZero OFTs to move deposit and share assets respectively.\n- NAV data is calculated via ChainLink Oracles and sent via ChainLink CCIP, ensuring price stability and reliability even in the (very unlikely) event of a LayerZero DVN outage.\n\nFrontend:\n- Uses Coinbase Developer Platform for Coinbase Embedded Wallets and On / offramp flows\n\n-----\n\nContracts:\n- Hub Vault: ERC-4626 hub vault with synchronous deposits and 7540 asynchronous redemptions\n- Spokes: ERC-4626-compatible interfaces on each supported chain as entry/exit points and custodians\n- VaultComposerSync (Cross-chain orchestration): LayerZero messaging manages deposits, queueing, redemptions, claims, and share accounting\n\nProtocols\n- Circle CCTP v2 for native USDC burn/mint transfers\n- LayerZero OFT for omnichain ERC-20s\n- Chainlink CCIP for spoke NAV data to all chains, decoupled from asset flows\n\nHacky bits:\n- Spokes send NAV to hub individually so that the oracles can each live on their proper chains",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/pika-vault-j3g2i",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

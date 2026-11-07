@@ -1,0 +1,27 @@
+{
+  "id": "ucec1",
+  "slug": "zero-agents",
+  "title": "Zero Agents",
+  "tagline": "Zero Agents is an AI agent framework for building self-evolving, reusable agents",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ucec1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/oiyQTIKZA2NwBlHYk12LzMcaufMja6rzZxliAMxC3ms/high.mp4",
+  "demo_url": "https://zero-agents.vercel.app",
+  "source_url": "https://github.com/Amirjaved-dev/zero-agents",
+  "finalist": false,
+  "description": "ZeroAgent is an ENS-native, self-evolving agent framework for developers building autonomous agents that can expand their own capabilities at runtime. The core package, @zero-agents/core, lets an agent receive a task, search for reusable tools, decide whether to reuse, generate, or improve a tool, safely sandbox the result, evaluate it, reflect on the outcome, and save both the tool and the experience for future use.\n\nThe project is structured as a pnpm monorepo with three main parts: a reusable TypeScript framework package, a demo research agent, and a Next.js readiness dashboard. The framework integrates with 0G Storage for persistent tool memory, 0G Compute or OpenAI fallback for tool generation, ENS for agent identity and metadata, and Gensyn AXL for agent-to-agent coordination. It also supports local/offline demo paths so developers can test the framework without requiring live credentials.\n\nThe goal is to make agents more than static chatbots: each agent can build a growing capability surface, remember what worked, improve failed tools, and expose its identity and tool registry through decentralized infrastructure. The main artifact is the reusable framework package, so other developers can import ZeroAgent and build their own self-evolving agents on top of it.",
+  "how_its_made": "Zero Agents is a TypeScript npm package (@zero-agents/core) in a pnpm monorepo. You import it, build your own agent on top.\n\nHow it works: Task comes in → checks tool registry and past experiences → picks a strategy (reuse / generate new / improve broken / delegate / reject) → runs the tool in a sandbox → reflects on what happened → saves the lesson. Every step emits events.\n\nPartner tech. \n\n0G Storage uploads generated tools as JSON with root hashes pinned to ENS, so tool memory lives decentralized. 0G Compute handles code generation by trying on-chain inference first then falling back to OpenAI. ENS via viem stores agent identity (capabilities, peer ID, tool hash) as Sepolia text records so agents are discoverable through ENS. Gensyn AXL handles P2P messaging between agents for task delegation and tool sharing over a localhost node.\n\nHacky stuff. \n\nThe sandbox runs LLM-generated code inside isolated-vm (a real V8 isolate). We built a custom fetch bridge so tools can make HTTP calls without escaping the isolate. If isolated-vm isn't compiled on the machine it falls back to Node's vm module with dangerous globals nulled out. Reflection is completely fake ,no LLM call, just string matching and heuristics for free post-task learning. Everything degrades gracefully with no 0G key using local storage, no OpenAI using a hardcoded fallback, no AXL using simulated transport — runs fully offline with zero credentials. We also fixed a race condition where parallel tasks were overwriting each other's usage counts with a dumb promise-based lock.",
+  "auto_summary": "A TypeScript monorepo provides a reusable self-evolving agent framework with tool generation, sandboxed execution, decentralized storage, ENS identity, and optional agent coordination.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/zero-agents-ucec1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

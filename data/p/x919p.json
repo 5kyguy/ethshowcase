@@ -1,0 +1,27 @@
+{
+  "id": "x919p",
+  "slug": "delphic-duel",
+  "title": "Delphic Duel",
+  "tagline": "2 AI agents debate any Delphi market P2P over AXL. A judge rules , and automatically places the bet.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/x919p/banner/default.jpg",
+  "video_url": "https://stream.mux.com/RA00M01YzusWnK5JO1WzmJZ01Wl013HN3P4HSo6XWef56A8/high.mp4",
+  "demo_url": "https://delphi-duel.vercel.app/",
+  "source_url": "https://github.com/Moren808/delphi-duel",
+  "finalist": false,
+  "description": "Delphi Duel is the full autonomous loop for Delphi prediction markets, built natively on Gensyn's AXL mesh.\n\nPick any market ; binary or multi-outcome. Two AI agents (Bull and Bear) debate it peer-to-peer over AXL across two separate nodes with distinct ed25519 identity keys. Every argument crosses the encrypted mesh via /send and /recv. Then a third AXL node — the Judge — reads the full transcript and delivers a verdict: winner, confidence, reasoning, recommended position.\n\nThen it bets.\n\nWhen AUTO_BET is enabled, the Judge automatically places a position on Delphi mainnet sized by its own confidence score. The bet fires immediately after the verdict — no human in the middle. The full loop: debate, judge, bet. Confirmed on-chain.\n\nFor multi-outcome markets (FIFA World Cup, NBA Champion), users pick any two outcomes to compare head to head. Outcome names replace generic Bull/Bear labels throughout.\n\nThree nodes. Two debaters. One judge. One bet. No central server. Just AXL doing the work.",
+  "how_its_made": "Three Node.js + TypeScript agent processes, each connected to its own AXL node (Go binary) with a distinct ed25519 keypair generated via openssl. Bull and Bear communicate exclusively via AXL's HTTP bridge — POST /send to broadcast arguments, GET /recv to poll for responses. No direct imports between agents. The Judge receives the full transcript via AXL /send after both agents finish, runs an independent Claude API call, and writes a structured verdict to SQLite.\n\nAfter the verdict, if AUTO_BET=true and judge confidence exceeds the threshold (default 0.65), the coordinator calls placeBet() via the Gensyn Delphi SDK on-chain methods. It reads the recommended position, resolves the outcome index, calls quoteBuy() for exact token pricing, calls ensureTokenApproval() idempotently, then executes buyShares() with a 5% slippage cap. The bet amount is configurable via the dashboard settings panel (default $1 USDC). Transaction hash and confirmed status appear in the Bets panel on the dashboard.\n\nThe Gensyn Delphi SDK fetches live mainnet markets ; both binary and multi-outcome. A market classifier detects outcome count and adjusts the debate framing accordingly.\n\nThe dashboard is Next.js 14 with Tailwind, shadcn/ui, and Framer Motion. A Mesh Traffic panel shows live AXL send/recv events proving every argument crossed the encrypted mesh. A Bets panel shows every autonomous bet with market, outcome, amount, tx hash linked to the Gensyn explorer, and confirmed status. Tested live on mainnet — $1 USDC confirmed on-chain.",
+  "auto_summary": "A TypeScript monorepo that runs three AI agents over AXL to debate Delphi markets and optionally place on-chain bets.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/delphic-duel-x919p",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

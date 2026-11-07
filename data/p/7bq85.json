@@ -1,0 +1,21 @@
+{
+  "id": "7bq85",
+  "slug": "vortexai",
+  "title": "VortexAI",
+  "tagline": "Automates rebalancing of multi-range positions around the current price",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7bq85/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zMqU00e02Yo2faoHmqCJk3jbPkinaqJFXj4801CZjKOZ4s/high.mp4",
+  "source_url": "https://github.com/Juls95/vortexAI",
+  "finalist": false,
+  "description": "A DeFi fund (e.g., a DAO) deploys VortexAgent to manage liquidity in a volatile token pair like ETH/USDC. The agent monitors price via an oracle (e.g., Chainlink) and rebalances ranges to concentrate liquidity near the current tick, maximizing fees. This project ensures we have programmatic interaction with v4 pools, onchain state usage, reliability (atomic operations), transparency (auditable contract), composability (integrable with other agents/oracles)",
+  "how_its_made": "Tech stack: Foundry (Solidity 0.8.26, Cancun EVM, via_ir), Uniswap v4-core, Solady, forge-std.\nArchitecture: VortexAgent is an ERC721 (Solady) position manager that implements IUnlockCallback. It uses Uniswap v4’s PoolManager.unlock() so that add/remove/rebalance are all done in a single atomic unlockCallback. For per-position range storage it uses Solady’s RedBlackTreeLib, which does not support key 0, so int24 ticks are encoded with TICK_OFFSET = 887273 to map them to non-zero uint256 keys. Ranges and liquidity are stored in _positionTrees and _rangeInfo, and each range has a deterministic salt keccak256(abi.encode(tokenId, tickLower, tickUpper)).\nOptionalHook: A Uniswap v4 hook that charges 0.01% on add/remove when the caller is VortexAgent, using afterAddLiquidityReturnDelta and afterRemoveLiquidityReturnDelta. Uniswap v4 chooses which hooks to call from the contract’s address bits, so the deploy script notes that mainnet needs CREATE2 to target an address with the right permission bits.\nPartner tech: Uniswap v4-core provides the unlock flow, modifyLiquidity, and BalanceDelta settlement. Solady’s RedBlackTreeLib gives O(log n) tick tracking. Foundry handles tests, scripts, and deployment.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/vortexai-7bq85",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

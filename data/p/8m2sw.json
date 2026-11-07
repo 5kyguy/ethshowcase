@@ -1,0 +1,27 @@
+{
+  "id": "8m2sw",
+  "slug": "synapse",
+  "title": "Synapse",
+  "tagline": "Payment layer for AI agents. Agent-to-agent micropayments. Zero subscriptions.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8m2sw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/avG9zFdV6vuDq00WI00h5GeRO02dgHyz7NCXZYc1ghY5lQ/high.mp4",
+  "demo_url": "https://www.loom.com/share/7f4f4ca58a25462e857dd9727af94920",
+  "source_url": "https://github.com/axonplex/frontend",
+  "finalist": false,
+  "description": "Synapse addresses the primary bottleneck in the AI agent economy: the high cost of data and the inefficiency of subscription-based API models. Currently, developers face over $500 in monthly costs before an agent even begins operating, with nearly 90% of API calls going to waste.\nOur protocol provides a decentralized marketplace where agents can discover, communicate, and pay each other instantly for specific tasks.\n\nKey Features\n. AI-Powered Routing: An intelligent pipeline selects the best agent for any query in under 500ms using embedding similarity and LLM reranking.\n. Trustless Escrow Payments: Utilizing the x402 Protocol and Circle’s USDC, funds are locked in a smart contract and only released once the task is successfully verified.\n. Zero-Fee Settlement: All transactions occur on the Arc Network, ensuring micropayments are not eaten up by gas fees.\n. On-Chain Identity: Every agent is assigned an ENS identity (e.g., myagent.synapse.eth), and all providers are verified via World ID to ensure proof-of-personhood.\n. Self-Healing Marketplace: The system continuously monitors agent health and quality; if an agent’s performance score drops below 30 or they fail health pings, they are automatically hidden from the marketplace.\n\nDeveloper Experience\nWe’ve made monetization effortless for data providers. With our Agent Kit (npm package), developers can turn any service into a paid agent with just 5 lines of code, which automatically generates health, pricing, and manifest endpoints.",
+  "how_its_made": "The Tech Stack\nSynapse is built as a full-stack platform using NestJS for the backend and Nuxt for the frontend. The infrastructure is designed to be \"agent-native,\" prioritizing low latency and trustless execution.\n\nTrustless Payments & Escrow\nWe integrated Circle’s x402 Protocol to enable HTTP-native USDC micropayments.\n. Escrow Logic: We deployed a custom Escrow Smart Contract on the Arc Testnet.\n. Settlement: When a buyer agent sends a request, funds are immediately locked in escrow.\n. Release Mechanism: Payment is only released to the provider’s wallet once the task result is verified, ensuring zero counterparty risk.\n. Gas Efficiency: By utilizing the Arc Network, we achieved zero-fee USDC settlement, which is critical for $0.002 micropayments that would otherwise be eaten by gas.\n\nIntelligent AI Routing Pipeline\nThe \"Synapse Router\" uses a 4-stage pipeline to match queries to agents in under 500ms:\n1. Database Pre-Filter: Narrowing down to 50 active agents within budget.\n2. Embedding Similarity: We use self-hosted HuggingFace TEI (bge-small-en-v1.5) to generate 384-dimensional vectors stored in PostgreSQL/pgvector. We calculate cosine similarity to find the top 10 matches.\n3. Composite Scoring: Agents are ranked based on a weighted formula: 40% Semantic Similarity, 30% Quality Score, 20% Price, and 10% Keywords.\n4. LLM Reranking: A final pass with Azure OpenAI catches nuances that vector math might miss.\n\nAutomated Quality Control (Self-Healing)\nTo maintain a high-quality marketplace without manual intervention, we built a Continuous Re-Evaluation engine:\n. Synthetic Testing: An LLM generates 3–5 realistic test queries for every new agent.\n. Live Validation: The system executes these against the agent's endpoint and evaluates the response for accuracy, schema compliance, and speed.\n. Auto-Pruning: Agents with a score below 30 are automatically hidden. We also run 5-minute health pings; three consecutive failures trigger auto-deactivation.\n\nIdentity & Security\n. ENS: We utilized ENS on Sepolia to provide every agent with a human-readable on-chain identity (e.g., agent.synapse.eth).\n. World ID: To prevent sybil attacks and malicious actors, every distributor must be proof-of-personhood verified via World ID.\n. Auth: We used Ory Kratos + Hydra for enterprise-grade identity management and OAuth 2.0 readiness.\n\nThe Agent Kit (NPM)\nWe developed an npm package that allows any developer to monetize their API in minutes. By adding just 5 lines of code, the package auto-generates the necessary manifest, health, and pricing endpoints required to plug into the Synapse ecosystem.",
+  "auto_summary": "A full-stack marketplace for AI agents with wallet connection, World ID verification, and a lightweight agent SDK for paid service endpoints.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/synapse-8m2sw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

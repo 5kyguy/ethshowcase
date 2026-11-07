@@ -1,0 +1,27 @@
+{
+  "id": "sh56g",
+  "slug": "echo",
+  "title": "Echo",
+  "tagline": "Echo secures music via decentralized copyright registries, ZK identity and AI audio analysis",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sh56g/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wvrhfwDiFoNbaVJiHHW7u66J4LRv01GyYKh6Ns00afcM4/high.mp4",
+  "demo_url": "https://echo-ny.vercel.app/",
+  "source_url": "https://github.com/nohem-mg/Echo",
+  "finalist": false,
+  "description": "Echo is a privacy-first, prior-art registry built for unreleased music. When an artist uploads a track, they first prove they are a unique human using World ID. The system then runs the track through an AI-powered originality pipeline, orchestrated by Chainlink CRE, which compares the melody against public, private, and commercial databases. If the track is flagged as too similar to existing music, the process halts to protect the registry's integrity, and nothing is recorded on-chain.\n\nIf the track passes the similarity checks, Echo generates a verifiable, timestamped proof on Ethereum Sepolia without ever exposing the raw audio or sensitive MIDI files. By combining zero-knowledge identity, private AI audio analysis, and decentralized certification, Echo establishes undeniable provenance. Ultimately, this creates a robust protocol that helps artists prove they created a song first, preventing costly legal copyright disputes while enabling streamlined, legal music licensing. Finally, once a track is fully secured and the artist is ready, our native SoundCloud API integration allows them to seamlessly publish their verified track directly to the public.",
+  "how_its_made": "Echo is built with a Next.js/TypeScript frontend, a custom Solidity Registry contract deployed on Ethereum Sepolia, a Chainlink CRE orchestration layer, and specialized backend music-analysis services. The workflow begins when an artist uploads a WAV or MP3 file. Before any on-chain proof is generated, Echo executes a comprehensive originality pipeline.\n\nTo ensure integrity and Sybil resistance, we integrated World ID as our human gatekeeper. The frontend requests proof via IDKit, and the backend validates it through the World Developer Portal. By storing the nullifier hash, we ensure the registry is uniquely human-backed without ever revealing the artist's true identity. We also utilized World AgentKit to protect our AI reporting endpoint (/api/report). The backend enforces an AgentKit header challenge, validates the signature against AgentBook, and grants three free originality reports per verified human before enforcing a paywall.\n\nChainlink CRE serves as the master orchestrator for our complex verification pipeline. Within this flow, BasicPitch converts the uploaded audio to MIDI, ACRCloud checks for public audio fingerprints, and our private PostgreSQL database checks for MIDI similarity against existing unreleased works. After comparing commercial matches, a final AI report is generated. Chainlink CRE enforces strict fail-fast thresholds: tracks flagged as SIMILAR or REJECTED halt the workflow immediately, ensuring that only definitively CLEAN tracks can trigger the smart contract callback on Sepolia.\n\nWe wired Unlink into the backend using the @unlink-xyz/sdk, establishing private service accounts and auth routes. This provides a critical privacy layer to obfuscate future agent payments and routing. Finally, we integrated the SoundCloud API, allowing artists to seamlessly publish their secured, verified tracks directly to the public with a single click.",
+  "auto_summary": "A Next.js, Solidity, and service-based app that checks uploaded music for originality before recording a proof on Sepolia.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/echo-sh56g",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

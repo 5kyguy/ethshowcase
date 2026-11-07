@@ -1,0 +1,30 @@
+{
+  "id": "a3pxh",
+  "slug": "lit-secrets",
+  "title": "Lit Secrets",
+  "tagline": "🔐 Lit Secrets: A secure secret manager built on Lit Protocol that ensures your API keys & credentials can only be used within pre-approved code. No more worrying about leaked keys - cryptographic guarantees for how your secrets are used",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a3pxh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/U5RVCJ4TP7hvOXSfHWdGdxGBMToPdkQHS02MVQ5Fbbyc/high.mp4",
+  "demo_url": "https://litsecrets.vercel.app",
+  "source_url": "https://github.com/priyanshur66/lit-secrets",
+  "prizes": [
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "2nd place",
+      "title": "Best Use of Lit Protocol"
+    }
+  ],
+  "finalist": true,
+  "description": "**Description**\n\nLit Secrets is a secure secret management solution built on Lit Protocol that fundamentally changes how sensitive credentials are handled in applications. Unlike traditional secret managers that rely solely on encryption, Lit Secrets adds a crucial layer of control by cryptographically binding secrets to specific code executions.\n\nAt its core, the system ensures that secrets (like API keys, access tokens, or any sensitive data) can only be decrypted and used within pre-approved Lit Actions - secure, verifiable code environments. This means when you store a secret, you're not just encrypting it; you're explicitly defining how it can be used.\n\nKey features:\n- Encryption bound to specific code execution contexts\n- Wallet-based authentication for secure access\n- Full audit trail of secret creation and usage\n- Browser-based interface for secret management\n- Secure execution environment for sensitive operations\n- Support for any type of secret or credential\n\nThe current implementation includes:\n1. Secret Creation Interface: Upload or input secrets with defined usage parameters\n2. Secret Management Dashboard: View, search, and manage stored secrets\n3. Execution Environment: Run approved operations using stored secrets\n4. History Tracking: Monitor when and how secrets are used\n\nFuture development roadmap:\n1. SDK Development: Direct integration into applications\n2. CLI Tool: Command-line interface for DevOps workflows\n3. Enterprise Features: Team management, role-based access\n4. Advanced Monitoring: Real-time usage alerts and analytics\n5. CI/CD Integration: Automated secret rotation and deployment\n\nUse cases include:\n- Secure API key management\n- Credential sharing within teams\n- Protected access to sensitive services\n- Automated system authentication\n- Secure integration testing\n\nThe project aims to solve the fundamental problem of secret misuse while providing a developer-friendly interface for managing sensitive credentials across modern applications.",
+  "how_its_made": "\nLit Secrets is built using a combination of modern web technologies and Lit Protocol's encryption infrastructure. Here's a detailed breakdown of the technical implementation:\n\nCore Technologies:\n- Lit Protocol for encryption and secure execution\n- SIWE (Sign In With Ethereum) for wallet authentication\n- Local Storage for encrypted secret persistence\n\n\nKey Implementation Details:\n\n1. Secret Encryption Flow:\n```javascript\nconst accessControlConditions = [{\n  contractAddress: \"ipfs://[LIT_ACTION_CID]\",\n  standardContractType: \"LitAction\",\n  chain: \"ethereum\",\n  method: \"checkVal\",\n  parameters: [litActionCid],\n  returnValueTest: { comparator: \"=\", value: \"true\" }\n}]\n```\nThe encryption process binds secrets to specific Lit Actions using access control conditions. This is implemented through Lit Protocol's `encryptString` function, which returns a cipher text and verification hash.\n\n2. Secure Execution Environment:\n```javascript\nconst sessionSignatures = await litNodeClient.getSessionSigs({\n  chain: \"baseSepolia\",\n  expiration: new Date(Date.now() + 1000 * 60 * 10).toISOString(),\n  resourceAbilityRequests: [\n    {\n      resource: new LitActionResource(\"*\"),\n      ability: LitAbility.LitActionExecution,\n    },\n  ]\n});\n```\nThe execution environment uses session signatures and wallet authentication to ensure secure access to secrets.\n\n3. State Management:\n- Custom hooks for managing encryption state\n- Local storage integration for persistence\n- Real-time search and filtering capabilities\n\nNotable Technical Solutions:\n\n1. Dynamic Access Control:\nCreated a flexible system for defining access control conditions that can accommodate various use cases while maintaining security.\n\n2. Secret Storage:\nImplemented a secure storage solution using browser local storage that maintains encryption while allowing searchable access to secret metadata.\n\n3. Session Management:\nBuilt a robust session management system using SIWE and Lit Protocol's session signatures to ensure secure access across page reloads.\n\nPartner Technologies Used:\n\nLit Protocol:\n- Used for core encryption/decryption operations\n- Provides secure execution environment\n- Handles access control verification\n\n\n\nChallenges and Solutions:\n\n1. Secret Binding:\nChallenge: Ensuring secrets could only be used in approved contexts.\nSolution: Implemented custom access control conditions that cryptographically bind secrets to specific Lit Actions.\n\n2. User Experience:\nChallenge: Making complex cryptographic operations user-friendly.\nSolution: Built an intuitive interface that abstracts the complexity while maintaining security.\n\n\n\n\n\n\n\n\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lit-secrets-a3pxh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

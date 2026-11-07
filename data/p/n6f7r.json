@@ -1,0 +1,35 @@
+{
+  "id": "n6f7r",
+  "slug": "agama",
+  "title": "Agama",
+  "tagline": "Private-credit vaults on Sui: confidential agUSD & sagUSD - hidden amounts, positions and deal data",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/n6f7r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OMRPTHKG32ET2nT700rMebFsDNyP2qYyX3eZTDQQHikI/high.mp4",
+  "demo_url": "https://app.agama.finance/sui",
+  "source_url": "https://github.com/agamafinance/agama-sui",
+  "prizes": [
+    {
+      "sponsor": "Sui",
+      "sponsor_id": "vsbye",
+      "placement": "Best existing app integrating or porting the Sui stack",
+      "title": "Best existing app integrating or porting the Sui stack"
+    }
+  ],
+  "finalist": false,
+  "description": "Agama is private-credit yield infrastructure. LPs deposit USDC and get agUSD, a synthetic dollar backed 1:1 by an on-chain reserve and allocated across six curated private-credit vaults. Staking it mints sagUSD, priced at NAV.\n\nPrivate credit can't run on a public ledger — positions, borrower terms and LP identities are confidential by contract and regulation. But a fully private system is a silo: nobody can verify the dollar is backed. Agama solves both sides on Sui.\n\nInside the Sphere, LP positions and the LP↔vault graph stay private with role-based visibility: an LP sees only their own position, Agama Risk sees the book for compliance, a rival sees nothing, and there is no operator god-view.\n\nOn public Sui, only an attested aggregate crosses: supply, NAV and a commitment binding the totals, written to an on-chain BackingProof. No LP, no amount, no graph - solvency provable without revealing a position.\n\nAnd the dollar itself is confidential on-chain: agUSD is a Confidential Token, so balances and transfer amounts are Twisted ElGamal ciphertexts recoverable only with a viewing key, with KYC-gated registration.\n\nDeal docs are Seal-encrypted on Walrus, gated by on-chain seal_approve.\n\nAll live on Sui testnet: connect Slush or sign in with Google (zkLogin), swap USDC → agUSD, stake to sagUSD, or run the confidential flow — register, deposit, watch your balance become a ciphertext, decrypt it back.",
+  "how_its_made": "One Move package on Sui testnet holds usdc, agUSD (pool-backed 1:1), sagUSD (NAV-priced staking), the confidential tokens and the BackingProof; two more cover Seal access policy and a Nautilus attestation verifier with a replay guard. 10 Move unit tests.\n\nThe confidential layer derives from MystenLabs/confidential-transfers (contra), pinned as a git dep — amounts hidden with Twisted ElGamal over Ristretto255 + ZK range proofs, whitelist-gated register, issuer freeze/seize.\n\nFrontend: React 19 + Vite + TS, @mysten/dapp-kit, @mysten/enoki for zkLogin (Google → real Sui address, no seed phrase), @mysten/seal, @mysten/sui v2 (SuiGrpcClient — v2 dropped the JSON-RPC client). Bulletproofs are generated in-browser via wasm, so the amount is hidden client-side. A serverless /api/whitelist endpoint self-registers any visitor for KYC.\n\nThe hacky part: the ZK wasm wouldn't build. fastcrypto is monolithic, so it pulls blst (a C lib) even though we only use ristretto bulletproofs — and Apple clang has no WebAssembly backend, so cc-rs died compiling blst to wasm32. Fix: build the wasm in a Linux Docker container whose clang does have it, then vendor the platform-independent .wasm. Full SDK crypto suite passes 56/56, no Docker needed to run it.\n\nSui Spheres has no public SDK yet (Mysten's own PM ships local simulations), so the Sphere sits behind one seam — src/sphere.ts — swappable when the SDK lands.",
+  "auto_summary": "A Sui-based app for private-credit deposits, staking, confidential token balances, and encrypted document access with aggregate backing proofs.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agama-n6f7r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

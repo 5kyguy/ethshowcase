@@ -1,0 +1,29 @@
+{
+  "id": "44n1m",
+  "slug": "beat-ex",
+  "title": "Beat-Ex",
+  "tagline": "A Dex using Frequent Batch Auctions for order settlement. Making onchain markets great again",
+  "event": {
+    "slug": "ethonline2024",
+    "name": "ETHOnline 2024",
+    "start_time": "2024-08-23T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/44n1m/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eDr3Ao368001hNyOwZ01yOUpsxKV1IuFIgW7249YhE5Bo/high.mp4",
+  "source_url": "https://github.com/Raunaque97/beat-exchange",
+  "prizes": [
+    {
+      "sponsor": "Mina Protocol",
+      "sponsor_id": "6wi0d",
+      "placement": "2nd place",
+      "title": "Best Mina application or library built using Protokit"
+    }
+  ],
+  "finalist": true,
+  "description": "Decentralised exchanges (DEXs) have revolutionised cryptocurrency trading, offering permissionless access and eliminating the need for centralised intermediaries. It's a step up from the traditional exchanges (which are permissioned), providing greater accessibility and transparency to users. But a critical flaw still remains, one that threatens the fairness and efficiency of these platforms.\nThese platforms are vulnerable to various forms of MEV, like frontrunning, backrunning, and sandwich attacks, snipping. These flaws can be largely attributed to the continuous-time nature of current DEX designs, where the ordering of transactions within a block matters significantly. This allows one to extract value from other users' transactions risk-free, at the expense of regular traders and liquidity providers, without benefiting the market in any way. \n\nBeat-Ex implements a new order matching mechanism called Frequent Batch Auctions (FBA). FBAs divide time into discrete steps or batches (e.g., 1 s or 100 ms). During each interval, incoming orders are collected and then matched at a uniform clearing price, thus effectively nullifying any advantage from ordering transactions. By treating all orders within a batch equally, FBAs create a more level playing field for all participants.\n\nIn fact, FBAs were originally proposed as a solution to the problem of high-frequency trading (HFT) in traditional finance. One can draw clear parallels between the challenges faced by traditional financial markets due to the value-extractive nature of HFT and the MEV landscape in current dex design. In traditional markets, high-frequency traders can gain disproportionate advantages with a minute edge in latency, leading to a costly technological arms race that negatively impacts market efficiency and price discovery. Similarly, MEV extraction from dex transactions creates an environment where the ability to influence ordering of transactions at the L1 layer often takes precedence over genuine price discovery and fair market participation, distorting the incentives of the market participants.\nThe idea for Beat-Ex was inspired by a talk by Eric Budish [link](https://www.youtube.com/watch?v=OwQjTedWSUM) \nThe concept of batches in FBAs also aligns perfectly with the idea of rollups. Leveraging this synergy, Beat-Ex utilises Mina's recursive zk-proofing capabilities and the ProtoKit appchain framework to create a zk-rollup. This implementation allows us to compress an entire batch of trades into a single succinct proof, significantly enhancing the scalability and maintaining the security guarantees of the underlying blockchain.\n\nOverall, Beat-Ex aims to remove the value extractive forces that have plagued the DEX ecosystem, creating a more equitable and efficient trading environment. By addressing these fundamental issues, Beat-Ex not only improves the experience for individual traders but also contributes to the maturation and sustainability of the entire DeFi ecosystem.",
+  "how_its_made": "The dex is implemented using the proto-kit framework. used for creating zk app chain on the mina L1. In FBAs the orders are represented by curves, (amount I want to buy/sell at a particular price). I used linear curves for this, So each order can be fully described using 4 values (2 points on an amount vs price chart). This offers an efficient way to encode trading intentions, a line parallel to X-axis represents a limit order, and a line passing through the origin will represent a market sell. Also one can provide liquidity similar to UniV2 with just 1 buy order and 1 sell order.\n\nUsers can submit orders by simply signing and sending a transaction to the sequencer, which will batch all orders and calculate a clearing price for the batch, then It will create a proof that the clearing price used for settlement was, in fact, correct, leveraged protokit's transaction proof merging capabilities for this.\nA web UI could have been used but due to time limitations, build a CLI tool for interacting with the chain. It can be used to mint test tokens, see balances of tokens, and most importantly place orders",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/beat-ex-44n1m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

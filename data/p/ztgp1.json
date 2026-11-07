@@ -1,0 +1,20 @@
+{
+  "id": "ztgp1",
+  "slug": "aztec-domain-id",
+  "title": "Aztec Domain ID",
+  "tagline": "Privacy preserving email identity via Noir: verifies DKIM signatures against DNSSEC roots.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ztgp1/banner/default.jpg",
+  "source_url": "https://github.com/raizo07/Aztec-Domain-Identity",
+  "finalist": false,
+  "description": "This project implements a decentralized, privacy-preserving registry for DNSSEC verified DKIM keys on Aztec, enabling email based identity infrastructure where users can prove domain ownership and email authenticity without exposing sensitive information. The contract maintains a cryptographic chain of trust from the DNSSEC root (currently \"com.\" due to a Noir RSA library limitation) down to individual domain DKIM selectors, making email-based identity verification as secure as DNSSEC itself.\n\nThe registry solves critical problems in ZK-email systems: preventing key rollover failures and protecting against spoofed keys. Users can register their domain's DKIM keys with cryptographic proof of DNSSEC signatures, and any application can verify these keys on-chain with a simple function call. This enables privacy-preserving onboarding to Aztec using email credentials, where sender domains are unknown beforehand, while maintaining user control over their identity data without centralized authorities.\n\nThe system uses Pedersen hashing for efficient storage, implements ECDSA P-256 SHA-256 for DNSKEY verification, and handles bounded vectors to comply with DNS standards. Once a DKIM key is registered with proper DNSSEC chain verification, it's stored as a hashed identifier, allowing anyone to assert its genuineness without revealing the underlying email or domain details. This makes Aztec's privacy layer the foundation for identity infrastructure, where cryptographic proofs replace exposed credentials.",
+  "how_its_made": "This project is built entirely in Noir for Aztec v0.86.0, this contract implements a sophisticated DNSSEC chain verification system using ECDSA secp256r1 signatures with SHA-256 hashing. The core innovation is maintaining an on-chain registry of DNSSEC-verified DKIM keys through a trust chain: starting from a hardcoded trusted root key (the \"com.\" KSK), users can add Zone Signing Keys (ZSK) and Key Signing Keys (KSK) by providing DNS RRSIG signatures, then register DKIM RSA-2048 keys signed by those zone keys.\n\nThe implementation uses custom `Packable` traits for efficient storage of DNS records and keys, converting domain names, selectors, and cryptographic keys into fixed-size Field arrays. Pedersen hashing is used for storage keys since only collision resistance matters preimage security comes from the signature algorithms. Bounded vectors enforce DNS constraints (max FQDN length 253 bytes, selector max 63 bytes) while allowing variable-length domain names.\n\nA notable hack/workaround: the contract uses \"com.\" as the root instead of \".\" because a bug was discovered in `noir_rsa` during development that prevents RSA RRSIG verification at the true DNS root. This was filed as an issue, and the prototype works with the \".com\" TLD root instead. The contract handles ECDSA P-256 keys for DNSKEY records (the second most common algorithm after RSA) and RSA-2048 for DKIM keys. Storage uses Aztec's `Map` and `PublicMutable` for three registries: KSK, ZSK, and DKIM keys, each with revocation flags. The verification functions reconstruct DNS record sets from provided byte positions, hash them with SHA-256, and verify ECDSA signatures in-circuit, making the entire DNSSEC trust chain verifiable on-chain while preserving privacy.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aztec-domain-id-ztgp1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

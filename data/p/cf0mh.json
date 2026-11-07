@@ -1,0 +1,35 @@
+{
+  "id": "cf0mh",
+  "slug": "bank-of-agent",
+  "title": "Bank of Agent",
+  "tagline": "BOA: a programmable bank account for agents—identity, membership, payment rails, usage receipts",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cf0mh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/E2BxQj7VpoxYNsU6pkiq1SO8pT8k0121NgNrVjx14x7w/high.mp4",
+  "demo_url": "https://boa-web-demo.vercel.app/",
+  "source_url": "https://github.com/lanyinzly/BankOfAgent-ETHNYC",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Bank of Agent (BoA) — the forward market for AI compute\n\nBank of Agent is an agent-native exchange that turns AI inference into a tradable financial asset. Today compute is bought like a SaaS subscription: you pay per call, usage is locked in a provider's private database, and the right to use a model can't be priced, hedged, or resold. BoA makes inference a liquid commodity with the four parts every real exchange has — a unit of account, a spot price, a forward curve, and verifiable delivery.\n\nHow it works: BoA aggregates every model type (text, image, video, agents) behind one gateway and one USDC balance. An agent gets an ENS identity (agent-a.boa.eth), deposits USDC over Arc, and BoA credits usable quota — permissionless, no KYC. Every call is metered and a usage digest is written back to the agent's ENS records, so consumption history is verifiable by any third party, not trapped in a SaaS log.\n\nThe core: a claim on future compute. The center of BoA is the ERC-7527 voucher — not a prepaid card, but a transferable claim on future inference at terms struck today: a future/option on compute. Its FOAMM premium function prices each voucher by live demand, so the voucher market emits a forward curve — the premium on future model capacity is the market's forecast of its scarcity. Agents lock prices for long tasks, resellers warehouse capacity, and the access right becomes a balance-sheet asset: the on-ramp to agent credit and DeFi.\n\nBuilt for the hackathon. A full end-to-end loop: an agent with an ENS identity and zero balance deposits USDC on Arc → BoA credits quota → the agent calls models across multiple modalities against one balance → usage is metered and a proof digest syncs to ENS → the agent mints an ERC-7527 voucher, transfers it to a second agent, who redeems it into quota and immediately makes a successful call. That last step is the primitive the futures thesis is built on: a priced claim on future compute changing hands before anyone consumes it. Spot settlement is live; the forward curve and compute-as-collateral are the roadmap it makes inevitable.",
+  "how_its_made": "BoA is one system made of four parts: a model gateway, a payment bridge, identities, and a voucher contract. In the pitch it's all \"BoA,\" but under the hood these are separate pieces talking to each other.\nThe gateway. We didn't write a model router from scratch. We forked new-api, an open-source Go gateway that already serves text, image, and video models behind one interface and tracks usage and quota per user. That gave us a working aggregation and billing core on day one, so we could spend our time on the part that makes this BoA — the crypto layer. We left new-api's request-handling code alone and only talked to it through its admin API, keeping our work cleanly separate from the fork.\nThe bridge (the part we built). The BoA Bridge is a TypeScript service connecting USDC payments to gateway quota. It watches for USDC deposits on Arc, and when one confirms, calls new-api's [admin top-up endpoint] to credit that agent's quota. One thing worth mentioning: instead of subscribing to on-chain transfer events — which tend to drop and reconnect at the worst moment during a live demo — we gave each agent a [unique deposit address] and just poll balances every few seconds. Not elegant, but it works the first time, every time, which is what you want on stage. We match a deposit to the right agent by [deposit address → ENS lookup].\nIdentities (ENS). Every agent is an ENS name like agent-a.boa.eth that points to its wallet and its gateway token. Payments and usage attach to a readable name, not a raw address — and the name is what makes access portable between agents.\nProof (also ENS). new-api logs every call — model, tokens, cost — to its database. The Bridge reads that log and writes a short summary merkle root into the agent's ENS. We write one periodic digest instead of logging every call on-chain, to keep gas and write limits sane: the full log stays in the database, ENS holds a summary anyone can verify. So a second agent, or a judge, can check an agent's usage history themselves instead of trusting a private log.\nThe voucher (ERC-7527). This is the interesting part. The voucher is an ERC-7527 contract — a transferable claim on future compute. Minting one takes USDC and returns a voucher worth [a fixed amount of quota]; its FOAMM premium function prices each mint by current demand, which is what lets a voucher market show a forward price for compute. Transferring it is just an ERC-721 transfer. Redeeming it calls back into the Bridge to credit the holder's quota. The test that ties it together: a second agent with zero balance receives a transferred voucher, redeems it, and immediately makes a working model call — a claim on future compute changing hands before anyone uses it.\nWhy the partner tech helped. Arc gives us the USDC rail and a payment path with no Stripe or KYC, so anyone or any agent can top up. ENS does double duty — agent identity and the public proof record — which kept the stack small. ERC-7527 is what turns BoA from \"a gateway with a wallet\" into a market: a ready-made priced forward on compute, so we didn't have to build a derivatives system ourselves.",
+  "auto_summary": "An AI compute marketplace that links agent identities, prepaid quota, usage proofs, and transferable future-compute vouchers across web services and smart contracts.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bank-of-agent-cf0mh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

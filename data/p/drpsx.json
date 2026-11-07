@@ -1,0 +1,22 @@
+{
+  "id": "drpsx",
+  "slug": "nitrobridge-vault",
+  "title": "NitroBridge Vault",
+  "tagline": "Revolving credit line with instant cross-chain margin refills via state channels and privacy hooks",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/drpsx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/DZdRAsKdWMa00ABlwncZZJFaqsbzgOWgJWaBOahtqyBk/high.mp4",
+  "demo_url": "https://nitrobridgev.vercel.app",
+  "source_url": "https://github.com/N-45div/HackMoney2026",
+  "finalist": false,
+  "description": "NitroBridge Vault is a unified DeFi terminal built on Arc Testnet that combines five core capabilities into one interface:\n\n (1) A chain-abstracted USDC credit system where users deposit, borrow, and manage credit lines via the ArcCreditTerminal smart contract\n\n(2) An autonomous LLM-powered risk agent that monitors credit utilization in real time and executes on-chain margin top-ups when thresholds are breached — no human in the loop \n\n(3) Instant gasless off-chain payments through Yellow Network's Nitrolite SDK using EIP-712 authenticated state channels with sub-100ms settlement\n\n(4) Native cross-chain USDC bridging between Ethereum Sepolia and Arc Testnet via Circle's CCTP protocol — real burn-and-mint, no wrapped tokens\n\n(5) MEV-protected token swaps using a custom Uniswap v4 Hook that enforces a commit-reveal scheme before executing swaps on the Sepolia PoolManager, preventing front-running by hiding trade intent until execution. All integrations use real deployed contracts and live services.",
+  "how_its_made": "The frontend is a Next.js 14 app using Wagmi v2 and Viem for wallet interactions, with TailwindCSS for styling. We use Wagmi's useWalletClient and useSwitchChain hooks to handle multi-chain switching between Arc Testnet (5042002) and Ethereum Sepolia (11155111). \n\nThe AI agent is a Next.js API route that calls OpenRouter's LLM with structured JSON output — it receives credit utilization data, decides whether to top up, and the frontend executes the agentTopUp() contract call. \n\nFor Yellow Network, we integrated the @aspect-build/nitrolite-sdk with WebSocket connections to the ClearNode sandbox, handling EIP-712 authentication, session creation, and real-time state channel transfers. \n\nCircle CCTP integration uses the TokenMessenger contract for depositForBurn on Sepolia and MessageTransmitter for receiveMessage on Arc. \n\nThe Uniswap v4 MEV Shield uses a custom AntiSniperHook deployed alongside the Sepolia PoolManager (0xE03A1074c86CFeDd5C142C4F04F1a1536e203543) — it enforces commit-reveal by checking hookData flags during beforeSwap. \n\nSmart contracts are written in Solidity with Foundry and deployed on Arc Testnet. One notably hacky thing: we pipe the LLM's JSON decision directly into an on-chain transaction, making the agent truly autonomous — the AI decides, the blockchain executes.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nitrobridge-vault-drpsx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

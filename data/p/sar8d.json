@@ -1,0 +1,35 @@
+{
+  "id": "sar8d",
+  "slug": "urraca-xyz",
+  "title": "urraca.xyz",
+  "tagline": "NFT Marketplace for (generative) physical objects, plus an initial collection",
+  "event": {
+    "slug": "metabolism",
+    "name": "Metabolism",
+    "start_time": "2022-08-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sar8d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NzHGDwiZe5srQqih2WI4vGQdyn2hydRviv00fTd01okV8/high.mp4",
+  "source_url": "https://github.com/pcarranzav/urraca",
+  "prizes": [
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🔟 Polygon — Top 10",
+      "title": "Polygon"
+    },
+    {
+      "sponsor": "NFT.Storage",
+      "sponsor_id": "s0vuq",
+      "placement": "🧙‍♂️ nft.storage — Storage Wizard",
+      "title": "NFT.Storage"
+    }
+  ],
+  "finalist": false,
+  "description": "\"Urraca\" is a marketplace for \"Generative Object\" NFTs. It is meant to enable artist and designers that produce serialized or serializable objects like prints, scarves, clothing, etc. \n\nEach Generative Object is an NFT that can be minted for a price. When the NFT is minted, it also produces a Voucher NFT that can be used to claim the physical object. If the Generative Object's NFT is sold (over a certain threshold price), then a new Voucher is minted and assigned to the buyer. This means that selling a Generative Object NFT means 1) that the digital asset is transferred and 2) that the physical asset is multiplied! \n\nFor instance, if the NFT represents a scarf, each time the NFT is transferred, a new scarf is produced. Therefore owners of these NFTs decide whether the items remain unique/scarce, or if new instances can be produced.\n\nThese items are Generative because we also provide a smart contract to generate the images that represent the objects at mint time. Each object consists of a set of layers for an image (assumed to be images with transparency stored in IPFS), in which there's a set of options to choose for each layer. These are chosen at random during mint time, and the image will be dynamically generated from these layers when the token's URI is queried (much like Zora's Zorbs).\n\nTo launch the marketplace, we include a collection of generative scarves by teammate bigua.eth, titled \"Wild Silks\". Each token minted will produce a unique scarf, of which copies can be made whenever the tokens are sold on through a Zora Ask.",
+  "how_its_made": "Sadly, we didn't have time to finish the MVP for the project, especially the frontend as we don't have a frontend dev in our team.\n\nThe project is based on scaffold-eth-typescript.\n\nThe core for this are the contracts, based on OpenZeppelin's ERC721 but borrowing a lot from ZorbNFT.\nThe main contract is GenerativeObjectCollection, that inherits from an ERC721VoucherEmitter, that is an ERC721 to which we add the voucher creation whenever the token is transferred. We check the Zora contracts to validate that 1) there is an Ask with the correct price and 2) the transfer is initiated by Zora's ERC721TransferHelper. This ensures that the right amount of royalties will be distributed; otherwise no voucher is produced (so simply transferring the NFT to a new address won't produce a new voucher).\n\nThe plan is to use Lit Protocol for claiming vouchers, though we didn't get to implement this yet: When a user wants to claim a voucher, they first encrypt the shipping address and details, post the encrypted values to IPFS (using NFT.storage), and then call a claim() function on the voucher with the IPFS cid. When the object creator wants to ship the object, they have to decrypt the shipping details by proving they own the NFT contract. They then post the shipping tracking details in the same way, but only allowing the NFT holder to decrypt it.\n\n(We did use NFT.storage to upload the layers for bigua's collection: https://bafybeic7uct265743l5sv5gcdwjnvlfd672rebphmy24mjek7u6tymfmxm.ipfs.nftstorage.link/ - the script to upload the folder is in a hardhat task, and then a separate task is used to post the URIs to the contract).\n\nThe plan is to deploy this to Polygon so we used Mumbai for testing, and the contract is initialized with the addresses for Zora Asks and ERC721TransferHelper from the corresponding network.\n\nEventually we would integrate this with the Zora SDK to query the NFTs and Asks, and probably also add a Subgraph to address the specific voucher claim functionality that is not part of the Zora API.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/urraca-xyz-sar8d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

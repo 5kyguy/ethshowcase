@@ -1,0 +1,26 @@
+{
+  "id": "rjm24",
+  "slug": "doca-finance",
+  "title": "Doca Finance",
+  "tagline": "Keep your wallet. Put it to work anyway. Shared liquidity, kept within the line.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/rjm24/banner/default.jpg",
+  "demo_url": "https://doca-finance.pages.dev",
+  "source_url": "https://github.com/ottodevs/doca",
+  "finalist": false,
+  "description": "Doca is an inventory-aware risk controller for 1inch Aqua: it prices inventory depletion on-chain and repairs underfunded strategies off-chain.\n\nAqua lets one wallet back several strategies at once: promises instead of deposits. By design a promise can exceed what the wallet holds. Under directional flow the wallet drains while every strategy keeps advertising inventory, takers get quotes that revert, and the whitepaper's prescribed fix is docking by hand.\n\nDoca is built on one rule. A promise may exceed your wallet, that part is Aqua. A budget may not, that part is us.\n\nOn-chain, an InventorySkewProvider behind SwapVM's stock dynamic-fee opcode prices each budget as it drains: flat while healthy, quadratically more expensive on the draining side, base fee on the side that refills you.\n\nOff-chain, a Harbormaster keeper docks any strategy that crosses its line and re-ships it against what the wallet holds right now. Autonomous in the demo with a local key, signature-gated with a connected wallet.\n\nMeasured against a paired control (same wallet, same curve, same flow, one instruction of difference): 29% more inventory retained, 1.99% better realized price on the drained leg. At 4x amplification the unmanaged maker published 43 fills it could not honor. With budgets: zero.",
+  "how_its_made": "Two small Solidity contracts on 1inch's own stack. InventorySkewProvider (178 lines) implements IProtocolFeeProvider behind SwapVM's stock opcode 30. DocaApp (93 lines) assembles the SwapVM program. Everything that settles value is official 1inch code: the canonical Aqua registry on Base and an unmodified AquaSwapVMRouter.\n\nThe app is React and ethers on an anvil fork of Base with the real WETH and USDC contracts, so every demo fill is a real ERC20 transfer. The Harbormaster runs in the page and reads wallet capacity off the pricing path. A read-only MCP server exposes wallet, positions and the two-leg health check to agents, and the app anchors to live Base mainnet pricing through the Uniswap Trading API.\n\n11 Hardhat tests green, including adversarial tests that document one honest limit: the provider prices cumulative depletion, not a single oversized fill. That guard is the next layer, a BudgetGuard SwapVM instruction we specified but did not ship.\n\nBoth contracts are deployed on Base mainnet, source verified on Sourcify with an exact match:\n\nInventorySkewProvider 0x768FDce0cD1b6237811CA50D7758698e7EDe54D9\n\nDocaApp 0x8A151aF27a0Ae421A2222ed9b6c58cd8AC179694",
+  "auto_summary": "Aqua-based contracts and a web app manage maker strategy budgets by adjusting SwapVM fees from live inventory conditions.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/doca-finance-rjm24",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

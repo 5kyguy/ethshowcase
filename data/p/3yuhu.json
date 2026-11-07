@@ -1,0 +1,22 @@
+{
+  "id": "3yuhu",
+  "slug": "adversa",
+  "title": "Adversa",
+  "tagline": "Decentralized AI swarm that reviews code with adversarial red-team debate & on-chain identity",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/3yuhu/banner/default.jpg",
+  "video_url": "https://stream.mux.com/fvdwA6M6iBLbZSpL8rlH2kU2J857WMKpG6F8inFTkDk/high.mp4",
+  "demo_url": "https://adversa.duckdns.org",
+  "source_url": "https://github.com/Jennycruzy/adversa",
+  "finalist": false,
+  "description": " ADVERSA is a decentralized AI code review swarm that eliminates confirmation bias and\n  single reviewer bottlenecks. Six specialist agents — Security, Red-Team, Performance, Style,\n  Coder, and Gateway, run on an encrypted AXL peer-to-peer mesh network, each with a\n  cryptographic ed25519 identity. When a developer submits a goal, the Coder agent generates  \n  code and opens a GitHub PR. The remaining agents review in parallel: the Red Team generates\n  real exploit payloads (SQL injection, auth bypass, race conditions), while the Security agent\n   defends or concedes in a live adversarial debate. All LLM inference runs through 0G Compute\n  on TEE hardware, so every AI response comes with a cryptographic attestation proving it ran\n  in a trusted enclave,protecting your code's IP. Consensus is weighted by role and onchain\n  reputation score. The full review pipeline runs offline-first on the mesh; GitHub merges, 0G\n  Storage uploads, and 0G Chain recordings queue and drain automatically when connectivity\n  returns. Each agent is an ERC-7857 iNFT that evolves its embedded intelligence as it\n  discovers new attack patterns.",
+  "how_its_made": "ADVERSA is built in TypeScript (Node 20) with six containerized agents communicating over\nGensyn's AXL encrypted mesh using ed25519 keypairs, not config strings as agent identity. \nEach agent runs as its own AXL node, advertising MCP services (/mcp/{peer}/security-scan, /perf-analysis, /style-check, /exploit-scan) for direct work routing, and listening on GossipSub topics (adversa:pr-opened, adversa:goals, adversa:critical-vuln) for broadcasts. Adversarial debate messages use A2A routing (/a2a/{peer}) so the RedTeam and Security agents hold structured challenge/defense exchanges independent of the orchestrator.\n\n  All LLM inference routes through 0G Compute's TEE broker (@0glabs/0g-serving-broker). Every  response includes a chat,  a cryptographic TEE attestation from SGX/TDX hardware, which is validated before the output is used and stored on-chain as a verifiable proof.              \n                  \n  Three Solidity contracts (Solidity 0.8.24, OpenZeppelin v5) deploy to 0G Chain (chainId      \n  16602): AdversaRegistry records review outcomes with the 0G Storage Merkle root and TEE proof ID; AdversaReputation tracks per-agent exploit discovery accuracy; AdversaINFT implements ERC-721 + ERC-7857 so each agent is an on-chain iNFT whose intelligence blob (system prompt + learned patterns) lives on 0G Storage and whose evolution count increments via evolveAgent() when new patterns are learned.\n\n  KeeperHub handles all on-chain write coordination — nonce management, gas estimation, and retry logic, preventing the six concurrent agents from colliding on nonces. It also provides the multi-RPC failover that makes the 0G Chain recordings reliable.                         \n                  \n  The offline-first layer serializes queued remote actions (GitHub merges, 0G Storage uploads, \n  KeeperHub workflows) to a local JSON file and replays them in order via a SyncEngine when\n  internet connectivity returns, meaning the full review pipeline runs air-gapped on the mesh.\n                  \n  The real time dashboard (Express + Socket.IO) streams the live debate, red exploit          \n  challenges, green security defenses, consensus vote tallies and is accessible from mobile\n  via QR code.  ",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/adversa-3yuhu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

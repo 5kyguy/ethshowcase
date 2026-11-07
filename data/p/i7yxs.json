@@ -1,0 +1,35 @@
+{
+  "id": "i7yxs",
+  "slug": "ithaca",
+  "title": "ITHACA",
+  "tagline": "You talk, it invests. A voice-run AI that grows your USDC on its own and can't be robbed.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/i7yxs/banner/default.jpg",
+  "video_url": "https://stream.mux.com/S02ErOfZRpkcuV00x6IwLdOMXI4pcS01wVG3zib025w1kfU/high.mp4",
+  "demo_url": "https://guardian-rho-two.vercel.app",
+  "source_url": "https://github.com/chrsnikhil/ithaca",
+  "prizes": [
+    {
+      "sponsor": "Ledger",
+      "sponsor_id": "q7a12",
+      "placement": "3rd place",
+      "title": "AI Agents x Ledger"
+    }
+  ],
+  "finalist": true,
+  "description": "Two things are broken right now. Normal wallets bury you in data and buttons, and the AI agents everyone's shipping got wallets but no brakes. One hallucination or one leaked key and the money's gone.\n\nITHACA fixes both. There's no dashboard to learn. You just talk to it, the same way you'd tell a person what you want, and it talks back. Say \"put my idle USDC to work\" and it shows you the safest markets and moves the money. Say \"get me out\" and it runs. Voice is the whole interface here, not a feature bolted on top.\n\nUnder that voice sits a real agent. You sign one mandate on your Ledger Flex, and that's the last thing you ever approve. After that it reads live market risk through The Graph, puts your idle USDC into whatever pays safest, and shifts it as conditions change. If danger shows up it pulls everything back to a safe address you chose. If a whole chain turns risky, it sends the funds over to Circle's Arc.\n\nAnd it can't go rogue. The contract itself caps what the agent is allowed to do, so even a stolen key can't move a dollar you didn't approve. You talk to it, it grows your money, and it physically can't lose it. Live on Base and Arc today.\n",
+  "how_its_made": "Four pieces working as one agent.\n\nThe voice layer is the front door, and it is the whole UI. We run Gemini Live for speech in, reasoning, and speech back, wired into an ElevenLabs interface with a live orb and waveform so you can watch it listen and think. You push to talk, it answers in a beat, and every command maps straight to an on-chain action. No forms, no buttons, no menus.\n\nFor eyes, we built graphscout, an MCP server on top of The Graph. The raw Subgraph MCP makes an agent read a 20,000-token schema and hand-write GraphQL before it can say anything useful. graphscout does it in one call and hands back a straight risk verdict, about 98x fewer tokens and one round trip instead of three. That is exactly why the voice agent can answer without an awkward pause, and anyone can install it in Claude or Cursor.\n\nFor the brakes, everything runs through GuardianVaultMulti, a Solidity contract that checks the Ledger-signed mandate on-chain every single time. Caps, allowed venues, the safe haven, expiry, one-time escalations, all re-checked in the same transaction as the action. It has 26 passing tests. The Ledger Flex is the root of trust. You sign once over USB or Bluetooth with the Device Management Kit, and a broker built on the Ledger Key Ring holds the agent's key, so the agent only ever gets a scoped capability and never the key itself.\n\nFor the money, it is USDC the whole way. When a chain goes bad the vault burns USDC through Circle's CCTP V2 and mints it on Arc, and we've run that round trip end to end. The whole thing is a Next.js and React PWA on Vercel with no backend daemon to babysit.\n",
+  "auto_summary": "A voice-driven DeFi agent uses The Graph data, Ledger-backed signing controls, and USDC vault contracts with optional Arc cross-chain rescue flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ithaca-i7yxs",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

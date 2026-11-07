@@ -1,0 +1,26 @@
+{
+  "id": "398eg",
+  "slug": "ripcord",
+  "title": "Ripcord",
+  "tagline": "Parametric wallet insurance: submit a tx hash, an automated adjuster verifies and pays in seconds.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/398eg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/uj01mdhHphwR3BJrKZBpHvnycd101F01IRfrkfTJFPBMnc/high.mp4",
+  "source_url": "https://github.com/jonumhills/ripcord",
+  "finalist": false,
+  "description": "Ripcord is parametric insurance for retail wallets. Add any address, get a live risk score computed from real on-chain data (wallet age, unlimited approvals, prior contact with flagged addresses, contract verification), get a risk-priced USDC quote, and bind a policy on Arc testnet. It's self-custodial the whole way; the backend never touches your premium.\n\nIf your wallet gets drained, paste the transaction hash into a claim. An automated adjuster independently re-reads that exact transaction from the chain instead of trusting your word for what happened. It confirms the sender is a covered address and the destination is a known-malicious one, and if both hold, pays your full coverage cap in USDC within seconds.\n\nNo claims committee, no DAO vote, no days-long wait. Every other wallet-cover product (Fairside, MetaMask Protection, Nexus Mutual) routes a claim to a human or a vote. Ripcord covers one narrow, provable trigger: an outgoing transfer to an address already known to be malicious. In exchange, the payout is instant and deterministic instead of discretionary.",
+  "how_its_made": "Five independently-deployable pieces share one backend brain (Fastify + TypeScript) that owns all the real logic: risk scoring, quoting, and the claims adjuster. The Next.js web app and the Manifest V3 browser extension are both thin clients hitting the same API, so nothing is duplicated or able to disagree.\n\nPolicyVault.sol (Foundry, 11/11 tests) is deployed live on Arc testnet, Circle's stablecoin-native L1 where USDC is the actual gas token. Premiums and payouts move exclusively in USDC, including the gas itself. payClaim() is a real on-chain gate: only the claims-agent address can call it, and only against a policy that's active, unexpired, and unclaimed.\n\nThe claims process is deliberately not an LLM call. When a policyholder submits a tx hash, claimsAdjuster.ts independently re-fetches that transaction from Arc via viem and decodes its Transfer logs. It confirms the sender is a covered address and the destination is on a known-malicious registry (ScamSniffer, plus a demo flagged-address list), then triggers the payout. The check is identical whether a user submits manually or the background monitor (polling The Graph's Token API per insured address) catches it live, so the same transaction always produces the same verdict.\n\nThe Graph does two distinct jobs. The Token API (via Pinax) supplies wallet age and activity for risk scoring and doubles as the live-monitoring feed, since a custom Subgraph can't watch arbitrary EOAs (data sources are bound to fixed contract addresses). A purpose-built subgraph separately indexes Approval events across major mainnet tokens as a faster, independent signal for the same \"unlimited approval\" risk factor.\n\nFor the demo, MockDrainer.sol reproduces the actual mechanics of a phishing drain (approve a spending cap, get pulled via transferFrom) instead of faking it, and forwards whatever it pulls straight into PolicyVault's own reserve so repeat demo runs self-fund instead of stranding testnet USDC in a dead contract.\n\nA few hacky, real bugs worth mentioning. Arc emits a second, Transfer-shaped log from a sentinel address for every USDC movement, since USDC doubles as native gas, so the adjuster has to filter logs by contract address first or it records the wrong token and amount. An \"unlimited\" approval is a permission ceiling, not a balance, so MockDrainer pulls min(allowance, balance) the same way a real drainer bot has to. Policy IDs are SHA-256 hashes truncated to 0x plus 32 hex characters, not a sequential counter, so nothing leaks how many policies exist. Postgres via Supabase backs everything, because Railway's filesystem is ephemeral and neither an in-memory store nor a JSON file survives a redeploy.",
+  "auto_summary": "A multi-component wallet insurance system that scores on-chain risk, sells USDC coverage, and automates claim payouts on Arc testnet.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ripcord-398eg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

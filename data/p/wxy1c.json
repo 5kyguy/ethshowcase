@@ -1,0 +1,27 @@
+{
+  "id": "wxy1c",
+  "slug": "proofframe",
+  "title": "ProofFrame",
+  "tagline": "ZK-proven photo authenticity — prove it's real, not AI, without revealing who you are.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wxy1c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wDrvMfLF3tlOE2ILdH9FeX9DysAjp302fqCyMdivSWNY/high.mp4",
+  "demo_url": "https://proofframe.fly.dev",
+  "source_url": "https://github.com/pycckuu/proof-frame",
+  "finalist": false,
+  "description": "ProofFrame is a zero-knowledge content authenticity system that proves photos came from a real camera — not AI — without revealing the photographer's identity.\n\nThe problem: AI-generated deepfakes are flooding the internet (1,500% growth 2023-2025). The existing solution, C2PA, proves photos are real but exposes the photographer's GPS, camera serial, and identity. Journalists, whistleblowers, and war correspondents can't use it safely.\n\nProofFrame solves both problems:\n1. Proves NOT AI-generated — a camera's secure element signs the image at capture. The ZK proof verifies this hardware signature against a device registry. No AI model can forge a camera signature.\n2. Verified edits — crop, brightness, grayscale are proven inside the ZK proof. No pixel manipulation possible.\n3. Privacy — all metadata (GPS, timestamps, device serial) is selectively disclosed or stripped. The photographer's wallet never appears on-chain.\n\nThe system uses World ID for anti-Sybil (per-image nullifier — same human can attest different images but not the same one twice), on-chain ENS subdomains with text records (pixelHash, IPFS CID, transforms, metadata), Ledger Clear Signing (ERC-7730) displaying attestation fields on the hardware device, and IPFS for permanent image storage with content hash stored in the smart contract.\n\nLive demo: https://proofframe.fly.dev",
+  "how_its_made": "ProofFrame is built across 5 layers:\n\nZK Core: RISC Zero zkVM v3.0 compiles a Rust guest program to riscv32im. Inside the VM: ECDSA signature verification (k256 with bigint precompile), Merkle proof against device registry, PNG decode via the `image` crate (integer-only zlib, no float), pixel transforms (crop/grayscale/brightness), SHA-256 pixel hashing (accelerated precompile), and selective EXIF disclosure. The `image` crate's decode-to-pixels pipeline is the metadata firewall — it structurally cannot preserve EXIF/XMP/IPTC/C2PA.\n\nSmart Contract: ImageAttestor.sol on Sepolia verifies the ZK proof, verifies World ID (per-image nullifier scoping via hash(appId, \"attest_\" + pixelHash)), stores the attestation with IPFS CID on-chain, and atomically creates an ENS subdomain via NameWrapper.setSubnodeRecord() with text records (pixelHash, fileHash, merkleRoot, ipfsCid, url, avatar, contenthash) set via PublicResolver.setText(). 14 Foundry tests. Zero msg.sender checks — fully permissionless.\n\nFrontend: Next.js 14 with wagmi + ConnectKit for optional Ledger signing. The attest flow: upload image → /api/prove spawns the Rust host binary (RISC0_DEV_MODE=1) → World ID IDKit scan → /api/upload pins to IPFS via Infura → EIP-712 typed data signing on Ledger (shows all attestation fields) → /api/relay submits from relayer wallet.\n\nENS Integration: On-chain subdomains created inside attestImage() — not off-chain. The contract calls NameWrapper.setSubnodeRecord() then PublicResolver.setText() for 10+ text records including contenthash. Parent domain owner grants contract operator approval via setApprovalForAll(). Labels are first 16 hex chars of pixel hash (lowercased for ENS normalization).\n\nDeployment: Fly.io with 3-stage Docker build (Rust binary + Next.js + node:20-slim runtime). Auto-deploy via GitHub Actions on merge to main. Dev mode proof generation (~3s) with r0vm included in runtime image.\n\nHacky parts: Three things are mocked for the hackathon demo: (1) Camera signature — we generate a fresh secp256k1 key at runtime instead of using a real camera secure element. The ZK guest verifies it identically; only the key source changes in production. (2) World ID — MockWorldID on Sepolia because real World App roots don't sync to testnet.  (3) RISC Zero dev mode — proofs are generated with RISC0_DEV_MODE=1 (~3s) accepted by MockVerifier. Real Groth16 proofs require GPU.  The `image` crate compiled for riscv32im with PNG-only features to avoid JPEG's float-heavy DCT. All mocks are swappable without changing the architecture — same interfaces, same data flow, just different trust anchors.\n\nHacky parts: Mock World ID with random nullifier generation to avoid DuplicateNullifier on Sepolia (real World App roots don't sync to testnet). The `image` crate compiled for riscv32im with PNG-only features to avoid JPEG's float-heavy DCT.",
+  "auto_summary": "A multi-layer app that generates zero-knowledge image authenticity attestations, stores metadata on-chain, and links records to ENS subnames.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/proofframe-wxy1c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

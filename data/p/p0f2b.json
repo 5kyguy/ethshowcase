@@ -1,0 +1,22 @@
+{
+  "id": "p0f2b",
+  "slug": "polar",
+  "title": "Polar",
+  "tagline": "A web3 auth provider that privately stores user data in decentralized storage and selectively reveals it to the client app. ",
+  "event": {
+    "slug": "scaling2024",
+    "name": "Scaling Ethereum 2024",
+    "start_time": "2024-04-05T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p0f2b/banner/default.jpg",
+  "video_url": "https://stream.mux.com/rX9Qd02sBFUlAjhQCIkvh2xg2miD01owSt2026GTaxjH00g/high.mp4",
+  "demo_url": "https://polar-rosy.vercel.app",
+  "source_url": "https://github.com/Complexia/polar",
+  "finalist": false,
+  "description": "The main idea is that you don't really want to connect your wallet to some random dodgy 3rd party websites that you don't know. First of all, you don't want to necessarily reveal your wallet address to a 3rd party. And most importantly, they could trick you into approving a fraudulent transaction and scam you, drain your wallet, and so on. But you need to connect your wallet in order to use a dApp. Or do you?\n\nEnter Polar - an abstraction layer between a dApp and your precious web3 wallet.\n\nOn the surface, it's a OAuth2 Provider. Basically, there is an exported button which a 3rd party website can utilize \"Authenticate with Polar\", which redirects you to polar's URL, you authenticate them by signing a message and a nonce using your connected wallet, and sending back a JWT containing your wallet address, signature, and any other user data which you can choose to reveal from Polar's UI. 3rd party website then uses this JWT to authenticate the user.\n\nBut wait...what about blockchain transactions? How do you call contracts if your wallet is not directly connected to the dApp?\n\nAgain, enter Polar! The client (3rd party) forms the txn as they would normally, declaring contract address, ABI, and method to be called, and then instead of using web3.js to call it themselves, they send it to Polar via a redirect. User is taken to Polar's UI, and is prompted to sign the transaction there. Contract, Method, Params, and Description are clearly displayed. Once user performs the action, they are taken back to the client's site along with the contract call response. \n\nAs a tldr, Polar is an abstraction layer between a dApp and your wallet, which acts as an OAuth Provider as well as a transaction execution layer. ",
+  "how_its_made": "1) User is taken to Polar UI homepage, and is prompted to connect wallet.\n2) User connects wallet, at which point we check if the wallet holds a ProfileContract NFT. If yes, fetch user data from there (dp_uri, name, username, etc). If not, user is prompted to mint a new ProfileContract NFT and set some user details. \n3) The minting happens by calling ProfileContractFactory createProfileContract function, which takes as arg allowMint (set to true) and uses that to mint a ProfileContract to user's wallet using msg.sender param from the original Factory call.\n3) User details can be edited via the setter functions of the contract, which are limited to onlyMinter. \n4) Contracts are hosted on Arbitrum Sepolia, Gnosis Chiado, and Ethereum Sepolia.\n5) Once user has a ProfileContract NFT in their wallet, their user info is displayed. \n6) A 3rd party dApp can use Auth with Polar button that Polar has exported.\n7) Once the user of the dApp clicks this button, they are redirected to Polar and are prompted to sign a message/nonce using their connected wallet. This happens using metamask's API personal_sign call. \n8) Once signed, a JWT is generated that contains user details, address, and signature. The user is then redirected to the dApp along with the JWT, which the dApp decodes and verifies its authenticity by using recoverAddress (web3.js) of signature and message/nonce. If recovered address matches address returned in JWT, user is authenticated.\n9) From dApp, user is able to send transactions by passing contract address, ABI, and args to a Polar Texas Button, which redirects you to Polar and the Transaction is executed polar side using web3js. Result of the contract call is then passed back to the client.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/polar-p0f2b",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

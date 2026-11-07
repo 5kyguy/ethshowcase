@@ -1,0 +1,27 @@
+{
+  "id": "txqdm",
+  "slug": "sonos",
+  "title": "Sonos",
+  "tagline": "Decentralized music streaming where listeners earn tokens per play and artists burn them to upload.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/txqdm/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aT5a7OXQsV5Kyf2g2dmTHt4Gf6fdNev0237ArIbJEIFQ/high.mp4",
+  "demo_url": "https://sonos.hackaton.es",
+  "source_url": "https://github.com/sonos-tech/sonos-web",
+  "finalist": false,
+  "description": "SONOS is a decentralized music streaming platform with a native token economy. Artists upload songs to 0G decentralized storage and burn 10 $SONOS per upload — a deflationary sink that keeps the supply honest. Listeners stake 1 $SONOS to play a track, stream a 30-second preview from 0G, and at the 20-second mark the stake transfers to the artist and the full-quality track unlocks. Every transfer carries a 2% fee that Hedera's Token Service collects automatically at the protocol level, so royalties are enforced by the network itself, not by a smart contract we had to write and audit.\n\nAll song metadata and play events are logged immutably to Hedera Consensus Service topics — HCS is the source of truth, and Postgres is just a read cache. Users connect with any EVM wallet via Dynamic, and the backend bridges them transparently to Hedera accounts they never have to think about. ETH on Sepolia can be swapped for $SONOS at 1 ETH = 100,000 $SONOS, and artists can cash out their earnings back to ETH with a 5% platform fee. The result is a self-balancing economy where plays mint tokens and uploads burn them, all without a single line of Solidity.",
+  "how_its_made": "Three services, three chains, zero Solidity. The frontend (sonos-web) is Next.js 16 / React 19 with Tailwind 4 and the Dynamic React SDK for wallet connection. Dynamic issues JWTs that the Rust backend (sonos-back, Axum 0.8) verifies server-side against Dynamic's JWKS endpoint with RS256, extracting the wallet from the verified_credentials claim. Postgres 18 is purely a read cache; the source of truth lives on-chain. WebSockets push real-time play and balance updates, and DashMap holds hot state in memory.\n\nAll blockchain interactions are gated behind a single microservice (sonos-blockchain, Bun + Hono + TypeScript) that speaks to three networks. On Hedera we use eight distinct SDK transaction types — mint, wipe, transfer, associate, allowance approve, account create, and HCS submit — to implement minting, burning on upload, stake escrow via allowances, account creation, and immutable play logging. The $SONOS token is an HTS fungible token with a custom fractional fee schedule that auto-collects 2% on every transfer, so royalties are enforced by consensus, not code. On 0G Galileo we upload full MP3s and ffmpeg-generated 30s previews via @0glabs/0g-ts-sdk, identifying files by merkle root hash. On Sepolia, viem verifies ETH deposits and signs cashouts.\n\nThe slickest part: the EVM-to-Hedera bridge — users log in with any Ethereum wallet and the backend silently provisions a Hedera account on first request, so they never know two chains are involved. The hacky part: Mirror Node's 3-5s eventual consistency forced sleep-based workarounds, and HCS's 1024-byte message limit meant trimming metadata aggressively.",
+  "auto_summary": "A multi-service music platform streams tracks from 0G storage while using Hedera native token and consensus operations plus Dynamic-based wallet authentication.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sonos-txqdm",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

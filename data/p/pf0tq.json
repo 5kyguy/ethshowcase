@@ -1,0 +1,30 @@
+{
+  "id": "pf0tq",
+  "slug": "aigentpay",
+  "title": "Aigentpay",
+  "tagline": "The payment layer for AI agents. Send USDC, stream micropayments via state channels, zero gas fees.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pf0tq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/AGxJp3VbFLj7RG6EEb6DYGsq9VGMq7Q21phca7jB698/high.mp4",
+  "demo_url": "https://hackmoney2026.vercel.app",
+  "source_url": "https://github.com/Cassxbt/Hackmoney2026",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "AI agents can now do real work but can't pay for anything, AgentPay solves this. \n\nAgentPay is an MCP server that gives any AI agent a complete financial API. You can connect it to Claude, GPT, or any MCP-compatible assistant and it gains seven tools: check balances across seven chains, send gas-free USDC transfers, resolve ENS names, and manage a full micropayment lifecycle through state channels.\n\nThe core idea here is bringing Yellow Network's Nitrolite state channels into the AI agent workflow. Agents can now open a channel, stream thousands of instant micropayments off-chain at zero cost, then settle with a single on-chain transaction. This makes agent-to-agent commerce viable at $0.001 per payment instead of $0.25 per on-chain transaction.\n\nCircle's Paymaster eliminates gas friction entirely. Agents transact in USDC and never need to worry about holding ETH. The Gateway API provides a unified balance view across all supported chains through one call. ENS turns raw addresses into human-readable names so payment instructions are auditable.",
+  "how_its_made": "AgentPay is a TypeScript MCP server built on modelcontextprotocol/sdk that gives financial tools to any compatible AI assistant. The architecture is a single process that mediates between the AI agent and three on-chain systems: Yellow Network for micropayments, Circle for gas-free transfers and cross-chain balances, and ENS for name resolution/data.\n\nThe most technically interesting part is the Yellow Network integration. We use the Nitrolite SDK (@erc7824/nitrolite) to manage state channel lifecycles over a persistent WebSocket connection to Yellow's ClearNode.  Authentication required implementing EIP-712 typed data signing where the domain name must match the application name exactly, which was undocumented and took real debugging to figure out. Once authenticated, we create app sessions that lock USDC between two participants, then stream micropayments by exchanging cooperatively signed state updates off-chain. Each state update rebalances allocations between participants without touching the blockchain. Incredible! \nThe result: 1,000 micropayments cost $0.02 total (one open + one close transaction) versus $250 if done on-chain individually.\n\nCircle's infrastructure eliminates two major friction points. The Paymaster contract on Base Sepolia pays gas fees in USDC via ERC-4337 account abstraction, so agents never need to worry about or hold ETH. We build UserOperations, encode USDC transfer calldata, and route through Circle's bundler endpoint. The Gateway REST API aggregates USDC balances across Arbitrum, Base, Polygon, Ethereum, and Optimism into a single response, so agents see their total available funds without querying each chain.\n\nENS resolution is implemented via viem's built-in client against Ethereum mainnet. When an agent calls agentpay_send with \"vitalik.eth\", we resolve it to an address before constructing the transaction. This makes agent payment instructions human-readable and auditable.\n\nThe demo frontend (React + Vite + framer-motion, deployed on Vercel) generates ephemeral wallets, funds them via Yellow's testnet faucet, authenticates both to ClearNode, opens a real state channel, and streams live micropayments with balance updates. The landing page includes an animated architecture diagram that highlights the active data flow path as each command executes.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/aigentpay-pf0tq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,47 @@
+{
+  "id": "cgnb3",
+  "slug": "prank-wallet",
+  "title": "Prank Wallet",
+  "tagline": "A crypto wallet for developers and power users: simulate anything, locally, instantly",
+  "event": {
+    "slug": "lisbon",
+    "name": "ETHGlobal Lisbon",
+    "start_time": "2023-05-12T09:00:09.370Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cgnb3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/k172nYYmTCBi6RWHFqCvc6j1UhdMgQhPpV01zuZRyLuw/high.mp4",
+  "source_url": "https://github.com/naps62/ethglobal-lisbon",
+  "prizes": [
+    {
+      "sponsor": "1inch Network",
+      "sponsor_id": "if0ri",
+      "placement": "🥈 1inch — Open Track",
+      "title": "1inch Network"
+    },
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "🛠️ Uniswap Foundation — Best Developer Tooling",
+      "title": "Uniswap Foundation"
+    },
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "🏊 The Graph — Pool Prize",
+      "title": "The Graph"
+    },
+    {
+      "sponsor": "Airstack",
+      "sponsor_id": "fb98y",
+      "placement": "🥉 Airstack — Best Use",
+      "title": "Airstack"
+    }
+  ],
+  "finalist": false,
+  "description": "Prank Wallet is a new developer tool, a crypto wallet\n\nWith it you're able to do two interesting new things:\n- impersonate: on the fly, any account on the blockchain. i.e.: view the Uniswap page as if you were stani.eth \n- simulate: either with your own wallet, or an impersonated one, you can see what a hypothetical transaction would do, without having to actually sign it\n\nPS: obviously you can't sign transactions, but you can still see the UI as stani himself would\n\nThe ability to go to any website (either a own protocol you're developing locally, or an existing one), and quickly test an interaction, potentially under someone else's account, is a powerful developer tool. Being able to do that directly on your day-to-day wallet makes it even easier, especially for those who are not EVM experts (e.g.: designers, project managers, QA, or even junior developers who haven't learned the ropes yet)\n\nIt is also a powerful tool for end-users, as in introduces much needed security by being able to inform the user of side effects (e.g.: ERC20 transfers) that would happen, potentially highlighting phishing attacks or incorrect parameters.\nAgain, these tools exist, but not in a self-hosted trustless approach that the more savvy users prefer.\n\nThis is in some ways similar to what some tooling out there already does, in some form (e.g.: Tenderly, Foundry, etc)\nHowever, there are differentiations:\n- tenderly is a 3rd party API, so it introduces an element of trust, and with enough usage it requires a paid account\n- being a 3d party API also means it can only support livenets, and not your local anvil/ganache instance, where most developers are working on\n- Foundry is awesome, but is mostly reserved to those who work on EVM/Solidity, not to everyone else working on projects (frontend devs, etc)\n\nWith the state of open source projects such as Foundry and the REVM, these capabilities are already available, in a very efficient way, for local simulations. With the proper UX this can become accessible to everyone in the ecossystem, even the less tech-savy",
+  "how_its_made": "The bulk of the project is a desktop app using Tauri: Rust on the worker, and Typescript/React for the UI\nthis desktop app is compatible with Linux/Windows/MacOS (that's free with Tauri). It can also be built for mobile, although we haven't focused on that at the moment.\n\nit communicates with dapps through a browser extension that needs to be installed. This extension does a lot of the same behind-the-scenes work as MetaMask, but instead of processing everything in the extension, it acts as a relay for the desktop app, forwarding all RPC calls from each browser tab to it (via websockets).\nThis part was done largely by re-using the open-source work done by MetaMask itself (from the extension codebase, as well as several npm packages they built along the way for handling streams and browser-specific restrictions)\n\nThe Rust backend handles all the RPC calls, and holds the private key. Similar to any other wallet: it either forwards calls to an external RPC (we're using Alchemy for simplicity), or it handles some of them internally, such as transaction signing, and all EIP-1193 requests for network switching, account switching, etc.\n\nThe wallet is EIP-1993 compliant, and works with any dapp through the \"Connect with Metamask\" button. Most dapps assume that if `window.ethereum`  is there, it's metamask. This is a limitation of current standards, so we have to work with this for the time being.\n\nAll the impersonation / simulation work is done through Foundry libraries. We leverage the same REVM executor that Foundry already uses, and whenever a transaction is sent to the wallet, we immediately bootstrap a mainnet fork (at whatever the latest known block is) and run a simulation on it.\nThis is near instant, since REVM fork mode only fetches whatever state is needed for the particular transaction to execute. In a regular home network, this takes no more than a couple of seconds even using a 3rd party RPC\n\nFrom the result of the simulation, we're able to extract all Parity-style traces and infer information from the transaction receipt (gas used, ETH transferred) as well as emitted events (which indicate ERC20 transfers, and other known useful events). We also get the raw execution traces that may be useful for developers to work more closely with.\n\nFor clarity, here's an example user flow we're able to fully demo:\n1. Go to app.uniswap.org\n2. \"Connect with Metamask\" (which is actually our wallet)\n3. Go to etherscan and find any address we want to impersonate (e.g.: stani.eth)\n4. input that address into our wallet's UI\n5. Immediatelly, all dapps connected are notified and switch to stani's ETH address\n6. input a desired swap, wait for the exchange range, and submit the \"Swap\" (or \"Approve\" if necessary)\n7. while uniswap waits, our wallet shows a popup with the simulation result\n8. we can see on the UI what exact ERC20 transfers would be triggered by that transaction coming from stani's wallet\n9. we can then opt to execute the transaction, although that would fail since we're impersonating an account. If we use our actual private key, the transaction is submitted as expected\n\nBesides this, the wallet shows the current ERC20 balances of whatever the current address is (either the real wallet, or an impersonation), by using a combination of AirStack (for on-chain balances) and Chainlink (for USD exchange rates)",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/prank-wallet-cgnb3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

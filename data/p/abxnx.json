@@ -1,0 +1,35 @@
+{
+  "id": "abxnx",
+  "slug": "relay",
+  "title": "Relay",
+  "tagline": "Bundle your APIs then delegate by ENS name to anyone with Enhanced Access Control",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/abxnx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/y1D9W00FGypbrmsKJEm02iTGTatCDe8Ika35Q1Dd9XN2Y/high.mp4",
+  "demo_url": "https://relay.derek2403.win",
+  "source_url": "https://github.com/derek2403/relay",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "1st place",
+      "title": "Best Use of ENSv2"
+    }
+  ],
+  "finalist": true,
+  "description": "Relay explores a simpler way to share API access across an organization: bundle all the API and delegate the API permissions through ENSv2 Enhanced Access Control.\n\nAs we start to adopt AI agents, access becomes harder to manage. Employees, agents, and subagents need different services, spending allowances, and session durations. Sharing a single credential makes it difficult to track responsibility or withdraw access from one branch.\n\nRelay organizes these relationships into six levels: company → department → team → user → agent → subagent. An interactive access tree shows each identity, its provider permissions, and its relationship to the rest of the organization. Names such as derek.eng.sodalabs.eth make the delegation path readable.\n\nChildren entity can only access API services their parents allow with and simulated usage counts toward every ancestor’s allowance. An integrated activity log makes changes visible alongside the tree.\n\nOur goal is to let organizations delegate API access with only 1 API without distributing the underlying API. ",
+  "how_its_made": "Relay is built with Next.js App Router, React, JavaScript, and custom CSS. The page layout and dashboard are React components, while an interaction controller manages tree selection, department filtering, zoom, provider lists, permission editing, and activity updates.\n\nThe permission model is separated from the interface in a JavaScript module. Each identity stores its parent, wallet address, provider allowances, budget period, usage, and optional expiry. The model walks the ancestor chain to calculate inherited access and the remaining allowance. Before accepting simulated usage, it checks the entire chain, then updates each ancestor’s usage so multiple descendants consume a shared parent budget. Revocation and expiry also propagate through that chain.\n\nThe access tree uses positioned cards and SVG connections. A fit-to-view calculation scales the hierarchy to its container. Provider marks are inline SVGs sourced from Simple Icons and Lobe Icons, restyled into a consistent khaki-and-stone badge system. Overflow circles reveal the complete provider list without crowding the cards.\n\nOne practical implementation choice was to preserve the original DOM-based interaction controller during the Next.js migration, mounting it through a React effect with cleanup for listeners, timers, and observers. This let us retain the prototype’s interactions while separating the permission logic for testing.\n\nAutomated tests use Node’s built-in test runner to cover hierarchy construction, permission validation, shared budgets, cascading revocation, expiry, and demo data consistency. State currently lives in browser memory and resets on reload. ENS is represented through the naming model; no ENS contracts, World ID, MultiBaas, live provider APIs, or production authentication are integrated in this version.",
+  "auto_summary": "A Next.js application for delegated API and onchain action control using hierarchical identities, relay-enforced permissions, and approval workflows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/relay-abxnx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

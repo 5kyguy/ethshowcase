@@ -1,0 +1,27 @@
+{
+  "id": "smk18",
+  "slug": "pramaana",
+  "title": "Pramaana",
+  "tagline": "PQC based ASC for U2SSO. Trustless, complete attestation - unlinkable, untrackable and anonymous",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/smk18/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cMlxZRgDkvSdxEX00Qd72TuwP00NejBLm4NQVlJe01bRMk/high.mp4",
+  "demo_url": "https://pramaana.lovable.app/",
+  "source_url": "https://github.com/Dasika-Vaishnavi/pramaana-identity-v2",
+  "finalist": false,
+  "description": "Pramaana lets you prove you're a unique real human to any service, without revealing who you are, without two services linking your accounts, and without any database storing your PII. Post-quantum (Kyber-1024), Sybil-resistant by construction, nothing to leak in a breach.\n\nDocumentation - https://pramaana.lovable.app/about\nBased on papers written by yale and columbia researchers:\n\nAnonymous Self-Credentials and their Application to SSO\n\nFoundation\nAlupotha, Barbaraci, Kaklamanis, Rawat, Cachin, Zhang — IACR 2025/618\n\nIntroduces ASC — Sybil-resistant anonymous credentials without trusted IdPs.\n\nKey contributions\nDefines the ASC primitive with 5 security properties. Two constructions: SRS-ASC (Semaphore/Groth16, constant 328-byte proofs) and CRS-ASC (Bulletproofs/secp256k1, logarithmic proofs). U2SSO system with Ethereum IdR smart contract. ",
+  "how_its_made": "I built Pramaana as four independent, upgradeable layers, and the whole thing turns on one principle: your personal information enters the system exactly once, as cryptographic entropy, and is then destroyed. Nothing about you is ever stored.\n\nEnrollment runs inside an attested TEE — an enclave that proves it's running reviewed code on trusted hardware. I run it in simulation mode on a laptop, with the real Intel TDX / Phala dstack path behind a feature flag. Before the client sends anything, it verifies the enclave's attestation quote (what I call Gate 0); if that check fails, no PII ever leaves the device. Inside the enclave I parse the Aadhaar Secure QR and verify its UIDAI RSA-2048/SHA-256 signature directly — never OCR — and match a live face capture against the photo embedded in the QR, so a stolen or shared QR can't be reused by someone else.\n\nThe privacy core is a VOPRF. I take a stable, timestamp-stripped identifier from the demographic fields, blind it, and send it to a separate vault that evaluates an oblivious pseudorandom function under a key the credential issuer never sees — and it returns a DLEQ proof that it used the committed key. That's the piece that stops even the issuer from linking me later. The VOPRF output then drives PALC, my PII-Anchored Lattice Commitment: HKDF-SHA3-512 stretches it into a 64-byte seed, I run deterministic ML-KEM-1024 (Kyber-1024) key generation from that seed per FIPS 203, build a commitment C = public key ‖ ciphertext, and hash it into my master identity Φ. Every intermediate — the PII, the seed, the randomness — is zeroized before the function returns. Φ is registered on-chain through a dedup tag derived from Φ itself, so a second enrollment of the same person is rejected as a Sybil right at the registry.\n\nAfter enrollment I never touch the registry to log in. For each service I derive a separate Semaphore identity from Φ, with a nullifier = H(secret, service) under a per-service scope, and prove group membership with a Groth16 proof. So I can prove \"I'm an enrolled, unique human\" without revealing which one, and no two services can correlate my accounts. Reusing the same service reproduces the same nullifier — that's the cryptographic Sybil check. On top of this I added a World ID check on the claim path as a second, independent proof-of-human, and a face-match attestation layer that binds a tamper-evident \"a real match happened\" fact to Φ without ever storing the face (real ArcFace matching behind a feature flag, simulated by default).\n\nFor the stack: the crypto spine is Rust — separate crates for QR verification, liveness, PALC, the VOPRF, attestation, and the enclave/vault servers — the contracts are Solidity on Foundry (a Φ-registry, a nullifier registry, and a swappable Gate-Z verifier), and there's a TypeScript SDK plus a React/Vite frontend. Every primitive is NIST-standardized or peer-reviewed — ML-KEM-1024, SHA3-512, HKDF, RFC 9497 VOPRF, Semaphore — with no custom cryptography.\n",
+  "auto_summary": "A React and Supabase application for privacy-preserving human verification, enrollment, and on-chain identity-related workflows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 6
+  },
+  "showcase_url": "https://ethglobal.com/showcase/pramaana-smk18",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

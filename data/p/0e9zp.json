@@ -1,0 +1,21 @@
+{
+  "id": "0e9zp",
+  "slug": "dkg",
+  "title": "DKG",
+  "tagline": "Partial implementation of NI-DKG — threshold cryptography on Ethereum using ZK proofs.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0e9zp/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FscfDm6ygeOHt1tm1Aac8Lh3Pm1mH3QGfUwknwcOvG4/high.mp4",
+  "source_url": "https://github.com/AlexandreSuarezM/VOTED",
+  "finalist": false,
+  "description": "This project is a first aproach on the partial implementation on the paper mentioned on the repo.\nThe project has been more about to understand the usage of cryptografic primitives and understand the pros and cons they offer in cooperation to ennhance security but looking what we lose. \nThe challenge was to use ia to reach the coding barrier (solidity, circom, javascript) with a suficient rigor prompting and test to obtain the main sstructure. An understand the flow of the infrastructure. Solidity interaction with nodes, javascript events anc information, and the circuits necesary to generate zk proofs with groth16.",
+  "how_its_made": "Complete NI-DKG coordinator with phase management, time windows, and abort logic\nFisher-Yates participant selection on-chain\nEven if the implementation was made with the exact number of nodes.\nFor future plans the node selector has to attempt at keeping diverse localization, geopolitics, intstituions.\nFuture work benchmarc for more nodes 20,30,40... \n\nShamir Secret Sharing splits a key across n nodes so any t can reconstruct it but a malicious dealer could distribute bad shares. Feldman commitments fix this: each node publishes elliptic curve points that let anyone verify their share is consistent, without revealing it.\nTo remove the dealer entirely, each node contributes their own polynomial that is the DKG part. The shared public key is the sum. The private key is never assembled.\nElGamal encryption protects shares in transit between nodes. Chaum-Pedersen proofs ensure each partial decryption was computed honestly. Lagrange interpolation combines t valid partials on-chain to recover the plaintext.\nEach step closes the trust assumption left open by the previous one.\nbut even for  5nodes Feldman circom could not compile , and it culdnt be modified withou compromissing its security. So it was passed has a true for demonstration purposes.\nPossible work on finding algortihms like grot16 for optimizing zk proofs .\nBabyJubjub elliptic curve library in pure Solidity — point addition, scalar multiplication, modular inverse\nFeldman commitment aggregation and share commitment derivation on-chain\nThreshold signing — Each participating node detects the encrypted ciphertext, computes its partial decryption using its Shamir share, and submits a Chaum-Pedersen zero-knowledge proof. This proof demonstrates that the node used the correct share — consistent with its published Feldman commitment — without revealing the share value. The smart contract verifies each proof on-chain using BabyJubjub arithmetic before accepting it.\n\nElGamal encryption of the transfer amount in JavaScript\nChaum-Pedersen DLEQ proof generation in JavaScript with challenge hash matching Solidity exactly\nOn-chain Chaum-Pedersen verification using BabyJubjub arithmetic\nOn-chain Lagrange interpolation for threshold reconstruction\nAmount commitment verification\nFive independent node daemon processes running autonomously, event-driven via blockchain polling\nProtected vault contract with re-entrancy protection\nWhat is mocked:\n\nThe Groth16 circuit verification for Phase 4 Feldman contributions. The circuit is written in Circom and compiles to R1CS. The trusted setup runs with snarkjs. The generated Solidity verifier contract exists. But the real proof generation is not yet wired into the node daemons — a MockVerifier that always returns true stands in its place.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dkg-0e9zp",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,40 @@
+{
+  "id": "vaytr",
+  "slug": "dmno-pkp-secrets",
+  "title": "DMNO - PKP secrets",
+  "tagline": "dmno.dev plugin - encrypted secrets using a PKP gated by Github auth + teams",
+  "event": {
+    "slug": "sanfrancisco2024",
+    "name": "ETHGlobal San Francisco",
+    "start_time": "2024-10-18T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vaytr/banner/default.jpg",
+  "source_url": "https://github.com/dmno-dev/ethsf-2024",
+  "prizes": [
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "Runners Up",
+      "title": "Runners Up"
+    },
+    {
+      "sponsor": "Sign Protocol",
+      "sponsor_id": "qdgjh",
+      "placement": "Best Overall Application",
+      "title": "Best Overall Application"
+    },
+    {
+      "sponsor": "Sign Protocol",
+      "sponsor_id": "qdgjh",
+      "placement": "Best Use of Encrypted Attestations",
+      "title": "Best Use of Encrypted Attestations"
+    }
+  ],
+  "finalist": false,
+  "description": "This hackathon project is a web3-related plugin for an existing open source devtool called  DMNO (https://dmno.dev) - of which I am the creator. So first some context: DMNO is a powerful tool for managing configuration and secrets that aims to solve all the common paper-cuts of dealing with config. Aside from validation, coercion, type-safety, composability, and leak prevention, sensitive values can be pulled from various backends using plugins. Currently there are plugins to store secrets in an encrypted file within your repo, 1password, and more (ex: bitwarden, aws, etc) are on the way.\n\nThe existing encrypted file plugin (https://dmno.dev/docs/plugins/encrypted-vault/) uses a single symmetric key which must be shared with all teammates who need access. This is obviously a naive approach and not ideal... Other sensible approaches would require a centralized manager of the private key, which is also not ideal and comes with serious liability/security risks, and compliance requirements.\n\nThis hackathon project introduces a _new_ encrypted vault plugin (powered by web3) with a far superior decentralized approach to encryption/decryption. This plugin bridges the gap to web2 by relying on Github for access control, and hiding all web3 interactions after initial setup is complete.\n\nEncrypted secrets are still stored in a file within your repository, but encryption uses a PKP (powered by Lit Protocol). Using an on-chain PKP allows all devs to update secret values (encrypting using the public key), but decrypting those secrets can be set using programmable conditions - without ever exposing the private key to anyone.\n\nThe plugin uses Github personal access tokens to identify users, and membership in Github org \"teams\" for access control at the vault level. Secrets can be segmented into multiple vault instances, and access to each vault can be granted to multiple teams, and changed over time, as the access list is also on-chain.\n\nThe goal is to make this all as seamless as possible, and take advantage of the benefits of decentralization, without forcing the end users to deal with wallets/keys/etc.\n\nWhile a wallet is needed to set up the vault (and corresponding PKP), after that everything is handled via github auth tokens, so most users may not even realize they are using web3 at all. Even this is not necessary as a centralized service could handle setting things up for end users,  taking fiat payments, and hiding all web3 interactions.\n\nFuture work will need to be done to move this onto mainnet, deal with payments and delegation, complete access management, etc...\n\n\nI ALSO created a simple package with a few web3-related data types for DMNO. This lets us set config items as being web3 addresses and private keys, and we get some basic validations. In the future, I will add more options to check certain conditions as validations - for example checking a balance, or checking that an address is a certain type of contract, etc... THis is just generally useful and will help stop typos turning into huge catastrophes :)",
+  "how_its_made": "This project relies heavily on Lit Protocol - which manages the PKP and talks to Github using Lit actions to restrict access. The access list is stored using Sign protocol as attestations (on a different chain). These attestations hold an encrypted Github Team ID.  The Lit action fetches those attestations, decrypts them, and compares the users current teams to the list. \n\nIn an ideal world, the PKP would also be used to manage the attestations, also using Lit actions, so that after the initial setup, users never have to deal with a wallet again. This was initially attempted, but dealing with signing and submitting transactions involving multiple wallets and delegating payments proved to add too much complexity for the hackathon.\n\nHonestly had Lit protocol not been here, whatever I would have hacked together myself would have been a naive proof of concept... Using Lit solved my exact problem - and one that I had been pondering how to solve more generally, with or without web3, much before this hackathon.\n\nUsing Sign Protocol was extremely convenient because of the schema, revokability, built-in indexing service, and helpful UI! In the future we could use sign hooks to trigger notifications when things change - or even to affect keys.\n\nA next step is to allow Lit actions to access keys that the user may not have access to - to do things like use a master key to generate dev or deployment specific keys.\n\nAlso an alternative access control mechanism will need to be developed for server-to-server access, but it would look fairly similar, just using keypairs and signed messages, rather than relying on github.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dmno-pkp-secrets-vaytr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

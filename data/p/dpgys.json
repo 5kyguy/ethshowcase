@@ -1,0 +1,21 @@
+{
+  "id": "dpgys",
+  "slug": "powergate-docker-hub",
+  "title": "Powergate Docker Hub",
+  "tagline": "Docker registry driver for powergate",
+  "event": {
+    "slug": "hackfs",
+    "name": "HackFS",
+    "start_time": "2020-07-07T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dpgys/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qIM3L3WSFCwtvr8AVKLXx5gbreRJoX6ZNO7BSkZ9V0000/high.mp4",
+  "source_url": "https://github.com/aloknerurkar/distribution",
+  "finalist": false,
+  "description": "This project implements the docker registry storage driver for powergate. This driver can be used to configure a registry server to store images into powergate's tiered storage. (Hot (IPFS) + Cold (Filecoin).",
+  "how_its_made": "This project uses the Powergate Go API client to implement a storage driver interface for docker. The powergate API for storing data is a key/value interface, whereas the docker storage driver implements a filesystem-like interface. In order to use powergate, we need to translate the filesystem ops to key/value type ops. In order to achieve this, I have implemented a local DB.\n\n\n\nUsing a local DB, I maintain the filesystem information and push the actual blobs to powergate. This local DB is called a \"manifest\". I have used another project which provides a simple KV interface over ipfs/go-datastore. Currently, this DB has a separate file that is used for badger, but this could potentially be integrated with IPFS itself in the future.\n\n\n\nAny client that needs to access the registry will need this manifest file. The manifest file itself can be posted to powergate using an additional command. This can then give us a CID to initialize instead of the entire file. I did not have time to implement this part.\n\n\n\nThe local DB object is called an Inode, which looks like\n\n\n\ntype PowInode struct {\n\n\tName     string\n\n\tHash     string\n\n\tJobID    string\n\n\tDir      bool\n\n\tSz       int64\n\n\tChildren []string\n\n\tCreated  int64\n\n\tUpdated  int64\n\n}\n\n\n\n\n\nThis object can represent a directory, in which case we will have children populated. Otherwise its a file, in which case, it will have the IPFS hash and powergate cold storage job ID populated.\n\n\n\nFor filesystem ops that don't manipulate the actual file content, all the operations are performed on this manifest DB. If we do backup of manifest onto IPFS, we will need to update it whenever anything changes.\n\n\n\nRest is just using the Powergate client to add/remove/replace the data. The following PR shows all the code changes done for this:\n\n\n\nhttps://github.com/aloknerurkar/distribution/pull/1\n\n\n\nThe powdocker directory contains a modified version of powergate docker scripts which I have used. Added the registry image as well as change port nos etc.\n\n\n\nMain parts to look:\n\n\n\n/registry/storage/driver/powergate => Implementation\n\n\n\n/cmd/registry/config-dev.yml => Configuring the powergate driver on the docker image\n\n\n\n/powdocker/docker-compose-localnet.yaml => Adding powdocker image",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/powergate-docker-hub-dpgys",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

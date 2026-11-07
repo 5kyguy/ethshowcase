@@ -1,0 +1,30 @@
+{
+  "id": "czc3z",
+  "slug": "zkipper",
+  "title": "Zkipper",
+  "tagline": "This projects demonstrates role based access control enforced by EIP-7702, PQC admin, and ZK users",
+  "event": {
+    "slug": "cannes",
+    "name": "ETHGlobal Cannes",
+    "start_time": "2025-07-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/czc3z/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9bgMnt9aiLKronJE02vajlzn8ZHwSG12dh013LNsPUABQ/high.mp4",
+  "demo_url": "https://github.com/ZKNoxHQ/Zkipper",
+  "source_url": "https://github.com/ZKNoxHQ/ZKipper",
+  "prizes": [
+    {
+      "sponsor": "Ethereum Foundation",
+      "sponsor_id": "362vt",
+      "placement": "2nd place",
+      "title": "Best use of ZK on Mopro"
+    }
+  ],
+  "finalist": true,
+  "description": "Our solution builds upon the new EIP-7702 standard to create a flexible smart account. When a transaction needs to be signed, tx is rated on its criticity, in order to be signed either by admin, or user. The flow is:\n\n1. Role Identification: At entrance of contract, transactions are designed a role for the signature, according to their criticity.\n2. ZkSafe: The governance model is hidden by a ZkProof Verification of the ARX wrist signer.\n3. Wristband Interaction for low crit tx: The wristband's ARX chip securely generates a signature using its embedded key, it is used to generate the witnesses of the zkProof (ECDSA over k1).\n4. Post-Quantum Signing for admin tx: The signature is then processed with the FALCON post-quantum algorithm (via JavaScript integration).\n\nThe sudo account is protected by FALCON signatures, while standard commands are signed by ecdsa. At the entrance of Zkeeper, an analyzer estimates the level (sudo, standard) of the transaction. Then it is forwarded to be signed by the right role. Looking at Bybit and top 2024 hacks, separating user from admin cmd would have prevent them.",
+  "how_its_made": "Preexisting pieces:\nThe project relies on the gnark proving library by Consensys, the ETHFALCON post quantum library by ZKNOX (us), and the HALO NFC library by ARX (the wristband chip provider).\n\nAccomplished work\n\nmopro-gnark: gnark circuits have been binded in rust, and are used for the zkSafe module\nEIP7702: the smart Account integrates ZKNOX FALCON verification and the above verifier for the RBAC\n\nMocked parts\n\nThe analysis of transactions is mocked by a simple analysis of the amount of the transaction. In the future, a service like blockAID or similar, instead of being limited to Go/noGO shall provide the role required to execute the transaction. For instance any delegate call could be detected and require admin (sudo) rights.\nThe ZK verifier only takes one signer, in the future any k out of m circuit can be used instead.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/zkipper-czc3z",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,21 @@
+{
+  "id": "97sbe",
+  "slug": "yoshino",
+  "title": "Yoshino",
+  "tagline": "Intent-based, protected trading interface for DeepBook on Sui.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/97sbe/banner/default.jpg",
+  "video_url": "https://stream.mux.com/L5dHA38AogLoFht302vUTqn8tXs7VUYkYAKzaJdGhQAI/high.mp4",
+  "source_url": "https://github.com/charlesms1246/Yoshino",
+  "finalist": false,
+  "description": "Yoshino is an intent-based, protected trading interface built natively for DeepBook on Sui. It fundamentally upgrades the DeFi experience by allowing users to trade based on outcomes (\"intents\") rather than raw orders, shielding them from the predatory behaviors of the \"Dark Forest\"—such as MEV, front-running, and sandwich attacks—that plague public order books.\n\nWhile Central Limit Order Books (CLOBs) like DeepBook offer superior liquidity, their transparency forces users to reveal their hand to the market before execution. Yoshino solves this by introducing a \"Protected Mode\":\n\n1. Intent Abstraction: Users sign encrypted intents (e.g., \"Swap 100 USDC for SUI\") instead of placing visible limit orders.\n\n2. Verifiable Privacy with Sui Seal: We utilize Sui Seal to encrypt these intents on the client side. Uniquely, decryption is bound to an on-chain policy requiring the SolverCap object, ensuring that only authorized Solvers can decrypt and batch trades.\n\n3. Atomic Settlement: A Resolver Agent aggregates these intents into a massive batch and executes them atomically against DeepBook V3 using Programmable Transaction Blocks (PTBs). This ensures that the public market sees only one large, aggregated trade, completely hiding individual user identities and preventing information leakage.\n\nBy leveraging Sui's object-centric model and \"Hot Potato\" patterns for security, Yoshino provides retail users with institutional-grade privacy and execution quality, abstracting away the complexities of gas optimization and slippage while preserving the composability of DeepBook.",
+  "how_its_made": "Yoshino is engineered as a three-layer stack: a Next.js frontend, a Hono.js Resolver backend, and a Sui Move smart contract.\n\nThe Frontend (Next.js + dApp Kit) acts as the encryption layer. Instead of sending raw transaction data, the browser uses the Sui Seal SDK to encrypt user intents (e.g., \"Swap USDC for SUI\") client-side. The critical implementation detail here is that we bind the encryption not to a private key, but to a specific on-chain policy: only the holder of the SolverCap object can decrypt this data.\n\nThe Backend (Hono.js Node) serves as the \"Resolver.\" It listens for these encrypted blobs, interacts with the Seal Network to prove it holds the SolverCap, and decrypts the intents. It then aggregates compatible orders into a single batch to minimize gas and hide individual trade sizes from the public ledger.\n\nThe Smart Contract (Sui Move) is where the \"hacky\" magic happens. We implemented a \"Hot Potato\" (Flash Loan) pattern to ensure safety.\n\n-> When the Resolver executes a batch, the contract issues a \"Promise\" object that cannot be stored or dropped.\n\n-> To destroy this Promise and complete the transaction, the Resolver must return the swapped funds to the pool in the same Programmable Transaction Block (PTB).\n\n-> This mathematically guarantees that the Resolver cannot steal user funds during execution—if the funds aren't returned, the transaction simply fails to compile on-chain.\n\nPartner Technologies:\n\nDeepBook V3: We utilized DeepBook’s BalanceManager to settle trades atomically. This allowed us to build a \"Dark Pool\" experience without fragmenting liquidity; we route everything into DeepBook's existing order flow.\n\nSui Seal: This provided our \"Verifiable Privacy.\" It allowed us to create a revocation mechanism where burning the on-chain SolverCap instantly revokes the backend's ability to decrypt any historical or future user data—a security feature impossible with standard asymmetric encryption.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/yoshino-97sbe",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

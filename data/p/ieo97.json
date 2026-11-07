@@ -1,0 +1,27 @@
+{
+  "id": "ieo97",
+  "slug": "verifeed",
+  "title": "VeriFeed",
+  "tagline": "VeriFeed: reward the return, help the kitchen plan, protect scarce aid when it matters",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ieo97/banner/default.jpg",
+  "video_url": "https://stream.mux.com/J01a9z2yxHZRni2BrqMNwXUyueJXRTHmQDV024LlmAQ3w/high.mp4",
+  "demo_url": "https://laggardly-corolitic-towanda.ngrok-free.dev/",
+  "source_url": "https://github.com/VeriFeedCannes/mainapp",
+  "finalist": false,
+  "description": "The goal of Verifeed is to make returning the tray worth it, and give the kitchen something useful back, without turning lunch into a moral exam.\nYou grab a tray, you bring it back, you can earn points and badges if you want to. The coupon is the fun part of the demo. Nothing forces you in: it's play if you like, skip if you don't. We're not selling \"track everyone\" we're selling a nudge that feels fair.\nA quick photo of the plate gives the venue rough, aggregated insight — what tends to be left, in what mix, so they can cook closer to what people actually eat. Same points for everyone who returns; we're not scoring your leftovers to shame you.\nWorld ID is the piece that scales past the cafeteria: when help is limited, subsidized meals, solidarity programs, disaster aid,you need one person, one fair share, without a pile of documents. Same trust idea, harder context.\nThat's VeriFeed: reward the return, help the kitchen plan, protect scarce aid when it matters.",
+  "how_its_made": "Stack : Next.js (App Router) for the web app, runs as a World Mini App in World App, and standalone on PC with wristbands. A Raspberry Pi station handles NFC (tray tags + wristband), QR scanning, and tray photos.\n\nWorld ID 4.0: The backend generates RP signatures via signRequest(). The frontend opens IDKitRequestWidget with the rp_context (rp_id, nonce, created_at, expires_at, signature). After verification, the proof is sent to the v4 verify endpoint and the nullifier is used for anti double claim. This gates our premium badge, which requires Orb-level proof of unique humanity.\n\nMiniKit 2.0: SIWE authentication via walletAuth (nonce stored server-side in memory). sendTransaction for on-chain badge redemption (burning badge #1 for a coffee coupon) and premium badge minting (badge #4 after World ID verification). EIP-4337 userOps are resolved to transaction hashes via the World Developer API.\n\nChainlink CRE: A TypeScript workflow fetches the next pending badge claim from our backend, ABI-encodes (wallet, badgeId, totalReturns), and writes a signed report to World Chain via KeystoneForwarder which calls TraycerBadges1155.onReport(). \nWe run it with cre simulate for the demo. Badge minting is decoupled from user actions: the backend queues claims when milestones are crossed (gamification), CRE picks them up and executes independently.\n\nHardware station: Raspberry Pi 4 with PN532 NFC reader (I2C) and Pi Camera Module 3. Video mode for QR scanning, still mode for tray photos. The camera warms up in still mode during NFC detection so there's no delay when the user confirms.\n\nAI vision: LM Studio path with Gemma for local or Google Gemini (cloud). Both with a structured JSON prompt that classifies food items by name, category, percentage left, and consumption state.Scoring stays flat: 10 points per return regardless of waste (still gamification). The model output is for venue analytics.\n\nSmart contract: TraycerBadges1155.sol on World Chain mainnet. Classic ERC-1155 with 4 badge types. Implements IReceiver for CRE reports (onReport decodes and mints). mintBadge() for premium badges after World ID verification. redeemBadge() burns a badge for coupon redemption.\n\nArx Wristbands: you can also use your Wristbands without using your phone. The @arx-research/libhalo library is browser-only and non-ESM, so we bundled it with esbuild and polyfills into a single script. On the Raspberry Pi, we communicate with the HaLo chip directly over I2C using raw APDU commands through the PN532. We read the NDEF message, extract the public key. For transaction signing, we send the tx digest and recover the signature parameters. The signed transaction is serialized and broadcast via eth_sendRawTransaction.",
+  "auto_summary": "A Next.js mini app and Raspberry Pi system tracks tray returns, awards badges, and analyzes leftover food for venue planning.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/verifeed-ieo97",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

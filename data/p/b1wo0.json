@@ -1,0 +1,54 @@
+{
+  "id": "b1wo0",
+  "slug": "defikicks",
+  "title": "DefiKicks",
+  "tagline": "DefiKicks is a decentralized, community-governed Data DAO on Filecoin that democratizes DeFi data aggregation and TVL calculations, enhancing transparency and fostering collaboration through on-chain adapter proposals, off-chain voting, and interoperable token rewards.",
+  "event": {
+    "slug": "hackfs2023",
+    "name": "HackFS 2023",
+    "start_time": "2023-06-02T13:00:39.046Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/b1wo0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qyFKcIg2FRHpuy5DQ3d9xgzZFWSe8aXSsEwra3meIpg/high.mp4",
+  "demo_url": "https://www.defikicks.xyz/",
+  "source_url": "https://github.com/md0x/defikicks",
+  "prizes": [
+    {
+      "sponsor": "drand",
+      "sponsor_id": "o1uf7",
+      "placement": "🥇 drand — Best Use",
+      "title": "drand (distributed randomness)"
+    },
+    {
+      "sponsor": "Bacalhau",
+      "sponsor_id": "4hh1n",
+      "placement": "🥇 Bacalhau — Best Use",
+      "title": "Bacalhau"
+    },
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "🔥 Lit — Best use of Lit Actions and PKP",
+      "title": "Lit Protocol"
+    },
+    {
+      "sponsor": "Filecoin",
+      "sponsor_id": "9zj01",
+      "placement": "🏆 FVM — Grand Prize",
+      "title": "Filecoin Virtual Machine"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackFS 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "# DefiKicks: A Decentralized Approach to DeFi Data\n### Overcoming Centralization in DeFi Aggregators\nDefiKicks, a pioneering Data DAO on Filecoin network, addresses the latent issue of centralization in TVL (Total Value Locked) and DeFi data aggregators like DefiLlama. The hidden centralized processes in these platforms pose a significant challenge, particularly in their calculation methods. By moving the TVL computation on-chain, DefiKicks fosters an environment of trust and transparency, enhancing the authenticity of the data presented.\n\n### TVL Adapters: A Decentralized Version Control System\nIn the spirit of decentralization, DefiKicks functions akin to a version control system, similar to 'Git'. This innovative system empowers any individual to propose a new TVL adapter for a project. The democratic ethos ensures the collective intelligence and inclusivity of the DeFi community.\n\n### On-chain Proposals and Off-chain Voting\nTVL adapters, written in JavaScript, are proposed on-chain on the Filecoin network (FEVM) via an IPFS hash, with the code hosted on IPFS. Voting for these adapters takes place off-chain to ensure unbiasedness. This voting process utilizes the time-lock encryption of Drand, with the results brought back on-chain through Bacalhau Lilypad, our trusted oracle.\n\n### Approval and Registration of Adapters\nOnce a TVL adapter gets the community's nod, it's registered on-chain in the 'Registry' contract. The contract references the code's IPFS hash, maintaining a transparent and immutable record of approved adapters.\n\n### Rewards for Correct Voting: KICK Token\nCommunity participants who vote in line with the majority receive rewards in the form of KICK tokens. The emission of these tokens is determined by the governance contract, incentivizing active participation and wise decision-making.\n\n### Interoperability with ApeCoin\nUsers are not limited to voting with KICK tokens alone. They can also vote with ApeCoin, an ERC-20 governance and utility token designed for decentralized communities at the forefront of culture and web3. This feature fosters collaboration and leverages the wide-reaching community and collective wisdom of APE.\n\n### TVL Calculation Post Adapter Registration\nAfter an adapter is registered, the decentralized backend starts calculating data points using the code hosted on IPFS. This process utilizes a combination of Lit's Programmable Key Pairs and Lit Actions, controlling a Ceramic Stream where all TVL results are hosted. These results are available for users to view on the frontend, fostering an open and transparent DeFi ecosystem.\n\nIn essence, DefiKicks offers a more decentralized, transparent, and comprehensive data solution for the DeFi space. By leveraging the power of the community, it aims to bring a new era of trust and accessibility to DeFi analytics.\n\nGithub repo:\nhttps://github.com/md0x/defikicks",
+  "how_its_made": "# Technologies Powering DefiKicks\n##  Smart contracts\n### 1. GovernorContract\n\nThis primary contract regulates governance token emissions and the Adapter Registry. It allows users to propose governance actions, such as adding new adapters to the Adapter Registry. Although voting takes place off-chain (similar to Snapshot), results are brought on-chain using Lilypad and Bacalhau. Users who vote in line with the majority receive inflationary rewards calculated off-chain during the same Bacalhau job. Importantly, the off-chain votes remain unbiased due to Drand's Timelock encryption.\n\n### 2. DefiKicksDataGovernanceToken\n\nThis utility token is used for off-chain voting. Inflationary rewards are given to those who cast correct votes.\n\n### 3 DefiKicksAdapterRegistry\n\nThis contract holds IPFS references to the adapter's JavaScript code. DefiKicks permits anyone to propose a code snippet to calculate any project's TVL. Once approved, this contract retains essential information for the Lit+Ceramic workflow to generate data off-chain.\n\n##  LIT PROTOCOL\n\nDefiKicks employs Lit Protocol's Programmable Key Pairs (PKPs) to:\n\nControl Ceramic streams in a decentralized manner where DeFi data is stored.\nSign the calculated data, ensuring it was generated following DefiKicks' rules and voted adapters.\nRun adapter code securely and decentralized through Lit actions.\nThe Lit protocol is vital for ensuring distributed data governance calculation in DefiKicks.\n\n##  CERAMIC\n\nCeramic is a decentralized data network that powers an ecosystem of interoperable Web3 applications and services. It’s a decentralised data infrastructure that enables developers to easily store application data, interact with it and build better user experiences without sacrificing the users’ ownership of their own data.\n\nDefi Kicks uses ceramic streams controlled by LIT PKP's to store the core data of the protocol. That is the Defi Data (Only TVL's currently).\n\n##  LIBP2P\n\nLibp2p is a modular network stack that allows DefiKicks to choose its transports and security protocols. This flexibility aids in establishing secure peer-to-peer network connections, optimizing the performance of DefiKicks' data processing and distribution.\n\nDefi kicks uses libp2p to allow users browsers to communicate between them to notify when a new vote is casted in a decentralized way.\n\n##  APE Coin\n\nApeCoin is used in DefiKicks as an alternate voting token, extending the platform's reach and encouraging collaboration within the expansive APE community. It strengthens DefiKicks' vision of promoting decentralized governance by empowering a wider community to participate in the decision-making process.\n##  Bacalhau\n\nBacalhau plays a pivotal role in DefiKicks by executing off-chain jobs, such as the computation of inflationary rewards and the tallying of off-chain votes, ensuring a smooth and efficient voting and rewards process.\n\nThis jobs are requested on-chain through [Bacalhau Lilypad](https://github.com/bacalhau-project/lilypad) and then executed off-chain by Bacalhau. The results are then brought back on-chain through Lilypad in a decentralized way.\n\n##  Filecoin FEVM\n\nAs the blockchain that powers all contract interactions, Filecoin FEVM serves as the backbone of DefiKicks' Data DAO. It enables the platform to govern data and interact with Lilypad and Bacalhau, thereby ensuring the integrity and reliability of the system.\n\n##  IPFS Inter planetry File System\n\nThe IPFS serves a critical role in DefiKicks by facilitating decentralized data storage. Key uses include hosting the JavaScript adapter's distributed code and the encrypted votes, ensuring transparency and security.\n\n##  WEB3.Storage\n\nWeb3.Storage is used to upload and retrieve data to and from IPFS. It handles various data types including the adapter's code and the timelock encrypted votes, ensuring seamless and reliable data transfer.\n\n##  Drand - Timelock encryption\n\nDrand revolutionizes the voting process in DefiKicks by providing unbiased, off-chain voting through timelock encryption during the voting phase. By hiding the votes during this phase, users are incentivized to vote with their independent judgment, thus improving the quality of vote resolutions. This mechanism significantly enhances the user experience compared to a traditional commit & reveal scheme.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/defikicks-b1wo0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "y852t",
+  "slug": "krump-protocol",
+  "title": "Krump Protocol",
+  "tagline": "UCP-native Krump commerce: agents on Arc, ENS + Circle rails, KeeperHub for on-chain payouts",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y852t/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eouP8w02z02SvPjVvBWeWchwIAg7IlEFBccq02QrPkj02PM/high.mp4",
+  "demo_url": "https://krumpucpdemo.lovable.app",
+  "source_url": "https://github.com/arunnadarasa/ethglobalkrump",
+  "finalist": false,
+  "description": "Krump Protocol Agents is a hackathon-ready single-page app + Express API that turns Krump-style creator actions into protocol-shaped commerce: live tips, paid tutorial unlocks, judge feedback, crew splits, battle entry and prize pools, practice bookings, sample packs, sponsor challenges, and merch checkout—wired to real payment rails and optional on-chain settlement on Arc Testnet.\n\nThe product story is Human → Agent → Agent → Human: an in-repo orchestrator runs intent-driven sessions (tip_dancer, challenge_payout, etc.) with transparent traces, while a dedicated payments path keeps Universal Commerce Protocol (UCP) as the semantic core (discovery, schema-validated checkout, order-style status, conformance self-test). ENS on Sepolia is the human-readable judge/agent identity layer, including ENSIP-25 baseline attestation and bidirectional registry trust for high-risk intents. Vyper policy evaluation adds a credible deep-settlement slice tied to an Arc-deployed contract proof. Circle developer-controlled wallets power micropayments and demo-friendly onboarding. KeeperHub (ETHGlobal OpenAgents sponsor) is integrated as an optional execution layer for reliable Arc token transfers—including a one-run ETHGlobal hackathon spine with optional 9× Circle WOW commerce loop, live Arc beats progress, and ArcScan-linked audit output when local commerce Arc transfers are enabled.",
+  "how_its_made": "We built Node.js + Express with @ucp-js/sdk so checkout/order payloads are Zod-validated against official UCP schemas, exposed /api/ucp/* discovery/checkout/order/self-test routes, and kept failures typed instead of ad-hoc JSON errors. In-memory state (src/state.js) backs all MVP tracks (U1/U2/U3/U4/U5/U6/U7/U8/U10) with deterministic demo records. Agent orchestration lives in src/agents/orchestrator.js (H2A/A2A/A2H) and calls the same commerce primitives the UI uses.\n\nENS + ENSIP-25 are implemented with viem + @ensdomains/ensjs: Universal Resolver reads on Sepolia, optional guided writes, registry upsert for backlink proof, and strict gating for intents like challenge_payout. Vyper (contracts/AgentSettlementPolicy.vy) is mirrored in Node (src/settlement/vyperPolicy.js) and optionally enforced when enabled. Circle transfers use the documented wallet APIs with fresh entity secret ciphertext handling (a real integration footgun we solved). Online execution uses Circle App Kit + Bridge Kit (src/settlement/cctpBridge.js) for CCTP from Arc USDC to destination testnets, then KeeperHub payout on the selected network; local Arc mode uses KeeperHub direct execution without CCTP.\n\nPartner tech impact: UCP gives judges a standards story; Circle makes micropayments demoable; KeeperHub makes “agents actually land value on-chain” credible on Arc; ENS makes identity and policy legible. Notable “hacky but real” bits: mode-aware KeeperHub base/key routing (local vs hosted), Arc execute slug normalization (arc-testnet vs opaque chain row IDs), GET /api/keeperhub/executions/:id polling between WOW steps, and LOCAL_COMMERCE_ARC_TRANSFERS so local demos can still mint per-beat ArcScan evidence without pretending off-chain mocks are on-chain.",
+  "auto_summary": "A Node/Express app models creator commerce flows with UCP checkout APIs, ENS-based agent identity checks, Circle payments, and optional KeeperHub settlement.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/krump-protocol-y852t",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

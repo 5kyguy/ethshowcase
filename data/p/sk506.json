@@ -1,0 +1,26 @@
+{
+  "id": "sk506",
+  "slug": "dedan",
+  "title": "Dedan",
+  "tagline": "Decentralized CDN where World ID-verified humans measure every node, so you get the fastest one.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/sk506/banner/default.jpg",
+  "video_url": "https://stream.mux.com/k01zi9QID02DfTB01AjHlVREQOLFohjnPeEFDygNKXFiHg/high.mp4",
+  "source_url": "https://github.com/UYUYANMARUL/dedan",
+  "finalist": false,
+  "description": "Customers onboard like with any CDN: they add one CNAME record, and their origin server stays where it is.\nEvery node is an ENS name, like frankfurt.dedan.eth. Its IP address, payout address and settings are ENS records controlled by the operator.\nThe world is split into hexagonal cells about 300 km across. Each cell is an ENS subname under dedan.eth, and nodes join the cells they serve (frankfurt.<cell>.dedan.eth).\nWorld ID-verified humans measure latency to the nodes in their cell and attest it on chain. Each human gets one vote per node per cell, and the contract publishes the median as the node's dedan.latency record.\nDedan's DNS resolvers read this map and send each user to the fastest node measured in their cell. Nothing a node reports about itself decides how much it earns.\nAuditors fetch real content like normal users. Every response carries a token that only the serving node can create, so results can't be faked. Serving tampered content or going offline costs a node its pay.\nCustomers prepay in USDC. Each period, an aggregator computes quality, bills and payouts, an independent countersigner recomputes everything from the published inputs, and the Merkle roots are posted on chain. After a dispute window, operators claim their pay with a single Merkle proof. Customers automatically pay less when the service level is missed.",
+  "how_its_made": "Smart contracts (Solidity, Foundry): Our registry extends ENSv2's PermissionedRegistry, so nodes are real ENSv2 names. Every permission (operator, attester, auditor, node signer) is an ENS access-control role, and World ID proofs grant the human roles. A second contract, DedanCells, keeps the latency map on chain as daily histograms with 8 ms buckets. That makes the median exact and cheap, and one human can only ever cast one vote per node per cell. A Settlement contract holds USDC balances, checks the countersigned Merkle roots, and handles the dispute window and claims. We target World Chain because the World ID 4.0 verifier and native USDC live there.\n\nThe network (Rust): Nodes are built on Pingora, Cloudflare's open-source proxy framework. They cache content and serve HTTPS with their own per-node certificates. The DNS server is built on hickory and reads names, records and votes directly from chain events. The auditor app, the aggregator, the countersigner and the control plane (certificates, signed configs, purges) live in one Rust workspace and share a core library. That way, every party computes the map, the node assignment and the payouts with exactly the same code.\n\nLocal devnet: Docker Compose runs a local chain (anvil) and Pebble as a stand-in for Let's Encrypt. World ID and USDC are mocked. A simulated network (Linux tc netem) adds realistic delays between the five cities. A small dashboard draws the cells on a world map with each cell's nodes, medians and votes.\n\nThe hacky part: we wanted \"a node inside a cell\" to be a real ENS name without minting a new token for every membership. So each cell is registered with the Dedan registry as its own subregistry. The ENS Universal Resolver then walks frankfurt.<cell>.dedan.eth back into the same registry, and our resolver answers with that cell's latency record for the node.",
+  "auto_summary": "A decentralized CDN prototype uses ENSv2 names, onchain latency attestations, and USDC settlement to route traffic and pay node operators.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/dedan-sk506",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

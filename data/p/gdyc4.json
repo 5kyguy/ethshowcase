@@ -1,0 +1,22 @@
+{
+  "id": "gdyc4",
+  "slug": "internet-proof-vault",
+  "title": "Internet Proof Vault",
+  "tagline": "A proof vault for verifying and timestamping original content on the internet.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gdyc4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Yz01HS9MDF8GCdOthH98SE6STqVX0027oKHJLZletmzTg/high.mp4",
+  "demo_url": "https://youtu.be/WRS_pzb8Y7k",
+  "source_url": "https://github.com/thewoodfish/ai-proof-vault",
+  "finalist": false,
+  "description": "AI Proof Vault is a simple but powerful proof-of-originality system that allows anyone to verify that an image is truly theirs. A user uploads an image, the backend securely hashes it, stores it on Filecoin to generate a CID, and then maps image hash → CID inside a lightweight SQLite database. This creates a permanent, timestamped fingerprint of the content without ever exposing the raw image publicly.\nAnyone can verify originality by re-uploading an image: the system re-hashes it, checks for a matching hash in the database, retrieves the stored CID, fetches the content from Filecoin using the Synapse SDK, and compares it. If the content matches, the user gets a cryptographically verifiable proof of authorship.\nThe goal is to combat AI plagiarism, deepfake misuse, and content theft by giving creators, journalists, designers, and researchers a trust-minimal, decentralized method for proving that they produced something first.",
+  "how_its_made": "The project uses a Node.js + TypeScript backend deployed on Railway, a React frontend on Vercel, and a local SQLite database to maintain a fast mapping from each image hash to its corresponding CID. When a user uploads an image, the server computes a SHA-256 hash, streams the file through the Synapse SDK to Filecoin Warm Storage, and receives a unique CID.\nThis CID is inserted into SQLite as { imageHash → cid } and becomes the anchor for future verification. Verification is simple: upload again → backend re-hashes → lookup → fetch content from Filecoin via Synapse → compare.\nBecause Filecoin storage is decentralized and content-addressed, the CID becomes a tamper-proof reference point for long-term proof of originality. SQLite was chosen intentionally for hackathon speed and simplicity, giving instant queries without operational overhead.\nA lightweight API layer exposes /generate and /verify, with full CORS support for cross-origin access from Vercel. The architecture intentionally avoids storing raw user images, guaranteeing privacy and minimizing storage cost.\nOverall, the project combines content hashing, decentralized storage, minimal backend infrastructure, and a clean browser interface to deliver a verifiable proof-of-originality system that anyone can use in seconds.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/internet-proof-vault-gdyc4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

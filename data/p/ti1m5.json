@@ -1,0 +1,27 @@
+{
+  "id": "ti1m5",
+  "slug": "leash",
+  "title": "Leash",
+  "tagline": "ENS-native permissions for AI trading agents: name your agent, bound it on Uniswap v4, revoke it.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ti1m5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TT7CKT8q1qIC0000W8nCnjZUDw3EFcfNerRHl4ed011qwk/high.mp4",
+  "demo_url": "https://leash-omega.vercel.app",
+  "source_url": "https://github.com/akugone/leash-tokyo",
+  "finalist": false,
+  "description": "DAOs, treasuries and trading desks hand private keys to bots and AI agents, and that delegation is all or nothing: a leaked key or a misbehaving agent can drain the treasury in one block, and revoking it means rotating keys and redeploying.\n\nLeash turns an ENS name into the agent's credential and a Uniswap v4 hook into the enforcement point.\n\n- The org owns leash.eth on ENSv2 and runs its own Permissioned Registry. Each agent gets a revocable, expiring subname, e.g. trader-1.leash.eth.\n- Every agent gets its own Permissioned Resolver holding its identity (the addr record) and its policy as text records: daily notional cap, allowed tokens, max slippage per swap. The expiry is the end of its mandate.\n- Enhanced Access Control lets a risk manager tighten one agent's cap and token list, and nothing else: not the name, not the owner-only slippage record, not another agent. Trying to revoke reverts with EACUnauthorizedAccountRoles.\n- The agent signs an EIP-712 SwapIntent carried in hookData. The Leash hook checks in beforeSwap that the signer is the name's addr record, that the name is alive, the tokens allowed and the price limit within bounds, then counts the real settled amount against the daily cap in afterSwap. Any v4 router works, no trusted router.\n- The agent holds no tokens: it trades from the org vault, which only swaps on Leash-gated pools and only the owner can withdraw from.\n\nCutting the leash is one transaction: unregister the subname and the next swap reverts LeashRevoked. No key rotation, no redeploy.\n\nLive on Sepolia (ENSv2 beta + Uniswap v4): the dashboard reads every value on chain, shows swaps and on-chain recorded refusals, and lets the owner and risk manager sign their actions with a wallet. The agent itself is Claude Code, given only two tools: read its policy and swap.",
+  "how_its_made": "Contracts (Solidity, Foundry, v4-core / v4-periphery, Solady, OpenZeppelin):\n\n- LeashHook, a Uniswap v4 hook using only beforeSwap and afterSwap. The agent's signed EIP-712 intent travels in hookData.\n\n-- beforeSwap reads the agent's ENS name: the name must not be expired, the signer must match its addr record, the tokens must be allowed and the price limit must stay within max slippage.\n\n-- afterSwap adds the amount actually swapped to the agent's daily cap.\n\n-- The policy is read from ENS on every swap with no cache, so a tightened cap applies from the next trade.\n\n- Policy values are human readable text records parsed onchain by LeashPolicyLib, which fails closed on any malformed value.\n\n- The hook address is mined with HookMiner and deployed with CREATE2. LeashVault holds the org funds, swaps only on pools using the Leash hook, and trySwap records refused orders on chain as SwapRefused events carrying the hook's error.\n\nENSv2 (Sepolia beta):\n- Each agent's Permissioned Resolver is deployed through the ENS VerifiableFactory with its records written in initialize, in one transaction, then the subname is registered pointing to it.\n\n- The risk manager gets ROLE_SET_TEXT scoped to the leash.dailyNotional and leash.tokens keys, per agent, in an owner multicall. Hacky bit: that grant cannot ride in initialize (the factory is the caller, EACCannotGrantRoles), hence a separate owner transaction. The live agents were migrated from a shared resolver to their own with setResolver, keeping token and expiry.\n\n- Names resolve with the standard ENSv2 UniversalResolverV2, so any ENS client sees the same policy the hook enforces.\n\nAgent: a TypeScript MCP server (viem, zod, Bun) that exposes only leash_policy and leash_swap to Claude Code. It signs the intent, builds hookData and the price limit, and decodes the PoolManager's WrappedError to explain why the hook refused.\n\nDashboard: React 19 + Vite + wagmi/viem, Reown AppKit for wallet signing, hosted on Vercel. It reads everything from Sepolia: policy, remaining cap, expiry, per-agent resolver, and an activity feed from on-chain events. Tightening the leash is simulated first, so an agent issued without the risk manager's role shows ENS refusing before anything is sent.\n\nTests: unit tests with v4-core Deployers, plus fork tests replaying the scenarios against the real Sepolia PoolManager and ENSv2 contracts.",
+  "auto_summary": "This project uses ENSv2 subnames and Uniswap v4 hooks to authorize and constrain agent-driven swaps from a treasury vault.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/leash-ti1m5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

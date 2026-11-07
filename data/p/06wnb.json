@@ -1,0 +1,35 @@
+{
+  "id": "06wnb",
+  "slug": "tenorfi",
+  "title": "TenorFi",
+  "tagline": "On-Chain Fixed Funding Rate for Perpetual Markets on Hyperliquid",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/06wnb/banner/default.jpg",
+  "video_url": "https://stream.mux.com/p263YvSYubZklIXQJh7NgKPvXvLUGBYPRKxqM1MR02Xk/high.mp4",
+  "demo_url": "https://tenorfi.up.railway.app/",
+  "source_url": "https://github.com/0xYudhishthra/TenorFi",
+  "prizes": [
+    {
+      "sponsor": "1inch",
+      "sponsor_id": "if0ri",
+      "placement": "3rd place",
+      "title": "Build an Aqua App"
+    }
+  ],
+  "finalist": true,
+  "description": "TenorFi is an Aqua-native decentralized protocol that introduces fixed-for-floating interest-rate swaps to perpetual futures funding. In perpetual markets, variable funding rates fluctuate wildly, creating unpredictable costs that keep institutional capital away and have historically caused billions in yield compression, such as during the Ethena crash.\n\nTenorFi solves this problem by allowing traders to lock in a fixed funding rate with zero upfront collateral. By leveraging 1inch Aqua, a fixed premium is pulled from the user's wallet just-in-time each hour, while the protocol's insurance reserve covers the actual variable funding cost on their Hyperliquid position. This transforms an open-ended variable risk into a predictable, deterministic cost.",
+  "how_its_made": "TenorFi's architecture is built on a three-layer stack deployed on Base mainnet, completely circumventing traditional custodial swap contracts.\n\nExecution Engine (1inch Aqua & SwapVM): The most notable and \"hacky\" technical achievement is our use of SwapVM. We didn't just build a spot swap; we built a custom _fundingSettle SwapVM opcode to execute a periodic-settlement derivative. Instead of locking margin dead in a smart contract, users ship collateral as an Aqua virtual balance, and the opcode nets the fixed-vs-floating difference deterministically each period. This enforces a \"no-default\" bound automatically because Aqua cannot push tokens that were never shipped.\n\nOracle Layer (Chainlink CRE): To settle the swap, we needed a funding-rate oracle that didn't previously exist. We used Chainlink CRE to fetch the real-time hourly BTC funding rate from the Hyperliquid API, run it through DON consensus, and write it on-chain as a funding index via a KeystoneForwarder to our KeelFundingReceiver.\n\nOnboarding Engine (LI.FI Composer): A hedge only works if both legs open simultaneously. We utilized a single LI.FI Composer Flow to handle dual-leg onboarding in one signature. It bridges USDC cross-chain, depos",
+  "auto_summary": "TenorFi implements fixed-versus-floating perpetual funding settlements using a custom 1inch Aqua SwapVM opcode, a Chainlink CRE funding oracle, and LI.FI onboarding flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/tenorfi-06wnb",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

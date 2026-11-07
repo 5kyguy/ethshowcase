@@ -1,0 +1,27 @@
+{
+  "id": "0yj8s",
+  "slug": "detent",
+  "title": "Detent",
+  "tagline": "Preview a coupon run line by line, then lock the treasury key to exactly that transaction",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0yj8s/banner/default.jpg",
+  "video_url": "https://stream.mux.com/c01Zmy9tXuW4pPLU4thM00YT25qyY7MnK6R3jaK1Tpk9s/high.mp4",
+  "demo_url": "https://detent-app.vercel.app",
+  "source_url": "https://github.com/mericcintosun/detent",
+  "finalist": false,
+  "description": "Whoever operates a tokenized security pays coupons, runs court ordered transfers and handles redemptions with a treasury key that can sign anything the contract exposes. The only check before signing is reading an explorer or trusting a script, so a lapsed allowlist entry, a wrong amount or a thin treasury shows up after the transaction lands.\n\nDetent puts one step in that gap. The operator console reads the holder register and compliance state of an ERC-1400 security, replays the corporate action off chain and prints the plan: every holder and amount, every row the compliance module will reject with its reason (expired allowlist entry, overdue KYC, sanctions hold), and the treasury cover and headroom. Two officers approve, which is a key quorum of two. The plan's exact calldata is then compiled into a wallet policy that allows that contract, that function and those parameter bytes, and denies everything else by default.\n\nIf anyone edits a single amount and sends it, the key refuses and names the condition that failed and the byte where the payload diverged. The untouched plan still signs with the same wallet under the same policy, and the lock is spent afterwards. Before the policy opens, the plan hash is anchored on a PlanAnchor contract on Hedera testnet, and a permanent record page reads it back with no key.\n\nWhat is live today: the console, the refusal, the quorum and the on chain anchor on Hedera testnet. The register reads from the cached register snapshot, and the policy is evaluated by a local mirror of the Privy policy engine. The live ATS register read and the Privy server wallet path are implemented and tested against mocks, and switch on with environment variables.\n",
+  "how_its_made": "Frontend: Next.js 16 App Router with the React Compiler, React 19, TypeScript strict, Tailwind CSS v4, shadcn on Base UI, Motion (loaded after hydration to keep the first load small) and next-themes for light and dark mode. The app has a command palette, a stepped five section console, and a record route per plan hash.\n\nHedera and Asset Tokenization Studio: register reads are hand written viem calls over the Hashio JSON-RPC relay (chain 296) to the ATS ERC-1400 facets, balanceOfByPartition and canTransferByPartition, checking each credit from the issuer treasury. We decode the EIP-1066 status byte and the error selector, so a compliance refusal is shown as a named hold reason instead of a revert. ATS gave us partitions, KYC and control list semantics, which is exactly the compliance state the plan has to respect.\n\nPrivy: the approved plan becomes a Privy wallet policy on a server wallet owned by a key quorum of two. Conditions use ethereum_transaction for chain id and target, and ethereum_calldata with the ABI for the function selector and partition. Requests carry RFC 8785 canonicalized ECDSA P-256 authorization signatures and idempotency keys, and the policy is detached and revoked on every exit path, including lock expiry. Privy policies cannot pin whole dynamic arrays, so the server also enforces the exact calldata byte for byte and reports the first diverging byte.\n\nServer: a single fail closed route. The server derives the plan itself from the register and the operator's row selection, mints the lock id, checks the quorum against a registered approver list, refuses plan mismatches and rate limits per client.\n\nContracts: PlanAnchor in Solidity 0.8.24 with Foundry, a one way state machine (anchored, then settled or abandoned) with custom errors and fuzz tests. It is deployed on Hedera testnet at 0x1a393277908834c39D2611Ce9A151474B8Dfea0d and verified on Sourcify. Anchoring reads before it writes, so rehearsing the same demo does not revert.\n\nNotable hack: the keyless demo runs a local evaluator that mirrors the Privy policy semantics, so judges see a real refusal with a real byte offset without any credentials. While deploying we found that a refused edit abandoned the plan on chain, which is terminal, so the approved send could never settle it; the refusal now leaves the row anchored and only an unspent lock abandons it.\n\nQuality: 403 unit tests, 72 Playwright end to end tests including axe accessibility checks in both themes, and 80 visual regression baselines.\n",
+  "auto_summary": "A web console simulates and constrains ERC-1400 corporate actions, anchors plan hashes on Hedera, and can enforce single-use Privy wallet policies.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/detent-0yj8s",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

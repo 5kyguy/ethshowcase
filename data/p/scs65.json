@@ -1,0 +1,35 @@
+{
+  "id": "scs65",
+  "slug": "agentgate",
+  "title": "AgentGate",
+  "tagline": "Pay-per-call API gateway for AI agents on Hedera, using x402 protocol and World Agent Kit",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/scs65/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5NTGJxyd00hXjchtJOm1FnDh1Fzs8VTVpw012HqBoYRjs/high.mp4",
+  "demo_url": "https://agentgate-frontend.vercel.app",
+  "source_url": "https://github.com/sliponit/agentgate",
+  "prizes": [
+    {
+      "sponsor": "World",
+      "sponsor_id": "3zpxc",
+      "placement": "1st place",
+      "title": "Best use of Agent Kit"
+    }
+  ],
+  "finalist": true,
+  "description": "AgentGate is a pay-per-call API gateway for AI agents built on Hedera Testnet. It solves a core problem in the agentic economy: how do autonomous AI agents discover, authenticate against, and pay for API services — without human intervention at every step.\n\nFor publishers, AgentGate provides a dashboard to register any API endpoint with per-call USD pricing, deposit HBAR to sponsor agent gas costs, and configure what percentage of gas to subsidize. Publishers compete on price, gas sponsorship, and uptime — creating a natural marketplace for API access.\n\nFor AI agents, AgentGate implements the x402 payment protocol: when an agent hits a protected endpoint, the server returns HTTP 402 with a payment challenge containing the price in tinybars, the recipient address, and an optional WorldCoin AgentKit challenge. The agent can then either prove it's backed by a real human (via WorldID/AgentKit) to unlock 3 free trial calls, or pay directly in HBAR. Payment verification happens via Hedera Mirror Node with ~3-second finality — no oracles, no bridges, no wrapped tokens.\n\nThe system supports two agent archetypes: human-backed agents that authenticate via WorldCoin's AgentKit (SIWE signature + AgentBook lookup on World Chain) and get free-trial access before paying, and wallet-only agents that skip verification and pay HBAR directly for every call. Both paths converge on the same on-chain settlement.\n\nPublishers register endpoints on-chain via the PublisherRegistry contract (storing URL, USD price, paymaster address), then configure server-side proxy settings (backend URL, injected API keys, WorldID requirements) via EIP-191 signed messages. The proxy system means publishers can monetize any existing API — agents never see the real backend URL or API keys.",
+  "how_its_made": "AgentGate is a monorepo with four packages: a Hono HTTP server, a React+Vite dashboard, Solidity contracts (Hardhat), and a demo CLI agent.\n\nThe server (TypeScript/Hono) implements an order-sensitive middleware chain. Proxy routes mount before x402 middleware so they can handle 402 challenges internally with dynamic per-endpoint pricing read from on-chain state. The x402 layer issues payment challenges with prices converted from USD to tinybars at runtime using Hedera Mirror Node's exchange rate API (cached 60s). Payment verification queries Mirror Node's /api/v1/contracts/results/{txHash} endpoint — we wait 1.5s for indexing, verify the tx succeeded, check the recipient and amount, and protect against double-spend with an in-memory usedTxHashes Set that reserves immediately and releases on verification failure.\n\nWorldCoin AgentKit integration uses @@worldcoin/agentkit for SIWE challenge generation and for verification. The server queries World Chain's AgentBook contract to check if an agent address was delegated by a WorldID-verified human.\n\nPublishers sign their proxy configuration (backend URL, injected headers, WorldID requirement) with EIP-191 messages. The server recovers the signer address, checks it matches the on-chain endpoint owner, and stores the config. API keys are injected server-side into upstream requests — agents never see them. This means any existing API can be monetized without modification.\n\nThe dashboard (React 18 + Vite 5 + Tailwind) polls on-chain state every 12 seconds via viem's readContract, showing live gas balances, call counts, and sponsored amounts. The publish flow is two-phase: first an on-chain tx to register the endpoint + fund the paymaster, then a signed POST to configure the proxy server-side.",
+  "auto_summary": "A monorepo for metered API access where agents authenticate and pay per request using Hedera-based settlement and optional World-backed human verification.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentgate-scs65",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

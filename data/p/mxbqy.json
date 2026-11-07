@@ -1,0 +1,27 @@
+{
+  "id": "mxbqy",
+  "slug": "sluice",
+  "title": "Sluice",
+  "tagline": "Turn natural-language intent into 1inch Aqua strategies, inferred inside a 0G TEE",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mxbqy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/p01TLl82n801tn9avge6OzqPg00dARkps6RWRoz009zwGX00/high.mp4",
+  "demo_url": "https://sluice-virid.vercel.app/",
+  "source_url": "https://github.com/subvisual/Sluice",
+  "finalist": false,
+  "description": "Sluice is a strategy composer for 1inch Aqua. It lets anyone create sophisticated Aqua market-making positions by describing what they want in plain language, instead of hand-authoring the low-level strategy program the venue normally requires.\n\nYou connect a wallet, describe your objective in a sentence (\"earn fees on ETH/USDC pools\", \"concentrate my ETH/USDC liquidity around the current price\"), and commit a budget of tokens you already hold. Sluice returns one or more concrete, risk-rated strategies, each explained in plain language for you to review. You approve them with a single signature to ship them live, and your capital never leaves your wallet; it is only ever drawn against when a taker trades on the terms you set.\n\nWhat makes it trustworthy: the model only selects from a fixed menu of known-safe building blocks and never writes the executable code itself; every recommendation is composed privately and comes back signed; and deterministic checks have the final say, rejecting and recomposing anything that breaks your budget or the safety rules rather than quietly editing it. Sluice acts once, at creation time. It is not a trading bot. After you sign, nothing of ours manages your positions, and every strategy ships with an expiry that unwinds it unattended.",
+  "how_its_made": "Sluice turns a plain-language intent into shippable 1inch Aqua strategies. You connect your wallet, describe what you want in a sentence, and set a budget from tokens you already hold.\n\nWe read your own Aqua book from The Graph. No generic Aqua subgraph existed, so we wrote and deployed the first one, live on Ethereum mainnet and Base. It reconstructs makers' strategies, balances, and fills from raw events and feeds your book to the composer as context.\n\nThat context becomes an LLM inference request served inside a 0G TEE enclave, which returns a structured, risk-rated recommendation. Because the inference runs in the enclave, no one can see a position before it ships and trade ahead of it, and each response comes back signed. The LLM never writes bytecode. It fills an ordered slot assignment from a fixed menu of four fork-tested templates: a constant-product curve, an optional band, an optional fee, and a deadline. A deterministic validator checks that assignment against your budget and the safety rules and re-infers if it does not comply, and it never rewrites the model's output to force a pass.\n\nA deterministic compiler turns the approved assignment into real SwapVM bytecode and owns the instruction order, which is security-critical in SwapVM. We build against the real deployed Aqua on a pinned Base mainnet fork, where a composed strategy has already shipped and filled with real bytecode and real tokens. You sign one Multicall, and your tokens never leave your wallet.",
+  "auto_summary": "A monorepo that composes natural-language 1inch Aqua market-making strategies, verifies private 0G inference, and indexes Aqua data with a custom The Graph subgraph.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sluice-mxbqy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,42 @@
+{
+  "id": "e7ya2",
+  "slug": "dexcellence",
+  "title": "Dexcellence",
+  "tagline": "Hassle-free and fair DeX - front-running resistant stable prices, private order book, and frictionless experience.",
+  "event": {
+    "slug": "ethnewyork2022",
+    "name": "ETHNewYork 2022",
+    "start_time": "2022-06-24T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e7ya2/banner/default.jpg",
+  "video_url": "https://stream.mux.com/TfeUaFYEuG7wlFZDXPuUWYcOWiRn8gNfzkrbter44004/high.mp4",
+  "demo_url": "https://youtu.be/a-Lin8eA-B4",
+  "source_url": "https://github.com/mycoalchen/Dexcellence",
+  "prizes": [
+    {
+      "sponsor": "Connext",
+      "sponsor_id": "ygz83",
+      "placement": "🥈 Connext — Crosschain DeFi",
+      "title": "Connext"
+    },
+    {
+      "sponsor": "Tatum",
+      "sponsor_id": "fbyii",
+      "placement": "🆙 Tatum — Up and Coming",
+      "title": "Tatum"
+    },
+    {
+      "sponsor": "1inch Network",
+      "sponsor_id": "if0ri",
+      "placement": "🥇 1Inch — Best Use",
+      "title": "1inch Network"
+    }
+  ],
+  "finalist": false,
+  "description": "Dexcellence is a hassle-free and fair DeX, where price stability is guaranteed through removing MEV and front-running, and where privacy is built-in by never broadcasting order data before transactions and settlements occur. Below we'll delve deeper into each of our 3 core focus areas - user friendliness, stable pricing, and built-in privacy layer.\nThe UX supports submitting “complex” and simple orders. While the complex order currently consists of multiple buy/sell orders in one shot, we plan to expand the definition of what a “complex” order means by adding options beyond buy/sell such as short selling or borrowing. We wish to provide an intuitive and quick way to take a position in the market. Now, sophisticated retail traders in the crypto markets are forced to research the inner workings and product coverage across multiple exchanges and map out complicated plans to take positions. This could take a whole weekend for some or multiple weekends, limiting the participation from such traders, who are also often professionals with busy lives. Dexcellence wishes to make trading and investing quick and easy for these people. There are plans to expand the product to institutions who wish to reduce their operational costs in trading as well.\n\nDexellence is a frequent batch auction market with off-chain price discovery and on-chain transactions and settlements. Orders are batched and executed at predetermined intervals. Orders are maintained off-chain without visibility to market participants to prevent front-running. The clearing price ensures that volume and fairness is maximized at each auction. This is in contrast to continuous order books, which are highly time-sensitive and therefore susceptible to front-running and price impact. AMMs which suffer from high slippage and impermanent loss. Auctions in general also resolve price impact problems. All these in combination allow Dexcellence to clear at prices within the range of best prices offered by other exchanges. We also explicitly reference pricing data from other exchanges and aggregators like 1Inch and make sure our clearing price are in line with other exchanges. We plan on adding more real-time price sources to make prices we offer more stable.\n\nWhile settling transactions and broadcasting them make information publicly available, we do not disseminate any order or price information before the trades are settled. We plan to build more privacy features that will anonymize a trader at any point in time through block-order like scheme that doesn't require an intermediary trader..",
+  "how_its_made": "Dexcellence consists of three main parts: Order Management System, Auction Engine (Off-chain), and Transaction Engine (On-chain). Users can submit orders on the OMS front-end interface. These orders are delivered to the Auction Engine, which will use these inputs to run a mathematical optimization problem that selects a fair clearing price and quantity that will satisfy as many market participants as mathematically possible in a predetermined time interval. The AE maintains privacy of the order book and does not disclose it to other market participants. The cleared orders are sent to the Transaction Engine, which will identify gas-efficient routes then execute and settle the trades.\n\n\nUsing the OMS, the user can make two types of transactions - a simple swap or a “complex” order consisting of multiple buy/sell orders in one shot. On authentication with the Metamask wallet, the user’s portfolio value is automatically shown on the right side of the page. Placing an order is as simple as it gets, by specifying just four parameters for any action. Front-end development is done using React.js, HTML/CSS, with ethers.js being used for Metamask integration. \n\nThe Auction Engine is the price discovery mechanism in our exchange. It takes orders submitted through the OMS as inputs, runs a mathematical optimization problem (guaranteed to have a unique feasible solution) whose outputs are clearing price and quantity. It is built on high efficiency scientific computing and data processing packages on Python such as CVXPY, Numpy, and Pandas. It also makes use of SQL like interface built in Python to effectively query order and auction data. We also used 1Inch’s tools to grab reference price data to serve as a guideline on which price band the clearing price should lie in.\n\nThe Transaction Engine is the last piece of the architecture. It takes a list of valid orders as input from the Auction Engine. Due to time constraints, only the first half of the transaction was built. What we believe is the clever part in the design is the matching algorithm, meant to minimize the number of transactions as a starting point to minimize the gas fees. Work left to be done is writing a smart contract for the actual transaction and settlements and broadcasting the transactions on-chain. We planned on doing this by using ApeWorx as the framework that scales the Smart Contract deployment and mixing Tatum’s API endpoints that invoke Ethereum smart contracts. We primarily used and are planning on using Python and Vyper (Pythonic programming language targeting EVM) for the Transaction Engine.\n\nOverall, we’re impressed with the simple architecture and potential ease of development when it comes to building new features. While we haven’t had the time to integrate to our system, we’ve also sketched out an algorithm that breaks down an account’s transactions into multiple wallets in a randomized way to hide the true size of the order, which should add to the privacy if implemented. Of course, technical challenge remains where a data structure(s) need to be designed such that account ID cannot be accessed using a wallet address or vice versa. We believe the most impressive innovation here (hacky thing) is that we’ve completely separated the price discovery from the transaction mechanism. Price discovery in CLOB or AMM exchanges happen as a result of order books or reserve pools rebalancing, at which points transactions occur. In our exchange, technically, transactions can occur any time after prices are discovered. Therefore, it’s possible to execute transactions whenever there is a pricing or gas fee advantage for the traders.\n\n\nWe have used the following partner technologies:\n1inch - Price oracle as a sanity check for our clearing price in comparison to leading exchanges.\nTatum - Smooth deployment to multiple blockchains\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dexcellence-e7ya2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

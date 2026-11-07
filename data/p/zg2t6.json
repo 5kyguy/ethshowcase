@@ -1,0 +1,22 @@
+{
+  "id": "zg2t6",
+  "slug": "priv-pay",
+  "title": "Priv Pay",
+  "tagline": "Private USDC checkout links on Polygon with Railgun-based shielding.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/zg2t6/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cP01900CtH5tsGFBZCTawdQqfIYzZG7mW1pJ859elJJgE/high.mp4",
+  "demo_url": "https://privpay.vercel.app/",
+  "source_url": "https://github.com/frani/privpay",
+  "finalist": false,
+  "description": "Every crypto payment today broadcasts who paid whom and how much to the entire blockchain - killing business confidentiality and financial privacy. PrivPay solves this with private checkout links powered by Railgun's zero-knowledge protocol on Polygon.\n\nHow to use it:\n\n1. Merchants: Sign in with Privy → get Railgun private wallet automatically → create checkout links\n2. Payers: Open link → connect any wallet (or create one via Privy) → click \"Pay Privately\"\n3. Result: USDC shielded in ~45 seconds, completely invisible on-chain\n\nEach checkout exposes an x402-compatible endpoint returning machine-readable payment instructions (amount, token, merchant's 0zk address). Payers shield USDC directly to merchants using client-side Railgun proof generation - no specialized wallets required.\n\nTechnology Integration:\n\n- Railgun SDK: Generates zero-knowledge proofs client-side for private transactions\n- Privy: Handles authentication + creates embedded wallets for users without MetaMask (mainstream adoption)\n- Polygon: Makes privacy economically viable at ~$0.01 per transaction vs $5+ on Ethereum\n- x402 protocol: Machine-readable payment requests enabling automation and subscription billing\n\nThe prototype demonstrates real end-to-end private payments working on Polygon mainnet - proving privacy can be simple for subscriptions, ecommerce, and B2B invoicing.",
+  "how_its_made": "Core Innovation: First browser-native Railgun integration for payment checkouts. We run the entire ZK proof engine client-side, eliminating centralized wallet servers - truly decentralized private payments.\n\nArchitecture: pnpm monorepo with Vite + React + TypeScript frontend and Express + TypeScript backend connected to MongoDB.\n\nRailgun Integration: When merchants log in via Privy, backend generates Railgun wallets using the official SDK and stores encrypted mnemonics plus 0zk addresses. Frontend uses Railgun's `populateShield()` to generate zero-knowledge proofs entirely in-browser - proof generation runs client-side using BrowserLevel for IndexedDB and LocalForage for cryptographic artifacts.\n\nPayment Flow: Checkout endpoints return x402-structured JSON (token address, amount, network, merchant 0zk address). Payers connect wallets, app checks USDC balances and ERC-20 allowances, creates shield transactions. Each checkout uses deterministic 0zk addresses via `keccak256(checkoutId + merchantId)` - unique privacy pools without storing keys.\n\nPartner Technology Synergy:\n\n- Privy eliminates the \"you need MetaMask\" barrier - payers without wallets get one created in 5 seconds, critical for mainstream adoption\n- Polygon provides fast finality and low costs making privacy practical for everyday payments, not just high-value transfers\n\nWhat Works: Railgun wallet generation, x402 endpoints, USDC balance detection, EIP-2612 permit signatures (gasless approvals), full shield transaction creation and execution tested on Polygon mainnet with real USDC. This forms the foundation for automated private merchant distribution and recurring payment flows.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/priv-pay-zg2t6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

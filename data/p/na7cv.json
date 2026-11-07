@@ -1,0 +1,36 @@
+{
+  "id": "na7cv",
+  "slug": "spyderscan",
+  "title": "SpyderScan",
+  "tagline": "Open, permissionless, user-driven honepot token security detection platform ",
+  "event": {
+    "slug": "istanbul",
+    "name": "ETHGlobal Istanbul",
+    "start_time": "2023-11-17T06:00:12.482Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/na7cv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/VqoomP9LI9RZp49JHGTBpvkCT5erKcE1YuXs2JuJgVE/high.mp4",
+  "demo_url": "https://www.loom.com/share/e5e9be1c946d43bcba826dd8e0f670b1?sid=c413fed3-0a67-4fe8-99b7-d577b02ab452",
+  "source_url": "https://github.com/muskbuster/spyderscan",
+  "prizes": [
+    {
+      "sponsor": "Arbitrum",
+      "sponsor_id": "spp1v",
+      "placement": "Pool Prize",
+      "title": "Pool Prize"
+    },
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "Deploy on Scroll",
+      "title": "Deploy on Scroll"
+    }
+  ],
+  "finalist": false,
+  "description": "If you’ve been an active user in the DeFi ecosystem,  the concept of a “Honeypot scam” won’t be foreign to you. Even if you haven’t heard this term before, you’ve likely encountered such fraudulent activities.\n\nHoneypot refers malicious token contract that traps users' funds by preventing them from selling or withdrawing their tokens.\n\nOur data reveals honeypot scam deployed in 2023 has an increase of 76661 , reaching 121,267 in total, a 87.39% increase over the full 2021. Out of all the honeypot scams, 82.8% of them were deployed on BNB Chain, while 16.6% of them occurred on Ethereum.\n\nAs a solution We have built a honeypot token detector which does the due- diligence on behalf of the user to check for potential honeypot properties.\n\nThe honeypot detector called SpyderScan forks the mainnet, and queries smart contracts of Amms for the token queried by the user. When the simulation is run parameters like:\n- Sell tax\n- buy tax\n- Amount_out\n- Reserves are recorded\n\n\n",
+  "how_its_made": "We take legacy data from the blockchain to see if the transaction properties match. We get the pairs available for the token through Subgraphs that we have deployed and get filter and simulate for pairs in question.\n\nThe token qualifies as a honeypot if the following properties are detected:\n\nVery high sell tax\nIf the amount_out for a quoted token does not match the simulation transfers\nIf the reserves for a token pair is too low\nIf there is no token Pool\n\nEssentially the approach is:\n1-Simulate a Buy transaction on the DEX Router Contract\n\n2-Simulate a Sell transaction on the DEX Router Contract\n\n3-If the 2 above transactions are successful, it's inferred that the sale tax and Buy tax + know if the token is \"sellable\".\n\n4. If the Sell Tax is abive 40%, the token is a honeypot token. Else, you can ape in, it's a healthy token!\n\n\n\nOnchain security implementation:\nWe also provide an Oracle which is constantly updated with the honeypot status of a token which can be used by other contracts like Lending and borrowing platforms, flashloans , Aggregators. And can avoid these tokens onchain itself. This oracle can also be used on tokens that are not honeypot but have chances of going to a very low reserve state and quickly be notifie to balance funds.\n\nOracle Addresses at the end\nApplications\nNew users can safegaurd themselves from Rugpull projects by doing their due diligence\nUsers no longer have to get scammed by accpeting Honeypot crypto for their Assets\nOnchain mitigation directly reverts such Scam tokens when Oracle is used\nUsers have the descretion to trust or not trust any token through our oracle.\n\nOur tech stack:\n- Katana local environment\n- Ganache local environment\n - Express\n- Cairo\n-Solidity\n- Subgraph\n- ethers\n\nChains and protocols:\n- NeonEVM - Moraswap\n- Base - PancakeSwap\n- Scroll - skydrome\n- Arbitrum - pancakeSwap\n- Starknet - jediSwap\n- Polygon zkevm - Pancakeswap\n- Linea Mainet - PancakeSwap\n- zksync - PancakeSwap\n- Mantle - FusionX\n- Celo - Ubeswap\n  We utilised the data from these chains to simulate transactions for possible honeypots. Subgraph deployments for chains that supports the AMM architectures\n\n\n\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/spyderscan-na7cv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

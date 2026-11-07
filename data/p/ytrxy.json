@@ -1,0 +1,26 @@
+{
+  "id": "ytrxy",
+  "slug": "trustless-inference",
+  "title": "Trustless Inference",
+  "tagline": "AI Inference marketplace giving you a cryptographic proof you got exactly the model you paid for",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ytrxy/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZbmQL01010001IMzDzbcst5dB00y7Ri32X4S9nsDlZKSaybs/high.mp4",
+  "source_url": "https://github.com/lfglabs-dev/TrustlessInference",
+  "finalist": false,
+  "description": "InferenceProof solves a core AI trust problem: when you pay for Claude Opus, how do you know the provider didn’t serve you a cheaper model? We create cryptographic, on-chain proof for every AI inference. Each request verifies the model’s keccak256 hash against a blockchain registry, runs the inference inside a TEE, then submits an ECDSA-signed attestation to the Flare Coston2 blockchain, permanently recording the prompt hash, response hash, model hash, and timestamp. No party can forge this proof. The result is a trustless AI marketplace where model usage is auditable, payments are automatic via USDT smart contracts, and every inference is verifiable forever on-chain.",
+  "how_its_made": "Built on three layers: a Next.js 16 inference server, a React 19 frontend, and Solidity smart contracts deployed on Flare Coston2 as the trust layer.\n\nTwo core Flare contracts power the system: ModelRegistry maps model names to keccak256 hashes, and InferenceGateway handles USDT0 deposits, ECDSA signature verification via ecrecover, and immutable proof storage on the Flare blockchain. Each inference costs 0.10 USDT, deducted atomically when the Flare contract accepts the proof.\n\nThe server checks the user’s on-chain balance, verifies the model hash against the registry, streams inference via OpenRouter (Claude Opus 4.6 / Gemini 2.5 Flash using Vercel’s AI SDK), then signs an attestation with the TEE key and submits it to Flare via Viem.\n\nThe frontend uses Wagmi + Reown AppKit for wallet connection and shadcn/ui components.\n\nNotable hack: The TEE enclave is simulated with a server-side ECDSA keypair. In production this would be GCP Confidential Space (Intel TDX) with hardware vTPM attestation via flare-ai-kit. The contract logic is identical either way, letting us demo the full verifiable inference loop without TEE hardware.",
+  "auto_summary": "A Next.js app records AI inference attestations and prepaid usage proofs on Flare via Solidity contracts and wallet-connected frontend flows.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/trustless-inference-ytrxy",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

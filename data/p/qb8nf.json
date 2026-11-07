@@ -1,0 +1,29 @@
+{
+  "id": "qb8nf",
+  "slug": "bridgeflow",
+  "title": "BridgeFlow",
+  "tagline": "One-click bridge aggregator that identifies the cheapest route and seamlessly supports multi-hop bridge routes across any input/output bridges and tokens.",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/qb8nf/banner/default.jpg",
+  "demo_url": "https://drive.google.com/file/d/109b9OmDZTEgkS33BWJ3EjJrOAGinPqhi/view?usp=sharing",
+  "source_url": "https://github.com/wenzhaopan/ETHGlobal-Bangkok",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Blockscout Explorer Big Pool Prize",
+      "title": "Blockscout Explorer Big Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "At Devcon, we attended several talks highlighting the importance of unifying the Ethereum ecosystem. The challenges of fragmentation between L2s affected us during a recent attempt to bridge to Zircuit. With our funds exclusively on L2s, we needed to bridge from Arbitrum to Zircuit. However, we discovered that Zircuit's native bridge only supports transfers from Ethereum. As a result, we had to manually swap USDC to Ethereum, bridge to Ethereum L1, and then bridge again to Zircuit.\n\nThe process was frustrating—it took over an hour, required us to wait for one bridge to complete before manually initiating the next, and cost us significantly more in gas fees since we had to use Ethereum L1.\n\nWith just a single click, BridgeFlow identifies the most cost-efficient route and handles all intermediary bridging seamlessly. Additionally, since our solution performs intermediary swaps through dApp-controlled contracts, users don’t need to have gas on intermediary chains to execute those swaps. If we had our aggregator then, it would’ve optimized the route—using Orbiter to bridge directly between L2s—saving us both time and gas fees. This tool is a step toward a unified, user-friendly Ethereum ecosystem.",
+  "how_its_made": "We aimed to build our bridge aggregator so that bridging happens permissionlessly and trustlessly. We accomplished this using the idea of \"intent addresses\" and CREATE2.\n\nCREATE2 is an EVM opcode that allows you to pre-determine the address a contract will be deployed to based on the constructor arguments and contract code. Changing the contract source code will result in changing the CREATE2 address.\n\nAn intent address is a CREATE2 address which hashes the parameters of a bridge transfer into an address. The intent contract we wrote allows only a single action: sending tokens held by the contract into the bridging protocol specified in the parameters. The intent address ensures that only a single contract can be deployed to the CREATE2 address, and the only thing this contract can do is send tokens to a bridge.\n\nThe intended flow for interacting with an intent contract is:\n1. The user sends funds to the pre-determined CREATE2 address of the contract.\n2. A relayer deploys the intent contract to the CREATE2 address.\n3. The contract sends tokens to the bridge and initiates the bridge transfer.\n\nHere is an example lifecycle for a bridge transfer from zircuit to linea using rhino and axelar with base as an intermediary chain:\n1. The user sends tokens to the intent address on zircuit.\n2. A relayer deploys the intent contract to the intent address and calls the `executeAction` function. This sends the tokens to the rhinofi bridge and initiates bridging.\n3. Once the bridge completes, it will send funds to the same intent address on base. The relayer deploys the intent contract on base and similarly calls the `executeAction` function to initiate bridging using Axelar.\n4. When the bridge completes, the funds will be sent to the intent address on linea. Again, the relayer deploys the intent contract on linea and calls the `executeAction`. The `executeAction` function will see that linea is the final destination chain and send the funds to the user.\n\nIntent addresses enable the whole bridging process to execute permisionlessly and trustlessly without any cross-chain communication. Trustless because the user doesn't have to trust the relayer to act honestly and still be guaranteed to receive funds on their destination chain. Permisionless because anyone can deploy the intent contract and call `executeAction`, even the user themselves, so funds will never get stuck.\n\nThe intent addresses architecture enables a seamless UX for the user. The user doesn't need to hold gas on any of the destination or intermediary chains.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/bridgeflow-qb8nf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

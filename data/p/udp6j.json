@@ -1,0 +1,21 @@
+{
+  "id": "udp6j",
+  "slug": "convexity",
+  "title": "Convexity",
+  "tagline": "Enabling fixed rate deposits and stable rate borrowing on Compound",
+  "event": {
+    "slug": "hackmoney2021",
+    "name": "HackMoney 2021",
+    "start_time": "2021-06-18T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/udp6j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/eRhfNx01TXaO9e5oCqmuzfV1F8kew7R9aOEaNHxu1Y9E/high.mp4",
+  "source_url": "https://github.com/leo-convexity/HackMoney",
+  "finalist": false,
+  "description": "Convexity enables users to create fixed rate deposits and stable rate borrowing. Rather than creating an entirely new fixed rate money market, Convexity creates tokenised interest rate derivatives that can be traded using Uniswap-V2. For example, users can create a fixed rate deposit by combining a Compound floating rate deposit with a ShortFuture token which are held within proxyWallets which are EIP-1167 style minimal proxies. The leverage inherent in the interest rate derivative enables a much larger notional of stable rate borrow or fixed rate deposits with a smaller liquidity provider capital pool.",
+  "how_its_made": "Smart Contracts - There are two contract factories : ProxyWallet.sol and FutureToken.sol. These contracts can manufacture EIP-1167 style minimal proxies using OpenZeppelin's Clones library. \n\n\n\nThe master ProxyWallet instance can be called to create proxy wallets for users. Users will be deterministically assigned a proxy wallet which will hold their assets and execute the contract logic in the master ProxyWallet instance. In addition to segregating users' assets, this means cheaper deployment and contract calls.\n\n\n\nThe master ProxyWallet master contract contains the logic for interfacing with the Uniswap Factory, Router, and Pair contracts, Compound's comptroller and cToken contracts, the Convexity FutureToken contracts.\n\n\n\nThe master FutureToken instance is used to create unique series of expiries, which are polymorphic OpenZeppelin Clones of the master contract. An expiry for each asset (currently supports USDC, DAI, and ETH), is defined by the cToken version of each asset and an expiry block. Each expiry per asset class produces 3 smart contracts: a futureClass, futureLong, futureShort. The futureLong (FL) and futureShort (FS) are ERC-20 tokens that can be redeemed in pairs up until expiry. After expiry, they can be redeemed for the corresponding portion of the collateral pool.\n\n\n\nA Liquidity Provider provides some cTokens (e.g. cUSDC, cDAI, cETH) and receives an equal number of FL and FS tokens. The number of FL and FS they receive is equal to the inverse of the collateral factor multiplied by the number of cTokens provided. The collateral factor, which is determined at creation of futureTokenClass is calculated based on the maximum interest rate possible until a given expiry. \n\n\n\nUntil expiry, a pair of FL and FS can be redeemed for a collateral factor unit of appropriate cTokens from the futureTokenClass contract. This is the arbitrage free mechanism for keeping the prices of the FL and FS in line. At expiry, the FL and FS each are entitled to a corresponding proportion of the collateral available depending on the underlying cToken exchange rate at expiry. For example, if the possible maximum APY was 27% over a period from futureTokenClass creation and the realized APY was 9%, the holders of the FL will receive 30% of the collateral pool, and FS 70%.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/convexity-udp6j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

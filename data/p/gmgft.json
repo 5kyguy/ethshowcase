@@ -1,0 +1,21 @@
+{
+  "id": "gmgft",
+  "slug": "suigate",
+  "title": "SuiGate",
+  "tagline": "The gateway between Vietnamese Dong and USDC on Sui blockchain",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/gmgft/banner/default.jpg",
+  "video_url": "https://stream.mux.com/LzMAuld7lRNAUpLgZ02t008B6WaZT02X8i2i400ERApdqvc/high.mp4",
+  "source_url": "https://github.com/AnhVAR/suigate",
+  "finalist": false,
+  "description": "SuiGate enables Vietnamese users to convert VND ↔ USDC directly on Sui blockchain.\nVietnam legalized crypto in January 2026, creating demand for compliant on/offramp solutions. SuiGate solves this with zkLogin (seedless onboarding), sponsored transactions (gasless UX), and a hybrid oracle for VND rates — since major oracles don't support Vietnamese Dong.\nBuilt on Sui's high-performance infrastructure with native USDC integration. Designed for compliance with Vietnam's new Digital Technology Industry Law and FATF Travel Rule standards.\nTarget: 20M+ Vietnamese crypto users currently using offshore platforms.",
+  "how_its_made": "SuiGate is a monorepo with 4 main components: a React Native mobile app (Expo 54), a NestJS\n  backend API, a Next.js 14 admin dashboard, and 5 Move smart contracts deployed on Sui Testnet.\n\n  Mobile (8,965 LOC): Built with Expo 54 + React Native 0.81.5 + TypeScript. Uses Zustand for\n  state management across auth, wallet, trading, and UI stores. Sui zkLogin handles wallet\n  creation — users sign in with Google/Apple OAuth and get a Sui address derived from their JWT\n  via jwtToAddress(), no seed phrase needed. Ephemeral keypairs rotate every epoch (~24h). The app\n   communicates with the backend via REST API and directly with Sui RPC for balance queries and\n  transaction signing.\n\n  Backend (5,967 LOC): NestJS with 8 modules (auth, orders, rates, wallet, webhooks,\n  bank-accounts, users, admin). PostgreSQL via Supabase with Row Level Security on all user\n  tables. BullMQ + Redis handles async jobs for order matching and rate updates. The rate service\n  fetches VND/USDC mid-rates from a free exchange API every 5 minutes — this was a key hack\n  because no major blockchain oracle (Pyth, Supra) supports VND pricing, so we built a custom\n  on-chain oracle fed by the backend.\n\n  Smart Contracts (564 LOC, 5 Move modules): price_oracle.move stores buy/sell rates with a\n  10-minute staleness check. escrow.move locks USDC for Smart Sell orders with partial fill\n  support. liquidity_pool.move manages the platform USDC reserve. admin_cap.move implements the\n  capability pattern for privileged operations.\n\n  The hackiest part: Batch Programmable Transaction Blocks (PTBs). Smart sell execution normally\n  requires 3 separate transactions (update oracle → execute escrow → dispense from pool). We batch\n   all 3 into a single atomic PTB, which prevents stale oracle reads between operations, reduces\n  gas by ~66%, and guarantees all-or-nothing settlement. The backend constructs the PTB and Sui\n  Enoki sponsors gas — so the entire flow is gasless for end users.\n\n  Payment integration uses SePay (VietQR) for Vietnamese bank transfers. Buy orders generate a QR\n  code; when the user pays, SePay sends a webhook (HMAC-SHA256 verified), the backend confirms\n  payment, then dispatches USDC on-chain. Sell orders work in reverse — USDC goes to the\n  pool/escrow first, then SePay disburses VND to the user's bank.\n\n  Admin Dashboard (Next.js 14): Real-time order management with TanStack Query, Recharts for\n  analytics, and Radix UI + shadcn/ui components. Supports approve/settle/cancel workflows and\n  manual review queues for failed disbursements.\n\n  Shared types package ensures type-safe DTOs and enums across all 3 TypeScript codebases (mobile,\n   backend, admin) via npm workspaces.\n\n  Deployment: Backend on Render.com (Singapore), admin on Vercel (global CDN), database on\n  Supabase free tier, contracts on Sui Testnet. OAuth proxy runs as a Vercel serverless function\n  to handle redirect callbacks.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/suigate-gmgft",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

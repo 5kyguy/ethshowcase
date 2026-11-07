@@ -1,0 +1,22 @@
+{
+  "id": "yety0",
+  "slug": "dgit",
+  "title": "DGIT",
+  "tagline": "Serverless zero-registration git forge! pull, push, clone and collaborate without any servers! ",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yety0/banner/default.jpg",
+  "video_url": "https://stream.mux.com/iEKDMznjdefLkNgakwp1q7S6Mh01vYPXJXM6fObNkoJ00/high.mp4",
+  "demo_url": "https://dgit-0crx.onrender.com/",
+  "source_url": "https://github.com/FaezehShakouri/SayMyName",
+  "finalist": false,
+  "description": "dgit is a serverless Git forge. It lets users host repositories locally while still allowing others to pull them in the usual way.\n\nFor example, you can set your remote like this:\n\n`git remote set-url origin http://127.0.0.1:8090/repo@git.eth`\n\nand then push as usual.\n\nLater, anyone can use that same remote. Even though it points to a local endpoint, it still works seamlessly—thanks to AXL, others can pull the repository just like they would from any standard Git server.\n\nThat’s it: a simple, serverless Git forge.",
+  "how_its_made": "Under the hood, dgit has three main components:\n\n1 - AXL – handles peer-to-peer communication.\n2 - ENS – all repositories in dgit are identified by ENS names. When you push a repo for the first time, dgit automatically creates a subdomain under git.eth on Sepolia. This name stores text records containing the AXL node’s public key and metadata describing how to locate the Git repository.\n3- Haxy – a lightweight Git server written in Zig.\n\nOn top of these, there is a thin Python wrapper that acts like a Git server. It runs locally (but accessible globally through AXL) and only requires your Ethereum wallet. The wallet is used to sign transactions when creating new repositories on-chain, but all repository data remains local on the host machine. ENS is used purely as a discovery mechanism to locate the nodes hosting a repository and store pushed repos metadata.\n\nAt the foundation is the ENS name git.eth. A permissionless registrar is configured for this domain, allowing anyone to claim subdomains (e.g., me.git.eth). The wrapper automatically handles all required transactions for this process.\n\nFrom the user’s perspective, interaction with dgit happens entirely through a standard Git client. When pushing, dgit automatically sets up everything needed across ENS, AXL, and the Git node.\n\nWhen pulling, dgit queries the ENS text records for the requested repository and routes the request through AXL to the correct node, which then serves the data.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dgit-yety0",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

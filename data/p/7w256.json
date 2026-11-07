@@ -1,0 +1,47 @@
+{
+  "id": "7w256",
+  "slug": "azimuth",
+  "title": "Azimuth",
+  "tagline": "Decentralized satellite ground stations as a service (GSaaS)",
+  "event": {
+    "slug": "newyork2026",
+    "name": "ETHGlobal New York 2026",
+    "start_time": "2026-06-12T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7w256/banner/default.jpg",
+  "video_url": "https://stream.mux.com/cQK01mEZkVmghjzyPHICqXuevJRkQK7nGscat01vfFpXg/high.mp4",
+  "demo_url": "https://www.azimuth.space/",
+  "source_url": "https://github.com/vaibhav-vemula/azimuth",
+  "prizes": [
+    {
+      "sponsor": "Sui",
+      "sponsor_id": "vsbye",
+      "placement": "Best product integrating Walrus  for storage",
+      "title": "Best product integrating Walrus  for storage"
+    },
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Autonomous On-Chain Automation Platform",
+      "title": "Autonomous On-Chain Automation Platform"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "3rd place",
+      "title": "Best ENS Continuity Integration"
+    }
+  ],
+  "finalist": true,
+  "description": "Azimuth is a decentralized ground-station-as-a-service network for satellite data.\n\nToday, receiving satellite transmissions is gatekept by a handful of corporations. Building a professional ground station costs $100,000+, and cloud alternatives like AWS Ground Station charge by the minute - pricing out universities, research teams, startups, and NGOs. Worse, a single station only captures part of any satellite pass; the packets it misses are lost forever, and there's no open protocol to coordinate multiple receivers into one complete result. Operators who could help have no incentive to participate.\n\nAzimuth turns affordable, independently-operated ground stations into a coordinated, incentivized network. Stations receive satellite image transmissions over LoRa radio, and instead of working in isolation, they collaborate trustlessly: each station uploads its captured packets to decentralized storage and announces the pass on-chain. A primary station detects overlapping captures, merges them into the most complete possible image, and permanently records the result. Two partial receptions become one high-quality image that neither station could produce alone.\n\nEvery contribution is cryptographically proven on-chain. Proof of Availability (heartbeats) shows a station stayed online; Proof of Reception (a Merkle root of received packets, cross-verified by a peer) proves it genuinely received the satellite. Operators earn token rewards scaled by a credit score they build from uptime and reception quality - a verifiable, on-chain reputation that compounds over time and unlocks higher reward multipliers.\n\nThe network is delivered as Ground Station as a Service (GSaaS), putting affordable, on-demand satellite downlink in reach of the people who need it most: academic and research teams gain open, low-cost access to satellite data; LEO satellite operators tap dense, distributed ground coverage without building dedicated stations; and weather forecasting benefits from more frequent, lower-cost reception of meteorological satellites - all from an open network instead of revocable corporate capacity or six-figure infrastructure.\n\nAzimuth makes satellite data open, verifiable, and economically productive - turning the sky into a network anyone can join.",
+  "how_its_made": "1. Hardware + RF edge. Azimuth is a real downlink network - it receives actual satellites, not a simulation. Each ground station is an RTL-SDR software-defined radio connected to a satellite antenna (a V-dipole / QFH tuned for the ~137 MHz weather-satellite band) and driven by a Raspberry Pi 5. Stations track real LEO satellite passes - e.g. Meteor M2-3 and the NOAA weather satellites - tune the live downlink, capture the RF/IQ stream off the antenna, and demodulate and decode the transmitted imagery on the edge in real time. The decoded image data is split into numbered packets so that multiple stations' partial captures of the same pass can later be merged into one complete image.\n\n2. Coordination + storage pipeline. Each station runs a Node.js client (`hedera-client/`) that orchestrates everything: `packetPublisher.js` uploads the station's raw captured packets to Walrus and announces the pass on a Hedera HCS topic; `imageMerger.js` polls the Mirror Node, detects when 2+ stations have announced the same pass, downloads each station's blob from Walrus, merges the packet sets (union by index), reconstructs the best-possible JPEG, uploads the result back to Walrus, and records it on-chain. `heartbeat.js` posts Proof-of-Availability every 60s; `proofSubmitter.js` builds a Merkle root of received packet hashes for Proof-of-Reception and cross-verifies peers.\n\n3. Smart contracts. `OrbitalVault.sol` (Solidity, Hardhat) runs on the Hedera EVM and is the reward engine: AZM staking, PoA epoch tracking, PoRx proof verification, credit scoring + tier multipliers, and image recording. AZM is a native HTS token, paid out via the HTS `transferToken` precompile directly from the contract.\n\n---> How the partner technologies benefited us -\n\nHedera is the economic and coordination backbone, and it removed entire categories of infrastructure:\n\n1. Schedule Service (HSS) — the contract schedules its own future settlements via the `IHederaScheduleService` precompile (`0x16b`): `settlePoAEpoch()` runs, then calls `_scheduleNextPoAEpoch()` to arm the next epoch (with `hasScheduleCapacity` checks + jitter). PoA epochs settle automatically with no off-chain keeper, cron, or trusted relayer — a huge architectural simplification.\n2. Consensus Service (HCS) — stations coordinate purely by posting to a shared topic; no station ever contacts another directly. Hedera is the coordination layer.\n3. Mirror Node — both Next.js dashboards (and the merge loop) read state via free, unauthenticated REST/log queries, so we ship with no backend.\n4. HTS + low, fixed fees + fast finality make per-epoch micro-rewards economically viable.\n\nWalrus (Sui) is the storage layer - and it's the right layer for this problem, not just a convenient one. Azimuth generates exactly what Walrus is built for: a constant stream of large binary blobs (raw packet captures + reconstructed satellite images) that must stay permanently, verifiably, and censorship-resistantly available. The properties that made Walrus the best fit:\n\n1. Built for large media, cheaply. Walrus uses erasure coding rather than full replication, so blobs stay highly available and durable across many independent nodes at a fraction of the cost/overhead of Arweave or IPFS pinning - critical when every satellite pass writes fresh imagery.\n2. Verifiable by design. Blob IDs are content-addressed (a commitment over the bytes), so the ID is itself an integrity proof. We anchor that ID on-chain via `recordImage()`, giving anyone a tamper-evident link from a Hedera record to the exact image - you can't silently swap the data.\n3. Decentralized and censorship-resistant. Our whole thesis is that no corporation should gatekeep or delete satellite data. Walrus delivers that at the storage layer, where an S3 bucket (revocable, centralized) would quietly undermine it.\n\nENS gives every station a real on-chain identity:\n\n1. We register names with ENS v2 on Sepolia via `@ensdomains/ensjs` — the v2 `ethRegistrar` (USDC-paid `commit` → `register`), then deploy a per-name `PermissionedResolver` instance through the `ensVerifiableFactory`, point the name at it, and write the station's address + `azimuth.*` metadata (location, hardware, antenna, elevation) as records.\n2. Each name is owned by its own station wallet, not a shared admin.\n3. The dashboards resolve names to/from addresses and read records through the v2 universal resolver (`@ensdomains/ensjs/public`), so a user can type `azinodenyc.eth` and load that station's live data and verified identity card.\n\nFrontend. Two Next.js + Tailwind dashboards — an operator dashboard (station status, AZM balance, PoA/PoRx, credit tier, live HSS schedule tracker) and an image archive (gallery served from Walrus, contributors shown by ENS name) - using `ethers`/`viem` against the Hedera Mirror Node and the ENS universal resolver.",
+  "auto_summary": "A decentralized satellite ground-station network coordinates packet capture, storage, merging, and reward distribution using Hedera services and Walrus-backed media storage.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/azimuth-7w256",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

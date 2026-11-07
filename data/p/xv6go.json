@@ -1,0 +1,30 @@
+{
+  "id": "xv6go",
+  "slug": "ensemble",
+  "title": "ENSemble",
+  "tagline": "Edit ENS DeFi profile (text records), use it in Swap, send to ENS name, and look up any profile.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xv6go/banner/default.jpg",
+  "video_url": "https://stream.mux.com/FvT013Xqo978YSS02NwDOYgDZofrnabL2rwLpch4Bp3aw/high.mp4",
+  "demo_url": "https://ensemble-mu.vercel.app/",
+  "source_url": "https://github.com/mcmoodoo/ENSemble",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "# Description\n\n**ENSemble** is a web app that stores your DeFi and payment preferences on your ENS name using ENS text records on Ethereum mainnet. One profile, many apps: you set your preferences once and any application that supports the same spec can read them.\n\n**What it does:**\n\n- **Profile:** Connect your wallet; the app reverse-resolves your address to your ENS name and loads your existing DeFi profile from ENS text records. You can edit slippage (basis points), preferred DEXes (e.g. 1inch), default chain ID, allowed tokens, and payment preferences (preferred token and chain). Saving writes only changed records to the ENS Public Resolver via one transaction per record (you sign each).\n\n- **Swap:** If your profile’s **defi.preferred-dexes** includes **1inch**, you get a swap UI: pick source and destination chain and token from hardcoded lists (e.g. Ethereum, Arbitrum, Base; USDC, DAI, ETH, WETH, LINK). The app builds a 1inch swap URL (e.g. `https://1inch.com/swap?src=42161:WETH&dst=1:LINK`) and opens it. If your preferred DEX is not 1inch or not set, the app shows that the DEX is not available.\n\n- **Send:** Enter an ENS name (e.g. vitalik.eth). The app resolves it to an address and optionally reads the recipient’s **payment.preferred-token** and **payment.preferred-chain** from their ENS profile and shows them as hints. You enter an amount and send ETH to the resolved address on mainnet.\n\n- **Lookup:** Enter any ENS name to see its resolved address and full DeFi profile (slippage, DEXes, chain, tokens, payment prefs) in read-only form.\n\nAll profile data lives in standard ENS text records (keys like **defi.slippage-bps**, **defi.preferred-dexes**, **payment.preferred-token**). No separate backend or database: ENS is the source of truth.\n",
+  "how_its_made": "# How it's made\n\n**Stack:** Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS. For chain and wallet: **wagmi 2**, **viem 2**, **RainbowKit 2**. Forms: **React Hook Form** with **Zod** and **@hookform/resolvers**. ENS is used entirely through **viem** (no ethers.js): `getEnsAddress`, `getEnsName`, `getEnsText`, `getEnsResolver`, `namehash`, `normalize` from `viem/ens`, and direct calls to the ENS Public Resolver’s `setText` for writes.\n\n**How it’s pieced together:** The app is a single Next.js front end. Wallet connection and chain state come from RainbowKit + wagmi; the wagmi config uses a custom mainnet RPC from env (`NEXT_PUBLIC_INFURA_ETHEREUM_MAINNET_RPC`) so ENS and profile reads work reliably in the browser. Profile page: reverse-resolve address → ENS name, fetch all DeFi profile keys via `getEnsText`, parse into a typed object (`defi-profile-spec.ts`), edit with React Hook Form, diff against current records, and write only changed keys via `setText` on the resolver (one transaction per key, since the resolver requires the name owner as `msg.sender`—no multicall batching). Swap page: if `preferredDexes` includes \"1inch\", we show chain/token dropdowns and build a 1inch URL with query params `src=chainId:SYMBOL&dst=chainId:SYMBOL`. Send uses `getEnsAddress` and optional `getEnsText` for payment hints. Lookup uses `getEnsAddress` and the same profile fetch/parse.\n\n**Partner tech:** WalletConnect (RainbowKit) for connect; Infura (or any mainnet RPC) for ENS and profile. 1inch is used only as an external URL (we don’t call their API).\n\n**Notable detail:** We import `waitForTransactionReceipt` from **viem/actions** instead of **viem** so the Next.js production build resolves it correctly. Writing profile changes sends one tx per changed record and we await the last receipt before showing success.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/ensemble-xv6go",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

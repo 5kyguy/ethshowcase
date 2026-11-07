@@ -1,0 +1,30 @@
+{
+  "id": "fnx61",
+  "slug": "dripit",
+  "title": "dripit",
+  "tagline": "dripit is tokenizing music streaming royalties as NFTs, opening up new revenue streams for artists and elevating fans to stakeholders",
+  "event": {
+    "slug": "ethonline2023",
+    "name": "ETHOnline 2023",
+    "start_time": "2023-10-06T13:00:31.675Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fnx61/banner/default.jpg",
+  "video_url": "https://stream.mux.com/NqkHsfdXtiXBh67g5ms8PvG8NIks4lqXUEEBGvTwdkc/high.mp4",
+  "demo_url": "https://dripit-front.vercel.app/",
+  "source_url": "https://github.com/gfkacid/dripit-poc",
+  "prizes": [
+    {
+      "sponsor": "Safe",
+      "sponsor_id": "weaax",
+      "placement": "🥇 Safe — Best Use of Safe{Core} for AA",
+      "title": "Safe"
+    }
+  ],
+  "finalist": false,
+  "description": "Incentives in music industry are broken across the board. Dripit solves this for both creators and fans:\n🎸creators: streamlining master/publish/distribution of their music, and trade % of their future royalties for upfront payments\n🎉 fans: elevating fans to stakeholders by fractionalized ownership of streaming royalties & enhancing community experience \n\nTokenizing & distributing claims to streaming royalties unlocks untapped channels of revenue, providing with the building blocks to build towards a sustainable 🎶MusicFi🎶 ecosystem, by introducing new passive and active ways to earn from your Music both as an artist and stakeholder. \n\nThe idea was born out of 1st hand experience of a seasoned artist/music producer, and 2 avid music fans (the core team) - we felt there is a gap in the market with lots of room for innovation.",
+  "how_its_made": "Our primary goal is to offer a seamless web2 experience, so that any user - wether crypto-savvy or not - can participate. Thus, we built dripit by utilizing heavily Safe{core} AA SDK stack, to abstract away all extra steps someone without a crypto wallet would have to take. In detail, we used:\n\n🛂 AuthKit >> to let users register with existing web2 accounts (Google / Twitter / Discord / Email) in a passwordless manner\n\n🔄 RelayKit >> to preserve the seamless user experience we've achieved so far, we're using Safe's integration with GelatoRelay, to pay gas fees for our users' transactions (deploy Safe & mint Drop NFTs). \n\n💶 OnRampKit >> to offer FIAT on/offramp to our users. We started integrating both Stripe($USDC) & Monerium($EURe), but ended up omitting Stripe from the UI as our team is entirely EU based and thus we could not test our code with current geographical restrictions placed by Stripe.\n\n⚙️ Protocol Kit & API Kit >> the \"glue\" that makes the above integrations work!\n\nA 'hacky' solution we came up with is our implementation of the Monerium integration flow. Specifically, in the 2nd step of connecting Monerium account with a Safe wallet, the user is asked to sign a message. Normally that is only possible by:\n1) manually extracting the private key of owner address, and importing it in a wallet app that user owns\n2) connecting to Safe dashboard, and approving the pending signature\n\nThis was a huge blocker to the UX we wanted to achieve, so instead we came up with the following flow:\n\n1) user starts monerium flow [Connect wallet with Monerium]\n2) instead of redirecting to Monerium dashboard, as OnRampKit automatically does, we open up a new tab that follows that flow.\n3) in the first tab, we start polling for pending signature requests on connected Safe wallet, using API kit\n4) when the user reaches step 2 in monerium flow on the second tab, our polling on the first tab catches that signature request and automatically signs it under the hood.\n5) The user is then happily moved to step 3 without having to do any manual operation (which would be impossible if they were not crypto-savvy or even owned a wallet to begin with).\n\nAnother 'hacky' workaround we were obliged to implement, is in regards to ERC20 approvals. Since Monerium's EURe does not implement permit() function (ERC2612) which allows for gasless token approvals, and we dont want the user to have to load up with gas token at all, we currently mint the tokens for free. We have communicated this with Monerium team, and got the response that they'll be migrating EURe contracts on testnet to a new version that implements permit right after the Hackathon!\n\nOur overall architecture can be summed up as follows:\n- backend that serves as an API for our frontend\n- frontend (Next.js app) that directly integrates all Safe functionality described above, and interacts with blockchain directly using ethers.js (query EURe balance of connected Safe)\n- smart contracts deployed on Goerli Testnet:\n-- Factory contract >> used by platform admins to create new Drops\n-- Drop contract >> created by Factory, each drop is a separate ERC721 NFT collection with all standard NFT functionality + our own sale mechanism (time based, paid with EURe, AA friendly)\n-- RoyaltiesDistributor contract >> drop holders can claim their pending royalty payouts",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/dripit-fnx61",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

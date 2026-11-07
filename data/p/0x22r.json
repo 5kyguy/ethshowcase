@@ -1,0 +1,35 @@
+{
+  "id": "0x22r",
+  "slug": "ethastic",
+  "title": "ETHastic",
+  "tagline": "ETHastic: A resilient, local-first mesh protocol for off-grid financial coordination and payments.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0x22r/banner/default.jpg",
+  "video_url": "https://stream.mux.com/GzEDlcldrAf8o1CdZXr2qu02X9b02AVNqBml1de01vve8w/high.mp4",
+  "demo_url": "https://ethastic.vercel.app/",
+  "source_url": "https://github.com/0xETHtastic/frontend",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "2nd place",
+      "title": "Best Chain Abstracted USDC Apps Using Arc as a Liquidity Hub "
+    }
+  ],
+  "finalist": true,
+  "description": "ETHastic is a resilient, \"asynchronous\" financial protocol designed to maintain economic activity when the centralized internet fails. By combining LoRa Mesh Networking, WaaS, and Stripe, we ensure that a total blackout doesn't mean a total freeze of value exchange.\n\nThe Mesh Backbone (Meshtastic/LoRa): We utilize long-range, low-power radio to broadcast Payment Intents across a peer-to-peer mesh. In an environment with no cellular service, these signed intents \"hop\" from node to node across the community, searching for a path to the broader network.\n\nThe Seamless Onboarding (WaaS): To ensure everyone is \"economy-ready\" before the lights go out, we use WaaS to provide every user with a pre-provisioned, non-custodial wallet. This ensures cryptographic identity and signing capabilities are already in the hands of 50 million people, requiring zero technical setup during an emergency.\n\nThe Bridge & Settlement (Stripe): Once a Payment Intent successfully traverses the mesh and reaches a node with a functional internet connection (the \"Grid Gate\"), it is instantly processed. We use Stripe to settle these intents into real-world currency or stablecoin rails, triggering a confirmation message that travels back through the mesh to the user.\n\nThe Result: A \"Store-and-Forward\" financial system. Even if you are miles away from a working cell tower, your payment can travel through the community mesh, settle on the blockchain, and confirm your transaction—ensuring that commerce and survival logistics never stop.",
+  "how_its_made": "Ethastic is built on a Next.js 15 frontend that interfaces directly with Meshtastic LoRa radios via the Web Serial API (`@meshtastic/core` + `transport-web-serial`). Users sign EVVM payment or Circle CCTP crosschain transactions client-side using `@evvm/evvm-js` and `viem`, then we compact-encode the signed payloads into prefix-tagged strings (`s=` for payments, `c=` for crosschain, `B=` for balance queries) that fit within Meshtastic's ~200-character message limit — this required stripping `0x` prefixes, compressing zero-addresses to single chars, and converting 65-byte signatures from hex to base64 without padding.\n\nMessages travel over LoRa radio to a gateway node running the same frontend. That node's Action Queue picks up incoming signed messages, decodes them, and forwards them to our Elysia.js backend hosted on Railway. The backend executes the actual on-chain transactions — either `pay()` calls through the EVVM settlement layer or `executeCrosschain()` via Circle CCTP. The result (tx hash or error) is sent back over mesh as `c:` or `f:` tagged messages so the original sender gets confirmation without ever needing internet.\n\nThe key hack is the EVVM service architecture: for CCTP crosschain transfers, we created a dedicated EVVM service contract with a trusted EOA. When a user signs a crosschain request, they simultaneously sign an EVVM pay that routes funds to the service's EOA, which then covers gas and executes the Circle CCTP bridge — completely abstracting gas fees from the user. The user only needs a LoRa radio and a wallet; the mesh network handles the rest.\n`",
+  "auto_summary": "A Next.js app and Elysia backend relay signed EVVM and Circle CCTP payment intents over Meshtastic LoRa for offline-to-onchain settlement.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/ethastic-0x22r",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

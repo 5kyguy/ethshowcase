@@ -1,0 +1,29 @@
+{
+  "id": "xne1m",
+  "slug": "nounish-kzg-client",
+  "title": "Nounish (⌐◨-◨) KZG Client",
+  "tagline": "⌐◨-◨ Decentralized alternate KZG summoning ceremony contribution client built using NEAR BOS",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xne1m/banner/default.jpg",
+  "demo_url": "https://near.org/spieler.near/widget/NounishKZG",
+  "source_url": "https://github.com/sigmachirality/bos-kzg-client",
+  "prizes": [
+    {
+      "sponsor": "NEAR Protocol",
+      "sponsor_id": "5b69q",
+      "placement": "🥇 NEAR — Best Use of BOS",
+      "title": "NEAR Protocol"
+    }
+  ],
+  "finalist": false,
+  "description": "Though one of the stated goals of the KZG summoning ceremony is client diversity, as it stands there are only two contribution clients accessible through the browser (one of which is a [implementation themed around Doge](https://www.dogekzg.com/)). Additionally, the IPFS hosted version of the EF's browser implementation is currently [bugged](https://github.com/zkparty/trusted-setup-frontend/issues/194)! If something catastrophic were to happen to the EF's KZG frontend, the vast majority of users would lose the ability to meaningfully contribute to the KZG ceremony.\n\nAdditionally, I believe that more people would contribute if they could incorporate more interesting sources of entropy - wouldn't it be cool if people could say that their favorite Noun is playing a part in securing the future of EVM chains? Or, we could incorporate non-EVM related sources of on-chain entropy, like activity on NEAR shards?\n\n⌐◨-◨  Well, if clients must be themed, one should be Nounish! ⌐◨-◨ \n\nHence, [Nounish KZG](https://near.org/spieler.near/widget/NounishKZG) is an alternate KZG summoning client implemented on NEAR BOS. Because it is on NEAR BOS, Nounish KZG is decentralized and resilient in a way that makes it unlikely to have downtime. Users can use Nounish KZG to generate entropy by building a Noun from their favorite traits, and the Noun is rolled into other sources of entropy and ultimately contributed to the KZG ceremony!",
+  "how_its_made": "The project consists of several NEAR BOS widgets composed together. These include:\n- [NounishKZG](https://near.org/spieler.near/widget/NounishKZG)\n  - Splash - contains auth logic\n  - Lobby - contains KZG math logic\n- [NounSelector](https://near.org#/near/widget/ComponentDetailsPage?src=spieler.near/widget/NounSelector) - an extracted generalized Widget for generating Nouns\n\nOf most technical note is the KZG math implementation. Nounish KZG depends on [noble-curves](https://github.com/paulmillr/noble-curves), using their pure TS/JS implementation of BLS. NEAR BOS currently lacks support for WASM, so a pure TS/JS implementation was necessary - as a result, Nounish KZG trades off performance for decentralization in practice.\n\nI believe this is probably one of the first examples of injecting a non-whitelisted library into the NEAR BOS VM. This was accomplished through an exploit/hack involving [iframes](https://docs.near.org/bos/tutorial/using-iframes), where the library was loaded into an iframe and then the iframe was called as a worker by the main app. As such, the library was able to run in the normal JS environment and scope in the iframe, while the surrounding app operated within the BOS VM. Though there are security issues, I believe this is an interesting workaround that could be investigated further as BOS works to extend support for 3rd-party packages!\n\nAdditionally, because NEAR BOS has easy access to the NEAR blockchain, I was able to use the NEAR blockchain as another source of entropy. Though on-chain randomness has been thoroughly explored by orgs like Geometry, Paradigm and Chainlink, I think this is still a novel usage of randomness cross-chains.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/nounish-kzg-client-xne1m",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

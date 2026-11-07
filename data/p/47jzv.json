@@ -1,0 +1,35 @@
+{
+  "id": "47jzv",
+  "slug": "antiscalper-protocol",
+  "title": "AntiScalper Protocol",
+  "tagline": "Sybil-resistant access to scarce physical drops: World ID gates the claim, Sui settles it.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/47jzv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/aoFczt01iJQdgsNa6fPwzIj01HjYQmzao2ljKLm9vnghs/high.mp4",
+  "demo_url": "https://altaga-asp.expo.app/",
+  "source_url": "https://github.com/altaga/AntiScalper-Protocol",
+  "prizes": [
+    {
+      "sponsor": "Sui",
+      "sponsor_id": "vsbye",
+      "placement": "2nd place",
+      "title": "DeFi, Payments, Agents"
+    }
+  ],
+  "finalist": true,
+  "description": "AntiScalper Protocol (ASP) is an access-control and payment layer for physical machines, designed to prevent scalping on limited releases.\n\nPayment on its own proves that a transaction happened, not who made it or whether they already claimed. Scalpers exploit that gap by opening more wallets. Asp closes it by combining two primitives:\n\n- World ID (Proof of Human) binds each entitlement to a unique human through a zero-knowledge nullifier.\n- Sui handles settlement. Machines can be hired programmatically over x402, and at the point of sale the buyer pays through Sui Payment Kit (Slush).\n\nClaim flow:\n1. Registration: the user verifies with World ID and receives a ticket bound to their nullifier.\n2. Authorization: at the kiosk, the user re-verifies. The claim is authorized only if the nullifier matches the ticket holder and the proof is bound to that specific claim request.\n3. Settlement: the kiosk issues a Payment Kit request as a Slush QR code. The gateway confirms the on-chain PaymentReceipt before continuing.\n4. Fulfillment: the gateway sends a single dispense command over MQTT to an ESP32-controlled motor.\n\nEach entitlement can be redeemed exactly once. Replayed proofs, mismatched identities, and repeat claims are rejected before payment or dispense. Machines stay hireable over x402, but a PoH-gated release cannot be purchased without World verification.\n\nLive demo: https://altaga-asp.expo.app",
+  "how_its_made": "World ID integration:\n\n- IDKit 4.0 with Selfie Check. RP signatures are generated server-side, so the signing key never reaches the client.\n- Every proof is verified against World's /api/v4/verify endpoint. Authorization fails closed; client-side success callbacks are never trusted on their own.\n- The claim signal is set to the claim request ID, so each proof is bound to a single claim and cannot be replayed.\n- The gateway enforces a strict nullifier-to-ticket mapping: one human, one ticket, one redemption.\n\nSui integration:\n\n- x402: POST /asp/hire returns an HTTP 402 challenge, built on @altaga/x402-sui exact-payment schemes with sponsored gas. Apps and agents can hire machine capabilities programmatically.\n- Payment Kit: the gateway builds Payment Kit transaction URIs (receiver, amount, USDC, nonce) and exposes them as Slush deep links. Settlement is confirmed by matching the PaymentReceipt event on-chain by nonce, amount, and receiver.\n- Both payment paths go through the same policy check (assertHireAllowed), so PoH-gated capabilities cannot be bought without prior World authorization.",
+  "auto_summary": "A multi-component system that uses World ID verification and Sui-based payments to control one-time access to scarce physical machine releases.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/antiscalper-protocol-47jzv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

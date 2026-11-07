@@ -1,0 +1,28 @@
+{
+  "id": "yzzfu",
+  "slug": "omnichain-ens",
+  "title": "Omnichain ENS",
+  "tagline": "ENS + LayerZero: Register an ENS subdomain from any chain using LayerZero",
+  "event": {
+    "slug": "bangkok",
+    "name": "ETHGlobal Bangkok",
+    "start_time": "2024-11-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yzzfu/banner/default.jpg",
+  "source_url": "https://github.com/blossomlabs/d-www",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Blockscout Explorer Big Pool Prize",
+      "title": "Blockscout Explorer Big Pool Prize"
+    }
+  ],
+  "finalist": false,
+  "description": "ENS recently introduced Durin, a dApp designed to simplify L2 Names registration on L2s. It achieves this by deploying a smart contract on an L2 to manage subdomains.\n\nInspired by this, we aimed to extend its functionality using LayerZero, enabling the registration and trading of subnames as NFTs across multiple blockchains. With this setup, a subdomain name on one blockchain could still update the registry where its information is stored by making an lzSend call.\n\nWhile the idea was promising, we encountered challenges and couldn't fully implement it. The one success we had was setting up data on the L2, including a contenthash that's accessible via eth.limo!\n\nYou can check it by yourselves: https://evmcrispr.d-www.limo.eth.",
+  "how_its_made": "The LayerZero solution is built around three key smart contracts:\n\n1. L2Registry: This contract serves as a foundational registry, similar to the one ENS provided, but without the NFT functionality. It acts as a simple registry that can be updated by its owner.\n2. L2Registrar: The L2Registrar owns the L2Registry and handles updates to the registry. It can process updates from the same chain as the L2Registry or from other chains. Implemented as a LayerZero OApp, its counterpart is the OmniRegistrar—a contract on another chain connected to the L2Registrar. The OmniRegistrar sends messages to register or update the L2Registry remotely.\n3. Omniname: These are the NFT contracts deployed and interconnected across multiple chains. They manage the ownership of each subdomain and are designed to integrate seamlessly with the NFT ecosystem. Omniname implements the ERC721 interface for NFT compatibility and the ONFT standard from LayerZero, enabling native bridging across chains.\n\nThe resulting code has lots of mistakes, as it is very difficult to implement a crosschain solution in only 2 days, but it have been fun to experiment with it, and we think we came up with a good architecture for this particular scenario.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/omnichain-ens-yzzfu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

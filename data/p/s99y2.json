@@ -1,0 +1,21 @@
+{
+  "id": "s99y2",
+  "slug": "defidollar",
+  "title": "DefiDollar",
+  "tagline": "DefiDollar is an attempt at being an index of stable coins that uses Defi primitives to stay near the dollar mark and subsidize the collateralization ratio.",
+  "event": {
+    "slug": "hackmoney",
+    "name": "HackMoney",
+    "start_time": "2020-04-24T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s99y2/banner/default.jpg",
+  "demo_url": "https://defidollar.xyz",
+  "source_url": "https://github.com/defidollar",
+  "finalist": false,
+  "description": "Complete details about our submission can be found in our blog post: https://medium.com/@atvanguard/introducing-defidollar-742e30be9780\r\n\r\nIncluding the most important parts here as well:\r\n- Since DefiDollar (DUSD) is backed by existing stable coins, for the sake of the illustration, we start with choosing two stable coins, A and B for e.g. Dai and sUSD as the underlying reserves, in an equal ratio.\r\n- To mint 200 DUSD, the user deposits 100 coins each of A and B.\r\n- Within the mint transaction, A and B are locked in Aave, and the corresponding interest-bearing Aave coins aA and aB are deposited in a liquidity (balancer) pool. Interest income from Aave is redirected to an earnings pool.\r\n- aA and aB in the pool can be traded using an Automated Market Maker mechanism (a pool-based swap mechanism used by Uniswap and curve.fi and for which balancer provides a framework).\r\n\r\nNow, say the price of A fluctuates to $1.1 and B goes to $0.9.\r\n- This opens an arbitrage opportunity since, in the pool, A and B are still in a 1:1 ratio. Hence, arbitrageurs will trade A for B from the pool which will cause the values of both the pools to come close to $100 each and the DefiDollar will be balanced again. A small fee from these trades will also be directed to the earnings pool.\r\n\r\nWhile the arbitrage opportunity discussed above will keep the relative prices of the underlying coins in sync, there is still a possibility that the DefiDollar slips from its peg. A couple of such scenarios are when all of the underlying coins have fallen above or below the $1 mark.\r\n\r\nTo be able to explain this, let me draw your attention back to the earnings pool discussed above, which was accruing earnings from the interest and trade fees. Let’s say this pool has accrued 5 coins of A and B each over some time. This pool will act as a volatility cushion.\r\n- Say the price of A and B has dropped to $0.97 and $0.98 respectively and so DefiDollar would be at about $0.975. To counter this an oracle (chainlink) would periodically be pushing prices of the underlying coins.\r\n- Since the pool of A is valued at $97; to cover the deficit of $3, the protocol will send (3 / .97) = 3.092 coins from the earnings pool to the main pool. Similarly, the pool of B is in a deficit of $2, and hence (2 / 0.98) = 2.04 of B will be sent to the main liquidity pool.\r\nThis way DefiDollar will be at the $ mark again.\r\n\r\nAfter there are enough funds for the volatility cushion, any following earnings will act as the protocol fee.",
+  "how_its_made": "The central point of the DefiDollar system is the core contract. It interfaces with:\n\n1. Aave for deposits/withdrawals of the underlying stable coin assets. These can vary from 2-8 coins.\n\n2. Balancer to create a (LiquidityBootstrapping) pool that holds these interest-bearing Aave coins - which are the underlying reserve backing the DefiDollar.\n\n3. Chainlink reference data contracts (https://docs.chain.link/docs/using-chainlink-reference-contracts) for the rebalance mechanism.\n\n4. Uniswap to support more assets for minting/burning the defiDollar.\n\nAll of our contracts code can be found in https://github.com/defidollar/defidollar-protocol/tree/master/contracts\n\nSince folks from these sponsor companies were readily available for answering any queries, integrating with the protocols, and diving into their code was actually quite fun.\n\n\n\nWe built the frontend in Vue.js and integrated Metamask and Portis. This part was fairly straightforward. The frontend app supports mint/burn/swap/reBalance.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/defidollar-s99y2",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

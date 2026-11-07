@@ -1,0 +1,30 @@
+{
+  "id": "tv801",
+  "slug": "prompt-genius",
+  "title": "Prompt Genius",
+  "tagline": "A platform where creators generate AI images using prompts and players try to guess the prompt",
+  "event": {
+    "slug": "prague",
+    "name": "ETHGlobal Prague",
+    "start_time": "2025-05-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/tv801/banner/default.jpg",
+  "video_url": "https://stream.mux.com/SozSzDok00cSy1znAa6KU4GqH38lIaWSS00IuP3NIVEyE/high.mp4",
+  "demo_url": "https://prompt-guesser-nextjs.vercel.app/",
+  "source_url": "https://github.com/ArK2588/prompt_guesser",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "2nd place",
+      "title": "Best Blockscout SDK Integration"
+    }
+  ],
+  "finalist": true,
+  "description": "🎨 Challenge Creation Process\nCreators generate AI images using OpenAI's DALL-E 3 directly on the platform. When they input a prompt, the system:\nGenerates a high-quality 1024x1024 image using DALL-E 3\nUploads the image to Pinata IPFS for permanent decentralized storage\nStores a cryptographic hash (keccak256) of the prompt on the Flow EVM blockchain\nSets up a smart contract challenge with their desired reward pool in FLOW tokens\n💰 Economic Game Mechanics\nThe platform features a dynamic fee structure that creates engaging economic incentives:\nGuessing Fee: Players pay 10% of the current prize pool to make a guess\nRevenue Distribution: 98% goes directly to the challenge creator, 2% collected as platform fees\nWinner Takes All: The first player to correctly guess the prompt wins the entire prize pool\nCost Scaling: Higher-value challenges cost more to guess but offer bigger rewards\n🎮 Gameplay Experience\nPlayers browse active challenges displaying AI-generated images and current prize pools. When they submit a guess:\nThe smart contract compares the hash of their guess with the stored prompt hash\nIf correct, the challenge ends and they receive the full prize pool\nIf incorrect, the challenge remains active and they've contributed to the creator's earnings\nAll guesses and outcomes are recorded on-chain as permanent game history\n🏆 Leaderboard & Tracking\nThe platform features comprehensive leaderboards powered by blockchain events:\nTop Earners: Players ranked by total FLOW winnings\nMost Wins: Players ranked by number of challenges solved\nReal-time Updates: Leaderboards update automatically as new games are completed\nTransparent History: All wins and earnings are verifiable on the Flow blockchain\n🔧 Technical Foundation\nBuilt on Flow EVM for low-cost, fast transactions, the platform uses Scaffold-ETH 2 architecture with Next.js frontend and Solidity smart contracts. The integration of OpenAI's API with IPFS storage ensures both AI-powered content generation and decentralized permanence, while the blockchain handles all game logic and payments transparently.\nThis creates a unique gaming experience where creativity meets blockchain technology, rewarding both artistic prompt creation and clever guessing skills.\n",
+  "how_its_made": "We basically vibe coded this entire project, and honestly, it was our first time ever deploying smart contracts to a real blockchain! We started with Scaffold-ETH 2 as our foundation because we didn't want to reinvent the wheel, and it gave us this sweet monorepo setup with Next.js + Hardhat that just worked out of the box.\nThe core idea was simple: what if we combined AI image generation with blockchain gaming in DiXit style? So we built this prompt guessing game where people generate images with DALL-E 3, upload them to IPFS for permanent storage, and then others try to guess the original prompt. The winner takes the entire prize pool, but here's the kicker - the guessing fee is always 10% of whatever's in the pot, so more valuable challenges literally cost more to play.\nWe did some pretty hacky stuff to make it work. Instead of storing everything onchain (which would be insanely expensive), we use blockchain events as our database. Every time someone creates a challenge or makes a guess, we emit an event, and our frontend just listens to those events to build the entire game state through Blockscout API. We also had to figure out how to keep prompts secret until someone guesses correctly, so we store keccak256 hashes onchain and only reveal the actual prompt when someone wins.\nThe most interesting technical decision was probably deploying on Flow EVM instead of Ethereum mainnet. Flow gives us full Ethereum compatibility but with way cheaper gas fees, which is crucial for a game where people are making lots of small transactions. We also had to set up this whole pipeline where OpenAI generates the image, we immediately download it and upload to Pinata IPFS for permanent storage, then use that IPFS URL in our smart contract. The whole thing from prompt to blockchain transaction happens in one smooth flow.\nOh, and we kept hitting weird Yarn dependency issues until we discovered this simple .yarnrc.yml config that forces node-modules linking instead of Yarn's fancy PnP system. Sometimes the simplest fixes are the most important ones!\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/prompt-genius-tv801",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

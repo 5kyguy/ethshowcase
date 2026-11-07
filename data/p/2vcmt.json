@@ -1,0 +1,29 @@
+{
+  "id": "2vcmt",
+  "slug": "uniperk",
+  "title": "UniPerk",
+  "tagline": "Trust layer for AI agents: ENS permissions + Yellow instant trades + V4 settlement",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/2vcmt/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8IURKX68dxmGRO5jK6OxPfR801FNKoz00Rwd7NnhSY01mw/high.mp4",
+  "source_url": "https://github.com/JulioMCruz/ethg-hm-2026",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "UniPerk solves the critical trust problem for AI agents in DeFi. Today, giving an agent access to trade means giving full wallet control—there's no middle ground. We fixed that.\n\nThe Problem: AI agents are entering DeFi, but current infrastructure offers no identity layer, no permission controls, and inefficient gas costs for frequent trading. Users must choose between full access or no access.\n\nOur Solution: UniPerk combines three protocols into a unified trust layer:\n\n1. ENS Agent Permission System — Users configure granular trading limits via ENS text records (agent.uniperk.allowed, maxTrade, tokens, slippage, expires). These portable permissions follow the user across any dApp that integrates UniPerk.\n2. Yellow Network State Channels — Agents execute trades instantly and gaslessly off-chain via Nitrolite protocol. 100 trades cost the same as 1 settlement, making micro-strategies economically viable.\n3. Uniswap V4 Identity-Aware Hooks — Our UniPerkHook validates agent permissions on-chain and rewards user reputation with progressive fee discounts (Bronze→Platinum tiers based on trade history).\nHow It Works: User sets permissions on their ENS subdomain (julio.uniperk.eth) → Agent reads limits before trading → Trades execute instantly via Yellow → Settlement flows through V4 with hookData encoding (agent, user) → Hook validates permissions and applies tier discounts.\n\nDeployed on Base mainnet with verified contracts: AgentRegistry (0xd5A14b5dA79Abb78a5B307eC28E9d9711cdd5cEF) and UniPerkHook (0x825Fc7Ac1E5456674D7dBbB4D12467E8253740C0).",
+  "how_its_made": "Smart Contracts (Foundry + Solidity 0.8.26):\nWe built two contracts on Base mainnet. UniPerkHook.sol extends OpenZeppelin's BaseHook for Uniswap V4, implementing beforeSwap and afterSwap hooks. The hook decodes hookData as (agentAddress, userAddress) to validate trades against the AgentRegistry and apply tier-based fee discounts (0-5% off based on trade count). AgentRegistry.sol stores agent authorizations with ENS name references and trade limits, exposing a validateTrade() function the hook calls on every swap.\n\nENS Integration (viem + CCIP-Read):\nWe deployed a custom OffchainResolver (0x6a362CBCFB1F3ef1156231D07f301ecE6DB37bb1) on Ethereum mainnet using EIP-3668 CCIP-Read. This allows *.uniperk.eth subdomains to resolve via our Cloudflare Worker gateway without on-chain gas costs. Users claim subdomains by signing \"Claim {name}.uniperk.eth\" — the gateway verifies the signature and stores records in a Neon PostgreSQL database. Agent permissions are stored as text records (agent.uniperk.allowed, agent.uniperk.maxTrade, etc.) and read client-side via wagmi hooks.\n\nYellow Network Integration (@erc7824/nitrolite):\nWe integrated the Nitrolite SDK for state channel trading. The flow: connect WebSocket to Yellow Network → create session with USDC deposit to Custody contract (0x490fb189DdE3a01B00be9BA5F41e3447FbC838b6) → execute trades off-chain with signed state updates → close session triggers settlement through our V4 hook. Our lib/yellow/ module handles session management, ENS permission validation before each trade, and settlement encoding.\n\nFrontend (Next.js 14 + wagmi + RainbowKit):\nThe app uses React Query for caching ENS lookups, custom hooks (useENSPermissions, useUserTier, useYellow) for clean state management, and shadcn/ui components. The register flow signs a message client-side, posts to the CCIP gateway, and the subdomain becomes immediately resolvable.\n\nHacky Notable Bits:\n\n• We encode agent identity directly in V4 hookData, letting the pool itself enforce permissions — no separate approval transactions needed\n• The OffchainResolver uses a minimal clone factory pattern, costing only ~0.00012 ETH total deployment\n• ENS text records double as both human-readable config AND machine-parseable permissions — same data serves the UI and the trading agent",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/uniperk-2vcmt",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

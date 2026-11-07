@@ -1,0 +1,22 @@
+{
+  "id": "6saos",
+  "slug": "boundless",
+  "title": "Boundless",
+  "tagline": "Boundless unifies, moves, refuels, and gives you instant access to yield on all your assets",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/6saos/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ZHS7Yc83ytQTrGEKmcHdHpRpDpbC6Ih0201QlZ02WP6CSQ/high.mp4",
+  "demo_url": "https://boundlesseconomy.vercel.app",
+  "source_url": "https://github.com/Michael-Nwachukwu/boundless",
+  "finalist": false,
+  "description": "Boundless is a unified DeFi management interface designed to solve the problem of fragmented liquidity in Web3. As users interact with multiple L2s, such as Base, Arbitrum, and Optimism, their capital becomes scattered, resulting in \"dust\" balances, complex bridging friction, and difficulty in tracking true net worth.\n\nBoundless abstracts away these chain boundaries entirely. I leveraged the LI.FI SDK to power intelligent, cross-chain workflows that allow users to manage their capital as if it were on a single chain:\n- Unified Dashboard: Aggregates portfolio data across 5+ chains into a single view using Zerion, with full ENS identity resolution. With a unified balance that lets you know your spending limits. \n- \"Squeeze\" (Dust Consolidation): My signature feature that allows users to select dust balances from multiple chains and visually \"squeeze\" them into a single useful asset (e.g., converting 5 different tokens across 3 chains into USDC on Base) to any wallet address or network of choice in one simplified flow and transaction.\n- DeFi Zaps: A seamless way to enter yield positions. I built custom resolvers on top of LI.FI that enables users to zap from any token on any chain directly into Aave V3 positions in a single click, handling all bridging and chain switching automatically.\n- Pull & Refuel: Instantly pull liquidity to your current chain from your other holdings, and REFUEL helps you top up gas on any network of choice from your unified balance.",
+  "how_its_made": "Boundless is built on Next.js 14 and TypeScript, utilizing Tailwind CSS for the UI and Wagmi/Viem for blockchain interactions. The core innovation lies in our \"Intent-Based Routing\" layer, which sits on top of the LI.FI SDK.\n\nInstead of relying on standard bridge widgets, I engineered two custom routing engines: SqueezeResolver and ZapResolver. The SqueezeResolver is particularly complex—it iterates through a user's fragmented \"dust\" assets across multiple chains and concurrently calculates the optimal bridging/swapping routes to consolidate them into a single target token.\n\nAnother notable hack I did was implementing a Cross-Chain Aave Zap. Since I wanted to avoid deploying complex adapter contracts for the hackathon, we built a client-side orchestrator that:\n\n- Uses LI.FI to bridge assets from source to destination.\n- Actively polls the bridge status hook.\n- Automatically prompts the user to switch chains once funds land.\n- Encodes and executes a direct approve + supply transaction to the Aave V3 Pool. This allows us to support \"Any Asset -> Aave Position\" routes without needing specific on-chain adapters for every pair. \n\nI was particularly pleased with myself after figuring this one out.\n\nI also deeply integrated ENS by implementing a \"Cross-Chain Resolution\" strategy. We force ENS resolution queries to run on Ethereum Mainnet even when the user is connected to L2s like Base or Optimism, ensuring identities like boundless.eth always resolve correctly.\n\nZerion's API is the final piece, providing the unified balance data that powers our dashboard.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/boundless-6saos",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

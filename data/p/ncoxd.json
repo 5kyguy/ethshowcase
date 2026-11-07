@@ -1,0 +1,36 @@
+{
+  "id": "ncoxd",
+  "slug": "text-to-chain",
+  "title": "Text-to-Chain",
+  "tagline": "Bringing DeFi to 2.5B feature phone users via SMS. Cash to Crypto, no internet required",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ncoxd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Ld0100i4BY00B00LWgsI6ly02z6XCKCj00cXJZRjVTvRqZV94/high.mp4",
+  "demo_url": "https://text-to-chain.vercel.app/",
+  "source_url": "https://github.com/minrawsjar/Text-to-Chain",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "2nd place",
+      "title": "Best Chain Abstracted USDC Apps Using Arc as a Liquidity Hub "
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Integrate ENS",
+      "title": "Integrate ENS"
+    }
+  ],
+  "finalist": true,
+  "description": "Text-to-Chain is an SMS native DeFi protocol that turns any phone including 2G feature phones with no internet into a web3 wallet, token terminal, and cross-chain bridge. Users text commands to a ttcip phone number and execute real on-chain operations: wallet creation with ENS identity, token transfers batched through Yellows state channels, AMM swaps on Uniswap, cross-chain USDC cashout via Circle, and local currency based fiat onramping through a trustless TopUp system.\n\nThe protocol enables tokenization of local assets. A user buys a scratch card from their local provider, texts REDEEM <code>, and their local currency airtime value is transformed into onchain tokens instantly. No bank, no card, no internet just a scratch code turned into digital money through a trustless smart contract lockups and verification onchain.\n\nThere are 2.5 billion feature phone users worldwide with zero access to DeFi. Text-to-Chain doesn't ask them to upgrade it meets them where they are. One SMS to onboard, one to send money, one to swap, one to cash out. So we onboard the \"rest of the world\", one SMS at the time.",
+  "how_its_made": "When we started building, we explored USSD menus and Airtime before settling on plain SMS over Twilio webhooks it's the one protocol that works on every phone ever made, in every country, on every carrier. \nWe built the SMS handler in Rust on Axum with async Tokio because Twilio gives you 15 seconds to respond and we're doing wallet generation, database lookups, and blockchain calls in that window. The handler runs a custom recursive descent parser for 13+ command variants and implements EIP-137 namehash in pure Rust so ENS resolution stays off the JavaScript runtime entirely. Keys are generated via the k256 crate (secp256k1 ECDSA), encrypted with AES-256-GCM, and stored in Postgres through sqlx with compile-time query verification.\n\nThe backend is four TypeScript/Node.js microservices in Docker Compose a main API server, a Yellow Network batch processor, an Arc cashout service, and a blockchain monitor all behind Caddy reverse proxy and a tunnel. They communicate over internal Docker networking. The main API server uses ethers.js v6 for all onchain operations: ERC20 minting, Uniswap V3 swap routing via SwapRouter's exactInputSingle, and ENS subdomain registration with careful nonce management across five sequential transactions.\n\nYellow Network was critical for making SEND economically viable. Using the Nitrolite SDK (v0.5.3), we open a persistent WebSocket to Yellow's clearnode, perform EIP-712 typed data challenge response auth, and queue all SEND commands in memory. Every 3 minutes the batch processor flushes them as offchain state updates via createTransferMessage, then settles onchain with a single mint call. This collapses N gas expensive ERC20 transfers into one transaction without Nitrolite, every peer to peer SMS payment would cost individual gas and the protocol wouldn't be viable for micro transfers.\n\nCircle powers the cashout pipeline and required wiring three separate products together. Developer controlled Wallets give each SMS user a server managed wallet on Arc Testnet. CCTP V2 handles the cross-chain bridge  we call depositForBurn on Sepolia's TokenMessenger with minFinalityThreshold=1000 for Fast Transfer, poll the Iris API, then call receiveMessage on Arc's MessageTransmitter to finalize USDC minting. Without Circle's infrastructure, there's no way to get SMS users from an ERC20 token on Sepolia to spendable USDC on a separate chain and no way for users to store their money in a stablecoin.\n\nUniswap V3 is used for real AMM execution we deployed our own TXTC/WETH pool via UniswapV3 route through the canonical SwapRouter on Sepolia.\n\nENS required a custom Solidity registrar because the standard registration flow assumes a browser-based user. Our registrar performs a 5-step atomic sequence (setSubnodeOwner → setResolver → setAddr → setName → transferOwnership) so a single backend call gives the user a fully functional .ttcip.eth subdomain with reverse resolution.\n\nThe hackiest thing we built was the async cashout orchestrator. The SMS handler needs to respond in under 15 seconds, but the full CASHOUT pipeline  two AMM swaps, a WETH wrap, a CCTP burn, attestation polling, and a cross-chain receive takes over a minute. So we split it: the handler fires off the cashout request and immediately returns an SMS confirmation, while the Arc service processes the entire multistep pipeline asynchronously and triggers a second SMS notification through Twilio when settlement completes. The user experiences it as two text messages  \"Cashout initiated\" and \"10 TXTC → ~$38 USDC\"  but underneath, six onchain transactions across two different blockchains executed without a single user interaction.\n\nThe other notable hack was the ENS nonce sequencer. Registering a subdomain requires five sequential onchain transactions that must land in exact order if any one fails or lands out of sequence, the subdomain ends up in a broken state with no resolver or wrong ownership. We built a manual nonce tracker that pre-calculates all five nonces, submits them in a tight loop with escalating gas, and rolls back the entire registration if any transaction reverts. On Sepolia with unpredictable block times, getting five dependent transactions to land reliably from a single SMS command took more iteration than any other feature.\n\nThe full stack is five Solidity contracts on Sepolia, a Rust SMS handler on Axum, four TypeScript microservices orchestrated through Docker Compose, Postgres for encrypted key storage, Caddy as reverse proxy, Cloudflare tunnel for ingress, Twilio for SMS transport, and Vite on Vercel for the frontend seventeen moving pieces wired together so that a user on a $10 feature phone with no internet, no app store, and no concept of a private key can text a phone number and access the same DeFi infrastructure that today requires high end devices.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/text-to-chain-ncoxd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

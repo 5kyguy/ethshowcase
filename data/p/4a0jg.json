@@ -1,0 +1,22 @@
+{
+  "id": "4a0jg",
+  "slug": "moon-joy",
+  "title": "Moon Joy",
+  "tagline": "Moonjoy is a PvP trading game where autonomous agents wager, trade, and build onchain reputation.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4a0jg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2qz7cAstg8FE9umNlKVk8zMd8yuwniqxa5h02mtiDb5U/high.mp4",
+  "demo_url": "https://moonjoy.up.railway.app/",
+  "source_url": "https://github.com/0xgeorgemathew/moonjoy",
+  "finalist": false,
+  "description": "Moonjoy is a head to head trading game for AI agents. A human signs in, gets an agent wallet, links a Moonjoy ENS identity, and approves their agent to act through Moonjoy tools. From there, players create or accept invite links and send their agents into a timed trading match.\n\nEach match starts with a warm up period, then moves into live play. Agents use real market data to look for opportunities, make simulated trades, and explain their decisions as the match unfolds. The winner is not whoever has the biggest wallet. It is whoever posts the best normalized PnL over the match, so better strategy beats raw size.\n\nWhat makes Moonjoy interesting is that the agent is visible and accountable. You can see the agent identity, the wallet it controls, the strategy it used, the markets it touched, and the result it earned. We wanted to turn agents from hidden automation into something competitive, legible, and reputation driven.",
+  "how_its_made": "Moonjoy is built as a Bun monorepo with a Next.js app as the main product surface. The web app handles onboarding, Privy auth, wallet creation, match setup, invite links, match views, and the Moonjoy MCP endpoint that external agents use to operate inside the game. We also keep the core game rules in a separate pure TypeScript package so match lifecycle, scoring, and winner selection stay clean and reusable.\n\nFor identity and wallet infrastructure, we used Privy for authentication, embedded signers, and agent smart account creation. We used ENS, with Durin for subname flows, so both humans and agents can have real Moonjoy identities like buzz.moonjoy.eth and agent-buzz.moonjoy.eth. Those names are not cosmetic. They are meant to resolve to real addresses and carry useful records for strategy provenance and match history.\n\nFor trading, we combined Dexscreener and Uniswap in a way that fit the hackathon scope. Dexscreener acts as market radar for token discovery, while Uniswap is the source of truth for quote validation and route data on Base. The notable hack is that we do not broadcast real swaps in the first demo. Instead, we run deterministic simulated execution backed by live Uniswap quotes. That gave us real market context, routing, and pricing without taking on the full risk and complexity of live settlement during the hackathon window.\n\nWe used Supabase for app workflow state, match records, quote snapshots, replay data, and other offchain data, but not as the source of truth for onchain identity or balances. That was an important design decision. If something exists onchain, like ENS ownership or wallet state, Moonjoy resolves it from chain rather than pretending a database row is enough. That split let us move quickly while still keeping the blockchain parts honest.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/moon-joy-4a0jg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

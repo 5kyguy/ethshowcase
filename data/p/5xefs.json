@@ -1,0 +1,26 @@
+{
+  "id": "5xefs",
+  "slug": "veyra",
+  "title": "Veyra",
+  "tagline": "Secure AI agent secret broker powered by Ledger Key Ring, World ID and Bazantic.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5xefs/banner/default.jpg",
+  "video_url": "https://stream.mux.com/02N6aM0202O8BwrcTj3POiQclxuwZkNlt444eRp4b9Rw5M/high.mp4",
+  "source_url": "https://github.com/vick2592/Veyra",
+  "finalist": false,
+  "description": "Autonomous AI agents need access to APIs and secrets to be useful, but handing an agent raw API keys is a massive security risk. Furthermore, unchecked agents can spam requests and drain API limits. Veyra solves this by acting as a hardware-backed capability broker based on three pillars of trust.\n\nFirst, users vault their credentials into a physical Ledger Key Ring. The raw keys are never exposed to the internet. Second, when an AI agent needs to execute a task, it routes its request through a Bazantic x402 gateway, paying a crypto micro-toll to prevent spam and monetize the infrastructure. Finally, execution is gated by a World ID Face Auth check on-chain. A verified, live human must approve the specific action before Veyra decrypts the key and executes the task. Agents do the heavy lifting; you hold the keys.",
+  "how_its_made": "Veyra is built with a Next.js frontend, a Node.js backend, and smart contracts deployed on Base Sepolia.\n\nOur backend acts as a Universal Hardware Custodian using the Ledger Key Ring CLI (wallet-cli ring). We derive deterministic, collision-resistant hardware slots for every user (keccak256(userAddress) % 2^31), ensuring plaintext secrets never touch the cloud.\n\nTo expose this local hardware to cloud agents securely, we built an OpenAPI schema and routed a Bazantic x402/MPP Gateway through an ngrok tunnel. This allowed us to demonstrate something entirely new: cloud AI agents paying micro-tolls to encrypt data directly into a local physical hardware enclave.\n\nTo protect the system from Sybil attacks, we deployed the VeyraRegistry contract on Base Sepolia. The frontend uses World ID's IDKit to generate a ZK proof for human liveness. Our smart contract verifies the proof via the Base Sepolia World ID Router and emits an event. A backend listener catches this event, providing the final human-in-the-loop authorization required to trigger the Ledger decryption command.",
+  "auto_summary": "A multi-part app that stores encrypted user secrets, gates agent access with World ID proofs, and exposes hardware-backed custody through a paid API flow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/veyra-5xefs",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

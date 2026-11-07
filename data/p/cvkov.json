@@ -1,0 +1,27 @@
+{
+  "id": "cvkov",
+  "slug": "squadrons",
+  "title": "Squadrons",
+  "tagline": "The agent harness for DeFi — named scouts, onchain search, and capped live loops.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cvkov/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2gu00zISjht4f01465xLCqT4PJQue02ZHOWakj00EFlTLZc/high.mp4",
+  "demo_url": "https://squadrons.sprynt.works",
+  "source_url": "https://github.com/Ayushjain2205/squadrons.trade",
+  "finalist": false,
+  "description": "Squadrons is the agent harness for DeFi. Instead of a generic chatbot with tools bolted on, you get a desk of named crypto agents — each with a home chain, memory, and an activity trail — that you can research with, Arm into strategies, and graduate from Observe → Paper → Live without babysitting every tick.\n\nCoding harnesses are built for repos (web search, docs, terminals, PRs). DeFi needs different primitives. Squadrons replaces those with onchain search (subgraphs / pools / TVL), Crypto Twitter pulse, DEX quotes and backtests, and armed strategy loops that run as deterministic host recipes — not LLM-on-every-tick. Spend is fail-closed: per-agent caps (default $10 auto-trade ceiling), Tenderly simulation where configured, and Live only when the operator and host both allow it.\n\nOperators pick a chain (Base, Ethereum, Arbitrum, Optimism, Unichain, World Chain, Robinhood, Arc Testnet), create an agent, research with skills and MCP plugins, draft a strategy in chat, Arm it, paper-trade against live quotes, then go live under gas / slippage / spend guardrails. Optional self-improvement proposes param patches for desk approval.\n\nCustody is one Privy embedded wallet per user, shared across agents. Fund with Privy Add funds (fiat or crypto → USDC). Live settlement broadcasts through Privy’s Wallet API after a one-time session-signer grant — keys never sit in Squadrons. On Arc, agents trade USDC↔EURC via Circle Swap Kit through that same Privy path. The Graph powers Chain Search (Subgraph MCP) and Event Pipeline (NL → Substreams package → token-flow strategies), including Robinhood-focused top-token flows where traditional indexers are weak.",
+  "how_its_made": "Squadrons is a pnpm monorepo: Next.js desk (apps/web) + Node 22 host supervisor (apps/host) + shared types/policy/recipes (packages/shared) + Cordis/dsh plugins (packages/squadrons-*).\n\nWeb: Privy React for email/wallet login, embedded EVM wallets on login, Add funds (useAddFunds), and session-signer grant (useSigners). The desk is a three-column My Agents UI with SSE streaming for mid-turn tool activity and GenUI cards (Chain Search, Substreams pipelines, backtests).\n\nHost: verifies Privy access tokens, scopes agents by Privy DID, injects the shared wallet into agent turns, and runs long-lived dsh harnesses. Chat can draft strategies; Arm starts a deterministic recipe loop on the host scheduler. Observe/Paper never broadcast. Live builds swaps via 0x on ETH L2s or Circle Swap Kit on Arc Testnet, then signs through Privy Wallet API sendTransaction (Arc uses a minimal Privy EIP-1193 adapter so Circle kit.swap only needs eth_sendTransaction). Policy caps and optional Tenderly simulation sit in front of broadcast.\n\nPartner stacks we leaned on hard:\n• Privy — core identity, custody, funding, and live settlement (not just login).\n• The Graph — Subgraph MCP for live Chain Search; Substreams authoring from natural language into strategy edges (token_flow_alert).\n• Circle Arc + Swap Kit — USDC-native gas and USDC↔EURC FX where 0x has no route.\n• OpenRouter / dsh — agent turns with crypto-native tools (balances, quotes, social, intel) and host-provisioned MCP builtins so operators never paste API keys for the core loop.\n\nNotable glue: Cordis plugins publish flat JSON artifacts to the agent workspace; the host syncs them into activity/SSE for desk cards. Substreams pipelines use a studio-style deterministic stream head so Arm loops stay reliable without a separate sink subscription on every laptop. Funding destinations resolve to USDC on Privy settle rails (Base/ETH/Arb/OP) with an explicit fallback when the agent’s home chain isn’t fundable yet.",
+  "auto_summary": "A monorepo for creating DeFi agents that research markets, draft strategies, simulate trades, and execute live transactions through hosted services.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/squadrons-cvkov",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

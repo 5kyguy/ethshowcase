@@ -1,0 +1,27 @@
+{
+  "id": "dwwda",
+  "slug": "varanasi",
+  "title": "varanasi",
+  "tagline": "Enforcement rail for AI agents: mandates verified at settlement, release gated on proof.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/dwwda/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ACPDt56GnF8LAwSXMKm9KiI2n02jtqKkVNJDvD2Vwe6c/high.mp4",
+  "demo_url": "https://varanasi-five.vercel.app/",
+  "source_url": "https://github.com/Ramprasad4121/varanasi",
+  "finalist": false,
+  "description": "Varanasi is the enforcement rail for agentic commerce, infrastructure that lets humans hire AI agents with hard, on-chain spending limits instead of trust. Today, giving an agent work means handing it keys, allowances, or API credentials; one injected prompt or hallucinated address and the treasury drains. Varanasi moves the check to where the money moves.\n\nIt works in four steps. A human signs an EIP-712 mandate, a cap, a work window, an expiry, and a nonce, and funds lock in the TaskEscrow smart contract, never in the agent's wallet. The agent works inside those bounds; replay is impossible because the nonce burns the moment it is used. An allowlisted validator scores the work, and release pays the merchant only when the score clears a threshold pinned at fund time, combined with a live identity and threshold re-check in the same transaction. Miss the bar and the human is refunded automatically, with evidence attached. One click revokes the agent's identity (AegisRegistry) and every downstream gate including a Uniswap v4 beforeSwap hook (AegisHook) and RiskGuard closes.\nThe full stack ships together and is live: Solidity contracts on Sepolia (TaskEscrow, AegisRegistry, RiskGuard, AegisHook, all Sourcify-verified, 166 forge tests), a TypeScript agent engine that resolves ENS identity, pulls Uniswap intel from The Graph, pays $0.01 over the x402 rail on Hedera testnet, and returns ACT/SKIP verdicts with HashScan receipts (162 tests), an Express signal service with x402-gated alpha endpoints (5 tests), and a Next.js marketplace with Privy embedded wallets, a hire wizard, an agent roster with a 3D mascot, a documentation hub, a 23-brick public roadmap, and coming-soon Finance and Gold-backed-coin sections. Every claim links to a public record  proof, not screenshots.",
+  "how_its_made": "Four surfaces, one repo, all wired together. Smart contracts are Solidity 0.8.30 via Foundry with via_ir (TaskEscrow's fund frame outgrew legacy codegen's stack limit  the IR pipeline keeps semantics identical). TaskEscrow (EIP-712 mandate escrow with nonce nullifiers, pinned per-task threshold/validator, last-write-wins scoring), AegisRegistry (ENSv2-backed revocable agent identities), RiskGuard (identity + score gate re-checked inline at release), and AegisHook (Uniswap v4 beforeSwap hook verifying EIP-712 validator attestations from hookData)  deployed on Sepolia, Sourcify-verified, 166 forge tests including adversarial hardening.\nThe agent engine (TypeScript, Viem, Commander CLI) resolves agent identity through ENS, pulls live Uniswap pool intel from The Graph gateway, pays $0.01 USDC per signal over the x402 rail on Hedera testnet (with a neat fix: @x402/hedera's PrivateKey.fromString rejects 0x-hex ECDSA keys, so payer code uses fromStringECDSA, and prefers the USDC leg since facilitators reject HBAR in preflight), reasons to an ACT/SKIP verdict, and static-checks RiskGuard  162 vitest tests, all mocked/offline-safe.\nThe signal service (Express 5, TypeScript) serves x402-gated alpha endpoints with a file-backed receipt log plus mirrors of the shared finance types. The frontend (Next.js 14 App Router, Tailwind Colosseum theme, Privy embedded wallets so users sign in with email/Google/GitHub and get a self-custodial wallet, Viem contract calls, a procedural three.js robot mascot with zero model files) keeps a strict rule: demo finance state is simulated and labeled, and the agent's execute() throws until finance contracts deploy  so demo taps can never broadcast.\nPartner tech that mattered: Privy (no seed phrases for mainstream users), The Graph (real pool data, not mocks), Chainlink CRE (the roadmap's quorum verdict layer), and patch-package pinning one Privy SVG attribute fix. Hackiest notable bit: the whole mandate replay story rests on a single usedNonce[signer][nonce] mapping plus chainId inside the signed struct  two lines of Solidity carrying the entire double-spend guarantee.",
+  "auto_summary": "An on-chain escrow and risk-gating system for hiring AI agents with bounded spending, plus agent, service, and frontend components.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/varanasi-dwwda",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

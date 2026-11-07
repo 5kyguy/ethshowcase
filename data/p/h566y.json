@@ -1,0 +1,22 @@
+{
+  "id": "h566y",
+  "slug": "edge60",
+  "title": "Edge60",
+  "tagline": "Real-time skill duels where players stake USDC and get instant payouts.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/h566y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tM6P8RthXG02eIg5Isgtc7B2yNXuWnMFlA9CHm5fnDjY/high.mp4",
+  "demo_url": "https://edge60.vercel.app/",
+  "source_url": "https://github.com/phedron-klyro/edge60",
+  "finalist": false,
+  "description": "Edge60 is a real-time 1v1 USDC prediction duel platform where players compete in short, skill-based challenges.\n\nParticipants stake USDC, are matched with an opponent, and enter a 60-second trading window during which they predict whether an asset’s price will move up or down. The prediction is based on a live $10,000-backed trade simulation. At the end of the round, the player with the correct prediction wins the total pooled stake, minus a small protocol fee.\n\nTo introduce an additional skill component, Edge60 incorporates a competitive memory mini-game, testing focus and reaction time alongside market judgment.\n\nReal-Time, Gasless Gameplay\n\nEdge60 uses Yellow Network (SDK + Nitrolite) to enable session-based, off-chain gameplay. Matchmaking, stake locking, and prediction submissions occur instantly without gas costs, ensuring low-latency and seamless user experience.\n\nOn-Chain Settlement\n\nAt the conclusion of each duel, results are settled on-chain through the EdgeTreasury smart contract deployed on Arc Testnet. The contract automatically distributes USDC rewards to the winner in a secure and transparent manner.\n\nCross-Chain USDC Integration\n\nThrough Circle’s Bridge Kit (CCTP), users can deposit USDC from multiple supported chains, including Base, Ethereum, and Polygon, into Arc to participate. Winnings can be withdrawn back to any supported chain directly from the Edge60 interface.\n\nIdentity and Reputation Layer\n\nEdge60 integrates ENS to provide persistent, on-chain identity. ENS names and avatars are displayed across dashboards, duels, and leaderboards. ENS text records are also read to enhance user profiles, enabling transparent reputation and performance tracking.",
+  "how_its_made": "The frontend is built with Next.js, using wagmi and RainbowKit for wallet connection and account management. We integrate the Yellow SDK (Nitrolite client via @erc7824/nitrolite) to handle session creation and manage off-chain balances. This enables instant, gasless gameplay interactions. The duel interface communicates with our backend over WebSocket to support real-time matchmaking, live match state updates, and synchronized gameplay events. For cross-chain USDC transfers, we use Circle Bridge Kit (@circle-fin/bridge-kit with the viem adapter). This allows users to deposit USDC from supported chains into Arc and withdraw back to their preferred chain directly from the application interface.\n\nENS integration is handled via wagmi hooks: useEnsName, useEnsAvatar, and useEnsText\n\nThe backend is built on Fastify, with a dedicated WebSocket handler to manage matchmaking and the full match lifecycle. A PriceService (e.g., CoinGecko integration) retrieves T₀ and T₁ ETH prices to determine the outcome of each prediction round. A TreasuryService interacts with the EdgeTreasury Solidity contract deployed on Arc Testnet. The contract holds USDC and securely distributes payouts to the winner, deducting the protocol rake. A BridgeService integrates with Circle’s APIs to handle server-side treasury refills when necessary. A PayoutService, backed by MongoDB, records payout history and tracks leaderboard-eligible players. Administrative routes are protected via API key authentication and support batch payouts and leaderboard reward distribution.\n\nThe EdgeTreasury contract is written in Solidity and deployed on Arc Testnet. It uses OpenZeppelin’s SafeERC20 and ReentrancyGuard for secure token transfers and protection against reentrancy attacks. The contract receives USDC deposits, executes payouts via settleMatch and deducts and retains the protocol rake\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/edge60-h566y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

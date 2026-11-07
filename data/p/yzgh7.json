@@ -1,0 +1,26 @@
+{
+  "id": "yzgh7",
+  "slug": "qbase",
+  "title": "qbase",
+  "tagline": "Social Q&A for deep digital identity and verifiable sociological data",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yzgh7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7Bz00e00f02lW01bHtEZwcDrcEv8bZsGEJSpH2eHH4Q02X48/high.mp4",
+  "source_url": "https://github.com/0xzoo/qbase",
+  "finalist": false,
+  "description": "qbase is a Q&A platform where everything you ask and answer adds up to a profile you own, one that apps, AI, and other humans can read with your permission. Questions are canonical: near-duplicates resolve to one question so answers pool. And because people answer the same questions, a population becomes measurable: the same question asked again as a timed poll shows how views change over time, like a public panel study anyone can run. Each answer has an audience you choose: Public, Anon (your name is sealed, not just hidden), or Secret (encrypted, for you and qbase only).\n\nFor those answers to mean anything, three things have to hold, and this weekend we built them:\n\n1. One account, any login. Accounts were Farcaster IDs. Now an account is its own identity, and Farcaster, a passkey, an Ethereum wallet (your ENS name can be your handle, bound to the address, not the name) or World ID can all prove you hold it.\n2. One human, one answer. A poll can require a World ID proof of human when you answer. The proof is scoped to that poll, so a person answers once whichever account they use, and nothing links their answers across polls. It works on the web and inside the Farcaster mini app (World mini app planned).\n3. Results you can check without trusting us. When a poll closes, its public bundle (the rule, the count, the tally, and only answers people made public) goes to Arweave, and its hash is written to the question's own permanent ENSv2 name under askqbase.eth. Anyone can compare that record with our live database; edit a row and the check shows it.\n\nAccounts and World ID run in production at qbase.tech (World sandbox for the event). ENSv2 and Arweave run on the testnet deployment at qbase-dev.z00.workers.dev.\n\nPre-existing work: qbase has been in development since 2024 and was live at qbase.tech before the event: questions, answers and the three audiences, polls, Farcaster sign-in and passkeys. Everything up to the tag pre-ethglobal-tokyo-2026 in github.com/0xzoo/qbase existed before ETHGlobal Tokyo. The three pieces above were built during the event, in commits after that tag: accounts separate from Farcaster with Ethereum and World ID sign-in, the World ID one-human-per-poll check, and the ENSv2 + Arweave record with its verify check. Parts of the code were written with AI coding assistants (Claude via Claude Code) under my direction; commits they contributed to carry a co-author line, and the README has an AI-attribution section.",
+  "how_its_made": "qbase is a React 19 + TypeScript SPA on a Cloudflare Worker, with D1 (SQLite) for public data, KV and Durable Objects for sessions and rate limits, Vectorize for finding duplicate questions, and Quilibrium QStorage for encrypted private answers.\n\nWorld ID: IDKit 4 in the client. The worker signs a per-poll request (qbase-wave-<poll id>), verifies the proof with World's v4 verify API, and claims the nullifier under a UNIQUE (action, nullifier) constraint before the answer is written, releasing it if the write fails. Sign in with World uses World's OIDC identity provider (authorization code + PKCE, confidential client, pairwise subject). Hacky bits we hit: World's verify API returns 403 to requests with no User-Agent, and a Worker sends none; sandbox proofs only verify inside a 24-hour staging window opened through World's Developer Portal MCP, with its token sent as a header; the IdP's fixed sector meant publishing a sector-identifier document on the production domain so staging could share the client.\n\nAccounts: a migration moved every user from Farcaster-ID keys to random 2^40+ account ids in one D1 batch, reversible, rehearsed against production data; about 150 call sites were classified as \"person\" or \"Farcaster operation\".\n\nENSv2 + Arweave: questions get permanent subnames in qbase's own ENSv2 registry on Sepolia, with a permissioned resolver whose writer key can only set records. On close, a cron job builds a canonical-JSON bundle, hashes it, uploads it to Arweave through ArDrive Turbo, and writes the hash, ar:// contenthash and summary in one multicall. A standalone script reads everything back through the Universal Resolver without touching qbase.",
+  "auto_summary": "A React and Cloudflare Workers Q&A platform with World ID-gated polls and ENSv2/Arweave-backed verifiable poll result archiving.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/qbase-yzgh7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

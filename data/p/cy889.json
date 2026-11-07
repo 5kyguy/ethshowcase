@@ -1,0 +1,22 @@
+{
+  "id": "cy889",
+  "slug": "wispear",
+  "title": "Wispear",
+  "tagline": "Trust-scored discovery engine for AI agent components, powered by on-chain expert curation.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/cy889/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Tiro00frOOxFsbbiR1eeaASCzbbjlUEG00okkK9BuW8MU/high.mp4",
+  "demo_url": "https://wispear.ai/",
+  "source_url": "https://github.com/intuition-box/WisPear",
+  "finalist": false,
+  "description": "Wispear is the trust-scored discovery engine for AI agent components, built on Intuition Protocol.\nAI agents don't have an intelligence problem — they have a discovery, composition, and trust problem. Hundreds of tools, MCPs, skills, and packages exist, but there's no intelligent way to find, compare, or assemble them into a coherent stack. Current signals (GitHub stars, download counts) are noisy and unverifiable.\n\nWispear changes what the AI receives before it responds. When a user describes their need, the Wispear Agent extracts semantic claims, queries a community-curated knowledge graph where real practitioners stake $TRUST on components they validate, and composes an executable blueprint — not a list, but a plan: what to use, in what order, and why.\nThe system serves three actor levels: casual users get personalized blueprints with zero friction (no wallet needed), connected users save stacks on-chain, and curators put skin in the game by staking on tools within their declared expertise domains.\n\nKey components include an adaptive swipe-based profiling flow, a chat-to-blueprint interface with live visual construction, a component explorer with real-time on chain data.\n\nEvery interaction enriches the graph. Usage validates attestations, trust signals sharpen, and recommendations improve continuously through a dual flywheel between users and curators.\n\nWispear turns builders' collective experience into AI context — so every request benefits from the intelligence of those who already solved the problem.",
+  "how_its_made": "Wispear is built as a TypeScript monorepo (Bun + Turbo) with 3 apps and 7 packages.\n\nChat App (Next.js 14)\nThe main discovery interface. A user describes what agent they want to build, and a 4-stage pipeline kicks in:\n\nExtract semantic claims from the intent via Claude Opus\nQuery the Intuition knowledge graph through a custom MCP server to find ranked components (skills, MCPs, APIs, LLMs)\nBuild context with trust scores from on-chain curator votes\nGenerate a full agent blueprint (component stack, system prompt, install commands, MCP configs, flow diagram) via Claude\n\nCurator App (Next.js 14)\nLets users vote on-chain for the best components per use-case. Votes go through Intuition Protocol's MultiVault bonding curves on the Intuition L3 chain (ID 1155, native token TRUST). We use nested triples — (component, is-best-of, type) wrapped in ((triple), in-context-of, useCase) — so curation is contextual. Wagmi + Viem + Dynamic Labs handle wallet interactions and batch deposits.\n\nSwipe App (Vite + React 18)\nA mobile-first PWA with a Tinder-style UX. Users swipe through max 8 adaptive questions (binary decision tree in static JSON) to detect their Role and AI Maturity level, then publish their profile on-chain as Intuition atoms + triples via ethers.js v6 and @dynamic/appkit.\n\nAgent Package\nUses the MCP SDK as a client to talk to our Intuition MCP server (HTTP + stdio transports). Notable hack: Intuition's MCP server rejects concurrent connections, so all knowledge graph queries are serialized. Blueprint data is base64-encoded and passed via URL params between apps. \n\nFeedback API (Hono + Drizzle + SQLite)\nCloses the loop: logs sessions, messages, and blueprint selections so curators can improve rankings over time.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wispear-cy889",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

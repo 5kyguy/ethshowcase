@@ -1,0 +1,34 @@
+{
+  "id": "ds6uq",
+  "slug": "purplemirror",
+  "title": "PurpleMirror",
+  "tagline": "One NFT on infinite networks: a read only NFT mirror that replicates NFT cross-chain using  EIP3668 CCIP",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ds6uq/banner/default.jpg",
+  "source_url": "https://github.com/saurfang/poap-mirror",
+  "prizes": [
+    {
+      "sponsor": "Gnosis Chain",
+      "sponsor_id": "9z8z1",
+      "placement": "🥉 Gnosis Chain — Best Use",
+      "title": "Gnosis Chain"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🤝 ENS — Integration Bounty",
+      "title": "ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Today NFT only exists on a single network where it is minted at or bridged to. There has been some experiment on Omnichain NFT where a NFT collection can span multiple networks. However, you cannot have an instance of NFT on multiple networks. For example, you can bridge your ENS NFT to Optimism but you would no longer be able to attest its ownership on the mainnet. Another example is that POAP mints on Gnosis chain and it would be really cool if I can showcase it on application that supports other networks only (e.g. Instagram only supports mainnet and polygon for now)\n\nThe high level idea is to deploy NFT contracts on respective networks that simply mirror the state of the NFT contract on the NFT's root network. The mirrored contracts are read only and can only be used to verify ownership and retrieve metadata. We use EIP3668 to do just that.",
+  "how_its_made": "We considered a few naive implementations:\n1. Ask user to submit proof to mint/transfer token on the destination network. The proof would prove the action has been taken place on the source network. This approach is not scalable w.r.t number of networks or user friendly. Consider a POAP drop creator who wants to make all the POAPs available on Polygon so users can share them on Instagram, it would be tedious to do so on every token event.\n2. We could also copy the contract state storage to every destination network. This turns it into a database replication problem. We can either compute the delta of state change, or replay the transactions to update the contract state on other networks. There are a few issues: a. this is inherently gas intensive and it would expensive to fund this b. what is the mechanism to ensure these updates are published (who? what incentive?) c. how do we verify the state changes are valid\n\nIt turns out that ENS has already thought about this and been working on a series of EIPs that make this possible. https://docs.ens.domains/dapp-developer-guide/ens-l2-offchain\n\nWe tap into EIP3668 which allows us to access off chain data in a backwards compatible and standardized way. Indeed, \"Viewing token information for tokens stored on an L2 solution as if they were native L1 tokens.\" was one of the originally conceived use case.\nhttps://eips.ethereum.org/EIPS/eip-3668\n\nTo do so, we implemented a ERC721Mirror.sol contract that delegates the critical view functions to off chain callback:\nhttps://github.com/saurfang/poap-mirror/blob/scaffold-nextjs/packages/hardhat/contracts/ERC721Mirror.sol\nWe then implemented the backend server that unpack and pack EIP3668 requests and responses\nhttps://replit.com/@ericzhang98/FabulousSnowApplicationstack\n\nUnfortunately, we discovered the hard way that EIP3668 is not well supported on the client side. Ethers.js only added support in 3.6.0 and many projects in the wild is still on 3.4.x. Neither Etherscan or Opensea respected the OffchainLookup revert code. Instead, we were able to validate the implementation using tests:\nhttps://github.com/saurfang/poap-mirror/blob/scaffold-nextjs/packages/hardhat/test/myTest.js\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/purplemirror-ds6uq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "eam6y",
+  "slug": "forfait",
+  "title": "Forfait",
+  "tagline": "Turn a 60-day invoice into cash today — non-recourse receivables financing on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/eam6y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/qUHsKcwZ00u101srq48Snv9GsdJOF2VFRUv9MGHJxqucM/high.mp4",
+  "demo_url": "https://forfait.vercel.app/",
+  "source_url": "https://github.com/firhanaf/forfait",
+  "finalist": false,
+  "description": "Freelancers who invoice clients abroad wait 30 to 60 days to get paid, and have no way to\nborrow against that invoice while they wait. Banks won't underwrite a $2,000 receivable\nfrom a sole trader in Malang — the diligence costs more than the loan.\n\nForfait tokenizes an unpaid invoice as a zero-coupon bond using Hedera's Asset Tokenization\nStudio. Face value is the invoice amount, maturity is the due date. A funder buys it at a\ndiscount today; when the client pays at maturity, settlement and distribution execute\nautomatically. Every state change — submitted, verified, funded, paid, settled — is written\nto the Hedera Consensus Service as a tamper-evident audit trail, while the invoice document\nitself stays off-chain and only its hash is published.\n\nThis is forfaiting: the non-recourse purchase of cross-border receivables at a discount. It\nis a century-old trade finance instrument. Forfait makes it work at ticket sizes where the\npaperwork used to cost more than the deal.",
+  "how_its_made": "The security token is issued through Asset Tokenization Studio (ERC-1400) on Hedera's EVM\nlayer, using the ATS SDK rather than hand-rolled contracts — so compliance controls like\ncontrol lists, KYC gating, pause, and transfer restrictions come from audited code rather\nthan from me.\n\nMaturity settlement uses Hedera Scheduled Transactions with setWaitForExpiry, so the network\nitself executes the payout on the due date. No cron job, no keeper bot, nothing to keep\nrunning. The 62-day ceiling on scheduled transactions is why the product accepts invoices\nwith terms of 60 days or less.\n\nThe audit trail runs on the Hedera Consensus Service: one topic, one message per lifecycle\nevent, ordered and hash-chained by consensus. Invoice documents never touch the ledger —\nonly a SHA-256 hash, so a funder can verify the document they were shown is the one that was\nfinanced, without the pricing becoming public.\n\nPrivy provides authentication and embedded wallets, so a freelancer signs in with an email\nand never handles a seed phrase. Reads go through the Hedera Mirror Node REST API.\n\nFees are why this works at ticket sizes banks ignore: I measured a transfer at $0.0001 and\nan HCS message at $0.00017 on testnet. Financing a $2,000 invoice costs a fraction of a cent\nin ledger fees.",
+  "auto_summary": "A web app tokenizes invoices on Hedera as ATS-issued receivable bonds, logs lifecycle events to HCS, and schedules maturity settlement.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/forfait-eam6y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

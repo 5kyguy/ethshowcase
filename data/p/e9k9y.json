@@ -1,0 +1,30 @@
+{
+  "id": "e9k9y",
+  "slug": "cookie-jar",
+  "title": "Cookie Jar",
+  "tagline": "Cookie Jar is a smart contract that contains a small amount of tokens in it that anyone in a DAO can withdraw from. The withdrawer must leave a note saying what the tokens are going to be used for, and DAO members can upvote/downvote those notes.",
+  "event": {
+    "slug": "superhack2024",
+    "name": "Superhack 2024",
+    "start_time": "2024-08-02T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e9k9y/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XyNpwyUvHZQaRhxWtXpaVcvGRdVH5RNIw7nLx9qdgIE/high.mp4",
+  "demo_url": "https://cookiejar.vercel.app/",
+  "source_url": "https://github.com/aorap-hackathon/cookie-jar",
+  "prizes": [
+    {
+      "sponsor": "Blockscout",
+      "sponsor_id": "8kguf",
+      "placement": "Use Blockscout Block Explorer!",
+      "title": "Use Blockscout Block Explorer!"
+    }
+  ],
+  "finalist": false,
+  "description": "TL;DR onchain funding dApp, the implementation of Cookie Jar from super cool book https://allobook.gitcoin.co/. Shout out to Kevin for gifting me hard copy in Brussel!\n\nCookie Jar is a smart contract that contains a small amount of tokens in it that anyone in a DAO can withdraw from. The withdrawer must leave a note saying what the tokens are going to be used for, and DAO members can upvote/downvote those notes.\n\nCookie Jar is an optimistic governance mechanism that relies on high social trust and low amounts of funds at stake. It helps DAOs reduce governance overhead (no one has to vote on Cookie Jar proposals) and tracks contributions transparently.\n\nWho should use it? People who want to reduce governance overhead and create more bottoms-up leadership should use Cookie Jar.\n\nUse cases:\n1) Want to host a party? Don’t make a proposal that the whole DAO has to vote on. Just take the money out of the Cookie Jar.\n2) Went above and beyond at work last week? Grab some $$$ from the Cookie Jar and treat yourself.\n3) Spend $20 on a saas tool? Don’t ask your boss for the funding. Withdraw it from the Cookie Jar.\n\n----------------------------------------\nEach operation on jar makes an EAS attestation. Jars support native token, so Pyth price feeds are used for determining actual balance and correct amount for deposit/withdraw. Worldcoin's proof of liveness could help verify unique DAO members and guard against Sybil attacks.",
+  "how_its_made": "Cookie Jar consists of a single contract that uses AccessControl for managing DAO membership. When you create a jar, a new contract is deployed. It currently works on Base, Celo, and Optimism networks. It will also work on Mode and Metal L2 once Pyth and/or EAS become available.\n\nThe contract itself is EAS SchemaResolver overriding `onAttest`/`onRevoke` functions to have DAO members only attestations. The schemas are hardcoded into the contract and registered in the constructor, which simplifies the workflow. Each deposit/withdraw/vote generates EAS onchain attestation to the contract itself. Vote attestations are referring to corresponding withdraw attestations. Voted and changed you mind? No worries, your previous attestation will be revoked.\n\nFor simplicity, jars only support native tokens. The deposit/withdraw amount is automatically determined using in-contract Pyth price feeds. In case of deposit there is a refund if needed. A cool hack I figured out is that you can make the contract itself pay Pyth fees using `eth_call`. On the frontend, Hermes API is used to display the correct balance.\n\nFor frontend I've used rainbowkit, wagmi, React, Next.\n\nContract is verified on Base Blockscout: https://base.blockscout.com/address/0x4D129e9B89944f95806F75bc9b11a546D130Cf91?tab=contract\n\nWorldcoin's proof of liveness could help verify unique DAO members and guard against Sybil attacks. On-Chain Proof Verification (https://docs.worldcoin.org/id/on-chain) can be added to each operation to ensure that only unique, real people in your DAO can withdraw or vote.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cookie-jar-e9k9y",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

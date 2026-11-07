@@ -1,0 +1,22 @@
+{
+  "id": "48uep",
+  "slug": "archimedes-dex",
+  "title": "Archimedes Dex",
+  "tagline": "DeFi that works: one tx for baskets, AI that understands you, idle liquidity deployed cross-chain.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/48uep/banner/default.jpg",
+  "video_url": "https://stream.mux.com/01DMnShCDBs5nB3ZGZFq02xFg01G7DEB19h9uwtZz5dIOE/high.mp4",
+  "demo_url": "https://gamma.app/docs/Archimedes-Protocol-mt7wefbtuwl6xu5",
+  "source_url": "https://github.com/Ronnieraj37/Archimedes",
+  "finalist": false,
+  "description": "Archimedes is a DeFi app built to be better by fixing real friction: fewer transactions, less gas, and capital that works for you. Users can swap multiple tokens into a single asset in one on-chain transaction (basket swap) instead of one tx per token; an AI assistant (Claude) turns natural language into swap intents, pool lookups, and test-token minting so you don’t have to fight forms. When users invest in pools, allocated liquidity is put to work via LI.FI (cross-chain deploy and rebalance) and Yellow (off-chain session-based flows with on-chain settlement). We use Uniswap v4 and a custom hook (YieldOptimizerHook) on Base; the app also supports ENS (wallet names and “Send to” by name) and cross-chain quotes. The goal is a DeFi experience that’s clearer, cheaper, and more useful—measured in gas saved, prompts reduced, and liquidity actually earning.",
+  "how_its_made": "We built Archimedes as a Next.js 15 app (React, Tailwind) with a Solidity backend. The frontend uses RainbowKit and wagmi to talk to Base Sepolia; the AI layer is Claude via the Vercel AI SDK in a Next.js API route (/api/agent) that parses natural language into structured intents (SWAP, BASKET_SWAP, FIND_POOLS, MINT_TEST_TOKENS) and returns JSON the UI consumes. Swaps go through Uniswap v4’s PoolManager using the Hookmate V4 Swap Router; we deploy our own YieldOptimizerHook on every pool so beforeSwap/afterSwap run on each leg. The “hacky” bit is the BasketSwapper contract: it’s a wrapper that holds no liquidity. The user approves it once per token; on basketSwap() we pull each input token, approve the router, then call the router’s swapExactTokensForTokens in a loop via low-level router.call(abi.encodeWithSignature(...)) so the router sees this contract as msg.sender. That gives one transaction for N swaps and one block confirmation, and the hook still fires for every leg. We use the LI.FI SDK for cross-chain quotes (in-app Cross-chain tab and /api/lifi/quote) and in the idle-liquidity-manager to get routes for rebalancing allocated liquidity across chains. Yellow is integrated for session-based off-chain flows (session create/end/balance API) so we can do instant quotes and micro-moves and settle on-chain when the session ends. ENS is wired with wagmi’s useEnsName/useEnsAddress so we show wallet names and resolve “Send to” by ENS. All pool keys, token addresses, and the path-finding logic live in the frontend (swap-path, quote, constants); the contract only receives precomputed SwapInput[] arrays. Deployed with Foundry scripts; mock tokens and pools on Base Sepolia for the demo",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/archimedes-dex-48uep",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ei6ta",
+  "slug": "melt",
+  "title": "Melt",
+  "tagline": "Gift cards without stores. Send purchasing power for a purpose; let their AI choose the card later.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ei6ta/banner/default.jpg",
+  "video_url": "https://stream.mux.com/w9PFIf500YWDz43XBPZ1pTFJBaujWQKE8y74Gk2JnFYk/high.mp4",
+  "demo_url": "https://trymeltapp.vercel.app",
+  "source_url": "https://github.com/GitBolt/melt",
+  "finalist": false,
+  "description": "Gift cards make you choose a store too early. Cash gives up the reason you sent it. Melt sits between them.\n\nA sender locks ETH in an envelope for a promise like “mobile data for your trip, up to $20.” The vault enforces the budget, expiry, and fixed recovery address onchain. Melt applies the purpose, category, deny list, and price cap before any purchase can be quoted.\n\nThe recipient opens a shareable gift page or asks ChatGPT, Claude, Codex, or Grok to find something that fits. AI ranks the choices; deterministic checks decide what money can move. The model can interpret intent, but it cannot raise the budget, rewrite the gift, or invent a transfer.\n\nAt redemption, Melt converts only the card amount from ETH to USDC through Uniswap and prepares the Cryptorefills order. On testnet it performs the swap and validates the order without pretending test funds bought a real card. There is no cash-out or generic transfer tool. Unspent funds remain in the vault, and recovery always routes to the sender.\n\nThe same primitive also powers agent jobs: one instruction, one budget, one deadline, a live browser you can watch or take over, and a recovery path that survives the worker. Melt give people and agents purchasing power without handing them an unrestricted wallet.",
+  "how_its_made": "Melt is a React and Vite frontend backed by Fastify, SQLite, viem, and a Solidity TaskVault.\n\nPrivy handles email or wallet authentication and embedded wallets. A separate Privy-managed signer submits the outer transactions and pays gas. Every envelope deploys its own vault with an immutable owner, agent, cumulative ETH budget, and expiry. The contract blocks common approval and transfer selectors, accounts for spending onchain, and keeps closure and recovery available even if Melt’s API or browser worker disappears.\n\nThe semantic policy is deliberately separate from the model. Melt derives a purpose, category, deny list, dollar cap, partial-use rule, and return destination, then records a hash of that policy. Discovery combines Cryptorefills’ live catalog with built-in options. A configured model can rank already-approved candidates or audit an item proposed by an external assistant, but deterministic TypeScript checks enforce category, denied uses, price, and remaining funds again before a quote is created. AI can narrow the choices; it never gets final authority over the money.\n\nWhen a quote is redeemed, Melt calls Uniswap V3’s QuoterV2, builds an exactInputSingle call, and has the vault send only the quoted ETH through SwapRouter02. The resulting USDC returns to the vault without an ERC-20 approval being granted to the agent. Melt then validates or creates the corresponding Cryptorefills order. Testnet runs stop at validation and clearly state that test funds cannot purchase a live card.\n\nExternal agents can use Melt through hosted Streamable HTTP MCP, stdio MCP, REST, OpenAPI, or a dependency-free JavaScript client. Their keys are displayed once, stored as hashes, scoped to existing envelopes, metered, and revocable. They can list gifts, search, propose, and redeem, but cannot create an allowance, increase its value, change its recovery address, or make an unrestricted transfer. HMAC-signed webhooks and a complete event timeline make the lifecycle\n  inspectable.\n\nThe hacky part was making one vault work for two kinds of hands: a recipient’s assistant spending a gift and an owner’s browser agent completing a task. Browser agents run in isolated Playwright contexts behind an EIP-1193 provider that only forwards vault-permitted calls. The owner can watch the browser, pause it, take over, close the session, and recover remaining ETH plus discovered ERC-20 or ERC-721 assets. Solidity, API, SDK, browser, and restart-recovery tests cover the failure paths as well as the happy path.\n",
+  "auto_summary": "A web app and API for creating purpose-restricted ETH vaults that fund approved gift-card or agent purchases with controlled onchain recovery.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/melt-ei6ta",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

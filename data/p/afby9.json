@@ -1,0 +1,21 @@
+{
+  "id": "afby9",
+  "slug": "x-fusion",
+  "title": "X_Fusion",
+  "tagline": "Cross-chain Fusion+ swaps with partial fills using escrow contracts on Non-EVM and EVM",
+  "event": {
+    "slug": "unite",
+    "name": "Unite Defi",
+    "start_time": "2025-07-25T16:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/afby9/banner/default.jpg",
+  "video_url": "https://stream.mux.com/U8w01kU02NVJ4VpEOTLNAInJfNoN84golm02i8KT01bO6jE/high.mp4",
+  "source_url": "https://github.com/SamarthJ2004/X_Fusion",
+  "finalist": false,
+  "description": "This project is a mechanism for swapping tokens atomically between two independent blockchains—Sui (using Move smart contracts) and Ethereum (using Solidity contracts) following the 1inch Fusion+ documentation. It uses Hashed Timelock Contracts (HTLCs) to ensure that either both parts of the swap happen or neither does.\n\nHTLC Contracts\n\n1 ) On Sui (Move):\n--> escrow_factory for single fill swap : Handles create_src_escrow, create_dst_escrow, redeem, and refund. Emits events and enforces timelocks.\n--> escrow_factory for partial fill swap: Handles create_src_escrow, place_order, fill_order, create_dst_escrow,  redeem,  and refund. Emits events and enforces timelocks.\n--> Events such as SrcEscrowCreated, DstEscrowCreated, Redeemed, and Refunded are emitted to allow off-chain services to watch for on-chain activity.\n\n2) On Ethereum (Solidity):\n--> The TestEscrowFactory.sol contract is used to deploy escrow contracts for each swap.\n--> The Resolver.sol contract handles the Ethereum side of the swap. It includes functions initiateDstSwap, redeem, and refund, and integrates with a mock 1inch Limit Order Protocol for demonstration.\n--> Mock ERC-20 tokens (such as mock USDC) are used to simulate real fungible assets.\n\n\nOff-Chain Relayer: A small off-chain service (written in Nodejs and using Supabase for storing the secret and other data ) performs the following:\n\n--> Listens to events on both the Sui and Ethereum blockchains.\n--> Acts as the mediator between the User and the Resolvers\n--> When it sees that the escrow is created on Source and Destination, it reveals the secret to the resolvers.\n\nSwap Lifecycle\n\n--> The Maker (Alice) on Sui chooses a random secret s and computes the hash h = keccak_256(s), then creates the order and signs it and send it to the relayer .\n--> The relayer announces the order to all the resolvers. \n--> Resolverthen calls create_src_escrow(h, amount, timelock_A) to lock Source tokens and calls create_dst_escrow() on the destination chain and funds it.\n--> The Relayer detects the both events and reveals the secret to resolves.\n--> The Resolver redeems on Source with the preimage s, which becomes public. Using this secret, the resolver then calls Resolver.redeem(h, s) on Destination. This releases the mock USDC tokens to Alice’s Destination address.\n\nRefund Paths (If Something Goes Wrong)\n\n--> If the resolver never fund Destination escrow before timelock_B expires, Alice can call refund_src_escrow(h) on Source after timelock_A.",
+  "how_its_made": "We built a cross-chain HTLC protocol integrating Ethereum and Sui. Ethereum contracts were written in Solidity, and Sui logic in Move. For coordination, a custom relayer observes events on both chains and triggers actions accordingly.\n\nWe used Tenderly to fork Ethereum mainnet for realistic testing and for Sui we used the devnet, and Sui AI for contract assistance on the Sui side, which sped up development. A minimal React interface communicates directly with both chains via RPC.\n\nNotably, we bypassed full backend infrastructure by embedding logic into the frontend and using Supabase for event caching—a hacky yet effective move for a hackathon timeline.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/x-fusion-afby9",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

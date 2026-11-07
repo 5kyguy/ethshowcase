@@ -1,0 +1,21 @@
+{
+  "id": "aafyw",
+  "slug": "cryptomodels",
+  "title": "cryptomodels",
+  "tagline": "Instant micropayments for LLM tasks via Yellow Network state channels",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/aafyw/banner/default.jpg",
+  "video_url": "https://stream.mux.com/1Di75xYQPUvEXnyZaGDtGyizaTtp00MHRzEVLTDiKdLE/high.mp4",
+  "source_url": "https://github.com/zemse/cryptomodels",
+  "finalist": false,
+  "description": "CryptoModels aimed to enable pay per API call micropayments for AI models using Yellow Network's state channel infrastructure. The vision was simple: users deposit USDT on mainnet, get unified balance via Yellow's clearing layer, and pay freelancers (AI model providers) instantly per API call with sub cent payments settled off chain.\n\n**What we tried to build:**\n- CLI tool with `freelance serve`, and `hire <url>` commands\n- Freelancers monetize AI inference with HTTP 402 Payment Required + state channel payments\n- Cross-chain deposits/withdrawals via Yellow Network's Custody Contract\n\n**Why it's incomplete:**\nWe spent the majority of hackathon time attempting to integrate Yellow Network's mainnet. The mainnet integration proved significantly more complex than anticipated. Their contracts are not even verified on Etherscan/Sourcify. The documentation wasn't sufficient for a straightforward USDC mainnet deposit to unified balance flow. The system's complexity involving ClearNode connections, custody contracts, and state channel management required more time to properly understand and implement than the hackathon allowed.",
+  "how_its_made": "**Tech Stack:**\n- TypeScript with @erc7824/nitrolite SDK for Yellow Network state channels\n- Commander.js for CLI, viem for Ethereum wallet/signatures\n- Express.js for freelancer HTTP server with 402 Payment Required flow\n- WebSocket connection to Yellow's ClearNode (clearnet-sandbox.yellow.com)\n\n**What we built (testnet):**\n- State channel creation and management via ClearNode\n- Wallet/session persistence in ~/.cryptomodels/\n- Incremental payment states (0.001 USDC per API call)\n- HTTP 402 payment flow with X-Payment header validation\n\n**Where we got stuck (mainnet):**\nYellow Network's architecture involves multiple components: Custody Contracts for deposits, ClearNode for state management, and complex message signing flows. While testnet worked with their sandbox, transitioning to mainnet USDT required understanding undocumented flows around:\n- Mainnet ClearNode endpoints and authentication\n- Proper deposit flow from Custody Contract to unified balance\n- Channel creation with real assets\n\nAdditionally, Yellow's mainnet contracts are not verified on Etherscan or Sourcify, making it difficult to understand the on-chain interactions and verify the contract logic we'd be trusting with user funds.\n\nThe SDK and documentation are oriented toward their specific use cases. Adapting it for a generic \"deposit USDT → pay anyone\" flow proved challenging within hackathon constraints. We cloned nitrolite repo and studied the code, but ran out of time before achieving mainnet functionality.\n\n**Lesson learned:** State channel infrastructure is powerful but requires significant integration effort beyond typical DeFi protocols.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/cryptomodels-aafyw",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

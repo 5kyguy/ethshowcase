@@ -1,0 +1,27 @@
+{
+  "id": "bf5pg",
+  "slug": "zer0x-payagent",
+  "title": "Zer0x PayAgent",
+  "tagline": "AI agent iNFT that allocates your paycheck, executes real swaps, and learns from your overrides.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/bf5pg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/XXt27rUA2VGk51CpMsJwwW02MDcSHUlhhsD5l006n3kqk/high.mp4",
+  "demo_url": "https://zer0x-jet.vercel.app",
+  "source_url": "https://github.com/pintoinfant/zer0x",
+  "finalist": false,
+  "description": "PayAgent is an autonomous AI financial agent that lives on-chain as an ERC-7857 iNFT on the 0G Network. Users interact through a Telegram bot to manage their monthly paycheck allocation.\n\nThe workflow is simple: set your bills (rent, utilities, internet) and investment goals (ETH savings, stablecoin reserve) once. Each month, tell the bot how much you earned. The agent uses 0G Compute to reason about your allocation -- bills are reserved first, then remaining funds are split across goals. It then executes real Uniswap V3 swaps on Ethereum Sepolia, converting USDC into ETH, DAI, or USDT through pools we deployed on the official Uniswap factory.\n\nThe key feature is in-context learning. If you disagree with a decision and override it -- say, \"market is volatile, reduce ETH exposure\" -- the agent stores your original plan, final plan, and reasoning in 0G Storage. Next month, the full decision history including overrides is fed into the LLM prompt. The agent reads the pattern and adapts. No fine-tuning, no retraining.\n\nAll user data -- config, bills, goals, and decisions -- is persisted in 0G decentralized storage. The ERC-7857 iNFT on 0G Testnet anchors content hashes on-chain, providing verifiable ownership of the agent and its data. The agent is portable: your financial AI lives as an NFT you own.",
+  "how_its_made": "PayAgent is a TypeScript pnpm monorepo with three packages: agent (Telegram bot and core logic), contracts (ERC-7857 iNFT), and uniswap (pool deployment scripts).\n\nThe Telegram bot is built with grammY and grammyjs/conversations for multi-step flows (onboarding, adding bills/goals, paycheck approval/override). The bot sends user context to 0G Compute, which exposes an OpenAI-compatible API running DeepSeek. The LLM prompt includes the full decision history with override details, which is how the agent learns without retraining -- pure in-context learning.\n\nFor on-chain swaps, we deployed four mock ERC-20 tokens (USDC, WETH, DAI, USDT) and three Uniswap V3 pools on the official Sepolia factory using Hardhat scripts with correct sqrtPriceX96 initialization via BigInt square-root math. The swap executor in ethers.js v6 uses a 3-tier quoting fallback: QuoterV2 first, then router staticCall simulation, then raw pool slot0 sqrtPriceX96 math. If any swap fails, funds stay as USDC -- it never crashes.\n\n0G Storage (the 0gfoundation/0g-storage-ts-sdk) persists all user data as JSON blobs with a local .data/ cache fallback. The ERC-7857 iNFT contract on 0G Testnet (chain 16602) uses a BeaconProxy pattern -- PayAgentNFT stores four content hashes (config, bills, goals, decisions) pointing to 0G Storage roots, updated after every decision. The iNFT implements the ERC-7857 standard with a custom PayAgentVerifier for cross-validation.\n\nOne notably hacky detail: Uniswap V3 pools cannot be reinitialized once created, so when our initial pools had inverted prices from a decimal-adjustment bug in sqrtPriceX96 computation, we redeployed at different fee tiers (10000 for WETH, 3000 for DAI) to get fresh pools with correct pricing. The swap executor maps token pairs to these specific fee tiers automatically.",
+  "auto_summary": "A monorepo for a Telegram-based paycheck allocation agent that uses 0G services, an ERC-7857 NFT contract, and Sepolia Uniswap V3 swap tooling.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/zer0x-payagent-bf5pg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

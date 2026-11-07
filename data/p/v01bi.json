@@ -1,0 +1,26 @@
+{
+  "id": "v01bi",
+  "slug": "polydata-brokers",
+  "title": "POLYDATA Brokers",
+  "tagline": "Encrypted data sealed on Hedera. Agents pay per-item over x402 to get it decrypted.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/v01bi/banner/default.jpg",
+  "demo_url": "https://polydata-brokers.pierre-giraud.workers.dev/",
+  "source_url": "https://github.com/ipapandinas/ethglobal",
+  "finalist": false,
+  "description": "The paid data layer for AI agents. Sellers seal observations with per-message AES-256 encryption and publish the ciphertext to a Hedera HCS topic. Agents discover them, pay over x402 in USDC, receive the key, and verify the decrypted payload against the chain — no API keys, no humans in the loop.\n\nHow it works\n\n1. Publish - the broker encrypts the seller's payload under a fresh key,\n   submits the ciphertext to the fixed HCS topic, and returns the key to the seller.\n2. Reveal - a buyer reads the topic, hits `GET /reveal`, gets a 402 quote,\n   settles a signed USDC transfer via an `X-PAYMENT` header, and receives the key.\n3. Verify - both actors decrypt the on-chain ciphertext through the same CLI\n   path. The AES-GCM auth tag makes the ciphertext the commitment: the broker is\n   trusted for confidentiality and availability, trustless for integrity.",
+  "how_its_made": "A TypeScript monorepo in three parts. `shared/` holds the zod schemas both apps agree on. They validate incoming data, generate the TypeScript types, and produce the JSON tool manifest the CLI hands to agents. `apps/api/` is the broker: an Express server that encrypts payloads, posts them to Hedera, stores keys in Postgres, and puts x402 in front of the reveal route. `apps/cli/` is what sellers and buyers actually run. The landing page is on Cloudflare Workers.\n\nHedera does three jobs here. Its fees are fixed and sub-cent, so paying per observation doesn't get swallowed by gas. HCS gives us an ordered, timestamped, tamper-proof log with no contract to deploy, there's no Solidity in this project at all. And Mirror Node lets anyone read the topic for free, including who paid to post each message, which is how we confirm a broker is who it claims to be. x402 handles payment inside the normal HTTP flow, so there's no pricing endpoint: the 402 response is the quote.",
+  "auto_summary": "A TypeScript monorepo that encrypts data, logs ciphertext to Hedera HCS, and reveals decryption keys after x402-gated payment.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 7
+  },
+  "showcase_url": "https://ethglobal.com/showcase/polydata-brokers-v01bi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

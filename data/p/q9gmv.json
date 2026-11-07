@@ -1,0 +1,21 @@
+{
+  "id": "q9gmv",
+  "slug": "anti-sandwich",
+  "title": "Anti-Sandwich 🚫🥪",
+  "tagline": "Anti-Sandwich: Verifying canonical order of transactions in a multicall execution using RISC Zero proofs.",
+  "event": {
+    "slug": "scaling2024",
+    "name": "Scaling Ethereum 2024",
+    "start_time": "2024-04-05T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q9gmv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/2YY3OSibWV01MIEwqDn1lRYaD02lbVUgjNkPRPpFWUCqs/high.mp4",
+  "source_url": "https://github.com/FudgyDRS/scaling-ethereum",
+  "finalist": false,
+  "description": "The Anti-Sandwich project aims to tackle multiple aspects related to ensuring the integrity of transaction execution in a multicall context. The primary goals of the project are:\n\n    Verifying the canonical order of transactions within a multicall type execution.\n    Verifying the index position of a transaction on the mined block.\n    Offloading computation for signature validation of large hashes.\n\nThe practical application of this project is directly related to crosschain and sequencing restake slashing proofs. During the execution or inclusion of a transaction, all parts of the transaction must execute in a specific order without tampering (sandwich, frontrunning, etc.) by the solver or sequencer. One approach is to have an event executed by RISC Zero, where in the event of malicious activity, a callback would trigger the slash mechanism.\n\nFor brevity, the execution proof will demonstrate that the ERC1271 executions of a multicall contract are canonically executed.",
+  "how_its_made": "The Anti-Sandwich project utilizes the following technologies and components:\n\n    Solidity: The smart contracts are written in Solidity, a programming language for developing smart contracts on the Ethereum blockchain.\n    RISC Zero: RISC Zero is used to generate and verify the proofs of canonical execution order. The IRiscZeroVerifier contract is imported to interact with the RISC Zero verifier.\n    Multicall Contract: The project includes a custom multicall contract that allows for executing multiple calls in a single transaction. The contract supports both view and execute functions for multicalls. It also includes utility functions like getExtcodesize and at for retrieving code size and code of an address.\n    Order Contract: The Order contract defines three functions (functionA, functionB, functionC) that return constant values. These functions are used to demonstrate the canonical execution order.\n    ImageID: The ImageID contract is used to define a constant imageId that represents the ID of the zkVM binary accepted for verification.\n\nThe multicall contract is deployed on the Arbitrum Sepolia testnet. It interacts with the RISC Zero verifier to ensure the canonical execution order of the transactions within the multicall. The set function in the multicall contract requires a RISC Zero proof that verifies the input matches the expected journal data.\n\nThe project leverages the RISC Zero technology to offload computation and generate proofs of canonical execution order. By integrating RISC Zero with the multicall contract, the project aims to prevent sandwich attacks and ensure the integrity of transaction execution in a multicall context.\n\nPlease note that this project is a work in progress and may not achieve all of its stated goals. However, it demonstrates the potential of using RISC Zero proofs to verify the canonical order of transactions and prevent malicious activities in a multicall execution environment.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/anti-sandwich-q9gmv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

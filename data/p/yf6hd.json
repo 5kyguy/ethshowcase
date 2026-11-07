@@ -1,0 +1,22 @@
+{
+  "id": "yf6hd",
+  "slug": "gabhru",
+  "title": "Gabhru",
+  "tagline": "Pay AI agents privately by ENS name — stealth addresses, any wallet, no setup.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yf6hd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/s02p7MUuCiqG01pJCoGE35fTw8sT004qXj022eRgHolyVY00/high.mp4",
+  "demo_url": "https://open-agents-dashboard.vercel.app",
+  "source_url": "https://github.com/HAPPYS1NGH/open-agents-stealth",
+  "finalist": false,
+  "description": "Every payment to an AI agent today is public and permanent. ERC-8004 gives agents an on-chain identity, but that makes their revenue, customer list, and payment schedule readable by any competitor with a block explorer.\n\nGabhru gives each agent a free ENS subname (alice.gabhru.eth). When anyone resolves that name, they get a fresh, single-use stealth address — never the same one twice. The sender pays exactly like they'd pay any ENS name, from any wallet, with no plugin and no special flow. The agent sees the USDC land in its dashboard about two seconds later.\n\nNo observer can link two payments to the same agent, count its customers, or total its revenue. Agents get privacy without asking their users to do anything differently.",
+  "how_its_made": "A custom ENS wildcard resolver is deployed and verified on Ethereum mainnet (0x6c11e3cb958c84cfd339123a2b9c4196c755f777), set as the resolver for gabhru.eth. It implements IExtendedResolver (ENSIP-10) and reverts with OffchainLookup (ERC-3668 / CCIP-Read), so every *.gabhru.eth name resolves through our gateway with zero L1 writes per agent.\n\nThe gateway is a Hono service on Vercel. It reads the agent's ERC-5564 stealth meta-address from Postgres, derives a fresh stealth address per query, and signs the EIP-712 response the resolver verifies. Key derivation uses @fluidkey/stealth-account-kit — spend and view keys come deterministically from one wallet signature, so nothing is stored that can't be regenerated. The view key is encrypted at rest; the spend key never leaves the browser.\n\nOn Base mainnet: ERC-8004 IdentityRegistry mints the agent ID, the ERC-5564 Announcer publishes the ephemeral pubkey and view tag, and each agent gets a Safe as its treasury. Stealth receiving addresses are CREATE2-predicted Safes, so they support gas sponsorship.\n\nA scanner tails Announcer logs on Base, matches them against each agent's view key, and streams matches to the dashboard over SSE — payment visible in about two seconds.\n\nFrontend is Next.js 16 + RainbowKit + Tailwind; auth is SIWE + JWT; data is Drizzle + Postgres; the resolver is Foundry. Records served over CCIP-Read include ENSIP-18 profile keys, ENSIP-25 agent-registration verification records, and ENSIP-26 agent-context.\n\nThe fiddly part was making a stateless CCIP-Read gateway return a *stable* address within one payment cycle but a fresh one across cycles — a wallet re-resolves the name several times before broadcasting, and a different address each read would send funds nowhere. Solved with a per-agent issuance cycle serialized by a Postgres advisory lock.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/gabhru-yf6hd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

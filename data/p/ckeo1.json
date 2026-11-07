@@ -1,0 +1,28 @@
+{
+  "id": "ckeo1",
+  "slug": "the-lit-paymaster",
+  "title": "The Lit Paymaster",
+  "tagline": "The Lit Verifying Paymaster replaces the need for EOAs controlled by single entities as owners of verifying paymasters. By doing this it allows permisionless gas abstraction for any ERC-20 token listed on coingeko on most EVM chains.",
+  "event": {
+    "slug": "waterloo2023",
+    "name": "ETHGlobal Waterloo",
+    "start_time": "2023-06-23T13:00:48.778Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ckeo1/banner/default.jpg",
+  "source_url": "https://github.com/paged1/lit-paymaster",
+  "prizes": [
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "🔑 Lit — Best use of PKPs and Lit Actions",
+      "title": "Lit Protocol"
+    }
+  ],
+  "finalist": false,
+  "description": "Today, verifying paymaster provide the most viable path in EIP-4337 for gas abstraction. In their current design, they require a signature from the owner EOA of the Paymaster for every userOperation that invokes them. The current landscape is dominated by these type of paymasters where the owner EOA is controlled by a single entity and mostly offered through pay-as-you-go plans requiring an account and API key with them. This means currently, most paymaster service providers like these act as centralized gatekeepers to gas abstraction. \n\nWe present a novel architecture for a verifying paymaster that uses Lit PKPs tied to Lit actions instead of using standard EOAs. The lit action gets passed the token address which it uses to query public endpoints (coingecko in this prototype) to fetch the exchange rate for a given token address and returns a signature that can be used in the user operation. This version accepts any token on coingecko since we wanted to showcase a public good but the lit action can easily be modified to only accept some tokens or any other custom logic. \n\nOur demo shows a deployed paymaster where the owner is a Lit PKP that is tied to Lit Actions that fetch the exchange rate of the token being used to pay for gas and outputs the hash and the user operation that can be submitted to the bundler. This implementation can easily be integrated with any Smart Wallet Account to create a wallet that allows gas abstraction by accepting fees in most ERC-20 tokens. \n\nThe advantages of this approach are:\n\nPermissionless:  No need for a centralized entity to decide if they want to suddenly rug providing services to applications that rely on them. As long as the conditions in the Lit actions are satisfied it will return a signature. The Lit action is immutable so applications can rely on this system for gas abstraction as changing the conditions is not trivial. \n\nMore decentralized: Rather than a single entity deciding to sign or not, this architecture requires a majority consensus of nodes in the lit protocol running the lit action to agree on the results of the action to return a signature. \n\nThis solution offers better decentralization than existing architectures which increases the robustness and interoperability of Paymasters in applications and improve gas abstraction systems in Ethereum. \n\nIn future iterations, we want to:\n\n- Have better token filtering: Put more stringent criteria for which tokens are allowed \n   (for eg top 500 tokens in coingecko or tokens with a certain volume etc).\n\n- Add a mechanism to change the Lit PKP through governance for eg a Governor \n   contract controlled by the LP token holders.\n\n- Have more sources for exchange rate: We want to add more sources to get the \n   exchange rate of the token so we can have less risk on a single endpoint for our \n   source of truth. \n\n- Explore a Moonbag Paymaster variant: We want to add incentives for addresses that \n   stake ETH into the paymaster by introducing a small premium on the fees charged and \n   issuing LP tokens that can be redeemed for the fee collected proportionally to the \n   percentage ownership. Since paymasters primary use case is in applications, this will \n   allow those who stake ETH to get a yield in the tokens based on their usage for \n   transactions lower than the market rate at that time. We call this demand-based \n   buying and we are excited to explore this further. \n\n",
+  "how_its_made": "Technologies used:\nUserop lib (Stackup)\nlit-protocol (LitActions)\nSimpleAccount by ETH-Infinitism\nVerifyingPaymaster (Stackup)\n\nHow technologies are pieced together:\n\nWe are using SimpleAccounts as the smart contract wallet with EOAs as signers. We allow any erc-20 token that is on coingecko and most evm chains to pay for the gas of the Smart Contract Wallet's user operation, by using a verifying paymaster where the owner is a Lit PKP. The PKP is tied to a lit action that fetches the exchange rate of the token in ETH from coingecko. The lit action then returns a signature which we use to create the userop to send to a bundler. \n\nWe used Lit Protocol to create an architecture for a verifying paymaster where the EOA is not controlled by single entity by using Lit PKPs. We used lit actions to fetch the exchange price that is agreed by the majority of the nodes in the Lit network. \n\nThe hacky part was getting the lit PKP to generate a signature that we needed. Since Lit Actions don’t have a straightforward way to use libraries we had to use bundles to use the ones we needed. We also had to create logic that allowed lit actions to give an exchange rate correctly using the coingecko API. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/the-lit-paymaster-ckeo1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

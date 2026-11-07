@@ -1,0 +1,27 @@
+{
+  "id": "4xc6d",
+  "slug": "unigarden",
+  "title": "Unigarden",
+  "tagline": "A cozy garden game that is a real Uniswap liquidity client. Every plant is a live LP position.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4xc6d/banner/default.jpg",
+  "video_url": "https://stream.mux.com/wF8JTyE32kzXWcfQ2fnGgy01i4UZqoqywG02EHVCthkvU/high.mp4",
+  "demo_url": "https://ethglobal-unigarden.fly.dev/",
+  "source_url": "https://github.com/abdtimur/ethglobal-lisbon-2026",
+  "finalist": false,
+  "description": "Providing liquidity starts with a wall. Pick a pair, pick a fee tier, pick a price range — and you have to understand all three before you can put in $10 and find out what happens. Unigarden replaces that wall with a garden.\n\nEvery plant is a real Uniswap V3 position you own. Planting a seed opens one, watering adds liquidity, harvesting collects the fees that have grown as fruit, repotting rebalances into a fresh range, digging up withdraws, and tossing the empty pot burns the NFT. Nothing is simulated: each chore is calldata built by the Uniswap hosted API and signed in your wallet.\n\nThe game state is the position state, read honestly. A plant droops as the price drifts toward the edge of its range and wilts when it leaves, because that is exactly when it stops earning. The weather over the garden is the pool's realized volatility, and it is the same number that sizes the range a new seed gets — so a stormy garden plants wider without anyone having to sit through an explanation of concentrated liquidity.\n\nYou can also visit any address's garden, or open one from a leaderboard of the largest gardens on mainnet without connecting a wallet at all. A visited garden is read across Uniswap V3, SushiSwap V3 and PancakeSwap V3 at once. When you find a range you like, \"take a cutting\" copies that range into a new position of your own, at your own budget — and before you copy it you can see what share of the last 30 days that range actually spent in range, and the fee APR it earned.\n\nWorks on sepolia/mainnet, live in production if you follow the link above - try to connect and be a gardener :)",
+  "how_its_made": "Next.js + TypeScript, wagmi/viem/RainbowKit for the wallet, zustand, Tailwind. Deployed on Fly.\n\nEvery write is the Uniswap hosted API. The app encodes no liquidity operation itself and imports no router SDK — it describes an intent, the API returns a transaction, the wallet signs it. Harvest is lp/claim_fees, Water is lp/increase, Dig up is lp/decrease, Plant seed and Take a cutting are lp/check_approval + lp/create, Repot is decrease-then-create. The Market Stall is the Trading API: quote → Permit2 signature → swap. That's the whole game loop, one endpoint per verb.\n\nEvery read is The Graph. Your garden comes from the Uniswap V3 subgraph. Visiting someone else's uses the DEX AMM Extended schema, where one identical query goes to Uniswap V3, SushiSwap V3 and PancakeSwap V3 in parallel — a fourth protocol is one line in an array. Range history for cutting scores is poolHourDatas, and the weather is the pool's own hourly OHLC from the Token API.\n\nThree things that took real work:\n- Fruit shouldn't exist. Uncollected fees aren't in any subgraph and aren't in the LP API — they're only the return value of a collect that never happens. So the app simulates one per position. It needs no signature and works for any address, which is the only reason you can walk into a stranger's garden and see what they've earned.\n- The shared schema hides the NFT. Position.id is bytes, not a token id. It turns out the token id is little-endian in the last four bytes — 0x0000000000b1711400 is position 1339825. Without that decode there's no fee simulation and no cutting on any non-Uniswap pot.\n- Three indexers, three ETH prices. WETH came back at $1,865, $1,868 and $2,299 from the three subgraphs at the same block. Two pots in one garden can't be worth two different ETH prices, so every token is repriced through the Uniswap V3 subgraph as a single authority.\n\nAlso collected and filed FEEDBACK.md and FEEDBACK_GRAPH.md; docs/ maps every endpoint and query to the file it lives in.",
+  "auto_summary": "A Next.js app that turns real Uniswap v3 liquidity positions into a game-like interface using Uniswap APIs and The Graph data.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/unigarden-4xc6d",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

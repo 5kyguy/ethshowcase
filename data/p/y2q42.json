@@ -1,0 +1,35 @@
+{
+  "id": "y2q42",
+  "slug": "web322",
+  "title": "Web322",
+  "tagline": "Tamper-proof Web2 data sourcing on the blockchain without relying on costly repeated API calls. Web322 allows for public verification that the call was sent to the right server, harnessing HTTPS’s enncrypted traffic to prevent tampering from bad actors. ",
+  "event": {
+    "slug": "tokyo",
+    "name": "ETHGlobal Tokyo",
+    "start_time": "2023-04-14T00:00:20.820Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/y2q42/banner/default.jpg",
+  "demo_url": "http://web322.online/",
+  "source_url": "https://github.com/Team322/web322-sdk",
+  "prizes": [
+    {
+      "sponsor": "Scroll",
+      "sponsor_id": "yip67",
+      "placement": "📜 Scroll — Just Deploy",
+      "title": "Scroll"
+    },
+    {
+      "sponsor": "Polygon",
+      "sponsor_id": "qy8m3",
+      "placement": "🏊‍♂️ Polygon — Pool Prize",
+      "title": "Polygon"
+    }
+  ],
+  "finalist": false,
+  "description": "Web322 is a new way of getting off-chain data to your dApp without risking repeated API calls. When using Large Language Models, for example, calls are priced per query, so using a decentralized oracle network multiplies the running cost of your dApp. \n\nOur project solves this by encrypting the TCP traffic between the API endpoint and the off-chain caller. This enables us to serve the encrypted TCP dump publically so that our users (and their end-users) can verify for themselves that the right endpoint was indeed served. For example, this allows anyone to check that an LLM prompt was indeed sent to ChatGPT as opposed to Anthropic Claude.\n\nThey can then verify that the traffic was actually with the service they asked for, and that the values they received indeed correspond to what was actually exchanged.\n\nIn summary, we solve both open verifiability of oracles and duplicated API calls for bringing Web2 data into the blockchain by harnessing cryptography and a novel, trustless system architecture.\n\nHere is a demo: https://youtu.be/D2FbvB9jmYI (in case the upload on this website doesn't upload in time).",
+  "how_its_made": "Web322 consists of four services - an SDK for on-chain clients, an off-chain worker, a CRUD backend, and a frontend for interfacing with the above. The smart contracts can be readily deployed on the Ethereum Mainnet and several leading Layer 2 chains:  Taiko, Polygon, Scroll, Alfajores, Chiado, and Mantle, as well as the Sepolia Testnet.\n\nUsers can go to our website and create an account. They then generate a secret key which will be used to encrypt their API requests. The framework of choice is React, with Tailwind for styling.\n\nOur SDK provides templates for creating smart contracts using our service. They interact with an oracle by asking it to make API calls and receive the call outputs, plus a verification hash. The oracle then emits an event with this request, which is picked up off-chain by the worker.\n\nAfter this, the actual call is made. The worker stores on the backend a dump of the TCP traffic between it and the API endpoint. The communication is via the HTTPS protocol, which uses Transport Layer Security to prevent tampering from bad actors. It involves a handshake process between the worker and the endpoint for generating a secret string and encoding the traffic with this string. This prevents tampering with the traffic, as it is in cyphertext. For additional security, the traffic dump is hashed and returned to the user on the blockchain alongside the call result. For cases where an API key is used (e.g. to query Large Language Models), users have the option to further encrypt the dump using their API key.\n\nThe user can then check that the hash of the published dump matches the results he received, that the published dump indeed involved the server he wanted to communicate with, and that the public dump is a valid HTTPS exchange.\n\nThe CRUD backend provides endpoints for communicating with the other services and stores the dumps and hashes of the responses and requests in a database. It also keeps track of registered users by interacting with the frontend.\n\nWe developed our code in a GitHub org, where the functionalities are subdivided amonst 4 repositories, whose names we chose to be self-explanatory. \n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/web322-y2q42",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

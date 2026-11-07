@@ -1,0 +1,27 @@
+{
+  "id": "m2fcz",
+  "slug": "notwallet",
+  "title": "NotWallet",
+  "tagline": "Turn any everyday contactless card into a $0 seedless hardware wallet with ENSv2 & World ID.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/m2fcz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/j5pcmiKU00B02uiyHGRxwqOa01kuLITzswqvcbXRFecUws/high.mp4",
+  "demo_url": "https://github.com/roshan-zirconlabs/ethglobal2026/releases/tag/apk",
+  "source_url": "https://github.com/roshan-zirconlabs/ethglobal2026",
+  "finalist": false,
+  "description": "Over $2.14B was drained in Web3 exploits recently, with >68% stemming from private keys compromised on internet-connected disks. While hardware wallets prevent this, less than 8% of users own one because of high costs ($150+), charging cables, and fragile 24-word seed phrases written on paper.\n\nNotWallet solves this crisis by turning any contactless card you already carry—a metro card, gym ID, arcade token, or Visa debit card—into a bank-grade, air-gapped hardware wallet with $0 extra equipment. \n\nUsing Multi-Factor Key Derivation (MFKDF), NotWallet reads the card's physical NFC UID as an uncloneable hardware salt and combines it with a secret memory passphrase. In just 38 milliseconds, it deterministically computes your Ethereum private key in volatile RAM, signs the payload, and instantly wipes the key from memory. Zero private keys or seeds ever touch disk. If your phone is stolen, the attacker has no keys. If your card is lost, it is just inert plastic without your passphrase.\n\nNotWallet pairs with any dApp via WalletConnect / Reown and features offline clear-signing that decodes transactions into plain English, flags infinite approvals, and forward-resolves counterparty addresses against ENS to eliminate copy-paste phishing.\n",
+  "how_its_made": "NotWallet was built as a native Android app (React Native + Expo dev-client) coupled with Foundry smart contracts and a Vite presentation dashboard.\n\nKey Architectural Components & Partner Integrations:\n\n1. Cryptography & NFC Layer:\nWe utilized Android NFC Reader Mode (react-native-nfc-manager) to read raw NFC tag UIDs directly from everyday plastic cards. For key derivation, we implemented MFKDF using scrypt via native QuickCrypto primitives. The key exists strictly as an ephemeral in-memory buffer during signing and is zeroed out immediately via garbage collection hints.\n\n2. ENS (ENSv2) Hierarchical Account Architecture:\nInstead of raw hex addresses, NotWallet builds on ENSv2's hierarchical registry live on Sepolia. We deployed our custom NotWalletRegistry (0x6ab7F8D372c3a12bF3267B49754bFF661329FB87) under notwallet.eth. Calling claim() mints user.notwallet.eth on-chain. Users can spawn arbitrary sub-wallets (e.g., bot1.agent.user.notwallet.eth) as distinct EOAs with bounded daily spend allowances, ideal for scoping autonomous AI agents. ENS also stores guardian pointers for our emergency recovery sweep.\n\n3. World ID (Selfie Check Beta):\nTo protect unlocked devices from unauthorized physical sweeps, we integrated @worldcoin/idkit-react-native. Irreversible actions—like lifting the 0.05 ETH transaction limit or triggering an emergency sweep—require an interactive 3D selfie liveness check via the World ID bridge protocol (policy-override-guard), proving genuine human presence with Zero-Knowledge proofs without needing an Orb.\n\n4. Reown / WalletConnect:\nIntegrated Reown WalletKit to provide universal QR pairing and air-gapped clear-signing with any mobile or web dApp.\n\nNotable Hacks & Engineering Challenges:\n- NFC Normalization: Everyday contactless cards use varied UID lengths (4-byte single, 7-byte double, 10-byte triple). We engineered a normalization pipeline that cleans standard EMV/MIFARE cards into deterministic entropy salts.\n- High-Performance Presentation Engine: For our live presentation deck, we eliminated GPU-heavy CSS blur convolution filters in favor of pure radial-gradient falloffs and concurrent framer-motion transitions, ensuring buttery 60/120fps navigation across all devices.\n",
+  "auto_summary": "This project builds a React Native NFC-based signing wallet, ENS-linked contracts, and companion web interfaces for diskless Ethereum key usage.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/notwallet-m2fcz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

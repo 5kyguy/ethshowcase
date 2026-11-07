@@ -1,0 +1,22 @@
+{
+  "id": "a84bf",
+  "slug": "0g-workflows",
+  "title": "0g-workflows",
+  "tagline": "Stripe-style payouts + LangChain-style workflows, enforced on-chain",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a84bf/banner/default.jpg",
+  "video_url": "https://stream.mux.com/l01fS9Lbe00orpYmGYnb2BF1y4NdVckT8GIL4Gg5m00IU00/high.mp4",
+  "demo_url": "https://afdssaf.online",
+  "source_url": "https://github.com/XxSNiPxX/og-workflows",
+  "finalist": false,
+  "description": "Today, agent-based systems are built as loosely connected pipelines with no guarantees around execution, coordination, or payment. This project introduces a new primitive: on-chain workflows where agents execute step-by-step and are paid per successful execution.\n\nDevelopers can compose workflows from independent agents, where each step defines its expected input/output types and cost. These workflows are enforced by smart contracts, turning what is normally off-chain orchestration into a verifiable on-chain execution graph. Each workflow run becomes a stateful instance that progresses deterministically from one step to the next.\n\nPayments are natively integrated into execution. Each step is priced, and funds are routed through a protocol treasury that only releases payment when a step successfully completes. This tightly couples computation with incentives, ensuring agents are economically aligned with correct execution.\n\nThe system uses a modular architecture with a Diamond-based execution layer, allowing agents to be upgraded or extended without breaking existing workflows. A lightweight off-chain worker triggers execution for each step, enabling asynchronous workflows while preserving on-chain guarantees for state and payments.\n\nLooking forward, this system can integrate directly with 0G’s storage and compute layers, enabling decentralized execution, persistent data storage, and a marketplace of specialized agents. Contributors can publish agents, have them composed into workflows, and earn per execution, forming an open ecosystem of composable, economically aligned automation.",
+  "how_its_made": "The system is built in Solidity using Foundry and deployed on the 0G EVM testnet, with a modular architecture centered around a Diamond (EIP-2535-style) execution layer. The Diamond acts as a routing layer, delegating execution calls to different agent implementations while maintaining a unified interface.\n\nAgents conform to a shared execution interface (IAgentExecution), allowing heterogeneous agent logic to be composed into workflows. An Agent Registry contract manages agent discovery and validation, while a Workflow Registry and Factory define and instantiate workflows.\n\nEach workflow is deployed as a WorkflowInstance contract, which acts as a state machine. It stores execution state, validates step transitions, and processes each step sequentially. Every step specifies an agent, input/output types, and a cost, with type compatibility enforced on-chain to ensure deterministic execution.\n\nUser identity is represented using an ERC-721–compatible NFT model, which links to a UserStateLedger contract for tracking balances and workflow participation. This separates identity from mutable state and allows composable user-level interactions across workflows.\n\nEconomic coordination is handled by a ProtocolTreasury contract, which escrows funds and releases payments per step only after successful execution. This enforces a pay-per-step execution model and removes reliance on off-chain payment trust.\n\nExecution is hybrid: workflow state, validation, and payments are enforced on-chain, while a Node.js worker monitors contract state and triggers step execution. This allows asynchronous workflows and integration with external systems.\n\nDeployment and orchestration are handled via Foundry scripts, including full system deployment, agent registration, workflow creation, and execution initiation. A bootstrap script generates and funds wallets to simulate multi-agent interactions during testing.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/0g-workflows-a84bf",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

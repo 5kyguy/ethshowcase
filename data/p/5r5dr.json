@@ -1,0 +1,27 @@
+{
+  "id": "5r5dr",
+  "slug": "agentpassports-eth",
+  "title": "AgentPassports.eth",
+  "tagline": "AgentPassport.eth binds agents to ENS identities and authorizes owner-funded onchain tasks",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/5r5dr/banner/default.jpg",
+  "video_url": "https://stream.mux.com/QiicI4z02olscowwtdzGWo8QP022w1QNtpCuevMzZyDdw/high.mp4",
+  "demo_url": "https://www.agentpassports.xyz/",
+  "source_url": "https://github.com/sarvesh1327/agentpassports.eth",
+  "finalist": false,
+  "description": "AgentPassports.eth is an ENS-native permission manager for autonomous agents. The project gives every agent a public Passport tied to an ENS name and an owner-controlled Visa that defines exactly what the agent is allowed to do onchain. Instead of giving an agent custody of funds or broad wallet access, the owner publishes scoped permissions: who the agent signer is, what contract targets/selectors it can call, its gas/reimbursement limits, expiry, status, and task-specific rules such as an owner-funded Uniswap swap policy.\n\nAgents connect through a thin MCP server, build an unsigned task intent, sign it locally with their own key, and submit the signed intent to KeeperHub. KeeperHub validates the Passport/Visa, executes only allowed actions, and returns stamps/evidence for success or rejection. The demo shows a real deployed flow on Sepolia with Register Agent, hosted MCP, Visa metadata on IPFS/Pinata, KeeperHub validation, and a Uniswap path where the owner keeps the tokens while the agent only receives narrow executable authority.",
+  "how_its_made": "AgentPassports is built as a TypeScript/Next.js monorepo with a small Solidity layer underneath it. The web app uses Next.js 15, React 19, TypeScript, wagmi, viem, RainbowKit and TanStack Query. The Register Agent flow builds an ENS subname for the agent, prepares resolver text records, generates a Visa metadata document, uploads that document to Pinata/IPFS, and then asks the owner wallet to submit the required ENS and executor transactions.\n\nThe smart contract side is Solidity with Foundry tests. The main pieces are AgentEnsExecutor and TaskLog. AgentEnsExecutor is the execution gate: KeeperHub can execute only against the policy digest/target/selector the owner published for that agent. TaskLog records task evidence. For the Uniswap demo we used an owner-funded model: the owner wallet keeps the tokens and approvals, while the agent only signs a scoped intent for SwapRouter02 exactInputSingle.\n\nThe agent side is an MCP server built with the Model Context Protocol SDK, Node, TypeScript, zod and viem. The MCP server is intentionally thin. It exposes tools to build an unsigned task intent, submit a signed intent, and check KeeperHub status. It does not hold private keys or make authorization decisions itself. Local scripts create/sign with the agent key, then KeeperHub validates the Passport/Visa and returns stamps for success or rejection.\n\nPartner tech was central here. ENS gives the human-readable identity layer. Pinata/IPFS stores the public Visa metadata. KeeperHub provides the validation/execution workflow and stamps. Uniswap gives a real, risky action to prove the permission model is not just a toy. The hacky-but-useful part was stitching web2-style MCP agents into onchain authority without putting funds in the agent wallet: local signing, thin MCP, KeeperHub validation, and owner-funded execution all had to line up cleanly.",
+  "auto_summary": "An ENS-based system for registering agent identities, publishing scoped execution policies, and routing signed agent intents through KeeperHub.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/agentpassports-eth-5r5dr",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "vk4kd",
+  "slug": "kyro",
+  "title": "Kyro",
+  "tagline": "Wallet trust checks and advisory USDC limits before Arc payments.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vk4kd/banner/default.jpg",
+  "video_url": "https://stream.mux.com/zHGTuerpBom9NJGxPcTUBHDGaHPEKGtNNQA1XRHdMtQ/high.mp4",
+  "demo_url": "https://www.thekyro.co/check",
+  "source_url": "https://github.com/vaibhav0xq/kyro-devkit",
+  "finalist": false,
+  "description": "Kyro checks a wallet before you pay it. You give it an address or a Kyro username and the use case (payment, escrow, lending or marketplace). It answers allow, caution or block, with an advisory USDC limit and the evidence behind the answer. It can also write an immutable receipt of the check. Kyro is advisory and non-custodial. It never holds keys or funds and it cannot move or stop a transaction.\n\nKyro has been live on Arc Testnet since before the event. The check at thekyro.co/check works without an account. The same answer is one anonymous GET on the public API, which has 10 operations, an OpenAPI 3.1 spec and a TypeScript SDK on npm.\n\nFor ETHOnline I built two things, both in the public repo. The devkit: SDK source, spec, examples and docs. The agent gate: a small agent that pays USDC invoices on Arc Testnet through the Circle CLI and asks Kyro before every payment. Allow within the limit pays, caution or an amount over the limit holds for a human, block refuses. If Kyro does not answer, nothing is paid. On 9 September the gate paid 1.5 USDC live from a Circle agent wallet; the transaction hash and Arcscan link are in the README. A dry-run mode runs the same flow with no credentials.\n\nMainnet activation is scheduled for 16 September. CHANGELOG-ETHONLINE.md lists what existed before the event and what was built during it.",
+  "how_its_made": "The product is a Next.js app with API routes and a Postgres evidence store. Indexers read wallet history from Arc RPC and a few other EVM chains. A verified attestation is a transaction hash on Arc that involves both wallets; Kyro checks the hash onchain and the other party has to accept it before it counts. Scoring is deterministic and versioned (identity_score_v1), so the same evidence always gives the same score. The decision model (decision_v0.4.1) turns score, coverage and freshness into the verdict and the advisory limit, with reason and warning codes a program can act on. Receipts are hashed and readable by id.\n\nThe devkit is a pnpm workspace. packages/sdk is the source of @kyrodev/sdk: no runtime dependencies, typed methods for the 10 operations, a shared error type and rate-limit metadata. A drift check fails CI if the SDK and the vendored OpenAPI snapshot disagree. CI runs on Node 20 and 22.\n\ndemos/agent-gate is TypeScript. A planner proposes invoices. A policy applies caps (5 USDC per transfer, 10 per run) plus a ten-minute duplicate guard. The SDK reads the Kyro decision anonymously. On proceed the executor spawns the Circle CLI once (circle wallet transfer on ARC-TESTNET) with a UUID idempotency key and parses the JSON envelope into submitted, failed or unknown. Timeouts, 429s, 5xx and malformed answers refuse the payment. Every intent and result is appended to a JSONL audit log. Tests run against fixtures and a stand-in CLI, so the suite never reaches Circle.\n\nThe hacky part: the first live run on Windows died before the CLI started, because Node refuses to spawn batch shims without a shell (CVE-2024-27980). The gate reported failed and paid nothing, which is what it is for. The fix runs the .cmd shim through cmd.exe with checked arguments.",
+  "auto_summary": "A TypeScript workspace providing a wallet-risk-check SDK and an agent that conditionally pays USDC invoices on Arc Testnet.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kyro-vk4kd",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

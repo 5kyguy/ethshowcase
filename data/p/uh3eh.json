@@ -1,0 +1,41 @@
+{
+  "id": "uh3eh",
+  "slug": "crocheth",
+  "title": "Crocheth",
+  "tagline": "Wearable onchain identity: ENS for balaclavas, undisclosed NFC/EOA ownership, ZK pool transactions",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uh3eh/banner/default.jpg",
+  "video_url": "https://stream.mux.com/00OuZJLovZ1Rgv4TgRMKSwN7Id6UDLdWEND71Xy1aiY00/high.mp4",
+  "demo_url": "http://crocheth.vercel.app",
+  "source_url": "https://github.com/guy-do-or-die/crocheth",
+  "prizes": [
+    {
+      "sponsor": "Unlink",
+      "sponsor_id": "itd29",
+      "placement": "Most Creative Privacy Use Case",
+      "title": "Most Creative Privacy Use Case"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "4th place",
+      "title": "Most Creative Use of ENS"
+    }
+  ],
+  "finalist": false,
+  "description": "Crocheth gives anonymous onchain identity to physical crochet balaclavas. Each balaclava features a crocheted ArUco fiducial marker — a visual pattern that uniquely identifies it. Anyone can point their phone camera at a balaclava to instantly discover its ENS subdomain (e.g., midnight.croch.eth) registered on Base wired up via Durin framework.\n\nOwnership is proven via two-factor authentication (or even three with PIN): the owner taps an NFC wristband (containing an embedded Ethereum account) or connects any browser wallet — but their real address is never disclosed onchain. Only a keccak256 commitment hash is stored in the registrar contract, making it impossible to trace the identity back to the owner's EOA.\n\nTo transact on behalf of the balaclava, a deterministic burner wallet is derived from the owner's authenticated identity combined with the marker context. The owner deposits funds into Unlink's ZK privacy pool from their real wallet, then routes them to the disposable burner via zero-knowledge proofs. The burner executes onchain actions (payments, contract calls) with no link to the owner. After use, remaining funds are swept back into the anonymity pool.\n\nThe result: a physical wearable that resolves to a fully functional onchain identity, capable of holding assets and making transactions, while the person behind the balaclava remains completely anonymous — even onchain.",
+  "how_its_made": "Smart Contracts: The CrochethL2Registrar is built with Foundry and deployed on Base Sepolia. It acts as an ENS subdomain registrar — it mints .croch.eth subdomains by writing to the L2 ENS Registry, linking each ArUco marker ID to a subnode. Critically, it stores only a keccak256(ownerAddress) commitment — never the raw owner address — so onchain data reveals nothing about who controls the identity.\n\nFrontend: A React + Vite + TypeScript PWA. ArUco marker detection runs client-side via OpenCV.js with a 4×4_50 dictionary, processing the phone's live camera feed to identify balaclavas in real-time. NFC authentication uses Arx's @arx-research/libhalo SDK to communicate with HaLo-chipped wristbands. Alternatively, any EOA can authenticate via Reown AppKit + Wagmi — both paths produce the same signerAddress used downstream.\n\nPrivacy Layer (Unlink): This is where it gets interesting. The Unlink SDK (@unlink-xyz/sdk) provides the full zero-knowledge privacy pool. The owner deposits tokens from their real wallet into the anonymous pool. A deterministic burner wallet is derived by hashing keccak256(signerAddress + markerId + pin) into a BIP-39 mnemonic, producing a unique but reproducible EOA per owner-item pair. Funds are routed from the pool to the burner via ZK proofs (fundFromPool), the burner executes transactions via plain viem wallet clients, and remaining funds are swept back (depositToPool). The owner's EOA never touches the chain directly.\n\nNotable Hacks: The Unlink SDK uses a Node.js-only createRequire() call internally to load EdDSA cryptography (@zk-kit/eddsa-poseidon). To make this work in a Vite browser bundle, we wrote a custom module-stub.js that intercepts createRequire and statically returns the correct browser-compatible EdDSA module — essentially shimming Node's module resolution into the browser at the import level. Also, the ArUco markers are literally crocheted into the physical textile of the balaclavas using contrasting yarn colors to achieve the sharp binary pattern needed for reliable computer vision detection.",
+  "auto_summary": "A web app and smart contracts link crocheted physical markers to ENS subdomains and private burner-wallet actions on Base Sepolia.",
+  "scores": {
+    "originality": 9,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/crocheth-uh3eh",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

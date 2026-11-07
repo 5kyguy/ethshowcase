@@ -1,0 +1,28 @@
+{
+  "id": "1tbvu",
+  "slug": "hook-up-to-amm",
+  "title": "Hook up to AMM",
+  "tagline": "Using Uniswap v4 Hooks to incentivize long-term liquidity with time-based rewards.",
+  "event": {
+    "slug": "taipei",
+    "name": "ETHGlobal Taipei",
+    "start_time": "2025-04-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/1tbvu/banner/default.jpg",
+  "source_url": "https://github.com/Delta-Neutral-Rebalance-Hook/contract",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "Runner Up",
+      "title": "Uniswap v4 Hook Integrations"
+    }
+  ],
+  "finalist": false,
+  "description": "In the current Uniswap ecosystem, traders are required to pay a 0.3% transaction fee, which is distributed to liquidity providers (LPs) as an incentive for their participation. However, this incentive structure is solely based on the proportion of liquidity provided at the time of each swap, which leads to a significant shortcoming. Specifically, it encourages opportunistic behavior, where some LPs enter the pool only during periods of high trading volume to maximize short-term returns. When trading activity declines, these LPs tend to withdraw their funds immediately.\n\nThis pattern of behavior can undermine the stability and reliability of the liquidity pool, ultimately harming the health and sustainability of the ecosystem. More critically, it creates a disincentive for those loyal LPs who are committed to providing long-term support, as their efforts are not adequately rewarded under the current mechanism.\n\nTo address this issue, our project proposes a new incentive model that not only considers the share of liquidity provided but also takes into account the duration of time that liquidity remains staked. By incorporating with a time-based bonus, we aim to promote long-term participation and foster a more resilient and balanced liquidity environment within the decentralized exchange.",
+  "how_its_made": "The foundation of our project lies in the implementation of a carefully designed hook contract, which plays a central role in achieving our goal of incentivizing long-term liquidity provision. This contract introduces new logic into the lifecycle of swaps and liquidity events, extending the traditional functionality of decentralized exchanges.\n\nThe hook contract delivers two key functionalities:\n\nSwap-Time Bonus Collection (beforeSwap Hook)\nWhenever a trader initiates a swap, the beforeSwap hook is triggered. At this stage, an additional time-based bonus fee—calculated as a configured percentage x% of the transaction amount—is charged and stored within the hook contract. Simultaneously, the conventional transaction fee y% is applied and distributed directly to the liquidity providers (LPs) in proportion to their share of the pool. This dual-fee structure ensures backward compatibility while enabling future reward distribution based on stake duration.\n\nLiquidity Provision Tracking (afterAddLiquidity and afterRemoveLiquidity Hooks)\nWhen an LP adds liquidity to the pool, the afterAddLiquidity hook is invoked. The contract records the timestamp and the amount of liquidity provided. Upon withdrawal, the afterRemoveLiquidity hook captures the exit time and calculates the duration and amount of the stake. Based on these variables, a formula—represented as a + b + c = d%—is used to compute the LP’s eligibility for the time-based bonus fee. This reward is then paid out from the fees accumulated in the beforeSwap phase.\n\nThis system effectively rewards LPs who commit their capital for longer periods, discouraging short-term, opportunistic behaviors that are currently prevalent. The end result is a healthier and more stable liquidity environment, benefiting both the ecosystem and its long-term participants.\n\nTechnical Highlights and Tools:\n\nCore Mechanism: Custom Uniswap V4 hook that rewards long-term liquidity providers while maintaining compatibility with existing DEX architecture.\nFee Structure:\n\nStandard swap fees distributed normally to LPs\nAdditional bonus fees collected and stored in the hook contract\n\n\nHooks Utilized:\n\nbeforeSwap: Triggered during swaps to calculate and collect the additional bonus fee\nafterAddLiquidity: Records timestamp and deposit amount when LP adds liquidity \nafterRemoveLiquidity: Captures exit time and calculates rewards based on duration and amount\n\n\nTracking System:\n\nRecords timestamp and amount when liquidity is added\nCalculates duration and amount when liquidity is removed or adjusted\nIn other words, between the recorded timestamp and the next update, the liquidity amount provided by that LP is considered constant.\n\n\nReward Distribution:\n\nUses time-weighted approach to calculate each LP's share\nRewards proportional to amount and duration of liquidity provision\nDiscourages short-term deposit-withdraw cycles\n\n\nImplementation Details:\n\nTracks individual LP positions and timestamps\nMaintains global variables (total liquidity, timestamps, accumulated shares)\nCalculates and rewards the LP's position changes, (including afterAddLiquidity and afterRemoveLiquidity) \nTested with Foundry and Solidity simulations",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/hook-up-to-amm-1tbvu",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

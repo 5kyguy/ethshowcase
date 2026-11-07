@@ -1,0 +1,26 @@
+{
+  "id": "7ewqa",
+  "slug": "elpi-xyz",
+  "title": "elpi.xyz",
+  "tagline": "Decentralized options with Uniswap v4 hooks, flash accounting, and idle LP liquidity vaults.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7ewqa/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4Ddso6ZZYRv4mVwmlcx1WRcAvFZqxqb7vR5PFRHsxB8/high.mp4",
+  "source_url": "https://github.com/parseb/elpi.xyz",
+  "finalist": false,
+  "description": "elpi is a decentralized options protocol built on fixed agreements over disclosed risks, where every term and execution venue is immutably bound at mint. This project delivers the production-ready Uniswap v4 integration (OH_UNISWAP), solving the execution friction and capital inefficiency typical of on-chain derivatives:\n\n1. Flash Settlement Execution (UniswapV4VenueAdapter): Implements elpi's ISettlementVenue via Uniswap v4's singleton PoolManager. Using transient flash accounting (unlock, sync, settle, take), option settlements execute with zero persistent intermediate balances, strictly bounding single-position insolvency (Invariant I1).\n\n2. Zero-Fee Settlement Hook (OptionSettlementHook): A custom Uniswap v4 hook operating on dynamic fee pools that waives AMM swap fees (overrideFee = 0) specifically for authorized elpi PositionAccounts. This guarantees protocol fee withholding is restricted solely to profitable payouts (Invariant I4).\n\n3. Idle LP Capital Staging (V4LiquidityVault & V4LPRouterRestaker): Instead of letting collateral sit unproductive, uncommitted LP collateral is staged in Uniswap v4 AMM pools to earn trading fees. Collateral is atomically extracted as raw ERC-20 at mint and automatically re-staked post-settlement within a safe, gas-bounded try/catch boundary without risking oracle-free expiry recovery (Invariant I3).\n\n4. Continuous Clearing & Monitoring UI: Includes a full Next.js dApp featuring an asset onboarding wizard, real-time pool swap tracking, and TradingView charts displaying live strike and payoff zones.",
+  "how_its_made": "We built this integration using Solidity 0.8.26 targeting the Cancun EVM, Foundry for contract development and formal testing, and Next.js 14, Viem, and TradingView Lightweight Charts for the frontend application.\n\nKey architectural highlights and technical feats:\n- Uniswap v4 Flash Accounting: We implemented UniswapV4VenueAdapter to interface directly with the v4 singleton PoolManager through unlock() callbacks, eliminating token wrapping overhead and multi-hop transfer costs.\n- Hook Address Mining & Flag Verification: Using a custom CREATE2 mining script (MineHookSalt), we mined hook addresses matching the 0xC8 flag bitmask (BEFORE_SWAP, AFTER_SWAP, BEFORE_SWAP_RETURNS_DELTA). The hook verifies that swap callers are authentic ERC-6551 token-bound PositionAccounts before waiving the AMM fee.\n- EIP-1153 Transient Flow Netting: We leveraged Cancun transient storage (tstore/tload) inside the settlement hook to net opposite option settlement flows within the same transaction, saving substantial gas and preventing market impact.\n- Gas-Isolated Re-Staking: To uphold Invariant I3 (venue-free expiry recovery), V4LiquidityVault wraps post-settlement LP re-staking inside a strict 300,000 gas try/catch boundary. If Uniswap v4 modifications fail or run out of gas, option expiry settlement still succeeds without reverts.\n- Robust Verification: Built a test suite with 62 passing unit, fork, and fuzz tests, including a 2,048-call invariant campaign with zero invariant violations.",
+  "auto_summary": "A decentralized options protocol with Solidity settlement contracts and a Next.js app for minting, monitoring, and LP collateral routing.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/elpi-xyz-7ewqa",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,29 @@
+{
+  "id": "a9tui",
+  "slug": "interstellar-thoughts",
+  "title": "Interstellar Thoughts",
+  "tagline": "A protocol and server implementation to allow anyone to host a thought posting server, whose web3-signed contents live on IPFS, and whose users cross-post between servers and migrate between servers at any time.",
+  "event": {
+    "slug": "hackfs2021",
+    "name": "HackFS 2021",
+    "start_time": "2021-07-30T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/a9tui/banner/default.jpg",
+  "demo_url": "https://interstellar.social/",
+  "source_url": "https://gitlab.com/RoadsGoji/interstellar-thoughts",
+  "prizes": [
+    {
+      "sponsor": "Protocol Labs",
+      "sponsor_id": "s0vuq",
+      "placement": "Protocol Labs Pool Prize",
+      "title": "Protocol Labs"
+    }
+  ],
+  "finalist": false,
+  "description": "It's become normal for social interaction to happen on a platform that's owned by a giant company, with millions, or even billions of users.\r\n\r\nIn web2, it's too difficult, expensive, and risky for people to run their own servers.\r\n\r\nHow can we get back to a future where interoperable social servers are run by individuals and small groups?\r\n\r\nThe Interstellar concept uses web3, IPFS, and FileCoin to create a protocol for servers to host the thoughts of social groups, small or large, with minimal expense to server-runners, and freedom of cross-server interaction and migration for users, for ever.\r\n\r\nANYONE can run a server. They can configure it for just friends-and-family, use invitations, or leave it open to the public.\r\n\r\nToday we're demoing Interstellar Thoughts - a proof of concept server that anyone can run, which enables Thoughts to be posted by their users, which can be reposted by other users to other servers across the entire network.\r\n\r\nServers receive and verify web3-signed posts from their users, storing recent content locally, then eventually and regularly bundling the archives for storage to IPFS.\r\n\r\nIf a server goes down or even loses data, routine archival to IPFS means data is easy to recover by either server-runners or even savvy users.\r\n\r\nEven in the event of a data breech, no private user-data is ever stored on the server.\r\n\r\nThis enormously reduces the expense and stress for a server-runner.\r\n\r\nUsers' content is easy to migrate between servers, and the server-runner doesn't have to feel the need to run it forever.\r\n\r\nThe Interstellar server protocol lends itself to many types of sub-project, but its first proof of concept is a programme called Interstellar Thoughts.",
+  "how_its_made": "An Interstellar Thoughts server is an easy-to-run lightweight server. It uses node on the backend, and vanilla JS on the frontend.\n\n\n\nI wanted the code to be as simple as possible. There are very few files to understand on the backend, and the frontend uses no external libraries besides web3. web3.js is loaded through IPFS, so if that’s cached, the payload when visiting any given server will be a few KB, tops. \n\n\n\nMy favourite features are the archiving and migration. After a certain number of Thoughts are posted by a user (the sever-runner chooses the threshold) then the log of their posts gets added to IPFS via web3.storage. The new CID is stored on the log still living on the server, and the ‘archived’ posts are deleted. This keeps the on-server footprint extremely small. One feature that isn't finished is that the server can allow users to migrate by letting them download this small log to upload to another server. A properly thorough migration would repin ALL migrated content - it has some complexity I'd rather think through after the hackathon's over. :)\n\n\n\nAn aspect I'm especially pleased about is the in-memory database that saves to the filesystem. All asynchronous writes are batched and tracked, and if the server needs to restart or quit, whether by manual shutdown or auto-restart due to config change, then all batched writes are run immediately before safely shutting down.\n\n\n\nThis isn't the first time I've used this kind of system, but I wrote it fresh for the hackathon, and I'm very pleased with it how well it's working.\n\n\n\nI suspect most people would suggest using a third party database, but I wanted something simple with no moving parts that anyone could run without the risk of extra debugging. It also keeps the storage format extremely flexible, extensible, and portable.\n\n\n\nOne last thing (I'm not sure this is the right context for it, but..) to disclose parts of the code that were made before the hackathon:\n\n- The lovely button CSS\n\n- The auto-generated icons (although it was originally written for UUIDs!)",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/interstellar-thoughts-a9tui",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "7cjir",
+  "slug": "roamswarm",
+  "title": "RoamSwarm",
+  "tagline": "Explore cities on foot. AI agents narrate history at every landmark. Pay per POI, earn ROAM.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7cjir/banner/default.jpg",
+  "video_url": "https://stream.mux.com/5BsSBE9a5Ljf1h35hHXc8g6o3mJN7yrroeqE6OQPwps/high.mp4",
+  "demo_url": "https://roamswarm.vercel.app/",
+  "source_url": "https://github.com/GTU-Blockchain/roamswarm-ethglobal-cannes-2026",
+  "finalist": false,
+  "description": "Roam-Swarm is an AI-powered urban discovery protocol that transforms cities into interactive story engines. When a user walks within 50 meters of a Point of Interest (POI), a swarm of four specialized AI agents is triggered: the Lore agent generates a hyper-local historical narrative using a Qwen 2.5 7B LLM running on 0G Compute, the Scout agent fetches live nearby venue recommendations via Chainlink CRE confidential HTTP requests to Google Places, and the Guide agent synthesizes the story into audio using ElevenLabs TTS and stores it permanently on 0G decentralized storage. The Orchestrator agent coordinates all three in parallel and streams real-time progress to the user via Server-Sent Events.\n\nAccess to each POI experience is gated by x402 micropayments (0.5 USDC) or by burning 500 ROAM tokens earned through daily on-chain accrual. Contributors submit local stories and tips after verifying their identity with World ID 4.0 (ZK proof), and receive an ENSv2 subname (e.g. alice.roamswarm.eth) plus 20% commission from every unlock of their contributed POI. Completing all 12 Cannes POIs automatically mints an ERC-721 City Badge NFT and grants a 100 ROAM bonus. ROAM is non-transferable by design to prevent speculation and preserve the exploration incentive. The full system is built on Ethereum Sepolia with 9 deployed smart contracts covering escrow, points economy, contributor identity, and badge issuance.",
+  "how_its_made": "Roam-Swarm is built as a TypeScript monorepo (Turbo + npm workspaces) with four layers: a Next.js 14 PWA frontend, four Express.js AI agents, nine Solidity smart contracts, and a Chainlink CRE workflow.\n\nAgent Architecture: The Orchestrator coordinates three specialized agents via REST and streams real-time progress to the frontend using SSE. It calls the Lore agent first, then fires Scout and Guide in parallel. Once the Guide returns an audioUrl, the Orchestrator releases the escrow payment as fire-and-forget — the user gets their audio immediately without waiting for blockchain confirmation.\n\n0G Compute & Storage: The Lore agent authenticates via the 0G serving broker SDK and calls a Qwen 2.5 7B model to generate hyper-local historical narratives (~30s). The Guide agent synthesizes text to speech via ElevenLabs, then uploads the MP3 as a Merkle tree to 0G decentralized storage — returning a permanent indexer URL to the user. Uploads are non-blocking; the URL is returned optimistically while the upload completes in the background.\n\nSmart Contracts: Nine contracts on Ethereum Sepolia. RoamEscrow holds x402 payments until audio delivery is confirmed, then CommissionSplitter routes 20% to the contributor. RoamPoints is a non-transferable ERC-20 (transfer() reverts by design). CityBadgeNFT generates fully on-chain JSON metadata and auto-mints when all city POIs are unlocked.\n\nOther integrations: Chainlink CRE handles Google Places API calls confidentially, keeping the API key off-chain. World ID 4.0 ZK proofs gate contributor registration on-chain, which auto-mints an ENSv2 subname ({name}.roamswarm.eth) in the same transaction. Payments use the x402 standard — a plain HTTP header, no SDK lock-in.",
+  "auto_summary": "A monorepo app that unlocks location-based city experiences using AI agents, smart contracts, World ID verification, 0G services, and a Chainlink CRE workflow.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/roamswarm-7cjir",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

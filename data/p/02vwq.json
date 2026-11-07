@@ -1,0 +1,27 @@
+{
+  "id": "02vwq",
+  "slug": "sneaky",
+  "title": "Sneaky",
+  "tagline": "Stealth addresses for ENS names with private fund recovery via Unlink.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/02vwq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/4kC2RR024viiXj9dzDwdccajdCeE8DOY4ZUu3idwJ01BI/high.mp4",
+  "demo_url": "https://sneaky.blossom.deno.net",
+  "source_url": "https://github.com/BlossomLabs/sneaky",
+  "finalist": false,
+  "description": "Sneaky turns any ENS name into a privacy-preserving payment endpoint. Every time someone resolves your ENS name, they receive a fresh one-time stealth address, derived from your public stealth keys and an incrementing nonce, that only you can spend from. The sender sends ETH to that address on Base Sepolia, and from their perspective the transaction looks like a normal transfer to an unrelated wallet.\n\nOn the receiving side, the ENS owner opens the Sneaky UI, which scans all generated stealth addresses, derives the corresponding private keys, and shows which ones have funds. From there, each stealth address independently wraps its ETH to WETH and deposits directly into Unlink's privacy pool. The owner's real wallet never touches the funds on-chain, so no two stealth addresses are ever linked together. Once inside Unlink, funds can be privately transferred to other users or withdrawn to any address without revealing the original depositor.\n\nThe whole flow is non-custodial. Stealth key material is derived deterministically from a single wallet signature, so there's nothing to back up. The ENS resolution uses EIP-3668 CCIP-Read, meaning standard ENS clients (like ethers.js or viem) resolve stealth addresses transparently without any code changes on the sender's side.",
+  "how_its_made": "The system has three parts: an on-chain resolver, an offchain gateway, and a frontend app.\n\nThe resolver is a Solidity contract on Ethereum mainnet that implements EIP-3668 CCIP-Read. When someone calls resolve(), it reverts with an OffchainLookup pointing to our gateway URL. The client fetches the stealth address from the gateway, then calls resolveWithProof() where the contract verifies the gateway's EIP-191 signature before returning the address.\n\nThe gateway runs on Deno Deploy with Deno KV for storage. It holds each user's stealth meta-address (spending + viewing public keys) and a per-user nonce. On each resolution request it generates a new stealth address using Fluidkey Stealth Account Kit, increments the nonce, signs the CCIP response, and returns it. Registration and deregistration endpoints let the frontend manage ENS names.\n\nThe frontend is a single-page application (SPA) built with Vite, using wagmi and RainbowKit for wallet connection. The wallet page scans all stealth addresses by replaying nonces 0 through N, derives private keys for each, and checks balances on Base Sepolia via viem. The Unlink integration was the trickiest part: each stealth address needs to independently wrap ETH to WETH and deposit into the Unlink privacy pool from its own private key, without routing through the user's main wallet. We create a temporary viem wallet client and a scoped Unlink SDK client per stealth address, all sharing the same mnemonic-derived Unlink identity (deterministically derived from a single wallet signature via keccak256 + BIP39) but with different on-chain signers. This way the privacy pool sees independent deposits from unrelated addresses that all credit the same shielded account.",
+  "auto_summary": "A web app and CCIP-Read ENS resolver that generates one-time stealth payment addresses and deposits received funds into Unlink on Base Sepolia.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sneaky-02vwq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

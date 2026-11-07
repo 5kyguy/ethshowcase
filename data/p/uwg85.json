@@ -1,0 +1,20 @@
+{
+  "id": "uwg85",
+  "slug": "starship",
+  "title": "Starship",
+  "tagline": "Let's be sure the code we ship will work in Production. How to sleep in peace??  Answer is Tests, Tests, Tests....... Starship is an automated way to spin up infra using a simple Yaml file. That infra can be used to do all kind of testing (Frontend, Backend, Chain Upgrades, etc.)",
+  "event": {
+    "slug": "paris2023",
+    "name": "ETHGlobal Paris",
+    "start_time": "2023-07-21T07:00:47.405Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uwg85/banner/default.jpg",
+  "source_url": "https://github.com/cosmology-tech/starship",
+  "finalist": false,
+  "description": "The development lifecycle from code to mainnet is very big, testnets take too long and with so many interchain interactions it becomes much more complex. Like in general people use Docker compose methods to emulate an environment, that is a complex process because emulating realyers, multi node setup, multi chain interaction is complex and takes a lot of time with Docker methods. \n\nStarship emulates real chains, relayers, validators at scale within seconds and everything with a simple Yaml input file and we also provide a framework to write test cases in multiple languages (GO, Rust, Javascript) which is integrated with your CI/ CD.\n\nAs for this project we are emulating Mini Cosmos, Mini Eth and Axelar network.\n",
+  "how_its_made": "In Starship one can define the infra required with a simple config file. The config file one specifies is merged with the default values.yaml(opens in a new tab) file before the infra is spun up. All supported directives are present in the default values.yaml. We will go over most used ones here.\n\nHere is a basic example that will spin up:\n\n2 chains with 2 validators each\nHermes relayer between them (by default will create the IBC-transfer ports and channels)\nExplorer instance: ping-pub with the 2 chains configuration\nRegistry service: Analogus to cosmos/chain-registry, following the same schemas\n\nchains:\n  - name: osmosis-1\n    type: osmosis\n    numValidators: 2\n    ports:\n      rest: 1313\n      rpc: 26653\n  - name: gaia-1\n    type: cosmos\n    numValidators: 2\n    ports:\n      rest: 1317\n      rpc: 26657\n \nrelayers:\n  - name: osmos-gaia\n    type: hermes\n    replicas: 1\n    chains:\n      - osmosis-1\n      - gaia-1\n \nexplorer:\n  enabled: true\n  ports:\n    rest: 8080\n \nregistry:\n  enabled: true\n  ports:\n    rest: 8081\n\nNote this is a basic configuration file. We have various other directives and operations we can perform just with the config file directives that we will go into details into.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/starship-uwg85",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "p7ghx",
+  "slug": "botvue",
+  "title": "Botvue",
+  "tagline": "Catches sites that answer AI crawlers with a 200 OK and nothing in it, then proves it.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/p7ghx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/K66661vbCekkkVmITbXxuIsPxjbU7M8rnOJSapFl02xw/high.mp4",
+  "demo_url": "https://botvue.onrender.com",
+  "source_url": "https://github.com/GuTS805/Botvue",
+  "finalist": false,
+  "description": "Botvue reports when a website serves AI crawlers a different, often empty, page than it serves browsers and Googlebot, while still returning HTTP 200, so the agent has no reason to doubt it succeeded. It fetches one URL six ways at the same moment: a browser, Googlebot, and four real AI crawler user-agents (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot). It compares the responses and classifies any difference on a five-level severity scale, from cosmetic markup residue up to prompt injection: text addressed directly to the AI reading it. Every finding carries a SHA-256 hash of the actual response body, so it can be independently re-verified rather than taken on trust. We measured 131 findings across a 567-property corpus of real news sites; the rest are clean or refuse crawlers honestly with a real 4xx, which isn't a problem since an agent that gets refused already knows it got nothing. Paid checks settle via x402 on Hedera testnet, and that settlement is independently re-confirmed against Hedera's public mirror node rather than trusted from the payment facilitator alone.",
+  "how_its_made": "The core is a Python/FastAPI gateway that fetches a URL as a browser and as five bot user-agents via httpx, extracts text with trafilatura, and classifies differences with a rule-based taxonomy before mapping the worst match to a pass/flag/block decision. Paid requests are gated by x402: a 402 response carries Hedera testnet payment terms fetched live from the Blocky402 facilitator's own endpoint, never hardcoded, and after settlement we independently re-verify the transaction against Hedera's public mirror node instead of trusting the facilitator's word alone, the same verify-don't-trust discipline as the content check itself. A second adapter, an MCP server, exposes identical logic as three tools for AI agents directly, including fetch_url, a drop-in fetch-tool replacement that withholds content when it doesn't match what a human would see. A GitHub Actions cron re-scans the full corpus daily. A third-party gateway, Bazantic, independently discovered our OpenAPI spec and now prices /check on Base and USDC as a second payment rail.",
+  "auto_summary": "Botvue checks whether websites serve different content to AI crawlers than to browsers and verifies paid API access using Hedera-based x402 flows.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/botvue-p7ghx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

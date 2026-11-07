@@ -1,0 +1,22 @@
+{
+  "id": "7bvma",
+  "slug": "x402-guardrails",
+  "title": "x402-Guardrails",
+  "tagline": "x402 payment guards with spending limits, endpoint whitelisting & cross-chain USDC bridging via Base",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7bvma/banner/default.jpg",
+  "video_url": "https://stream.mux.com/u200an7RhdIIQAhs35Ic01incO1NxYyLHZArgJAEyK5zA/high.mp4",
+  "demo_url": "https://ethglobal2025.jayden6297.workers.dev/",
+  "source_url": "https://github.com/ItsBreaker/ethglobal2025",
+  "finalist": false,
+  "description": "x402-Guard enables safe, autonomous AI agent payments through programmable spending controls and seamless cross-chain transactions. Users set daily limits, per-transaction caps, and approval thresholds to prevent runaway AI spending. The system whitelists specific API endpoints, ensuring agents can only make payments to approved services like data providers, decentralized storage, custom agent-to-agent micropayments, or other APIs.\n\nBuilt on Base with USDC, x402-Guard features intelligent cross-chain routing—agents pay with Base USDC, which automatically bridges to Polygon, Arbitrum, or other networks as needed. This eliminates the complexity of managing multiple chains while maintaining security.\n\nThe dashboard provides real-time monitoring of AI spending with easily readable transaction history, daily spend tracking and whitelisted endpoints enabling use by non-technical people.",
+  "how_its_made": "x402-Guard is built with Next.js, TypeScript, Viem v2, and Privy authentication. The core innovation is layering spending controls on top of the x402 HTTP payment protocol with automatic cross-chain bridging.\n\n**Payment Flow:**\nWe wrap Next.js route handlers with `withX402` from x402-next, creating a payment verification layer. When an AI agent calls an API, our proxy fetches the target to extract payment details from the 402 response, then uses Circle's Bridge Kit SDK to automatically bridge USDC from Base to the required chain (Polygon, Arbitrum, etc.).\n\n**The Hacky Part:**\nHandler caching was crucial—we cache withX402 wrappers by target URL and price to maintain payment session state across the multi-step bridge operation. Without this, the payment verification would fail after bridging completed.\n\n**Bridge Implementation:**\nUsing `@circle-fin/adapter-viem-v2` and `@circle-fin/bridge-kit`, we detect the target chain from 402 responses, bridge USDC via Circle's CCTP, wait for confirmation, then make the payment on the destination chain using `x402-fetch`'s wrapFetchWithPayment.\n\n**Guard Controls:**\nAll spending policies (daily limits, per-tx caps, approval thresholds) and endpoint whitelists persist in browser IndexedDB. No backend, no database server—everything runs client-side with Privy-authenticated wallet sessions.\n\n**Chain Support:**\nDynamic chain mapping supports 12 networks (6 mainnet + 6 testnet) using viem's chain objects for type-safe RPC configuration.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/x402-guardrails-7bvma",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

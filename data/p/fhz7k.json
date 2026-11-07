@@ -1,0 +1,27 @@
+{
+  "id": "fhz7k",
+  "slug": "siren",
+  "title": "Siren",
+  "tagline": "Trust scores for agent payments that catch first-day scams by tracing funding, then commit onchain.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fhz7k/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xcW6juQMpPSh3qCwZH017jSA4W1QyCy6S2UQ7jtmGTq00/high.mp4",
+  "demo_url": "https://github.com/Monarchy712/siren",
+  "source_url": "https://github.com/Monarchy712/siren",
+  "finalist": false,
+  "description": "Siren is a trust layer for x402 agent payments. When an autonomous AI agent is about to pay for an onchain service, it makes a paid call to Siren first, and Siren returns a trust verdict with reasoning before any money moves.\n\nThe problem: an x402 service listing is just a name, a description, and a price, all attacker-controllable. An agent picks on vibes and can pay a scam, with no defense layer and no accountable record. Siren scores each service by fusing the listing's text with the provider's live onchain behavior, and does two things existing trust scorers do not combine. First, it catches first-day scams: a brand-new service with no track record still inherits risk if its wallet was funded by the same wallet behind an already-flagged service, so Siren can flag it before it has done anything. Second, every verdict is committed to the Hedera Consensus Service, so Siren's own accuracy is a public, tamper-evident track record that anyone can recompute from the mirror node, rather than a centralized score you have to trust.\n\nThe verdict is advisory, not enforcing: Siren returns a risk level, an evidence-sufficiency tier, and human-readable reasons, and the agent decides. Onchain-verifiable trust scoring is still rare and a few competitors have started doing it, so Siren differentiates on the combination, purpose-built for x402 service selection, not on being first.",
+  "how_its_made": "The core is an explainable logistic-regression model over eight features: text signals (price-vs-directory-median, near-duplicate similarity, claim-strength), behavioral signals from a hosted subgraph on The Graph (wallet age, activity), and derived signals (claim-vs-chain contradiction, near-duplicate-plus-common-operator, and funding-cluster risk). It is deliberately explainable so every flag maps to a reason, not a black box.\n\nThe Graph provides the live onchain evidence: a hosted subgraph on Base Sepolia supplies each provider's behavioral history and funding lineage, which is what makes the first-day-scam detection possible, since we trace who funded a brand-new wallet and whether its funding siblings are already flagged.\n\nHedera carries payment and accountability. Siren is a real x402-gated service: the agent gets a 402, pays per call, and settlement runs through the Blocky402 facilitator on Hedera testnet. Every verdict is written to a Hedera Consensus Service topic, and the accuracy ledger is recomputed purely from the public mirror node, so a third party can independently reconstruct Siren's hit-rate by fetching topic messages and joining verdicts to outcomes by sequence.\n\nThe whole thing runs as a single self-contained CLI that walks through a directory scan, a two-agent A/B where one agent pays a polished trap and the Siren-protected agent avoids it, the funding-inheritance catch, a real 402-to-settlement-to-mirror-node round trip, and the onchain accuracy ledger. Stack: Python, scikit-learn, FastAPI, The Graph, Blocky402, Hedera HCS and mirror node.",
+  "auto_summary": "Siren is a Python service that scores x402-listed onchain services using Graph-derived behavior data and records verdicts on Hedera.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/siren-fhz7k",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

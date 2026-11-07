@@ -1,0 +1,22 @@
+{
+  "id": "z5nx1",
+  "slug": "sinestesia",
+  "title": "Sinestesia",
+  "tagline": "An AI paints your song live on stage, then mints the artwork onchain with proof it was made live.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/z5nx1/banner/default.jpg",
+  "video_url": "https://stream.mux.com/yVxsYaQyATTrrkGSdNUh100xiS7TNFvGMOnplnWd6qLw/high.mp4",
+  "demo_url": "https://sinestesia-website.vercel.app/#book",
+  "source_url": "https://github.com/danicuki/sinestesia",
+  "finalist": false,
+  "description": "Sinestesia — live music, painted by AI, sealed on-chain\n\nA live moment is the scarcest thing there is: it happens once, then it's gone. Sinestesia is a live performance where an AI paints that moment as it happens — as the singer performs, speech-to-text and a \"Director\" language model listen to the words, melody and emotion, and grow one continuous hand-painted artwork on the projection wall. One song, one painting, born in front of the audience. \n\nAt ETHGlobal Lisbon we made that moment ownable, eternal, and provable. Live AI art has an authenticity problem: an audience can't tell a real-time creation from a pre-rendered video. We solved it end to end:\n\n- The Director's inference runs verifiably on 0G Compute, so every brushstroke decision carries a receipt proving the AI painted this performance, not a script.\n- When the song ends, the artwork and its synced film are stored on Walrus, and a hash of the performance — transcript, prompts, timestamps, inference receipts — is anchored in a collectible minted live on Sui.\n- The audience scans a QR code and claims the piece on the spot: the digital twin of the fine-art print we already sell as a keepsake after shows.\n\nSinestesia is an existing, performing act; everything onchain — the 0G inference rail, Walrus storage, the Sui mint-and-claim flow — was designed and built during ETHGlobal Lisbon. The result: an unrepeatable live experience becomes a verifiable, ownable object, without breaking the emotion of the show for a single second.",
+  "how_its_made": "IMPORTANT: hackathon commits here: https://github.com/danicuki/sinestesia/tree/feat/hackathon\nDEPLOYED AT:\nhttps://sinestesia-app-alpha.vercel.app/?debug=1\n\nThe core is an Elixir/OTP backend (Bandit, no Phoenix) driving a Vite + TypeScript + Three.js frontend, with Essentia.js for audio features. Speech-to-text runs through ElevenLabs/Deepgram; a Director LLM turns each line into image prompts; visuals are generated with accumulative img2img (fal.ai Flux) (fallback to cloudflare and gemini) so each frame paints on top of the last, giving one continuous growing artwork instead of separate images.\n\nTech added at the hackathon:\n- Sui + Walrus: at song-end we upload the final canvas to Walrus for decentralized storage, then mint it on Sui with the performance-provenance payload. Sui's object model + Walrus made \"store the art and mint it\" a single clean flow with no IPFS pinning pain.\n\n- 0G Compute: we route the Director's inference through 0G's OpenAI-compatible endpoint for private, verifiable inference, and surface the receipt on screen — so the \"AI understood the song\" step is itself attestable.\n\nThe hacky-but-nice bit: provenance is a hash of (transcript + Director prompts + timestamps), so the NFT isn't just an image — it's proof of the exact live moment that produced it. A QR overlay lets the room claim the mint the instant the painting finishes.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/sinestesia-z5nx1",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "0gp1c",
+  "slug": "hourglass",
+  "title": "Hourglass",
+  "tagline": "Automate subscriptions, payrolls, DCA, and yield for Safe — non-custodial, revocable delegations.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/0gp1c/banner/default.jpg",
+  "video_url": "https://stream.mux.com/od1VLDeJwDB601yaZFjnZMuAdUP02NezOQyeJf3QotrWo/high.mp4",
+  "demo_url": "https://hourglass.box",
+  "source_url": "https://github.com/intuition-box/Hourglass",
+  "finalist": false,
+  "description": "Hourglass turns a Safe into an automation hub for recurring on-chain operations — subscriptions, DCA strategies, limit orders, and Uniswap LP positions with auto-compounding, without ever handing over custody of the funds.\n\nThe Safe signs one bounded, revocable delegation per operation instead of a blank-check approval. A delegate ,either a contributor on payroll or an autonomous agent, redeems it.\nThe delegation's on-chain caveat enforcers pin exactly what can happen:\n- which contract\n- which method\n- how much\n- and where the money can land. \n\nA compromised or misbehaving delegate can trigger the bounded action.\nit can't redirect funds, exceed the cap, or touch anything else. \nRevoking is a single multisig action.\n\nHourglass provide two ways to execute Defi strategies : \n- you provide your agent the hourglass skill \n- you let us spin an agent on 0G for you\nIn both case, the agent discover and redeems its own signed delegation and act within its scoped permission, no key handoff, same on-chain guarantees either way.\n",
+  "how_its_made": "Frontend is made with : \n-Vite \n- React \n- TypeScript Safe App, using @safe-global/safe-apps-react-sdk to run inside Safe{Wallet} and wagmi/viem for chain reads. \n\nAll delegation building and signing goes through MetaMask's Smart Accounts Kit (the Delegation Framework, ERC-7710) — every mandate (the deposit's exact-execution pins, the compound mandate's collect + increaseLiquidity scope, the subscription's period-transfer bound) is our own design, composed from the framework's on-chain enforcer contracts rather than custom Solidity we had to write and audit ourselves.\n\nThe agent use The Graph to query yield opportunity, and move the Safe treasury on\nUniswap LP positions by redeeming its delegation, then choose to auto-compounded (collect + increaseLiquidity) via the same delegation primitives; swaps route through the Uniswap Trading API with CLASSIC routing so the resulting router call stays redeemable under a delegation. \n\nThe agent side (yield-agent.ts, run-compound.ts) runs on Bun with viem, discovering and redeeming plans with no custody of principal, only gas.\n\nWe leverage the Intuition Protocol as the discovery register for the signed, off-chain delegation.",
+  "auto_summary": "A Safe app and agent system that creates bounded delegations for recurring DeFi actions and executes some strategies through Uniswap and external data services.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hourglass-0gp1c",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

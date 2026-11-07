@@ -1,0 +1,35 @@
+{
+  "id": "q1we4",
+  "slug": "onda",
+  "title": "Onda",
+  "tagline": "Your music streams pay platforms. Onda pays artists.  1 cent per play, direct to artists.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/q1we4/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tkK00D9qE4VwRlHJ35l3YmwDRrb02c005Q01R7nNTPUPcdQ/high.mp4",
+  "demo_url": "https://onda-tau.vercel.app/",
+  "source_url": "https://github.com/alaskaisprettyokay/patron-app",
+  "prizes": [
+    {
+      "sponsor": "Arc",
+      "sponsor_id": "tc25z",
+      "placement": "1st place",
+      "title": "Best Smart Contracts on Arc with Advanced Stablecoin Logic"
+    }
+  ],
+  "finalist": true,
+  "description": "Onda is a Chrome extension that detects what music you're listening to and sends micropayments directly to artists — no platform, no label, no middleman.\nSpotify pays artists $0.003 per stream. Onda lets you give them $0.01 directly.\nThe extension runs quietly in the background while you listen on Spotify, SoundCloud, Bandcamp, or any browser-based player. It identifies the artist via MusicBrainz (an open music database), resolves their wallet through ENS, and sends a USDC micropayment on Arc. One listen, one gift, automatic.\nArtists don't need to be in crypto to receive support. When a listener plays a track by an unclaimed artist, the gift is held in an on-chain escrow contract mapped to the artist's MusicBrainz ID. When the artist is ready, they verify their identity with World ID, connect a wallet, and claim everything that's been waiting for them. Twelve people might be supporting an artist before that artist even knows Onda exists.\nThe extension is intentionally simple. It holds a session for a smart wallet and talks directly to Arc — no central server in the payment flow. Listeners deposit a monthly budget in USDC, and Onda draws from it with each play. A payment confirmation ripples through the popup like a wave: artist name, amount sent, total given, and how many other supporters this artist has\n\nWe built Onda because the streaming economy is broken and everyone knows it. But the fix doesn't require rebuilding the platform. It just requires a way to route money around the middlemen. Onda sits on top of the listening experience you already have and adds the part that's missing — the part where artists actually get something.\nBuena onda. Good vibes. Good waves.\n",
+  "how_its_made": "Smart Contract Architecture (Solidity on Arc)\n\nThe core is a single escrow contract that handles three concerns: gas-sponsored tipping via session keys, artist identity via MusicBrainz IDs, and an on-chain ENS subname registry. When a listener tips, they sign a message with their session key, the relayer submits it on-chain and pays gas. Tips route based on artist state: verified artists receive funds directly; unclaimed artists have funds held in escrow until they verify ownership.\n\nArtist Identity & Verification\n\nWe hash MusicBrainz artist IDs (UUIDs) to bytes32 as the canonical on-chain identifier. This lets us link tips to real-world artists before they ever touch crypto. For verification, we built a SoundCloud bio-token flow: artists paste a random token in their bio, we scrape it server-side, and the relayer calls verifyAndRelease() to unlock their funds and mark them verified.\n\nFrontend & Extension\n\nNext.js 14 with wagmi/viem for wallet interactions. The browser extension detects tracks on Spotify/SoundCloud/YouTube, queries our lookup API (MusicBrainz search), and triggers signed tips. We store gifts in a JSON file for the MVP—quick and dirty, but it let us ship fast.\n\nThe Hacky Bits\n\nSession keys: listeners sign tips without approving each transaction. The contract validates signatures and increments nonces.\nRelayer pattern: we pay all gas, so users never need native tokens. Arc’s low fees make this sustainable.\nENS-on-contract: instead of deploying a full ENS resolver, we baked subname resolution (artist.onda.eth) directly into the escrow contract. One contract, one deployment, less complexity.\nStack: Next.js, TypeScript, Tailwind, wagmi, viem, Arc Testnet, MusicBrainz API, RainbowKit",
+  "auto_summary": "A browser extension and web app detect music playback, identify artists, and route USDC tips through an Arc-based escrow and artist-claim flow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/onda-q1we4",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

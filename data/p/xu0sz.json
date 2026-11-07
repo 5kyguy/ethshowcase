@@ -1,0 +1,35 @@
+{
+  "id": "xu0sz",
+  "slug": "finvoice",
+  "title": "Finvoice",
+  "tagline": "Private invoice factoring with AI attestation inside Flare TEE and tokenized invoices on Hedera. ",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/xu0sz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/OStplMwxHqjfboM17pba4f0002N9Pio53OzGcJHXrBsrQ/high.mp4",
+  "demo_url": "https://finvoice-fi.vercel.app/",
+  "source_url": "https://github.com/sairammr/finvoice",
+  "prizes": [
+    {
+      "sponsor": "Hedera",
+      "sponsor_id": "bdi3h",
+      "placement": "Tokenization on Hedera",
+      "title": "Tokenization on Hedera"
+    }
+  ],
+  "finalist": false,
+  "description": "Finvoice tackles one of the most overlooked inefficiencies in global finance: small businesses sitting on unpaid invoices, unable to access the capital they're already owed — because traditional invoice factoring demands full transparency into their customer relationships. Handing over debtor names, payment histories, and financials to a bank or middleman is a dealbreaker for most SMBs. Finvoice eliminates that tradeoff entirely.\nThe core innovation is a fully private invoice factoring pipeline built across two blockchains. Debtor identity is ECIES-encrypted client-side before anything touches a ledger. Credit scoring runs inside a Flare TEE (Trusted Execution Environment) — meaning an AI model evaluates the invoice using real debtor data, inside a cryptographic enclave, and the identity never escapes. What comes out is a signed, TEE-attested risk grade (A–D) and yield rate, minted as an Attestation NFT on Hedera. Funders see the grade. Nobody sees the debtor.\nThe architecture is just as bold as the privacy model. There is no traditional database — zero Postgres, zero MongoDB. All application state lives on Hedera Consensus Service topics as encrypted append-only event logs, replayed into memory on startup. Invoices and receipts are tokenized as Hedera NFTs using pure @hashgraph/sdk. Debtors approve via a one-click PDF email link — no wallet, no blockchain knowledge required. Auth is handled by Dynamic.xyz, bridging EVM and Hedera wallets in a single session across Flare Coston2 and Hedera Testnet.\nFinvoice proves that real-world asset tokenization doesn't have to sacrifice privacy. The entire invoice lifecycle — creation, debtor approval, AI scoring, marketplace listing, funding, and settlement — runs with cryptographic guarantees at every step, on live deployed infrastructure, with zero traditional backend. It's a complete, production-grade DeFi primitive for a $3.5 trillion market that's never had a privacy-preserving alternative.",
+  "how_its_made": "Hedera as a Zero-Infrastructure Backend\nEvery piece of application state in Finvoice — invoice created, debtor approved, AI scored, funder invested, settlement complete — is written as an encrypted JSON message to a Hedera Consensus Service topic via TopicMessageSubmitTransaction. Debtor PII is ECIES-encrypted client-side before submission, so the public ledger only ever holds ciphertext. On startup, the server replays every message from both HCS topics to reconstruct a full in-memory state cache. That's the entire database layer — no Postgres, no MongoDB, no credentials, no schema migrations. Just append-only consensus messages on a public ledger, with auditability baked in by design.\nTokenization runs entirely through @hashgraph/sdk with zero Solidity on Hedera. Two NFT collections power the product: Attestation NFTs carry the AI-verified risk grade and yield as on-chain metadata, and Receipt NFTs prove funder investment and are burned on settlement. All payment flows — advances to suppliers, returns to funders — move in HBAR via TransferTransaction.\nFlare TEE for Private AI Scoring\nThe hardest product problem was this: how do you generate a trusted AI credit score without revealing who the debtor is? Flare's TEE Extensions are the answer. A single Solidity contract on Coston2 relays typed instructions (CREATE, APPROVE, SCORE) to our registered TEE Extension (ID 251, PRODUCTION) via ITeeRegistryV1.requestInstruction(). Inside Flare Confidential Compute, the handler decrypts the debtor PII using the TEE node's /decrypt endpoint, feeds the full invoice context to GPT-4o-mini, receives a structured JSON score (grade A–D, discount basis points, reasoning), hashes the result with keccak256, and signs it via /sign using the TEE's attested key. A deterministic fallback scorer handles OpenAI downtime by evaluating payment history, jurisdiction risk, and maturity duration locally. The debtor's identity and AI reasoning exist only in enclave memory — only the signed grade and yield leave the TEE.\nDynamic.xyz for Seamless Multi-Chain Auth\nThree user types (suppliers, debtors, funders) interacting across two chains (Flare and Hedera) would normally require separate auth flows. Dynamic.xyz collapses this into a single session — DynamicContextProvider is configured with custom Hedera Testnet network settings alongside EthereumWalletConnectors, so users connect once and interact with both chains without switching wallets or contexts. Supplier identity is resolved at invoice creation, wallet-specific dashboard data is fetched via useUserWallets, and marketplace funding is gated behind the same auth check.",
+  "auto_summary": "Finvoice is a multi-chain invoice factoring app that stores encrypted workflow state on Hedera and uses Flare TEE-based scoring.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/finvoice-xu0sz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

@@ -1,0 +1,27 @@
+{
+  "id": "4hh9h",
+  "slug": "sentinel402-gateway",
+  "title": "Sentinel402 Gateway",
+  "tagline": "Autonomous DeFi liquidity auditor using x402 micropayments, The Graph indexing, and ENSv2.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4hh9h/banner/default.jpg",
+  "video_url": "https://stream.mux.com/400s7lAqqBMhnWZYhnBkcTEEi3Nuu022f00pFSEa4qSuFo/high.mp4",
+  "demo_url": "https://sentinel402-gateway-c7484f651e31.herokuapp.com",
+  "source_url": "https://github.com/nlnw/eth-online-2026",
+  "finalist": false,
+  "description": "As autonomous AI agents manage trading and DeFi operations, two primitives are missing: machine-native payment rails (agents cannot hold credit cards or KYC for API accounts) and verifiable proof of execution (downstream smart contracts need proof that an audit was computed against canonical state).\n\nSentinel402 Gateway bridges this gap by combining RFC-compliant x402 micropayments, decentralized indexing from The Graph, and next-generation ENSv2 permissioned attestations:\n\n1. Bazantic x402 Micropayment Protocol: When an autonomous caller requests an audit, the gateway intercepts unauthenticated traffic with an HTTP 402 Payment Required challenge specifying cost (0.001 ETH) and the facilitator address. Once the agent provides a valid bearer token, execution proceeds without accounts or pre-shared keys.\n\n2. Live Subgraph Indexing & Deterministic Audit: Sentinel402 queries The Graph Subgraph Studio for live Uniswap v3 pool states, computing volume velocity, depth scores, and slippage risk tiers. It then serializes this snapshot into a canonical keccak256 report hash.\n\n3. ENSv2 Permissioned Resolver Attestation: Using Viem on Ethereum Sepolia, the agent connects to the ENSv2 Permissioned Resolver and publishes the report hash under the subname auditor.sentinel402.eth with EAC record key records['last_audit_hash']. Downstream smart contracts can trustlessly read this on-chain record before executing high-value swaps.\n\n4. Model Context Protocol (MCP) Server: Sentinel402 exposes this entire workflow over standard stdio and HTTP JSON-RPC, enabling LLM agents (Claude, Cursor, Antigravity) to audit pools and read verified ENS records natively as function tools.",
+  "how_its_made": "Sentinel402 Gateway was built from scratch as an end-to-end full-stack agent infrastructure:\n\n• Bazantic x402 & Declarative Recipe: We implemented an RFC-compliant HTTP 402 middleware in Express.js guided by a declarative Bazantic recipe (bazantic/recipe.json). The gateway validates bearer credentials against the facilitator address before executing indexing or attestation phases.\n\n• The Graph Subgraph Studio: We integrated live GraphQL queries indexing top Uniswap v3 pools on Ethereum Mainnet. The risk scoring engine analyzes tick spacing, fee tiers, and liquidity concentration to generate a deterministic keccak256 digest (reportHash) of market health.\n\n• ENSv2 on Sepolia: We integrated next-gen ENSv2 Permissioned Resolvers (0x4976...Ba41) using Viem. The gateway computes the subname node via namehash and calls setText with EAC scoping (records['last_audit_hash']). To facilitate zero-downtime CI/CD and judge testing, it features an automated deterministic simulation mode if an on-chain key is unfunded.\n\n• AI Agent MCP Server: We built an RFC-compliant Model Context Protocol server exposing `audit_pool_liquidity` and `get_ens_attestation` over both stdio and `/api/mcp` JSON-RPC for agent runtimes.\n\n• Frontend & Demo Studio: Built with React 18, Vite, and Tailwind CSS in a developer-first monochrome aesthetic with theme persistence. It includes an interactive Demo Studio allowing judges to simulate the x402 paywall challenge, execute live audits, inspect raw ENS calldata, and export verifiable audit runs.\n\n• Full-Stack Deployment: The backend Express gateway automatically builds and serves the static client SPA under a single port, pre-configured with a Procfile and app.json for zero-config Heroku/PaaS hosting.",
+  "auto_summary": "An Express and React application provides paid AI-accessible liquidity audits using The Graph data and writes audit hashes to ENSv2 on Sepolia.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/sentinel402-gateway-4hh9h",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

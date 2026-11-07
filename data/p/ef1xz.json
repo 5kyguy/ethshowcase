@@ -1,0 +1,29 @@
+{
+  "id": "ef1xz",
+  "slug": "enspin",
+  "title": "ENSPin",
+  "tagline": "ENSPin is a self-hostable tool that keeps your IPFS content alive and ENS permanent.",
+  "event": {
+    "slug": "taipei",
+    "name": "ETHGlobal Taipei",
+    "start_time": "2025-04-04T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ef1xz/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Dz1GmqWbA9p8HbfCgOV6qMNZogN402pnwGF00HsP700YMw/high.mp4",
+  "source_url": "https://github.com/ens-pin/ens-index-ipfs-cli",
+  "prizes": [
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "Best ENS Infrastructure",
+      "title": "Best ENS Infrastructure"
+    }
+  ],
+  "finalist": false,
+  "description": "We built this project to solve a real gap in the decentralized web: making ENS-linked IPFS content more reliable and persistent. At its core, the project is a backend service that listens to ENS resolver smart contracts for ContenthashChanged events, these are triggered whenever someone links an IPFS hash to their ENS name. Once we detect such an event, our service fetches the associated IPFS content and automatically pins it using a locally or remotely connected IPFS node. This helps ensure that content tied to ENS names doesn’t disappear over time due to a lack of pinning.\n\nTo make this service easy to deploy and run, we packaged the entire system into a Docker container. This allows anyone like developers, hackers, even ENS enthusiasts to spin up their own instance with minimal setup. We relied on Node.js for the backend logic and used Ponder as our event indexer. Ponder was particularly useful because it gave us an efficient, developer-friendly way to track smart contract events without needing to use The Graph. It runs locally and gives us fast, real-time access to blockchain data, which was critical to our goal of self-hostability.\n\nThe frontend was built with Next.js, TypeScript, and TailwindCSS. Hono.js also served as our lightweight backend layer by using API routes, which allowed us to expose project status, diagnostics, or additional features to users without spinning up a separate backend server.\n\nOne particularly hacky but cool part of our implementation was using a decoder from @ensdomains for content hash values. The data returned from ENS isn't always uniform—some use legacy codecs or edge-case encodings so we use this flexible parser that gracefully handles these scenarios. We also implemented a pinning queue with retry logic to make sure that temporary IPFS errors wouldn’t result in missing content. On top of that, we normalize ENS names to handle Unicode and case-insensitive duplicates, preventing multiple entries from pointing to the same record. All of this adds up to a simple but powerful tool that supports ENS and IPFS interoperability in a very tangible, usable way.",
+  "how_its_made": "We built ENS PIN as a backend service using Node.js and Ponder, designed to monitor ENS smart contracts for ContenthashChanged events. These events occur whenever someone links an IPFS hash to their ENS name. When detected, our service fetches the IPFS content and automatically pins it using a connected IPFS node, either locally or remotely.\n\nTo track smart contract events efficiently, we used Ponder instead of The Graph. Ponder is lightweight, self-hosted, and gives us fast, real-time access to blockchain data — ideal for our goal of keeping the project easy to deploy and maintain.\n\nWe wrapped everything in a Docker container so anyone — developers, hackers, or ENS enthusiasts — can run their own node with just a few commands.\n\nFor the frontend, we used Next.js, TypeScript, and TailwindCSS. We also used Next.js API routes to handle simple backend functions like diagnostics and pin status checks, without needing a separate server.\n\nOne particularly hacky but cool part of our implementation was using a decoder from @ensdomains for content hash values. We also added a pinning queue with retry logic to handle temporary IPFS failures, and normalized ENS names to avoid duplicate records caused by Unicode or case differences.\n\nEverything comes together to form a simple, powerful tool that keeps ENS-linked IPFS content online — making the decentralized web a little more dependable.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/enspin-ef1xz",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

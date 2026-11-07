@@ -1,0 +1,27 @@
+{
+  "id": "vgmqq",
+  "slug": "strata402",
+  "title": "Strata402",
+  "tagline": "x402-powered pay-per-request DeFi service on Hedera — AI agents pay HBAR automatically, no API keys.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/vgmqq/banner/default.jpg",
+  "video_url": "https://stream.mux.com/xrRTSm5QXgDn3qnvCx01b9J3TWbROpObOq01bNVz3IcCM/high.mp4",
+  "demo_url": "https://github.com/samarabdelhameed/Strata402",
+  "source_url": "https://github.com/samarabdelhameed/Strata402",
+  "finalist": false,
+  "description": "Strata402 is a pay-per-call service on Hedera built on the x402 payment standard. When an AI agent requests analysis without payment, the service responds with HTTP 402 and a signed payment requirement. The agent constructs a Hedera transaction, signs it, and resubmits the request with a PAYMENT-SIGNATURE header. The Blocky402 facilitator verifies and settles the payment on Hedera testnet, and the service returns the paid result — no API keys, no subscriptions, just metered payments settled in HBAR with sub-cent fees and fast finality.",
+  "how_its_made": "Strata402 is a Bun monorepo with four workspaces: an Express-based api-gateway, a TypeScript consuming-agent, a shared x402-sdk package, and a placeholder ai-engine. The gateway implements the x402 v2 \"exact\" payment scheme for Hedera using the official @x402/core, @x402/hedera, and @x402/express packages, so the protocol layer is never hand-rolled — payment requirements, headers (PAYMENT-REQUIRED, PAYMENT-SIGNATURE, PAYMENT-RESPONSE), and signature verification all go through the SDK.\n\nThe single MVP endpoint, POST /v1/strategy/yield-risk, returns HTTP 402 with a base64-encoded PaymentRequired object when called without payment: network hedera:testnet, asset 0.0.0 (native HBAR), amount expressed in integer tinybars (never decimals), and a payTo pulled from HEDERA_SERVICE_ACCOUNT_ID. The consuming-agent discovers the service catalog, decodes and fail-closed validates every field of that challenge (12 distinct rejection codes — wrong network, wrong asset, payTo equal to 0.0.0, non-integer amount, missing feePayer, etc.) before doing anything else. Only once a challenge passes validation does it build a partially-signed Hedera TransferTransaction with @hiero-ledger/sdk, wrap it into a PaymentPayload via ExactHederaScheme/createClientHederaSigner, and resubmit the request with a signed PAYMENT-SIGNATURE header.\n\nSettlement runs through the public Blocky402 facilitator (verify + settle against hedera:testnet), and the resulting transaction is independently verifiable on HashScan and via the public Hedera Mirror Node REST API — no mocked or fabricated payment data anywhere in the flow. Every payment attempt is also logged to an HCS topic for an on-chain audit trail.\n\nDevelopment followed strict phase gates: each unit was built, tested (bun test, live integration tests against a running gateway), and reviewed before merging, with branch protection on main requiring pull requests. Yield/risk analysis is intentionally sourced only from the keyless, real Hedera Mirror Node account API — no SaucerSwap/Bonzo data is claimed live unless independently verified, in line with the project's no-fabrication policy.",
+  "auto_summary": "A Bun monorepo that gates a Hedera-backed analysis API behind x402 micropayments and includes an agent, web UI, shared SDK, and related contracts.",
+  "scores": {
+    "originality": 7,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/strata402-vgmqq",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

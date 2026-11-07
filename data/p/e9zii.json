@@ -1,0 +1,35 @@
+{
+  "id": "e9zii",
+  "slug": "defi",
+  "title": "Défi",
+  "tagline": "Défi is a gamified 1v1 live DeFi trading competition platform.",
+  "event": {
+    "slug": "cannes2026",
+    "name": "ETHGlobal Cannes 2026",
+    "start_time": "2026-04-03T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/e9zii/banner/default.jpg",
+  "video_url": "https://stream.mux.com/8Sooohv3aBGjYEZxU8prTS9VUx3cy15Z6lWnyc7giPs/high.mp4",
+  "demo_url": "https://defi.wakushi.com/",
+  "source_url": "https://github.com/Camillemtd/dueldefi",
+  "prizes": [
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Cannes 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Défi is a gamified, 1v1 life DeFi trading competition platform built on Ethereum Layer 2 networks (Arbitrum and Base). It transforms leverage trading into a competitive game where two players can compete in timed \"duels,\" each opening a leveraged position on-chain, with the winner determined purely by who achieves the better profit-and-loss percentage when the timer runs out.\n\nThis platform is designed to lower the barrier to entry for on-chain trading and teach the basic principles of perp trading. When a user signs up, an MPC wallet is automatically created for them through Dynamic which removes friction. Users can then create a duel by specifying a stake using any token they want which will be swapped using Uniswap APIs quotes into the collateral used for the trade. Then can specify and a duration anywhere from 60 seconds to 7 days, share an invite link with a friend, and both players independently choose their trading pair, leverage level, and direction (long or short). \n\nTrades are executed using Gains Network's smart contracts, meaning all positions are real, verifiable, and trustless.\nOnce both trades are live, the platform streams real-time PnL updates every second via WebSocket until the duel timer expires, at which point the winner is automatically determined. There are two play modes: Friendly mode runs on testnet with faucet USDC for practice without any risk of real fund loss, while Duel mode runs on mainnet with real funds on the line.\n\nUnder the hood, the platform is powered by a Next.js 16 frontend which serves as the interface and NestJS backend that maintains Gains Network positions and trading variables state across three chains simultaneously. The backend handles trade event listening, real-time price feeds, PnL enrichment.",
+  "how_its_made": "Défi is built in three main parts: \n\n1) Next.js 16 (React 19, TypeScript) on the frontend and backend (API routes), styled with Tailwind CSS. \n\n2) A NestJS server handles the trading state and positions. We use the @gainsnetwork/sdk for PnL calculations, liquidation price computation, and trading variable transformations. We maintain persistent WebSocket connections to Gains Network's pricing feed and chain-specific backends (Base, Arbitrum, Sepolia) to stream live prices and listen for on-chain events like MarketExecuted. This event detection is how we know both duel participants have opened their trades once both wallets fire a MarketExecuted, the duel starts broadcasting.\n\n3) The database layer uses PostgreSQL with Kysely to interact with the database, and auth is a custom session system using jose (HS256 JWT in HTTP-only cookies) and bcryptjs for password hashing.\n\nOn the Web3 side, we use viem for all on-chain interactions and trades are executed using Gains Network (gTrade) smart contracts on Arbitrum One, Base, and Arbitrum Sepolia (testnet).\n\nWe used Dynamic MPC Wallet SDK to create server-side embedded wallets on signup. This gave us the best of both worlds: users onboard quickly with no wallet setup, but critically, we retain server-side signing authority. This was mandatory for our application core mechanic since when both players lock in their trades, we need to execute both positions on-chain at the exact same moment to have a fair duel.\n\nBecause Défi run on USDC and we wanted to allow duel to be created as quickly as possible, we integrated Uniswap's API so that users can deposit any token send some PEPE, WETH, or whatever they're holding to their Dynamic wallet, and\nwe quote it and swap it to USDC using Uniswap API. \n\nWe used a WebSocket gateway (/ws/positions) built on @nestjs/websockets for real-time duel experience. Once a duel goes live, we push enriched position data to both players every second including current price, unrealized PnL (in collateral and percentage), and liquidation price (computed using Gains SDK)\n\nWe use Mobula's API for token metadata enrichment (market cap, logos, price history) on the pairs list, and their portfolio API to retrieve the user’s balances and token held.\n\nThe whole thing is containerized using a docker compose orchestration config.\n",
+  "auto_summary": "A web app for timed head-to-head leveraged trading duels that executes trades on-chain and tracks live PnL.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/defi-e9zii",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

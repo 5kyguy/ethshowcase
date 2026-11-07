@@ -1,0 +1,27 @@
+{
+  "id": "yicq5",
+  "slug": "weave",
+  "title": "Weave",
+  "tagline": "a decentralized, privacy-first messaging platform over Tor v3 onion services ",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/yicq5/banner/default.jpg",
+  "video_url": "https://stream.mux.com/3015iEMopKtx1YaEsKLxBktiw694aNKa009MBFUmVgStw/high.mp4",
+  "demo_url": "https://weave.davinciin.xyz/",
+  "source_url": "https://github.com/Philotheephilix/weave",
+  "finalist": false,
+  "description": "Devcon 2026 motto is on privacy, Weave brings you multiple steps step closer to full privacy\n\nWeave is a decentralized, privacy-first collaboration platform — Slack/Teams feature parity, with no server that can ever see who's talking to whom. Every peer runs as a Tor v3 onion service, so there is no IP exposure and no communication graph for anyone to subpoena.\n\nIdentity is entirely on-chain: every user, org, and member is an ENSv2 subname under `weave.eth`, resolved through a custom wildcard resolver whose text records carry each identity's live Tor onion address, Noise X25519 public key, stealth payment keys, and Nostr pubkey — so there's no separate directory server to compromise. Calls and messages are end-to-end encrypted with a Noise_XX handshake straight over the Tor circuit, peer to peer. Offline messages fall back to Arkiv, a decentralized, time-scoped data layer, where no plaintext is ever written.\n\nAccess control — org roles, admin rights, permissions — is a 256-bit bitmap stored and enforced on-chain, auditable and revocable by anyone, not a vendor's internal database.\n\nOn top of that, Weave supports private stealth payments: ERC-5564 stealth addresses let someone pay or notify you on-chain without revealing your identity or balance, and a Chainlink CRE Confidential Workflow scans for those payments inside a TEE so even the scanning process never exposes your private keys.\n\nThe result is a communications platform where privacy isn't a policy promise — it's the architecture.\nThe project depends on no servers and hence it is live and anyone can sstart using now it is fully working representation download from releases in github repo",
+  "how_its_made": "\nWeave is an Electron desktop app: a TypeScript/React renderer talking to a Node main process over a locked-down IPC bridge, with every cryptographic and networking operation happening in the main process so private key material never touches the renderer.\n\nEach client runs its own embedded Tor process and creates a v3 onion service on demand; calls and DMs connect onion-to-onion with a Noise_XX_25519_ChaChaPoly_SHA256 handshake for the transport encryption, so there's no relay in the data path at all.\n\nIdentity and access control live entirely on Ethereum (Sepolia): a `WeaveRegistrar` contract handles org registration, member enrollment, and a 256-bit EAC role bitmap, while a custom ENSIP-10 wildcard resolver serves every `*.weave.eth` subname without per-user on-chain registration cost, storing each identity's onion address, Noise pubkey, and ERC-5564 stealth keys directly in text records. Offline delivery and channel messages persist to Arkiv, an Ethereum-native, time-scoped data layer — entities expire automatically and nothing is ever written in plaintext.\n\nThe standout integration is Chainlink CRE: we built a Go-to-WASM Confidential Workflow that runs inside a hardware-attested TEE on a trigger, pulls a user's stealth view/spend keys from the CRE Vault DON, scans public ERC-5564 announcement events on Sepolia, performs the elliptic-curve matching entirely inside the enclave, and submits only a DON-signed report — a hashed pubkey and matched IDs, never the key or the raw matches — on-chain via the Keystone Forwarder to our `NotificationLog` contract, which the client then polls. It's a real, closed-loop, end-to-end demoable feature: no node operator, including Chainlink's own infrastructure, ever sees the key material or the computation's intermediate state.",
+  "auto_summary": "A desktop collaboration app combines peer-to-peer privacy features with Ethereum-based identity, ENS naming, and a Chainlink confidential notification workflow.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/weave-yicq5",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

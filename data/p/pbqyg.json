@@ -1,0 +1,27 @@
+{
+  "id": "pbqyg",
+  "slug": "repo-shield",
+  "title": "Repo Shield",
+  "tagline": "Know what a GitHub repo does before you run it, a  scanner for fake-interview malware.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pbqyg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/Cu76dxOs9yNN4BvuW4GxvbQb3kmPY003l6XlHWSoZH8c/high.mp4",
+  "demo_url": "https://repo-shield.vercel.app",
+  "source_url": "https://github.com/Ronnieraj37/Repo-Shield",
+  "finalist": false,
+  "description": "Fake recruiters send developers \"take-home assignments\" as GitHub repos. Opening the folder in VS Code or running `npm install` is enough to steal your SSH keys and drain your crypto wallet — the code looks completely normal. This is the Contagious Interview campaign (attributed to the Lazarus Group), and it's hitting engineers now: our submission includes real LinkedIn posts from people it happened to.\n\nEvery existing scanner (Socket, Snyk) is built for the repo owner and needs an app or CI action installed. But when a \"recruiter\" invites you to a private repo as an outside collaborator, you have read access and nothing else — so you clone it blindly or walk away.\n\nRepoShield is the first candidate-side scanner. You paste a repo (public with no sign-in, or private via GitHub OAuth) and it reads what the code actually executes — install hooks, editor auto-run tasks, obfuscated payloads, credential-access patterns, typosquatted dependencies — using a two-phase pipeline: 38 fast static rules find the risky files, then an LLM reads only those and explains the execution flow in plain English. You get a 0–100 threat score, a verdict, and a copy-pasteable plan to inspect the repo safely without ever running it.\n\nTwo things make it more than a linter: it can run the entire analysis inside a Chainlink CRE enclave, so a private/company repo is scanned without our servers or a public AI ever seeing the source; and it publishes verdicts to an onchain registry indexed by The Graph, which the LLM reads back — so a repo whose owner has a pattern of flagged repos is caught before its code is even read.",
+  "how_its_made": "The core is a TypeScript analysis engine (38 heuristics + a classifier + a Gemini phase-2 pass) inside a Next.js 16 app on Vercel. A key design choice: the engine is a pure function with zero I/O, so the exact same analyzeRepo() runs in the browser and inside a hardware enclave.\n\nChainlink CRE (Confidential Workflows): the workflow is a handlerInTee running in an AWS Nitro enclave. It fetches the developer's GitHub OAuth token and the Gemini key from the Vault DON, reads the private repo over the confidential-HTTP capability (token never leaves the TEE), runs the full scan, and returns only a 7-field aggregate verdict to the DON — the findings quote source code, so they stay inside. Making the engine run in CRE's WASM runtime meant it couldn't use fetch, crypto, Buffer or setTimeout — all banned — so we hand-wrote SHA-256/base64/UTF-8 and inject an HttpClient. It compiles to WASM and simulates end-to-end via the cre CLI. We also implemented the ETH-signed JWT (alg: ETH) the gateway needs to trigger a deployed workflow.\n\nThe Graph: a ScanRegistry contract (Foundry, on Sepolia) emits ScanPublished; a subgraph on Subgraph Studio indexes it. Before analysis, the app queries the subgraph live for prior verdicts on the repo AND its owner (name_starts_with), and feeds that into the LLM's prompt and the score — making The Graph a load-bearing decision input, not a display.\n\nHacky bit worth mentioning: repos are fetched as one gzip tarball via GitHub's archive endpoint, which 302-redirects to codeload — unmetered against the API rate limit. A whole scan costs ~2 API calls instead of 15+, so we read 100% of a repo's files instead of a sample. Contracts use Foundry; the app and gateway signing use viem.",
+  "auto_summary": "A Next.js app scans GitHub repositories for malicious execution paths, optionally runs confidential analysis in Chainlink CRE, and publishes scan verdicts onchain.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/repo-shield-pbqyg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

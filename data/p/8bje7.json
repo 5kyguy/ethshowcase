@@ -1,0 +1,21 @@
+{
+  "id": "8bje7",
+  "slug": "alloy",
+  "title": "Alloy",
+  "tagline": "Autonomous AI Agents running in Oasis TEEs that securely control assets on EVM chains via MCP",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/8bje7/banner/default.jpg",
+  "video_url": "https://stream.mux.com/o02Td85U9JpxmfftB7UAeBHCVt00jw00ncSlsyE7ZREB6U/high.mp4",
+  "source_url": "https://github.com/Alloy-AI/core",
+  "finalist": false,
+  "description": "Autonomous AI Agents running in Oasis TEEs that securely control assets on 60+ EVM chains via MCP.\nDescription \nWe built a platform for creating and managing Trustless AI Agents that can securely manage user funds and execute complex on-chain workflows. Traditional AI agents are insecure—users must hand over private keys to a server operator. Our solution moves the Agent's \"brain\" and wallet into an Oasis ROFL (Runtime for Off-chain Logic) container. This Trusted Execution Environment (TEE) ensures that not even the developers can access the agent's private keys.\n\nThe Agent acts as a Layer 2 Hub:\n1.  Onramp: Users deposit funds to the Agent's TEE-derived address.\n2.  Execution: The Agent processes logic off-chain (in the TEE), making high-frequency decisions or interacting with other agents (A2A) without gas costs.\n3.  Offramp/Settlement: When an on-chain action is needed, the Agent uses our custom EVM MCP Server to execute transactions on any of 60+ supported chains.\n",
+  "how_its_made": "The core of the project is a Hub-and-Spoke architecture powered by Oasis ROFL, MCP, and Filecoin.\n\nThe Trusted Hub (Oasis ROFL):\nWe run a Hono server inside an Oasis Sapphire TEE (ROFL). This secure enclave generates and holds the Agent's private key in memory, ensuring it never touches persistent disk or leaves the hardware boundary. The Agent's state is managed locally with Drizzle ORM.\n\nThe Universal Spoke (MCP & Viem):\nWe built a custom Model Context Protocol (MCP) server (⁠ @evm-mcp-server ⁠) that gives the Agent a standardized interface to interact with the blockchain.\n-   Dynamic ABI Fetching (The Hacky Part): Instead of hardcoding contract interfaces, our MCP server uses Viem and Block Explorer APIs to fetch contract ABIs on the fly. This means our Agent can interact with any verified smart contract on 60+ chains without prior configuration—it literally reads the contract's manual before using it.\n-   Tools: We expose 22+ MCP tools including ⁠ transfer_erc20 ⁠, ⁠ read_contract ⁠, ⁠ write_contract ⁠, and ⁠ resolve_ens_name ⁠ (automatically handling ENS for every address field).\n\nThe Brain (Filecoin/Synapse):\nTo ensure the Agent's behavior is verifiable, its instructions and knowledge base are stored on Filecoin via the Synapse SDK. When an Agent boots inside the TEE, it downloads its \"Brain\" from decentralized storage, ensuring it's running exactly the logic the user expects.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/alloy-8bje7",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

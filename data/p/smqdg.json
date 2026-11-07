@@ -1,0 +1,34 @@
+{
+  "id": "smqdg",
+  "slug": "eqlty",
+  "title": "EQLTY",
+  "tagline": "Bounded agents turn one investment goal into a verifiable stock token trade on Robinhood Chain.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/smqdg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/tWzdHCBfBBGOTIzSR91WDvjT6u399riSeCArCv01OW8A/high.mp4",
+  "source_url": "https://github.com/PerkOS-xyz/PerkOS-EQLTY",
+  "prizes": [
+    {
+      "sponsor": "The Graph",
+      "sponsor_id": "pfyco",
+      "placement": "1st place",
+      "title": "Best AI Use Case of The Graph (Continuity)"
+    }
+  ],
+  "finalist": true,
+  "description": "EQLTY is an agent-powered experience for discovering and buying tokenized stocks on Robinhood Chain. A user states one investment objective in plain language, sets a budget, and a persistent fleet of four specialized agents does the rest. Scout discovers supported stock tokens and gathers market evidence. Risk checks policy, freshness, liquidity and spending limits. Trader prepares a guarded Uniswap trade. Auditor reconciles the decision against indexed onchain evidence and produces a verifiable proof bundle. The agents run as separate Hermes runtimes provisioned per user on PerkOS infrastructure, and the fleet reevaluates the market during a two minute window without further user action.\n\nThree properties make it different from an AI picking a stock. Policy lives in ENS: each agent's behavior settings are public records under a per-user subname, so changing a record changes the next cycle without redeploying anything. Evidence is verifiable: recommendations carry The Graph Substreams provenance with block, transaction hash and freshness checks, and stale data blocks a candidate instead of weakening the run. Execution is fail-closed: funds sit in the EQLTY Vault contract, which only accepts trades signed by the Risk role within per-trade, total spend, slippage and expiry limits. Agents never hold keys, and if any gate is missing the run stops at an approved recommendation and no funds move.",
+  "how_its_made": "EQLTY is a pnpm monorepo: a Next.js app with Dynamic wallet login, a TypeScript API that orchestrates the fleet and enforces every execution gate, Foundry contracts, and one reusable agent plugin per partner integration. 117 tests run green across the three layers.\n\nPartner tech does real work. Uniswap quotes come from the Trading API as V4 exact input requests on Robinhood Chain, and the request id stays in the proof bundle. For The Graph we wrote a Rust Substreams package indexing Uniswap V4 swaps across 94 stock token pools; the Risk gate requires live provenance, a canonical transaction hash and freshness thresholds. ENS is the control plane: each user gets a Durin subname with a manifest and four per role policy records, so changing fleet behavior never requires a redeploy. PerkOS provisions the four Hermes runtimes per user.\n\nThe hackiest part is the EQLTY Vault. The Risk agent is an EIP-712 signer, so the contract enforces the agent handoff: Trader can only execute an order whose amounts, quote hash and calldata hash were signed by Risk, within per trade, total spend, slippage and expiry limits. There are no standing approvals: the vault approves the exact input amount, opens an ERC-1271 window that only validates the Risk signer, executes, then zeroes both. Anything missing stops the run before funds move.",
+  "auto_summary": "A monorepo app for agent-assisted discovery, risk checking, and execution of tokenized stock trades with ENS policy control and onchain audit evidence.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/eqlty-smqdg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

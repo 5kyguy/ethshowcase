@@ -1,0 +1,35 @@
+{
+  "id": "ai0gv",
+  "slug": "superpose",
+  "title": "Superpose",
+  "tagline": " One collateral in every position at once, guarded on-chain, with a self-improving AI on 0G.",
+  "event": {
+    "slug": "lisbon2026",
+    "name": "ETHGlobal Lisbon 2026",
+    "start_time": "2026-07-24T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/ai0gv/banner/default.jpg",
+  "video_url": "https://stream.mux.com/jki4b00Lvw2Wsq13m9cr3tzTnjBPsByyG3Z1SqV44tOI/high.mp4",
+  "demo_url": "https://superpose.nanotom.in/",
+  "source_url": "https://github.com/Thirumurugan7/Ethglobal-Lisbon",
+  "prizes": [
+    {
+      "sponsor": "0G",
+      "sponsor_id": "g8xu4",
+      "placement": "Best Infrastructure & Tooling on 0G",
+      "title": "Best Infrastructure & Tooling on 0G"
+    }
+  ],
+  "finalist": false,
+  "description": "Superpose adds a trust-minimized brain to a trust-minimized DeFi position. The underlying app is a shared-collateral system on 1inch Aqua, where one balance backs a covered call, an AMM, and a tokenized option at once, kept solvent by an on-chain SolvencyGuard. The guard is powerful but dumb: it only ever says no, and only at the last instant.\n\nThe intelligence layer runs on 0G Compute. An AI Risk Manager reads your live on-chain position (free headroom, what is reserved, percent committed, days to expiry, and which strategies are active) and returns a structured risk assessment: a risk level, findings grounded in your actual numbers, and suggested actions. It is advisory only, so it never moves funds. AI proposes, the guard disposes, which means adding a brain never weakens the trust model.\n\nThis matters because the risk is genuinely cross-strategy. One    shared headroom is n AMM leg, and atokenized option at the same time, and a human cannot easily see  when the next AMM p or when anear-expiry call will pull collateral out. The model reasons over exactly those interhe guard has to act.Every result surfaces its provenance, the model id and the TEE\nattestation, so theather than a blackbox.\n",
+  "how_its_made": "\nOn the settlement side, the contracts are written in Solidity 0.8.30 and built with Foundry: SolvencyGuard, CoveredCallApp, GuardedXYCApp, TokenizedCoveredCallApp, and OptionToken. They are all built on 1inch Aqua's ship, pull, and push virtual-balance model through AquaAppBase and IAqua, deployed to Sepolia, with a custom SwapVM opcode added through a modified guarded router for the tokenized-option secondary market. Because Aqua allocates virtual balances while the tokens stay in the wallet, the guard can enforce one shared headroom, wallet balance minus total reserved, across every app at once, which is the entire premise. The frontend is Next.js with wagmi v2, viem, and RainbowKit, presenting a step-by-step flow that is gated by on-chain reads so users cannot skip ahead, plus a persistent activity log of every transaction with Etherscan links.\n\nOn the intelligence side, a Next.js server route calls the 0G Compute router, which is OpenAI-compatible, using the TEE-attested qwen2.5-omni model. The client builds a live snapshot of the position from on-chain reads, and a tuned system prompt gives the model the shared-collateral rules plus concrete risk heuristics and asks for strict JSON, which the route parses defensively and the studio renders as a risk badge, findings, and actions, with the model and TEE provenance shown. 0G Compute meters each inference through on-chain micropayments against a deposited balance with no subscription, which we confirmed from the token usage returned on every call.\n\nBoth partner technologies are load-bearing. 1inch Aqua is what makes shared collateral possible and gives the AI a genuinely hard, cross-strategy position to reason about, and 0G Compute is what makes the intelligence verifiable rather than a hidden API. A few details worth noting: the guard-block revert is shown as a success state, since a refused unsafe pull is the feature working; both the collateral and strike tokens are shipped with a zero strike amount so exercise's Aqua push does not revert; each session mints a random strategy salt so demos never collide with a spent position; and the risk prompt is engineered so the model reliably grades a tight, near-expiry position HIGH and an ample-headroom one LOW.",
+  "auto_summary": "A multi-part DeFi demo combines 1inch Aqua-based shared-collateral strategies with a Next.js interface and 0G-backed AI risk analysis.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/superpose-ai0gv",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

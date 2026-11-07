@@ -1,0 +1,30 @@
+{
+  "id": "67ps3",
+  "slug": "strapi-ipfs-provider",
+  "title": "Strapi IPFS Provider",
+  "tagline": "IPFS (Filebase, Pinata, Fleek, Web3) provider for Strapi uploads.",
+  "event": {
+    "slug": "ethsanfrancisco2022",
+    "name": "ETHSanFrancisco 2022",
+    "start_time": "2022-11-04T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/67ps3/banner/default.jpg",
+  "video_url": "https://stream.mux.com/ov1HyhrtMewVgaofpxyRgL4B4TLjhxF3BmFkh1cyIWQ/high.mp4",
+  "demo_url": "https://market.strapi.io/providers",
+  "source_url": "https://github.com/alexbakers/strapi-provider-upload-ipfs-storage",
+  "prizes": [
+    {
+      "sponsor": "IPFS & Filecoin",
+      "sponsor_id": "9zj01",
+      "placement": "3️⃣ IPFS & Filecoin — Top 3",
+      "title": "IPFS & Filecoin"
+    }
+  ],
+  "finalist": false,
+  "description": "IPFS (Filebase, Pinata, Fleek, Web3) provider for Strapi uploads.\n\nStrapi - the most popular headless CMS in the world.\n\nhttps://jamstack.org/headless-cms/\n\n--\n# Installation\n--\n\n## using yarn\n`yarn add strapi-provider-upload-ipfs-storage`\n\n--\n\n## using npm\n`npm install strapi-provider-upload-ipfs-storage --save`\n\n--\n\n# Providers Configuration\n\n--\n\n`./config/plugins.js`\n\n--\n\n```\nmodule.e`xports = ({ env }) => ({\n  // ...\n  upload: {\n    config: {\n      provider: \"strapi-provider-upload-ipfs-storage\",\n      providerOptions: {\n        defaultStorage: \"filebase\",\n        filebase: {\n          // https://console.filebase.com/keys\n          key: env(\"FILEBASE_KEY\"),\n          secret: env(\"FILEBASE_SECRET\"),\n          bucket: env(\"FILEBASE_BUCKET\"),\n        },\n        pinata: {\n          // https://app.pinata.cloud/keys\n          jwt: env(\"PINATA_JWT\"),\n        },\n        fleek: {\n          // https://app.fleek.co/#/settings/general/profile\n          key: env(\"FLEEK_KEY\"),\n          secret: env(\"FLEEK_SECRET\"),\n          bucket: env(\"FLEEK_BUCKET\"),\n        },\n        web3: {\n          // https://web3.storage/tokens/\n          token: env(\"WEB3_TOKEN\"),\n        },\n      },\n    },\n  },\n  // ...\n});\n```\n\n--\n\n# File `.env` \n\n--\n\n```\nFILEBASE_KEY=\"\"\nFILEBASE_SECRET=\"\"\nFILEBASE_BUCKET=\"\"\n\nPINATA_JWT=\"\"\n\nFLEEK_KEY=\"\"\nFLEEK_SECRET=\"\"\nFLEEK_BUCKET=\"\"\n\nWEB3_TOKEN=\"\"\n```\n\n--\n\n# Security Middleware Configuration\n\n--\n\nDue to the default settings in the Strapi Security Middleware you will need to modify the contentSecurityPolicy settings to properly see thumbnail previews in the Media Library. You should replace strapi::security string with the object bellow instead as explained in the middleware configuration documentation.\n\n--\n\n`./config/middlewares.js`\n\n--\n\n```\nmodule.exports = [\n  // ...\n  {\n    name: \"strapi::security\",\n    config: {\n      contentSecurityPolicy: {\n        useDefaults: true,\n        directives: {\n          \"connect-src\": [\"'self'\", \"https:\"],\n          \"img-src\": [\n            \"'self'\",\n            \"data:\",\n            \"blob:\",\n            \"dl.airtable.com\",\n            \"*.ipfs.dweb.link\", // ipfs.tech\n            \"*.ipfs.cf-ipfs.com\", // cloudflare.com\n            \"*.ipfs.w3s.link\", // web3.storage\n          ],\n          \"media-src\": [\n            \"'self'\",\n            \"data:\",\n            \"blob:\",\n            \"dl.airtable.com\",\n            \"*.ipfs.dweb.link\", // ipfs.tech\n            \"*.ipfs.cf-ipfs.com\", // cloudflare.com\n            \"*.ipfs.w3s.link\", // web3.storage\n          ],\n          upgradeInsecureRequests: null,\n        },\n      },\n    },\n  },\n  // ...\n];\n```",
+  "how_its_made": "The documentation of all IPFS providers (web3.storage, pinata.cloud, filebase.com, fleek.co) was studied to understand how to work with requests.\nAlso, in order to understand the principle of file uploading in the Strapi control system, the documentation on creating a uploaded provider was studied.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/strapi-ipfs-provider-67ps3",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

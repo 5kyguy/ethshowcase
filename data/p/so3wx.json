@@ -1,0 +1,47 @@
+{
+  "id": "so3wx",
+  "slug": "kura",
+  "title": "Kura",
+  "tagline": "Vault physical Magic cards, sell shards to verified humans, and buy out 80% to take the card home.",
+  "event": {
+    "slug": "tokyo2026",
+    "name": "ETHGlobal Tokyo 2026",
+    "start_time": "2026-09-25T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/so3wx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/V3q7yI00pzZAbDUMR01KuHw76sg4dteiLGJq8lm9qKiCQ/high.mp4",
+  "demo_url": "https://www.kuravault.xyz",
+  "source_url": "https://github.com/PaoloRollo/kura",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": " Best Uniswap Stack Contribution"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "3rd place",
+      "title": "Best Use of ENSv2"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 ETHGlobal Tokyo 2026 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Kura (蔵, \"storehouse\") is a vault for real Magic: The Gathering cards that gives them a market.\n\nBring a card to a shop. The vendor scans it, Kura recognises the exact printing and prices it, and the owner gets an on-chain twin. The card itself stays in the vault.\n\nSplit it into shards and half go on sale in a Uniswap auction. Only verified humans can bid, so bots can't sweep a Black Lotus. When the auction closes, the money raised and the other half of the shards open a Uniswap pool at the auction price. The owner becomes its liquidity provider and earns the trading fees, and the card now has a live price anyone can trade.\n\nWant the whole card? Get to 80% of the shards. Buying them from the pool pushes the price up. Then buy out the rest, everyone else gets paid, and you pick up the card at the counter with a World ID passport check.\n\nEvery card has its own ENS name, like lightning-bolt-4ed-1.kura.eth, with its state, condition and appraisal in the records. And the vault reads like a market: value, volume, premium to market price, and how close each card is to a buyout.",
+  "how_its_made": "Contracts are Solidity with Foundry, on Ethereum Sepolia. CardVault holds each card as an ERC-721, creates an ERC-20 for every sharding, and runs the auction, the buyout and the release. ShardMarket owns each card's Uniswap v4 pool. The tests fork Sepolia and run against the real Uniswap, Permit2, USDC and ENS contracts.\n\nUniswap. Each sale is a Continuous Clearing Auction, and our validation hook only lets World ID-verified bidders in. At settlement ShardMarket opens a v4 pool at the clearing price and locks the owner's liquidity in it. It is also the pool's hook: it freezes trading once the card is bought out but always lets LPs withdraw, and it emits a trade event per card for our indexer. The fiddly part was turning the auction's clearing price into a v4 pool price for both token orders, and placing the leftover shards as a one-sided position. The app trades through the Universal Router with Permit2.\n\nWorld ID. Proof of Human gates bidding, one wallet per human. The Passport credential gates taking the card home. Our server checks each proof and signs a short-lived ticket that the contracts verify on-chain.\n\nENS. kura.eth runs on ENSv2 with its own registry and resolver. Cards get non-transferable names that are revoked on release, and collectors claim handles. Rights are per record: the vendor edits condition, an appraiser agent writes appraisals, and nobody else can touch them.\n\nIndexer and app. A Ponder indexer on Railway feeds live SQL queries into a Next.js app on Vercel, so pages update as blocks land. The same indexer powers the analytics. Privy handles login and embedded wallets with sponsored gas.\n\nThe hacky bits:\n- Card recognition runs in the browser. A DINOv2 model embeds the webcam frame and matches it against about 45,000 Scryfall artworks stored as int8 vectors. Alpha cards have no collector number, so OCR was out.\n- Prices respect finish and language. Foil and regular never mix, and a missing price falls back to the English printing before the condition discount.\n- The appraiser can't send the same on-chain write twice: each one is claimed under a Postgres advisory lock with a fresh nonce.",
+  "auto_summary": "A monorepo for tokenizing vaulted trading cards, auctioning fractional shards, managing buyouts, and attaching ENS-based identity and metadata.",
+  "scores": {
+    "originality": 8,
+    "practicality": 8,
+    "technicality": 9
+  },
+  "showcase_url": "https://ethglobal.com/showcase/kura-so3wx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

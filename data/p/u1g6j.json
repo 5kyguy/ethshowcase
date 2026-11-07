@@ -1,0 +1,22 @@
+{
+  "id": "u1g6j",
+  "slug": "agentmandate",
+  "title": "AgentMandate",
+  "tagline": "Onchain trust layer for AI agents trading on Uniswap. Bound the agent, not the keys.",
+  "event": {
+    "slug": "openagents",
+    "name": "Open Agents",
+    "start_time": "2026-04-24T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/u1g6j/banner/default.jpg",
+  "video_url": "https://stream.mux.com/MgfHy02vnnaaOHU1CBIVXiiMALo8nRuTj8EkK00uj4zvs/high.mp4",
+  "demo_url": "https://github.com/Tmschrib/agentmandate",
+  "source_url": "https://github.com/Tmschrib/agentmandate",
+  "finalist": false,
+  "description": "AgentMandate is the trust layer for AI agents trading on Uniswap. Instead of handing your private key to an agent (risky) or signing every tx yourself (defeats the point), you deposit funds into a smart contract that defines onchain rules: allowed tokens, max per swap, daily limits. The agent gets its own wallet but can ONLY call executeSwap within the mandate's bounds. Any violation reverts at the Solidity level. Built with Uniswap's Trading API on Base. Even if the agent is compromised, your funds are safe.",
+  "how_its_made": "The core is a Solidity contract on Base Sepolia that acts as a programmable proxy between an AI agent and the Uniswap Universal Router. The owner deposits funds and defines a mandate (allowed tokens, max per swap, daily USDC volume). The agent's wallet can only call executeSwap, which validates every parameter onchain before forwarding the call.\n\nFrontend is Next.js 14 with wagmi v2, viem, and RainbowKit. The chat panel calls Claude Sonnet 4.5 with a swap_tokens tool. Claude parses intent, the backend fetches calldata from the Uniswap Trading API, the frontend submits through the mandate.\n\nThe hard part was Permit2. The Trading API returns calldata assuming a Permit2 setup that breaks for contract callers. We pre approve Permit2 in the constructor, then call Permit2.approve(token, router, amount, deadline) inside executeSwap right before forwarding.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/agentmandate-u1g6j",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

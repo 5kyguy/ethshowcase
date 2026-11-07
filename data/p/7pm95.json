@@ -1,0 +1,27 @@
+{
+  "id": "7pm95",
+  "slug": "bombus",
+  "title": "Bombus",
+  "tagline": "Agents vote in secret. A TEE tallies them. Only the verdict comes out. Paid per query via x402.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/7pm95/banner/default.jpg",
+  "video_url": "https://stream.mux.com/9d9hjze1k2SAXMLC6uGwVEzTTJwwit2taWw79DuzBhQ/high.mp4",
+  "demo_url": "https://ethglobal2026-lake.vercel.app/",
+  "source_url": "https://github.com/leomanza/bombus",
+  "finalist": false,
+  "description": "**Hear the swarm, never the bee.**\n\nDAOs, protocols, and agent networks need collective private signals — votes, risk assessments, price estimates — but today they must either publish every input on-chain (killing the signal's value, inviting front-running and copying) or hand everything to a centralized aggregator (defeating the point of a decentralized swarm).\n\nBombus is a confidential aggregation substrate for agent swarms. Independent agents each hold a private value; that value is encrypted to a Trusted Execution Environment, combined inside it, and only the aggregate ever becomes public. No individual input is exposed — not to other agents, not to the chain, not to the coordinator operator.\n\nThe first use case is **DAO deliberation**: each agent deliberates with its own persona and an LLM, encrypts its ballot, and submits it to a blind coordinator. When quorum is reached, a Chainlink CRE confidential workflow decrypts the batch inside the enclave, computes a confidence-weighted tally, and emits a signed verdict (pass / fail / contested). The verdict is served per query behind an x402 payment on Hedera — consumers (agents or humans) pay to read it, and anyone can verify the TEE's signature in the browser against a key published on ENS.\n\nThe demo runs live: three agents with distinct stances (Growth Hawk, Risk Auditor, Community Steward) deliberate on a real proposal, the quorum fills, the verdict reveals only after its signature verifies, and the paid-access receipt links to a settled Hedera transaction. The absence is the product: the UI shows *that* agents voted, never *how*.\n\n**Privacy guarantees, stated honestly:** individual ballots are visible to no one — coordinator included (it routes ciphertext); participation metadata is public by design; the workflow deployer is a trusted party; and external LLM providers see only public proposal text, never ballots or private strategy.",
+  "how_its_made": "**Swarm (off-chain):** N independent Node.js agent processes, each with an ed25519 keypair and an ENSv2 identity (`agent1.bombus.eth`) on the hackathon deployment. Each agent deliberates via a hosted LLM (OpenAI-compatible endpoint — NVIDIA Nemotron) with a distinct persona, producing a confidence-weighted ballot, then seals it to the TEE's X25519 key (X25519 + XChaCha20-Poly1305) and signs the envelope. Agents are fully independent — no shared state, no coordination among themselves.\n\n**Blind coordinator (Node.js/Express):** verifies envelope signatures against the agent keymap, deduplicates and quorums per round, and hands the batch onward. It never sees a plaintext ballot — validation is signature + schema only. Round metadata (who submitted, ciphertext hash) is public; content is not. Tombstones persist closed rounds so replays are rejected across restarts.\n\n**Confidential aggregation (Chainlink CRE):** a confidential workflow runs inside an AWS Nitro TEE. The handler decrypts each envelope with a Vault-stored key, validates against the use-case schema, computes the confidence-weighted tally (`net = (W_support − W_oppose) / total`, pass at ±0.5), suppresses detail below N=5 for small-cohort privacy, and signs the result with a TEE-held ed25519 key. Only the signed verdict leaves the enclave. The same handler code runs in `cre workflow simulate` (both confidential and plain targets) and in the coordinator's local seam, so the demo is resilient while the deployed path fires real DON executions as attestation.\n\n**Delivery (x402 + Hedera):** the resource server verifies the TEE signature at intake and refuses anything unverifiable, then serves the verdict behind an x402 payment on Hedera testnet via the Blocky402 facilitator (`@x402/express` + `@x402/hedera`, x402 v2). A paid request settles a real test-USDC transfer on-chain — receipt visible on HashScan.\n\n**Trust layer (ENSv2):** agent identities, the enclave encryption key, and the TEE signing key are published as text records on the hackathon ENSv2 deployment (`bombus.eth`), giving the whole system a tamper-evident, human-readable root of trust. The web UI resolves the TEE key from ENS and verifies every verdict signature in the browser before revealing it.\n\n**UI:** a Vite + React observatory that polls the coordinator for live round state (dynamic quorum slots, sealed envelopes as hashed cells), reveals verdicts only after in-browser signature verification, and shows the Hedera receipt — never any ballot content.",
+  "auto_summary": "This project collects encrypted agent votes, aggregates them in a confidential workflow, and sells signed verdict queries through a Hedera x402 API.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/bombus-7pm95",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

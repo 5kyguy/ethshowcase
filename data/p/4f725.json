@@ -1,0 +1,22 @@
+{
+  "id": "4f725",
+  "slug": "arrow-tc",
+  "title": "Arrow TC",
+  "tagline": "A social network for traders with on-chain execution and creator monetization",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/4f725/banner/default.jpg",
+  "video_url": "https://stream.mux.com/x1QjY7euOam02aVTMtEcD6GkwtwGHbYYKq1Qm2i023g3o/high.mp4",
+  "demo_url": "https://github.com/alelarracilla/arrow",
+  "source_url": "https://github.com/alelarracilla/arrow",
+  "finalist": false,
+  "description": "Arrow.tc is a crypto-native social trading platform that turns market ideas into onchain actions. Traders create communities, share technical analysis, and publish structured trade ideas that followers can interact with in real time. Users can tip creators, subscribe to premium analysis, and instantly copy trades, which are executed directly onchain via decentralized liquidity protocols. By combining social discovery, creator monetization, and transparent onchain execution, Arrow.tc removes the gap between analysis and action, making crypto trading more open, accountable, and accessible.",
+  "how_its_made": "Arrow.tc is built as a full-stack, crypto native social trading system that tightly couples social content with real on-chain execution. The frontend is a React + Vite application styled with TailwindCSS and powered by Circle’s Modular Wallets SDK, which gives users passkey-based authentication and ERC-4337 smart accounts. No seed phrases, no browser wallets. This decision dramatically lowers onboarding friction and allows all transactions (tips, copy trades, approvals) to be signed securely with biometrics.\n\nOn the backend, an Express API with SQLite acts as the social and coordination layer. It manages users, follows, posts, ideas, subscriptions, tips, and trade proposals. Posts are split into two types: normal social posts and structured “Idea” posts that include trading metadata (pair, side, optional price). This structure allows ideas to be programmatically consumed rather than treated as static content.\n\nThe most notable part is the agentic execution pipeline.  A separate AI-powered agent (Node.js + viem + Anthropic Claude) continuously polls the backend for new Idea posts and onchain events. When a trader posts an Idea, the agent evaluates it, assigns confidence and risk parameters, and creates a trade proposal for each follower. The agent never executes trades autonomously: it only proposes. Users must explicitly approve proposals with their passkey, preserving full self-custody.\n\nBecause Uniswap v4 is not deployed on the Arc Testnet. Arrow.tc uses a cross-chain execution design. User funds live on Arc (home chain) as native USDC. When a trade is approved, the agent bridges USDC from Arc to Base Sepolia using Circle’s CCTP v2 (burn/mint with fast attestations), executes the swap on Uniswap v4 with a custom hook for copy trading and limit orders and bridges the resulting tokens back to Arc. This approach allows the project to leverage Uniswap v4’s advanced hooks while still using Arc as a consumer-friendly smart account environment.\n\nSmart contracts are written in Solidity and deployed with Foundry. ArrowTipping handles native USDC tipping with configurable platform fees, while ArrowCopyTradeHook integrates directly into Uniswap v4’s swap lifecycle to log leader trades and enable copy-trade and limit-order mechanics. ENS is integrated to resolve user identities onchain, reinforcing transparency and trust.\n\nOverall, Arrow.tc stitches together social networking, creator monetization, AI-assisted trade proposals, smart accounts, cross-chain liquidity, and Uniswap v4 hooks into a single cohesive system. The result is a platform where ideas don’t just get likes they can be executed trustlessly onchain, end to end.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/arrow-tc-4f725",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

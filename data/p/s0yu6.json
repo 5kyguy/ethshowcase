@@ -1,0 +1,28 @@
+{
+  "id": "s0yu6",
+  "slug": "battle-knights",
+  "title": "Battle Knights",
+  "tagline": "A crypto-native auto battler game that lives entirely on the blockchain - from knight creation to tournament simulation. Using Chainlink VRF to provide verifiable randomness to the blockchain we can ensure fairness for all.",
+  "event": {
+    "slug": "ethonline2021",
+    "name": "ETHOnline 2021",
+    "start_time": "2021-09-17T04:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s0yu6/banner/default.jpg",
+  "source_url": "https://github.com/webmodularity/battle-knights",
+  "prizes": [
+    {
+      "sponsor": "Chainlink",
+      "sponsor_id": "f8ku2",
+      "placement": "Chainlink Pool Prize",
+      "title": "Chainlink"
+    }
+  ],
+  "finalist": false,
+  "description": "For this hackathon we have completed the Knight Generator which randomly creates knights rpg characters on the blockchain. \r\n\r\nNames: Unique knight names are generated randomly on chain using a pool of names and titles that are specific to the selected race and gender.\r\nRace & Gender: The race and gender are also determined randomly on chain and rarity is determined by race - with male humans being the most common.\r\nAvatars: A random avatar is assigned upon minting that correlates with the knights selected race and gender.\r\nAttributes: Each knight is allocated 84 total attribute points. All knight attributes are rolled on chain using 3d6 for a possible range of 3-18 for each attribute score. Attribute distribution is influenced by race. For example, a halflings lowest attribute roll will always be size. Each knight has a total of 84 attribute points regardless of race or luck.",
+  "how_its_made": "How it was made:\n\n\n\nDevelopment: I used hardhat to develop, test, and deploy my smart contracts. I chose the hardhat-deploy plugin to simplify deployment and verify my contract on etherscan.\n\nChainlink: I relied heavily on Chainlink VRF to provide random numbers on chain. Staying under the 200k gas limit on my callback function was a challenge but I was able to create a dispatcher and split my logic into multiple VRF requests.\n\nPolygon: I deployed my contracts to the Polygon Mumbai testnet to save on gas fees while still being able to interact with Opensea and Chainlink VRF.\n\nIPFS: I used IPFS via the web3.storage API to upload and store avatar images. I am also using the web3.storage API to upload and store the generated NFT metadata file on IPFS.\n\n\n\nChallenges:\n\n\n\nNames: I wanted to create unique knight names without allowing users to input data. I randomly select a name and title from a pool based on race and gender. I make a few attempts to find a unique name but fallback to adding a roman numeral suffix if necessary.\n\nAttributes: Maybe the most difficult challenge of this project was getting random numbers to add up to a predictable sum, I needed both random and deterministic. I ended up solving the problem by biasing my 3d6 rolls based on the results of previous rolls. If the attributes stats are averaging high or low rolls the contract will roll a biased set of dice. Instead of rolling 3d6 it will roll 5d6 and take the highest or lowest 3d6 results based on bias direction.\n\nChainlink VRF: The minting and randomizing of knight stats cost around 500k gas while the VRF callback method has a 200k gas limit. I wanted the use to only interact once with the mint transaction so I engineered a VRF dispatching system to have the VRF callback initiate another random number request if needed.\n\nOracle: Since the knights are generated entirely on chain I needed a way to generate a metadata file from on chain data. I created a simple oracle that listens for the KnightsMinted(tokenId) event that is emitted once a newly generated knights stats are ready. The oracle uploads the generated metadata file to IPFS and updates the tokenURI for the specified tokenId on the Knight contract.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/battle-knights-s0yu6",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

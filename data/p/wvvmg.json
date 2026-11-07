@@ -1,0 +1,22 @@
+{
+  "id": "wvvmg",
+  "slug": "wthelly",
+  "title": "wthelly",
+  "tagline": "Private predication markets powered by State Channels and zk. Using Uniswap hooks for resolution.",
+  "event": {
+    "slug": "hackmoney2026",
+    "name": "HackMoney 2026",
+    "start_time": "2026-01-30T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/wvvmg/banner/default.jpg",
+  "video_url": "https://stream.mux.com/U8HKOkMlIjT7F9IrjZBecFwoMHU8TzQY1026mXAkTaqk/high.mp4",
+  "demo_url": "https://wthelly-ethglobal.vercel.app",
+  "source_url": "https://github.com/joshvajeskins/wthelly",
+  "finalist": false,
+  "description": "wthelly (What The Helly) is a privacy-preserving prediction market built as a Uniswap V4 Hook on Unichain, where bet positions are hidden using a commit-reveal scheme and settlements are verified with Groth16 ZK proofs. Users create markets (e.g., \"Will ETH hit $5,000 by June?\"), place bets by depositing USDC into an ERC-7824 Custody contract (Yellow Network's Nitrolite state channel infrastructure), and their bet positions remain hidden until market resolution. The HellyHook contract extends Uniswap V4's BaseHook to integrate prediction market logic directly into the AMM — using afterInitialize, beforeSwap, and afterSwap hooks to manage market lifecycle, fee collection, and settlement. Off-chain bets happen via Yellow SDK's session-based state channels: users deposit once, bet multiple times with zero gas, and settle on-chain only when the session ends. Market resolution triggers ZK proof generation — a Circom circuit (settlement_verify.circom) proves correct settlement computation (total pool, fees, winner payouts) without revealing individual positions, and the Groth16 proof is verified on-chain. Cross-chain deposits are supported via LI.FI for bridging from any EVM chain. The result is a prediction market where your position is hidden, bets are gas-free via state channels, and settlement is cryptographically verified.",
+  "how_its_made": "The smart contracts are built with Foundry on Unichain Sepolia, with HellyHook.sol as the core Uniswap V4 Hook (extends BaseHook from v4-periphery). The hook implements afterInitialize (register hook with pool), beforeSwap (collect platform fees on swaps), and afterSwap (update pool accounting). Market creation, betting, resolution, and claiming all go through the hook contract, which is tied to a specific Uniswap V4 pool via the PoolManager. The Groth16Verifier.sol contract (auto-generated from snarkjs) verifies ZK proofs on-chain — the HellyHook calls it during settlement to ensure correct payout computation. The ZK circuit (settlement_verify.circom) uses circomlib's Poseidon hash and proves: total pool = sum of all bets, platform fee = pool * feeBps / 10000, winner payout = (pool - fee) * betAmount / winnerTotal, with up to 32 bets per settlement. The ERC-7824 Custody contract (from Yellow Network's Nitrolite) handles deposits and withdrawals, enabling off-chain state channel betting — users sign state updates off-chain, and only final settlement goes on-chain. The Nitrolite clearnode (Go server) manages the state channel protocol, with a docker-compose setup for the full stack. The frontend is Next.js 15 with a cyberpunk-inspired UI (lime green accent #BFFF00 on dark background) using Tailwind + shadcn/ui. LI.FI integration provides cross-chain deposit capability. The E2E test script (scripts/8-testnet-flow.ts) deploys all contracts, creates markets, simulates off-chain bets, generates real Groth16 proofs via snarkjs, and verifies on-chain — proving the full lifecycle works end-to-end on Unichain Sepolia.\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wthelly-wvvmg",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

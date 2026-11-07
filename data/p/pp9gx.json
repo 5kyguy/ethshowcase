@@ -1,0 +1,60 @@
+{
+  "id": "pp9gx",
+  "slug": "wallet-otp-one-time-password",
+  "title": "Wallet OTP (One Time Password)",
+  "tagline": "Wallet OTP provides 2FA for any web2 or web3 service by generating one-time-passwords from your wallet encrypted secrets",
+  "event": {
+    "slug": "hackfs2023",
+    "name": "HackFS 2023",
+    "start_time": "2023-06-02T13:00:39.046Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/pp9gx/banner/default.jpg",
+  "video_url": "https://stream.mux.com/gXbpFRr1sUCoBYQ3lIMsd6XSI01vnYuzXN74w02oowZWI/high.mp4",
+  "demo_url": "https://wallet-otp.on.fleek.co/",
+  "source_url": "https://github.com/oceans404/wallet-otp",
+  "prizes": [
+    {
+      "sponsor": "Saturn",
+      "sponsor_id": "jwenb",
+      "placement": "🥇 Filecoin Saturn — Best Use",
+      "title": "Filecoin Saturn"
+    },
+    {
+      "sponsor": "ENS",
+      "sponsor_id": "bw7y9",
+      "placement": "🏊‍♂️ ENS — Integration Prize",
+      "title": "ENS"
+    },
+    {
+      "sponsor": "Lit Protocol",
+      "sponsor_id": "t4bwy",
+      "placement": "🃏 Lit — Wildcard",
+      "title": "Lit Protocol"
+    },
+    {
+      "sponsor": "Polybase",
+      "sponsor_id": "hp48a",
+      "placement": "🥇 Polybase — Best Use",
+      "title": "Polybase"
+    },
+    {
+      "sponsor": "ApeCoin",
+      "sponsor_id": "t3zyt",
+      "placement": "🥇 ApeCoin — Best Contribution",
+      "title": "ApeCoin DAO"
+    },
+    {
+      "sponsor": "ETHGlobal",
+      "sponsor_id": "xdat5",
+      "placement": "🏆 HackFS 2023 Finalist",
+      "title": "ETHGlobal"
+    }
+  ],
+  "finalist": true,
+  "description": "Two-factor authentication (2FA) adds an additional layer of protection beyond passwords to your web2 and web3 accounts. Wallet OTP is a free and completely open sourced public good that protects all your accounts by encrypting your 2FA secrets with your Wallet's public key before storing on decentralized storage. When you need 2FA, Wallet OTP generates new dynamic 6 digit OTPs (one time passwords) every 30 seconds for each of your accounts. That way, you and only you can use Wallet OTP to authenticate and log in to accounts across the web.\n\n---\n\n# This hack is awesome because it has all the power of Authy, Google Authenticator, or the auth app you already use with extra perks:\n\n- **Privacy and security**: Wallet OTP encrypts your 2FA secret keys with your wallet's public key for maximum security. This means your 2FA keys are as safe as your crypto. [Here's a Wallet OTP encrypted 2FA record](https://testnet.polybase.xyz/v0/collections/pk%2F0x0a4f8fcf98d7e5745ed5911b7c6f864e92a0016539d9ed46221d1e378ceb1e2498fc2390ee81ab65fd6a6e9255d334bcbed14f25db92faf2c7c4e785181675dc%2FTestTokens%2FKeys/records/encrypted1686876767638) stored by \"address\":\"0x61c4eF50cC from Wallet OTP. Notice how all fields (service, account, secret, plus corresponding symmetric keys for each field) are encrypted by Lit Protocol before being stored on Polybase decentralized storage. Even though the records are stored in public, no one can decrypt and view them except the person with signing capabilities for the 0x61c4eF50cC... address.\n- **Free access from any device**: Wallet OTP is intentionally device agnostic and designed for multi-device use - you can access the Wallet OTP app on any device simply by connecting your wallet \n- **Data availability**: Wallet OTP stores encrypted data on distributed, decentralized storage. With distributed, decentralized storage there's no way a Google or Twilio intern can accidentally drop the only table your encrypted keys live in, and no chance your encrypted keys are lost.",
+  "how_its_made": "# 🚀 Web3 Details\n\n- Login mechanism: WalletConnect's Web3Modal combined with viem and wagmi React hooks\n- ENS names: check if a user has an ENS and if so, **display their ENS avatar and name** with the viem library \n- Wallet OTP has a special APE theme for any **Apecoin DAO** Members (checks if they are stakers or holders of $APE) when they sign in\n- Encryption/decryption: **Lit Protocol** - I didn't use Ceramic or Arweave (default integrations) for storage, so I needed to create a **custom Lit integration for Lit <> Polybase** that encrypts data using Lit Protocol, uploads it to Polybase, fetches the Lit encrypted data from Polybase, and decrypts using Lit Protocol\n- Decentralized Storage: **public-key-write-gated Polybase collections** of Lit encrypted records. \n- Known issue that will be fixed by WalletConnect by June 23: Your browser needs to have a wallet (window.ethereum) or wallet extension and you have to sign more than once. When working with **WalletConnect, Polybase, and Lit signing**, I tried to optimize the UX to prevent duplicate signing in and signing by injecting WalletConnect into Polybase and Lit for auth, but WalletConnect is between V1 and V2. WC V2 has signing/auth capabilities, but doesn't hasn't completed integration with any major mainstream wallets. V1 doesn't have a working auth/sign api, but supports major mainstream wallets (coinbase, metamask, trust, etc.) Because of this, the WalletConnect logged in user still has to sign to prove wallet ownership for Lit and to post new records for Polybase.\n- Notifications: **Push protocol** this was the one thing I didn't get to, but I plan to finish the integration so you can get OTPs via Push chat\n- Compute: I'm computing OTP generation client side to maximize security and prevent 2FA secret keys from leaking. I considered delegating this to **Bacalhau**, but thought it was overkill to reencrypt and decrypt in a second service, risk leaking the keys, and slow down OTP generation. The OTP is TOTP, a time based one-time-password, which is an event-based OTP algorithm where the moving factor is an event counter.\n- CDN: **Filecoin Saturn**. I registered a custom service worker to provide fast content delivery of images pinned on IPFS\n- Decentralized static image storage: Pinned on **IPFS**, stored on **NFT.storage**\n- Website hosting: decentralized on **IPFS with Fleek**\n\n---\n\n\n# 🖥️ Web2 build details\n\n- Frontend: React with Chakra UI components\n- Backend: Node + Socket.io\n- Design and slides:  Canva Pro\n- QR Libraries: react-qr-code & qr-scanner\n\n---\n\n# 📑 Papers read/referenced\n\n- TOTP: Time-Based One-Time Password Algorithm\n https://www.ietf.org/rfc/rfc6238.txt\n- What’s the Difference Between OTP, TOTP and HOTP? https://www.onelogin.com/learn/otp-totp-hotp\n- Symmetric key encryption: https://www.cryptomathic.com/news-events/blog/symmetric-key-encryption-why-where-and-how-its-used-in-banking\n",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/wallet-otp-one-time-password-pp9gx",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

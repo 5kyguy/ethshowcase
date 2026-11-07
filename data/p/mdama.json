@@ -1,0 +1,27 @@
+{
+  "id": "mdama",
+  "slug": "hark-protocol",
+  "title": "Hark Protocol",
+  "tagline": "An open intent layer for ads. Platforms publish intent. Agents pay to reach it on Hedera.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/mdama/banner/default.jpg",
+  "video_url": "https://stream.mux.com/7xVvX3FUr6JOMuCRdSOeGSS8c00uGpTYMpQfXBqR92BQ/high.mp4",
+  "demo_url": "https://web-sigma-dusky-37.vercel.app/",
+  "source_url": "https://github.com/SiddharthaMadhav/ETHOnline-2026",
+  "finalist": false,
+  "description": "Hark Protocol is an open intent advertising protocol with on-chain machine payments on Hedera. Platforms such as search apps, social feeds, shopping apps, or AI assistants detect that a user has a temporary commercial interest, for example wanting a laptop, and publish that intent to Hark as a normalized, anonymous, short lived signal, without exposing the user's identity. Autonomous advertiser agents discover these anonymous opportunities, use an LLM to decide for themselves whether the opportunity is relevant to their campaign and budget, and if it is, pay Hark programmatically through the x402 protocol on Hedera testnet, settled via the Blocky402 facilitator, to earn the right to reach that user. The human never pays, and their identity, wallet address, and browsing history never leave the publisher. Hark's core paid endpoint, POST /v1/reach, is protected by x402. An unpaid request returns HTTP 402, the agent signs a real HBAR payment, and Blocky402 settles it on Hedera testnet, after which Hark queues the ad delivery for the publisher to show. Advertiser agents can see the publisher's identity, the placement, the topic, a sanitized summary, and the price, but never the user's name, email, IP address, or any stable cross platform identifier. Beyond the mandatory paid flow, the project also implements a publisher revenue share so publishers earn a portion of every payment, an HCS based audit trail for every settled payment, and HCS 14 based advertiser agent identity. Everything described here is live and deployed, not simulated. There is a published npm SDK and protocol package, a working web demo covering the publisher experience, an agent dashboard, and a system explorer, plus real, independently verifiable Hedera testnet transactions backing every claim.",
+  "how_its_made": "Stack\n\n- TypeScript monorepo using pnpm workspaces and ESM.\n- apps/api: Express, Zod, Drizzle ORM, PostgreSQL, deployed on Railway, database hosted on Neon.\n- apps/web: Next.js, Tailwind, shadcn/ui, deployed on Vercel. Covers the Demo Publisher screen, an Agent Dashboard, and a Hark Explorer.\n- agents/runner: a CLI advertiser agent (discover, score relevance, decide, pay).\n- Two published npm packages: @hark-protocol/protocol (shared Zod schemas and topic taxonomy) and @hark-protocol/sdk (publisher and advertiser clients).\n\nPayments (the core of the project)\n\n- x402 protocol v2, using @x402/core, @x402/express, @x402/fetch, and @x402/hedera.\n- POST /v1/reach is protected by x402 on the API side. An unpaid request returns a real HTTP 402.\n- The agent side signs and retries automatically, paying in native HBAR.\n- Settlement runs through the Blocky402 facilitator against Hedera testnet.\n- Every settled transaction shown in the app and pitch deck is independently confirmed against the public Hedera testnet mirror node, not just Hark's own API response.\n\nWhy Blocky402 and Hedera mattered here\n\n- Blocky402 is the actual value add of the project. It lets an autonomous agent sign and settle a real payment inline in a single HTTP request response cycle, with no manual invoicing or offchain reconciliation.\n- Hedera testnet gives fast, cheap settlement, which fits a per-request micropayment model like this far better than a slower or more expensive chain would.\n\nRelevance reasoning\n\n- Uses the Vercel AI SDK with an OpenAI model.\n- Wrapped behind a RelevanceScorer interface, with a deterministic fallback scorer, so the demo never silently breaks if a key is missing or a network call fails.\n- The LLM only recommends relevance. Budget and price limits are enforced entirely in code, never by the model.",
+  "auto_summary": "A TypeScript monorepo for an x402-gated advertising API on Hedera with agent payments, publisher payouts, and HCS-based audit features.",
+  "scores": {
+    "originality": 7,
+    "practicality": 8,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/hark-protocol-mdama",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

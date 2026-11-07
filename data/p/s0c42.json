@@ -1,0 +1,42 @@
+{
+  "id": "s0c42",
+  "slug": "p-a-t",
+  "title": "P.A.T",
+  "tagline": "Proprietary Automated Market Maker launchpad built on top of Uniswap V4 using TEEs.",
+  "event": {
+    "slug": "buenosaires",
+    "name": "ETHGlobal Buenos Aires",
+    "start_time": "2025-11-21T15:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/s0c42/banner/default.jpg",
+  "video_url": "https://stream.mux.com/dDy8jIgIyHxXAEbfkLRPPymL8ToFT004QYD01a4rFIEM00/high.mp4",
+  "demo_url": "https://pat-psi.vercel.app/",
+  "source_url": "https://github.com/Suryansh-23/p.a.t",
+  "prizes": [
+    {
+      "sponsor": "Uniswap Foundation",
+      "sponsor_id": "026zc",
+      "placement": "1st place",
+      "title": "Uniswap v4 Volatile-Pairs Hooks"
+    },
+    {
+      "sponsor": "Oasis Protocol",
+      "sponsor_id": "1ijf8",
+      "placement": "3rd place",
+      "title": "Build with Oasis"
+    },
+    {
+      "sponsor": "Pyth Network",
+      "sponsor_id": "g7h9m",
+      "placement": "1st place",
+      "title": " Most Innovative use of Pyth pull price Feeds"
+    }
+  ],
+  "finalist": true,
+  "description": "This project builds on Uniswap v4 hooks to create a proprietary (prop) AMM launchpad on Ethereum. On Solana, prop AMMs are a major venue for swaps and are especially popular with market makers, but they haven’t really existed on Ethereum because of EVM limitations around gas pricing mechanisms. We address this by combining Trusted Execution Environments (TEEs) with an oracle-driven pricing mechanism, enabling complex, off-chain price computation with on-chain settlement guarantees. The result is a launchpad that lets teams deploy prop AMMs on Ethereum with market-maker-friendly features, while preserving transparency, security, and composability with the broader DeFi ecosystem.",
+  "how_its_made": "This project is built on top of Uniswap v4 and its hook system, which we use as the execution layer for swaps. We override Uniswap’s default curve-based pricing with custom curve logic and introduce an asynchronous, batch-based swap model implemented via hooks. Orders are grouped into batches inside a Trusted Execution Environment (TEE) using Oasis Runtime’s offchain logic, where we safely run proprietary strategies.\n\nAt deployment time, the market maker (curator) has full control over the strategy they want to use: they can either select our default oracle-driven strategy or plug in their own custom strategy contracts, as long as those contracts implement a simple adapter interface we define. For each batch, the chosen strategy updates configurable parameters (e.g. spread, skew, inventory targets) that determine execution prices.\n\nIn our reference implementation, we use an oracle-based constant spread model powered by Pyth price feeds, giving high-fidelity reference prices while keeping on-chain interaction minimal. One of the hacky-but-fun parts is how we encode batch metadata and strategy parameters into hook callbacks so the TEE can coordinate rich, stateful logic offchain, while Uniswap only ever sees valid, atomic settlements onchain.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/p-a-t-s0c42",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

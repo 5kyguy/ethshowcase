@@ -1,0 +1,26 @@
+{
+  "id": "uxbek",
+  "slug": "genesis",
+  "title": "genesis",
+  "tagline": "The project guarantees that an image was produced by a specific camera body.",
+  "event": {
+    "slug": "ethonline2026",
+    "name": "ETHOnline 2026",
+    "start_time": "2026-09-04T05:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/uxbek/banner/default.jpg",
+  "video_url": "https://stream.mux.com/X73rb69WhzovxY02YUeY9bl7qozZDcIbzseaWdTPB9mA/high.mp4",
+  "source_url": "https://github.com/muse254/genesis",
+  "finalist": false,
+  "description": "Every image sensor carries a permanent, per-body physical fingerprint (PRNU) that imprints on every exposure and cannot exist in an image that never passed through it. We register it and certify origin of the image from the camera body.\n\nWe first extract a value K thats unique for the camera body.\nWe enrol from the photographer's own files 40+ RAW frames from an archive that already exists, with no manufacturer and no platform involved. \n\nThe maths behind K: A sensor's photosites differ slightly in how much charge each returns for the same light. That gain error is fixed at manufacture, unique to the die, and\nit multiplies the signal rather than adding to it. \n\nWe certify: exposed on camera body X · camera body registered to identity Y · first\nregistered at time T · these derivatives descend from that original.\n\nReference: https://ws2.binghamton.edu/fridrich/Research/full_paper_02.pdf",
+  "how_its_made": "**Imaging core — Python.** `rawpy` (LibRaw) reads Canon CR3 and returns the raw\nmosaic, split into its four Bayer sublattices, each corrected against its own\nblack level. **Nothing in the fingerprint path demosaics.** Per plane: a wavelet\nWiener denoiser (`PyWavelets`, `scipy`) yields the noise residual, a maximum\nlikelihood estimator builds K across 40+ frames, and matching is Peak to\nCorrelation Energy over an FFT cross-correlation. `numpy` throughout. The maths\nis Fridrich, *Digital Image Forensics Using Sensor Noise*, IEEE SPM 26(2), 2009,\ncited by equation number in `fingerprint/prnu.py`.\n\n**CLI:** `enroll`, `test`, `pair`, `demo`. K stays local as `.npz`; only a\nSHA-256 commitment leaves the machine.\n\n**Contracts — Solidity, Foundry.** `Registry` implements ERC-7053 `commit()`\nover a camera-body registry: `BodyRecord` carries the fingerprint commitment,\nowner, ENS node and revocation flag; `ImageRecord` carries pixel hash,\nperceptual hash, body id, modification level, parent hash and PCE score.\nSessions batch as one Merkle root per shoot. **Live on Sepolia**, verified on\nEtherscan and Blockscout.\n\n**ENS — ENSv2 on Sepolia.** `osoro.eth` is the photographer and `cam.osoro.eth`\nthe fleet, both live; a body subname is **created live during the demo**, its\nresolver records holding the fingerprint commitment, signing key and revocation\nstatus. Resolution goes through the **UniversalResolver** — the path a third\nparty takes. A photographer needs no name of their own: `ensNode` may be zero.\n\n**The Graph.** The registry has no index on `perceptualHash`, so the subgraph\n**is** that index — it is what lets a degraded copy find the original it\ndescends from. Live as `genesis` v0.0.4 on real Sepolia events. A Subgraph MCP\nserver exposes the same lookups to agents. **An index is never an authority**:\nevery candidate is read back off chain before anything is claimed.\n\n**Chainlink CRE.** The scorer is the trust hole by design — it holds K and you\ntake its word. A confidential workflow removes it: the algorithm is public, K\narrives as a Vault DON secret decrypted only inside the enclave, and only a\nscore crosses back. The verifier extracts the residual locally and sends a\n**256² int8 crop** — **never K**.\n\nThree corrections by measurement: the reference is **89 MB** against a **1mb**\nsecret limit, so K is cropped; **512² does not fit**; **Confidential HTTP is\nnot the fallback** (125 kb cap). The cost is documented, not buried — at 256²\nthe weakest frame falls into the null.\n\nIt runs as a real `cre workflow simulate` per call — about seventeen seconds,\ndeterministic. **`attested` is false**: the simulator is not an enclave and the\nreport is built rather than DON-signed.\n\n**Scoring, verify and console.** FastAPI wraps the imaging core. The verify page\nis one page, no framework, `viem` for chain reads, four verdicts. An\neight-screen console drives the demo on localhost and holds the signing key —\nnever deployed.\n",
+  "auto_summary": "This project extracts camera sensor fingerprints from RAW images and records provenance-related commitments and verification data across local services and Ethereum components.",
+  "scores": {
+    "originality": 8,
+    "practicality": 7,
+    "technicality": 8
+  },
+  "showcase_url": "https://ethglobal.com/showcase/genesis-uxbek",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}

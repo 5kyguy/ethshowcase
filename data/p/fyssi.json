@@ -1,0 +1,21 @@
+{
+  "id": "fyssi",
+  "slug": "lvr-shielded-lp",
+  "title": "LVR Shielded LP",
+  "tagline": "Uniswap v4 Hook+Vault that auto-adjusts LP ranges to cut LVR — Unichain Sepolia demo.",
+  "event": {
+    "slug": "newyork2025",
+    "name": "ETHGlobal New York 2025",
+    "start_time": "2025-08-15T00:00:00.000Z"
+  },
+  "banner_url": "https://cdn.ethglobal.com/projects/fyssi/banner/default.jpg",
+  "video_url": "https://stream.mux.com/s8B24nSTzx00lrPqqJ01xm02lmwqG1n5Tc502Mgiyc9W4Y00/high.mp4",
+  "source_url": "https://github.com/jmberean/omnichain-lvr-shielded-lp-vault",
+  "finalist": false,
+  "description": "LVR Shielded LP is a Uniswap v4 Hook + Vault that reacts to market conditions and protects LPs against loss-versus-rebalancing (LVR). The Hook maintains a simple, explainable mode machine:\n\nNORMAL – concentrate around the current price\n\nWIDENED – spread liquidity when volatility rises\n\nRISK_OFF – pull to a wide, defensive placement during shocks\n\nGuards enforce freshness, hysteresis (lower exit than entry), a dwell window with confirmations, and a min flip interval to avoid thrash. Placement snaps to tick spacing and records “home” placements for quick recentering.\n\nThe demo is fully judge-reproducible on Unichain Sepolia with Windows-friendly scripts and a local subgraph that indexes on-chain telemetry (ModeApplied, Signal). You can trigger mode flips, then verify both on-chain logs and GraphQL results in minutes.\n\nLive demo refs (Unichain Sepolia):\n\nVault: 0x84a4871295867f587B15EAFF82e80eA2EbA79a6C\n\nHook: 0x20c519Cca0360468C0eCd7A74bEc12b9895C44c0\n\nPoolId (USDC/WETH demo): 0x…457f\n\nQuickstart: repo README",
+  "how_its_made": "Solidity 0.8.26 with Foundry (forge/cast).\n\nUniswap v4 BaseHook pattern with address-encoded permission bits; explicit overrides for v4 hook points; tick math via official libs; immutable caching for gas.\n\nMode machine + guards: freshness/stale, hysteresis, dwell+confirmations, minFlipInterval; placement engine computes centerTick/halfWidthTicks and snaps to tickSpacing.\n\nEvents for end-to-end observability: Signal, ModeChanged (optional), HomeRecorded, and Vault-level ModeApplied.\n\nE2E scripts (Git Bash safe) use cast with ≤500-block chunking (Alchemy limit), pending nonce + small gas bump to avoid “already known/nonce too low”.\n\nLocal subgraph (Docker Compose): indexes Hook & Vault events; one-click build/deploy; GraphQL queries included in the README.\n\nBuilt to be extensible: parameters (widenBps, riskOffBps, exitThresholdBps, dwellSec, confirmations, minFlipInterval, etc.) are admin-tunable with tests for revert-on-non-admin.",
+  "scores": {},
+  "showcase_url": "https://ethglobal.com/showcase/lvr-shielded-lp-fyssi",
+  "scraped_at": "2026-11-06T11:05:57.093975809+00:00",
+  "detail_scraped": true
+}
